@@ -17,7 +17,7 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 
-# 微信开发者工具选择文件目录    rst_wx
+微信开发者工具选择文件目录    policy_answer
 
 
 
