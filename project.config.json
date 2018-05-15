@@ -10,7 +10,7 @@
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
 	"appid": "wx3602e7abe716d1bd",
-	"projectname": "rst_wx",
+	"projectname": "policy_answer",
 	"condition": {
 		"search": {
 			"current": -1,
