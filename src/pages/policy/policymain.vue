@@ -19,7 +19,7 @@
             <li v-for="(item,i) in headbook_list" :key="item.id">
               <div class="msg-box">
                 <div class="message-img">
-                  <img :src="$store.state.url+item.pic_abbr" alt="">
+                  <img :src="item.pic_abbr" alt="">
                 </div>
                 <div class="info-content">
                   <div class="message">
@@ -50,7 +50,7 @@
             <li v-for="(item1,i) in policy_list" :key="item1.id">
               <div class="msg-box">
                 <div class="message-img">
-                  <img :src="$store.state.url+item1.pic_abbr" alt="">
+                  <img :src="item1.pic_abbr" alt="">
                 </div>
                 <div class="info-content">
                   <div class="message">
@@ -101,6 +101,9 @@
         let that = this;
         let res = await this.$get('/rs/infomation',{unique_code:'zcbl',page:1,size:2});
         if (res.code == 200){
+          for (var i=0; i<res.rows.length; i++){
+              res.rows[i].pic_abbr = 'https://policy.lifeonway.com'+res.rows[i].pic_abbr;
+          }
           that.headbook_list = res.rows;
         }
       },
@@ -108,6 +111,9 @@
         let that = this;
         let res = await this.$get('/rs/infomation',{unique_code:'zcbk',page:1,size:2});
         if (res.code == 200){
+          for (var i=0; i<res.rows.length; i++){
+            res.rows[i].pic_abbr = 'https://policy.lifeonway.com'+res.rows[i].pic_abbr;
+          }
           that.policy_list = res.rows;
         }
       }
