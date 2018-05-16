@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="user_box">
-      <userinfo :username="userInfo.nickName" :imgurl="userInfo.avatarUrl">
+      <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
       <div slot="userRight">
         <a href="" class="btn_sign">签到</a>
       </div>
@@ -19,7 +19,6 @@
 
   data () {
     return {
-      userInfo: {},
       isnewuser: true
     }
   },
@@ -41,8 +40,7 @@
                 wx.getUserInfo({
                   success: function(res) {
                       console.log(res.userInfo)
-//                    this.$store.commit('getuser',res.userInfo)
-                    that.userInfo = res.userInfo
+                    that.$store.commit('getuser', res.userInfo)
                     that.isnewuser = false
                   }
                 })
