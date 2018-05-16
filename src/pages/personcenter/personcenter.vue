@@ -32,13 +32,13 @@
     },
     methods: {
       async getuser(){
-        let aa = await this.$get('/rs/member');
+        let aa = await this.$get('/rs/member',{});
       }
     },
-
-    created () {
+    created (){
       // 调用应用实例的方法获取全局数据
-      this.getuser()
+        this.getuser()
+
       }
     }
 </script>
