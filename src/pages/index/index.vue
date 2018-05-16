@@ -1,66 +1,65 @@
 <template>
-  <div class="container" @click="clickHandle('test click', $event)">
-    <div @click="testimg">uploadImg</div>
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
-      </div>
+  <div class="container">
+    <div class="user_box">
+      <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
+        <div slot="userRight">
+          <a href="" class="btn_sign">签到</a>
+        </div>
+      </userinfo>
     </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
-    </div>
-
-    <form class="form-container">
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
   </div>
 </template>
 
 <script type="javascript">
-import card from '@/components/card'
+  import userinfo from '@/components/userinfo'
 
-export default {
+
+  export default {
+
   data () {
     return {
-      motto: 'Hello World',
-      userInfo: {}
     }
   },
 
   components: {
-    card
+    userinfo
   },
 
   methods: {
-    testimg(){
-        this.$uploadImg('album',(res)=>{
-            console.log(res)
-        })
-    },
-    bindViewTap () {
-      const url = '../logs/main'
-      wx.navigateTo({ url })
-    },
     getUserInfo () {
+      let that = this
       // 调用登录接口
       wx.login({
         success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
+          wx.getSetting({
+            success: function(res){
+              if (res.authSetting['scope.userInfo']) {
+                // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+                wx.getUserInfo({
+                  success: function(res) {
+                      console.log(res.userInfo)
+                    that.$store.commit('getuser', res.userInfo)
+                    that.$store.commit('getauth')
+                  }
+                })
+              }else{
+                wx.authorize({
+                  scope: 'scope.userInfo',
+                  success() {
+                    wx.startRecord()
+                  },
+                  fail(err){
+                      console.log(err)
+                  }
+                })
+              }
             }
           })
         }
       })
     },
-    clickHandle (msg, ev) {
-      console.log('clickHandle:', msg, ev)
+    bindGetUserInfo(e){
+        console.log(e.detail.userInfo)
     }
   },
 
@@ -73,40 +72,20 @@ export default {
 
 <style scoped lang="less">
   @import "../../static/less/common.less";
-
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 150px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-
-.counter {
-  display: inline-block;
-  margin: 10px auto;
-  padding: 5px 10px;
-  color: blue;
-  border: 1px solid blue;
-}
+  .user_box{
+    padding-top: 13px/2;
+    padding-bottom: 15px/2;
+  }
+  .btn_sign{
+    width: 100px/2;
+    height: 45px/2;
+    border-radius: 50px/2;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 26px/2;
+    background: @bg_color;
+  }
 </style>
