@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <userinfo :username="123" :imgurl="12323">
+    <userinfo :username="userInfo.nickName" :imgurl="userInfo.avatarUrl">
       <div slot="userRight">
         <a href="" class="btn_sign">签到</a>
       </div>
@@ -38,6 +38,8 @@
                 // 已经授权，可以直接调用 getUserInfo 获取头像昵称
                 wx.getUserInfo({
                   success: function(res) {
+                      console.log(res.userInfo)
+//                    this.$store.commit('getuser',res.userInfo)
                     that.userInfo = res.userInfo
                     that.isnewuser = false
                   }

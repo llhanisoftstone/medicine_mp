@@ -27,13 +27,13 @@
     .user_box{
       width: 100%;
       height: 194px/2;
-      padding: 13px/2 26px/2 15px/2;
+      padding: 0 26px/2;
       position:relative;
       .user_bg{
         width: 698px/2;
         height: 194px/2;
         position: absolute;
-        top:13px/2;
+        top:0;
         left:26px/2;
         z-index:0;
       }
@@ -56,11 +56,16 @@
           background: #fff;
           padding: 4px/2;
           overflow: hidden;
+          display: flex;
+          box-sizing: border-box;
           margin-left:50px/2;
-          img{
+          image{
             width: 127px/2;
             height: 127px/2;
             border-radius: 50%;
+            align-content: center;
+            align-items: center;
+            justify-content: center;
           }
         }
         p{
