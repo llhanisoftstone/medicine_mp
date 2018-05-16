@@ -45,7 +45,7 @@
         height: 194px/2;
         z-index:2;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
         box-sizing: border-box;
         padding-right: 31px/2;
         display: flex;
