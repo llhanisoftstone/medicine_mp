@@ -25,9 +25,32 @@ export default {
     pages: ['^pages/index/main'],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarBackgroundColor: '#df5c3e',
+      backgroundColor: '#df5c3e',
+      navigationBarTitleText: '政策答题',
+      navigationBarTextStyle: 'white'
+    },
+    tabBar: {
+      selectedColor: '#df3c5e',
+      color: '#666666',
+      list: [
+        {
+          pagePath: 'pages/index/main',
+          text: '趣味答题',
+          iconPath: '/static/img/answer.png',
+          selectedIconPath: '/static/img/answer_2.png'
+        },
+        {
+          pagePath: 'pages/index/main',
+          text: '政策百科',
+          iconPath: '/static/img/policy.png',
+          selectedIconPath: '/static/img/policy_2.png'},
+        {
+          pagePath: 'pages/index/main',
+          text: '个人中心',
+          iconPath: '/static/img/my.png',
+          selectedIconPath: '/static/img/my_2.png'
+        }]
     }
   }
 }
