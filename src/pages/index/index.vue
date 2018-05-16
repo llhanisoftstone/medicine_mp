@@ -2,12 +2,11 @@
   <div class="container">
     <div class="user_box">
       <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
-      <div slot="userRight">
-        <a href="" class="btn_sign">签到</a>
-      </div>
-    </userinfo>
+        <div slot="userRight">
+          <a href="" class="btn_sign">签到</a>
+        </div>
+      </userinfo>
     </div>
-    <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo" v-if="isnewuser">授权登录</button>
   </div>
 </template>
 
@@ -19,7 +18,6 @@
 
   data () {
     return {
-      isnewuser: true
     }
   },
 
@@ -41,7 +39,7 @@
                   success: function(res) {
                       console.log(res.userInfo)
                     that.$store.commit('getuser', res.userInfo)
-                    that.isnewuser = false
+                    that.$store.commit('getauth')
                   }
                 })
               }else{
