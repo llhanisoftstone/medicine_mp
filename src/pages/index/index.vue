@@ -1,13 +1,12 @@
 <template>
   <div class="container">
     <div class="user_box">
-      <userinfo :username="userInfo.nickName" :imgurl="userInfo.avatarUrl">
-      <div slot="userRight">
-        <a href="" class="btn_sign">签到</a>
-      </div>
-    </userinfo>
+      <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
+        <div slot="userRight">
+          <a href="" class="btn_sign">签到</a>
+        </div>
+      </userinfo>
     </div>
-    <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo" v-if="isnewuser">授权登录</button>
   </div>
 </template>
 
@@ -19,8 +18,6 @@
 
   data () {
     return {
-      userInfo: {},
-      isnewuser: true
     }
   },
 
@@ -41,9 +38,8 @@
                 wx.getUserInfo({
                   success: function(res) {
                       console.log(res.userInfo)
-//                    this.$store.commit('getuser',res.userInfo)
-                    that.userInfo = res.userInfo
-                    that.isnewuser = false
+                    that.$store.commit('getuser', res.userInfo)
+                    that.$store.commit('getauth')
                   }
                 })
               }else{

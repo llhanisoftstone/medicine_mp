@@ -2,10 +2,10 @@
     <div class="user_box">
       <image src="/static/img/touxiang.png" class="user_bg"></image>
       <div class="user_info">
-        <div class="img_box">
-          <image :src='imgurl'></image>
+        <div class="img_box" >
+          <image :src='imgurl' v-if="islogin"></image>
         </div>
-        <p>{{username}}</p>
+        <p v-if="islogin">{{username}}</p>
         <slot name="userRight" class="slot_box"></slot>
       </div>
     </div>
@@ -18,7 +18,11 @@
         data(){
             return {}
         },
-        methods: {},
+        methods: {
+          bindGetUserInfo(e){
+            console.log(e.detail.userInfo)
+          }
+        }
     }
 </script>
 
