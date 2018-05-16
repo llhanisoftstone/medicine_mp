@@ -1,10 +1,12 @@
 <template>
   <div class="container">
-    <userinfo :username="userInfo.nickName" :imgurl="userInfo.avatarUrl">
+    <div class="user_box">
+      <userinfo :username="userInfo.nickName" :imgurl="userInfo.avatarUrl">
       <div slot="userRight">
         <a href="" class="btn_sign">签到</a>
       </div>
     </userinfo>
+    </div>
     <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo" v-if="isnewuser">授权登录</button>
   </div>
 </template>
@@ -28,7 +30,7 @@
 
   methods: {
     getUserInfo () {
-        let that = this
+      let that = this
       // 调用登录接口
       wx.login({
         success: () => {
@@ -48,7 +50,6 @@
                 wx.authorize({
                   scope: 'scope.userInfo',
                   success() {
-                    // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
                     wx.startRecord()
                   },
                   fail(err){
@@ -75,6 +76,10 @@
 
 <style scoped lang="less">
   @import "../../static/less/common.less";
+  .user_box{
+    padding-top: 13px/2;
+    padding-bottom: 15px/2;
+  }
   .btn_sign{
     width: 100px/2;
     height: 45px/2;
