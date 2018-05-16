@@ -153,6 +153,10 @@
 
 <style scoped lang="less">
   @import "../../static/less/common.less";
+  a{
+    background: transparent;
+    opacity: 1;
+  }
   .user_box{
     padding-top: 13px/2;
     padding-bottom: 15px/2;
