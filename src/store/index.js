@@ -21,7 +21,7 @@ const store = new Vuex.Store({
       const obj = state
       obj.count -= 1
     },
-    getuser: (state,res) => {
+    getuser: (state, res) => {
       const obj = state
       obj.userinfo = res
     }
