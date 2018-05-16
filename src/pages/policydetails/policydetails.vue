@@ -1,20 +1,57 @@
 <template>
   <div>
-    <div class="title">政策百科</div>
-    <div class="release-time">发布时间 : 2017-02-30</div>
-    <div class="details"></div>
+    <div class="title">{{title}}</div>
+    <div class="release-time">发布时间 : {{create_time}}</div>
+    <div class="details">{{details}}</div>
   </div>
 </template>
 
 <script type="javascript">
   export default {
     data(){
-      return {}
+      return {
+        title:'',
+        create_time:'',
+        details:'',
+      }
     },
 
-    methods: {},
-    components: {}
+    methods: {
+      async getpolicyInfo(pid) {
+        let that = this;
+        let res = await this.$get('/rs/infomation/'+pid);
+        if (res.code == 200){
+          that.title = res.rows[0].title;
+          that.create_time = this.conversionTime(res.rows[0].create_time);
+          that.details = res.rows[0].details;
+        }
+      },
+      conversionTime(time){
+        if(time==null){
+          return;
+        }
+        var data = new Date(time);
+        var month=parseInt(data.getMonth()+1);
+        var months="";
+        if(month<10){
+          months="0"+month;
+        }else{
+          months=month;
+        }
+        var day=data.getDate();
+        var days="";
+        if(day<10){
+          days="0"+day;
+        }else{
+          days=day;
+        }
+        return data.getFullYear()+"-"+months+"-"+days;
+      }
+    },
 
+    onLoad: function (option) {
+      this.getpolicyInfo(option.pid)//获取数据
+    }
   }
 </script>
 

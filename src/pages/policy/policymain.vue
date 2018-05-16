@@ -5,7 +5,9 @@
           <span class="hot-icon">热门关注</span>
           <ul class="hot-list">
             <li v-for="(v,_index) in hot_list" :key="v._index">
-              {{v._index}}.{{v.title}}
+              <a :href="'/pages/policydetails/main?pid='+v.id" class="item-details">
+                {{v._index}}.{{v.title}}
+              </a>
             </li>
           </ul>
         </div>
@@ -15,28 +17,30 @@
         <div class="common-head headbook-head">
           <span class="handbook-icon">办理手册</span>
           <a class="ui-link"><span>更多></span></a>
-          <ul>
+          <ul class="headbook-list">
             <li v-for="(item,i) in headbook_list" :key="item.id">
-              <div class="msg-box">
-                <div class="message-img">
-                  <img :src="item.pic_abbr" alt="">
-                </div>
-                <div class="info-content">
-                  <div class="message">
+              <a :href="'/pages/policydetails/main?pid='+item.id" class="item-details">
+                <div class="msg-box">
+                  <div class="message-img">
+                    <img :src="item.pic_abbr" alt="">
+                  </div>
+                  <div class="info-content">
+                    <div class="message">
                       <span class="pub-name">
                           <span>{{item.title}}</span>
                       </span>
-                  </div>
-                  <p class="message-info mui-ellipsis-2">
-                    {{item.remark}}
-                  </p>
-                  <div class="label-info clearfix">
-                    <div class="info-right rt icon-reading">
-                      <span>{{item.view_count}}</span>
+                    </div>
+                    <p class="message-info mui-ellipsis-2">
+                      {{item.remark}}
+                    </p>
+                    <div class="label-info clearfix">
+                      <div class="info-right rt icon-reading">
+                        <span>{{item.view_count}}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </li>
           </ul>
         </div>
@@ -46,28 +50,30 @@
         <div class="common-head policy-head">
           <span class="policy-icon">政策百科</span>
           <a class="ui-link"><span>更多></span></a>
-          <ul>
+          <ul class="policy-list">
             <li v-for="(item1,i) in policy_list" :key="item1.id">
-              <div class="msg-box">
-                <div class="message-img">
-                  <img :src="item1.pic_abbr" alt="">
-                </div>
-                <div class="info-content">
-                  <div class="message">
+              <a :href="'/pages/policydetails/main?pid='+item1.id" class="item-details">
+                <div class="msg-box">
+                  <div class="message-img">
+                    <img :src="item1.pic_abbr" alt="">
+                  </div>
+                  <div class="info-content">
+                    <div class="message">
                       <span class="pub-name">
                           <span>{{item1.title}}</span>
                       </span>
-                  </div>
-                  <p class="message-info mui-ellipsis-2">
-                    {{item1.remark}}
-                  </p>
-                  <div class="label-info clearfix">
-                    <div class="info-right rt icon-reading">
-                      <span>{{item1.view_count}}</span>
+                    </div>
+                    <p class="message-info mui-ellipsis-2">
+                      {{item1.remark}}
+                    </p>
+                    <div class="label-info clearfix">
+                      <div class="info-right rt icon-reading">
+                        <span>{{item1.view_count}}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </li>
           </ul>
         </div>
@@ -134,13 +140,13 @@
     margin: 0.234667rem 0 0.257733rem 0;
     position: relative;
   }
-  .common-head a{
+  .common-head .ui-link{
     display: block;
     position: absolute;
     right: 0;
     top: 0;
   }
-  .common-head a span{
+  .common-head .ui-link span{
     padding-right: 0.376665rem;
     font-size: 0.256rem;
     float: left;
@@ -189,6 +195,21 @@
     color: #333333;
     font-size: 0.298667rem;
     line-height: 0.373333rem;
+  }
+  .hot-list li .item-details{
+    background-color: inherit;
+    opacity: 1;
+    position: inherit;
+  }
+  .headbook-list li .item-details{
+    background-color: inherit;
+    opacity: 1;
+    position: inherit;
+  }
+  .policy-list li .item-details{
+    background-color: inherit;
+    opacity: 1;
+    position: inherit;
   }
   .line-division {
     height: 0.1386667rem;
