@@ -9,9 +9,10 @@ const store = new Vuex.Store({
   state: {
     count: 0,
     url: 'https://policy.lifeonway.com',
-    ws_server: 'ws://47.93.248.40:1666',
+    ws_server: 'https://123.57.227.3:3011',
     userinfo: {},
-    isauth: false
+    isauth: false,
+    sid: ''
   },
   mutations: {
     increment: (state) => {
@@ -29,6 +30,10 @@ const store = new Vuex.Store({
     getauth: (state) => {
       const obj = state
       obj.isauth = true
+    },
+    getsid: (state, sids) => {
+      const obj = state
+      obj.sid = sids
     }
   }
 })
