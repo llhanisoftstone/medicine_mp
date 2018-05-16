@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <userinfo :username="userInfo.nickName" :imgurl="userInfo.avatarUrl">
+    <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
       <div slot="userRight">
         <a href="" class="wallet">1000</a>
       </div>
@@ -11,14 +11,13 @@
         <li class="store"><div class="title">兑换店</div><p class="messagealert">精美礼品等你拿</p><span class="listimg storeimg"></span></li>
         <li class="usermoot"><div class="title">道具</div><p class="messagealert">优惠道具等你来购</p><span class="listimg userimg"></span></li>
         <li class="groupcard"><div class="title">优惠券</div><p class="messagealert">优惠券发放</p><span class="listimg cardimg"></span></li>
-        <li class="setting"><div class="title">设置</div><p class="messagealert">设置</p><span class="listimg settingimg"></span></li>
+        <li class="setting"><a href="/pages/setting/main"><div class="title">设置</div><p class="messagealert">设置</p><span class="listimg settingimg"></span></a></li>
       </ul>
     </div>
   </div>
 </template>
 
 <script type="javascript">
-  import userinfo from '@/components/userinfo'
   export default {
 
     data () {
@@ -32,7 +31,7 @@
     },
     methods: {
       getUserInfo () {
-        let that = this;
+        let that = this
         // 调用登录接口
         wx.login({
           success: () => {
@@ -42,8 +41,9 @@
                   // 已经授权，可以直接调用 getUserInfo 获取头像昵称
                   wx.getUserInfo({
                     success: function(res) {
-                      that.userInfo = res.userInfo;
-                      that.isnewuser = false
+                      console.log(res.userInfo)
+                      that.$store.commit('getuser', res.userInfo)
+                      that.$store.commit('getauth')
                     }
                   })
                 }else{
