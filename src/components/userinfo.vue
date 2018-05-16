@@ -3,9 +3,10 @@
       <image src="/static/img/touxiang.png" class="user_bg"></image>
       <div class="user_info">
         <div class="img_box" >
-          <image :src='imgurl' v-if="islogin"></image>
+          <image :src='imgurl' v-if="isauth"></image>
+          <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth">授权登录</button>
         </div>
-        <p v-if="islogin">{{username}}</p>
+        <p v-if="isauth">{{username}}</p>
         <slot name="userRight" class="slot_box"></slot>
       </div>
     </div>
@@ -16,12 +17,19 @@
         name: 'userinfo',
         props: ['imgurl','username'],
         data(){
-            return {}
+            return {
+            }
         },
         methods: {
           bindGetUserInfo(e){
             console.log(e.detail.userInfo)
           }
+        },
+        computed:{
+          isauth(){
+              return this.$store.state.isauth
+          }
+
         }
     }
 </script>
@@ -68,6 +76,16 @@
             height: 127px/2;
             border-radius: 50%;
             align-content: center;
+            align-items: center;
+            justify-content: center;
+          }
+          .btn_auth{
+            width: 127px/2;
+            height: 127px/2;
+            border-radius: 50%;
+            color: #333;
+            font-size: 18px/2;
+            display: flex;
             align-items: center;
             justify-content: center;
           }
