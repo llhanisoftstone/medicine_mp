@@ -4,7 +4,7 @@
       <div class="user_info">
         <div class="img_box" >
           <image :src='imgurl' v-if="isauth"></image>
-          <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth">授权登录</button>
+          <button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth">授权登录</button>
         </div>
         <p v-if="isauth">{{username}}</p>
         <slot name="userRight" class="slot_box"></slot>
@@ -22,9 +22,6 @@
             }
         },
         methods: {
-          bindGetUserInfo(e){
-            console.log(e.detail.userInfo)
-          }
         },
         computed:{
           isauth(){

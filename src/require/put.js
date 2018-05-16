@@ -6,6 +6,9 @@ export function put (url, body) {
       url: store.state.url + url,    // 拼接完整的url
       data: body,
       method: 'PUT',
+      header: {
+        Authorization: `jwt ${store.state.sid}`
+      },
       success (res) {
         resolve(res.data)  // 把返回的数据传出去
       },

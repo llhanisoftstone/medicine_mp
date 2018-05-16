@@ -100,7 +100,8 @@
           console.log(1111111)
           this.$socket.emit('event','123')
       },
-    getUserInfo () {
+
+    getLogin () {
       let that = this
       // 调用登录接口
       wx.login({
@@ -109,21 +110,12 @@
             success: function(res){
               if (res.authSetting['scope.userInfo']) {
                 // 已经授权，可以直接调用 getUserInfo 获取头像昵称  weapp/login
-                wx.getUserInfo({   //
-                  success: function(res) {
-                      console.log(res)
-                    that.$store.commit('getuser', res.userInfo)
-                    that.$store.commit('getauth')
-                    that.$get('/weapp/login',{code:code.code,encryptedData:res.encryptedData,iv:res.iv}).then(res=>{
-                        console.log(res)
-                    })
-                  }
-                })
+                that.getUserinfo(code)
               }else{
                 wx.authorize({
                   scope: 'scope.userInfo',
                   success() {
-                    wx.startRecord()
+                    that.getUserinfo(code)
                   },
                   fail(err){
                       console.log(err)
@@ -135,8 +127,17 @@
         }
       })
     },
-    bindGetUserInfo(e){
-        console.log(e.detail.userInfo)
+    getUserinfo(code){
+      wx.getUserInfo({   //
+        success: function(res) {
+          console.log(res)
+          that.$store.commit('getuser', res.userInfo)
+          that.$store.commit('getauth')
+          that.$get('/weapp/login',{code:code.code,encryptedData:res.encryptedData,iv:res.iv}).then(res=>{
+            console.log(res)
+          })
+        }
+      })
     }
   },
 
@@ -146,7 +147,7 @@
       console.log(data)
     }
     // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
+    this.getLogin()
   }
 }
 </script>
@@ -312,7 +313,6 @@
         border-radius: 50px/2;
         font-size: 30px/2;
         color: #fff;
-        align-items: center;
         justify-content: center;
         background: @bg_color;
       }
