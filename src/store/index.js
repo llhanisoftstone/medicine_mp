@@ -9,7 +9,8 @@ const store = new Vuex.Store({
   state: {
     count: 0,
     url: 'http://192.168.1.146:3003',
-    ws_server: 'ws://47.93.248.40:1666'
+    ws_server: 'ws://47.93.248.40:1666',
+    userinfo: {}
   },
   mutations: {
     increment: (state) => {
@@ -19,6 +20,10 @@ const store = new Vuex.Store({
     decrement: (state) => {
       const obj = state
       obj.count -= 1
+    },
+    getuser: (state,res) => {
+      const obj = state
+      obj.userinfo = res
     }
   }
 })
