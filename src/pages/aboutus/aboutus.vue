@@ -10,7 +10,7 @@
       <div class="foot">
         <p>Copyright&copy;2018</p>
         <p>本平台由陕西省人力资源和社会保障厅授权</p>
-        <p>由 <span>西安藤罗网络科技有限公司</span>独家运营</p>
+        <p>由<span>西安藤罗网络科技有限公司</span>独家运营</p>
         <p>TEL：029-81101859</p>
       </div>
     </div>
