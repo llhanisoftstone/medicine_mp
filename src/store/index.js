@@ -8,7 +8,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     count: 0,
-    url: 'http://123.57.227.3:3010',
+    url: 'https://policy.lifeonway.com',
     ws_server: 'ws://47.93.248.40:1666',
     userinfo: {},
     isauth: false
