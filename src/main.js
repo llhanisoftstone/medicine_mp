@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App'
+import VueSocketio from 'vue-socket.io'
 import store from './store/index.js'
 import {post} from './require/post.js'
 import {get} from './require/get.js'
@@ -14,6 +15,8 @@ Vue.prototype.$put = put
 Vue.prototype.$uploadImg = uploadImg
 
 App.mpType = 'app'
+
+Vue.use(VueSocketio, Vue.prototype.$store.state.ws_server)
 
 const app = new Vue(App)
 app.$mount()
@@ -52,5 +55,14 @@ export default {
           selectedIconPath: '/static/img/my_2.png'
         }]
     }
+  },
+  sockets: {
+    connect: function (res) {
+      console.log(res)
+    },
+    customEmit: function (val) {
+      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+    }
   }
+
 }

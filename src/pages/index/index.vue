@@ -8,7 +8,7 @@
       </userinfo>
     </div>
     <div class="match_box">
-      <a href="">
+      <a href="/pages/challengemap/main">
         <div class="challenge">
           <h2>闯关赛</h2>
           <h4>成功闯关拿礼物</h4>
@@ -34,42 +34,42 @@
     <ul class="gift_list">
       <li>
         <div>
-          <image src=""></image>
+          <image src="/static/img/liwu.png"></image>
         </div>
         <h3>藤罗5元代金券</h3>
         <a href="">挑战</a>
       </li>
       <li>
         <div>
-          <image src=""></image>
+          <image src="/static/img/liwu.png"></image>
         </div>
         <h3>藤罗5元代金券</h3>
         <a href="">挑战</a>
       </li>
       <li>
         <div>
-          <image src=""></image>
+          <image src="/static/img/liwu.png"></image>
         </div>
         <h3>藤罗5元代金券</h3>
         <a href="">挑战</a>
       </li>
       <li>
         <div>
-          <image src=""></image>
+          <image src="/static/img/liwu.png"></image>
         </div>
         <h3>藤罗5元代金券</h3>
         <a href="">挑战</a>
       </li>
       <li>
         <div>
-          <image src=""></image>
+          <image src="/static/img/liwu.png"></image>
         </div>
         <h3>藤罗5元代金券</h3>
         <a href="">挑战</a>
       </li>
       <li>
         <div>
-          <image src=""></image>
+          <image src="/static/img/liwu.png"></image>
         </div>
         <h3>藤罗5元代金券</h3>
         <a href="">挑战</a>
@@ -96,20 +96,27 @@
   },
 
   methods: {
+      enter(){
+          console.log(1111111)
+          this.$socket.emit('event','123')
+      },
     getUserInfo () {
       let that = this
       // 调用登录接口
       wx.login({
-        success: () => {
+        success: (code) => {  //code
           wx.getSetting({
             success: function(res){
               if (res.authSetting['scope.userInfo']) {
-                // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-                wx.getUserInfo({
+                // 已经授权，可以直接调用 getUserInfo 获取头像昵称  weapp/login
+                wx.getUserInfo({   //
                   success: function(res) {
-                      console.log(res.userInfo)
+                      console.log(res)
                     that.$store.commit('getuser', res.userInfo)
                     that.$store.commit('getauth')
+                    that.$get('/weapp/login',{code:code.code,encryptedData:res.encryptedData,iv:res.iv}).then(res=>{
+                        console.log(res)
+                    })
                   }
                 })
               }else{
@@ -134,6 +141,10 @@
   },
 
   created () {
+    this.enter()
+    this.$options.sockets.event = (data) => {
+      console.log(data)
+    }
     // 调用应用实例的方法获取全局数据
     this.getUserInfo()
   }
