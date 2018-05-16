@@ -3,7 +3,7 @@
     <div class="user_box">
       <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
         <div slot="userRight">
-          <a href="" class="btn_sign">签到</a>
+          <a href="/pages/signcount/main" class="btn_sign">签到</a>
         </div>
       </userinfo>
     </div>
