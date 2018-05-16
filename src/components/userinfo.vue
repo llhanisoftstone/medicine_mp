@@ -18,6 +18,7 @@
         props: ['imgurl','username'],
         data(){
             return {
+
             }
         },
         methods: {
@@ -65,7 +66,7 @@
           height: 135px/2;
           border-radius: 50%;
           background: #fff;
-          padding: 4px/2;
+          padding: 2px;
           overflow: hidden;
           display: flex;
           box-sizing: border-box;
