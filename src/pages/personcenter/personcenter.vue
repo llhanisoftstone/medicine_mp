@@ -7,7 +7,7 @@
     </userinfo>
     <div class="middle">
       <ul>
-        <li class="money"><div class="title">银两</div><p class="messagealert">储备仓</p><span class="listimg moneyimg"></span></li>
+        <li class="money"><a href="/pages/sliver/main"><div class="title">银两</div><p class="messagealert">储备仓</p><span class="listimg moneyimg"></span></a></li>
         <li class="store"><div class="title">兑换店</div><p class="messagealert">精美礼品等你拿</p><span class="listimg storeimg"></span></li>
         <li class="usermoot"><div class="title">道具</div><p class="messagealert">优惠道具等你来购</p><span class="listimg userimg"></span></li>
         <li class="groupcard" v-if="seen"><div class="title">优惠券</div><p class="messagealert">优惠券发放</p><span class="listimg cardimg"></span></li>
@@ -127,7 +127,7 @@
     justify-content: center;
     align-items: center;
     color: #df5c3e;
-    font-size: 24px;
+    font-size: 14px;
   }
   .middle>ul>li a:hover{
     background:inherit;
