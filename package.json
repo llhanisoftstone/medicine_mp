@@ -15,6 +15,7 @@
     "less-loader": "^4.1.0",
     "mpvue": "^1.0.10",
     "socket.io": "^2.1.0",
+    "vue-socket.io": "^2.1.1-b",
     "vuex": "^2.3.1"
   },
   "devDependencies": {
