@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <userinfo :username="123" :imgurl="12323">
+    <userinfo :username="userInfo.nickName" :imgurl="userInfo.avatarUrl">
       <div slot="userRight">
-        <a href="" class="btn_sign">签到</a>
+        <a href="" class="wallet">1000</a>
       </div>
     </userinfo>
     <div class="middle">
@@ -29,15 +29,55 @@
     },
     components: {
         userinfo
+    },
+    methods: {
+      getUserInfo () {
+        let that = this;
+        // 调用登录接口
+        wx.login({
+          success: () => {
+            wx.getSetting({
+              success: function(res){
+                if (res.authSetting['scope.userInfo']) {
+                  // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+                  wx.getUserInfo({
+                    success: function(res) {
+                      that.userInfo = res.userInfo;
+                      that.isnewuser = false
+                    }
+                  })
+                }else{
+                  wx.authorize({
+                    scope: 'scope.userInfo',
+                    success() {
+                      wx.startRecord()
+                    },
+                    fail(err){
+                      console.log(err)
+                    }
+                  })
+                }
+              }
+            })
+          }
+        })
+      },
+      bindGetUserInfo(e){
+        console.log(e.detail.userInfo)
+      }
+    },
+
+    created () {
+      // 调用应用实例的方法获取全局数据
+      this.getUserInfo()
     }
     }
 </script>
 
 <style scoped lang="css">
- .header>image{
-  width:100%;
-   height:97px;
- }
+  .container{
+    margin-top:10px;
+  }
  .middle>ul{
    overflow:hidden;
    padding:0 13px;
@@ -108,5 +148,17 @@
    background:url(../../../static/img/my_21.png) no-repeat center center;
    background-size:cover;
  }
+  .wallet{
+    padding-left:26px;
+    height:19px;
+    background:url(../../../static/img/my_06.png) no-repeat left center;
+    background-size:26px 19px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    color: #df5c3e;
+    font-size: 24px;
+  }
 </style>
 

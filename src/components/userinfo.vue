@@ -40,7 +40,6 @@
       .user_info{
         position: absolute;
         left:26px/2;
-        top:13px/2;
         width: 698px/2;
         height: 194px/2;
         z-index:2;
