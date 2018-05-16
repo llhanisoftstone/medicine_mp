@@ -22,7 +22,7 @@ export default {
   // 这个字段走 app.json
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
-    pages: ['^pages/index/main'],
+    pages: ['^pages/index/main', 'pages/personcenter/main'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#df5c3e',
@@ -46,7 +46,7 @@ export default {
           iconPath: '/static/img/policy.png',
           selectedIconPath: '/static/img/policy_2.png'},
         {
-          pagePath: 'pages/index/main',
+          pagePath: 'pages/personcenter/main',
           text: '个人中心',
           iconPath: '/static/img/my.png',
           selectedIconPath: '/static/img/my_2.png'
