@@ -1,8 +1,10 @@
 <template>
   <div class="container">
-    <div class="header">
-      <image src="/static/img/touxiang.png" alt=""></image>
-    </div>
+    <userinfo :username="123" :imgurl="12323">
+      <div slot="userRight">
+        <a href="" class="btn_sign">签到</a>
+      </div>
+    </userinfo>
     <div class="middle">
       <ul>
         <li class="money"><div class="title">银两</div><p class="messagealert">储备仓</p><span class="listimg moneyimg"></span></li>
@@ -16,18 +18,29 @@
 </template>
 
 <script type="javascript">
+  import userinfo from '@/components/userinfo'
+  export default {
+
+    data () {
+      return {
+        userInfo: {},
+        isnewuser: true
+      }
+    },
+    components: {
+        userinfo
+    }
+    }
 </script>
 
 <style scoped lang="css">
- .container{
-   padding:10px 13px;
- }
  .header>image{
   width:100%;
    height:97px;
  }
  .middle>ul{
    overflow:hidden;
+   padding:0 13px;
  }
   .middle>ul>li{
     float:left;
