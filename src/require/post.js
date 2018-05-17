@@ -7,7 +7,7 @@ export function post (url, body) {
       method: 'POST',
       header: {
         'content-type': 'application/json',
-        Authorization: `jwt ${store.state.sid}`
+        Authorization: `jwt ${store.state.user.sid}`
       },
       success (res) {
         resolve(res.data)  // 把返回的数据传出去

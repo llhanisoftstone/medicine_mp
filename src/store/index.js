@@ -7,7 +7,6 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    count: 0,
     url: 'https://policy.lifeonway.com',
     ws_server: 'https://policy.lifeonway.com',
     userinfo: {},
@@ -18,14 +17,6 @@ const store = new Vuex.Store({
     sliver: {},
   },
   mutations: {
-    increment: (state) => {
-      const obj = state
-      obj.count += 1
-    },
-    decrement: (state) => {
-      const obj = state
-      obj.count -= 1
-    },
     getuser: (state, res) => {
       const obj = state
       obj.userinfo = res

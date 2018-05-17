@@ -1,7 +1,7 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": false,
 		"postcss": true,
 		"minified": true,
@@ -32,11 +32,16 @@
 		"miniprogram": {
 			"current": -1,
 			"list": [
+                {
+                  "id": 0,
+                  "name": "排行榜",
+                  "pathName": "pages/friendpk/main",
+                  "query": ""
+                },
 				{
-					"id": 0,
-					"name": "排行榜",
-					"pathName": "pages/friendpk/main",
-					"query": ""
+					"id": -1,
+					"name": "政策百科",
+					"pathName": "pages/policy/main"
 				}
 			]
 		}
