@@ -8,7 +8,7 @@
       </userinfo>
     </div>
     <div class="match_box">
-      <a href="">
+      <a href="/pages/challengemap/main">
         <div class="challenge">
           <h2>闯关赛</h2>
           <h4>成功闯关拿礼物</h4>
@@ -34,42 +34,42 @@
     <ul class="gift_list">
       <li>
         <div>
-          <image src=""></image>
+          <image src="/static/img/liwu.png"></image>
         </div>
         <h3>藤罗5元代金券</h3>
         <a href="">挑战</a>
       </li>
       <li>
         <div>
-          <image src=""></image>
+          <image src="/static/img/liwu.png"></image>
         </div>
         <h3>藤罗5元代金券</h3>
         <a href="">挑战</a>
       </li>
       <li>
         <div>
-          <image src=""></image>
+          <image src="/static/img/liwu.png"></image>
         </div>
         <h3>藤罗5元代金券</h3>
         <a href="">挑战</a>
       </li>
       <li>
         <div>
-          <image src=""></image>
+          <image src="/static/img/liwu.png"></image>
         </div>
         <h3>藤罗5元代金券</h3>
         <a href="">挑战</a>
       </li>
       <li>
         <div>
-          <image src=""></image>
+          <image src="/static/img/liwu.png"></image>
         </div>
         <h3>藤罗5元代金券</h3>
         <a href="">挑战</a>
       </li>
       <li>
         <div>
-          <image src=""></image>
+          <image src="/static/img/liwu.png"></image>
         </div>
         <h3>藤罗5元代金券</h3>
         <a href="">挑战</a>
@@ -96,52 +96,61 @@
   },
 
   methods: {
-    getUserInfo () {
+      enters(){
+          console.log(1111111)
+          this.$socket.emit('event','123')
+      },
+
+    getLogin () {
       let that = this
       // 调用登录接口
       wx.login({
-        success: () => {
+        success: (code) => {  //code
+          that.$store.commit('getcode', code.code)
           wx.getSetting({
             success: function(res){
               if (res.authSetting['scope.userInfo']) {
-                // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-                wx.getUserInfo({
-                  success: function(res) {
-                      console.log(res.userInfo)
-                    that.$store.commit('getuser', res.userInfo)
-                    that.$store.commit('getauth')
-                  }
-                })
-              }else{
-                wx.authorize({
-                  scope: 'scope.userInfo',
-                  success() {
-                    wx.startRecord()
-                  },
-                  fail(err){
-                      console.log(err)
-                  }
-                })
+                // 已经授权，可以直接调用 getUserInfo 获取头像昵称  weapp/login
+                that.getUserinfo(code)
               }
             }
           })
         }
       })
     },
-    bindGetUserInfo(e){
-        console.log(e.detail.userInfo)
+    getUserinfo(){
+      let that = this
+      wx.getUserInfo({   //
+        success: function(res) {
+          console.log(res)
+          that.$store.commit('getuser', res.userInfo)
+          that.$store.commit('getauth')
+          that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:res.encryptedData,iv:res.iv}).then(res=>{
+            console.log(res)
+          })
+        }
+      })
     }
   },
 
   created () {
+      console.log(this)
+//    this.enters()
+//    this.$options.sockets.event = (data) => {
+//      console.log(data)
+//    }
     // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
+    this.getLogin()
   }
 }
 </script>
 
 <style scoped lang="less">
   @import "../../static/less/common.less";
+  a{
+    background: transparent;
+    opacity: 1;
+  }
   .user_box{
     padding-top: 13px/2;
     padding-bottom: 15px/2;
@@ -297,7 +306,6 @@
         border-radius: 50px/2;
         font-size: 30px/2;
         color: #fff;
-        align-items: center;
         justify-content: center;
         background: @bg_color;
       }

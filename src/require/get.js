@@ -6,6 +6,9 @@ export function get (url, body) {
     wx.request({
       url: store.state.url + url,    // 拼接完整的url
       data: body,
+      header: {
+        Authorization: `jwt ${store.state.sid}`
+      },
       method: 'GET',
       success (res) {
         resolve(res.data)  // 把返回的数据传出去
