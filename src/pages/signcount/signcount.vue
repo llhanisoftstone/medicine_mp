@@ -5,7 +5,8 @@
             <img :src='imgurl' alt="">
           </div>
           <div class="mui-media-body">
-            <p class="sign-success">恭喜你签到成功，<span class="co_fe698a">+5！</span></p>
+            <p class="sign-success" v-if="nowflag">今日已签到</p>
+            <p class="sign-success" v-if="isoverflag">恭喜你签到成功，<span class="co_fe698a">+5！</span></p>
             <p class="p-margin">当前积分<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
             </p>
           </div>
@@ -77,6 +78,8 @@
         props: [],
         data(){
             return {
+              nowflag:false,
+              isoverflag:false,
               win_treasure: [],
               currentDay: 1,
               currentMonth: 1,
@@ -141,8 +144,14 @@
         pickNext: function(year, month) {
           var d = new Date(this.formatDate(year , month , 1));
           d.setDate(35);
-          this.initData(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
-          this.getsign(d.getFullYear(),d.getMonth() + 1);
+          var now=new Date();
+          if((year==now.getFullYear())&&(month<(now.getMonth() + 1))){
+            this.initData(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
+            this.getsign(d.getFullYear(),d.getMonth() + 1);
+          }else if(year<now.getFullYear()){
+            this.initData(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
+            this.getsign(d.getFullYear(),d.getMonth() + 1);
+          }
         },
         pickYear: function(year, month) {
           alert(year + "," + month);
@@ -185,10 +194,37 @@
           }
         },
         async getsign(year,month){
-            console.log(this.$store.state.sid)
-          let aa = await this.$post('/rs/sign_records',{debug:1,history_day: year + "-" + month + "-" + "01"});
+            console.log(this.$store.state.sid);
+          let aa = await this.$post('/rs/sign_submit',{history_day: year + "-" + month + "-" + "01"});
           if(aa.code==200){
-
+              this.nowflag=false;
+              this.isoverflag=true;
+              this.nowpointer=aa.total_points;
+            var daystotal=this.days;
+            var nowtime=new Date();
+            for (var j = 0; j < aa.days.length; j++) {
+              for(var i=0;i<daystotal.length;i++){
+                  var timedate=new Date(daystotal[i].day);
+                if(this.formatDate(timedate.getFullYear(),timedate.getMonth() + 1,timedate.getDate())==aa.days[j]){
+                  daystotal[i].isSign=true;
+                }else if(this.formatDate(timedate.getFullYear(),timedate.getMonth() + 1,timedate.getDate())==this.formatDate(nowtime.getFullYear(),nowtime.getMonth() + 1,nowtime.getDate())){
+                  daystotal[i].isSign=true;
+                }
+              }
+            }
+          }else{
+            this.nowflag=true;
+            this.isoverflag=false
+            this.nowpointer=aa.total_points;
+            var daystotal=this.days;
+           for (var j = 0; j < aa.days.length; j++) {
+            for(var i=0;i<daystotal.length;i++){
+              var timedate=new Date(daystotal[i].day);
+                 if(this.formatDate(timedate.getFullYear(),timedate.getMonth() + 1,timedate.getDate())==aa.days[j]){
+                   daystotal[i].isSign=true;
+                 }
+            }
+          }
           }
         }
       },
@@ -350,6 +386,7 @@
     }
     .arrow{
       padding-top:3px;
+      color:#df5c3e;
     }
     .weekdays {
       margin: 0;
