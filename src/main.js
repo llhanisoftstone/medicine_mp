@@ -56,13 +56,17 @@ export default {
         }]
     }
   },
-  sockets: {
-    connect: function (res) {
-      console.log(res)
-    },
-    customEmit: function (val) {
-      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
-    }
-  }
-
+  // sockets: {
+  //   connect: function (res) {
+  //     console.log(res)
+  //   },
+  //   customEmit: function (val) {
+  //     console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+  //   }
+  // }
+  // created () {
+  //   wx.connectSocket({
+  //     url: 'wss://example.qq.com'
+  //   })
+  // }
 }

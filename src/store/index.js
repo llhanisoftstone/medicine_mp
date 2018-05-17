@@ -13,7 +13,8 @@ const store = new Vuex.Store({
     userinfo: {},
     code: '',
     isauth: false,
-    sid: ''
+    sid: '',
+    user: {}
   },
   mutations: {
     increment: (state) => {
@@ -39,6 +40,10 @@ const store = new Vuex.Store({
     getcode: (state, code) => {
       const obj = state
       obj.code = code
+    },
+    getm_user: (state, user) => {
+      const obj = state
+      obj.user = user
     }
   }
 })
