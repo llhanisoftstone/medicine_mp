@@ -66,7 +66,7 @@
   .middle>ul>li{
     float:left;
     margin-top:9px;
-    margin-right:9px;
+    margin-right:10px;
     width:170px;
     height:110px;
     border-radius:5px;
