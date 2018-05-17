@@ -2,7 +2,7 @@
   <div>
     <div class="title">{{title}}</div>
     <div class="release-time">发布时间 : {{create_time}}</div>
-    <div class="details">{{details}}</div>
+    <div class="details" v-html="details"></div>
   </div>
 </template>
 
@@ -73,5 +73,7 @@
     font-size: 0.277333rem;
     line-height: 0.426667rem;
     color: #666666;
+    text-indent: 2em;
+    margin: 30px/2 30px/2 0 30px/2 ;
   }
 </style>
