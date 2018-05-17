@@ -9,7 +9,7 @@ const store = new Vuex.Store({
   state: {
     count: 0,
     url: 'https://policy.lifeonway.com',
-    ws_server: 'https://123.57.227.3:3011',
+    ws_server: 'https://policy.lifeonway.com',
     userinfo: {},
     code: '',
     isauth: false,

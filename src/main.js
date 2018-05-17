@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import App from './App'
-import VueSocketio from 'vue-socket.io'
 import store from './store/index.js'
 import {post} from './require/post.js'
 import {get} from './require/get.js'
 import {put} from './require/put.js'
 import {uploadImg} from './static/js/uploadImg.js'
+import io from '../static/js/weapp.socket.io.js'
 
 Vue.config.productionTip = false
 Vue.prototype.$store = store
@@ -13,10 +13,9 @@ Vue.prototype.$post = post
 Vue.prototype.$get = get
 Vue.prototype.$put = put
 Vue.prototype.$uploadImg = uploadImg
+Vue.prototype.$socket = io(Vue.prototype.$store.state.ws_server)
 
 App.mpType = 'app'
-
-Vue.use(VueSocketio, Vue.prototype.$store.state.ws_server)
 
 const app = new Vue(App)
 app.$mount()
@@ -55,18 +54,5 @@ export default {
           selectedIconPath: '/static/img/my_2.png'
         }]
     }
-  },
-  // sockets: {
-  //   connect: function (res) {
-  //     console.log(res)
-  //   },
-  //   customEmit: function (val) {
-  //     console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
-  //   }
-  // }
-  // created () {
-  //   wx.connectSocket({
-  //     url: 'wss://example.qq.com'
-  //   })
-  // }
+  }
 }
