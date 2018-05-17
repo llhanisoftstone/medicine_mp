@@ -1,0 +1,447 @@
+<template>
+    <div class="container">
+      <div class="mui-media">
+          <div class="logo-top">
+            <img :src='imgurl' alt="">
+          </div>
+          <div class="mui-media-body">
+            <p class="sign-success" v-if="nowflag">今日已签到</p>
+            <p class="sign-success" v-if="isoverflag">恭喜你签到成功，<span class="co_fe698a">+5！</span></p>
+            <p class="p-margin">当前积分<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
+            </p>
+          </div>
+      </div>
+      <div class="time-top">
+        <div class="mui-pull-left" id="time">{{nowdate}}</div>
+      </div>
+      <div class="calendar_th">
+
+      </div>
+      <div id="calendar">
+        <!-- 年份 月份 -->
+        <div class="month">
+          <ul>
+            <!--点击会触发pickpre函数，重新刷新当前日期 @click(vue v-on:click缩写) -->
+            <li class="arrow" @click="pickPre(currentYear,currentMonth)">❮</li>
+            <li class="year-month" @click="pickYear(currentYear,currentMonth)">
+              <span class="choose-month">{{ currentMonth }}月</span>
+            </li>
+            <li class="arrow" @click="pickNext(currentYear,currentMonth)">❯</li>
+          </ul>
+        </div>
+        <!-- 星期 -->
+        <ul class="weekdays">
+          <li>一</li>
+          <li>二</li>
+          <li>三</li>
+          <li>四</li>
+          <li>五</li>
+          <li>六</li>
+          <li>日</li>
+        </ul>
+        <!-- 日期 -->
+        <ul class="days">
+          <!-- 核心 v-for循环 每一次循环用<li>标签创建一天 -->
+          <li  v-for="dayobject in days">
+            <!--本月-->
+            <!--如果不是本月  改变类名加灰色-->
+            <span v-if="dayobject.month != currentMonth" class="other-month">{{ dayobject.date}}</span>
+            <!--如果是本月  还需要判断是不是这一天-->
+            <span v-else>
+                <span v-if="dayobject.isSign===true" class="active">{{ dayobject.date}}</span>
+                <span v-else>{{ dayobject.date}}</span>
+            </span>
+
+          </li>
+        </ul>
+      </div>
+
+      <div class="back_line"></div>
+      <div class="recommend">
+        礼物店
+      </div>
+      <ul class="gift_list">
+        <li v-for="(v,i) in win_treasure">
+          <div>
+            <image :src="v.picpath"></image>
+          </div>
+          <h3>{{v.name}}</h3>
+          <a href="" :_id="v.id">挑战</a>
+        </li>
+      </ul>
+    </div>
+</template>
+
+<script type="javascript">
+    export default {
+        name: 'signcount',
+        props: [],
+        data(){
+            return {
+              nowflag:false,
+              isoverflag:false,
+              win_treasure: [],
+              currentDay: 1,
+              currentMonth: 1,
+              currentYear: 1970,
+              currentWeek: 1,
+              days: [],
+              arrDate: [],
+              nowdate:"",
+              nowpointer:0
+            }
+        },
+      methods: {
+        initData(cur) {
+          var leftcount=0; //存放剩余数量
+          var date;
+          if (cur) {
+            date = new Date(cur);
+          } else {
+            var now=new Date();
+            var d = new Date(this.formatDate(now.getFullYear() , now.getMonth() , 1));
+            d.setDate(35);
+            date = new Date(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
+          }
+          this.currentDay = date.getDate();
+          this.currentYear = date.getFullYear();
+          this.currentMonth = date.getMonth() + 1;
+
+          this.currentWeek = date.getDay(); // 1...6,0
+          if (this.currentWeek == 0) {
+            this.currentWeek = 7;
+          }
+          var str = this.formatDate(this.currentYear , this.currentMonth, this.currentDay);
+          this.days.length = 0;
+          // 今天是周日，放在第一行第7个位置，前面6个
+          //初始化本周
+          for (var i = this.currentWeek - 1; i >= 0; i--) {
+            var d = new Date(str);
+            d.setDate(d.getDate() - i);
+            var dayobject={}; //用一个对象包装Date对象  以便为以后预定功能添加属性
+            dayobject.day=d;
+            dayobject = {day: d,month:d.getMonth()+1,date:d.getDate()}
+            this.days.push(dayobject);//将日期放入data 中的days数组 供页面渲染使用
+          }
+          //其他周
+          for (var i = 1; i <= 35 - this.currentWeek; i++) {
+            var d = new Date(str);
+            d.setDate(d.getDate() + i);
+            var dayobject={};
+            dayobject = {day: d,isSign: this.isVerDate(d.getDate()),month:d.getMonth()+1,date:d.getDate()}
+            this.days.push(dayobject);
+          }
+        },
+        isVerDate (v) {
+          return this.arrDate.includes(v)
+        },
+        pickPre: function(year, month) {
+          var d = new Date(this.formatDate(year , month , 1));
+          d.setDate(0);
+          this.initData(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
+          this.getsign(d.getFullYear(),d.getMonth() + 1);
+        },
+        pickNext: function(year, month) {
+          var d = new Date(this.formatDate(year , month , 1));
+          d.setDate(35);
+          var now=new Date();
+          if((year==now.getFullYear())&&(month<(now.getMonth() + 1))){
+            this.initData(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
+            this.getsign(d.getFullYear(),d.getMonth() + 1);
+          }else if(year<now.getFullYear()){
+            this.initData(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
+            this.getsign(d.getFullYear(),d.getMonth() + 1);
+          }
+        },
+        pickYear: function(year, month) {
+          alert(year + "," + month);
+        },
+
+        // 返回 类似 2016-01-02 格式的字符串
+        formatDate: function(year,month,day){
+          var y = year;
+          var m = month;
+          if(m<10) m = "0" + m;
+          var d = day;
+          if(d<10) d = "0" + d;
+          return y+"-"+m+"-"+d
+        },
+        getnowtime(){
+          var date = new Date();
+          var m=date.getMonth() + 1;
+          var d=date.getDate();
+          if(m<10){
+              m="0"+m;
+          }
+          if(d<10){
+              d="0"+d;
+          }
+          this.nowdate=date.getFullYear()+"年"+m+"月"+date.getDate()+"日";
+        },
+        async getpage(){
+          let that = this;
+          let res = await that.$get('/rs/first_page',{page:1,size:3,order:'create_time desc'})
+          if(res.code == 200){
+            that.p_number = res.present_count
+            for(let i = 0;i<res.win_treasure.length;i++){
+              res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
+            }
+            if(res.win_treasure.length>=3){
+              that.win_treasure = res.win_treasure.slice(0,3)
+            }else{
+              that.win_treasure = res.win_treasure
+            }
+          }
+        },
+        async getsign(year,month){
+            console.log(this.$store.state.sid);
+          let aa = await this.$post('/rs/sign_submit',{history_day: year + "-" + month + "-" + "01"});
+          if(aa.code==200){
+              this.nowflag=false;
+              this.isoverflag=true;
+              this.nowpointer=aa.total_points;
+            var daystotal=this.days;
+            var nowtime=new Date();
+            for (var j = 0; j < aa.days.length; j++) {
+              for(var i=0;i<daystotal.length;i++){
+                  var timedate=new Date(daystotal[i].day);
+                if(this.formatDate(timedate.getFullYear(),timedate.getMonth() + 1,timedate.getDate())==aa.days[j]){
+                  daystotal[i].isSign=true;
+                }else if(this.formatDate(timedate.getFullYear(),timedate.getMonth() + 1,timedate.getDate())==this.formatDate(nowtime.getFullYear(),nowtime.getMonth() + 1,nowtime.getDate())){
+                  daystotal[i].isSign=true;
+                }
+              }
+            }
+          }else{
+            this.nowflag=true;
+            this.isoverflag=false
+            this.nowpointer=aa.total_points;
+            var daystotal=this.days;
+           for (var j = 0; j < aa.days.length; j++) {
+            for(var i=0;i<daystotal.length;i++){
+              var timedate=new Date(daystotal[i].day);
+                 if(this.formatDate(timedate.getFullYear(),timedate.getMonth() + 1,timedate.getDate())==aa.days[j]){
+                   daystotal[i].isSign=true;
+                 }
+            }
+          }
+          }
+        }
+      },
+      mounted(){
+        this.initData(null);
+        this.getpage();
+        this.getnowtime();
+        this.getsign();
+      },
+      components: {},
+      computed:{
+          imgurl(){
+           return this.$store.state.userinfo.avatarUrl
+          }
+
+      }
+
+    }
+</script>
+
+<style lang="less" scoped>
+    @import '../../static/less/common.less';
+    .container .mui-media {
+      padding:13px;
+      height:64px;
+      border-top:1px solid #e2e2e2;
+      border-bottom:1px solid #e2e2e2;
+      display:flex;
+      box-sizing:border-box;
+      justify-content: flex-start;
+      align-items: center;
+      font-size:14px;
+      color:#333;
+      .logo-top{
+        width:38px;
+        height:38px;
+        margin-right:14px;
+        border-radius:50%;
+        image{
+          width:38px;
+          height:38px;
+          border-radius:50%;
+        }
+      }
+      .sign-success>span{
+        color:#df5c3e;
+      }
+      .p-margin>span{
+        color:#df5c3e;
+        font-size:15px;
+      }
+    }
+  .time-top{
+    margin-top:20px;
+    padding-left:13px;
+    font-size:12px ;
+    color:#333;
+  }
+  .back_line{
+    width:100%;
+    height:8px;
+    background:#f3f3f3;
+  }
+    .recommend {
+      padding: 12px 0 12px 13px;
+      border-top: 1px solid #e2e2e2;
+      font-size:15px;
+      box-sizing:border-box;
+      border-bottom: 1px solid #e2e2e2;
+    }
+    .gift_list{
+      width: 100%;
+      box-sizing: border-box;
+      padding:12px 26px/2;
+      display: flex;
+      flex-flow: wrap;
+      justify-content: space-between;
+      li{
+        width: 220px/2;
+        height: 280px/2;
+        box-shadow: #acacac 4px/2 5px/2 15px/2;
+        margin-bottom:20px/2;
+        border-radius: 10px/2;
+        background: #fff;
+        div{
+          width: 220px/2;
+          height: 173px/2;
+          box-sizing: border-box;
+          padding: 20px/2;
+          image{
+            width: 100%;
+            height: 100%;
+          }
+        }
+        h3{
+          width: 100%;
+          padding: 0 17px/2;
+          font-size:28px/2;
+          color: #333;
+          box-sizing: border-box;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          text-align: center;
+        }
+        a{
+          margin:0 auto;
+          margin-top:16px/2;
+          display: flex;
+          width: 100px/2;
+          height: 43px/2;
+          border-radius: 50px/2;
+          font-size: 30px/2;
+          color: #fff;
+          align-items: center;
+          justify-content: center;
+          background: @bg_color;
+        }
+      }
+    }
+  /*日历*/
+    #calendar{
+      width:325px;
+      margin: 0 25px;
+    }
+    .month {
+      width: 100%;
+    }
+    .month ul {
+      padding: 0;
+      display: flex;
+      margin:27px 59px 0;
+      justify-content: space-between;
+    }
+
+    .year-month {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      text-align: center;
+      font-size:18px;
+      color: #333333;
+      font-style: italic;
+    }
+    .choose-year {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .choose-month {
+      text-align: center;
+      font-size: 18px;
+    }
+    .month ul li {
+      color: #333;
+      font-size: 14px;
+      letter-spacing: 3px;
+    }
+    .arrow{
+      padding-top:3px;
+      color:#df5c3e;
+    }
+    .weekdays {
+      margin: 0;
+      padding: 10px 0;
+      display: flex;
+      flex-wrap: wrap;
+      color: #333;
+      font-size:12px;
+      justify-content: space-around;
+    }
+
+    .weekdays li {
+      display: inline-block;
+      text-align: center;
+      font-weight:bold;
+      font-size:12px;
+      padding:11px;
+      height: 14px;
+      box-sizing:border-box;
+      line-height:14px;
+      color: #333333;
+    }
+
+    .days {
+      padding: 0;
+      background: #FFFFFF;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+    .days li {
+      list-style-type: none;
+      display: inline-block;
+      width:30px;
+      height:30px;
+      text-align: center;
+      font-size:14px;
+      line-height:30px;
+      color: #666;
+      margin:7.5px 7px;
+    }
+    .days li .active {
+      width:30px;
+      height:30px;
+      display: inline-block;
+      border-radius:50%;
+      text-align:center;
+      background: #df5c3e;
+      color: #fff;
+    }
+
+    .days li .other-month {
+      padding: 5px;
+      color: transparent;
+    }
+</style>

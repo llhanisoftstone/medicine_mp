@@ -13,7 +13,8 @@ const store = new Vuex.Store({
     code: '',
     isauth: false,
     sid: '',
-    user: {}
+    user: {},
+    sliver: {},
   },
   mutations: {
     getuser: (state, res) => {
@@ -35,6 +36,10 @@ const store = new Vuex.Store({
     getm_user: (state, user) => {
       const obj = state
       obj.user = user
+    },
+    get_sliver: (state, sliver) => {
+      const obj = state
+      obj.sliver = sliver
     }
   }
 })

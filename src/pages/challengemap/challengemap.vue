@@ -39,7 +39,9 @@
         data(){
             return {}
         },
-        methods: {},
+        methods: {
+
+        },
         components: {},
         computed:{
             imgurl(){

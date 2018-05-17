@@ -3,7 +3,7 @@
     <div class="user_box">
       <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
         <div slot="userRight">
-          <a href="" class="btn_sign">签到</a>
+          <a href="/pages/signcount/main" class="btn_sign">签到</a>
         </div>
       </userinfo>
     </div>
@@ -108,7 +108,6 @@
             res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
           }
             that.win_treasure = res.win_treasure
-            console.log(res)
         }
     }
   },

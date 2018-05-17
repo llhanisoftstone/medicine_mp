@@ -60,12 +60,11 @@
       .user_info{
         position: absolute;
         left:26px/2;
-        top:13px/2;
         width: 698px/2;
         height: 194px/2;
         z-index:2;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
         box-sizing: border-box;
         padding-right: 31px/2;
         display: flex;

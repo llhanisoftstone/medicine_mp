@@ -48,7 +48,7 @@ export default {
           iconPath: '/static/img/policy.png',
           selectedIconPath: '/static/img/policy_2.png'},
         {
-          pagePath: 'pages/index/main',
+          pagePath: 'pages/personcenter/main',
           text: '个人中心',
           iconPath: '/static/img/my.png',
           selectedIconPath: '/static/img/my_2.png'
