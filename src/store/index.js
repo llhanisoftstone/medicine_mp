@@ -11,6 +11,7 @@ const store = new Vuex.Store({
     url: 'https://policy.lifeonway.com',
     ws_server: 'https://123.57.227.3:3011',
     userinfo: {},
+    code: '',
     isauth: false,
     sid: ''
   },
@@ -34,6 +35,10 @@ const store = new Vuex.Store({
     getsid: (state, sids) => {
       const obj = state
       obj.sid = sids
+    },
+    getcode: (state, code) => {
+      const obj = state
+      obj.code = code
     }
   }
 })

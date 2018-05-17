@@ -96,7 +96,7 @@
   },
 
   methods: {
-      enter(){
+      enters(){
           console.log(1111111)
           this.$socket.emit('event','123')
       },
@@ -106,34 +106,26 @@
       // 调用登录接口
       wx.login({
         success: (code) => {  //code
+          that.$store.commit('getcode', code.code)
           wx.getSetting({
             success: function(res){
               if (res.authSetting['scope.userInfo']) {
                 // 已经授权，可以直接调用 getUserInfo 获取头像昵称  weapp/login
                 that.getUserinfo(code)
-              }else{
-                wx.authorize({
-                  scope: 'scope.userInfo',
-                  success() {
-                    that.getUserinfo(code)
-                  },
-                  fail(err){
-                      console.log(err)
-                  }
-                })
               }
             }
           })
         }
       })
     },
-    getUserinfo(code){
+    getUserinfo(){
+      let that = this
       wx.getUserInfo({   //
         success: function(res) {
           console.log(res)
           that.$store.commit('getuser', res.userInfo)
           that.$store.commit('getauth')
-          that.$get('/weapp/login',{code:code.code,encryptedData:res.encryptedData,iv:res.iv}).then(res=>{
+          that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:res.encryptedData,iv:res.iv}).then(res=>{
             console.log(res)
           })
         }
@@ -142,10 +134,11 @@
   },
 
   created () {
-    this.enter()
-    this.$options.sockets.event = (data) => {
-      console.log(data)
-    }
+      console.log(this)
+//    this.enters()
+//    this.$options.sockets.event = (data) => {
+//      console.log(data)
+//    }
     // 调用应用实例的方法获取全局数据
     this.getLogin()
   }

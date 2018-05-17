@@ -4,7 +4,7 @@
       <div class="user_info">
         <div class="img_box" >
           <image :src='imgurl' v-if="isauth"></image>
-          <button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth">授权登录</button>
+          <button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">授权登录</button>
         </div>
         <p v-if="isauth">{{username}}</p>
         <slot name="userRight" class="slot_box"></slot>
@@ -22,13 +22,23 @@
             }
         },
         methods: {
+          bindGetUserInfo: function(e) {
+            let that = this
+            console.log(e)
+            console.log(e.target.userInfo)
+            that.$store.commit('getuser', e.target.userInfo)
+            that.$store.commit('getauth')
+            that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:e.target.encryptedData,iv:e.target.iv}).then(res=>{
+              console.log(res)
+            })
+          }
         },
         computed:{
           isauth(){
               return this.$store.state.isauth
           }
+        },
 
-        }
     }
 </script>
 
@@ -64,7 +74,7 @@
           height: 135px/2;
           border-radius: 50%;
           background: #fff;
-          padding: 2px;
+          border:3px solid #fff;
           overflow: hidden;
           display: flex;
           box-sizing: border-box;

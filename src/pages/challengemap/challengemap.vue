@@ -197,7 +197,7 @@
         border-radius: 50%;
         margin-top:-7px/2;
         margin-left: -7px/2;
-        border:3px/2 solid #fff;
+        border:4px/2 solid #fff;
         box-sizing: border-box;
         overflow: hidden;
         image{
