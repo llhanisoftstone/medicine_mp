@@ -108,7 +108,6 @@
             res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
           }
             that.win_treasure = res.win_treasure
-            console.log(res)
         }
     }
   },

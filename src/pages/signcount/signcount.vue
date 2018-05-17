@@ -6,12 +6,12 @@
           </div>
           <div class="mui-media-body">
             <p class="sign-success">恭喜你签到成功，<span class="co_fe698a">+5！</span></p>
-            <p class="p-margin">当前积分<span id="so-points" class="co_fe698a">821</span>
+            <p class="p-margin">当前积分<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
             </p>
           </div>
       </div>
       <div class="time-top">
-        <div class="mui-pull-left" id="time">2018年5月16日</div>
+        <div class="mui-pull-left" id="time">{{nowdate}}</div>
       </div>
       <div class="calendar_th">
 
@@ -44,12 +44,11 @@
           <li  v-for="dayobject in days">
             <!--本月-->
             <!--如果不是本月  改变类名加灰色-->
-            <span v-if="dayobject.day.getMonth()+1 != currentMonth" class="other-month">{{ dayobject.day.getDate() }}</span>
+            <span v-if="dayobject.month != currentMonth" class="other-month">{{ dayobject.date}}</span>
             <!--如果是本月  还需要判断是不是这一天-->
             <span v-else>
-          <!--今天  同年同月同日-->
-                <span v-if=" dayobject.isSign===true" class="active">{{ dayobject.day.getDate() }}</span>
-                <span v-else>{{ dayobject.day.getDate() }}</span>
+                <span v-if="dayobject.isSign===true" class="active">{{ dayobject.date}}</span>
+                <span v-else>{{ dayobject.date}}</span>
             </span>
 
           </li>
@@ -58,29 +57,15 @@
 
       <div class="back_line"></div>
       <div class="recommend">
-        <p >礼物店</p>
+        礼物店
       </div>
       <ul class="gift_list">
-        <li>
+        <li v-for="(v,i) in win_treasure">
           <div>
-            <image src="/static/img/liwu.png"></image>
+            <image :src="v.picpath"></image>
           </div>
-          <h3>藤罗5元代金券</h3>
-          <a href="">挑战</a>
-        </li>
-        <li>
-          <div>
-            <image src="/static/img/liwu.png"></image>
-          </div>
-          <h3>藤罗5元代金券</h3>
-          <a href="">挑战</a>
-        </li>
-        <li>
-          <div>
-            <image src="/static/img/liwu.png"></image>
-          </div>
-          <h3>藤罗5元代金券</h3>
-          <a href="">挑战</a>
+          <h3>{{v.name}}</h3>
+          <a href="" :_id="v.id">挑战</a>
         </li>
       </ul>
     </div>
@@ -92,19 +77,19 @@
         props: [],
         data(){
             return {
+              win_treasure: [],
               currentDay: 1,
               currentMonth: 1,
               currentYear: 1970,
               currentWeek: 1,
               days: [],
-              arrDate: [10,15]
+              arrDate: [],
+              nowdate:"",
+              nowpointer:0
             }
         },
-      created: function() {  //在vue初始化时调用
-        this.initData(null);
-      },
       methods: {
-        initData: function(cur) {
+        initData(cur) {
           var leftcount=0; //存放剩余数量
           var date;
           if (cur) {
@@ -112,7 +97,7 @@
           } else {
             var now=new Date();
             var d = new Date(this.formatDate(now.getFullYear() , now.getMonth() , 1));
-            d.setDate(42);
+            d.setDate(35);
             date = new Date(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
           }
           this.currentDay = date.getDate();
@@ -132,14 +117,15 @@
             d.setDate(d.getDate() - i);
             var dayobject={}; //用一个对象包装Date对象  以便为以后预定功能添加属性
             dayobject.day=d;
+            dayobject = {day: d,month:d.getMonth()+1,date:d.getDate()}
             this.days.push(dayobject);//将日期放入data 中的days数组 供页面渲染使用
           }
           //其他周
-          for (var i = 1; i <= 42 - this.currentWeek; i++) {
+          for (var i = 1; i <= 35 - this.currentWeek; i++) {
             var d = new Date(str);
             d.setDate(d.getDate() + i);
             var dayobject={};
-            dayobject = {day: d,isSign: this.isVerDate(d.getDate())}
+            dayobject = {day: d,isSign: this.isVerDate(d.getDate()),month:d.getMonth()+1,date:d.getDate()}
             this.days.push(dayobject);
           }
         },
@@ -150,11 +136,13 @@
           var d = new Date(this.formatDate(year , month , 1));
           d.setDate(0);
           this.initData(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
+          this.getsign(d.getFullYear(),d.getMonth() + 1);
         },
         pickNext: function(year, month) {
           var d = new Date(this.formatDate(year , month , 1));
-          d.setDate(42);
+          d.setDate(35);
           this.initData(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
+          this.getsign(d.getFullYear(),d.getMonth() + 1);
         },
         pickYear: function(year, month) {
           alert(year + "," + month);
@@ -169,14 +157,53 @@
           if(d<10) d = "0" + d;
           return y+"-"+m+"-"+d
         },
+        getnowtime(){
+          var date = new Date();
+          var m=date.getMonth() + 1;
+          var d=date.getDate();
+          if(m<10){
+              m="0"+m;
+          }
+          if(d<10){
+              d="0"+d;
+          }
+          this.nowdate=date.getFullYear()+"年"+m+"月"+date.getDate()+"日";
+        },
+        async getpage(){
+          let that = this;
+          let res = await that.$get('/rs/first_page',{page:1,size:3,order:'create_time desc'})
+          if(res.code == 200){
+            that.p_number = res.present_count
+            for(let i = 0;i<res.win_treasure.length;i++){
+              res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
+            }
+            if(res.win_treasure.length>=3){
+              that.win_treasure = res.win_treasure.slice(0,3)
+            }else{
+              that.win_treasure = res.win_treasure
+            }
+          }
+        },
+        async getsign(year,month){
+            console.log(this.$store.state.sid)
+          let aa = await this.$post('/rs/sign_records',{debug:1,history_day: year + "-" + month + "-" + "01"});
+          if(aa.code==200){
 
-
+          }
+        }
       },
-        components: {},
-        computed:{
+      mounted(){
+        this.initData(null);
+        this.getpage();
+        this.getnowtime();
+        this.getsign();
+      },
+      components: {},
+      computed:{
           imgurl(){
            return this.$store.state.userinfo.avatarUrl
-        }
+          }
+
       }
 
     }
@@ -190,6 +217,7 @@
       border-top:1px solid #e2e2e2;
       border-bottom:1px solid #e2e2e2;
       display:flex;
+      box-sizing:border-box;
       justify-content: flex-start;
       align-items: center;
       font-size:14px;
@@ -207,9 +235,6 @@
       }
       .sign-success>span{
         color:#df5c3e;
-      }
-      .p-margin{
-        margin-top:12px;
       }
       .p-margin>span{
         color:#df5c3e;
@@ -231,12 +256,10 @@
       padding: 12px 0 12px 13px;
       border-top: 1px solid #e2e2e2;
       font-size:15px;
+      box-sizing:border-box;
       border-bottom: 1px solid #e2e2e2;
-      height: 40px;
-      line-height:40px;
     }
     .gift_list{
-
       width: 100%;
       box-sizing: border-box;
       padding:12px 26px/2;
@@ -295,9 +318,9 @@
       width: 100%;
     }
     .month ul {
-      margin: 0;
       padding: 0;
       display: flex;
+      margin:27px 59px 0;
       justify-content: space-between;
     }
 
@@ -306,12 +329,11 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-around;
+      text-align: center;
+      font-size:18px;
+      color: #333333;
+      font-style: italic;
     }
-
-    .year-month:hover {
-      background: rgba(150, 2, 12, 0.1);
-    }
-
     .choose-year {
       padding-left: 20px;
       padding-right: 20px;
@@ -321,22 +343,14 @@
       text-align: center;
       font-size: 18px;
     }
-
-    .arrow {
-      padding: 15px;
-    }
-
-    .arrow:hover {
-      background: rgba(100, 2, 12, 0.1);
-    }
-
     .month ul li {
       color: #333;
       font-size: 14px;
-      text-transform: uppercase;
       letter-spacing: 3px;
     }
-
+    .arrow{
+      padding-top:3px;
+    }
     .weekdays {
       margin: 0;
       padding: 10px 0;
@@ -349,8 +363,14 @@
 
     .weekdays li {
       display: inline-block;
-      width: 13.6%;
       text-align: center;
+      font-weight:bold;
+      font-size:12px;
+      padding:11px;
+      height: 14px;
+      box-sizing:border-box;
+      line-height:14px;
+      color: #333333;
     }
 
     .days {
@@ -365,28 +385,26 @@
     .days li {
       list-style-type: none;
       display: inline-block;
-      width: 14.2%;
-      height: 70px;
+      width:30px;
+      height:30px;
       text-align: center;
-      padding-bottom: 15px;
-      padding-top: 15px;
-      font-size: 1rem;
+      font-size:14px;
+      line-height:30px;
       color: #666;
+      margin:7.5px 7px;
     }
-
     .days li .active {
-      padding: 6px 10px;
-      border-radius: 50%;
-      background: #00B8EC;
+      width:30px;
+      height:30px;
+      display: inline-block;
+      border-radius:50%;
+      text-align:center;
+      background: #df5c3e;
       color: #fff;
     }
 
     .days li .other-month {
       padding: 5px;
-      color: gainsboro;
-    }
-
-    .days li:hover {
-      background: #e1e1e1;
+      color: transparent;
     }
 </style>

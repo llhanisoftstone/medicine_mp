@@ -15,7 +15,7 @@ const store = new Vuex.Store({
     isauth: false,
     sid: '',
     user: {},
-    sliver: {}
+    sliver: {},
   },
   mutations: {
     increment: (state) => {
