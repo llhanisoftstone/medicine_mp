@@ -22,7 +22,7 @@
             <h4>冲顶排位赛一战即发</h4>
           </div>
         </a>
-        <a href="">
+        <a href="/pages/friendpk/main">
           <div class="item_2">
             <h2>好友PK</h2>
             <h4>看看好友的排名吧</h4>
@@ -32,49 +32,13 @@
     </div>
     <div class="gift_title"><span></span><i></i><image src="/static/img/liwu.png"></image>礼物店<i></i><span></span></div>
     <ul class="gift_list">
-      <li>
+      <li v-for="(v,i) in win_treasure">
         <div>
-          <image src="/static/img/liwu.png"></image>
+          <image :src="v.picpath"></image>
         </div>
-        <h3>藤罗5元代金券</h3>
-        <a href="">挑战</a>
+        <h3>{{v.name}}</h3>
+        <a href="" :_id="v.id">挑战</a>
       </li>
-      <li>
-        <div>
-          <image src="/static/img/liwu.png"></image>
-        </div>
-        <h3>藤罗5元代金券</h3>
-        <a href="">挑战</a>
-      </li>
-      <li>
-        <div>
-          <image src="/static/img/liwu.png"></image>
-        </div>
-        <h3>藤罗5元代金券</h3>
-        <a href="">挑战</a>
-      </li>
-      <li>
-        <div>
-          <image src="/static/img/liwu.png"></image>
-        </div>
-        <h3>藤罗5元代金券</h3>
-        <a href="">挑战</a>
-      </li>
-      <li>
-        <div>
-          <image src="/static/img/liwu.png"></image>
-        </div>
-        <h3>藤罗5元代金券</h3>
-        <a href="">挑战</a>
-      </li>
-      <li>
-        <div>
-          <image src="/static/img/liwu.png"></image>
-        </div>
-        <h3>藤罗5元代金券</h3>
-        <a href="">挑战</a>
-      </li>
-
     </ul>
   </div>
 </template>
@@ -87,7 +51,8 @@
 
   data () {
     return {
-      p_number:211
+      p_number:0,
+      win_treasure: []
     }
   },
 
@@ -96,56 +61,61 @@
   },
 
   methods: {
-      enter(){
-          console.log(1111111)
-          this.$socket.emit('event','123')
-      },
+//      enters(){
+//          console.log(1111111)
+//          this.$socket.emit('event','123')
+//      },
 
     getLogin () {
       let that = this
       // 调用登录接口
       wx.login({
         success: (code) => {  //code
+          that.$store.commit('getcode', code.code)
           wx.getSetting({
             success: function(res){
               if (res.authSetting['scope.userInfo']) {
                 // 已经授权，可以直接调用 getUserInfo 获取头像昵称  weapp/login
                 that.getUserinfo(code)
-              }else{
-                wx.authorize({
-                  scope: 'scope.userInfo',
-                  success() {
-                    that.getUserinfo(code)
-                  },
-                  fail(err){
-                      console.log(err)
-                  }
-                })
               }
             }
           })
         }
       })
     },
-    getUserinfo(code){
+    getUserinfo(){
+      let that = this
       wx.getUserInfo({   //
         success: function(res) {
           console.log(res)
           that.$store.commit('getuser', res.userInfo)
           that.$store.commit('getauth')
-          that.$get('/weapp/login',{code:code.code,encryptedData:res.encryptedData,iv:res.iv}).then(res=>{
-            console.log(res)
+          that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:res.encryptedData,iv:res.iv}).then(res=>{
+              if(res.code == 200){
+                that.$store.commit('getm_user', res)
+//                console.log(res)
+              }
           })
         }
       })
+    },
+    async getpage(){
+        let that = this
+        let res = await that.$get('/rs/first_page')
+        if(res.code == 200){
+            that.p_number = res.present_count
+          for(let i = 0;i<res.win_treasure.length;i++){
+            res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
+          }
+            that.win_treasure = res.win_treasure
+            console.log(res)
+        }
     }
   },
-
+  mounted(){
+    this.getpage()
+  },
   created () {
-    this.enter()
-    this.$options.sockets.event = (data) => {
-      console.log(data)
-    }
     // 调用应用实例的方法获取全局数据
     this.getLogin()
   }

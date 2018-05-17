@@ -7,22 +7,15 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    count: 0,
     url: 'https://policy.lifeonway.com',
-    ws_server: 'https://123.57.227.3:3011',
+    ws_server: 'https://policy.lifeonway.com',
     userinfo: {},
+    code: '',
     isauth: false,
-    sid: ''
+    sid: '',
+    user: {}
   },
   mutations: {
-    increment: (state) => {
-      const obj = state
-      obj.count += 1
-    },
-    decrement: (state) => {
-      const obj = state
-      obj.count -= 1
-    },
     getuser: (state, res) => {
       const obj = state
       obj.userinfo = res
@@ -34,6 +27,14 @@ const store = new Vuex.Store({
     getsid: (state, sids) => {
       const obj = state
       obj.sid = sids
+    },
+    getcode: (state, code) => {
+      const obj = state
+      obj.code = code
+    },
+    getm_user: (state, user) => {
+      const obj = state
+      obj.user = user
     }
   }
 })

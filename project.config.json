@@ -1,7 +1,7 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": false,
 		"postcss": true,
 		"minified": true,
@@ -11,6 +11,7 @@
 	"compileType": "miniprogram",
 	"appid": "wx3602e7abe716d1bd",
 	"projectname": "policy_answer",
+	"libVersion": "1.9.9",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -31,6 +32,12 @@
 		"miniprogram": {
 			"current": 0,
 			"list": [
+                {
+                  "id": 0,
+                  "name": "排行榜",
+                  "pathName": "pages/friendpk/main",
+                  "query": ""
+                },
 				{
 					"id": -1,
 					"name": "政策百科",

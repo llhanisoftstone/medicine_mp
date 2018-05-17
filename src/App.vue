@@ -7,6 +7,13 @@ export default {
     wx.setStorageSync('logs', logs)
 
     console.log('app created and cache logs by setStorageSync')
+    this.$socket.on('new message', d => {
+      console.log(d)
+    })
+
+    this.$socket.emit('new message', {
+      title: 'this is a news'
+    })
   }
 }
 </script>
