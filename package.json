@@ -16,7 +16,8 @@
     "mpvue": "^1.0.10",
     "socket.io": "^2.1.0",
     "vue-socket.io": "^2.1.1-b",
-    "vuex": "^2.3.1"
+    "vuex": "^2.3.1",
+    "weapp.socket.io": "0.0.4"
   },
   "devDependencies": {
     "mpvue-loader": "^1.0.13",

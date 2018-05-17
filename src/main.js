@@ -13,10 +13,9 @@ Vue.prototype.$post = post
 Vue.prototype.$get = get
 Vue.prototype.$put = put
 Vue.prototype.$uploadImg = uploadImg
+Vue.prototype.$socket = io(Vue.prototype.$store.state.ws_server)
 
 App.mpType = 'app'
-
-Vue.use(VueSocketio, Vue.prototype.$store.state.ws_server)
 
 const app = new Vue(App)
 app.$mount()
@@ -56,17 +55,4 @@ export default {
         }]
     }
   }
-  // sockets: {
-  //   connect: function (res) {
-  //     console.log(res)
-  //   },
-  //   customEmit: function (val) {
-  //     console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
-  //   }
-  // }
-  // created () {
-  //   wx.connectSocket({
-  //     url: 'wss://example.qq.com'
-  //   })
-  // }
 }
