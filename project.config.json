@@ -30,13 +30,18 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 0,
 			"list": [
+                {
+                  "id": 0,
+                  "name": "排行榜",
+                  "pathName": "pages/friendpk/main",
+                  "query": ""
+                },
 				{
-					"id": 0,
-					"name": "排行榜",
-					"pathName": "pages/friendpk/main",
-					"query": ""
+					"id": -1,
+					"name": "政策百科",
+					"pathName": "pages/policy/main"
 				}
 			]
 		}
