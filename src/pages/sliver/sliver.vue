@@ -2,13 +2,13 @@
   <div class="container">
     <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
       <div slot="userRight">
-        <a href="" class="wallet">1000</a>
+        <a href="" class="wallet">{{points}}</a>
       </div>
     </userinfo>
     <ul class="tablist">
-      <li class="on" stype="1">收益</li>
-      <li stype="2">支出</li>
-      <li class="left_line"></li>
+      <li v-on:click="leftclick" stype="1" v-bind:class="{ on: isActive }">收益</li>
+      <li stype="2" v-on:click="rightclick" v-bind:class="{ on: isclcik}">支出</li>
+      <li class="left_line" v-bind:class="{ right: isSelect }"></li>
     </ul>
     <div class="sliverlist">
       <ul>
@@ -26,15 +26,31 @@
     data () {
       return {
         isnewuser: true,
+        isActive:true,
+        isclcik:false,
+        isSelect:false,
+        points:0,
+      }
+    },
+    methods: {
+      leftclick(){
+        this.isActive=true;
+        this.isclcik=false;
+        this.isSelect=false;
+      },
+      rightclick(){
+        this.isActive=false;
+        this.isclcik=true;
+        this.isSelect=true;
+      }
+    },
+    computed:{
+      points(){
+        return this.$store.state.sliver
       }
     },
     components: {
       userinfo
-    },
-    methods: {
-//      async getuser(){
-//        let aa = await this.$get('/rs/member',{});
-//      }
     },
     created (){
       // 调用应用实例的方法获取全局数据

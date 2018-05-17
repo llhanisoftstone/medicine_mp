@@ -9,7 +9,7 @@
       <ul>
         <li class="money"><a href="/pages/sliver/main"><div class="title">银两</div><p class="messagealert">储备仓</p><span class="listimg moneyimg"></span></a></li>
         <li class="store"><div class="title">兑换店</div><p class="messagealert">精美礼品等你拿</p><span class="listimg storeimg"></span></li>
-        <li class="usermoot"><div class="title">道具</div><p class="messagealert">优惠道具等你来购</p><span class="listimg userimg"></span></li>
+        <li class="usermoot"><a href="/pages/itemshop/main"><div class="title">道具</div><p class="messagealert">优惠道具等你来购</p><span class="listimg userimg"></span></a></li>
         <li class="groupcard" v-if="seen"><div class="title">优惠券</div><p class="messagealert">优惠券发放</p><span class="listimg cardimg"></span></li>
         <li class="setting"><a href="/pages/setting/main"><div class="title">设置</div><p class="messagealert">设置</p><span class="listimg settingimg"></span></a></li>
       </ul>
@@ -35,6 +35,7 @@
       async getuserperson(){
         let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
         if(aa.code==200){
+          this.$store.commit('get_sliver', res.rows[0].points)
             this.points=aa.rows[0].points;
             if(aa.rows[0].rank<"20"){
                 this.seen=false;
