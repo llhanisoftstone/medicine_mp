@@ -16,7 +16,7 @@
       <div class="handbook-info">
         <div class="common-head headbook-head">
           <span class="handbook-icon">办理手册</span>
-          <a class="ui-link"><span>更多></span></a>
+          <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl'"><span>更多></span></a>
           <ul class="headbook-list">
             <li v-for="(item,i) in headbook_list" :key="item.id">
               <a :href="'/pages/policydetails/main?pid='+item.id" class="item-details">
@@ -49,7 +49,7 @@
       <div class="policy-list">
         <div class="common-head policy-head">
           <span class="policy-icon">政策百科</span>
-          <a class="ui-link"><span>更多></span></a>
+          <a :href="'/pages/policylist/main?pid=zcbk'" class="ui-link"><span>更多></span></a>
           <ul class="policy-list">
             <li v-for="(item1,i) in policy_list" :key="item1.id">
               <a :href="'/pages/policydetails/main?pid='+item1.id" class="item-details">
@@ -93,42 +93,34 @@
 
 
     methods: {
-      async gethotList() {
+      async getpolicyMain() {
         let that = this;
-        let res = await this.$get('/rs/infomation',{is_hot:1,order:'hot_time asc',page:1,size:5});
+        let res = await this.$get('/rs/info_policy');
         if (res.code == 200){
-          for (var i=0;i<res.rows.length; i++){
-              res.rows[i]._index = i+1;
+          if (res.hots.length > 0){
+            for (var i=0;i<res.hots.length; i++){
+              res.hots[i]._index = i+1;
+            }
+            that.hot_list = res.hots;
           }
-          that.hot_list = res.rows;
-        }
-      },
-      async getheadbookList() {
-        let that = this;
-        let res = await this.$get('/rs/infomation',{unique_code:'zcbl',page:1,size:2});
-        if (res.code == 200){
-          for (var i=0; i<res.rows.length; i++){
-              res.rows[i].pic_abbr = 'https://policy.lifeonway.com'+res.rows[i].pic_abbr;
+          if (res.zcbl.length > 0){
+            for (var i=0; i<res.zcbl.length; i++){
+              res.zcbl[i].pic_abbr = 'https://policy.lifeonway.com'+res.zcbl[i].pic_abbr;
+            }
+            that.headbook_list = res.zcbl;
           }
-          that.headbook_list = res.rows;
-        }
-      },
-      async getpolicyList(){
-        let that = this;
-        let res = await this.$get('/rs/infomation',{unique_code:'zcbk',page:1,size:2});
-        if (res.code == 200){
-          for (var i=0; i<res.rows.length; i++){
-            res.rows[i].pic_abbr = 'https://policy.lifeonway.com'+res.rows[i].pic_abbr;
+          if (res.zcbk.length > 0){
+            for (var i=0; i<res.zcbk.length; i++){
+              res.zcbk[i].pic_abbr = 'https://policy.lifeonway.com'+res.zcbk[i].pic_abbr;
+            }
+            that.policy_list = res.zcbk;
           }
-          that.policy_list = res.rows;
         }
       }
     },
 
     created () {
-      this.gethotList()//热点数据列表
-      this.getheadbookList() //政策办理数据列表
-      this.getpolicyList() //政策百科数据列表
+      this.getpolicyMain()//获取政策百科主页数据
     }
   }
 </script>
