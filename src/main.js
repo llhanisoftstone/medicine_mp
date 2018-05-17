@@ -55,7 +55,7 @@ export default {
           selectedIconPath: '/static/img/my_2.png'
         }]
     }
-  },
+  }
   // sockets: {
   //   connect: function (res) {
   //     console.log(res)

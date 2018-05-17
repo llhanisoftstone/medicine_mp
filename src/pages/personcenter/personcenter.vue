@@ -2,7 +2,7 @@
   <div class="container">
     <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
       <div slot="userRight">
-        <a href="" class="wallet">1000</a>
+        <a href="" class="wallet">{{ponits}}</a>
       </div>
     </userinfo>
     <div class="middle">
@@ -24,20 +24,31 @@
     data () {
       return {
         isnewuser: true,
-        seen:false
+        seen:false,
+        ponits:0
       }
     },
     components: {
         userinfo
     },
     methods: {
-      async getuser(){
-        let aa = await this.$get('/rs/member',{});
+      async getuserperson(){
+        let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
+        if(aa.code==200){
+            this.points=aa.rows[0].points;
+            if(aa.rows[0].rank<"20"){
+                this.seen=false;
+            }else{
+                this.seen=true;
+            }
+        }
       }
+    },
+    mounted(){
+      this.getuserperson()
     },
     created (){
       // 调用应用实例的方法获取全局数据
-        this.getuser()
 
       }
     }
