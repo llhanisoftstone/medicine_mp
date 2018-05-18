@@ -1,18 +1,29 @@
 <template>
     <div>
       <div class="data-list">
-        <div class="upper-part">
-          <div class="shade"></div>
-          <image src="/static/img/moren.jpg" class="background-img"></image>
-          <div class="ticket-info">
-            <div class="ticket-name">{{ticket_name}}</div>
-            <div class="ticket-count">{{ticket_amount}}张</div>
+        <div class="data-ii">
+          <div class="upper-part">
+            <div class="shade"></div>
+            <image src="/static/img/moren.jpg" class="background-img"></image>
+            <div class="ticket-info">
+              <div class="ticket-name">{{ticket_name}}</div>
+              <div class="ticket-count">{{ticket_amount}}张</div>
+            </div>
+          </div>
+          <div class="lower-part">
+            <span>领取者</span>
+            <span>领取时间</span>
+            <span class="bor-rig">核销时间</span>
           </div>
         </div>
-        <div class="lower-part">
-          <span>领取者</span>
-          <span>领取时间</span>
-          <span class="bor-rig">核销时间</span>
+        <div class="send-list">
+          <ul>
+            <li v-for="(item,i) in sendlist" :key="item.id">
+              <div>{{item.nickname}}</div>
+              <div>{{item.time1}}</div>
+              <div>{{item.time2}}</div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -53,7 +64,7 @@
     @import '../../static/less/common.less';
     .data-list{
       margin: 0 26px/2;
-      li.list-li{
+      .data-ii{
         position: relative;
         margin-top: 20px/2;
         height: 342px/2;
@@ -79,43 +90,16 @@
             position: absolute;
             width: 698px/2;
             text-align: center;
-            top: 56px/2;
+            top: 94px/2;
             .ticket-name{
               font-size: 40px/2;
               color: #ffffff;
             }
             .ticket-count{
-              margin-top: 20px/2;
+              margin-top: 25px/2;
               font-size: 26px/2;
               color: #ffffff;
             }
-          }
-          .count-list{
-            margin-top: 10px/2;
-            box-sizing: border-box;
-            height: 80px/2;
-            padding: 6px/2 84px/2;
-            ul li{
-              width: 25%;
-              float: left;
-              text-align: center;
-              font-size: 0.1rem;
-              .count {
-                height: 50px/2;
-                line-height: 50px/2;
-                border-right: 2px solid #ffffff;
-                color: #ffffff;
-                font-size: 28px/2;
-                margin-bottom: 6px/2;
-              }
-              .txt{
-                font-size: 19px/2;
-                color: #ffffff;
-              }
-            }
-          }
-          .count-list ul li:last-child .count{
-            border: 0;
           }
         }
         .lower-part{
@@ -141,4 +125,19 @@
         }
       }
     }
+  .send-list ul{
+    li{
+      width: 100%;
+      height: 80px/2;
+      border-bottom: 1px solid #e2e2e2;
+      display: flex;
+      div{
+        width: 33%;
+        text-align: center;
+        color: #666666;
+        font-size: 28px/2;
+        line-height: 80px/2;
+      }
+    }
+  }
 </style>
