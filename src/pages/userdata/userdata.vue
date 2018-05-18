@@ -92,6 +92,9 @@
             this.pickerText=this.pickerValueArray[e[0]]
           },
           submitData(){
+            if(!this.isTrue){
+              return;
+            }
             this.isTrue=false;
             this.message='';
             if(this.name==''||this.name.length>10){
@@ -134,6 +137,9 @@
             })
           },
           submitData1(){
+            if(!this.isTrue){
+              return;
+            }
             this.isTrue=false;
             this.message='';
             if(this.shop_name==''||this.shop_name.length>15){
@@ -191,6 +197,7 @@
           },
           getUserinfo(){
             var that=this;
+            this.isTrue=true;
             this.$get('/rs/member/'+this.$store.state.user.userid,{}).then(res=>{
               if(res.code==200){
                 var user=res.rows[0];

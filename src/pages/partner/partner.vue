@@ -37,6 +37,9 @@
     },
     methods: {
       submitData(){
+        if(!this.isTrue){
+          return;
+        }
         this.isTrue=false;
         this.message='';
         if(this.name==''||this.name.length>10){
@@ -83,6 +86,7 @@
       toast
     },
     mounted(){
+      this.isTrue=true;
     },
   }
 </script>
