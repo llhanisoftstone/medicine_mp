@@ -44,7 +44,7 @@
         _code:'',
         _search:'',
         page:1,
-        size:6
+        size:1
       }
     },
 
@@ -61,9 +61,11 @@
       async getpolicyList() {
         let that = this;
         let data = {
+          page:this.page,
+          size:this.size,
           unique_code:this._code
         };
-        if (this._search != ''){
+        if (this._search){
             data.search = 1;
             data.searchData = this._search
         }
@@ -81,13 +83,17 @@
         this._search = e.target.value;
         this.getpolicyList();
       },
-      async refresh(){
-
-        getpolicyList();
+      refresh(){
+        this.page = 1;
+        this.getpolicyList();
+//        setTimeout(function(){
+          wx.stopPullDownRefresh()
+//        },500)
       },
       loadmore () {
-        getpolicyList();
-      },
+        this.page = this.page + 1;
+        this.getpolicyList();
+      }
     },
 
     onLoad: function (option) {
