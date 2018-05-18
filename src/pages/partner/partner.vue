@@ -6,7 +6,6 @@
         <div class="title">单位名称</div>
         <input type="text" v-model='name' maxlength="20"  placeholder="请输入商家名称"/>
       </div>
-
       <div class="item">
         <div class="title">联系人</div>
         <input type="text" v-model='people' maxlength="20" placeholder="请输入联系人" />

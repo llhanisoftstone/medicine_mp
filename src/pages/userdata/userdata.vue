@@ -37,7 +37,12 @@
           <div class="title">性别</div>
           <div class="mpvue-picer">
             <input @click="showPicker" :value="pickerText" disabled="disabled" type="text" placeholder="请选择性别"/>
-            <mpvue-picker  ref="mpvuePicker" :pickerValueArray="pickerValueArray" :pickerValueDefault='pickerValueDefault' @onConfirm="onConfirm"></mpvue-picker>
+            <mpvue-picker
+              ref="mpvuePicker"
+              :pickerValueArray="pickerValueArray"
+              :pickerValueDefault='pickerValueDefault'
+              @onConfirm="onConfirm">
+            </mpvue-picker>
           </div>
         </div>
         <div class="item">
