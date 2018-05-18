@@ -2,7 +2,7 @@
   <div class="container">
     <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
       <div slot="userRight">
-        <a href="" class="wallet">{{ponits}}</a>
+        <a href="" class="wallet">{{points}}</a>
       </div>
     </userinfo>
     <div class="middle">
@@ -25,7 +25,7 @@
       return {
         isnewuser: true,
         seen:false,
-        ponits:0
+        points:0
       }
     },
     components: {
