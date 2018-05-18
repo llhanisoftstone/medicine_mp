@@ -34,8 +34,8 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "排行榜",
-					"pathName": "pages/friendpk/main",
+					"name": "test",
+					"pathName": "pages/test/main",
 					"query": ""
 				},
 				{
@@ -45,16 +45,16 @@
 					"query": ""
 				},
 				{
-					"id": 2,
-					"name": "duihuan",
-					"pathName": "pages/giftshoplist/main",
-					"query": ""
+					"id": -1,
+					"name": "全网挑战",
+					"pathName": "pages/loadpk/main",
+					"query": "id=4"
 				},
 				{
-					"id": 3,
-					"name": "duihuan",
-					"pathName": "pages/giftshopdetail/main",
-					"query": ""
+					"id": -1,
+					"name": "对战",
+					"pathName": "pages/pkanswer/main",
+					"query": "id=4"
 				}
 			]
 		}

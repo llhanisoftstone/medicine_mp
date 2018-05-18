@@ -29,7 +29,6 @@
         isActive:true,
         isclcik:false,
         isSelect:false,
-        points:0,
       }
     },
     methods: {

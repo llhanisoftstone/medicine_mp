@@ -1,12 +1,11 @@
 import Vue from 'vue'
-import App from './friendpk'
+import App from './partner'
 
 const app = new Vue(App)
 app.$mount()
-
 export default {
   // 这个字段走 app.json
   config: {
-    navigationBarTitleText: '排行榜',
+    navigationBarTitleText: '合作商'
   }
 }
