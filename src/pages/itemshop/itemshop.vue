@@ -30,11 +30,12 @@
           <div class="ispay" v-on:click="orderlist">确认支付</div>
         </div>
       </div>
+      <mptoast/>
     </div>
-
 </template>
 
 <script type="javascript">
+  import mptoast from '../../components/mptoast'
     export default {
         name: 'itemshop',
         props: [],
@@ -137,14 +138,14 @@
             let that = this;
             if(this.pay_type==2){
              if(this.amount*2000<=this.points){
-                  console.log("您的银两余额不足，请选择其它支付方式")
+               this.$mptoast("您的银两余额不足，请选择其它支付方式")
              }
             }
             let res = that.$post('/rs/order_build',{pay_type:this.pay_type,amount:this.amount,goods_id:this.goods_id});
             if(res.code == 200){
                 this.$callWXPAY(res.main_order_id);
             }else if(res.code==607){
-                console.log("银两余额不足");
+              this.$mptoast("银两余额不足");
             }
           },
         },

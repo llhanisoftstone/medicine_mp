@@ -1,10 +1,10 @@
 import store from '../../store/index'
 
-export function uploadImg (type, callback) {   // type:camera 相机 album 相册
+export function uploadImg (params, callback) {   // type:camera 相机 album 相册
   wx.chooseImage({
-    count: 9,
-    sizeType: ['compressed'],
-    sourceType: [type],
+    count: params.count,
+    sizeType: params.sizeType,
+    sourceType: params.sourceType,
     success: function (res) {
       for (let i = 0; i < res.tempFilePaths.length; i++) {
         updatafile(res.tempFilePaths[i])

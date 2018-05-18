@@ -7,7 +7,8 @@ export function put (url, body) {
       data: body,
       method: 'PUT',
       header: {
-        Authorization: `jwt ${store.state.sid}`
+        'content-type': 'application/json',
+        Authorization: `jwt ${store.state.user.sid}`
       },
       success (res) {
         resolve(res.data)  // 把返回的数据传出去
