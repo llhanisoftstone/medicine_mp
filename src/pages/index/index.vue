@@ -99,7 +99,8 @@
                 that.$socket.emit('data_chain', {
                   cmd: 'login',
                   u_id:res.userid,
-                  nickname:that.$store.state.userinfo.nickName
+                  nickname:that.$store.state.userinfo.nickName,
+                  picpath:that.$store.state.userinfo.avatarUrl
                 })
 //                console.log(res)
               }

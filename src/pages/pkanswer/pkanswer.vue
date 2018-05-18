@@ -9,9 +9,9 @@
         </div>
         <div class="user_box_item">
           <div>
-            <image></image>
+            <image :src="vsuser.picpath"></image>
           </div>
-          <p></p>
+          <p>{{vsuser.nickname}}</p>
         </div>
       </div>
       <div class="time_box">
@@ -24,11 +24,12 @@
           <fraction :number="mynumber" color="#ffc02a"></fraction>
         </div>
         <div>
-          <answer title="养老保险" answer="由百位明星共同演唱的奥运歌曲《北京欢迎你》的曲作者是谁？">
+          <answer :title="answer.category_name" :answer="answer.name">
             <ul slot="list" class="answer_box">
-              <li class="my n_correct"><span class="ismy"></span>答案1<span class="nomy"></span></li><!--自己错误-->
-              <li class="opponent n_correct"><span class="ismy"></span>答案2<span class="nomy"></span></li><!--对方错误-->
-              <li class="correct"><span class="ismy"></span>答案3<span class="nomy"></span></li><!--正确答案-->
+              <!--<li class="my n_correct"><span class="ismy"></span>答案1<span class="nomy"></span></li>&lt;!&ndash;自己错误&ndash;&gt;-->
+              <!--<li class="opponent n_correct"><span class="ismy"></span>答案2<span class="nomy"></span></li>&lt;!&ndash;对方错误&ndash;&gt;-->
+              <!--<li class="correct"><span class="ismy"></span>答案3<span class="nomy"></span></li>&lt;!&ndash;正确答案&ndash;&gt;-->
+              <li :class="{'my':ismy,'correct':res&&isshow,'n_correct':res&&isshow}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)"><span class="ismy"></span>{{v.answer}}<span class="nomy"></span></li>
             </ul>
           </answer>
         </div>
@@ -37,7 +38,10 @@
           <fraction :number="usernumber" color="#df5c3e"></fraction>
         </div>
       </div>
-      <p class="provide">本题由{{provide}}提供</p>
+      <p class="provide">本题由{{answer.organiz_name}}提供</p>
+      <div class="prop_box">
+        <prop :istimes="false" :answer="answernub" :times="timenub"></prop>
+      </div>
     </div>
 </template>
 
@@ -45,27 +49,68 @@
   import counddown from '../../components/countdown.vue'
   import fraction from '../../components/fraction.vue'
   import answer from '../../components/answer.vue'
+  import prop from '../../components/prop.vue'
     export default {
         name: 'pkanswer',
         data(){
             return {
-                nub:1,
-                mynumber:100,
-                usernumber:200,
-                times:10,
-                provide:'人社厅'
-
+                times:30,
+                answernub:0,
+                timenub:0,
+                ismy:false,
+                res:false,
+                isshow:false
             }
         },
-        methods: {},
+        methods: {
+          submit(index,right){
+              let reply=0
+              this.ismy=true
+              this.isshow=true
+              this.res=right
+            if(right){
+                  if(this.times>20){
+                    reply=100
+                  }else if(this.times>10){
+                    reply=60
+                  }else{
+                    reply=40
+                  }
+              }
+            this.$socket.emit('data_chain', {
+              cmd:'answer',
+              room_id:this.$store.state.room_id,
+              u_id:this.$store.state.user.userid,
+              reply:index,
+              score:10,   // 得分
+//              tool_id: '',   // 使用道具
+            })
+          }
+        },
         components: {
           counddown,
           fraction,
-          answer
+          answer,
+          prop
         },
         computed:{
           userinfo(){
             return this.$store.state.userinfo
+          },
+          vsuser(){
+              return this.$store.state.vsuser
+          },
+          answer(){
+              return this.$store.state.answer
+          },
+          mynumber(){
+              return this.$store.state.myscore
+          },
+          usernumber(){
+            return this.$store.state.vsscore
+          },
+          nub(){
+              return this.$store.state.step
           }
         }
 
@@ -79,6 +124,7 @@
       width: 100%;
       height: 100%;
       position: relative;
+      padding-bottom: 110px/2;
     }
   .user_box{
     width: 100%;
@@ -148,7 +194,7 @@
       height: 120px/2;
     }
   h3{
-    margin-top:130px/2;
+    margin-top:100px/2;
     width: 100%;
     height: 40px/2;
     color: #333;
@@ -229,4 +275,12 @@
       align-items: center;
       justify-content: center;
     }
+  .prop_box{
+    position: fixed;
+    bottom:0;
+    left:0;
+    width: 100%;
+    height: 110px/2;
+    z-index: 3;
+  }
 </style>

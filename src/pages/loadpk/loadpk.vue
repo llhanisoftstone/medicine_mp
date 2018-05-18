@@ -8,11 +8,11 @@
         <p class="myname">{{userinfo.nickName}}</p>
         <!--  load  or  vs -->
         <div class="load" :class="{'vs':vs}">
-          <image src="/static/img/load.png" v-if="!vs"></image>
+          <image src="/static/img/02.gif" v-if="!vs"></image>
           <image src="/static/img/vs.png" v-if="vs"></image>
         </div>
         <div class="vsuser">
-          <image :src="vsuser.imgurl"></image>
+          <image :src="vsuser.picpath"></image>
         </div>
         <p class="username">{{vsuser.nickName}}</p>
       </div>
@@ -24,11 +24,7 @@
         name: 'loadpk',
         data(){
             return {
-                vs:false,
-                vsuser: {
-                  imgurl:'/static/img/user.png',
-                  nickName:''
-                }
+                vs:false
             }
         },
         methods: {},
@@ -36,14 +32,51 @@
         computed:{
             userinfo(){
                 return this.$store.state.userinfo
+            },
+            vsuser(){
+                return this.$store.state.vsuser
             }
         },
         mounted(){
           this.$socket.on('data_chain', d=>{
               console.log(d)
+            if(d.cmd == 'answer'){
+              this.vs=true
+              if(d.users){
+                for(let i=0;i<d.users.length;i++){
+                  if(d.users[i].id != this.$store.state.user.userid){
+                    this.$store.commit('get_vsuser',d.users[i])
+                  }
+                }
+              }
+              if(d.content_type == 1){
+                  if(d.step>1){
+                      let that =this
+                      setTimeout(function(){
+                        that.$store.commit('get_answer',d.details[0])
+                        that.$store.commit('get_step',d.step)
+                      },1000)
+                  }else{
+                    this.$store.commit('get_answer',d.details[0])
+                    this.$store.commit('get_step',d.step)
+                  }
+              }
+              this.$store.commit('get_room',d.room_id)
+
+              setTimeout(function(){
+                  if(d.step == 1){
+                    wx.navigateTo({
+                      url:"/pages/pkanswer/main"
+                    })
+                  }
+              },1500)
+            }
           })
           this.$socket.emit('data_chain', {
-            title: 'load'
+            cmd:'fight',
+            u_id:this.$store.state.user.userid,
+            game_cfg_id:1,
+            game_type:2
           })
         }
     }
