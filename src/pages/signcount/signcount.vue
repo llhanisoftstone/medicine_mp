@@ -202,12 +202,22 @@
               this.nowpointer=aa.total_points;
             var daystotal=this.days;
             var nowtime=new Date();
-            for (var j = 0; j < aa.days.length; j++) {
-              for(var i=0;i<daystotal.length;i++){
+            debugger
+            if(aa.days.length>0){
+              for (var j = 0; j < aa.days.length; j++) {
+                for(var i=0;i<daystotal.length;i++){
                   var timedate=new Date(daystotal[i].day);
-                if(this.formatDate(timedate.getFullYear(),timedate.getMonth() + 1,timedate.getDate())==aa.days[j]){
-                  daystotal[i].isSign=true;
-                }else if(this.formatDate(timedate.getFullYear(),timedate.getMonth() + 1,timedate.getDate())==this.formatDate(nowtime.getFullYear(),nowtime.getMonth() + 1,nowtime.getDate())){
+                  if(this.formatDate(timedate.getFullYear(),timedate.getMonth() + 1,timedate.getDate())==aa.days[j]){
+                    daystotal[i].isSign=true;
+                  }else  if(this.formatDate(timedate.getFullYear(),timedate.getMonth() + 1,timedate.getDate())==this.formatDate(nowtime.getFullYear(),nowtime.getMonth() + 1,nowtime.getDate())){
+                    daystotal[i].isSign=true;
+                  }
+                }
+              }
+            }else{
+              for(var i=0;i<daystotal.length;i++){
+                var timedate=new Date(daystotal[i].day);
+                if(this.formatDate(timedate.getFullYear(),timedate.getMonth() + 1,timedate.getDate())==this.formatDate(nowtime.getFullYear(),nowtime.getMonth() + 1,nowtime.getDate())){
                   daystotal[i].isSign=true;
                 }
               }
