@@ -1,10 +1,12 @@
 <template>
   <div class="container">
-    <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
-      <div slot="userRight">
-        <a href="" class="wallet">{{ponits}}</a>
-      </div>
-    </userinfo>
+    <a href="/pages/userdata/main">
+      <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
+        <div slot="userRight">
+          <a href="" class="wallet">{{ponits}}</a>
+        </div>
+      </userinfo>
+    </a>
     <div class="middle">
       <ul>
         <li class="money"><a href="/pages/sliver/main"><div class="title">银两</div><p class="messagealert">储备仓</p><span class="listimg moneyimg"></span></a></li>
