@@ -7,7 +7,7 @@ import {put} from './require/put.js'
 import {uploadImg} from './static/js/uploadImg.js'
 import {callWXPAY} from './static/js/CallWXPay.js'
 import io from '../static/js/weapp.socket.io.js'
-
+import mpvueToastRegistry from 'mptoast/registry'
 Vue.config.productionTip = false
 Vue.prototype.$store = store
 Vue.prototype.$post = post
@@ -18,7 +18,7 @@ Vue.prototype.$callWXPAY = callWXPAY
 Vue.prototype.$socket = io(Vue.prototype.$store.state.ws_server)
 
 App.mpType = 'app'
-
+mpvueToastRegistry(Vue)
 const app = new Vue(App)
 app.$mount()
 

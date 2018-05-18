@@ -7,8 +7,8 @@
               <div class="shade"></div>
               <image src="/static/img/moren.jpg" class="background-img"></image>
               <div class="ticket-info">
-                <div class="ticket-name">{{title}}</div>
-                <div class="ticket-count">{{total_sum}}张</div>
+                <div class="ticket-name">{{item.title}}</div>
+                <div class="ticket-count">{{item.total_amount}}张</div>
                 <div class="count-list">
                   <ul class="clear ">
                     <li>
@@ -16,31 +16,25 @@
                       <div class="txt">已领取</div>
                     </li>
                     <li>
-                      <a href="MyNotice.html" data-transition="slide">
-                        <div class="count likeTalentNum">0</div>
-                        <div class="txt">未领取</div>
-                      </a>
+                      <div class="count likeTalentNum">0</div>
+                      <div class="txt">未领取</div>
                     </li>
                     <li>
-                      <a href="MyEvaluation.html" data-transition="slide">
-                        <div class="count tryoutNum">0</div>
-                        <span class="txt">已核销</span>
-                      </a>
+                      <div class="count tryoutNum">0</div>
+                      <span class="txt">已核销</span>
                     </li>
                     <li style="border: none">
-                      <a href="integral.html" data-transition="slide">
-                        <div class="count noticeNum count_border0">0</div>
-                        <span class="txt">未核销</span>
-                      </a>
+                      <div class="count noticeNum count_border0">0</div>
+                      <span class="txt">未核销</span>
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
             <div class="lower-part">
-              <a><span>领取记录</span></a>
-              <a><span>核销</span></a>
-              <a><span class="bor-rig">已领取</span></a>
+              <a :href="'/pages/ticketdetails/main?pid='+item.id"><span>领取记录</span></a>
+              <a :href="'/pages/writeoff/main'"><span>核销</span></a>
+              <a :href="'/pages/ticketdetails/main?pid='+item.id"><span class="bor-rig">已领取</span></a>
             </div>
           </li>
         </ul>

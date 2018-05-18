@@ -6,5 +6,6 @@ app.$mount()
 export default {
   config: {
     'enablePullDownRefresh': true,
+    pages: ['pages/ticketdetails/main', 'pages/writeoff/main']
   }
 }
