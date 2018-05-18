@@ -27,7 +27,7 @@
       return {
         isnewuser: true,
         seen:false,
-        ponits:0
+        points:0
       }
     },
     components: {

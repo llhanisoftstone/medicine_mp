@@ -7,8 +7,7 @@
       </ul>
       <div class="itemlist" v-if="seen">
         <ul>
-          <li><img src="/static/img/daojushangdian_11.png" alt=""><div class="bottomlist"><span class="sliverimg"></span><span>2000</span></div></li>
-          <li><a href="/pages/paysuccess/main"><img src="/static/img/daojushangdian_13.png" alt=""><div class="bottomlist"><span class="sliverimg"></span><span>2000</span></div></a></li>
+          <li v-on:click="buyuse(v.id,v.picpath)" v-for="(v,i) in goods" :key="v.id"><img :src="v.picpath" alt=""><div class="bottomlist"><span class="sliverimg"></span><span>{{v.points}}</span></div></li>
         </ul>
       </div>
       <div class="myitemlist" v-if="isshow">
@@ -17,33 +16,49 @@
           <li><img src="/static/img/daojushangdian_13.png" alt=""><div class="bottomlist">x2</div></li>
         </ul>
       </div>
-      <div class="model" v-if="ishidden">
+      <div class="model" v-if="ishidden" v-on:click="isover">
         <div class="centermodel">
-            <div class="topimg"><img src="/static/img/daojushangdian_11.png" alt=""></div>
+            <div class="topimg"><img :src="picpath" alt=""></div>
             <ul>
-              <li><span class="icon icon_number"></span><input type="text" placeholder="购买个数" maxlength="7" onkeyup="value=value.replace(/[^\d]/g,'')"/><span class="number_right">银两</span></li>
-              <li><span class="icon icon_pointer"></span><span class="content_title">可用银两<span class="isusepointer"></span></span><span class="pay_type active" _pay_type="1"></span></li>
-              <li><span class="icon icon_money"></span><span class="content_title">微信支付</span><span class="pay_type" _pay_type="2"></span></li>
+              <li><span class="icon icon_number"></span>
+                <input id="price" type="text" v-model="amount"  v-on:change="checkPrice(val)" ref="type1" placeholder="购买个数" maxlength="7" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+                  <span class="number_right">{{name_type}}<span class="show">{{money}}</span></span>
+              </li>
+              <li><span class="icon icon_pointer"></span><span class="content_title">可用银两<span class="isusepointer"></span>{{points}}</span><span class="pay_type" v-on:click="slelecttype(2)" v-bind:class="{active:paytype2}" _pay_type="2"></span></li>
+              <li><span class="icon icon_money"></span><span class="content_title">微信支付</span><span class="pay_type" v-on:click="slelecttype(1)" v-bind:class="{active:paytype1}" _pay_type="1"></span></li>
             </ul>
-          <div class="ispay">确认支付</div>
+          <div class="ispay" v-on:click="orderlist">确认支付</div>
         </div>
       </div>
+      <mptoast/>
     </div>
-
 </template>
 
 <script type="javascript">
+  import mptoast from '../../components/mptoast'
     export default {
         name: 'itemshop',
         props: [],
         data(){
             return {
+              picpath:"",
               ishidden:false,
               seen:true,
+              paytype:true,
               isshow:false,
               isActive:true,
               isclcik:false,
               isSelect:false,
+              paytype1:false,
+              paytype2:true,
+              goods_id:null,
+              goods: [],
+              pay_type:2,
+              money:'',
+              amount:0,
+              points:'',
+              name_type:'银两',
+              value:''
             }
         },
         methods: {
@@ -60,9 +75,97 @@
             this.isActive=false;
             this.isclcik=true;
             this.isSelect=true;
-          }
+          },
+          buyuse(id,picpath){
+            this.goods_id=id;
+            this.ishidden=true;
+            this.picpath=picpath;
+
+          },
+          getpolicyInfo(isok){
+            if(isok==true){
+              this.seen=false;
+              this.isshow=true;
+              this.isActive=false;
+              this.isclcik=true;
+              this.isSelect=true;
+            }else{
+              this.seen=true;
+              this.isshow=false;
+              this.isActive=true;
+              this.isclcik=false;
+              this.isSelect=false;
+            }
+          },
+          slelecttype(type){
+            if(type==1){
+                this.paytype1=true;
+                this.paytype2=false;
+                this.pay_type=1;
+                this.name_type="RMB";
+            }else if(type==2){
+                this.paytype1=false;
+                this.paytype2=true;
+                this.pay_type=2;
+                this.name_type="银两";
+            }
+          },
+          async getgoods(){
+            let that = this;
+            let res = await that.$get('/rs/goods');
+            if(res.code == 200){
+              for(let i = 0;i<res.rows.length;i++){
+                res.rows[i].picpath = that.$store.state.url+ res.rows[i].picpath
+              }
+              that.goods = res.rows;
+            }
+          },
+          async getuserperson(){
+            let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
+            if(aa.code==200){
+              this.$store.commit('get_sliver',aa.rows[0].points);
+              this.points=aa.rows[0].points;
+            }
+          },
+          async getmybuy(){
+            let aa = await this.$get('/rs/order_list',{u_id:this.$store.state.user.userid});
+            if(aa.code==200){
+              this.$store.commit('get_sliver',aa.rows[0].points);
+              this.points=aa.rows[0].points;
+            }
+          },
+          orderlist(){
+            let that = this;
+            if(this.pay_type==2){
+             if(this.amount*2000<=this.points){
+               this.$mptoast("您的银两余额不足，请选择其它支付方式")
+             }
+            }
+            let res = that.$post('/rs/order_build',{pay_type:this.pay_type,amount:this.amount,goods_id:this.goods_id});
+            if(res.code == 200){
+                this.$callWXPAY(res.main_order_id);
+            }else if(res.code==607){
+              this.$mptoast("银两余额不足");
+            }
+          },
         },
-        components: {}
+      mounted(){
+        this.getgoods();
+        this.getuserperson();
+        this.getmybuy();
+      },
+      checkPrice(val) {
+          if(this.pay_type==1){
+            this.money = this.amount*20;
+          }else if(this.pay_type==2){
+            this.money = this.amount*2000;
+          }
+
+      },
+      components: {},
+      onLoad: function (option) {
+        this.getpolicyInfo(option.isok)//获取数据
+      }
 
     }
 </script>
