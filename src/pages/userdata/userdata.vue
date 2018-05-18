@@ -4,7 +4,7 @@
       <div v-if="rank ==20">
         <div class="item">
           <div class="title">商家名称</div>
-          <input type="text" confirm-type="next" v-model='shop_name'  placeholder="请输入商家名称"/>
+          <input type="text" confirm-type="next" maxlength="20" v-model='shop_name'  placeholder="请输入商家名称"/>
         </div>
         <div class="item">
           <div class="title">商家logo</div>
@@ -18,11 +18,11 @@
         </div>
         <div class="item">
           <div class="title">联系电话</div>
-          <input type="number" v-model='shop_phone' confirm-type="next" placeholder="请输入联系电话" />
+          <input type="number" v-model='shop_phone' maxlength="11" confirm-type="next" placeholder="请输入联系电话" />
         </div>
         <div class="item">
           <div class="title">联系地址</div>
-          <input type="text" placeholder="请输入联系地址" confirm-type="done" v-model='shop_address' />
+          <input type="text" placeholder="请输入联系地址" maxlength="100" confirm-type="done" v-model='shop_address' />
         </div>
         <div :class="{'btn':true,'dis':!isTrue}"  @click="submitData1">
           确认
@@ -31,7 +31,7 @@
       <div v-else>
         <div class="item">
           <div class="title">姓名</div>
-          <input type="number" v-model='name' confirm-type="next" placeholder="请输入姓名"/>
+          <input type="number" v-model='name' maxlength="20" confirm-type="next" placeholder="请输入姓名"/>
         </div>
         <div class="item">
           <div class="title">性别</div>
@@ -42,11 +42,11 @@
         </div>
         <div class="item">
           <div class="title">手机号</div>
-          <input type="number" v-model='phone' confirm-type="next" placeholder="手机号" />
+          <input type="number" v-model='phone' maxlength="11" confirm-type="next" placeholder="手机号" />
         </div>
         <div class="item">
           <div class="title">身份证</div>
-          <input type="text" placeholder="请输入身份证" confirm-type="done" v-model='cardNum' />
+          <input type="text" placeholder="请输入身份证" maxlength="18" confirm-type="done" v-model='cardNum' />
         </div>
         <div :class="{'btn':true,'dis':!isTrue}" @click="submitData">
           确认
