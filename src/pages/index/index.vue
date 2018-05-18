@@ -93,6 +93,14 @@
           that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:res.encryptedData,iv:res.iv}).then(res=>{
               if(res.code == 200){
                 that.$store.commit('getm_user', res)
+                that.$socket.on('data_chain', d=>{
+                  console.log(d)
+                })
+                that.$socket.emit('data_chain', {
+                  cmd: 'login',
+                  u_id:res.userid,
+                  nickname:that.$store.state.userinfo.nickName
+                })
 //                console.log(res)
               }
           })

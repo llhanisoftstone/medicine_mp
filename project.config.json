@@ -30,12 +30,12 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 3,
 			"list": [
 				{
 					"id": 0,
-					"name": "排行榜",
-					"pathName": "pages/friendpk/main",
+					"name": "test",
+					"pathName": "pages/test/main",
 					"query": ""
 				},
 				{
@@ -48,6 +48,12 @@
 					"id": -1,
 					"name": "全网挑战",
 					"pathName": "pages/loadpk/main",
+					"query": "id=4"
+				},
+				{
+					"id": -1,
+					"name": "对战",
+					"pathName": "pages/pkanswer/main",
 					"query": "id=4"
 				}
 			]
