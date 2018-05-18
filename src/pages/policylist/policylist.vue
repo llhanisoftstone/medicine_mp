@@ -41,13 +41,33 @@
     data () {
       return {
         policy_list:[],
+        _code:'',
+        _search:'',
+        page:1,
+        size:6
       }
     },
 
+    onPullDownRefresh () {
+      this.refresh()
+      // 下拉刷新
+    },
+    onReachBottom () {
+      this.loadmore()
+      // 上拉加载
+    },
+
     methods: {
-      async getpolicyList(code) {
+      async getpolicyList() {
         let that = this;
-        let res = await this.$get('/rs/infomation',{unique_code:code});
+        let data = {
+          unique_code:this._code
+        };
+        if (this._search != ''){
+            data.search = 1;
+            data.searchData = this._search
+        }
+        let res = await that.$get('/rs/infomation',data);
         if (res.code == 200){
           if (res.rows.length > 0){
             for (let i=0; i<res.rows.length; i++){
@@ -57,25 +77,22 @@
           }
         }
       },
-      async getSearchList(text) {
-        let that1 = this;
-        let rs = await this.$get('/rs/infomation',{unique_code:code,search:1,searchData:text});
-        if (rs.code == 200){
-          if (rs.rows.length > 0){
-            for (let i=0; i<rs.rows.length; i++){
-              res.rows[i].pic_abbr = 'https://policy.lifeonway.com'+rs.rows[i].pic_abbr;
-            }
-            that1.policy_list = rs.rows;
-          }
-        }
-      },
       confirm(e){
-        this.getSearchList(e.target.value);
-      }
+        this._search = e.target.value;
+        this.getpolicyList();
+      },
+      async refresh(){
+
+        getpolicyList();
+      },
+      loadmore () {
+        getpolicyList();
+      },
     },
 
     onLoad: function (option) {
-      this.getpolicyList(option.pid)//获取数据
+      this._code = option.pid;
+      this.getpolicyList()//获取数据
     }
   }
 </script>
