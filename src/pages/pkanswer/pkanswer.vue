@@ -26,9 +26,9 @@
         <div>
           <answer title="养老保险" answer="由百位明星共同演唱的奥运歌曲《北京欢迎你》的曲作者是谁？">
             <ul slot="list" class="answer_box">
-              <li class="my"><span></span>答案1<span></span></li>
-              <li class="opponent"><span></span>答案2<span></span></li>
-              <li class="correct"><span></span>答案3<span></span></li>
+              <li class="my n_correct"><span class="ismy"></span>答案1<span class="nomy"></span></li><!--自己错误-->
+              <li class="opponent n_correct"><span class="ismy"></span>答案2<span class="nomy"></span></li><!--对方错误-->
+              <li class="correct"><span class="ismy"></span>答案3<span class="nomy"></span></li><!--正确答案-->
             </ul>
           </answer>
         </div>
@@ -185,22 +185,39 @@
       height: auto;
       li{
         width: 524px/2;
+        padding: 0 24px/2;
+        box-sizing: border-box;
         height: 80px/2;
         margin-bottom:53px/2;
         border-radius: 50px;
         background: #d6d6d6;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         font-size: 30px/2;
         color: #fff;
+        span{
+          width: 16px/2;
+          height: 16px/2;
+          border-radius: 50%;
+          background: transparent;
+        }
       }
       li:nth-last-child(1){
         margin-bottom: 0;
       }
-      /*.my .ismy{*/
-
-      /*}*/
+      .my .ismy{
+        background: #fff;
+      }
+      .opponent .nomy{
+        background: #fff;
+      }
+      .correct{
+        background: #86d132;
+      }
+      .n_correct{
+        background: #df5c3e;
+      }
     }
 
     .provide{
