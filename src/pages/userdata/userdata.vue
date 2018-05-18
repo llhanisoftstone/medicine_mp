@@ -24,7 +24,7 @@
           <div class="title">联系地址</div>
           <input type="text" placeholder="请输入联系地址" confirm-type="done" v-model='shop_address' />
         </div>
-        <div class="btn" @click="submitData1">
+        <div :class="{'btn':true,'dis':!isTrue}"  @click="submitData1">
           确认
         </div>
       </div>
@@ -48,7 +48,7 @@
           <div class="title">身份证</div>
           <input type="text" placeholder="请输入身份证" confirm-type="done" v-model='cardNum' />
         </div>
-        <div class="btn" @click="submitData">
+        <div :class="{'btn':true,'dis':!isTrue}" @click="submitData">
           确认
         </div>
       </div>
@@ -73,7 +73,8 @@
               shop_phone:'',
               shop_address:'',
               visible: false,
-              message:''
+              message:'',
+              isTrue:true
             }
         },
         methods: {
@@ -86,6 +87,7 @@
             this.pickerText=this.pickerValueArray[e[0]]
           },
           submitData(){
+            this.isTrue=false;
             this.message='';
             if(this.name==''||this.name.length>10){
               this.message='姓名输入错误';
@@ -100,6 +102,7 @@
             }
             if(this.message!=''){
               this.visible = !this.visible;
+              this.isTrue=true;
               return;
             }
             var data={
@@ -113,18 +116,20 @@
               if(res.code == 200){
                 this.message='保存成功';
                 this.visible = !this.visible;
-                var time=setTimeout(() => {
-                  wx.switchTab({
-                    url:"/pages/personcenter/main"
-                  })
-                },1000)
+                // var time=setTimeout(() => {
+                //   wx.switchTab({
+                //     url:"/pages/personcenter/main"
+                //   })
+                // },1000)
               }else{
                 this.message='保存失败';
                 this.visible = !this.visible;
+                this.isTrue=true;
               }
             })
           },
           submitData1(){
+            this.isTrue=false;
             this.message='';
             if(this.shop_name==''||this.shop_name.length>15){
               this.message='姓名输入错误';
@@ -141,6 +146,7 @@
             }
             if(this.message!=''){
               this.visible = !this.visible;
+              this.isTrue=true;
               return;
             }
             var data={
@@ -154,14 +160,15 @@
               if(res.code == 200){
                 this.message='保存成功';
                 this.visible = !this.visible;
-                var time=setTimeout(() => {
-                    wx.switchTab({
-                      url:"/pages/personcenter/main"
-                    })
-                },1000)
+                // var time=setTimeout(() => {
+                //     wx.switchTab({
+                //       url:"/pages/personcenter/main"
+                //     })
+                // },1000)
               }else{
                 this.message='保存失败';
                 this.visible = !this.visible;
+                this.isTrue=true;
               }
             })
           },
@@ -261,5 +268,8 @@
       border-radius: 20px;
       background: #df5c3e;
       text-align: center;
+    }
+    .dis{
+      background: #ccc;
     }
 </style>

@@ -4,18 +4,18 @@
     <div>
       <div class="item">
         <div class="title">单位名称</div>
-        <input type="number" v-model='name'  placeholder="请输入商家名称"/>
+        <input type="text" v-model='name'  placeholder="请输入商家名称"/>
       </div>
 
       <div class="item">
         <div class="title">联系人</div>
-        <input type="text" v-model='people' placeholder="请输入联系电话" />
+        <input type="text" v-model='people' placeholder="请输入联系人" />
       </div>
       <div class="item">
         <div class="title">联系号码</div>
-        <input type="text" placeholder="请输入联系地址" v-model='phone' />
+        <input type="number" placeholder="请输入联系号码" v-model='phone' />
       </div>
-      <div class="btn" @click="submitData">
+      <div :class="{'btn':true,'dis':!isTrue}" @click="submitData">
         确认
       </div>
     </div>
@@ -32,11 +32,13 @@
         phone:'',
         people:'',
         visible: false,
-        message:''
+        message:'',
+        isTrue:true
       }
     },
     methods: {
       submitData(){
+        this.isTrue=false;
         this.message='';
         if(this.name==''||this.name.length>10){
           this.message='单位名称输入错误';
@@ -50,20 +52,29 @@
         }
         if(this.message!=''){
           this.visible = !this.visible;
+          this.isTrue=true;
           return;
         }
         var data={
+          u_id:this.$store.state.user.userid,
           name:this.name,
           phone:this.phone,
-          people:this.people
+          contacts:this.people,
+          status:0
         }
-        this.$post('/weapp/login',data).then(res=>{
+        this.$post('/rs/cooperator',data).then(res=>{
           if(res.code == 200){
             this.message='保存成功';
             this.visible = !this.visible;
+            // var time=setTimeout(() => {
+            //   wx.switchTab({
+            //     url:"/pages/personcenter/main"
+            //   })
+            // },1000)
           }else{
             this.message='保存失败';
             this.visible = !this.visible;
+            this.isTrue=true;
           }
         })
       },
@@ -118,5 +129,8 @@
     border-radius: 20px;
     background: #df5c3e;
     text-align: center;
+  }
+  .dis{
+    background: #ccc;
   }
 </style>
