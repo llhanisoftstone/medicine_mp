@@ -10,7 +10,7 @@
         <li class="money"><a href="/pages/sliver/main"><div class="title">银两</div><p class="messagealert">储备仓</p><span class="listimg moneyimg"></span></a></li>
         <li class="store"><div class="title">兑换店</div><p class="messagealert">精美礼品等你拿</p><span class="listimg storeimg"></span></li>
         <li class="usermoot"><a href="/pages/itemshop/main"><div class="title">道具</div><p class="messagealert">优惠道具等你来购</p><span class="listimg userimg"></span></a></li>
-        <li class="groupcard" v-if="seen"><a href="/pages/couponlist/main"><div class="title">优惠券</div><p class="messagealert">优惠券发放</p><span class="listimg cardimg"></span></a></li>
+        <li class="groupcard" v-if="seen"><a href="/pages/ticket/main"><div class="title">优惠券</div><p class="messagealert">优惠券发放</p><span class="listimg cardimg"></span></a></li>
         <li class="setting"><a href="/pages/setting/main"><div class="title">设置</div><p class="messagealert">设置</p><span class="listimg settingimg"></span></a></li>
       </ul>
     </div>
