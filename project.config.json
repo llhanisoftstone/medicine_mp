@@ -32,16 +32,23 @@
 		"miniprogram": {
 			"current": -1,
 			"list": [
-                {
-                  "id": 0,
-                  "name": "排行榜",
-                  "pathName": "pages/friendpk/main",
-                  "query": ""
-                },
+				{
+					"id": 0,
+					"name": "排行榜",
+					"pathName": "pages/friendpk/main",
+					"query": ""
+				},
 				{
 					"id": -1,
 					"name": "政策百科",
-					"pathName": "pages/policy/main"
+					"pathName": "pages/policy/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "全网挑战",
+					"pathName": "pages/loadpk/main",
+					"query": "id=4"
 				}
 			]
 		}

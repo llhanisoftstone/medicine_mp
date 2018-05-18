@@ -96,7 +96,7 @@
         </ul>
       </div>
       <button open-type="share" class="pk_btn" v-if="isFriends">挑战好友</button>
-      <a href="" class="pk_btn" v-if="!isFriends">全网挑战</a>
+      <a :href="'/pages/loadpk/main?id='+user.userid" class="pk_btn" v-if="!isFriends">全网挑战</a>
     </div>
 </template>
 
@@ -117,6 +117,9 @@
         computed:{
             imgurl(){
                 return this.$store.state.userinfo
+            },
+            user(){
+                return this.$store.state.user
             }
         },
       onShareAppMessage(res){

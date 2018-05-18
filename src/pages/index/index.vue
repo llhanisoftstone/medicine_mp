@@ -16,7 +16,7 @@
         </div>
       </a>
       <div class="challenge_box">
-        <a href="">
+        <a :href="'/pages/loadpk/main?id='+$store.state.user.userid">
           <div class="item_1">
             <h2>全网挑战</h2>
             <h4>冲顶排位赛一战即发</h4>
