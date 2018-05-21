@@ -6,6 +6,7 @@ app.$mount()
 export default {
   config: {
     'enablePullDownRefresh': true,
-    pages: ['pages/ticketdetails/main', 'pages/writeoff/main']
+    pages: ['pages/ticketdetails/main', 'pages/writeoff/main'],
+    navigationBarTitleText: '优惠券'
   }
 }
