@@ -20,8 +20,8 @@
           <ul>
             <li v-for="(item,i) in sendlist" :key="item.id">
               <div>{{item.nickname}}</div>
-              <div>{{item.time1}}</div>
-              <div>{{item.time2}}</div>
+              <div>{{item.get_time}}</div>
+              <div>{{item.use_time}}</div>
             </li>
           </ul>
         </div>
@@ -47,11 +47,37 @@
           if (res.rows.length > 0){
             that.ticket_name = res.rows[0].title;
             that.ticket_amount = res.rows[0].total_amount;
-            if (res.sendlist.length > 0){
-              that.sendlist = res.sendlist;
+            let rs = await  that.$get('/rs/member_ticket',{ticket_id:pid});
+            if (rs.rows.length > 0){
+              for (let i=0;i<rs.rows.length; i++){
+                rs.rows[i].get_time = this.conversionTime(rs.rows[i].get_time);
+                rs.rows[i].use_time = this.conversionTime(rs.rows[i].use_time);
+              }
+              that.sendlist = rs.rows;
             }
           }
         }
+      },
+      conversionTime(time){
+        if(time==null){
+          return;
+        }
+        var data = new Date(time);
+        var month=parseInt(data.getMonth()+1);
+        var months="";
+        if(month<10){
+          months="0"+month;
+        }else{
+          months=month;
+        }
+        var day=data.getDate();
+        var days="";
+        if(day<10){
+          days="0"+day;
+        }else{
+          days=day;
+        }
+        return data.getFullYear()+"-"+months+"-"+days;
       }
     },
     onLoad: function (option) {

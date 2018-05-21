@@ -51,14 +51,18 @@
         size:1
       }
     },
-
     onPullDownRefresh () {
-      this.refresh()
+      wx.showNavigationBarLoading() //在标题栏中显示加载
+      this.page=1;
+      this.policy_list=[];
+      this.refresh();
       // 下拉刷新
+      wx.hideNavigationBarLoading() //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
     },
     onReachBottom () {
+      this.page++;
       this.loadmore()
-      // 上拉加载
     },
 
     methods: {
@@ -79,12 +83,8 @@
       refresh(){
         this.page = 1;
         this.getticketList();
-//        setTimeout(function(){
-        wx.stopPullDownRefresh()
-//        },500)
       },
       loadmore () {
-        this.page = this.page + 1;
         this.getticketList();
       }
     },

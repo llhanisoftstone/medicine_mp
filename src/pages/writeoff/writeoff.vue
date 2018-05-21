@@ -1,5 +1,6 @@
 <template>
     <div>
+      <!--页面内容-->
       <mptoast/>
     </div>
 </template>
@@ -19,20 +20,28 @@
         wx.scanCode({
           success: (rs) => {
             let res = rs.result;
-            if (res.t_code){
-              if (res.t_code.length == 15){
-                that.$mptoast('成功');
+            if (res){
+              if (res.length == 15){
+                if (res.substring(0,3) != 'rst'){
+                  that.$mptoast('该二维码无效');
+                }else{
+                  this.writeoff(res);
+                }
               }else{
                 that.$mptoast('该二维码无效');
               }
-            }else{
-              that.$mptoast('该二维码无效');
             }
-          },
-          fail: (err) => {
-            that.$mptoast('该二维码无效');
           }
         })
+      },
+      async writeoff(pid){
+        let that = this;
+        let res = await that.$get('/rs/member_ticket',{ticket_code:pid, status:1});
+        if (res.code == 200){
+          that.$mptoast('核销成功!');
+        }else{
+          that.$mptoast('核销失败');
+        }
       }
     },
 
