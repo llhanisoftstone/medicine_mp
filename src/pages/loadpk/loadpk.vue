@@ -40,36 +40,27 @@
         mounted(){
           this.$socket.on('data_chain', d=>{
               console.log(d)
-            if(d.cmd == 'answer'){
-              this.vs=true
-              if(d.users){
-                for(let i=0;i<d.users.length;i++){
-                  if(d.users[i].id != this.$store.state.user.userid){
-                    this.$store.commit('get_vsuser',d.users[i])
+            if(d.step == 1){
+              if(d.cmd == 'answer'){
+                this.vs=true
+                if(d.users){
+                  for(let i=0;i<d.users.length;i++){
+                    if(d.users[i].id != this.$store.state.user.userid){
+                      this.$store.commit('get_vsuser',d.users[i])
+                    }
                   }
                 }
-              }
-              if(d.content_type == 1){
-                  if(d.step>1){
-                      let that =this
-                      setTimeout(function(){
-                        that.$store.commit('get_answer',d.details[0])
-                        that.$store.commit('get_step',d.step)
-                      },1000)
-                  }else{
+                if(d.content_type == 1){
                     this.$store.commit('get_answer',d.details[0])
                     this.$store.commit('get_step',d.step)
-                  }
-              }
-              this.$store.commit('get_room',d.room_id)
-
-              setTimeout(function(){
-                  if(d.step == 1){
+                }
+                this.$store.commit('get_room',d.room_id)
+                setTimeout(function(){
                     wx.navigateTo({
                       url:"/pages/pkanswer/main"
                     })
-                  }
-              },1500)
+                },1500)
+              }
             }
           })
           this.$socket.emit('data_chain', {

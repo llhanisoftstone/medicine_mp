@@ -27,9 +27,10 @@
           <answer :title="answer.category_name" :answer="answer.name">
             <ul slot="list" class="answer_box">
               <!--<li class="my n_correct"><span class="ismy"></span>答案1<span class="nomy"></span></li>&lt;!&ndash;自己错误&ndash;&gt;-->
-              <!--<li class="opponent n_correct"><span class="ismy"></span>答案2<span class="nomy"></span></li>&lt;!&ndash;对方错误&ndash;&gt;-->
+              <!--<li class="opponent n_correct"><span class="ismy"></span>答案2<span class="nomy"></span></li>&lt;!&ndash;对方错误&ndash;&gt;    未完成-->
               <!--<li class="correct"><span class="ismy"></span>答案3<span class="nomy"></span></li>&lt;!&ndash;正确答案&ndash;&gt;-->
-              <li :class="{'my':ismy,'correct':res&&isshow,'n_correct':res&&isshow}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)"><span class="ismy"></span>{{v.answer}}<span class="nomy"></span></li>
+              <!--<li :class="{'my':index==i,'correct':v.right&&isshow,'n_correct':ismy&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)"><span class="ismy"></span>{{v.answer}}<span class="nomy"></span></li>-->
+              <li :class="{'my':index==i,'opponent':other==i,'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right,'n_correct':other==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)"><span class="ismy"></span>{{v.answer}}<span class="nomy"></span></li>
             </ul>
           </answer>
         </div>
@@ -54,21 +55,38 @@
         name: 'pkanswer',
         data(){
             return {
-                times:30,
-                answernub:0,
-                timenub:0,
-                ismy:false,
-                res:false,
-                isshow:false
+                times:30,   //倒计时
+                answernub:0,   //查看答案道具
+                timenub:0,   //延时道具
+                isshow:false,   //是否显示答案
+                index:-1,       //选择的答案
+                isclick:false,    //是否选择
+                vsisclick:false,    //对方是否选择答案
+                other: -1           //对方选择的答案
             }
         },
         methods: {
-          submit(index,right){
+          countdownfn(){     //倒计时
+              let that=this
+              setInterval(function(){
+                  if(that.times == 0){
+                      return
+                  }
+                  that.times=that.times-1
+              },1000)
+          },
+          submit(index,right){     //提交答案
+            if(this.times<=0){
+                return
+            }
+            if(this.isclick){
+                  return
+              }
+              this.isclick=true
               let reply=0
-              this.ismy=true
+              this.index=index
               this.isshow=true
-              this.res=right
-            if(right){
+            if(right){           //正确计算分数
                   if(this.times>20){
                     reply=100
                   }else if(this.times>10){
@@ -77,14 +95,37 @@
                     reply=40
                   }
               }
+              this.$store.commit('get_myscore',reply)
             this.$socket.emit('data_chain', {
               cmd:'answer',
               room_id:this.$store.state.room_id,
               u_id:this.$store.state.user.userid,
-              reply:index,
-              score:10,   // 得分
+              reply:index,   //回答内容
+              score:reply,   // 得分
 //              tool_id: '',   // 使用道具
+              use_time:30-this.times,   //使用时间   -1 自己延时   -2  对方延时
+              step:this.$store.state.step
             })
+          },
+          overtime(){   //超时自动提交一次
+            if(!this.isclick){
+              this.$socket.emit('data_chain', {
+                cmd:'answer',
+                room_id:this.$store.state.room_id,
+                u_id:this.$store.state.user.userid,
+                use_time:-1,   //使用时间   -1 自己延时   -2  对方延时
+                step:this.$store.state.step
+              })
+            }
+            if(!this.vsisclick){
+              this.$socket.emit('data_chain', {
+                cmd:'answer',
+                room_id:this.$store.state.room_id,
+                u_id:this.$store.state.user.userid,
+                use_time:-2,   //使用时间   -1 自己延时   -2  对方延时
+                step:this.$store.state.step
+              })
+            }
           }
         },
         components: {
@@ -112,6 +153,48 @@
           nub(){
               return this.$store.state.step
           }
+        },
+        mounted(){
+          this.countdownfn()
+          this.$socket.on('data_chain', d=>{    //接收题目
+            if(d.step > 1){
+              if(d.cmd == 'answer'){
+                this.vs=true
+                if(d.users){
+                  for(let i=0;i<d.users.length;i++){
+                    if(d.users[i].id != this.$store.state.user.userid){
+                      this.$store.commit('get_vsuser',d.users[i])
+                    }
+                  }
+                }
+                if(d.content_type == 1){
+                  if(d.step>1){
+                      this.other = d.other_reply
+                    let that =this
+                    setTimeout(function(){
+                      that.$store.commit('get_answer',d.details[0])
+                      that.$store.commit('get_step',d.step)
+                      that.times = 30
+                      that.answernub = 0
+                      that.timenub = 0
+                      that.isshow = false
+                      that.index = -1
+                      that.isclick=false
+                      that.other= -1
+                    },1000)
+                  }
+                }
+                this.$store.commit('get_room',d.room_id)
+              }
+            }
+          })
+        },
+        watch:{
+            times(val,oldval){
+                if(val == 0){
+                    this.overtime()
+                }
+            }
         }
 
     }

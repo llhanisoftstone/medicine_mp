@@ -10,28 +10,12 @@
         props: ['time'],
         data(){
             return {
-                count:0,
-                counts:0
             }
         },
         methods: {
             cutTime(){
-                let times
-                let that = this
-                let add=0
-                times=setInterval(function(){
-                    if(that.count == 0){
-                      clearInterval(times)
-                      return
-                    }
-                    add+=1
-                  if(add%10 == 0){
-                    that.count = that.count-1
-                  }
-                  that.counts = that.counts - 0.1
-                    let remaind = that.counts/that.time
-                  that.canvas(remaind)
-                },100)
+                let remaind = this.time/30
+                this.canvas(remaind)
             },
             canvas(remaind){
               let ctx = wx.createCanvasContext('myCanvas')
@@ -47,7 +31,7 @@
               ctx.setFillStyle('#333333')
               ctx.setTextAlign('center')
               ctx.setTextBaseline('middle')
-              ctx.fillText(this.count, 33, 33)
+              ctx.fillText(this.time, 33, 33)
               //计时
               ctx.beginPath()
               ctx.arc(33, 33, 27, 0, 2 * Math.PI)
@@ -64,9 +48,12 @@
         },
         components: {},
         created(){
-          this.count = this.time
-          this.counts = this.time
           this.cutTime()
+        },
+        watch:{
+            time(val,oldval){
+              this.cutTime()
+            }
         }
 
     }

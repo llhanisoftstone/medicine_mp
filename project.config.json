@@ -55,6 +55,12 @@
 					"name": "对战",
 					"pathName": "pages/pkanswer/main",
 					"query": "id=4"
+				},
+				{
+					"id": -1,
+					"name": "result",
+					"pathName": "pages/result/main",
+					"query": ""
 				}
 			]
 		}
