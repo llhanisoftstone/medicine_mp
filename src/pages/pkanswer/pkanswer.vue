@@ -125,22 +125,23 @@
             })
           },
           overtime(){   //超时自动提交一次
-            if(!this.isclick){
-              this.$socket.emit('data_chain', {
+            let that=this
+            if(!that.isclick){
+              that.$socket.emit('data_chain', {
                 cmd:'answer',
-                room_id:this.$store.state.room_id,
-                u_id:this.$store.state.user.userid,
+                room_id:that.$store.state.room_id,
+                u_id:that.$store.state.user.userid,
                 use_time:-1,   //使用时间   -1 自己延时   -2  对方延时
-                step:this.$store.state.step
+                step:that.$store.state.step
               })
             }
-            if(!this.vsisclick){
-              this.$socket.emit('data_chain', {
+            if(!that.vsisclick){
+              that.$socket.emit('data_chain', {
                 cmd:'answer',
-                room_id:this.$store.state.room_id,
-                u_id:this.$store.state.user.userid,
+                room_id:that.$store.state.room_id,
+                u_id:that.$store.state.user.userid,
                 use_time:-2,   //使用时间   -1 自己延时   -2  对方延时
-                step:this.$store.state.step
+                step:that.$store.state.step
               })
             }
           }
@@ -186,14 +187,16 @@
                     }
                   }
                 }
-                that.other = d.other_reply.reply
-                if(that.$store.state.answer.answer_json[that.other].right==true){
-                  if(that.times>20){
-                    that.$store.commit('get_vsscore',100)
-                  }else if(that.times>10){
-                    that.$store.commit('get_vsscore',60)
-                  }else{
-                    that.$store.commit('get_vsscore',40)
+                if(d.other_reply.use_time!=-1&&d.other_reply.use_time!=-2){
+                  that.other = d.other_reply.reply
+                  if(that.$store.state.answer.answer_json[that.other].right==true){
+                    if(that.times>20){
+                      that.$store.commit('get_vsscore',100)
+                    }else if(that.times>10){
+                      that.$store.commit('get_vsscore',60)
+                    }else{
+                      that.$store.commit('get_vsscore',40)
+                    }
                   }
                 }
                 if(d.content_type == 1){
