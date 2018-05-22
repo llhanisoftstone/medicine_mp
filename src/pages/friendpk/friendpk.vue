@@ -129,9 +129,12 @@
         }
         return {
           title: '挑战好友',
-          path: '/page/friendpk/main',
+          path: `/pages/loadpk/main?from=1&&id=${this.$store.state.user.userid}`,
           success: (r)=>{
               console.log(r)
+            wx.navigateTo({
+              url:"/pages/loadpk/main?from=1"
+            })
           },
           fail: (err)=>{
               console.log(err)

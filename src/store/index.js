@@ -8,26 +8,32 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     url: 'https://policy.lifeonway.com',
-    ws_server: 'https://policy.lifeonway.com',
-    // ws_server: 'http://192.168.1.12:5000',
-    userinfo: {},
+    // ws_server: 'https://policy.lifeonway.com',
+    ws_server: 'http://192.168.1.12:5000',
+    userinfo: {},    //  微信返回用户信息
     code: '',
-    isauth: false,
+    isauth: false,      // 是否授权
+    issocket: false,     // socket是否登录
     sid: '',
-    user: {},
-    vsuser: {
+    user: {},            //  用户id
+    vsuser: {            //  对战用户信息
       picpath: '/static/img/user.png',
       nickname: '',
       id: ''
     },
     sliver: {},
-    answer: {},
-    room_id: '',
-    myscore: 0,
-    vsscore: 0,
-    step: 0
+    answer: {},             //  题目信息
+    room_id: '',           //  房间id
+    myscore: 0,           //  我的分数
+    vsscore: 0,          //   对方分数
+    step: 0,              //   第几题
+    prize: {}             //  奖品
   },
   mutations: {
+    getsocket: (state) => {
+      const obj = state
+      obj.issocket = true
+    },
     getuser: (state, res) => {
       const obj = state
       obj.userinfo = res
@@ -68,6 +74,11 @@ const store = new Vuex.Store({
       const obj = state
       obj.myscore += myscore
     },
+    clear_score: (state)=> {
+      const obj = state
+      obj.vsscore = 0
+      obj.myscore = 0
+    },
     get_vsscore: (state, vsscore) => {
       const obj = state
       obj.vsscore += vsscore
@@ -75,6 +86,10 @@ const store = new Vuex.Store({
     get_step: (state, step) => {
       const obj = state
       obj.step = step
+    },
+    get_prize: (state, prize) => {
+      const obj = state
+      obj.prize = prize
     }
   }
 })

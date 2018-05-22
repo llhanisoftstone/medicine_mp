@@ -55,6 +55,7 @@
         name: 'pkanswer',
         data(){
             return {
+                from: 2,    //  1 好友  2全网
                 times:30,   //倒计时
                 answernub:0,   //查看答案道具
                 timenub:0,   //延时道具
@@ -62,18 +63,34 @@
                 index:-1,       //选择的答案
                 isclick:false,    //是否选择
                 vsisclick:false,    //对方是否选择答案
-                other: -1           //对方选择的答案
+                other: -1,           //对方选择的答案
+                gameover:false      //是否游戏结束
             }
         },
         methods: {
           countdownfn(){     //倒计时
               let that=this
-              setInterval(function(){
+              let timefn = setInterval(function(){
+                  if(that.gameover){
+                      clearInterval(timefn)
+                  }
                   if(that.times == 0){
                       return
                   }
                   that.times=that.times-1
               },1000)
+          },
+          cleardata(){
+            this.times=30
+            this.answernub=0
+            this.timenub=0
+            this.isshow=false
+            this.index=-1
+            this.isclick=false
+            this.vsisclick=false
+            this.other= -1
+            this.gameover=false
+            this.$store.commit('clear_score')
           },
           submit(index,right){     //提交答案
             if(this.times<=0){
@@ -94,8 +111,8 @@
                   }else{
                     reply=40
                   }
-              }
-              this.$store.commit('get_myscore',reply)
+            }
+            this.$store.commit('get_myscore',reply)
             this.$socket.emit('data_chain', {
               cmd:'answer',
               room_id:this.$store.state.room_id,
@@ -155,22 +172,32 @@
           }
         },
         mounted(){
+          this.cleardata()
           this.countdownfn()
+          let that=this
           this.$socket.on('data_chain', d=>{    //接收题目
-            if(d.step > 1){
+            if(d.step != 1){
               if(d.cmd == 'answer'){
-                this.vs=true
+                that.vs=true
                 if(d.users){
                   for(let i=0;i<d.users.length;i++){
-                    if(d.users[i].id != this.$store.state.user.userid){
-                      this.$store.commit('get_vsuser',d.users[i])
+                    if(d.users[i].id != that.$store.state.user.userid){
+                      that.$store.commit('get_vsuser',d.users[i])
                     }
+                  }
+                }
+                that.other = d.other_reply.reply
+                if(that.$store.state.answer.answer_json[that.other].right==true){
+                  if(that.times>20){
+                    that.$store.commit('get_vsscore',100)
+                  }else if(that.times>10){
+                    that.$store.commit('get_vsscore',60)
+                  }else{
+                    that.$store.commit('get_vsscore',40)
                   }
                 }
                 if(d.content_type == 1){
                   if(d.step>1){
-                      this.other = d.other_reply
-                    let that =this
                     setTimeout(function(){
                       that.$store.commit('get_answer',d.details[0])
                       that.$store.commit('get_step',d.step)
@@ -183,8 +210,18 @@
                       that.other= -1
                     },1000)
                   }
+                }else if(d.content_type == 2){
+                  that.gameover=true   //延时跳转页面
+                  if(d.details){
+                    that.$store.commit('get_prize',d.details[0])
+                  }
+                    setTimeout(function(){
+                      wx.navigateTo({
+                        url:`/pages/result/main?from=${that.from}`
+                      })
+                    },1000)
                 }
-                this.$store.commit('get_room',d.room_id)
+                that.$store.commit('get_room',d.room_id)
               }
             }
           })
@@ -195,7 +232,10 @@
                     this.overtime()
                 }
             }
-        }
+        },
+      onLoad(option){
+            this.from = option.from
+      }
 
     }
 </script>
