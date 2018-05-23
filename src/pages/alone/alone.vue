@@ -46,7 +46,8 @@
               isclick:false,   //是否选择
               index:-1,        //选择的答案
               answernub:0,      //查看答案数量
-              timenub:0         //延时道具数量
+              timenub:0,         //延时道具数量
+              gameover:false     //当前关卡是否结束
             }
         },
         methods: {
@@ -100,6 +101,16 @@
                 step:that.$store.state.step
               })
             }
+          },
+          cleardata(){
+            let that =this
+            that.times = 30
+            that.answernub = 0
+            that.timenub = 0
+            that.isshow = false
+            that.index = -1
+            that.isclick=false
+            that.gameover=false
           }
         },
         components: {
@@ -126,6 +137,7 @@
         }
       },
     onLoad(){
+      this.cleardata()
       wx.setNavigationBarTitle({
         title:`第${this.$store.state.step}/${this.$store.state.max_nub}题`
       })
@@ -133,22 +145,50 @@
       let that =this
       this.$socket.on('data_chain',d=>{
         console.log(d)
-        if(d.cmd == 'answer'){
-          if(d.content_type == 1){
-            setTimeout(function(){
+        if(d.content_type == 1){
+          if(d.cmd == 'answer'&&d.level==that.$store.state.level){
+            let til
+            clearInterval(til)
+            til=setTimeout(function(){
               that.$store.commit('get_answer',d.details[0])
               that.$store.commit('get_step',d.step)
               wx.setNavigationBarTitle({
                 title:`第${that.$store.state.step}/${that.$store.state.max_nub}题`
               })
-              that.times = 30
-              that.answernub = 0
-              that.timenub = 0
-              that.isshow = false
-              that.index = -1
-              that.isclick=false
+              that.cleardata()
+            },1000)
+          }else if(d.cmd == 'answer'&&d.level!=that.$store.state.level){    //当前关卡挑战结束
+            setTimeout(function(){
+              let useri = that.$store.state.user
+              useri.game_level = d.level
+              that.$store.commit('getm_user',useri)
+              that.$store.commit('get_level',d.level)
+              that.$store.commit('get_answer',d.details[0])
+              that.$store.commit('get_step',d.step)
+              that.$store.commit('get_max_nub',d.max_step)
+              if(d.details[1].code == 200){
+                that.$store.commit('get_prize',d.details[1].rows[0])
+              }else{
+                that.$store.commit('get_prize',{})
+              }
+              that.gameover=true
+              that.$socket.removeAllListeners('data_chain')
+              wx.redirectTo({
+                url:'/pages/aloneresult/main?result=2'
+              })
             },1000)
           }
+        }else if(d.content_type == 2){    //全部挑战结束
+
+        }else if(d.content_type == 3){    //挑战失败
+          setTimeout(function(){
+            that.$store.commit('get_prize',{})
+            that.gameover=true
+            that.$socket.removeAllListeners('data_chain')
+            wx.redirectTo({
+              url:'/pages/aloneresult/main?result=0'
+            })
+          },1000)
         }
       })
     }

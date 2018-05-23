@@ -143,7 +143,8 @@
               let rout
               clearTimeout(rout)
               rout = setTimeout(function(){
-                wx.navigateTo({
+                that.$socket.removeAllListeners('data_chain')
+                wx.redirectTo({
                   url:`/pages/pkanswer/main?from=${that.from}`
                 })
               },1500)

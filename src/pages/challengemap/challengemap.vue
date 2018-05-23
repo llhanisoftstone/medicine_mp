@@ -37,7 +37,7 @@
             return {
               isshow:false,    //弹窗状态
               levelarr:[1,2,3,4,5,6,7,8,9,10],   //全部关卡
-              level:3,       //自己的关卡
+//              level:3,       //自己的关卡
               select:0    //选择的关卡
             }
         },
@@ -69,6 +69,9 @@
         computed:{
             imgurl(){
                 return this.$store.state.userinfo.avatarUrl
+            },
+            level(){
+                  return this.$store.state.user.game_level
             }
         },
       onLoad(){
@@ -82,7 +85,9 @@
                       that.$store.commit('get_room',d.room_id)
                       that.$store.commit('get_level',d.level)
                       that.$store.commit('get_max_nub',d.max_step)
-                      wx.redirectTo({
+                      that.$socket.removeAllListeners('data_chain')
+                      that.isshow=false
+                      wx.navigateTo({
                         url:'/pages/alone/main'
                       })
                     }

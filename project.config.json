@@ -58,10 +58,11 @@
 					"query": "id=4"
 				},
 				{
-					"id": -1,
-					"name": "result",
-					"pathName": "pages/result/main",
-					"query": ""
+					"id": 4,
+					"name": "aloneresult",
+					"pathName": "pages/aloneresult/main",
+					"query": "result=2",
+					"scene": "1007"
 				},
 				{
 					"id": 5,

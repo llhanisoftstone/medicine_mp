@@ -237,6 +237,7 @@
                   that.$store.commit('get_prize',{})
                 }
                 setTimeout(function(){
+                  that.$socket.removeAllListeners('data_chain')
                   wx.redirectTo({
                     url:`/pages/result/main?from=${that.from}`
                   })
