@@ -217,6 +217,8 @@
                   that.gameover=true   //延时跳转页面
                   if(d.details){
                     that.$store.commit('get_prize',d.details[0])
+                  }else{
+                    that.$store.commit('get_prize',{})
                   }
                     setTimeout(function(){
                       wx.navigateTo({

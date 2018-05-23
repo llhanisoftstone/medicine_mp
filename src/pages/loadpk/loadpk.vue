@@ -51,18 +51,28 @@
           },
           sendnews(){
             let that = this
-            let senddata={
-              cmd:'fight',
-              u_id:that.$store.state.user.userid,
-              game_cfg_id:1,
-              game_type:that.from
-            }
-            if(that.from == 1){
-              if(that.other_uid){
-                senddata.to_u_id=that.other_uid
+            if(this.$store.state.issocket){
+              let senddata={
+                cmd:'fight',
+                u_id:that.$store.state.user.userid,
+                game_cfg_id:1,
+                game_type:that.from
               }
+              if(that.from == 1){
+                if(that.other_uid){
+                  senddata.to_u_id=that.other_uid
+                }
+              }
+              that.$socket.emit('data_chain', senddata)
+            }else{
+                this.$socket.emit('data_chain', {
+                  cmd: 'login',
+                  u_id: this.$store.state.user.userid,
+                  nickname: this.$store.state.userinfo.nickName,
+                  picpath: this.$store.state.userinfo.avatarUrl
+                })
             }
-            that.$socket.emit('data_chain', senddata)
+
           }
         },
         components: {},
@@ -79,11 +89,11 @@
           this.$socket.on('data_chain', d=>{
               console.log(d)
             if(d.cmd == 'login'){
+              that.$store.commit('getsocket')
               that.sendnews()
-              return
             }
-            if(d.step == 1){
-              if(d.cmd == 'answer'){
+            if(d.cmd == 'answer'){
+              if(d.step == 1){
                 that.vs=true
                 if(d.other_user){
                   that.$store.commit('get_vsuser',d.other_user)
@@ -96,13 +106,14 @@
                 let rout
                 clearTimeout(rout)
                 rout = setTimeout(function(){
-                    wx.navigateTo({
-                      url:`/pages/pkanswer/main?from=${that.from}`
-                    })
+                  wx.navigateTo({
+                    url:`/pages/pkanswer/main?from=${that.from}`
+                  })
                 },1500)
               }
             }
           })
+          that.sendnews()
         },
       onLoad: function(option){
         this.cleardata()
@@ -111,16 +122,16 @@
           this.other_uid = option.id
         }
         this.from = option.from
-        if(this.$store.state.issocket){
-          this.sendnews()
-        }else{
-          this.$socket.emit('data_chain', {
-            cmd: 'login',
-            u_id: this.$store.state.user.userid,
-            nickname: this.$store.state.userinfo.nickName,
-            picpath: this.$store.state.userinfo.avatarUrl
-          })
-        }
+//        if(this.$store.state.issocket){
+//          this.sendnews()
+//        }else{
+//          this.$socket.emit('data_chain', {
+//            cmd: 'login',
+//            u_id: this.$store.state.user.userid,
+//            nickname: this.$store.state.userinfo.nickName,
+//            picpath: this.$store.state.userinfo.avatarUrl
+//          })
+//        }
       },
       onShow:function(option){
         this.cleardata()

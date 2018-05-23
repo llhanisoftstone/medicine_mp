@@ -5,9 +5,9 @@
         <ul class="gift_list">
           <li v-if="iscard">
             <div>
-              <image></image>
+              <image :src="card.ticket_pic"></image>
             </div>
-            <p></p>
+            <p>{{card.title}}</p>
           </li>
           <li>
             <div>

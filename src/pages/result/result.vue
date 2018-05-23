@@ -42,7 +42,14 @@
                 from: 2
             }
         },
-        methods: {},
+        methods: {
+            cleardata(){
+              this.win = 0
+              this.iscard=false
+              this.card={}
+              this.from=2
+            }
+        },
         components: {
             capture
         },
@@ -68,6 +75,11 @@
            }else if(this.$store.state.myscore < this.$store.state.vsscore){
              this.win = 0
            }
+           if(this.$store.state.prize.id){
+               this.iscard = true
+                this.card=this.$store.state.prize
+             this.card.ticket_pic = this.$store.state.url + this.card.ticket_pic
+           }
       },
       onShareAppMessage(res){
         if (res.from === 'menu') {
@@ -86,6 +98,7 @@
         }
       },
       onLoad(option){
+          this.cleardata()
           this.from = option.from
       }
 
