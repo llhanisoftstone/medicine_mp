@@ -8,8 +8,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     url: 'https://policy.lifeonway.com',
-    ws_server: 'https://policy.lifeonway.com',
-    // ws_server: 'http://192.168.1.12:5000',
+    // ws_server: 'https://policy.lifeonway.com',
+    ws_server: 'http://192.168.1.12:5000',
     userinfo: {},    //  微信返回用户信息
     code: '',
     isauth: false,      // 是否授权
@@ -27,7 +27,9 @@ const store = new Vuex.Store({
     myscore: 0,           //  我的分数
     vsscore: 0,          //   对方分数
     step: 0,              //   第几题
-    prize: {}             //  奖品
+    prize: {},             //  奖品
+    level: 0,                 // 当前进行的关卡
+    max_nub: 0                    // 关卡题目数量
   },
   mutations: {
     getsocket: (state) => {
@@ -90,6 +92,14 @@ const store = new Vuex.Store({
     get_prize: (state, prize) => {
       const obj = state
       obj.prize = prize
+    },
+    get_level: (state, level) => {
+      const obj = state
+      obj.level = level
+    },
+    get_max_nub: (state, maxnub) => {
+      const obj = state
+      obj.max_nub = maxnub
     }
   }
 })

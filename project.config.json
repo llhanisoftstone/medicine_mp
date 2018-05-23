@@ -39,10 +39,11 @@
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "政策百科",
-					"pathName": "pages/policy/main",
-					"query": ""
+					"id": 1,
+					"name": "单人闯关",
+					"pathName": "pages/alone/main",
+					"query": "",
+					"scene": "1007"
 				},
 				{
 					"id": -1,

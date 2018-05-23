@@ -24,7 +24,7 @@
           <fraction :number="mynumber" color="#ffc02a"></fraction>
         </div>
         <div>
-          <answer :title="answer.category_name" :answer="answer.name">
+          <answer :title="answer.category_name" :answer="answer.name" distance="0">
             <ul slot="list" class="answer_box">
               <!--<li class="my n_correct"><span class="ismy"></span>答案1<span class="nomy"></span></li>&lt;!&ndash;自己错误&ndash;&gt;-->
               <!--<li class="opponent n_correct"><span class="ismy"></span>答案2<span class="nomy"></span></li>&lt;!&ndash;对方错误&ndash;&gt;    未完成-->
@@ -70,14 +70,16 @@
         methods: {
           countdownfn(){     //倒计时
               let that=this
-              let timefn = setInterval(function(){
-                  if(that.gameover){
-                      clearInterval(timefn)
-                  }
-                  if(that.times == 0){
-                      return
-                  }
-                  that.times=that.times-1
+              let timefn
+              clearInterval(timefn)
+              timefn = setInterval(function(){
+                if(that.gameover){
+                  clearInterval(timefn)
+                }
+                if(that.times == 0){
+                  return
+                }
+                that.times=that.times-1
               },1000)
           },
           cleardata(){
@@ -186,18 +188,21 @@
         },
       onLoad(option){
             this.from = option.from
+        if(this.from == 1){
+          wx.setNavigationBarTitle({
+            title: '对战'
+          })
+        }else{
+          wx.setNavigationBarTitle({
+            title: '好友对战'
+          })
+        }
+
         let that=this
         this.$socket.on('data_chain', d=>{    //接收题目
           if(d.step != 1){
             if(d.cmd == 'answer'){
               that.vs=true
-              if(d.users){
-                for(let i=0;i<d.users.length;i++){
-                  if(d.users[i].id != that.$store.state.user.userid){
-                    that.$store.commit('get_vsuser',d.users[i])
-                  }
-                }
-              }
               if(d.other_reply.use_time!=-1&&d.other_reply.use_time!=-2){
                 that.other = d.other_reply.reply
                 if(that.$store.state.answer.answer_json[that.other].right==true){

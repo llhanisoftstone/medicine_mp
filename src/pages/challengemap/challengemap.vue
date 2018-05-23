@@ -2,34 +2,31 @@
     <div class="c_map">
       <image src="/static/img/bg.png" class="bg"></image>
       <ul class="c_box">
-        <li class="pass"><div class="nub">1</div></li>
-        <li class="on">
-          <div class="nub">2</div>
-          <div class="user">
+        <li :class="{'pass':v<level,'on':v==level}" v-for="(v,i) in levelarr" @click="showpick(v)">
+          <div class="nub" v-if="v!=5&&v!=10">{{v}}</div>
+          <div class="nub" v-if="v==5||v==10"></div>
+          <div class="user" v-if="v==level">
             <image :src='imgurl'></image>
           </div>
-        </li>
-        <li><div class="nub">3</div></li>
-        <li><div class="nub">4</div></li>
-        <li>
-          <div class="nub"></div>
-          <div class="gift gift_t">
+          <div class="gift gift_t" v-if="v==5">
             <i class="a_up"></i>
             <p>小竹签50元代金券</p>
           </div>
-        </li>
-        <li><div class="nub">6</div></li>
-        <li><div class="nub">7</div></li>
-        <li><div class="nub">8</div></li>
-        <li><div class="nub">9</div></li>
-        <li>
-          <div class="nub"></div>
-          <div class="gift gift_r">
+          <div class="gift gift_r" v-if="v==10">
             <p>小竹签80元代金券</p>
             <i class="a_right"></i>
           </div>
         </li>
       </ul>
+      <div class="bg_shade" v-if="isshow" @click="hidepick">
+        <div class="pick_box" @click.stop="prevent">
+          <div class="pick_t"><image src="/static/img/yaoqing_2.png"></image></div>
+          <div class="pick_item_box">
+            <div class="pick_item" @click="alone"><a href=""><image src="/static/img/yaoqing_3.png"></image><p>闯关侠</p></a></div>
+            <div class="pick_item"><a href=""><image src="/static/img/yaoqing_1.png"></image><p>邀请好友助阵</p></a></div>
+          </div>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -37,17 +34,61 @@
     export default {
         name: 'challengemap',
         data(){
-            return {}
+            return {
+              isshow:false,    //弹窗状态
+              levelarr:[1,2,3,4,5,6,7,8,9,10],   //全部关卡
+              level:3,       //自己的关卡
+              select:0    //选择的关卡
+            }
         },
         methods: {
-
+          showpick(v){
+            if(this.level<v){
+                return
+            }
+            this.isshow=true
+            this.select=v
+          },
+          hidepick(){
+            this.isshow=false
+            this.select=this.level
+          },
+          prevent(){},       //阻止冒泡
+          alone(){
+              let that=this
+              this.$socket.emit('data_chain',{
+                  cmd:'fight',
+                  u_id: that.$store.state.user.userid,
+                  game_cfg_id: 2,
+                  game_type:1,
+                  level:that.select
+              })
+          }
         },
         components: {},
         computed:{
             imgurl(){
                 return this.$store.state.userinfo.avatarUrl
             }
-        }
+        },
+      onLoad(){
+            let that=this
+            that.$socket.on('data_chain',d=>{
+                if(d.cmd == 'answer'){
+                    if(d.step==1&&d.level==that.select){
+                      console.log(d)
+                      that.$store.commit('get_answer',d.details[0])
+                      that.$store.commit('get_step',d.step)
+                      that.$store.commit('get_room',d.room_id)
+                      that.$store.commit('get_level',d.level)
+                      that.$store.commit('get_max_nub',d.max_step)
+                      wx.redirectTo({
+                        url:'/pages/alone/main'
+                      })
+                    }
+                }
+            })
+      }
     }
 </script>
 
@@ -156,6 +197,10 @@
         background: transparent;
         border-color:transparent;
       }
+      .user{
+        margin-top:-77px/2;
+        margin-left:17px/2;
+      }
      }
       &:nth-of-type(6){
          left:205px/2;
@@ -181,6 +226,10 @@
           background: transparent;
           border-color:transparent;
         }
+    .user{
+      margin-top:-4px/2;
+      margin-left:56px/2;
+    }
        }
     }
     .pass{
@@ -208,6 +257,67 @@
           border-radius: 50%;
         }
       }
+    }
+  }
+    .bg_shade{
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top:0;
+      left:0;
+      background: rgba(0,0,0,.7);
+      z-index:10;
+    }
+  .pick_box{
+    width: 560px/2;
+    height: 416px/2;
+    border-radius: 30px/2;
+    background: #ffb3a2;
+    position: absolute;
+    top:316px/2;
+    left:0;
+    right:0;
+    margin:auto;
+  }
+  .pick_t{
+    position: absolute;
+    top:-61px/2;
+    left:0;
+    right:0;
+    margin: auto;
+    width: 493px/2;
+    height: 110px/2;
+    image{
+      width: 100%;
+      height: 100%;
+    }
+  }
+    .pick_item_box{
+      width: 100%;
+      height: 100%;
+      padding: 88px/2 51px/2 0;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+    }
+  .pick_item{
+    width: 210px/2;
+    height: 100%;
+    image{
+      width: 210px/2;
+      height: 209px/2;
+      box-shadow: #acacac 0 6px/2 7px/2;
+      border-radius: 25px/2;
+      display: block;
+      margin-bottom:21px/2;
+    }
+    p{
+      font-size: 30px/2;
+      color: #fff;
+      line-height: 30px/2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 </style>

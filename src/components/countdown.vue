@@ -21,7 +21,7 @@
               let ctx = wx.createCanvasContext('myCanvas')
               ctx.clearRect(0, 0, 120, 120)
               ctx.arc(33, 33, 24, 0, 2 * Math.PI)
-              ctx.setFillStyle('#fff3f3')
+              ctx.setFillStyle('#ffffff')
               ctx.fill()
               ctx.beginPath()
               ctx.setStrokeStyle('#AAAAAA')
