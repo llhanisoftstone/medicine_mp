@@ -86,33 +86,33 @@
         },
         mounted(){
           let that =this
-          this.$socket.on('data_chain', d=>{
-              console.log(d)
-            if(d.cmd == 'login'){
-              that.$store.commit('getsocket')
-              that.sendnews()
-            }
-            if(d.cmd == 'answer'){
-              if(d.step == 1){
-                that.vs=true
-                if(d.other_user){
-                  that.$store.commit('get_vsuser',d.other_user)
-                }
-                if(d.content_type == 1){
-                  that.$store.commit('get_answer',d.details[0])
-                  that.$store.commit('get_step',d.step)
-                }
-                that.$store.commit('get_room',d.room_id)
-                let rout
-                clearTimeout(rout)
-                rout = setTimeout(function(){
-                  wx.navigateTo({
-                    url:`/pages/pkanswer/main?from=${that.from}`
-                  })
-                },1500)
-              }
-            }
-          })
+//          this.$socket.on('data_chain', d=>{
+//              console.log(d)
+//            if(d.cmd == 'login'){
+//              that.$store.commit('getsocket')
+//              that.sendnews()
+//            }
+//            if(d.cmd == 'answer'){
+//              if(d.step == 1){
+//                that.vs=true
+//                if(d.other_user){
+//                  that.$store.commit('get_vsuser',d.other_user)
+//                }
+//                if(d.content_type == 1){
+//                  that.$store.commit('get_answer',d.details[0])
+//                  that.$store.commit('get_step',d.step)
+//                }
+//                that.$store.commit('get_room',d.room_id)
+//                let rout
+//                clearTimeout(rout)
+//                rout = setTimeout(function(){
+//                  wx.navigateTo({
+//                    url:`/pages/pkanswer/main?from=${that.from}`
+//                  })
+//                },1500)
+//              }
+//            }
+//          })
           that.sendnews()
         },
       onLoad: function(option){
@@ -122,6 +122,34 @@
           this.other_uid = option.id
         }
         this.from = option.from
+        let that =this
+        this.$socket.on('data_chain', d=>{
+          console.log(d)
+          if(d.cmd == 'login'){
+            that.$store.commit('getsocket')
+            that.sendnews()
+          }
+          if(d.cmd == 'answer'){
+            if(d.step == 1){
+              that.vs=true
+              if(d.other_user){
+                that.$store.commit('get_vsuser',d.other_user)
+              }
+              if(d.content_type == 1){
+                that.$store.commit('get_answer',d.details[0])
+                that.$store.commit('get_step',d.step)
+              }
+              that.$store.commit('get_room',d.room_id)
+              let rout
+              clearTimeout(rout)
+              rout = setTimeout(function(){
+                wx.navigateTo({
+                  url:`/pages/pkanswer/main?from=${that.from}`
+                })
+              },1500)
+            }
+          }
+        })
 //        if(this.$store.state.issocket){
 //          this.sendnews()
 //        }else{

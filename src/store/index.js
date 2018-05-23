@@ -74,7 +74,7 @@ const store = new Vuex.Store({
       const obj = state
       obj.myscore += myscore
     },
-    clear_score: (state)=> {
+    clear_score: (state) => {
       const obj = state
       obj.vsscore = 0
       obj.myscore = 0

@@ -175,61 +175,7 @@
         mounted(){
           this.cleardata()
           this.countdownfn()
-          let that=this
-          this.$socket.on('data_chain', d=>{    //接收题目
-            if(d.step != 1){
-              if(d.cmd == 'answer'){
-                that.vs=true
-                if(d.users){
-                  for(let i=0;i<d.users.length;i++){
-                    if(d.users[i].id != that.$store.state.user.userid){
-                      that.$store.commit('get_vsuser',d.users[i])
-                    }
-                  }
-                }
-                if(d.other_reply.use_time!=-1&&d.other_reply.use_time!=-2){
-                  that.other = d.other_reply.reply
-                  if(that.$store.state.answer.answer_json[that.other].right==true){
-                    if(that.times>20){
-                      that.$store.commit('get_vsscore',100)
-                    }else if(that.times>10){
-                      that.$store.commit('get_vsscore',60)
-                    }else{
-                      that.$store.commit('get_vsscore',40)
-                    }
-                  }
-                }
-                if(d.content_type == 1){
-                  if(d.step>1){
-                    setTimeout(function(){
-                      that.$store.commit('get_answer',d.details[0])
-                      that.$store.commit('get_step',d.step)
-                      that.times = 30
-                      that.answernub = 0
-                      that.timenub = 0
-                      that.isshow = false
-                      that.index = -1
-                      that.isclick=false
-                      that.other= -1
-                    },1000)
-                  }
-                }else if(d.content_type == 2){
-                  that.gameover=true   //延时跳转页面
-                  if(d.details){
-                    that.$store.commit('get_prize',d.details[0])
-                  }else{
-                    that.$store.commit('get_prize',{})
-                  }
-                    setTimeout(function(){
-                      wx.navigateTo({
-                        url:`/pages/result/main?from=${that.from}`
-                      })
-                    },1000)
-                }
-                that.$store.commit('get_room',d.room_id)
-              }
-            }
-          })
+
         },
         watch:{
             times(val,oldval){
@@ -240,6 +186,61 @@
         },
       onLoad(option){
             this.from = option.from
+        let that=this
+        this.$socket.on('data_chain', d=>{    //接收题目
+          if(d.step != 1){
+            if(d.cmd == 'answer'){
+              that.vs=true
+              if(d.users){
+                for(let i=0;i<d.users.length;i++){
+                  if(d.users[i].id != that.$store.state.user.userid){
+                    that.$store.commit('get_vsuser',d.users[i])
+                  }
+                }
+              }
+              if(d.other_reply.use_time!=-1&&d.other_reply.use_time!=-2){
+                that.other = d.other_reply.reply
+                if(that.$store.state.answer.answer_json[that.other].right==true){
+                  if(that.times>20){
+                    that.$store.commit('get_vsscore',100)
+                  }else if(that.times>10){
+                    that.$store.commit('get_vsscore',60)
+                  }else{
+                    that.$store.commit('get_vsscore',40)
+                  }
+                }
+              }
+              if(d.content_type == 1){
+                if(d.step>1){
+                  setTimeout(function(){
+                    that.$store.commit('get_answer',d.details[0])
+                    that.$store.commit('get_step',d.step)
+                    that.times = 30
+                    that.answernub = 0
+                    that.timenub = 0
+                    that.isshow = false
+                    that.index = -1
+                    that.isclick=false
+                    that.other= -1
+                  },1000)
+                }
+              }else if(d.content_type == 2){
+                that.gameover=true   //延时跳转页面
+                if(d.details){
+                  that.$store.commit('get_prize',d.details[0])
+                }else{
+                  that.$store.commit('get_prize',{})
+                }
+                setTimeout(function(){
+                  wx.redirectTo({
+                    url:`/pages/result/main?from=${that.from}`
+                  })
+                },1000)
+              }
+              that.$store.commit('get_room',d.room_id)
+            }
+          }
+        })
       }
 
     }
