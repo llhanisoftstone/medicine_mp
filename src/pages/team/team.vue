@@ -220,6 +220,7 @@
         let that =this
         that.$socket.emit('data_chain',{
             cmd:'left',
+            room_id:that.$store.state.room_id,
             u_id:that.$store.state.user.userid,
             game_cfg_id:2,
             game_type:2
