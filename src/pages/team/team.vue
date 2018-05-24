@@ -36,7 +36,7 @@
       <!--邀请模块-->
       <div class="invite_box" v-if="!isstart">
         <image src="/static/img/yaoqing.png"></image>
-        <button :class="{'disabled':challenger!=user.userid}">开始游戏</button>
+        <button :class="{'disabled':challenger!=user.userid}" @click="startgame">开始游戏</button>
       </div>
       <!--聊天模块-->
       <div class="chat_box">
@@ -105,6 +105,32 @@
             }
         },
         methods: {
+            startgame(){
+                let that = this
+                if(this.challenger == that.$store.state.user.userid){
+                    that.$socket.emit('data_chain',{
+                      cmd:'fight',
+                      u_id:that.challenger,
+                      level:that.$store.state.level,
+                      game_cfg_id:2,
+                      game_type:2,
+                      game_style:3
+                    })
+                }
+            },
+            cleardata(){
+              this.challenger=''
+              this.isprop=false
+              this.times=30
+              this.isshow=false
+              this.isstart=false
+              this.scrollTop=1000
+              this.stat=[]
+              this.team=[]
+              this.chat=[]
+              this.content=''
+              this.$store.commit('get_room','')
+            },
           send(){       //发送聊天
             let that =this
             if(that.content.replace(/(^\s*)|(\s*$)/g, "")!=''){
@@ -186,15 +212,30 @@
                     }
                   }
                 }else if(d.cmd == 'left'){
-                    for(let i=0;i<that.team.length;i++){
-                        if(that.team[i].id == d.u_id){
-                            that.chat.push({
-                              nickname:'【系统】',
-                              msg:`${that.team[i].nickname}离开房间`
-                            })
-                            that.team.splice(i,1)
-                            break
+                    if(d.u_id == that.challenger){
+                      wx.showModal({
+                        title: '提示',
+                        content: '挑战者已退出游戏',
+                        showCancel:false,
+                        confirmText:'返回首页',
+                        confirmColor:'#df5c3e',
+                        success: function(res) {
+                          if (res.confirm) {
+                            console.log('用户点击确定')
+                          }
                         }
+                      })
+                    }else{
+                      for(let i=0;i<that.team.length;i++){
+                        if(that.team[i].id == d.u_id){
+                          that.chat.push({
+                            nickname:'【系统】',
+                            msg:`${that.team[i].nickname}离开房间`
+                          })
+                          that.team.splice(i,1)
+                          break
+                        }
+                      }
                     }
                 }else if(d.cmd == 'chat'){
                     if(d.u_id==that.$store.state.user.userid){
@@ -218,6 +259,7 @@
     },
     onUnload(){
         let that =this
+        that.cleardata()
         that.$socket.emit('data_chain',{
             cmd:'left',
             room_id:that.$store.state.room_id,
