@@ -12,7 +12,7 @@
         <ul>
           <li v-if="challenger!=user.userid"><image :src="userinfo.avatarUrl"></image></li>
           <li v-for="(v,i) in team" v-if="i!=0&&i<13"><image :src="v.picpath"></image></li>
-          <li class="add" v-if="team.length<14"></li>
+          <li class="add" v-if="team.length<14&&!isstart"></li>
         </ul>
       </div>
       <h2 v-if="isprop">您使用了延迟针，时间延长了10s</h2>
@@ -21,15 +21,10 @@
         <counddown :time="times"></counddown>
       </div>
       <div class="answer" v-if="isstart">
-        <!--<answer :title="answer.category_name" :answer="answer.name">-->
-          <!--<ul slot="list" class="answer_box_ul">-->
-            <!--<li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}</li>-->
-          <!--</ul>-->
-        <!--</answer>-->
-        <answer title="分类" answer="题目" distance="1">
-        <ul slot="list" class="answer_box_ul">
-        <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in an" v-on:click="submit(i,v.right)">{{v.answer}}<span>{{stat[i]}}人</span></li>
-        </ul>
+        <answer :title="answer.category_name" :answer="answer.name">
+          <ul slot="list" class="answer_box_ul">
+            <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}<span>{{stat[i]}}人</span></li>
+          </ul>
         </answer>
       </div>
       <p class="provide" v-if="isstart">本题由{{answer.organiz_name}}提供</p>
@@ -84,28 +79,27 @@
               team:[],               //亲友团
               chat:[],                   //聊天信息
               content:'',                 //输入框内容
-              an:[
-                {
-                  answer:'1',
-                  right:false
-                },
-                {
-                  answer:'2',
-                  right:false
-                },
-                {
-                  answer:'3',
-                  right:false
-                },
-                {
-                  answer:'4',
-                  right:true
-                }
-              ]
+              gameover:false,              //游戏是否结束
+              isclick:false,                   //是否选择答案
+              index:-1                     //选择的选项
             }
         },
         methods: {
-            startgame(){
+            countdownfn(){     //倒计时
+              let that=this
+              let timefn
+              clearInterval(timefn)
+              timefn = setInterval(function(){
+                if(that.gameover){
+                  clearInterval(timefn)
+                }
+                if(that.times == 0){
+                  return
+                }
+                that.times=that.times-1
+              },1000)
+            },
+            startgame(){    //开始游戏
                 let that = this
                 if(this.challenger == that.$store.state.user.userid){
                     that.$socket.emit('data_chain',{
@@ -119,6 +113,8 @@
                 }
             },
             cleardata(){
+              this.index=-1
+              this.isclick=false
               this.challenger=''
               this.isprop=false
               this.times=30
@@ -146,7 +142,40 @@
             }
           },
           submit(index,right){    //提交答案
-
+            if(this.isclick){
+                return
+            }
+            let that=this
+            that.isclick=true
+            that.index=index
+            if(that.challenger == that.$store.state.user.userid){
+              that.isshow = true    //提交答案
+              let reply=0
+              if(right){
+                  reply=1
+              }
+              that.$socket.emit('data_chain', {
+                cmd:'answer',
+                room_id:that.$store.state.room_id,
+                u_id:that.$store.state.user.userid,
+                level:that.$store.state.level,
+                reply:index,   //回答内容
+                score:reply,   // 得分
+//              tool_id: '',   // 使用道具
+                use_time:(30-this.times)>0?30-this.times:0,   //使用时间   -1 自己延时
+                step:that.$store.state.step
+              })
+            }else{
+                that.$socket.emit('data_chain',{
+                  cmd:'chat',
+                  type:5,
+                  room_id:that.$store.state.room_id,
+                  u_id:that.$store.state.user.userid,
+                  level:that.$store.state.level,
+                  step:that.$store.state.step,
+                  data:that.index
+                })
+            }
           },
           join(){    //加入房间
               let that = this
@@ -178,9 +207,6 @@
     onLoad(option){
             let that =this
             this.challenger=option.id
-            for( let i=0; i<this.an.length;i++){
-                this.stat.push(0)
-            }
             if(this.challenger == this.$store.state.user.userid){
                 this.team.push({
                   id:this.$store.state.user.userid,
@@ -253,6 +279,36 @@
                         }
                       }
                     }
+                }else if(d.cmd == 'answer'){
+                  if(d.content_type == 1){
+                    if(d.level == that.$store.state.level){
+                      that.countdownfn()
+                      let til
+                      clearInterval(til)
+                      til=setTimeout(function(){
+                        that.index=-1
+                        that.times=30
+                        that.isclick=false
+                        that.isshow=false
+                        that.isstart=true
+                        for(let i=0;i<d.details[0].answer_json.length;i++){
+                          that.stat.push(0)
+                        }
+                        that.$store.commit('get_answer',d.details[0])
+                        that.$store.commit('get_step',d.step)
+                        that.$store.commit('get_max_nub',d.max_step)
+                        wx.setNavigationBarTitle({
+                          title:`第${that.$store.state.step}/${that.$store.state.max_nub}题`
+                        })
+                      },1000)
+                    }else{    //当前关卡结束
+
+                    }
+                  }else if(d.content_type == 2){    //全部挑战结束
+
+                  }else if(d.content_type == 3){       //挑战失败
+
+                  }
                 }
                 console.log(d)
             })

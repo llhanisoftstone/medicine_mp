@@ -86,7 +86,7 @@
                 u_id:that.$store.state.user.userid,
                 level:that.$store.state.level,
                 reply:index,   //回答内容
-                score:1,   // 得分
+                score:reply,   // 得分
 //              tool_id: '',   // 使用道具
                 use_time:(30-this.times)>0?30-this.times:0,   //使用时间   -1 自己延时
                 step:that.$store.state.step
