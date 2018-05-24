@@ -2,13 +2,17 @@
     <div class="bg_color">
       <div class="my_box">
         <p>挑战者</p>
-        <ul><li><image :src="userinfo.avatarUrl"></image></li></ul>
+        <ul>
+          <li v-if="challenger==user.userid"><image :src="userinfo.avatarUrl"></image></li>
+          <li v-if="(challenger!=user.userid)&&i==0" v-for="(v,i) in team"><image :src="v.picpath"></image></li>
+        </ul>
       </div>
       <div class="team_box">
         <p>亲友团</p>
         <ul>
-          <li><image :src="userinfo.avatarUrl"></image></li>
-          <li class="add"></li>
+          <li v-if="challenger!=user.userid"><image :src="userinfo.avatarUrl"></image></li>
+          <li v-for="(v,i) in team" v-if="i!=0&&i<13"><image :src="v.picpath"></image></li>
+          <li class="add" v-if="team.length<14"></li>
         </ul>
       </div>
       <h2 v-if="isprop">您使用了延迟针，时间延长了10s</h2>
@@ -32,7 +36,7 @@
       <!--邀请模块-->
       <div class="invite_box" v-if="!isstart">
         <image src="/static/img/yaoqing.png"></image>
-        <button v-if="challenger==user.userid">开始游戏</button>
+        <button :class="{'disabled':challenger!=user.userid}">开始游戏</button>
       </div>
       <!--聊天模块-->
       <div class="chat_box">
@@ -73,9 +77,9 @@
       </div>
       <div class="publish_box">
         <div>
-          <input type="text">
+          <input type="text" v-model="content">
         </div>
-        <button>发表</button>
+        <button @click="send">发表</button>
         <a href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>0</span></a>
         <a href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>0</span></a>
       </div>
@@ -95,8 +99,11 @@
               times:30,
               isshow:false,          //是否显示答案
               isstart:false,           //是否开始游戏
-              scrollTop:1000,
-              stat:[],
+              scrollTop:1000,           //聊天滚动条高度
+              stat:[],                //统计信息
+              team:[],               //亲友团
+              chat:[],                   //聊天信息
+              content:'',                 //输入框内容
               an:[
                 {
                   answer:'1',
@@ -118,6 +125,20 @@
             }
         },
         methods: {
+          send(){       //发送聊天
+            let that =this
+            if(that.content.replace(/(^\s*)|(\s*$)/g, "")!=''){
+                  //发送聊天内容
+              that.$socket.emit('data_chain',{
+                  cmd:'chat',
+                  u_id:that.$store.state.user.userid,
+                  room_id:that.$store.state.room_id,
+                  data:that.content.replace(/(^\s*)|(\s*$)/g, ""),
+                  type:1
+              })
+              that.content=''
+            }
+          },
           submit(index,right){    //提交答案
 
           },
@@ -125,6 +146,8 @@
               let that = this
               that.$socket.emit('data_chain',{
                   cmd:'fight',
+                  game_cfg_id:2,
+                  game_type:2,
                   u_id:that.$store.state.user.userid,
                   to_u_id:that.challenger,
                   game_style:2
@@ -147,14 +170,31 @@
             }
         },
     onLoad(option){
+            let that =this
             this.challenger=option.id
-            for( let i=0; i<this.$store.state.answer.answer_json.length;i++){
+            for( let i=0; i<this.an.length;i++){
                 this.stat.push(0)
             }
-            if(this.challenger != this.$store.state.user.userid){
-              this.join()
+            if(this.challenger == this.$store.state.user.userid){
+                this.team.push({
+                  id:this.$store.state.user.userid,
+                  nickname:this.$store.state.userinfo.nickName,
+                  picpath:this.$store.state.userinfo.avatarUrl
+                })
             }
             this.$socket.on('data_chain',d=>{
+                if(d.cmd=='login'){
+                  if(this.challenger != this.$store.state.user.userid){
+                    this.join()
+                  }
+                }else if(d.cmd =='fight'){
+                  that.$store.commit('get_room',d.room_id)
+                  if(d.user){
+                    for(let i=0;i<d.user.length;i++){
+                        that.team.push(d.user[i])
+                    }
+                  }
+                }
                 console.log(d)
             })
     }
@@ -438,6 +478,10 @@
         font-size:32px/2;
         margin:0 auto;
         margin-top: 67px/2;
+        position: inherit;
+      }
+      .disabled{
+        background: #e2e2e2;
       }
     }
 </style>
