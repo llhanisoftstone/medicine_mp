@@ -185,9 +185,45 @@
                         that.team.push(d.user[i])
                     }
                   }
+                }else if(d.cmd == 'left'){
+                    for(let i=0;i<that.team.length;i++){
+                        if(that.team[i].id == d.u_id){
+                            that.chat.push({
+                              nickname:'【系统】',
+                              msg:`${that.team[i].nickname}离开房间`
+                            })
+                            that.team.splice(i,1)
+                            break
+                        }
+                    }
+                }else if(d.cmd == 'chat'){
+                    if(d.u_id==that.$store.state.user.userid){
+                      that.chat.push({
+                        nickname:that.$store.state.userinfo.nickName,
+                        msg:d.data
+                      })
+                    }else{
+                      for(let i=0;i<that.team.length;i++){
+                        if(that.team[i].id ==d.u_id){
+                          that.chat.push({
+                            nickname:that.team[i].nickname,
+                            msg:d.data
+                          })
+                        }
+                      }
+                    }
                 }
                 console.log(d)
             })
+    },
+    onUnload(){
+        let that =this
+        that.$socket.emit('data_chain',{
+            cmd:'left',
+            u_id:that.$store.state.user.userid,
+            game_cfg_id:2,
+            game_type:2
+        })
     }
 
     }
