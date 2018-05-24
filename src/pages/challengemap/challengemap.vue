@@ -109,7 +109,7 @@
       onLoad(){
             let that=this
             that.$socket.on('data_chain',d=>{
-                if(d.cmd == 'answer'){
+                if(d.cmd == 'answer'&&that.game_type==1){
                     if(d.step==1&&d.level==that.select){
                       console.log(d)
                       that.$store.commit('get_answer',d.details[0])
@@ -119,15 +119,9 @@
                       that.$store.commit('get_max_nub',d.max_step)
                       that.$socket.removeAllListeners('data_chain')
                       that.isshow=false
-                      if(that.game_type==1){
-                        wx.navigateTo({
-                          url:'/pages/alone/main'
-                        })
-                      }else if(that.game_type==2){
-                        wx.navigateTo({
-                          url:`/pages/team/main?id=${that.$store.state.user.userid}`
-                        })
-                      }
+                      wx.navigateTo({
+                        url:'/pages/alone/main'
+                      })
                     }
                 }else if(d.cmd == 'fight'){
                     if(d.style == 1){
