@@ -130,11 +130,13 @@
                       }
                     }
                 }else if(d.cmd == 'fight'){
-                  that.$store.commit('get_room',d.room_id)
-                  that.$store.commit('get_level',that.select)
-                  wx.navigateTo({
-                    url:`/pages/team/main?id=${that.$store.state.user.userid}`
-                  })
+                    if(d.style == 1){
+                      that.$store.commit('get_room',d.room_id)
+                      that.$store.commit('get_level',that.select)
+                      wx.navigateTo({
+                        url:`/pages/team/main?id=${that.$store.state.user.userid}`
+                      })
+                    }
                 }
             })
       }
