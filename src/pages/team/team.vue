@@ -48,29 +48,9 @@
         </div>
         <scroll-view style="height:147px;" scroll-y="true" :scroll-top="scrollTop">
           <ul class="chat_list">
-            <li>
-              <span>【系统】</span>：
-              <span>回答正确</span>
-            </li>
-            <li>
-              <span>【系统】</span>：
-              <span>1111111111111111111111111111111111111111111111111111111111111111111111</span>
-            </li>
-            <li>
-              <span>【系统】</span>：
-              <span>1111111111111111111111111111111111111111111111111111111111111111111111</span>
-            </li>
-            <li>
-              <span>【系统】</span>：
-              <span>1111111111111111111111111111111111111111111111111111111111111111111111</span>
-            </li>
-            <li>
-              <span>【系统】</span>：
-              <span>1111111111111111111111111111111111111111111111111111111111111111111111</span>
-            </li>
-            <li>
-              <span>【系统】</span>：
-              <span>1111111111111111111111111111111111111111111111111111111111111111111111</span>
+            <li v-for="(v,i) in chat">
+              <span>{{v.nickname}}</span>：
+              <span>{{v.msg}}</span>
             </li>
           </ul>
         </scroll-view>
@@ -189,6 +169,17 @@
                   }
                 }else if(d.cmd =='fight'){
                   that.$store.commit('get_room',d.room_id)
+                  if(that.$store.state.user.userid==d.u_id){
+                    that.chat.push({
+                      nickname:'【系统】',
+                      msg:`${that.$store.state.userinfo.nickName}加入房间`
+                    })
+                  }else{
+                    that.chat.push({
+                      nickname:'【系统】',
+                      msg:`${d.user[0].nickname}加入房间`
+                    })
+                  }
                   if(d.user){
                     for(let i=0;i<d.user.length;i++){
                         that.team.push(d.user[i])
