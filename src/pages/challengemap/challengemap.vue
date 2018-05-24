@@ -23,7 +23,7 @@
           <div class="pick_t"><image src="/static/img/yaoqing_2.png"></image></div>
           <div class="pick_item_box">
             <div class="pick_item" @click="alone"><a href=""><image src="/static/img/yaoqing_3.png"></image><p>闯关侠</p></a></div>
-            <div class="pick_item"><a href=""><image src="/static/img/yaoqing_1.png"></image><p>邀请好友助阵</p></a></div>
+            <button open-type="share" class="pick_item"><a href=""><image src="/static/img/yaoqing_1.png"></image><p>邀请好友助阵</p></a></button>
           </div>
         </div>
       </div>
@@ -38,7 +38,8 @@
               isshow:false,    //弹窗状态
               levelarr:[1,2,3,4,5,6,7,8,9,10],   //全部关卡
 //              level:3,       //自己的关卡
-              select:0    //选择的关卡
+              select:0,    //选择的关卡
+              game_type:-1     //单人 1   多人 2
             }
         },
         methods: {
@@ -56,6 +57,7 @@
           prevent(){},       //阻止冒泡
           alone(){
               let that=this
+              this.game_type=1
               this.$socket.emit('data_chain',{
                   cmd:'fight',
                   u_id: that.$store.state.user.userid,
@@ -63,8 +65,38 @@
                   game_type:1,
                   level:that.select
               })
+          },
+          team(){
+              let that =this
+            this.game_type=2
+            that.$socket.emit('data_chain',{
+                cmd:'fight',
+                u_id: that.$store.state.user.userid,
+                game_cfg_id: 2,
+                game_type:2,
+                level:that.select,
+                game_style:1
+              })
           }
         },
+      onShareAppMessage(res){
+        let that=this
+        if (res.from === 'menu') {
+          // 来自页面内转发按钮
+          console.log(res.target)
+        }
+        return {
+          title: '邀请好友助阵',
+          path: `/pages/team/main?id=${that.$store.state.user.userid}`,
+          success: (r)=>{
+            that.team()
+            console.log(r)
+          },
+          fail: (err)=>{
+            console.log(err)
+          }
+        }
+      },
         components: {},
         computed:{
             imgurl(){
@@ -87,10 +119,22 @@
                       that.$store.commit('get_max_nub',d.max_step)
                       that.$socket.removeAllListeners('data_chain')
                       that.isshow=false
-                      wx.navigateTo({
-                        url:'/pages/alone/main'
-                      })
+                      if(that.game_type==1){
+                        wx.navigateTo({
+                          url:'/pages/alone/main'
+                        })
+                      }else if(that.game_type==2){
+                        wx.navigateTo({
+                          url:`/pages/team/main?id=${that.$store.state.user.userid}`
+                        })
+                      }
                     }
+                }else if(d.cmd == 'fight'){
+                  that.$store.commit('get_room',d.room_id)
+                  that.$store.commit('get_level',that.select)
+                  wx.navigateTo({
+                    url:`/pages/team/main?id=${that.$store.state.user.userid}`
+                  })
                 }
             })
       }
@@ -291,6 +335,7 @@
     right:0;
     margin: auto;
     width: 493px/2;
+    z-index:2;
     height: 110px/2;
     image{
       width: 100%;
@@ -307,6 +352,11 @@
     }
   .pick_item{
     width: 210px/2;
+    padding: 0;
+    margin:0;
+    background: transparent;
+    border:none;
+    position: inherit;
     height: 100%;
     image{
       width: 210px/2;

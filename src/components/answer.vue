@@ -37,6 +37,6 @@
     }
     .top{
       margin-top:33px/2;
-      margin-bottom: 78px/2;
+      margin-bottom: 48px/2;
     }
 </style>

@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 2,
 			"list": [
 				{
 					"id": 0,
@@ -46,10 +46,11 @@
 					"scene": "1007"
 				},
 				{
-					"id": -1,
-					"name": "全网挑战",
-					"pathName": "pages/loadpk/main",
-					"query": "id=4"
+					"id": 2,
+					"name": "多人挑战",
+					"pathName": "pages/team/main",
+					"query": "id=5",
+					"scene": "1007"
 				},
 				{
 					"id": -1,

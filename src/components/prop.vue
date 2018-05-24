@@ -1,11 +1,11 @@
 <template>
     <div>
       <div class="bg_prop">
-        <div>
+        <div @click="useTools(answer)">
           <image src="/static/img/daojushangdian_11.png"></image>
           <p>{{answer}}</p>
         </div>
-        <div v-if="istimes">
+        <div v-if="istimes" @click="useTools(times)">
           <image src="/static/img/daojushangdian_13.png"></image>
           <p>{{times}}</p>
         </div>
@@ -34,7 +34,13 @@
         data(){
             return {}
         },
-        methods: {},
+        methods: {
+          useTools(number){
+              if(number>0){
+                this.$emit('userTools')
+              }
+          }
+        },
         components: {}
 
     }

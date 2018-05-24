@@ -7,7 +7,7 @@
           <div class="time_box">
             <counddown :time="times"></counddown>
           </div>
-          <h2 v-if="isprop">您使用了延时针，时间延长了10s</h2>
+          <h2 v-if="isprop">您使用了延迟针，时间延长了10s</h2>
         </div>
         <div class="answer">
           <answer :title="answer.category_name" :answer="answer.name">
@@ -23,7 +23,7 @@
         </div>
         <p class="provide">本题由{{answer.organiz_name}}提供</p>
         <div class="prop_box">
-          <prop :istimes="true" :answer="answernub" :times="timenub"></prop>
+          <prop :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
         </div>
       </div>
     </div>
@@ -51,6 +51,9 @@
             }
         },
         methods: {
+          userTools(){
+              console.log('使用道具')
+          },
           countdownfn(){     //倒计时
             let that=this
             let timefn
