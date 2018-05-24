@@ -177,6 +177,19 @@
                 })
             }
           },
+          overtime(){
+            let that=this
+            if(!that.isclick){
+              that.$socket.emit('data_chain', {
+                cmd:'answer',
+                room_id:that.$store.state.room_id,
+                u_id:that.$store.state.user.userid,
+                level:that.$store.state.level,
+                use_time:-1,   //使用时间   -1 自己延时
+                step:that.$store.state.step
+              })
+            }
+          },
           join(){    //加入房间
               let that = this
               that.$socket.emit('data_chain',{
@@ -187,6 +200,15 @@
                   to_u_id:that.challenger,
                   game_style:2
               })
+          }
+        },
+        watch:{
+          times(val,oldval){
+            if(val == 0){
+                if(this.challenger == this.$store.state.user.userid){
+                  this.overtime()
+                }
+            }
           }
         },
         components: {
@@ -264,22 +286,48 @@
                       }
                     }
                 }else if(d.cmd == 'chat'){
-                    if(d.u_id==that.$store.state.user.userid){
-                      that.chat.push({
-                        nickname:that.$store.state.userinfo.nickName,
-                        msg:d.data
-                      })
-                    }else{
-                      for(let i=0;i<that.team.length;i++){
-                        if(that.team[i].id ==d.u_id){
-                          that.chat.push({
-                            nickname:that.team[i].nickname,
-                            msg:d.data
-                          })
+                    if(d.type == 1){
+                      if(d.u_id==that.$store.state.user.userid){
+                        that.chat.push({
+                          nickname:that.$store.state.userinfo.nickName,
+                          msg:d.data
+                        })
+                      }else{
+                        for(let i=0;i<that.team.length;i++){
+                          if(that.team[i].id ==d.u_id){
+                            that.chat.push({
+                              nickname:that.team[i].nickname,
+                              msg:d.data
+                            })
+                          }
+                        }
+                      }
+                    }else if(d.type == 5){
+                        for(let i=0;i<d.stat.length;i++){
+                            if(d.stat[i]){
+                                that.stat[i]=d.stat[i]
+                            }
+                        }
+                      if(d.u_id==that.$store.state.user.userid){
+                        that.chat.push({
+                          nickname:'【系统】',
+                          msg:`${that.$store.state.userinfo.nickName}已选择`
+                        })
+                      }else{
+                        for(let i=0;i<that.team.length;i++){
+                          if(that.team[i].id ==d.u_id){
+                            that.chat.push({
+                              nickname:'【系统】',
+                              msg:`${that.team[i].nickname}已选择`
+                            })
+                          }
                         }
                       }
                     }
                 }else if(d.cmd == 'answer'){
+                  if(that.challenger != that.$store.state.user.userid){
+                    that.$store.commit('get_level',d.level)
+                  }
                   if(d.content_type == 1){
                     if(d.level == that.$store.state.level){
                       that.countdownfn()
@@ -295,6 +343,7 @@
                           that.stat.push(0)
                         }
                         that.$store.commit('get_answer',d.details[0])
+                        that.$store.commit('get_level',d.level)
                         that.$store.commit('get_step',d.step)
                         that.$store.commit('get_max_nub',d.max_step)
                         wx.setNavigationBarTitle({
