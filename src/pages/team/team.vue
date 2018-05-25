@@ -544,7 +544,6 @@
     },
     onUnload(){
         let that =this
-        that.cleardata()
         that.$socket.emit('data_chain',{
             cmd:'left',
             room_id:that.$store.state.room_id,
@@ -552,6 +551,7 @@
             game_cfg_id:2,
             game_type:2
         })
+      that.cleardata()
     }
 
     }
