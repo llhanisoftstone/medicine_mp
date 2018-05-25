@@ -37,7 +37,11 @@
           getdata(){
               let that=this
               if(this.isFriends){
-                  that.rankings=[]
+                this.$get('/rs/member_relation',{u_id:this.$store.state.user.userid,order:'points desc,update_time'}).then(res=>{
+                  if(res.code == 200){
+                    that.rankings=res.rows
+                  }
+                })
               }else{
                   this.$get('/rs/member',{order:'points desc,create_time',page:1,size:50,rank:'<,91'}).then(res=>{
                       if(res.code == 200){

@@ -228,11 +228,11 @@
               if(d.other_reply.use_time!=-1&&d.other_reply.use_time!=-2){
                 that.other = d.other_reply.reply
                 if(that.$store.state.answer.answer_json[that.other].right==true){
-                  if(that.other.use_time<10){
+                  if(d.other_reply.use_time<10){
                     that.$store.commit('get_vsscore',100)
-                  }else if(that.other.use_time<20){
+                  }else if(d.other_reply.use_time<20){
                     that.$store.commit('get_vsscore',60)
-                  }else{
+                  }else if(d.other_reply.use_time<30){
                     that.$store.commit('get_vsscore',40)
                   }
                 }
