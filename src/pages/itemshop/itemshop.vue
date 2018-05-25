@@ -12,8 +12,7 @@
       </div>
       <div class="myitemlist" v-if="isshow">
         <ul>
-          <li><img src="/static/img/daojushangdian_11.png" alt=""><div class="bottomlist">x2</div></li>
-          <li><img src="/static/img/daojushangdian_13.png" alt=""><div class="bottomlist">x2</div></li>
+          <li v-for="(w,i) in mypackage" :key="w.id"><img :src="w.picpath" alt=""><div class="bottomlist">x{{w.amount}}</div></li>
         </ul>
       </div>
       <div class="model" v-if="ishidden" v-on:click="isover">
@@ -21,8 +20,8 @@
             <div class="topimg"><img :src="picpath" alt=""></div>
             <ul>
               <li><span class="icon icon_number"></span>
-                <input id="price" type="text" v-model="amount"  v-on:change="checkPrice(val)" ref="type1" placeholder="购买个数" maxlength="7" onkeyup="value=value.replace(/[^\d]/g,'')"/>
-                  <span class="number_right">{{name_type}}<span class="show">{{money}}</span></span>
+                <input id="price" type="number"  v-model="amount" ref="type1" placeholder="购买个数"  maxlength="7"  onkeyup="value=value.replace(/[^\d]/g,'')"/>
+                  <span class="number_right">{{name_type}}<span class="show" v-if="istotalpoint">{{amount*2000}}</span><span class="show" v-if="istotalprice">{{amount*20}}</span></span>
               </li>
               <li><span class="icon icon_pointer"></span><span class="content_title">可用银两<span class="isusepointer"></span>{{points}}</span><span class="pay_type" v-on:click="slelecttype(2)" v-bind:class="{active:paytype2}" _pay_type="2"></span></li>
               <li><span class="icon icon_money"></span><span class="content_title">微信支付</span><span class="pay_type" v-on:click="slelecttype(1)" v-bind:class="{active:paytype1}" _pay_type="1"></span></li>
@@ -39,6 +38,9 @@
     export default {
         name: 'itemshop',
         props: [],
+        components: {
+          mptoast
+        },
         data(){
             return {
               picpath:"",
@@ -53,9 +55,11 @@
               paytype2:true,
               goods_id:null,
               goods: [],
+              istotalpoint:true,
+              istotalprice:false,
+              mypackage:[],
               pay_type:2,
-              money:'',
-              amount:0,
+              amount:1,
               points:'',
               name_type:'银两',
               value:''
@@ -75,12 +79,13 @@
             this.isActive=false;
             this.isclcik=true;
             this.isSelect=true;
+            this.getmybuy();
           },
           buyuse(id,picpath){
             this.goods_id=id;
             this.ishidden=true;
+            this.amount=1;
             this.picpath=picpath;
-
           },
           getpolicyInfo(isok){
             if(isok==true){
@@ -103,11 +108,15 @@
                 this.paytype2=false;
                 this.pay_type=1;
                 this.name_type="RMB";
+                this.istotalprice=true;
+                this.istotalpoint=false;
             }else if(type==2){
                 this.paytype1=false;
                 this.paytype2=true;
                 this.pay_type=2;
                 this.name_type="银两";
+                this.istotalprice=false;
+                this.istotalpoint=true;
             }
           },
           async getgoods(){
@@ -128,22 +137,35 @@
             }
           },
           async getmybuy(){
-            let aa = await this.$get('/rs/order_list',{u_id:this.$store.state.user.userid});
-            if(aa.code==200){
-              this.$store.commit('get_sliver',aa.rows[0].points);
-              this.points=aa.rows[0].points;
+            let that = this;
+            let res = await that.$get('/rs/member_package',{u_id:this.$store.state.user.userid});
+            if(res.code==200){
+              for(let i = 0;i<res.rows.length;i++){
+                res.rows[i].picpath = that.$store.state.url+ res.rows[i].picpath
+              }
+              this.mypackage = res.rows;
             }
           },
-          orderlist(){
+          async orderlist(){
             let that = this;
+            if(this.amount==""||this.amount<=0){
+              this.$mptoast("请输入购买个数");
+              return;
+            }
             if(this.pay_type==2){
-             if(this.amount*2000<=this.points){
-               this.$mptoast("您的银两余额不足，请选择其它支付方式")
+             if(this.amount*2000>this.points){
+               this.$mptoast("您的银两余额不足，请选择其它支付方式");
+               return;
              }
             }
-            let res = that.$post('/rs/order_build',{pay_type:this.pay_type,amount:this.amount,goods_id:this.goods_id});
+            let res = await that.$post('/rs/order_build',{pay_type:this.pay_type,amount:this.amount,goods_id:this.goods_id});
             if(res.code == 200){
-                this.$callWXPAY(res.main_order_id);
+                this.ishidden=false;
+                if(this.pay_type==1){
+                  this.$callWXPAY(res.main_order_id);
+                }else{
+                  this.$mptoast("支付成功");
+                }
             }else if(res.code==607){
               this.$mptoast("银两余额不足");
             }
@@ -152,19 +174,10 @@
       mounted(){
         this.getgoods();
         this.getuserperson();
-        this.getmybuy();
       },
-      checkPrice(val) {
-          if(this.pay_type==1){
-            this.money = this.amount*20;
-          }else if(this.pay_type==2){
-            this.money = this.amount*2000;
-          }
-
-      },
-      components: {},
       onLoad: function (option) {
         this.getpolicyInfo(option.isok)//获取数据
+        this.ishidden=false;
       }
 
     }
@@ -354,6 +367,7 @@
           min-height:15px;
           max-height:15px;
           height:15px;
+          line-height:15px;
           border-left:1px solid #e2e2e2;
           text-align:left;
           padding-left:6px;
@@ -402,5 +416,11 @@
     font-size:14px;
     color:#fff;
   }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button{
+      -webkit-appearance: none !important;
+      margin: 0;
+    }
+    input[type="number"]{-moz-appearance:textfield;}
 
 </style>
