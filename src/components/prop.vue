@@ -1,11 +1,11 @@
 <template>
     <div>
       <div class="bg_prop">
-        <div @click="useTools(answer)">
+        <div @click="useTools(answer,1)">
           <image src="/static/img/daojushangdian_11.png"></image>
           <p>{{answer}}</p>
         </div>
-        <div v-if="istimes" @click="useTools(times)">
+        <div v-if="istimes" @click="useTools(times,2)">
           <image src="/static/img/daojushangdian_13.png"></image>
           <p>{{times}}</p>
         </div>
@@ -35,9 +35,9 @@
             return {}
         },
         methods: {
-          useTools(number){
+          useTools(number,id){
               if(number>0){
-                this.$emit('userTools')
+                this.$emit('userTools',id)
               }
           }
         },

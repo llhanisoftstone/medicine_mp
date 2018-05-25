@@ -36,6 +36,11 @@ export default {
           that.$store.commit('getauth')
           that.$get('/weapp/login', {code: that.$store.state.code, encryptedData: res.encryptedData, iv: res.iv}).then(res => {
             if (res.code === 200) {
+              for (let i = 0; i < res.tools.length; i++) {
+                if (!res.tools[i].amount) {
+                  res.tools[i].amount = 0
+                }
+              }
               that.$store.commit('getm_user', res)
               that.$socket.on('data_chain', d => {
                 if (d.cmd === 'login') {

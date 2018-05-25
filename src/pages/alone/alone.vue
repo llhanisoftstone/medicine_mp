@@ -7,7 +7,7 @@
           <div class="time_box">
             <counddown :time="times"></counddown>
           </div>
-          <h2 v-if="isprop">您使用了延迟针，时间延长了10s</h2>
+          <h2 v-if="isprop">您使用了延迟针，时间延长了20s</h2>
         </div>
         <div class="answer">
           <answer :title="answer.category_name" :answer="answer.name">
@@ -47,12 +47,27 @@
               index:-1,        //选择的答案
               answernub:0,      //查看答案数量
               timenub:0,         //延时道具数量
-              gameover:false     //当前关卡是否结束
+              gameover:false,     //当前关卡是否结束
+              tool_id:[]              //使用的道具
             }
         },
         methods: {
-          userTools(){
-              console.log('使用道具')
+          userTools(id){
+              console.log(`使用道具${id}`)
+            if(id == 1){
+                  for(let i=0;i<this.$store.state.answer.length;i++){
+                      if(this.$store.state.answer[i].right){
+                          this.submit(i,this.$store.state.answer[i].right)
+                      }
+                  }
+            }else if(id == 2){
+                this.isprop=true
+                this.times += 20
+                setTimeout(()=>{
+                  this.isprop=false
+                },1000)
+            }
+            this.tool_id.push(id)
           },
           countdownfn(){     //倒计时
             let that=this
@@ -87,33 +102,37 @@
                 level:that.$store.state.level,
                 reply:index,   //回答内容
                 score:reply,   // 得分
-//              tool_id: '',   // 使用道具
+                tool_id: that.tool_id,   // 使用道具
                 use_time:(30-this.times)>0?30-this.times:0,   //使用时间   -1 自己延时
                 step:that.$store.state.step
               })
           },
           overtime(){
             let that=this
-            if(!that.isclick){
-              that.$socket.emit('data_chain', {
-                cmd:'answer',
-                room_id:that.$store.state.room_id,
-                u_id:that.$store.state.user.userid,
-                level:that.$store.state.level,
-                use_time:-1,   //使用时间   -1 自己延时
-                step:that.$store.state.step
-              })
+            if(!that.gameover){
+              if(!that.isclick){
+                that.$socket.emit('data_chain', {
+                  cmd:'answer',
+                  room_id:that.$store.state.room_id,
+                  u_id:that.$store.state.user.userid,
+                  level:that.$store.state.level,
+                  tool_id: that.tool_id,   // 使用道具
+                  use_time:-1,   //使用时间   -1 自己延时
+                  step:that.$store.state.step
+                })
+              }
             }
           },
           cleardata(){
             let that =this
             that.times = 30
-            that.answernub = 0
-            that.timenub = 0
+            that.answernub = this.$store.state.user.tools[0].amount
+            that.timenub = this.$store.state.user.tools[1].amount
             that.isshow = false
             that.index = -1
             that.isclick=false
             that.gameover=false
+            that.tool_id=[]
           }
         },
         components: {
@@ -169,8 +188,8 @@
               that.$store.commit('get_answer',d.details[0])
               that.$store.commit('get_step',d.step)
               that.$store.commit('get_max_nub',d.max_step)
-              if(d.details[1].code == 200){
-                that.$store.commit('get_prize',d.details[1].rows[0])
+              if(d.details[1]){
+                that.$store.commit('get_prize',d.details[1])
               }else{
                 that.$store.commit('get_prize',{})
               }
@@ -182,7 +201,18 @@
             },1000)
           }
         }else if(d.content_type == 2){    //全部挑战结束
-
+          setTimeout(function(){
+            if(d.details[1]){
+              that.$store.commit('get_prize',d.details[1])
+            }else{
+              that.$store.commit('get_prize',{})
+            }
+            that.gameover=true
+            that.$socket.removeAllListeners('data_chain')
+            wx.redirectTo({
+              url:'/pages/aloneresult/main?result=2'
+            })
+          },1000)
         }else if(d.content_type == 3){    //挑战失败
           setTimeout(function(){
             that.$store.commit('get_prize',{})
@@ -197,6 +227,7 @@
     },
     onUnload(){
         let that = this
+        that.gameover=true
         this.$socket.emit('data_chain',{
             cmd:'left',
             u_id:that.$store.state.user.userid,

@@ -23,7 +23,7 @@
           <div class="pick_t"><image src="/static/img/yaoqing_2.png"></image></div>
           <div class="pick_item_box">
             <div class="pick_item" @click="alone"><a href=""><image src="/static/img/yaoqing_3.png"></image><p>闯关侠</p></a></div>
-            <button open-type="share" class="pick_item"><a href=""><image src="/static/img/yaoqing_1.png"></image><p>邀请好友助阵</p></a></button>
+            <div  class="pick_item"><button open-type="share"><image src="/static/img/yaoqing_1.png"></image><p>邀请好友助阵</p></button></div>
           </div>
         </div>
       </div>
@@ -117,7 +117,7 @@
                       that.$store.commit('get_room',d.room_id)
                       that.$store.commit('get_level',d.level)
                       that.$store.commit('get_max_nub',d.max_step)
-                      that.$socket.removeAllListeners('data_chain')
+//                      that.$socket.removeAllListeners('data_chain')
                       that.isshow=false
                       wx.navigateTo({
                         url:'/pages/alone/main'
@@ -127,6 +127,7 @@
                     if(d.style == 1){
                       that.$store.commit('get_room',d.room_id)
                       that.$store.commit('get_level',that.select)
+                      that.isshow=false
                       wx.navigateTo({
                         url:`/pages/team/main?id=${that.$store.state.user.userid}`
                       })
@@ -354,6 +355,12 @@
     border:none;
     position: inherit;
     height: 100%;
+  button{
+    background: transparent;
+    padding:0;
+    margin:0;
+    display: inline;
+  }
     image{
       width: 210px/2;
       height: 209px/2;

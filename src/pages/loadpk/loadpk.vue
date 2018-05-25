@@ -32,7 +32,8 @@
                 test:'',
                 vs:false,
                 other_uid:'',
-                from: 2                //  1 好友  2全网    好友添加按钮
+                from: 2,                //  1 好友  2全网    好友添加按钮
+                again:0                 //是否重复挑战   好友对战使用
             }
         },
         methods: {
@@ -44,7 +45,12 @@
           },
           cleardata(){    //清除数据
             this.vs=false
-            this.$store.commit('get_vsuser',{ picpath: '/static/img/user.png',nickname: '',id: ''})
+            if(this.again == 0){
+              this.$store.commit('get_vsuser',{ picpath: '/static/img/user.png',nickname: '',id: ''})
+            }else{
+              this.other_uid = this.$store.state.vsuser.id
+              this.$store.commit('get_vsuser',{ picpath: '/static/img/user.png',nickname: '',id: this.other_uid})
+            }
             this.$store.commit('get_answer',{})
             this.$store.commit('get_step',0)
             this.$store.commit('get_room','')
@@ -58,9 +64,14 @@
                 game_cfg_id:1,
                 game_type:that.from
               }
-              if(that.from == 1){
-                if(that.other_uid){
-                  senddata.to_u_id=that.other_uid
+              if(that.again == 1){   //好友再来一局 传对方id和一个默认值
+               senddata.to_u_id=that.other_uid
+                senddata.play_again = 1
+              }else{      //好友挑战  好友接受
+                if(that.from == 1){
+                  if(that.other_uid){
+                    senddata.to_u_id=that.other_uid
+                  }
                 }
               }
               that.$socket.emit('data_chain', senddata)
@@ -85,37 +96,16 @@
             }
         },
         mounted(){
-          let that =this
-//          this.$socket.on('data_chain', d=>{
-//              console.log(d)
-//            if(d.cmd == 'login'){
-//              that.$store.commit('getsocket')
-//              that.sendnews()
-//            }
-//            if(d.cmd == 'answer'){
-//              if(d.step == 1){
-//                that.vs=true
-//                if(d.other_user){
-//                  that.$store.commit('get_vsuser',d.other_user)
-//                }
-//                if(d.content_type == 1){
-//                  that.$store.commit('get_answer',d.details[0])
-//                  that.$store.commit('get_step',d.step)
-//                }
-//                that.$store.commit('get_room',d.room_id)
-//                let rout
-//                clearTimeout(rout)
-//                rout = setTimeout(function(){
-//                  wx.navigateTo({
-//                    url:`/pages/pkanswer/main?from=${that.from}`
-//                  })
-//                },1500)
-//              }
-//            }
-//          })
-          that.sendnews()
+          this.sendnews()
         },
       onLoad: function(option){
+        if(option){
+          if(option.again){
+            this.again=1
+          }else{
+            this.again=0
+          }
+        }
         this.cleardata()
         console.log(option)
         if(option.id){
@@ -128,8 +118,7 @@
           if(d.cmd == 'login'){
             that.$store.commit('getsocket')
             that.sendnews()
-          }
-          if(d.cmd == 'answer'){
+          }else if(d.cmd == 'answer'){
             if(d.step == 1){
               that.vs=true
               if(d.other_user){
@@ -149,6 +138,8 @@
                 })
               },1500)
             }
+          }else if(d.cmd == 'error'){
+
           }
         })
 //        if(this.$store.state.issocket){
@@ -163,6 +154,13 @@
 //        }
       },
       onShow:function(option){
+        if(option){
+          if(option.again){
+            this.again =1
+          }else{
+            this.again =0
+          }
+        }
         this.cleardata()
         console.log(option)
         if(option){

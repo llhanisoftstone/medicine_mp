@@ -24,7 +24,8 @@
         </div>
       </div>
       <div class="btn_box">
-        <a :href="'/pages/loadpk/main?from='+from">再来一局</a>
+        <a :href="'/pages/loadpk/main?from='+from" v-if="(from==2)&&user.game_level<10">再来一局</a>
+        <a :href="'/pages/loadpk/main?from='+from+'&&again=1'" v-if="(from==1)&&user.game_level<10">再来一局</a>
         <button open-type="share">分享战绩</button>
       </div>
     </div>
@@ -65,6 +66,9 @@
           },
           vsscore(){
               return this.$store.state.vsscore
+          },
+          user(){
+              return this.$store.state.user
           }
         },
       mounted(){

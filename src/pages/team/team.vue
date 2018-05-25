@@ -12,26 +12,64 @@
         <ul>
           <li v-if="challenger!=user.userid"><image :src="userinfo.avatarUrl"></image></li>
           <li v-for="(v,i) in team" v-if="i!=0&&i<13"><image :src="v.picpath"></image></li>
-          <li class="add" v-if="team.length<14&&!isstart"></li>
         </ul>
       </div>
-      <h2 v-if="isprop">您使用了延迟针，时间延长了10s</h2>
+      <h2 v-if="isprop">您使用了延迟针，时间延长了20s</h2>
       <!--答题模块-->
-      <div class="time_box" v-if="isstart">
+      <div class="time_box" v-if="isstart&&iswin==0">
         <counddown :time="times"></counddown>
       </div>
-      <div class="answer" v-if="isstart">
+      <div class="answer" v-if="isstart&&iswin==0">
         <answer :title="answer.category_name" :answer="answer.name">
           <ul slot="list" class="answer_box_ul">
             <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}<span>{{stat[i]}}人</span></li>
           </ul>
         </answer>
       </div>
-      <p class="provide" v-if="isstart">本题由{{answer.organiz_name}}提供</p>
+      <p class="provide" v-if="isstart&&iswin==0">本题由{{answer.organiz_name}}提供</p>
       <!--邀请模块-->
-      <div class="invite_box" v-if="!isstart">
+      <div class="invite_box" v-if="iswin==0&&!isstart">
         <image src="/static/img/yaoqing.png"></image>
         <button :class="{'disabled':challenger!=user.userid}" @click="startgame">开始游戏</button>
+      </div>
+      <!--答题结果-->
+      <div class="result" v-if="gameover">
+        <h1>
+          <image src="/static/img/t_suc.png" v-if="iswin==2"></image>
+          <image src="/static/img/t_fail.png" v-if="iswin==1"></image>
+        </h1>
+        <div class="prize" v-if="iswin==2">
+          <div class="team_prize">
+            <image src="/static/img/pri.png"></image>
+          </div>
+          <div class="challenger">
+            <image class="user" v-if="challenger==user.userid" :src="userinfo.avatarUrl"></image>
+            <image class="user" v-if="(challenger!=user.userid)&&i==0" v-for="(v,i) in team" :src="v.picpath"></image>
+            <image class="tz" src="/static/img/tz.png"></image>
+          </div>
+          <ul class="c_prize">
+            <li v-if="card.id">
+              <div>
+                <image :src="url+card.ticket_pic"></image>
+              </div>
+              <p>{{card.title}}</p>
+            </li>
+            <li>
+              <div>
+                <image src="/static/img/sucm.png"></image>
+              </div>
+              <p>银两+20</p>
+            </li>
+          </ul>
+        </div>
+        <div class="fail" v-if="iswin==1">
+          <image src="/static/img/team_fail.png"></image>
+        </div>
+      </div>
+      <div class="result_btn">
+        <a href="" v-if="iswin==2&&isnext" @click="next" :class="{'disabled':challenger!=user.userid}">挑战下一关</a>
+        <button href="" v-if="iswin==2">分享战绩</button>
+        <a href="" v-if="iswin==1" @click="repeat" :class="{'disabled':challenger!=user.userid}">重新开始</a>
       </div>
       <!--聊天模块-->
       <div class="chat_box">
@@ -81,7 +119,9 @@
               content:'',                 //输入框内容
               gameover:false,              //游戏是否结束
               isclick:false,                   //是否选择答案
-              index:-1                     //选择的选项
+              index:-1,                     //选择的选项
+              iswin:0,                    //  1失败  2成功
+              isnext:true                //是否有下一关
             }
         },
         methods: {
@@ -90,8 +130,11 @@
               let timefn
               clearInterval(timefn)
               timefn = setInterval(function(){
+                if(!that.isstart){
+                    return
+                }
                 if(that.gameover){
-                  clearInterval(timefn)
+                  return
                 }
                 if(that.times == 0){
                   return
@@ -111,6 +154,27 @@
                       game_style:3
                     })
                 }
+            },
+            repeat(){   //重新开始
+              let that = this
+              if(this.challenger == that.$store.state.user.userid){
+                that.$socket.emit('data_chain',{
+                  cmd:'fight',
+                  u_id:Number(that.challenger),
+                  level:that.$store.state.level,
+                  game_cfg_id:2,
+                  game_type:2,
+                  game_style:3,
+                  play_again:1
+                })
+              }
+            },
+            next(){    //挑战下一关
+              wx.setNavigationBarTitle({
+                title:`第${this.$store.state.step}/${this.$store.state.max_nub}题`
+              })
+              this.gameover=false
+              this.iswin = 0
             },
             cleardata(){
               this.index=-1
@@ -149,7 +213,7 @@
             that.isclick=true
             that.index=index
             if(that.challenger == that.$store.state.user.userid){
-              that.isshow = true    //提交答案
+              that.isshow = true    //显示答案
               let reply=0
               if(right){
                   reply=1
@@ -224,10 +288,33 @@
             },
             user(){
                   return this.$store.state.user
+            },
+            card(){
+                return this.$store.state.prize
+            },
+            url(){
+                return this.$store.state.url
             }
         },
+    onShareAppMessage(res){
+      if (res.from === 'menu') {
+        // 来自页面内转发按钮
+        console.log(res.target)
+      }
+      return {
+        title: '分享战绩',
+        path: '/pages/team/main',
+        success: (r)=>{
+          console.log(r)
+        },
+        fail: (err)=>{
+          console.log(err)
+        }
+      }
+    },
     onLoad(option){
             let that =this
+            that.countdownfn()
             this.challenger=option.id
             if(this.challenger == this.$store.state.user.userid){
                 this.team.push({
@@ -330,15 +417,17 @@
                   }
                   if(d.content_type == 1){
                     if(d.level == that.$store.state.level){
-                      that.countdownfn()
                       let til
                       clearInterval(til)
                       til=setTimeout(function(){
+                        that.iswin=0
+                        that.gameover=false
                         that.index=-1
                         that.times=30
                         that.isclick=false
                         that.isshow=false
                         that.isstart=true
+                        that.stat=[]
                         for(let i=0;i<d.details[0].answer_json.length;i++){
                           that.stat.push(0)
                         }
@@ -351,12 +440,45 @@
                         })
                       },1000)
                     }else{    //当前关卡结束
-
+                      let useri = that.$store.state.user
+                      useri.game_level = d.level
+                      that.$store.commit('getm_user',useri)
+                      that.$store.commit('get_level',d.level)
+                      that.$store.commit('get_answer',d.details[0])
+                      that.$store.commit('get_step',d.step)
+                      that.$store.commit('get_max_nub',d.max_step)
+                      that.iswin = 2
+                      that.gameover=true
+                      that.index=-1
+                      that.times=30
+                      that.isclick=false
+                      that.isshow=false
+                      that.isstart=true
+                      that.stat=[]
+                      for(let i=0;i<d.details[0].answer_json.length;i++){
+                        that.stat.push(0)
+                      }
+                      if(d.details[1]){
+                        that.$store.commit('get_prize',d.details[1])
+                      }else{
+                        that.$store.commit('get_prize',{})
+                      }
                     }
                   }else if(d.content_type == 2){    //全部挑战结束
-
+                    that.isnext=false
+                    that.iswin = 2
+                    that.gameover=true
+                    if(d.details[0]){
+                      that.$store.commit('get_prize',d.details[0])
+                    }else{
+                      that.$store.commit('get_prize',{})
+                    }
                   }else if(d.content_type == 3){       //挑战失败
-
+                    setTimeout(()=>{
+                      that.$store.commit('get_prize',{})
+                      that.gameover=true
+                      that.iswin=1
+                    },1000)
                   }
                 }
                 console.log(d)
@@ -654,6 +776,146 @@
         margin:0 auto;
         margin-top: 67px/2;
         position: inherit;
+      }
+      .disabled{
+        background: #e2e2e2;
+      }
+    }
+    .result{
+      margin:0 auto;
+      margin-top:94px/2;
+      margin-bottom: 51px/2;
+      width: 510px/2;
+      height: 463px/2;
+      background: #ffb3a2;
+      padding: 0 36px/2;
+      box-sizing: border-box;
+      position: relative;
+      border-radius: 10px/2;
+      h1{
+        position: absolute;
+        top:-55px/2;
+        left:0;
+        right:0;
+        margin:auto;
+        width: 427px/2;
+        height: 95px/2;
+        image{
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    .team_prize{
+      padding-bottom: 29px/2;
+      padding-top: 56px/2;
+      border-bottom:1px dashed #fff;
+      width: 100%;
+      height: 81px/2;
+      image{
+        width: 277px/2;
+        height: 81px/2;
+        display: block;
+        margin:0 auto;
+      }
+    }
+    .challenger{
+      width: 100%;
+      height: 68px/2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 7px/2;
+      margin-top:16px/2;
+      .user{
+        width: 64px/2;
+        height: 64px/2;
+        border:2px/2 solid #fff;
+        border-radius: 50%;
+        margin-right: 13px/2;
+      }
+      .tz{
+        width: 140px/2;
+        height: 52px/2;
+      }
+    }
+    .c_prize{
+      width: 100%;
+      height: 171px/2;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      li{
+        width: 131px/2;
+        height: 100%;
+        div{
+          width: 131px/2;
+          height: 131px/2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: url(../../../static/img/prize_box.png) center no-repeat;
+          background-size: 100%;
+          image{
+            width: 74px/2;
+            height: 84px/2;
+          }
+        }
+    p{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top:16px/2;
+      color: #fff;
+      font-size: 24px/2;
+      height: 24px/2;
+    }
+      }
+    }
+    .fail{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      image{
+        width: 233px/2;
+        height: 271px/2;
+      }
+    }
+    .result_btn{
+      margin-bottom:60px/2;
+      width: 100%;
+      padding: 0 108px/2;
+      box-sizing: border-box;
+      height: 60px/2;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      a{
+        width: 259px/2;
+        height: 60px/2;
+        border-radius: 50px;
+        background: @bg_color;
+        color: #fff;
+        font-size:28px/2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      button{
+        width: 259px/2;
+        height: 60px/2;
+        padding: 0;
+        margin:0;
+        border-radius: 50px;
+        background: @bg_color;
+        color: #fff;
+        font-size:28px/2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .disabled{
         background: #e2e2e2;

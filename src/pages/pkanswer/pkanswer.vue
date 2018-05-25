@@ -41,7 +41,7 @@
       </div>
       <p class="provide">本题由{{answer.organiz_name}}提供</p>
       <div class="prop_box">
-        <prop :istimes="false" :answer="answernub" :times="timenub"></prop>
+        <prop :istimes="false" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
       </div>
     </div>
 </template>
@@ -68,6 +68,9 @@
             }
         },
         methods: {
+          userTools(id){
+            console.log(`使用道具${id}`)
+          },
           countdownfn(){     //倒计时
               let that=this
               let timefn
@@ -84,8 +87,8 @@
           },
           cleardata(){
             this.times=30
-            this.answernub=0
-            this.timenub=0
+            this.answernub=this.$store.state.user.tools[0].amount
+            this.timenub=this.$store.state.user.tools[1].amount
             this.isshow=false
             this.index=-1
             this.isclick=false
