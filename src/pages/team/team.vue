@@ -206,6 +206,11 @@
               }
             },
             next(){    //挑战下一关
+              wx.setNavigationBarTitle({
+                title:`第${this.$store.state.step}/${this.$store.state.max_nub}题`
+              })
+              this.gameover=false
+              this.iswin = 0
               this.$socket.emit('data_chain',{
                 cmd:'chat',
                 u_id:this.$store.state.user.userid,
