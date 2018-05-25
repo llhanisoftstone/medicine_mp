@@ -53,21 +53,31 @@
         },
         methods: {
           userTools(id){
-              console.log(`使用道具${id}`)
-            if(id == 1){
-                  for(let i=0;i<this.$store.state.answer.length;i++){
-                      if(this.$store.state.answer[i].right){
-                          this.submit(i,this.$store.state.answer[i].right)
+              if(this.isclick){
+                  return
+              }
+              if(this.gameover){
+                  return
+              }
+            console.log(`使用道具${id}`)
+            if(Number(id) == 1){
+                  for(let i=0;i<this.$store.state.answer.answer_json.length;i++){
+                      if(this.$store.state.answer.answer_json[i].right){
+                          let use = this.$store.state.user
+                          use.tools[0].amount = use.tools[0].amount-1
+                          this.$store.commit('getm_user',use)
+                          this.tool_id.push(Number(id))
+                          this.submit(i,this.$store.state.answer.answer_json[i].right)
                       }
                   }
-            }else if(id == 2){
+            }else if(Number(id) == 2){
                 this.isprop=true
                 this.times += 20
-                setTimeout(()=>{
+                this.tool_id.push(Number(id))
+              setTimeout(()=>{
                   this.isprop=false
                 },1000)
             }
-            this.tool_id.push(id)
           },
           countdownfn(){     //倒计时
             let that=this

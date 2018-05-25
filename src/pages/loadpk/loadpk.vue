@@ -33,7 +33,8 @@
                 vs:false,
                 other_uid:'',
                 from: 2,                //  1 好友  2全网    好友添加按钮
-                again:0                 //是否重复挑战   好友对战使用
+                again:0,                 //是否重复挑战   好友对战使用
+                router:0                //0返回   1跳转
             }
         },
         methods: {
@@ -45,11 +46,14 @@
           },
           cleardata(){    //清除数据
             this.vs=false
+            this.router=0
             if(this.again == 0){
               this.$store.commit('get_vsuser',{ picpath: '/static/img/user.png',nickname: '',id: ''})
             }else{
-              this.other_uid = this.$store.state.vsuser.id
-              this.$store.commit('get_vsuser',{ picpath: '/static/img/user.png',nickname: '',id: this.other_uid})
+              let other=this.$store.state.vsuser
+              other.picpath='/static/img/user.png'
+              other.nickname=''
+              this.$store.commit('get_vsuser',other)
             }
             this.$store.commit('get_answer',{})
             this.$store.commit('get_step',0)
@@ -65,7 +69,7 @@
                 game_type:that.from
               }
               if(that.again == 1){   //好友再来一局 传对方id和一个默认值
-               senddata.to_u_id=that.other_uid
+               senddata.to_u_id=that.$store.state.vsuser.id
                 senddata.play_again = 1
               }else{      //好友挑战  好友接受
                 if(that.from == 1){
@@ -133,6 +137,7 @@
               clearTimeout(rout)
               rout = setTimeout(function(){
                 that.$socket.removeAllListeners('data_chain')
+                that.router=1
                 wx.redirectTo({
                   url:`/pages/pkanswer/main?from=${that.from}`
                 })
@@ -173,7 +178,9 @@
         }
       },
       onUnload(){
-        this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
+          if(this.router == 0){
+            this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
+          }
       },
       onShareAppMessage(res){
         if (res.from === 'menu') {

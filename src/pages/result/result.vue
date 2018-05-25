@@ -24,8 +24,8 @@
         </div>
       </div>
       <div class="btn_box">
-        <a :href="'/pages/loadpk/main?from='+from" v-if="(from==2)&&user.game_level<10">再来一局</a>
-        <a :href="'/pages/loadpk/main?from='+from+'&&again=1'" v-if="(from==1)&&user.game_level<10">再来一局</a>
+        <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from" v-if="(from==2)&&user.game_level<10">再来一局</navigator>
+        <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from+'&&again=1'" v-if="(from==1)&&user.game_level<10">再来一局</navigator>
         <button open-type="share">分享战绩</button>
       </div>
     </div>
@@ -230,7 +230,7 @@
     align-items: center;
     justify-content: space-between;
     display: flex;
-    a{
+    navigator{
       width: 300px/2;
       height: 70px/2;
       border-radius: 50px;

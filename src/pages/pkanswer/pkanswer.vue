@@ -64,12 +64,30 @@
                 isclick:false,    //是否选择
                 vsisclick:false,    //对方是否选择答案
                 other: -1,           //对方选择的答案
-                gameover:false      //是否游戏结束
+                gameover:false,      //是否游戏结束
+                tool_id:[]               //使用过的道具id
             }
         },
         methods: {
           userTools(id){
+              if(this.isclick){
+                  return
+              }
+              if(this.gameover){
+                  return
+              }
             console.log(`使用道具${id}`)
+            if(Number(id) == 1){
+              for(let i=0;i<this.$store.state.answer.answer_json.length;i++){
+                if(this.$store.state.answer.answer_json[i].right){
+                  let use = this.$store.state.user
+                  use.tools[0].amount = use.tools[0].amount-1
+                  this.$store.commit('getm_user',use)
+                  this.tool_id.push(Number(id))
+                  this.submit(i,this.$store.state.answer.answer_json[i].right)
+                }
+              }
+            }
           },
           countdownfn(){     //倒计时
               let that=this
@@ -124,7 +142,7 @@
               u_id:this.$store.state.user.userid,
               reply:index,   //回答内容
               score:reply,   // 得分
-//              tool_id: '',   // 使用道具
+              tool_id: this.tool_id,   // 使用道具
               use_time:30-this.times,   //使用时间   -1 自己延时   -2  对方延时
               step:this.$store.state.step
             })
@@ -136,6 +154,7 @@
                 cmd:'answer',
                 room_id:that.$store.state.room_id,
                 u_id:that.$store.state.user.userid,
+                tool_id: that.tool_id,   // 使用道具
                 use_time:-1,   //使用时间   -1 自己延时   -2  对方延时
                 step:that.$store.state.step
               })
@@ -209,9 +228,9 @@
               if(d.other_reply.use_time!=-1&&d.other_reply.use_time!=-2){
                 that.other = d.other_reply.reply
                 if(that.$store.state.answer.answer_json[that.other].right==true){
-                  if(that.times>20){
+                  if(that.other.use_time<10){
                     that.$store.commit('get_vsscore',100)
-                  }else if(that.times>10){
+                  }else if(that.other.use_time<20){
                     that.$store.commit('get_vsscore',60)
                   }else{
                     that.$store.commit('get_vsscore',40)
@@ -230,6 +249,7 @@
                     that.index = -1
                     that.isclick=false
                     that.other= -1
+                    that.tool_id=[]
                   },1000)
                 }
               }else if(d.content_type == 2){

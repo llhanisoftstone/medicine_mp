@@ -93,8 +93,8 @@
           <input type="text" v-model="content">
         </div>
         <button @click="send">发表</button>
-        <a href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>0</span></a>
-        <a href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>0</span></a>
+        <a @click="userTools(user.tools[0].amount,1)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount}}</span></a>
+        <a @click="userTools(user.tools[1].amount,2)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount}}</span></a>
       </div>
     </div>
 </template>
@@ -122,9 +122,45 @@
               index:-1,                     //选择的选项
               iswin:0,                    //  1失败  2成功
               isnext:true                //是否有下一关
+
             }
         },
         methods: {
+          userTools(nub,id){
+              if(!this.isstart){
+                  return
+              }
+              if(this.gameover){
+                  return
+              }
+              if(this.isclick){
+                  return
+              }
+              if(this.challenger != that.$store.state.user.userid){
+                  return
+              }
+            if(nub>0){
+              console.log(`使用道具${id}`)
+              if(Number(id) == 1){
+                for(let i=0;i<this.$store.state.answer.answer_json.length;i++){
+                  if(this.$store.state.answer.answer_json[i].right){
+                    let use = this.$store.state.user
+                    use.tools[0].amount = use.tools[0].amount-1
+                    this.$store.commit('getm_user',use)
+                    this.tool_id.push(Number(id))
+                    this.submit(i,this.$store.state.answer.answer_json[i].right)
+                  }
+                }
+              }else if(Number(id) == 2){
+                this.isprop=true
+                this.times += 20
+                this.tool_id.push(Number(id))
+                setTimeout(()=>{
+                  this.isprop=false
+                },1000)
+              }
+            }
+          },
             countdownfn(){     //倒计时
               let that=this
               let timefn
