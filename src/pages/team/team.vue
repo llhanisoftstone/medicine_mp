@@ -206,11 +206,6 @@
               }
             },
             next(){    //挑战下一关
-              wx.setNavigationBarTitle({
-                title:`第${this.$store.state.step}/${this.$store.state.max_nub}题`
-              })
-              this.gameover=false
-              this.iswin = 0
               this.$socket.emit('data_chain',{
                 cmd:'chat',
                 u_id:this.$store.state.user.userid,
@@ -454,6 +449,11 @@
                         }
                       }
                     }else if(d.type == 6){
+                      wx.setNavigationBarTitle({
+                        title:`第${that.$store.state.step}/${that.$store.state.max_nub}题`
+                      })
+                      that.gameover=false
+                      that.iswin = 0
                       that.chat.push({
                         nickname:'【系统】',
                         msg:'下一关挑战开始'
