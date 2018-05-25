@@ -84,7 +84,7 @@
       width:50%;
       height:40px;
       line-height:38px;
-      border:2px solid #f6f6f6;
+      border-bottom:2px solid #f6f6f6;
       text-align:center;
       font-size:15px;
       color:#666;

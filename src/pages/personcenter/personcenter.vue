@@ -51,9 +51,7 @@
       this.getuserperson()
     },
     created (){
-      // 调用应用实例的方法获取全局数据
-
-      }
+    }
     }
 </script>
 
