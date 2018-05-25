@@ -121,8 +121,8 @@
               isclick:false,                   //是否选择答案
               index:-1,                     //选择的选项
               iswin:0,                    //  1失败  2成功
-              isnext:true                //是否有下一关
-
+              isnext:true,                //是否有下一关
+              tool_id:[]                 //使用过的道具id
             }
         },
         methods: {
@@ -136,7 +136,7 @@
               if(this.isclick){
                   return
               }
-              if(this.challenger != that.$store.state.user.userid){
+              if(this.challenger != this.$store.state.user.userid){
                   return
               }
             if(nub>0){
@@ -211,6 +211,12 @@
               })
               this.gameover=false
               this.iswin = 0
+              this.$socket.emit('data_chain',{
+                cmd:'chat',
+                u_id:this.$store.state.user.userid,
+                room_id:this.$store.state.room_id,
+                type:6
+              })
             },
             cleardata(){
               this.index=-1
@@ -261,7 +267,7 @@
                 level:that.$store.state.level,
                 reply:index,   //回答内容
                 score:reply,   // 得分
-//              tool_id: '',   // 使用道具
+                tool_id: that.tool_id,   // 使用道具
                 use_time:(30-this.times)>0?30-this.times:0,   //使用时间   -1 自己延时
                 step:that.$store.state.step
               })
@@ -285,6 +291,7 @@
                 room_id:that.$store.state.room_id,
                 u_id:that.$store.state.user.userid,
                 level:that.$store.state.level,
+                tool_id: that.tool_id,   // 使用道具
                 use_time:-1,   //使用时间   -1 自己延时
                 step:that.$store.state.step
               })
@@ -446,9 +453,14 @@
                           }
                         }
                       }
+                    }else if(d.type == 6){
+                      that.chat.push({
+                        nickname:'【系统】',
+                        msg:'下一关挑战开始'
+                      })
                     }
                 }else if(d.cmd == 'answer'){
-                  if(that.challenger != that.$store.state.user.userid){
+                  if((that.challenger != that.$store.state.user.userid)&&(that.$store.state.level==0)){
                     that.$store.commit('get_level',d.level)
                   }
                   if(d.content_type == 1){
@@ -464,6 +476,7 @@
                         that.isshow=false
                         that.isstart=true
                         that.stat=[]
+                        that.tool_id=[]
                         for(let i=0;i<d.details[0].answer_json.length;i++){
                           that.stat.push(0)
                         }
@@ -491,6 +504,7 @@
                       that.isshow=false
                       that.isstart=true
                       that.stat=[]
+                      that.tool_id=[]
                       for(let i=0;i<d.details[0].answer_json.length;i++){
                         that.stat.push(0)
                       }
