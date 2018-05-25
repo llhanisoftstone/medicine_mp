@@ -8,6 +8,46 @@ export default {
     wx.setStorageSync('logs', logs)
 
     console.log('app created and cache logs by setStorageSync')
+    this.$socket.on('chat_chain', d => {
+      if (d.cmd === 'error') {
+        if (d.errcode === 601) {
+          wx.showModal({
+            title: '提示',
+            content: '获取登录信息失败,请重新获取',
+            showCancel: false,
+            confirmText: '确定',
+            confirmColor: '#df5c3e',
+            success: res => {
+              if (res.confirm) {
+                this.$socket.emit('data_chain', {
+                  cmd: 'login',
+                  u_id: this.$store.state.user.userid,
+                  nickname: this.$store.state.userinfo.nickName,
+                  picpath: this.$store.state.userinfo.avatarUrl
+                })
+                console.log(11111)
+              }
+            }
+          })
+        } else if (d.errcode === 404) {
+          wx.showModal({
+            title: '提示',
+            content: '房间不存在',
+            showCancel: false,
+            confirmText: '返回首页',
+            confirmColor: '#df5c3e',
+            success: res => {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: `/pages/index/main`
+                })
+                console.log('用户点击确定')
+              }
+            }
+          })
+        }
+      }
+    })
   },
   methods: {
     getLogin () {

@@ -143,8 +143,8 @@
                 })
               },1500)
             }
-          }else if(d.cmd == 'error'){
-
+//          }else if(d.cmd == 'error'){
+//            console.log(d)
           }
         })
 //        if(this.$store.state.issocket){

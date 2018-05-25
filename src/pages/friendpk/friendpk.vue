@@ -8,91 +8,12 @@
           <span :class="{'active':!isFriends}" @click="switchtab(false)">全国排行</span>
         </div>
         <ul class="list">
-          <li>
-            <span class="order front">1</span>
-            <image :src="imgurl.avatarUrl"></image>
-            <span class="nickname">{{imgurl.nickName}}</span>
-            <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
+          <li v-for="(v,i) in rankings">
+            <span class="order" :class="{'front':i<3}">{{i+1}}</span>
+            <image :src="v.avatar_url"></image>
+            <span class="nickname">{{v.nickname}}</span>
+            <span class="integral"><image src="/static/img/paihangbang.png"></image>{{v.points}}</span>
           </li>
-          <li>
-            <span class="order front">2</span>
-            <image :src="imgurl.avatarUrl"></image>
-            <span class="nickname">{{imgurl.nickName}}</span>
-            <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-          </li>
-          <li>
-            <span class="order">3</span>
-            <image :src="imgurl.avatarUrl"></image>
-            <span class="nickname">{{imgurl.nickName}}</span>
-            <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-          </li>
-          <li>
-            <span class="order">3</span>
-            <image :src="imgurl.avatarUrl"></image>
-            <span class="nickname">{{imgurl.nickName}}</span>
-            <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-          </li>
-          <li>
-            <span class="order">3</span>
-            <image :src="imgurl.avatarUrl"></image>
-            <span class="nickname">{{imgurl.nickName}}</span>
-            <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-          </li>
-          <li>
-            <span class="order">3</span>
-            <image :src="imgurl.avatarUrl"></image>
-            <span class="nickname">{{imgurl.nickName}}</span>
-            <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-          </li>
-          <li>
-            <span class="order">3</span>
-            <image :src="imgurl.avatarUrl"></image>
-            <span class="nickname">{{imgurl.nickName}}</span>
-            <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-          </li>
-          <li>
-            <span class="order">3</span>
-            <image :src="imgurl.avatarUrl"></image>
-            <span class="nickname">{{imgurl.nickName}}</span>
-            <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-          </li><li>
-          <span class="order">3</span>
-          <image :src="imgurl.avatarUrl"></image>
-          <span class="nickname">{{imgurl.nickName}}</span>
-          <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-        </li><li>
-          <span class="order">3</span>
-          <image :src="imgurl.avatarUrl"></image>
-          <span class="nickname">{{imgurl.nickName}}</span>
-          <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-        </li><li>
-          <span class="order">3</span>
-          <image :src="imgurl.avatarUrl"></image>
-          <span class="nickname">{{imgurl.nickName}}</span>
-          <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-        </li><li>
-          <span class="order">3</span>
-          <image :src="imgurl.avatarUrl"></image>
-          <span class="nickname">{{imgurl.nickName}}</span>
-          <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-        </li><li>
-          <span class="order">3</span>
-          <image :src="imgurl.avatarUrl"></image>
-          <span class="nickname">{{imgurl.nickName}}</span>
-          <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-        </li><li>
-          <span class="order">3</span>
-          <image :src="imgurl.avatarUrl"></image>
-          <span class="nickname">{{imgurl.nickName}}</span>
-          <span class="integral"><image src="/static/img/paihangbang.png"></image>100</span>
-        </li>
-
-
-
-
-
-
-
         </ul>
       </div>
       <button open-type="share" class="pk_btn" v-if="isFriends">挑战好友</button>
@@ -105,19 +26,37 @@
         name: 'friendpk',
         data(){
             return {
-                isFriends:true
+                isFriends:true,     //true 好友排行    false 全国排行
+                rankings:[]
             }
         },
         methods: {
           switchtab(flag){
               this.isFriends = flag
+          },
+          getdata(){
+              let that=this
+              if(this.isFriends){
+                  that.rankings=[]
+              }else{
+                  this.$get('/rs/member',{order:'points desc,create_time',page:1,size:50,rank:'<,91'}).then(res=>{
+                      if(res.code == 200){
+                          that.rankings=res.rows
+                      }
+                  })
+              }
           }
+        },
+      watch:{
+        isFriends(val,oldval){
+          this.getdata()
+        }
+      },
+        mounted(){
+            this.getdata()
         },
         components: {},
         computed:{
-            imgurl(){
-                return this.$store.state.userinfo
-            },
             user(){
                 return this.$store.state.user
             }

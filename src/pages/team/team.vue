@@ -399,6 +399,9 @@
                         confirmColor:'#df5c3e',
                         success: function(res) {
                           if (res.confirm) {
+                            wx.redirectTo({
+                              url:`/pages/index/main`
+                            })
                             console.log('用户点击确定')
                           }
                         }
