@@ -2,13 +2,13 @@
     <div class="container">
       <ul class="listUi">
         <li>
-          <a href="" >
+          <a href="/pages/userdata/main">
             <span class="personfile">个人资料</span>
             <img src="/static/img/arrow.png"/>
           </a>
         </li>
         <li>
-          <a href="">
+          <a href="/pages/partner/main">
             <span class="companycomp">合作商</span>
             <img src="/static/img/arrow.png"/>
           </a>

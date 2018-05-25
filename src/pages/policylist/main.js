@@ -6,6 +6,7 @@ app.$mount()
 export default {
   config: {
     'enablePullDownRefresh': true,
-    pages: ['pages/policylist/main']
+    pages: ['pages/policylist/main'],
+    navigationBarTitleText: '政策列表'
   }
 }

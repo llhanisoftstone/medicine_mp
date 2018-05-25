@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="user_box">
-      <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
+      <userinfo :username="userinfo.nickName" :imgurl="userinfo.avatarUrl">
         <div slot="userRight">
           <a href="/pages/signcount/main" class="btn_sign">签到</a>
         </div>
@@ -16,7 +16,7 @@
         </div>
       </a>
       <div class="challenge_box">
-        <a :href="'/pages/loadpk/main?id='+$store.state.user.userid">
+        <a href="/pages/loadpk/main?from=2">
           <div class="item_1">
             <h2>全网挑战</h2>
             <h4>冲顶排位赛一战即发</h4>
@@ -61,52 +61,6 @@
   },
 
   methods: {
-//      enters(){
-//          console.log(1111111)
-//          this.$socket.emit('event','123')
-//      },
-
-    getLogin () {
-      let that = this
-      // 调用登录接口
-      wx.login({
-        success: (code) => {  //code
-          that.$store.commit('getcode', code.code)
-          wx.getSetting({
-            success: function(res){
-              if (res.authSetting['scope.userInfo']) {
-                // 已经授权，可以直接调用 getUserInfo 获取头像昵称  weapp/login
-                that.getUserinfo(code)
-              }
-            }
-          })
-        }
-      })
-    },
-    getUserinfo(){
-      let that = this
-      wx.getUserInfo({   //
-        success: function(res) {
-          console.log(res)
-          that.$store.commit('getuser', res.userInfo)
-          that.$store.commit('getauth')
-          that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:res.encryptedData,iv:res.iv}).then(res=>{
-              if(res.code == 200){
-                that.$store.commit('getm_user', res)
-                that.$socket.on('data_chain', d=>{
-                  console.log(d)
-                })
-                that.$socket.emit('data_chain', {
-                  cmd: 'login',
-                  u_id:res.userid,
-                  nickname:that.$store.state.userinfo.nickName
-                })
-//                console.log(res)
-              }
-          })
-        }
-      })
-    },
     async getpage(){
         let that = this
         let res = await that.$get('/rs/first_page')
@@ -122,9 +76,14 @@
   mounted(){
     this.getpage()
   },
+  computed:{
+    userinfo(){
+        return this.$store.state.userinfo
+    }
+  },
   created () {
     // 调用应用实例的方法获取全局数据
-    this.getLogin()
+//    this.getLogin()
   }
 }
 </script>

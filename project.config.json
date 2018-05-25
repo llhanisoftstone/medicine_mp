@@ -1,7 +1,7 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": true,
 		"minified": true,
@@ -39,22 +39,38 @@
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "政策百科",
-					"pathName": "pages/policy/main",
-					"query": ""
+					"id": 1,
+					"name": "单人闯关",
+					"pathName": "pages/alone/main",
+					"query": "",
+					"scene": "1007"
 				},
 				{
-					"id": -1,
-					"name": "全网挑战",
-					"pathName": "pages/loadpk/main",
-					"query": "id=4"
+					"id": 2,
+					"name": "多人挑战",
+					"pathName": "pages/team/main",
+					"query": "id=4",
+					"scene": "1007"
 				},
 				{
 					"id": -1,
 					"name": "对战",
 					"pathName": "pages/pkanswer/main",
 					"query": "id=4"
+				},
+				{
+					"id": 4,
+					"name": "aloneresult",
+					"pathName": "pages/aloneresult/main",
+					"query": "result=2",
+					"scene": "1007"
+				},
+				{
+					"id": 5,
+					"name": "load",
+					"pathName": "pages/loadpk/main",
+					"query": "from=1",
+					"scene": "1007"
 				}
 			]
 		}

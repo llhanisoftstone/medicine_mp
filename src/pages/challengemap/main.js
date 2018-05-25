@@ -7,6 +7,7 @@ app.$mount()
 export default {
   // 这个字段走 app.json
   config: {
-    navigationBarTitleText: '闯关赛'
+    navigationBarTitleText: '闯关赛',
+    pages: ['pages/alone/main', 'pages/aloneresult/main', 'pages/team/main']
   }
 }
