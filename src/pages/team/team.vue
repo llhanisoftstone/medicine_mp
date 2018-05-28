@@ -402,8 +402,15 @@
                         confirmColor:'#df5c3e',
                         success: function(res) {
                           if (res.confirm) {
-                            wx.redirectTo({
+                            wx.switchTab({
                               url:`/pages/index/main`
+                            })
+                            that.$socket.emit('data_chain',{
+                              cmd:'left',
+                              room_id:that.$store.state.room_id,
+                              u_id:that.$store.state.user.userid,
+                              game_cfg_id:2,
+                              game_type:2
                             })
                             console.log('用户点击确定')
                           }
