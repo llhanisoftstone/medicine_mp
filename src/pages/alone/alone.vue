@@ -238,7 +238,8 @@
     onUnload(){
         let that = this
         that.gameover=true
-        this.$socket.emit('data_chain',{
+      that.$socket.removeAllListeners('data_chain')
+      this.$socket.emit('data_chain',{
             cmd:'left',
             u_id:that.$store.state.user.userid,
             room_id:that.$store.state.room_id,

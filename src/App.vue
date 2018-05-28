@@ -82,7 +82,7 @@ export default {
                       confirmColor: '#df5c3e',
                       success: res => {
                         if (res.confirm) {
-                          wx.navigateTo({
+                          wx.switchTab({
                             url: '/pages/index/main'
                           })
                           console.log('用户点击确定')

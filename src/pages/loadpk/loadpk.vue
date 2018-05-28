@@ -143,20 +143,8 @@
                 })
               },1500)
             }
-//          }else if(d.cmd == 'error'){
-//            console.log(d)
           }
         })
-//        if(this.$store.state.issocket){
-//          this.sendnews()
-//        }else{
-//          this.$socket.emit('data_chain', {
-//            cmd: 'login',
-//            u_id: this.$store.state.user.userid,
-//            nickname: this.$store.state.userinfo.nickName,
-//            picpath: this.$store.state.userinfo.avatarUrl
-//          })
-//        }
       },
       onShow:function(option){
         if(option){

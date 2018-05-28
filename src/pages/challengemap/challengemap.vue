@@ -43,6 +43,35 @@
             }
         },
         methods: {
+          watchsocket(){
+            let that=this
+            that.$socket.removeAllListeners('data_chain')
+            that.$socket.on('data_chain',d=>{
+              if(d.cmd == 'answer'&&that.game_type==1){
+                if(d.step==1&&d.level==that.select){
+                  console.log(d)
+                  that.$store.commit('get_answer',d.details[0])
+                  that.$store.commit('get_step',d.step)
+                  that.$store.commit('get_room',d.room_id)
+                  that.$store.commit('get_level',d.level)
+                  that.$store.commit('get_max_nub',d.max_step)
+                  that.isshow=false
+                  wx.navigateTo({
+                    url:'/pages/alone/main'
+                  })
+                }
+              }else if(d.cmd == 'fight'){
+                if(d.style == 1){
+                  that.$store.commit('get_room',d.room_id)
+                  that.$store.commit('get_level',that.select)
+                  that.isshow=false
+                  wx.navigateTo({
+                    url:`/pages/team/main?id=${that.$store.state.user.userid}`
+                  })
+                }
+              }
+            })
+          },
           showpick(v){
             if(this.level<v){
                 return
@@ -90,7 +119,6 @@
           path: `/pages/team/main?id=${that.$store.state.user.userid}`,
           success: (r)=>{
             that.team()
-            console.log(r)
           },
           fail: (err)=>{
             console.log(err)
@@ -107,33 +135,10 @@
             }
         },
       onLoad(){
-            let that=this
-            that.$socket.on('data_chain',d=>{
-                if(d.cmd == 'answer'&&that.game_type==1){
-                    if(d.step==1&&d.level==that.select){
-                      console.log(d)
-                      that.$store.commit('get_answer',d.details[0])
-                      that.$store.commit('get_step',d.step)
-                      that.$store.commit('get_room',d.room_id)
-                      that.$store.commit('get_level',d.level)
-                      that.$store.commit('get_max_nub',d.max_step)
-//                      that.$socket.removeAllListeners('data_chain')
-                      that.isshow=false
-                      wx.navigateTo({
-                        url:'/pages/alone/main'
-                      })
-                    }
-                }else if(d.cmd == 'fight'){
-                    if(d.style == 1){
-                      that.$store.commit('get_room',d.room_id)
-                      that.$store.commit('get_level',that.select)
-                      that.isshow=false
-                      wx.navigateTo({
-                        url:`/pages/team/main?id=${that.$store.state.user.userid}`
-                      })
-                    }
-                }
-            })
+           this.watchsocket()
+      },
+      onShow(){
+        this.watchsocket()
       }
     }
 </script>
@@ -163,7 +168,7 @@
       background: #ffbeaf;
       color: #fff;
       font-size:45px/2;
-      padding: 5px/2;
+      padding: 6px/2;
       box-sizing: border-box;
       border-radius: 50%;
       margin-top: -35px/2;
