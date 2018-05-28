@@ -366,6 +366,7 @@
                   picpath:this.$store.state.userinfo.avatarUrl
                 })
             }
+            this.$socket.removeAllListeners('data_chain')
             this.$socket.on('data_chain',d=>{
                 if(d.cmd=='login'){
                   if(this.challenger != this.$store.state.user.userid){
