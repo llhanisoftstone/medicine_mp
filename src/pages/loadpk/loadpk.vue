@@ -60,6 +60,7 @@
             this.$store.commit('get_room','')
           },
           sendnews(){
+              console.log('11111111111111111111')
             let that = this
             if(this.$store.state.issocket){
               let senddata={

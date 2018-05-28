@@ -20,7 +20,7 @@
         <counddown :time="times"></counddown>
       </div>
       <div class="answer" v-if="isstart&&iswin==0">
-        <answer :title="answer.category_name" :answer="answer.name">
+        <answer :title="answer.category_name" :answer="answer.name" distance="1">
           <ul slot="list" class="answer_box_ul">
             <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}<span>{{stat[i]}}人</span></li>
           </ul>
@@ -508,8 +508,10 @@
                       },1000)
                     }else{    //当前关卡结束
                       let useri = that.$store.state.user
-                      useri.game_level = d.level
-                      that.$store.commit('getm_user',useri)
+                      if(Number(d.level)>Number(useri.game_level)){
+                        useri.game_level = d.level
+                        that.$store.commit('getm_user',useri)
+                      }
                       that.$store.commit('get_level',d.level)
 //                      that.$store.commit('get_answer',d.details[0])
                       that.$store.commit('get_step',d.step)
@@ -677,7 +679,7 @@
       padding: 0 24px/2;
       box-sizing: border-box;
       height: 80px/2;
-      margin-bottom:53px/2;
+      margin-bottom:40px/2;
       border-radius: 50px;
       background: #d6d6d6;
       display: flex;
