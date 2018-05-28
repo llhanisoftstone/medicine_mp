@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pad">
       <h2><image src="/static/img/paihangbang_1.png"></image>排行榜</h2>
       <div class="pk_box">
         <div class="tab">
@@ -40,12 +40,16 @@
                 this.$get('/rs/member_relation',{u_id:this.$store.state.user.userid,order:'points desc,update_time'}).then(res=>{
                   if(res.code == 200){
                     that.rankings=res.rows
+                  }else if(res.code == 602){
+                    that.rankings=[]
                   }
                 })
               }else{
                   this.$get('/rs/member',{order:'points desc,create_time',page:1,size:50,rank:'<,91'}).then(res=>{
                       if(res.code == 200){
                           that.rankings=res.rows
+                      }else if(res.code == 602){
+                        that.rankings=[]
                       }
                   })
               }
@@ -90,6 +94,9 @@
 
 <style lang="less" scoped>
     @import '../../static/less/common.less';
+    .pad{
+      padding-bottom: 1px/2;
+    }
     h2{
       display: flex;
       height: 130px/2;
@@ -144,7 +151,7 @@
     }
     .list{
       width: 100%;
-      max-height: 906px/2;
+      max-height: 780px/2;
       overflow: auto;
       height: auto;
       li{
