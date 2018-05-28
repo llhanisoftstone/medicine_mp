@@ -195,11 +195,11 @@
               useri.game_level = d.level
               that.$store.commit('getm_user',useri)
               that.$store.commit('get_level',d.level)
-              that.$store.commit('get_answer',d.details[0])
+//              that.$store.commit('get_answer',d.details[0])
               that.$store.commit('get_step',d.step)
               that.$store.commit('get_max_nub',d.max_step)
-              if(d.details[1]){
-                that.$store.commit('get_prize',d.details[1])
+              if(d.details[0]){
+                that.$store.commit('get_prize',d.details[0])
               }else{
                 that.$store.commit('get_prize',{})
               }
@@ -212,8 +212,8 @@
           }
         }else if(d.content_type == 2){    //全部挑战结束
           setTimeout(function(){
-            if(d.details[1]){
-              that.$store.commit('get_prize',d.details[1])
+            if(d.details[0]){
+              that.$store.commit('get_prize',d.details[0])
             }else{
               that.$store.commit('get_prize',{})
             }

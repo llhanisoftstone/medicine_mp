@@ -212,10 +212,12 @@
               this.gameover=false
               this.iswin = 0
               this.$socket.emit('data_chain',{
-                cmd:'chat',
-                u_id:this.$store.state.user.userid,
-                room_id:this.$store.state.room_id,
-                type:6
+                cmd:'fight',
+                u_id:this.challenger,
+                level:this.$store.state.level,
+                game_cfg_id:2,
+                game_type:2,
+                game_style:4
               })
             },
             cleardata(){
@@ -502,7 +504,7 @@
                       useri.game_level = d.level
                       that.$store.commit('getm_user',useri)
                       that.$store.commit('get_level',d.level)
-                      that.$store.commit('get_answer',d.details[0])
+//                      that.$store.commit('get_answer',d.details[0])
                       that.$store.commit('get_step',d.step)
                       that.$store.commit('get_max_nub',d.max_step)
                       that.iswin = 2
@@ -514,11 +516,11 @@
                       that.isstart=true
                       that.stat=[]
                       that.tool_id=[]
-                      for(let i=0;i<d.details[0].answer_json.length;i++){
-                        that.stat.push(0)
-                      }
-                      if(d.details[1]){
-                        that.$store.commit('get_prize',d.details[1])
+//                      for(let i=0;i<d.details[0].answer_json.length;i++){
+//                        that.stat.push(0)
+//                      }
+                      if(d.details[0]){
+                        that.$store.commit('get_prize',d.details[0])
                       }else{
                         that.$store.commit('get_prize',{})
                       }

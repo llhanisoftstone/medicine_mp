@@ -3,6 +3,7 @@ export default {
   created () {
     this.getLogin()
     this.$socket.on('connect', () => {
+      console.log('connect success')
       this.$socket.emit('data_chain', {
         cmd: 'login',
         u_id: this.$store.state.user.userid,

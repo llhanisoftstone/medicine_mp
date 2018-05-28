@@ -42,9 +42,16 @@
         this.card={}
       },
       toalone(){
-        wx.redirectTo({
-          url:'/pages/alone/main'
+        this.$socket.emit('data_chain',{
+          cmd:'fight',
+          u_id: this.$store.state.user.userid,
+          game_cfg_id: 2,
+          game_type:1,
+          level:this.$store.state.level,
         })
+//        wx.redirectTo({
+//          url:'/pages/alone/main'
+//        })
       },
       repeat(){
           let that =this
@@ -53,7 +60,7 @@
           u_id: that.$store.state.user.userid,
           game_cfg_id: 2,
           game_type:1,
-          level:that.$store.state.level
+          level:that.$store.state.level,
         })
       }
     },
