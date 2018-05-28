@@ -280,6 +280,8 @@
               room_id:this.$store.state.room_id,
               u_id:this.$store.state.user.userid,
               tool_id: this.tool_id,   // 使用道具
+              game_cfg_id:1,
+              game_type:that.from
           })
       }
 
@@ -316,9 +318,9 @@
       }
       p{
         width: 160px/2;
+        box-sizing: border-box;
         font-size: 28px/2;
         color: #333;
-        height: 28px/2;
         display: flex;
         align-items: center;
         margin-top:17px/2;

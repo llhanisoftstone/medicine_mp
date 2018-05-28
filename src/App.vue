@@ -2,6 +2,14 @@
 export default {
   created () {
     this.getLogin()
+    this.$socket.on('connect', () => {
+      this.$socket.emit('data_chain', {
+        cmd: 'login',
+        u_id: this.$store.state.user.userid,
+        nickname: this.$store.state.userinfo.nickName,
+        picpath: this.$store.state.userinfo.avatarUrl
+      })
+    })
     // 调用API从本地缓存中获取数据
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())

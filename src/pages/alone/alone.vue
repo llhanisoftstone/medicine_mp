@@ -241,6 +241,7 @@
         this.$socket.emit('data_chain',{
             cmd:'left',
             u_id:that.$store.state.user.userid,
+            room_id:that.$store.state.room_id,
             game_cfg_id:2,
             game_type:1
         })
