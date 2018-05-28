@@ -209,7 +209,8 @@
             }
         },
       onLoad(option){
-            this.from = option.from
+        this.cleardata()
+        this.from = option.from
         if(this.from == 1){
           wx.setNavigationBarTitle({
             title: '对战'
@@ -270,6 +271,16 @@
             }
           }
         })
+      },
+      onUnload(){
+          let that=this
+          that.gameover=true
+          that.$socket.emit('data_chain',{
+              cmd:'left',
+              room_id:this.$store.state.room_id,
+              u_id:this.$store.state.user.userid,
+              tool_id: this.tool_id,   // 使用道具
+          })
       }
 
     }
