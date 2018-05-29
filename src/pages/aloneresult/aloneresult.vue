@@ -109,7 +109,6 @@
       }
     },
     onLoad(option){
-        debugger
       this.cleardata()
       this.win=option.result
       if(option.id){

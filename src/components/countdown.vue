@@ -10,7 +10,7 @@
         props: ['time'],
         data(){
             return {
-                width:33
+                width:30
             }
         },
         methods: {
@@ -46,15 +46,23 @@
               ctx.setStrokeStyle('#df5c3e')
               ctx.stroke()
               ctx.draw()
-            }
+            },
+          getwidth(){
+            let that=this
+            wx.createSelectorQuery().select('#myCanvas').boundingClientRect(function (rect) {
+                if(rect){
+                  that.width = rect.width/2   // 节点的宽度
+                  that.cutTime()
+                }else{
+                    that.getwidth()
+                }
+
+            }).exec()
+          }
         },
         components: {},
         created(){
-          let that=this
-          wx.createSelectorQuery().select('#myCanvas').boundingClientRect(function (rect) {
-            that.width = rect.width/2   // 节点的宽度
-            that.cutTime()
-          }).exec()
+          this.getwidth()
         },
         watch:{
             time(val,oldval){
