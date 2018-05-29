@@ -163,8 +163,8 @@
     height: 1246px/2;
     li{
       position: absolute;
-      width: 70px/2;
-      height: 70px/2;
+      width: 72px/2;
+      height: 72px/2;
       background: #ffbeaf;
       color: #fff;
       font-size:45px/2;

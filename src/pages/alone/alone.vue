@@ -48,7 +48,8 @@
               answernub:0,      //查看答案数量
               timenub:0,         //延时道具数量
               gameover:false,     //当前关卡是否结束
-              tool_id:[]              //使用的道具
+              tool_id:[],              //使用的道具
+              isreward:0             //是否是首页直接进入的奖励关卡      0不是
             }
         },
         methods: {
@@ -143,6 +144,7 @@
             that.isclick=false
             that.gameover=false
             that.tool_id=[]
+            that.isreward=0
           }
         },
         components: {
@@ -168,8 +170,13 @@
           }
         }
       },
-    onLoad(){
+    onLoad(option){
       this.cleardata()
+      if(option){
+          if(option.id){
+            this.isreward=option.id
+          }
+      }
       wx.setNavigationBarTitle({
         title:`第${this.$store.state.step}/${this.$store.state.max_nub}题`
       })
@@ -221,18 +228,30 @@
             }
             that.gameover=true
             that.$socket.removeAllListeners('data_chain')
-            wx.redirectTo({
-              url:'/pages/aloneresult/main?result=2'
-            })
+            if(that.isreward!=0){
+              wx.redirectTo({
+                url:`/pages/aloneresult/main?result=2&&id=${that.isreward}`
+              })
+            }else{
+              wx.redirectTo({
+                url:'/pages/aloneresult/main?result=2'
+              })
+            }
           },1000)
         }else if(d.content_type == 3){    //挑战失败
           setTimeout(function(){
             that.$store.commit('get_prize',{})
             that.gameover=true
             that.$socket.removeAllListeners('data_chain')
-            wx.redirectTo({
-              url:'/pages/aloneresult/main?result=0'
-            })
+            if(that.isreward!=0){
+              wx.redirectTo({
+                url:`/pages/aloneresult/main?result=0&&id=${that.isreward}`
+              })
+            }else{
+              wx.redirectTo({
+                url:'/pages/aloneresult/main?result=0'
+              })
+            }
           },1000)
         }
       })

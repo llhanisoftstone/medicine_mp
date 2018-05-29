@@ -32,12 +32,12 @@
     </div>
     <div class="gift_title"><span></span><i></i><image src="/static/img/liwu.png"></image>礼物店<i></i><span></span></div>
     <ul class="gift_list">
-      <li v-for="(v,i) in win_treasure">
+      <li v-for="(v,i) in win_treasure" @click="reward(v.id)">
         <div>
           <image :src="v.picpath"></image>
         </div>
         <h3>{{v.name}}</h3>
-        <a href="" :_id="v.id">挑战</a>
+        <a href="">挑战</a>
       </li>
     </ul>
   </div>
@@ -52,7 +52,8 @@
   data () {
     return {
       p_number:0,
-      win_treasure: []
+      win_treasure: [],
+      r_id:0
     }
   },
 
@@ -71,6 +72,33 @@
           }
             that.win_treasure = res.win_treasure
         }
+    },
+    reward(r_id){
+        this.r_id=r_id
+        this.$socket.emit('data_chain',{
+            cmd:'fight',
+            u_id: this.$store.state.user.userid,
+            game_cfg_id: r_id,
+            game_type:1,
+            level:1
+        })
+    },
+    watchsocket(){
+      let that=this
+      that.$socket.removeAllListeners('data_chain')
+      that.$socket.on('data_chain',d=>{
+        if(d.cmd == 'answer'){
+          that.$socket.removeAllListeners('data_chain')
+          that.$store.commit('get_answer',d.details[0])
+          that.$store.commit('get_step',d.step)
+          that.$store.commit('get_level',1)
+          that.$store.commit('get_room',d.room_id)
+          that.$store.commit('get_max_nub',d.max_step)
+          wx.navigateTo({
+            url:`/pages/alone/main?id=${that.r_id}`
+          })
+        }
+      })
     }
   },
   mounted(){
@@ -84,7 +112,13 @@
   created () {
     // 调用应用实例的方法获取全局数据
 //    this.getLogin()
-  }
+  },
+    onLoad(){
+      this.watchsocket()
+    },
+    onShow(){
+      this.watchsocket()
+    }
 }
 </script>
 

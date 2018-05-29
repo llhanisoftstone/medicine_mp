@@ -90,7 +90,7 @@
       </div>
       <div class="publish_box">
         <div>
-          <input type="text" v-model="content">
+          <input type="text" v-model="content" cursor-spacing='15'>
         </div>
         <button @click="send">发表</button>
         <a @click="userTools(user.tools[0].amount,1)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount}}</span></a>
@@ -798,6 +798,7 @@
       align-items: center;
       justify-content: center;
       padding: 0;
+      position: static;
     }
     a{
       width: 81px/2;

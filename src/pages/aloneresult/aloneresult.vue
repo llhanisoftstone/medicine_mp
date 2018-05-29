@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="btn_box">
-      <a href="" v-if="win==2" @click="toalone">挑战下一关</a>
+      <a href="" v-if="(win==2)&&isreward==0" @click="toalone">挑战下一关</a>
       <a href="" v-if="win==0" @click="repeat">重新开始</a>
       <button open-type="share">分享战绩</button>
     </div>
@@ -32,7 +32,8 @@
       return {
         win:2,    //2赢  1平局  0输
         iscard:false,
-        card:{}
+        card:{},
+        isreward:0         //是否是首页进入的奖励关卡   0 不是
       }
     },
     methods: {
@@ -40,6 +41,7 @@
         this.win = 0
         this.iscard=false
         this.card={}
+        this.isreward=0
       },
       toalone(){
         this.$socket.emit('data_chain',{
@@ -54,14 +56,25 @@
 //        })
       },
       repeat(){
-          let that =this
-        this.$socket.emit('data_chain',{
-          cmd:'fight',
-          u_id: that.$store.state.user.userid,
-          game_cfg_id: 2,
-          game_type:1,
-          level:that.$store.state.level,
-        })
+        let that =this
+        debugger
+        if(this.isreward == 0){
+          this.$socket.emit('data_chain',{
+            cmd:'fight',
+            u_id: that.$store.state.user.userid,
+            game_cfg_id: 2,
+            game_type:1,
+            level:that.$store.state.level,
+          })
+        }else{
+          this.$socket.emit('data_chain',{
+            cmd:'fight',
+            u_id: that.$store.state.user.userid,
+            game_cfg_id: this.isreward,
+            game_type:1,
+            level:1,
+          })
+        }
       }
     },
     components: {
@@ -96,8 +109,14 @@
       }
     },
     onLoad(option){
+        debugger
       this.cleardata()
       this.win=option.result
+      if(option.id){
+        this.isreward=option.id
+      }else{
+        this.isreward=0
+      }
       let that=this
       that.$socket.on('data_chain',d=>{
         if(d.cmd == 'answer'){
@@ -109,9 +128,15 @@
             that.$store.commit('get_level',d.level)
             that.$store.commit('get_max_nub',d.max_step)
             that.$socket.removeAllListeners('data_chain')
-            wx.redirectTo({
-              url:'/pages/alone/main'
-            })
+            if(that.id!=0){
+              wx.redirectTo({
+                url:`/pages/alone/main?id=${that.isreward}`
+              })
+            }else{
+              wx.redirectTo({
+                url:'/pages/alone/main'
+              })
+            }
           }
         }
       })
@@ -239,7 +264,7 @@
     padding: 0 66px/2;
     box-sizing: border-box;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     display: flex;
   a{
     width: 300px/2;
