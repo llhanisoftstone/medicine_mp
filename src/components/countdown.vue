@@ -50,6 +50,7 @@
           getwidth(){
             let that=this
             wx.createSelectorQuery().select('#myCanvas').boundingClientRect(function (rect) {
+                console.log('-----------------------')
                 if(rect){
                   that.width = rect.width/2   // 节点的宽度
                   that.cutTime()

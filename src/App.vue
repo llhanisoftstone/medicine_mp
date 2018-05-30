@@ -41,6 +41,9 @@ export default {
       wx.getUserInfo({   //
         success: function (res) {
           console.log(res)
+          if (!res.userInfo) {
+            return
+          }
           that.$store.commit('getuser', res.userInfo)
           that.$store.commit('getauth')
           that.$get('/weapp/login', {code: that.$store.state.code, encryptedData: res.encryptedData, iv: res.iv}).then(res => {

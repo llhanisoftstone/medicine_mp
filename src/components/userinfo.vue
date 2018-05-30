@@ -26,10 +26,71 @@
             let that = this
             console.log(e)
             console.log(e.target.userInfo)
+            if(!e.target.userInfo){
+                return
+            }
             that.$store.commit('getuser', e.target.userInfo)
             that.$store.commit('getauth')
             that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:e.target.encryptedData,iv:e.target.iv}).then(res=>{
               console.log(res)
+              if (res.code === 200) {
+                for (let i = 0; i < res.tools.length; i++) {
+                  if (!res.tools[i].amount) {
+                    res.tools[i].amount = 0
+                  }
+                }
+                that.$store.commit('getm_user', res)
+                that.$socket.on('data_chain', d => {
+                  if (d.cmd === 'login') {
+                    that.$store.commit('getsocket')
+                  } else if (d.cmd === 'error') {
+                    if (d.errcode === 601) {
+                      wx.showModal({
+                        title: '提示',
+                        content: '获取登录信息失败,请重新获取',
+                        showCancel: false,
+                        confirmText: '确定',
+                        confirmColor: '#df5c3e',
+                        success: res => {
+                          if (res.confirm) {
+                            this.$socket.emit('data_chain', {
+                              cmd: 'login',
+                              u_id: this.$store.state.user.userid,
+                              nickname: this.$store.state.userinfo.nickName,
+                              picpath: this.$store.state.userinfo.avatarUrl
+                            })
+                            console.log(11111)
+                          }
+                        }
+                      })
+                    } else if (d.errcode === 404) {
+                      wx.showModal({
+                        title: '提示',
+                        content: '房间不存在',
+                        showCancel: false,
+                        confirmText: '返回首页',
+                        confirmColor: '#df5c3e',
+                        success: res => {
+                          if (res.confirm) {
+                            wx.switchTab({
+                              url: '/pages/index/main'
+                            })
+                            console.log('用户点击确定')
+                          }
+                        }
+                      })
+                    }
+                  }
+                  console.log(d)
+                })
+                that.$socket.emit('data_chain', {
+                  cmd: 'login',
+                  u_id: res.userid,
+                  nickname: that.$store.state.userinfo.nickName,
+                  picpath: that.$store.state.userinfo.avatarUrl
+                })
+//                console.log(res)
+              }
             })
           }
         },
