@@ -12,19 +12,19 @@
                 <div class="count-list">
                   <ul class="clear ">
                     <li>
-                      <div class="count favoriteNum">0</div>
+                      <div class="count favoriteNum">{{item.total_count}}</div>
                       <div class="txt">已领取</div>
                     </li>
                     <li>
-                      <div class="count likeTalentNum">0</div>
+                      <div class="count likeTalentNum">{{item.surplus_count}}</div>
                       <div class="txt">未领取</div>
                     </li>
                     <li>
-                      <div class="count tryoutNum">0</div>
+                      <div class="count tryoutNum">{{item.count}}</div>
                       <span class="txt">已核销</span>
                     </li>
                     <li style="border: none">
-                      <div class="count noticeNum count_border0">0</div>
+                      <div class="count noticeNum count_border0">{{item.uncount}}</div>
                       <span class="txt">未核销</span>
                     </li>
                   </ul>
@@ -73,9 +73,12 @@
           size:this.size,
           u_id:this.$store.state.user.userid
         };
-        let res = await that.$get('/rs/ticket_send_rule',data);
+        let res = await that.$get('/rs/v_ticket_send_rule',data);
         if (res.code == 200){
           if (res.rows.length > 0){
+            for (var i=0; i<res.rows.length; i++){
+              res.rows[i].surplus_count = res.rows[i].total_amount - res.rows[i].total_count;
+            }
             that.ticket_list = res.rows;
           }
         }

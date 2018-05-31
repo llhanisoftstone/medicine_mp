@@ -276,7 +276,7 @@
   }
   .icon-reading {
     background: url('../../../static/img/zc_4.png') no-repeat left center;
-    background-size: 0.352rem 0.32rem;
+    background-size: 30px/2 18px/2;
   }
   .info-right span {
     font-size: 0.261rem;
