@@ -61,7 +61,7 @@
         礼物店
       </div>
       <ul class="gift_list">
-        <li v-for="(v,i) in win_treasure">
+        <li v-for="(v,i) in win_treasure" @click="reward(v.id)">
           <div>
             <image :src="v.picpath"></image>
           </div>
@@ -236,7 +236,17 @@
             }
           }
           }
-        }
+        },
+        reward(r_id){
+          this.r_id=r_id
+          this.$socket.emit('data_chain',{
+            cmd:'fight',
+            u_id: this.$store.state.user.userid,
+            game_cfg_id: r_id,
+            game_type:1,
+            level:1
+          })
+        },
       },
       mounted(){
         this.initData(null);

@@ -12,8 +12,7 @@
     </ul>
     <div class="sliverlist">
       <ul>
-        <li class="totlepricemonth"><div class="time">2018年4月</div><div class="center">合计：<span>125元</span></div><div class="timeimg"></div></li>
-        <li class="priceday"><div class="time">2018-04-05</div><div class="center">闯关赛</div><div class="price">+150</div></li>
+        <li v-for="(v,i) in userlist" class="priceday"><div class="time">{{v.create_time}}</div><div class="center">{{v.illustration}}</div><div class="price">{{v.categorylist}}{{v.points}}</div></li>
       </ul>
     </div>
   </div>
@@ -29,6 +28,7 @@
         isActive:true,
         isclcik:false,
         isSelect:false,
+        userlist: [],
       }
     },
     methods: {
@@ -36,12 +36,36 @@
         this.isActive=true;
         this.isclcik=false;
         this.isSelect=false;
+        this.getgoods(1);
       },
       rightclick(){
         this.isActive=false;
         this.isclcik=true;
         this.isSelect=true;
-      }
+        this.getgoods(3);
+      },
+      async getgoods(category){
+        let that = this;
+        let data={
+            u_id:this.$store.state.user.userid,
+        };
+        if(category){
+            data.category=category;
+        }else{
+            data.category=1
+        }
+        let res = await that.$get('/rs/points_account',data);
+        if(res.code == 200){
+            for(var i=0;i<res.rows.length;i++){
+                if(res.rows[i].category==3){
+                    res.rows[i].categorylist="-";
+                }else{
+                  res.rows[i].categorylist="+";
+                }
+            }
+          that.userlist = res.rows;
+        }
+      },
     },
     computed:{
       points(){
@@ -50,6 +74,12 @@
     },
     components: {
       userinfo
+    },
+    onLoad: function () {
+      this.isActive=true;
+      this.isclcik=false;
+      this.isSelect=false;
+      this.getgoods(1);
     },
     created (){
       // 调用应用实例的方法获取全局数据

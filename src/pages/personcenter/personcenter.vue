@@ -3,7 +3,7 @@
     <a href="/pages/userdata/main">
       <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
         <div slot="userRight">
-          <a href="" class="wallet">{{ponits}}</a>
+          <a href="" class="wallet">{{points}}</a>
         </div>
       </userinfo>
     </a>
@@ -27,7 +27,7 @@
       return {
         isnewuser: true,
         seen:false,
-        points:0
+        points:0,
       }
     },
     components: {
@@ -37,8 +37,9 @@
       async getuserperson(){
         let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
         if(aa.code==200){
+          console.log(aa)
           this.$store.commit('get_sliver',aa.rows[0].points);
-            this.points=aa.rows[0].points;
+          this.points=aa.rows[0].points;
             if(aa.rows[0].rank<"20"){
                 this.seen=false;
             }else{

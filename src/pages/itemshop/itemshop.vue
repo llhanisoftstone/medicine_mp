@@ -21,7 +21,7 @@
             <ul>
               <li><span class="icon icon_number"></span>
                 <input id="price" type="number"  v-model="amount" ref="type1" placeholder="购买个数"  maxlength="7"  onkeyup="value=value.replace(/[^\d]/g,'')"/>
-                  <span class="number_right">{{name_type}}<span class="show" v-if="istotalpoint">{{amount*20}}</span><span class="show" v-if="istotalprice">{{amount*20}}</span></span>
+                  <span class="number_right">{{name_type}}<span class="show" v-if="istotalpoint">{{amount*20}}</span><span class="show" v-if="istotalprice">{{amount*0.2}}</span></span>
               </li>
               <li><span class="icon icon_pointer"></span><span class="content_title">可用银两<span class="isusepointer"></span>{{points}}</span><span class="pay_type" v-on:click="slelecttype(2)" v-bind:class="{active:paytype2}" _pay_type="2"></span></li>
               <!--<li><span class="icon icon_money"></span><span class="content_title">微信支付</span><span class="pay_type" v-on:click="slelecttype(1)" v-bind:class="{active:paytype1}" _pay_type="1"></span></li>-->
@@ -318,11 +318,10 @@
       background:#fff;
       width:230px;
       margin-left:73px;
-      height:219px;
       text-align:center;
       border-radius:25px;
       position:relative;
-      padding:0 20px;
+      padding:0 20px 20px;
       .topimg{
         position:absolute;
         top:-21.5px;
