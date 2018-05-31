@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="search">
+      <div class="search_icon"></div>
       <input confirm-type="search" class="search-input" placeholder="请输入标题或内容" @confirm="confirm($event)"/>
     </div>
     <div class="handbook-info">
@@ -92,12 +93,8 @@
       refresh(){
         this.page = 1;
         this.getpolicyList();
-//        setTimeout(function(){
-          wx.stopPullDownRefresh()
-//        },500)
       },
       loadmore () {
-        this.page = this.page + 1;
         this.getpolicyList();
       }
     },
@@ -115,15 +112,24 @@
     padding: 10px/2 12px/2;
     background-color: #f6f6f6;
   }
-  .search input{
-    color: #666666;
-    font-size: 26px/2;
-    height: 55px/2;
-    border-radius: 10px/2;
-    background: #ffffff url('../../../static/img/zc_5.png') 14px/2 center no-repeat;
-    padding-left: 65px/2;
-    background-size: 40px/2 40px/2;
+  .search{
+    display: flex;
+    .search_icon{
+      width: 10%;
+      background: #ffffff url('../../../static/img/zc_5.png') 14px/2 center no-repeat;
+      background-size: 40px/2 40px/2;
+      border-radius: 10px/2 0 0 10px/2;
+    }
+    input{
+      width: 90%;
+      color: #666666;
+      font-size: 26px/2;
+      height: 55px/2;
+      border-radius: 0 10px/2 10px/2 0;
+      background-color: #ffffff;
+    }
   }
+
   .common-head{
     line-height: 0.36rem;
     margin: 0.234667rem 0 0.257733rem 0;
@@ -193,7 +199,7 @@
   }
   .icon-reading {
     background: url('../../../static/img/zc_4.png') no-repeat left center;
-    background-size: 0.352rem 0.32rem;
+    background-size: 30px/2 18px/2;
   }
   .info-right span {
     font-size: 0.261rem;
