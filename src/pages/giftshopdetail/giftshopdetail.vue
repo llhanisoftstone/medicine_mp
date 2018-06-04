@@ -5,13 +5,16 @@
     <p class="phone">{{phone}}</p>
     <p class="address">{{address}}</p>
     <div class="codek">
-      <div class="imgk"><img :src="qrcode" alt=""></div>
+      <div class="imgk">
+        <canvas class="canvas_sty" canvas-id="mycanvas"/>
+      </div>
     </div>
     <p class="codeinfo">验证码 : {{code}}</p>
   </div>
 </template>
 
 <script type="javascript">
+  var QR = require("../../utils/qrcode.js");
   export default {
     data(){
       return {
@@ -20,7 +23,10 @@
         phone:'',
         address:'',
         code:'',
-        qrcode:''
+        qrcode:'',
+        maskHidden:true,
+        imagePath:'',
+        placeholder:''//默认二维码生成文本
       }
     },
     methods: {
@@ -32,20 +38,38 @@
             if(res.rows[0].logo_url.substring(0,4)!="http"){
               res.rows[0].logo_url = 'https://policy.lifeonway.com'+res.rows[0].logo_url;
             }
-            that.logo_url = res.rows[0].logo_url;
+            that.logo_url = res.rows[0].logo_url
           }else{
             that.logo_url = "/static/img/logo_moren.jpg";
           }
-          that.title = res.rows[0].title;
-          that.phone = res.rows[0].phone;
-          that.address = res.rows[0].address;
-          that.code = res.rows[0].ticket_code;
-          if(res.rows[0].qrcode.substring(0,4)!="http") {
-            res.rows[0].qrcode = 'https://policy.lifeonway.com' + res.rows[0].qrcode;
-          }
-          that.qrcode = res.rows[0].qrcode;
+          that.title = res.rows[0].title
+          that.phone = res.rows[0].phone
+          that.address = res.rows[0].address
+          that.code = res.rows[0].ticket_code
+          that.createQrCode(res.rows[0].ticket_code, "mycanvas", 140, 140)
         }
       },
+      createQrCode:function(url,canvasId,cavW,cavH){
+        //调用插件中的draw方法，绘制二维码图片
+        QR.api.draw(url,canvasId,cavW,cavH);
+
+        setTimeout(() => { this.canvasToTempImage();},1000)
+
+      },
+      //获取临时缓存照片路径，存入data中
+      canvasToTempImage:function(){
+        var that = this
+        wx.canvasToTempFilePath({
+          canvasId: 'mycanvas',
+          success: function (res) {
+            var tempFilePath = res.tempFilePath
+            console.log(tempFilePath)
+          },
+          fail: function (res) {
+            console.log(res);
+          }
+        });
+      }
     },
 
     onLoad: function (option) {
@@ -105,5 +129,10 @@
     font-size: 34px/2;
     color:#333;
     padding-top: 80px/2;
+  }
+  .canvas_sty{
+    width: 261px/2;
+    height: 261px/2;
+    background-size: 261px/2 261px/2;
   }
 </style>

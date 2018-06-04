@@ -19,14 +19,11 @@
         let that = this;
         wx.scanCode({
           success: (rs) => {
+            alert(JSON.stringify(rs));
             let res = rs.result;
             if (res){
-              if (res.length == 15){
-                if (res.substring(0,3) != 'rst'){
-                  that.$mptoast('该二维码无效');
-                }else{
+              if (res.length == 8){
                   this.writeoff(res);
-                }
               }else{
                 that.$mptoast('该二维码无效');
               }
