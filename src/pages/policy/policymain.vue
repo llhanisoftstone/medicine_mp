@@ -91,7 +91,6 @@
       }
     },
 
-
     methods: {
       async getpolicyMain() {
         let that = this;
