@@ -3,7 +3,6 @@
       <ul class="tablist">
         <li v-on:click="leftclick" stype="1" v-bind:class="{ on: isActive }">道具商店</li>
         <li stype="2" v-on:click="rightclick" v-bind:class="{ on: isclcik}">我的背包</li>
-        <li class="left_line" v-bind:class="{ right: isSelect }"></li>
       </ul>
       <div class="itemlist" v-if="seen">
         <ul>
@@ -15,8 +14,8 @@
           <li v-for="(w,i) in mypackage" :key="w.id"><img :src="w.picpath" alt=""><div class="bottomlist">x{{w.amount}}</div></li>
         </ul>
       </div>
-      <div class="model" v-if="ishidden" v-on:click="isover">
-        <div class="centermodel">
+      <div class="model" v-if="ishidden" @click="show1()">
+        <div class="centermodel" @click.stop="show()">
             <div class="topimg"><img :src="picpath" alt=""></div>
             <ul>
               <li><span class="icon icon_number"></span>
@@ -29,6 +28,7 @@
           <div class="ispay" v-on:click="orderlist">确认支付</div>
         </div>
       </div>
+      <div class="nogetList" v-if="iskong">暂无记录</div>
       <mptoast/>
     </div>
 </template>
@@ -46,11 +46,11 @@
               picpath:"",
               ishidden:false,
               seen:true,
+              iskong:false,
               paytype:true,
               isshow:false,
               isActive:true,
               isclcik:false,
-              isSelect:false,
               paytype1:false,
               paytype2:true,
               goods_id:null,
@@ -71,14 +71,13 @@
               this.isshow=false;
               this.isActive=true;
               this.isclcik=false;
-              this.isSelect=false;
+              this.iskong=false;
           },
           rightclick(){
             this.seen=false;
             this.isshow=true;
             this.isActive=false;
             this.isclcik=true;
-            this.isSelect=true;
             this.getmybuy();
           },
           buyuse(id,picpath){
@@ -119,6 +118,13 @@
                 this.istotalpoint=true;
             }
           },
+          show1(){
+            this.ishidden=false;
+            event.cancelBubble = true;
+          },
+          show(e){
+            this.ishidden=true;
+          },
           async getgoods(){
             let that = this;
             let res = await that.$get('/rs/goods');
@@ -140,10 +146,13 @@
             let that = this;
             let res = await that.$get('/rs/member_package',{u_id:this.$store.state.user.userid});
             if(res.code==200){
+              this.iskong=false;
               for(let i = 0;i<res.rows.length;i++){
                 res.rows[i].picpath = that.$store.state.url+ res.rows[i].picpath
               }
               this.mypackage = res.rows;
+            }else if(res.code==602){
+                this.iskong=true;
             }
           },
           async orderlist(){
@@ -185,6 +194,7 @@
       onLoad: function (option) {
         this.getpolicyInfo(option.isok)//获取数据
         this.ishidden=false;
+        this.iskong=false;
       }
 
     }
@@ -204,31 +214,11 @@
         text-align:center;
         font-size:15px;
         color:#333;
+        border-bottom:3px solid #f6f6f6;
       }
       li.on{
         color:#df5c3e;
-      }
-      .left_line{
-        position:absolute;
-        left:0;
-        bottom:0;
-        right:auto;
-        transition: all .3s ease;
-        border-bottom: none;
-        width:50%;
-        height:2px;
-        background:#df5c3e;
-      }
-      .left_line.right{
-        position:absolute;
-        right:0;
-        bottom:0;
-        left:auto;
-        transition: all .3s ease;
-        border-bottom: none;
-        width:50%;
-        height:2px;
-        background:#df5c3e;
+        border-bottom:3px solid #df5c3e;
       }
     }
   .itemlist{
@@ -314,10 +304,9 @@
     background:rgba(0,0,0,0.6);
     z-index:20;
     .centermodel{
-      margin-top:147.5px;
       background:#fff;
       width:230px;
-      margin-left:73px;
+      margin:147.5px auto 0;
       text-align:center;
       border-radius:25px;
       position:relative;
@@ -410,6 +399,18 @@
       }
     }
 
+  }
+  .nogetList{
+    padding-top: 290px;
+    box-sizing:border-box;
+    background: url(../../../static/img/konhyemain.jpg) center 100px no-repeat;
+    background-size:145px 148px;
+    width: 100%;
+    height: 297px;
+    color: #999999;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 50px;
   }
   .ispay{
     margin:20px auto 0;

@@ -21,6 +21,7 @@
         </a>
       </li>
     </ul>
+    <div class="nogetList" v-if="iskong">暂无记录</div>
   </div>
 </template>
 
@@ -29,44 +30,27 @@
     data () {
       return {
         policy_list:[],
-        page:1,
-        size:6
+        iskong:false,
       }
     },
-
-    onPullDownRefresh () {
-      wx.showNavigationBarLoading() //在标题栏中显示加载
-      this.page=1;
-      this.policy_list=[];
-      this.refresh();
-      // 下拉刷新
-      wx.hideNavigationBarLoading() //完成停止加载
-      wx.stopPullDownRefresh() //停止下拉刷新
-    },
-    onReachBottom () {
-      this.page++;
-      this.loadmore()
-    },
-
     methods: {
       async getpolicyList() {
         let that = this;
         let data = {
-          page:that.page,
-          size:that.size,
           u_id:that.$store.state.user.userid
         };
         let res = await that.$get('/rs/member_ticket',data);
         if (res.code == 200){
+          this.iskong=false;
           if (res.rows.length > 0){
             for (let i=0; i<res.rows.length; i++){
               res.rows[i].type = 1;
               if(res.rows[i].type == 0){
                 res.rows[i].get_time = that.conversionTime(res.rows[i].get_time,".");
-                res.rows[i].end_time = that.conversionTime(res.rows[i].end_time,".");
+                res.rows[i].end_time = that.conversionTimelist(res.rows[i].effect_hour,".");
                 res.rows[i].price=that.pricetab(res.rows[i].price);
               }else{
-                res.rows[i].end_time = that.conversionTime(res.rows[i].end_time,"-");
+                res.rows[i].end_time = that.conversionTimelist(res.rows[i].effect_hour,"-");
               }
               if(res.rows[i].picurl){
                   if(res.rows[i].picurl.substring(0,4)!="http"){
@@ -79,23 +63,31 @@
                   res.rows[i].picurl= "/static/img/giftshop_moren.jpg"
                 }
               }
-              if(res.rows[i].status = 0){
+              if(res.rows[i].status == 0){
                 res.rows[i].statustext="未领取"
-              }else if(res.rows[i].status = 1){
+              }else if(res.rows[i].status == 1){
                 res.rows[i].statustext="已领取"
-              }else{
+              }else if(res.rows[i].status==2){
                 res.rows[i].statustext="已过期"
               }
               that.policy_list.push(res.rows[i]);
             }
           }
+        }else if(res.code==602){
+          this.iskong=true;
         }
       },
-      async refresh(){
-        this.getpolicyList();
-      },
-      loadmore () {
-        this.getpolicyList();
+      conversionTimelist(time,sign){
+        if(time==null){
+          return;
+        }
+        var date = new Date();
+        var newDate = new Date(date.getFullYear(),date.getMonth(),date.getDate()+time);
+        var year2 = newDate.getFullYear();
+        var month2 = newDate.getMonth()+1;
+        var day2 = newDate.getDate();
+        return year2+sign+month2+sign+day2;
+
       },
       conversionTime(time,sign){
         if(time==null){
@@ -125,7 +117,9 @@
     },
 
     onLoad: function (option) {
+      this.policy_list=[];
       this.getpolicyList()//获取数据
+      this.iskong=false;
     }
   }
 </script>
@@ -134,6 +128,18 @@
   @import "../../static/less/common.less";
   .mainlist{
     padding: 20px/2 0;
+  }
+  .nogetList{
+    padding-top: 290px;
+    box-sizing:border-box;
+    background: url(../../../static/img/konhyemain.jpg) center 100px no-repeat;
+    background-size:145px 148px;
+    width: 100%;
+    height: 297px;
+    color: #999999;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 50px;
   }
   .mainlist_item{
     margin:0 26px/2 20px/2;

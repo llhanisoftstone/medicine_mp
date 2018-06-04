@@ -15,6 +15,7 @@
         <li v-for="(v,i) in userlist" class="priceday"><div class="time">{{v.create_time}}</div><div class="center">{{v.illustration}}</div><div class="price">{{v.categorylist}}{{v.points}}</div></li>
       </ul>
     </div>
+    <div class="nogetList" v-if="iskong">暂无记录</div>
   </div>
 </template>
 
@@ -27,6 +28,7 @@
         isnewuser: true,
         isActive:true,
         isclcik:false,
+        iskong:false,
         isSelect:false,
         userlist: [],
       }
@@ -36,12 +38,14 @@
         this.isActive=true;
         this.isclcik=false;
         this.isSelect=false;
+        this.iskong=false;
         this.getgoods(1);
       },
       rightclick(){
         this.isActive=false;
         this.isclcik=true;
         this.isSelect=true;
+        this.iskong=false;
         this.getgoods(3);
       },
       async getgoods(category){
@@ -54,8 +58,10 @@
         }else{
             data.category=1
         }
+        data.order="create_time desc";
         let res = await that.$get('/rs/points_account',data);
         if(res.code == 200){
+          that.iskong=false;
             for(var i=0;i<res.rows.length;i++){
                 if(res.rows[i].category==3){
                     res.rows[i].categorylist="-";
@@ -64,6 +70,9 @@
                 }
             }
           that.userlist = res.rows;
+        }else if(res.code==602){
+          that.iskong=true;
+          that.userlist=[];
         }
       },
     },
@@ -79,6 +88,7 @@
       this.isActive=true;
       this.isclcik=false;
       this.isSelect=false;
+      this.iskong=false;
       this.getgoods(1);
     },
     created (){
@@ -104,6 +114,18 @@
     align-items: center;
     color: #df5c3e;
     font-size: 14px;
+  }
+  .nogetList{
+    padding-top: 290px;
+    box-sizing:border-box;
+    background: url(../../../static/img/konhyemain.jpg) center 100px no-repeat;
+    background-size:145px 148px;
+    width: 100%;
+    height: 297px;
+    color: #999999;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 50px;
   }
   .tablist{
     display:flex;
