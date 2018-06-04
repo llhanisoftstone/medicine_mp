@@ -27,7 +27,11 @@
       return {
         isnewuser: true,
         seen:false,
-        points:0,
+      }
+    },
+    computed:{
+      points(){
+        return this.$store.state.sliver
       }
     },
     components: {
@@ -37,9 +41,7 @@
       async getuserperson(){
         let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
         if(aa.code==200){
-          console.log(aa)
           this.$store.commit('get_sliver',aa.rows[0].points);
-          this.points=aa.rows[0].points;
             if(aa.rows[0].rank<"20"){
                 this.seen=false;
             }else{
@@ -52,6 +54,9 @@
       this.getuserperson()
     },
     created (){
+    },
+    onShow(){
+      this.getuserperson();
     }
     }
 </script>
