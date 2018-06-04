@@ -107,6 +107,7 @@
     @import '../static/less/common.less';
     .user_box{
       width: 100%;
+      box-sizing: border-box;
       height: 194px/2;
       padding: 0 26px/2;
       position:relative;
@@ -164,6 +165,7 @@
           font-size: 32px/2;
           color: #333;
           width: 300px/2;
+          box-sizing: border-box;
         }
         .slot_box{
           flex: 1;

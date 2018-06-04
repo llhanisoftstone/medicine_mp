@@ -23,7 +23,7 @@
                   <span class="number_right">{{name_type}}<span class="show" v-if="istotalpoint">{{amount*20}}</span><span class="show" v-if="istotalprice">{{amount*0.2}}</span></span>
               </li>
               <li><span class="icon icon_pointer"></span><span class="content_title">可用银两<span class="isusepointer"></span>{{points}}</span><span class="pay_type" v-on:click="slelecttype(2)" v-bind:class="{active:paytype2}" _pay_type="2"></span></li>
-              <!--<li><span class="icon icon_money"></span><span class="content_title">微信支付</span><span class="pay_type" v-on:click="slelecttype(1)" v-bind:class="{active:paytype1}" _pay_type="1"></span></li>-->
+              <li><span class="icon icon_money"></span><span class="content_title">微信支付</span><span class="pay_type" v-on:click="slelecttype(1)" v-bind:class="{active:paytype1}" _pay_type="1"></span></li>
             </ul>
           <div class="ispay" v-on:click="orderlist">确认支付</div>
         </div>
@@ -62,7 +62,8 @@
               amount:1,
               points:'',
               name_type:'银两',
-              value:''
+              value:'',
+              ispay:false,
             }
         },
         methods: {
@@ -86,21 +87,6 @@
             this.amount=1;
             this.picpath=picpath;
           },
-          getpolicyInfo(isok){
-            if(isok==true){
-              this.seen=false;
-              this.isshow=true;
-              this.isActive=false;
-              this.isclcik=true;
-              this.isSelect=true;
-            }else{
-              this.seen=true;
-              this.isshow=false;
-              this.isActive=true;
-              this.isclcik=false;
-              this.isSelect=false;
-            }
-          },
           slelecttype(type){
             if(type==1){
                 this.paytype1=true;
@@ -121,6 +107,12 @@
           show1(){
             this.ishidden=false;
             event.cancelBubble = true;
+            this.paytype1=false;
+            this.paytype2=true;
+            this.pay_type=2;
+            this.name_type="银两";
+            this.istotalprice=false;
+            this.istotalpoint=true;
           },
           show(e){
             this.ishidden=true;
@@ -171,13 +163,13 @@
             if(res.code == 200){
                 this.ishidden=false;
                 if(this.pay_type==1){
-                  this.$callWXPAY(res.main_order_id);
+                  this.$callWXPAY(res.main_order_id,this.$store.state.openid);
                 }else{
                   let use = this.$store.state.user
                   if(this.goods_id == 1){
-                    use.tools[0].amount = use.tools[0].amount+this.amount
+                    use.tools[0].amount = Number(use.tools[0].amount)+Number(this.amount)
                   }else{
-                    use.tools[1].amount = use.tools[1].amount+this.amount
+                    use.tools[1].amount = Number(use.tools[1].amount)+Number(this.amount)
                   }
                   this.$store.commit('getm_user',use)
                   this.$mptoast("支付成功");
@@ -188,13 +180,32 @@
           },
         },
       mounted(){
-        this.getgoods();
+        if(this.ispay){
+          this.seen=false;
+          this.isshow=true;
+          this.isActive=false;
+          this.isclcik=true;
+          this.getmybuy();
+        }else{
+          this.seen=true;
+          this.isshow=false;
+          this.isActive=true;
+          this.isclcik=false;
+          this.iskong=false;
+          this.getgoods();
+        }
         this.getuserperson();
       },
       onLoad: function (option) {
-        this.getpolicyInfo(option.isok)//获取数据
+        this.ispay=option.ispay//获取数据
         this.ishidden=false;
         this.iskong=false;
+        this.paytype1=false;
+        this.paytype2=true;
+        this.pay_type=2;
+        this.name_type="银两";
+        this.istotalprice=false;
+        this.istotalpoint=true;
       }
 
     }

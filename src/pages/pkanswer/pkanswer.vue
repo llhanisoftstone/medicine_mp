@@ -65,7 +65,8 @@
                 vsisclick:false,    //对方是否选择答案
                 other: -1,           //对方选择的答案
                 gameover:false,      //是否游戏结束
-                tool_id:[]               //使用过的道具id
+                tool_id:[],               //使用过的道具id
+                timesfn:null           //定时器
             }
         },
         methods: {
@@ -83,6 +84,8 @@
                   let use = this.$store.state.user
                   use.tools[0].amount = use.tools[0].amount-1
                   this.$store.commit('getm_user',use)
+                  this.answernub = this.$store.state.user.tools[0].amount
+                  this.timenub = this.$store.state.user.tools[1].amount
                   this.tool_id.push(Number(id))
                   this.submit(i,this.$store.state.answer.answer_json[i].right)
                 }
@@ -91,11 +94,10 @@
           },
           countdownfn(){     //倒计时
               let that=this
-              let timefn
-              clearInterval(timefn)
-              timefn = setInterval(function(){
+              clearInterval(that.timesfn)
+              that.timesfn = setInterval(function(){
                 if(that.gameover){
-                  clearInterval(timefn)
+                  clearInterval(that.timesfn)
                 }
                 if(that.times == 0){
                   return
@@ -114,6 +116,7 @@
             this.other= -1
             this.gameover=false
             this.$store.commit('clear_score')
+            this.timesfn=null
           },
           submit(index,right){     //提交答案
             if(this.times<=0){
@@ -365,7 +368,7 @@
       height: 120px/2;
     }
   h3{
-    margin-top:100px/2;
+    margin-top:20px/2;
     width: 100%;
     height: 40px/2;
     color: #333;
@@ -438,9 +441,9 @@
     }
 
     .provide{
-      margin-bottom: 86px/2;
+      margin-bottom: 16px/2;
       font-size:24px/2;
-      margin-top:46px/2;
+      margin-top:16px/2;
       color: #666;
       display: flex;
       align-items: center;

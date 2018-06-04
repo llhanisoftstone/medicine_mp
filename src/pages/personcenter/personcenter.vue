@@ -27,7 +27,11 @@
       return {
         isnewuser: true,
         seen:false,
-        points:0,
+      }
+    },
+    computed:{
+      points(){
+        return this.$store.state.sliver
       }
     },
     components: {
@@ -37,8 +41,8 @@
       async getuserperson(){
         let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
         if(aa.code==200){
-          console.log(aa)
           this.$store.commit('get_sliver',aa.rows[0].points);
+<<<<<<< HEAD
           this.points=aa.rows[0].points;
           if(aa.rows[0].rank<"20"){
             console.log("1")
@@ -47,6 +51,14 @@
             console.log("2")
               this.seen=true;
           }
+=======
+          this.$store.commit('get_openid',aa.rows[0].open_id);
+            if(aa.rows[0].rank<"20"){
+                this.seen=false;
+            }else{
+                this.seen=true;
+            }
+>>>>>>> d339feabe0a98c7d2d987b9c4ae0e259f4120406
         }
       }
     },
@@ -54,8 +66,11 @@
       this.getuserperson()
     },
     created (){
+    },
+    onShow(){
+      this.getuserperson();
     }
-  }
+    }
 </script>
 
 <style scoped lang="css">

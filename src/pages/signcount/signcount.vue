@@ -194,8 +194,7 @@
           }
         },
         async getsign(year,month){
-            console.log(this.$store.state.sid);
-          let aa = await this.$post('/rs/sign_submit',{history_day: year + "-" + month + "-" + "01"});
+          let aa = await this.$post('/rs/sign_submit',{history_day: year + "-" + month + "-" + "01",auto_id:1});
           if(aa.code==200){
               this.nowflag=false;
               this.isoverflag=true;
@@ -223,7 +222,7 @@
             }
           }else{
             this.nowflag=true;
-            this.isoverflag=false
+            this.isoverflag=false;
             this.nowpointer=aa.total_points;
             var daystotal=this.days;
            for (var j = 0; j < aa.days.length; j++) {

@@ -10,7 +10,8 @@
         props: ['time'],
         data(){
             return {
-                width:30
+                width:30,
+//              time:40
             }
         },
         methods: {
@@ -45,6 +46,13 @@
               ctx.setLineWidth(3)
               ctx.setStrokeStyle('#df5c3e')
               ctx.stroke()
+              if(remaind>1){
+                ctx.beginPath()
+                ctx.arc(that.width, that.width, that.width-6, -0.5*Math.PI, ((remaind-1)*2-0.5) * Math.PI)
+                ctx.setLineWidth(3)
+                ctx.setStrokeStyle('#86d132')
+                ctx.stroke()
+              }
               ctx.draw()
             },
           getwidth(){
