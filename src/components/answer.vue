@@ -29,14 +29,14 @@
       text-align: center;
     }
     h4{
-      margin-top:64px/2;
+      margin-top:44px/2;
       font-size: 30px/2;
       width: 524px/2;
       line-height: 40px/2;
-      margin-bottom: 110px/2;
+      margin-bottom: 70px/2;
     }
     .top{
-      margin-top:33px/2;
-      margin-bottom: 48px/2;
+      margin-top:23px/2;
+      margin-bottom: 40px/2;
     }
 </style>

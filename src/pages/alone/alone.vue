@@ -49,7 +49,8 @@
               timenub:0,         //延时道具数量
               gameover:false,     //当前关卡是否结束
               tool_id:[],              //使用的道具
-              isreward:0             //是否是首页直接进入的奖励关卡      0不是
+              isreward:0,             //是否是首页直接进入的奖励关卡      0不是
+              istime:false             //是否使用过延时
             }
         },
         methods: {
@@ -64,16 +65,27 @@
             if(Number(id) == 1){
                   for(let i=0;i<this.$store.state.answer.answer_json.length;i++){
                       if(this.$store.state.answer.answer_json[i].right){
-                          let use = this.$store.state.user
+                          let use =this.$store.state.user
                           use.tools[0].amount = use.tools[0].amount-1
                           this.$store.commit('getm_user',use)
+                          this.answernub = this.$store.state.user.tools[0].amount
+                          this.timenub = this.$store.state.user.tools[1].amount
                           this.tool_id.push(Number(id))
                           this.submit(i,this.$store.state.answer.answer_json[i].right)
                       }
                   }
             }else if(Number(id) == 2){
+                if(this.istime){
+                    return
+                }
+                this.istime=true
                 this.isprop=true
                 this.times += 20
+                let use =this.$store.state.user
+                use.tools[1].amount = use.tools[1].amount-1
+                this.$store.commit('getm_user',use)
+                this.answernub = this.$store.state.user.tools[0].amount
+                this.timenub = this.$store.state.user.tools[1].amount
                 this.tool_id.push(Number(id))
               setTimeout(()=>{
                   this.isprop=false
@@ -136,6 +148,7 @@
           },
           cleardata(){
             let that =this
+            that.istime=false
             that.times = 30
             that.answernub = this.$store.state.user.tools[0].amount
             that.timenub = this.$store.state.user.tools[1].amount
@@ -144,7 +157,6 @@
             that.isclick=false
             that.gameover=false
             that.tool_id=[]
-            that.isreward=0
           }
         },
         components: {
@@ -232,6 +244,7 @@
               wx.redirectTo({
                 url:`/pages/aloneresult/main?result=2&&id=${that.isreward}`
               })
+              that.isreward=0
             }else{
               wx.redirectTo({
                 url:'/pages/aloneresult/main?result=2'
@@ -247,6 +260,7 @@
               wx.redirectTo({
                 url:`/pages/aloneresult/main?result=0&&id=${that.isreward}`
               })
+              that.isreward=0
             }else{
               wx.redirectTo({
                 url:'/pages/aloneresult/main?result=0'
@@ -257,8 +271,9 @@
       })
     },
     onUnload(){
-        let that = this
-        that.gameover=true
+      let that = this
+      that.gameover=true
+      that.isreward=0
       that.$socket.removeAllListeners('data_chain')
       this.$socket.emit('data_chain',{
             cmd:'left',
@@ -323,7 +338,7 @@
   }
     .answer{
       margin:0 auto;
-      margin-top:37px/2;
+      margin-top:27px/2;
       width: 524px/2;
       height: auto;
     }
@@ -353,9 +368,9 @@
       }
     }
     .provide{
-      margin-bottom: 86px/2;
+      margin-bottom: 16px/2;
       font-size:24px/2;
-      margin-top:46px/2;
+      margin-top:16px/2;
       color: #666;
       display: flex;
       align-items: center;

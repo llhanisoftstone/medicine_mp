@@ -42,7 +42,7 @@
               this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
               this.from=2
               this.other_uid=''
-              this.$socket.emit('data_chain', {cmd:'right',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
+              this.$socket.emit('data_chain', {cmd:'fight',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
           },
           cleardata(){    //清除数据
             this.vs=false

@@ -171,23 +171,25 @@
       padding: 6px/2;
       box-sizing: border-box;
       border-radius: 50%;
+      z-index: 5;
       margin-top: -35px/2;
       margin-left: -35px/2;
       .nub{
-        width: 60px/2;
-        height: 60px/2;
+        width: 100%;
+        height: 100%;
         border:4px/2 solid #fff;
         background: #ffbeaf;
-        text-align: center;
-        line-height:56px/2;
         box-sizing: border-box;
+        align-items: center;
         border-radius: 50%;
+        display: flex;
+        justify-content: center;
       }
       .gift{
         position: absolute;
         top:14px/2;
         left:-38px/2;
-        width: 200px/2;
+        width: 205px/2;
         height: auto;
         .a_up{
           display: block;
@@ -219,9 +221,10 @@
         }
       }
       .gift_r{
+        width: 217px/2;
         display: flex;
         top:-8px/2;
-        left:-164px/2;
+        left:-176px/2;
         align-items: center;
        }
       &:nth-of-type(1){
@@ -299,13 +302,11 @@
         border-radius: 50%;
         margin-top:-7px/2;
         margin-left: -7px/2;
-        border:4px/2 solid #fff;
-        box-sizing: border-box;
-        overflow: hidden;
         image{
           width: 82px/2;
           height: 82px/2;
           border-radius: 50%;
+          border:4px/2 solid #fff;
         }
       }
     }

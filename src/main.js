@@ -31,7 +31,7 @@ export default {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#df5c3e',
       backgroundColor: '#df5c3e',
-      navigationBarTitleText: '政策答题',
+      navigationBarTitleText: '政策大咖',
       navigationBarTextStyle: 'white'
     },
     tabBar: {

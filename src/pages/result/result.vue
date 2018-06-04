@@ -92,7 +92,7 @@
         }
         return {
           title: '分享战绩',
-          path: '/pages/result/main',
+          path: '/pages/index/main',
           success: (r)=>{
             console.log(r)
           },
