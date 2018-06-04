@@ -194,8 +194,7 @@
           }
         },
         async getsign(year,month){
-            console.log(this.$store.state.sid);
-          let aa = await this.$post('/rs/sign_submit',{history_day: year + "-" + month + "-" + "01"});
+          let aa = await this.$post('/rs/sign_submit',{history_day: year + "-" + month + "-" + "01",auto_id:1});
           if(aa.code==200){
               this.nowflag=false;
               this.isoverflag=true;

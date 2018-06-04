@@ -1,5 +1,6 @@
-﻿export function callWXPAY (orderId, callback) {
-  let response = this.$post('/wx/pay', {order_id: orderId})
+﻿export function callWXPAY (orderId, openid) {
+  let response = this.$post('/wx/pay', {openid: openid, order_id: orderId, iswx: 1})
+  console.log(response)
   if (response != null && !response.err) {
     wx.requestPayment({
       'timeStamp': '',

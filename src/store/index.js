@@ -22,6 +22,7 @@ const store = new Vuex.Store({
       id: ''
     },
     sliver: {},
+    openid: {},
     answer: {},             //  题目信息
     room_id: '',           //  房间id
     myscore: 0,           //  我的分数
@@ -100,6 +101,10 @@ const store = new Vuex.Store({
     get_max_nub: (state, maxnub) => {
       const obj = state
       obj.max_nub = maxnub
+    },
+    get_openid: (state, openid) => {
+      const obj = state
+      obj.openid = openid
     }
   }
 })

@@ -53,10 +53,10 @@
         let data={
             u_id:this.$store.state.user.userid,
         };
-        if(category){
-            data.category=category;
+        if(category==1){
+            data.category='<,3';
         }else{
-            data.category=1
+            data.category=category;
         }
         data.order="create_time desc";
         let res = await that.$get('/rs/points_account',data);
