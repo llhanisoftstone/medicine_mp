@@ -4,7 +4,7 @@
       <div v-if="rank ==20">
         <div class="item">
           <div class="title">商家名称</div>
-          <input type="text" confirm-type="next" maxlength="20" v-model='shop_name'  placeholder="请输入商家名称"/>
+          <input type="text" confirm-type="next" maxlength="15" v-model='shop_name'  placeholder="请输入商家名称"/>
         </div>
         <div class="item">
           <div class="title">商家logo</div>
@@ -142,8 +142,10 @@
             }
             this.isTrue=false;
             this.message='';
-            if(this.shop_name==''||this.shop_name.length>15){
-              this.message='姓名输入错误';
+            if(this.shop_name==''){
+              this.message='请输入商家名称';
+            }else if(this.shop_name.length>15){
+              this.message='商家名称输入错误';
             }
             if(this.shop_logo==''&&this.shop_logo==null){
               this.message='请上传商家logo';
