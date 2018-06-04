@@ -4,7 +4,7 @@
         <div></div>
       </div>
       <div class="aboutus_text">
-        <div class="ab_title">陕西人社政策答题</div>
+        <div class="ab_title">陕西人社政策大咖</div>
         <div class="ab_content">Ver&nbsp;&nbsp;1.0.0</div>
       </div>
       <div class="foot">

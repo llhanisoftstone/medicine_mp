@@ -40,6 +40,7 @@
           console.log(aa)
           this.$store.commit('get_sliver',aa.rows[0].points);
           this.points=aa.rows[0].points;
+          alert(this.points);
             if(aa.rows[0].rank<"20"){
                 this.seen=false;
             }else{
@@ -53,7 +54,7 @@
     },
     created (){
     }
-    }
+  }
 </script>
 
 <style scoped lang="css">
