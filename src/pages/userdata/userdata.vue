@@ -53,8 +53,8 @@
           <div class="title">身份证</div>
           <input type="text" placeholder="请输入身份证" maxlength="18" confirm-type="done" v-model='cardNum' />
         </div>
-        <div :class="{'btn':true,'dis':!isTrue}" @click="submitData">
-          确认
+        <div :class="{'btn':true}" @click="submitData">
+          确&nbsp;&nbsp;&nbsp;认
         </div>
       </div>
     </div>
@@ -97,19 +97,19 @@
             }
             this.isTrue=false;
             this.message='';
-            if(this.name==''){
+            if(this.name==''||this.name==null){
               this.message='请输入姓名';
             }else if(this.name.length>10){
               this.message='姓名输入错误';
             }
             var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-            if(this.message==''){
+            if(this.phone==''||this.phone==null){
               this.message='请输入手机号';
             }else if(!myreg.test(this.phone)){
               this.message='手机号输入错误';
             }
             var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-            if(this.message==''){
+            if(this.cardNum==''||this.cardNum==null){
               this.message='请输入身份证';
             }else if(!reg.test(this.cardNum)){
               this.message='身份证输入错误';
@@ -145,16 +145,16 @@
             if(this.shop_name==''||this.shop_name.length>15){
               this.message='姓名输入错误';
             }
-            if(this.message==''&&this.shop_logo==''){
+            if(this.shop_logo==''&&this.shop_logo==null){
               this.message='请上传商家logo';
             }
             var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-            if(this.message==''){
+            if(this.shop_phone==''||this.shop_phone==null){
               this.message='请输入联系电话';
             }else if(!myreg.test(this.shop_phone)){
               this.message='联系电话输入错误';
             }
-            if(this.message==''&&this.shop_address==''){
+            if(this.shop_address==''&&this.shop_address==null){
               this.message='请输入联系地址';
             }
             if(this.message!=''){
@@ -267,18 +267,15 @@
       width: 220px;
     }
     .btn{
-      margin: 0px auto;
+      margin: 0 auto;
       margin-top: 100px;
-      width: 250px;
+      width:335px;
       height: 35px;
       line-height: 35px;
       color: #fff;
       font-size: 14px;
-      border-radius: 20px;
+      border-radius:5px;
       background: #df5c3e;
       text-align: center;
-    }
-    .dis{
-      background: #ccc;
     }
 </style>
