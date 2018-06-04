@@ -278,4 +278,9 @@
       background: #df5c3e;
       text-align: center;
     }
+    .mpvue-picker__action {
+      flex:1;
+      color:#df5c3e;
+    }
+
 </style>
