@@ -5,7 +5,7 @@
     wx.requestPayment({
       'timeStamp': '',
       'nonceStr': '',
-      'package': '',
+      'package': 'prepay_id=',
       'signType': 'MD5',
       'paySign': '',
       'success': function (res) {
