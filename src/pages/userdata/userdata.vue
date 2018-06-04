@@ -68,8 +68,9 @@
             return {
               rank:1,
               pickerValueArray: ['男', '女'],
+              pickerValueDefault:[0],
               pickerValue: 0,
-              pickerText:'男',
+              pickerText:'',
               name:'',
               phone:'',
               cardNum:'',
@@ -86,7 +87,6 @@
           showPicker() {
             this.$refs.mpvuePicker.show();
           },
-
           onConfirm(e){
             this.pickerValue=e[0];
             this.pickerText=this.pickerValueArray[e[0]]
@@ -167,7 +167,6 @@
               shop_logo:this.shop_logo,
               phone:this.shop_phone,
               address:this.shop_address
-              // rank:this.rank,
             }
             this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
               if(res.code == 200){
@@ -200,6 +199,7 @@
                 var user=res.rows[0];
                 that.pickerValue=(user.gender-1);
                 that.pickerText=that.pickerValueArray[user.gender-1];
+                that.pickerValueDefault=[user.gender-1];
                 that.name=user.nickname;
                 that.phone=user.phone;
                 that.cardNum=user.id_card;
