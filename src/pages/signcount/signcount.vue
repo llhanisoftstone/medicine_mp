@@ -223,7 +223,7 @@
             }
           }else{
             this.nowflag=true;
-            this.isoverflag=false
+            this.isoverflag=false;
             this.nowpointer=aa.total_points;
             var daystotal=this.days;
            for (var j = 0; j < aa.days.length; j++) {
