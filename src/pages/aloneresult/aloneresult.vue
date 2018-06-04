@@ -57,7 +57,6 @@
       },
       repeat(){
         let that =this
-        debugger
         if(this.isreward == 0){
           this.$socket.emit('data_chain',{
             cmd:'fight',

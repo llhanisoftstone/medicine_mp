@@ -4,18 +4,18 @@
     <div>
       <div class="item">
         <div class="title">单位名称</div>
-        <input type="text" v-model='name' maxlength="20"  placeholder="请输入商家名称"/>
+        <input type="text" v-model='name' maxlength="10"  placeholder="请输入商家名称"/>
       </div>
       <div class="item">
         <div class="title">联系人</div>
-        <input type="text" v-model='people' maxlength="20" placeholder="请输入联系人" />
+        <input type="text" v-model='people' maxlength="10" placeholder="请输入联系人" />
       </div>
       <div class="item">
         <div class="title">联系号码</div>
         <input type="number" placeholder="请输入联系号码" maxlength="11" v-model='phone' />
       </div>
-      <div :class="{'btn':true,'dis':!isTrue}" @click="submitData">
-        确认
+      <div :class="{'btn':true}" @click="submitData">
+        确&nbsp;&nbsp;&nbsp;认
       </div>
     </div>
 
@@ -42,14 +42,20 @@
         }
         this.isTrue=false;
         this.message='';
-        if(this.name==''||this.name.length>10){
+        if(this.name==''){
+          this.message='请输入单位名称';
+        }else if(this.name.length>10){
           this.message='单位名称输入错误';
         }
-        if(this.message==''&&this.people.length>10){
+        if(this.message==''){
+          this.message='请输入联系人';
+        }else if(this.people.length>10){
           this.message='联系人输入错误';
         }
         var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-        if(this.message==''&&!myreg.test(this.phone)){
+        if(this.phone==''){
+          this.message='请输入联系号码';
+        }else if(!myreg.test(this.phone)){
           this.message='联系号码输入错误';
         }
         if(this.message!=''){
@@ -68,11 +74,6 @@
           if(res.code == 200){
             this.message='保存成功';
             this.visible = !this.visible;
-            // var time=setTimeout(() => {
-            //   wx.switchTab({
-            //     url:"/pages/personcenter/main"
-            //   })
-            // },1000)
           }else{
             this.message='保存失败';
             this.visible = !this.visible;
@@ -122,14 +123,14 @@
     color: #666;
   }
   .btn{
-    margin: 0px auto;
+    margin: 0 auto;
     margin-top: 100px;
-    width: 250px;
+    width:335px;
     height: 35px;
     line-height: 35px;
     color: #fff;
     font-size: 14px;
-    border-radius: 20px;
+    border-radius:5px;
     background: #df5c3e;
     text-align: center;
   }

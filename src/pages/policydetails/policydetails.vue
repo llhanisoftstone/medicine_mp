@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <div class="title">{{title}}</div>
     <div class="release-time">发布时间 : {{create_time}}</div>
     <div class="details" v-html="details"></div>
@@ -57,6 +57,10 @@
 
 <style lang="less" scoped>
   @import '../../static/less/common.less';
+  .content{
+    margin: 0 50px/2;
+    text-align: justify;
+  }
   .title{
     margin: 0.512rem 0 0.234667rem;
     text-align: center;

@@ -202,7 +202,6 @@
               this.nowpointer=aa.total_points;
             var daystotal=this.days;
             var nowtime=new Date();
-            debugger
             if(aa.days.length>0){
               for (var j = 0; j < aa.days.length; j++) {
                 for(var i=0;i<daystotal.length;i++){
@@ -224,7 +223,7 @@
             }
           }else{
             this.nowflag=true;
-            this.isoverflag=false
+            this.isoverflag=false;
             this.nowpointer=aa.total_points;
             var daystotal=this.days;
            for (var j = 0; j < aa.days.length; j++) {

@@ -4,7 +4,7 @@
       <div v-if="rank ==20">
         <div class="item">
           <div class="title">商家名称</div>
-          <input type="text" confirm-type="next" maxlength="20" v-model='shop_name'  placeholder="请输入商家名称"/>
+          <input type="text" confirm-type="next" maxlength="15" v-model='shop_name'  placeholder="请输入商家名称"/>
         </div>
         <div class="item">
           <div class="title">商家logo</div>
@@ -31,7 +31,7 @@
       <div v-else>
         <div class="item">
           <div class="title">姓名</div>
-          <input type="number" v-model='name' maxlength="20" confirm-type="next" placeholder="请输入姓名"/>
+          <input type="text" v-model='name' maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
         </div>
         <div class="item">
           <div class="title">性别</div>
@@ -53,8 +53,8 @@
           <div class="title">身份证</div>
           <input type="text" placeholder="请输入身份证" maxlength="18" confirm-type="done" v-model='cardNum' />
         </div>
-        <div :class="{'btn':true,'dis':!isTrue}" @click="submitData">
-          确认
+        <div :class="{'btn':true}" @click="submitData">
+          确&nbsp;&nbsp;&nbsp;认
         </div>
       </div>
     </div>
@@ -68,8 +68,9 @@
             return {
               rank:1,
               pickerValueArray: ['男', '女'],
+              pickerValueDefault:[0],
               pickerValue: 0,
-              pickerText:'男',
+              pickerText:'',
               name:'',
               phone:'',
               cardNum:'',
@@ -86,7 +87,6 @@
           showPicker() {
             this.$refs.mpvuePicker.show();
           },
-
           onConfirm(e){
             this.pickerValue=e[0];
             this.pickerText=this.pickerValueArray[e[0]]
@@ -97,15 +97,21 @@
             }
             this.isTrue=false;
             this.message='';
-            if(this.name==''||this.name.length>10){
+            if(this.name==''||this.name==null){
+              this.message='请输入姓名';
+            }else if(this.name.length>10){
               this.message='姓名输入错误';
             }
             var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-            if(this.message==''&&!myreg.test(this.phone)){
-              this.message='电话输入错误';
+            if(this.phone==''||this.phone==null){
+              this.message='请输入手机号';
+            }else if(!myreg.test(this.phone)){
+              this.message='手机号输入错误';
             }
             var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-            if(this.message==''&&!reg.test(this.cardNum)){
+            if(this.cardNum==''||this.cardNum==null){
+              this.message='请输入身份证';
+            }else if(!reg.test(this.cardNum)){
               this.message='身份证输入错误';
             }
             if(this.message!=''){
@@ -117,18 +123,12 @@
               nickname:this.name,
               gender:(this.pickerValue+1),
               phone:this.phone,
-              // rank:this.rank,
               id_card:this.cardNum
             }
             this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
               if(res.code == 200){
                 this.message='保存成功';
                 this.visible = !this.visible;
-                // var time=setTimeout(() => {
-                //   wx.switchTab({
-                //     url:"/pages/personcenter/main"
-                //   })
-                // },1000)
               }else{
                 this.message='保存失败';
                 this.visible = !this.visible;
@@ -142,18 +142,22 @@
             }
             this.isTrue=false;
             this.message='';
-            if(this.shop_name==''||this.shop_name.length>15){
-              this.message='姓名输入错误';
+            if(this.shop_name==''){
+              this.message='请输入商家名称';
+            }else if(this.shop_name.length>15){
+              this.message='商家名称输入错误';
             }
-            if(this.message==''&&this.shop_logo==''){
+            if(this.shop_logo==''&&this.shop_logo==null){
               this.message='请上传商家logo';
             }
             var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-            if(this.message==''&&!myreg.test(this.shop_phone)){
-              this.message='电话输入错误';
+            if(this.shop_phone==''||this.shop_phone==null){
+              this.message='请输入联系电话';
+            }else if(!myreg.test(this.shop_phone)){
+              this.message='联系电话输入错误';
             }
-            if(this.message==''&&this.shop_address==''){
-              this.message='地址输入错误';
+            if(this.shop_address==''&&this.shop_address==null){
+              this.message='请输入联系地址';
             }
             if(this.message!=''){
               this.visible = !this.visible;
@@ -165,17 +169,11 @@
               shop_logo:this.shop_logo,
               phone:this.shop_phone,
               address:this.shop_address
-              // rank:this.rank,
             }
             this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
               if(res.code == 200){
                 this.message='保存成功';
                 this.visible = !this.visible;
-                // var time=setTimeout(() => {
-                //     wx.switchTab({
-                //       url:"/pages/personcenter/main"
-                //     })
-                // },1000)
               }else{
                 this.message='保存失败';
                 this.visible = !this.visible;
@@ -203,6 +201,7 @@
                 var user=res.rows[0];
                 that.pickerValue=(user.gender-1);
                 that.pickerText=that.pickerValueArray[user.gender-1];
+                that.pickerValueDefault=[user.gender-1];
                 that.name=user.nickname;
                 that.phone=user.phone;
                 that.cardNum=user.id_card;
@@ -270,18 +269,20 @@
       width: 220px;
     }
     .btn{
-      margin: 0px auto;
+      margin: 0 auto;
       margin-top: 100px;
-      width: 250px;
+      width:335px;
       height: 35px;
       line-height: 35px;
       color: #fff;
       font-size: 14px;
-      border-radius: 20px;
+      border-radius:5px;
       background: #df5c3e;
       text-align: center;
     }
-    .dis{
-      background: #ccc;
+    .mpvue-picker__action {
+      flex:1;
+      color:#df5c3e;
     }
+
 </style>
