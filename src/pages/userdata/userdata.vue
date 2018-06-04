@@ -31,7 +31,7 @@
       <div v-else>
         <div class="item">
           <div class="title">姓名</div>
-          <input type="text" v-model='name' maxlength="20" confirm-type="next" placeholder="请输入姓名"/>
+          <input type="text" v-model='name' maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
         </div>
         <div class="item">
           <div class="title">性别</div>
@@ -97,7 +97,9 @@
             }
             this.isTrue=false;
             this.message='';
-            if(this.name==''||this.name.length>10){
+            if(this.name==''){
+              this.message='请输入姓名';
+            }else if(this.name.length>10){
               this.message='姓名输入错误';
             }
             var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
