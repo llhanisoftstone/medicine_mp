@@ -101,11 +101,15 @@
               this.message='姓名输入错误';
             }
             var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-            if(this.message==''&&!myreg.test(this.phone)){
-              this.message='电话输入错误';
+            if(this.message==''){
+              this.message='请输入手机号';
+            }else if(!myreg.test(this.phone)){
+              this.message='手机号输入错误';
             }
             var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-            if(this.message==''&&!reg.test(this.cardNum)){
+            if(this.message==''){
+              this.message='请输入身份证';
+            }else if(!reg.test(this.cardNum)){
               this.message='身份证输入错误';
             }
             if(this.message!=''){
@@ -117,18 +121,12 @@
               nickname:this.name,
               gender:(this.pickerValue+1),
               phone:this.phone,
-              // rank:this.rank,
               id_card:this.cardNum
             }
             this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
               if(res.code == 200){
                 this.message='保存成功';
                 this.visible = !this.visible;
-                // var time=setTimeout(() => {
-                //   wx.switchTab({
-                //     url:"/pages/personcenter/main"
-                //   })
-                // },1000)
               }else{
                 this.message='保存失败';
                 this.visible = !this.visible;
@@ -149,11 +147,13 @@
               this.message='请上传商家logo';
             }
             var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-            if(this.message==''&&!myreg.test(this.shop_phone)){
-              this.message='电话输入错误';
+            if(this.message==''){
+              this.message='请输入联系电话';
+            }else if(!myreg.test(this.shop_phone)){
+              this.message='联系电话输入错误';
             }
             if(this.message==''&&this.shop_address==''){
-              this.message='地址输入错误';
+              this.message='请输入联系地址';
             }
             if(this.message!=''){
               this.visible = !this.visible;
@@ -171,11 +171,6 @@
               if(res.code == 200){
                 this.message='保存成功';
                 this.visible = !this.visible;
-                // var time=setTimeout(() => {
-                //     wx.switchTab({
-                //       url:"/pages/personcenter/main"
-                //     })
-                // },1000)
               }else{
                 this.message='保存失败';
                 this.visible = !this.visible;
