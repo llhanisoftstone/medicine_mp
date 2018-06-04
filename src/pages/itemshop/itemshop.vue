@@ -167,9 +167,9 @@
                 }else{
                   let use = this.$store.state.user
                   if(this.goods_id == 1){
-                    use.tools[0].amount = use.tools[0].amount+this.amount
+                    use.tools[0].amount = Number(use.tools[0].amount)+Number(this.amount)
                   }else{
-                    use.tools[1].amount = use.tools[1].amount+this.amount
+                    use.tools[1].amount = Number(use.tools[1].amount)+Number(this.amount)
                   }
                   this.$store.commit('getm_user',use)
                   this.$mptoast("支付成功");

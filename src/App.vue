@@ -127,4 +127,8 @@ export default {
   -webkit-transition: width 2s;
   -o-transition: width 2s;
 }
+ a{
+   background: transparent;
+   opacity: 1;
+ }
 </style>

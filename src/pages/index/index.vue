@@ -87,7 +87,7 @@
       let that=this
       that.$socket.removeAllListeners('data_chain')
       that.$socket.on('data_chain',d=>{
-        if(d.cmd == 'answer'){
+        if(d.cmd == 'answer'&&d.step == 1){
           that.$socket.removeAllListeners('data_chain')
           that.$store.commit('get_answer',d.details[0])
           that.$store.commit('get_step',d.step)
@@ -118,6 +118,10 @@
     },
     onShow(){
       this.watchsocket()
+    },
+    onHide(){
+        console.log(22222222222222)
+      this.$socket.removeAllListeners('data_chain')
     }
 }
 </script>
@@ -143,6 +147,7 @@
     color: #fff;
     font-size: 26px/2;
     background: @bg_color;
+    margin-left: 50px/2;
     box-shadow: #923c3c 2px/2 5px/2 15px/2;
   }
   .container{
@@ -229,6 +234,7 @@
     image{
       width: 44px/2;
       height: 41px/2;
+      margin-right: 5px/2;
     }
     span{
       width: 150px/2;
@@ -282,8 +288,13 @@
         height: 43px/2;
         border-radius: 50px/2;
         font-size: 30px/2;
+        box-sizing: border-box;
+        line-height: normal;
         color: #fff;
         justify-content: center;
+        align-items: center;
+        align-content: center;
+        padding-bottom: 2px/2;
         background: @bg_color;
       }
     }

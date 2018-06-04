@@ -68,7 +68,7 @@
       </div>
       <div class="result_btn">
         <a href="" v-if="iswin==2&&isnext" @click="next" :class="{'disabled':challenger!=user.userid}">挑战下一关</a>
-        <button href="" v-if="iswin==2">分享战绩</button>
+        <button open-type="share" v-if="iswin==2">分享战绩</button>
         <a href="" v-if="iswin==1" @click="repeat" :class="{'disabled':challenger!=user.userid}">重新开始</a>
       </div>
       <!--聊天模块-->
@@ -122,7 +122,9 @@
               index:-1,                     //选择的选项
               iswin:0,                    //  1失败  2成功
               isnext:true,                //是否有下一关
-              tool_id:[]                 //使用过的道具id
+              tool_id:[],                 //使用过的道具id
+              istime:false,                   //是否使用过延时
+              timesfn:null                     //定时器
             }
         },
         methods: {
@@ -147,13 +149,24 @@
                     let use = this.$store.state.user
                     use.tools[0].amount = use.tools[0].amount-1
                     this.$store.commit('getm_user',use)
+                    this.answernub = this.$store.state.user.tools[0].amount
+                    this.timenub = this.$store.state.user.tools[1].amount
                     this.tool_id.push(Number(id))
                     this.submit(i,this.$store.state.answer.answer_json[i].right)
                   }
                 }
               }else if(Number(id) == 2){
+                  if(this.istime){
+                      return
+                  }
+                  this.istime=true
                 this.isprop=true
                 this.times += 20
+                let use =this.$store.state.user
+                use.tools[1].amount = use.tools[1].amount-1
+                this.$store.commit('getm_user',use)
+                this.answernub = this.$store.state.user.tools[0].amount
+                this.timenub = this.$store.state.user.tools[1].amount
                 this.tool_id.push(Number(id))
                 setTimeout(()=>{
                   this.isprop=false
@@ -163,20 +176,16 @@
           },
             countdownfn(){     //倒计时
               let that=this
-              let timefn
-              clearInterval(timefn)
-              timefn = setInterval(function(){
-                if(!that.isstart){
-                    return
-                }
-                if(that.gameover){
+              if(!that.isstart){
                   return
-                }
-                if(that.times == 0){
-                  return
-                }
-                that.times=that.times-1
-              },1000)
+              }
+              if(that.gameover){
+                return
+              }
+              if(that.times == 0){
+                return
+              }
+              that.times=that.times-1
             },
             startgame(){    //开始游戏
                 let that = this
@@ -221,6 +230,7 @@
               })
             },
             cleardata(){
+              this.istime=false
               this.index=-1
               this.isclick=false
               this.challenger=''
@@ -234,6 +244,7 @@
               this.chat=[]
               this.content=''
               this.$store.commit('get_room','')
+              this.timesfn=null
             },
           send(){       //发送聊天
             let that =this
@@ -348,7 +359,7 @@
       }
       return {
         title: '分享战绩',
-        path: '/pages/team/main',
+        path: '/pages/index/main',
         success: (r)=>{
           console.log(r)
         },
@@ -358,201 +369,225 @@
       }
     },
     onLoad(option){
-            let that =this
-            that.countdownfn()
-            this.challenger=option.id
-            if(this.challenger == this.$store.state.user.userid){
-                this.team.push({
-                  id:this.$store.state.user.userid,
-                  nickname:this.$store.state.userinfo.nickName,
-                  picpath:this.$store.state.userinfo.avatarUrl
-                })
-            }
-            this.$socket.removeAllListeners('data_chain')
-            this.$socket.on('data_chain',d=>{
-                if(d.cmd=='login'){
-                  if(this.challenger != this.$store.state.user.userid){
-                    this.join()
-                  }
-                }else if(d.cmd =='fight'){
-                  that.$store.commit('get_room',d.room_id)
-                  if(that.$store.state.user.userid==d.u_id){
-                    that.chat.push({
-                      nickname:'【系统】',
-                      msg:`${that.$store.state.userinfo.nickName}加入房间`
-                    })
-                  }else{
-                    that.chat.push({
-                      nickname:'【系统】',
-                      msg:`${d.user[0].nickname}加入房间`
-                    })
-                  }
-                  if(d.user){
-                    for(let i=0;i<d.user.length;i++){
-                        that.team.push(d.user[i])
-                    }
-                  }
-                }else if(d.cmd == 'left'){
-                    if(d.u_id == that.challenger){
-                      wx.showModal({
-                        title: '提示',
-                        content: '挑战者已退出游戏',
-                        showCancel:false,
-                        confirmText:'返回首页',
-                        confirmColor:'#df5c3e',
-                        success: function(res) {
-                          if (res.confirm) {
-                            wx.switchTab({
-                              url:`/pages/index/main`
-                            })
-                            that.$socket.emit('data_chain',{
-                              cmd:'left',
-                              room_id:that.$store.state.room_id,
-                              u_id:that.$store.state.user.userid,
-                              game_cfg_id:2,
-                              game_type:2
-                            })
-                            console.log('用户点击确定')
-                          }
-                        }
-                      })
-                    }else{
-                      for(let i=0;i<that.team.length;i++){
-                        if(that.team[i].id == d.u_id){
-                          that.chat.push({
-                            nickname:'【系统】',
-                            msg:`${that.team[i].nickname}离开房间`
-                          })
-                          that.team.splice(i,1)
-                          break
-                        }
-                      }
-                    }
-                }else if(d.cmd == 'chat'){
-                    if(d.type == 1){
-                      if(d.u_id==that.$store.state.user.userid){
-                        that.chat.push({
-                          nickname:that.$store.state.userinfo.nickName,
-                          msg:d.data
-                        })
-                      }else{
-                        for(let i=0;i<that.team.length;i++){
-                          if(that.team[i].id ==d.u_id){
-                            that.chat.push({
-                              nickname:that.team[i].nickname,
-                              msg:d.data
-                            })
-                          }
-                        }
-                      }
-                    }else if(d.type == 5){
-                        for(let i=0;i<d.stat.length;i++){
-                            if(d.stat[i]){
-                                that.stat[i]=d.stat[i]
-                            }
-                        }
-                      if(d.u_id==that.$store.state.user.userid){
-                        that.chat.push({
-                          nickname:'【系统】',
-                          msg:`${that.$store.state.userinfo.nickName}已选择`
-                        })
-                      }else{
-                        for(let i=0;i<that.team.length;i++){
-                          if(that.team[i].id ==d.u_id){
-                            that.chat.push({
-                              nickname:'【系统】',
-                              msg:`${that.team[i].nickname}已选择`
-                            })
-                          }
-                        }
-                      }
-                    }else if(d.type == 6){
-                      wx.setNavigationBarTitle({
-                        title:`第${that.$store.state.step}/${that.$store.state.max_nub}题`
-                      })
-                      that.gameover=false
-                      that.iswin = 0
-                      that.chat.push({
-                        nickname:'【系统】',
-                        msg:'下一关挑战开始'
-                      })
-                    }
-                }else if(d.cmd == 'answer'){
-                  if((that.challenger != that.$store.state.user.userid)&&(that.$store.state.level==0)){
-                    that.$store.commit('get_level',d.level)
-                  }
-                  if(d.content_type == 1){
-                    if(d.level == that.$store.state.level){
-                      let til
-                      clearInterval(til)
-                      til=setTimeout(function(){
-                        that.iswin=0
-                        that.gameover=false
-                        that.index=-1
-                        that.times=30
-                        that.isclick=false
-                        that.isshow=false
-                        that.isstart=true
-                        that.stat=[]
-                        that.tool_id=[]
-                        for(let i=0;i<d.details[0].answer_json.length;i++){
-                          that.stat.push(0)
-                        }
-                        that.$store.commit('get_answer',d.details[0])
-                        that.$store.commit('get_level',d.level)
-                        that.$store.commit('get_step',d.step)
-                        that.$store.commit('get_max_nub',d.max_step)
-                        wx.setNavigationBarTitle({
-                          title:`第${that.$store.state.step}/${that.$store.state.max_nub}题`
-                        })
-                      },1000)
-                    }else{    //当前关卡结束
-                      let useri = that.$store.state.user
-                      if(Number(d.level)>Number(useri.game_level)){
-                        useri.game_level = d.level
-                        that.$store.commit('getm_user',useri)
-                      }
-                      that.$store.commit('get_level',d.level)
-//                      that.$store.commit('get_answer',d.details[0])
-                      that.$store.commit('get_step',d.step)
-                      that.$store.commit('get_max_nub',d.max_step)
-                      that.iswin = 2
-                      that.gameover=true
-                      that.index=-1
-                      that.times=30
-                      that.isclick=false
-                      that.isshow=false
-                      that.isstart=true
-                      that.stat=[]
-                      that.tool_id=[]
-//                      for(let i=0;i<d.details[0].answer_json.length;i++){
-//                        that.stat.push(0)
-//                      }
-                      if(d.details[0]){
-                        that.$store.commit('get_prize',d.details[0])
-                      }else{
-                        that.$store.commit('get_prize',{})
-                      }
-                    }
-                  }else if(d.content_type == 2){    //全部挑战结束
-                    that.isnext=false
-                    that.iswin = 2
-                    that.gameover=true
-                    if(d.details[0]){
-                      that.$store.commit('get_prize',d.details[0])
-                    }else{
-                      that.$store.commit('get_prize',{})
-                    }
-                  }else if(d.content_type == 3){       //挑战失败
-                    setTimeout(()=>{
-                      that.$store.commit('get_prize',{})
-                      that.gameover=true
-                      that.iswin=1
-                    },1000)
-                  }
-                }
-                console.log(d)
+      let that =this
+      clearInterval(that.timesfn)
+      that.timesfn=setInterval(()=>{
+        that.countdownfn()
+      },1000)
+      that.challenger=option.id
+      if(that.challenger == that.$store.state.user.userid){
+        that.team.push({
+          id:that.$store.state.user.userid,
+          nickname:that.$store.state.userinfo.nickName,
+          picpath:that.$store.state.userinfo.avatarUrl
+        })
+      }
+      that.$socket.emit('data_chain', {
+        cmd: 'login',
+        u_id: that.$store.state.user.userid,
+        nickname: that.$store.state.userinfo.nickName,
+        picpath: that.$store.state.userinfo.avatarUrl
+      })
+      that.$socket.removeAllListeners('data_chain')
+      that.$socket.on('data_chain',d=>{
+        if(d.cmd=='login'){
+          if(that.challenger != that.$store.state.user.userid){
+            that.$store.commit('getsocket')
+            that.join()
+          }
+        }else if(d.cmd =='fight'){
+          that.$store.commit('get_room',d.room_id)
+          if(that.$store.state.user.userid==d.u_id){
+            that.chat.push({
+              nickname:'【系统】',
+              msg:`${that.$store.state.userinfo.nickName}加入房间`
             })
+          }else{
+            that.chat.push({
+              nickname:'【系统】',
+              msg:`${d.user[0].nickname}加入房间`
+            })
+          }
+          if(d.user){
+            for(let i=0;i<d.user.length;i++){
+              that.team.push(d.user[i])
+            }
+          }
+        }else if(d.cmd == 'left'){
+          if(d.u_id == that.challenger){
+            wx.showModal({
+              title: '提示',
+              content: '挑战者已退出游戏',
+              showCancel:false,
+              confirmText:'返回首页',
+              confirmColor:'#df5c3e',
+              success: function(res) {
+                if (res.confirm) {
+                  wx.switchTab({
+                    url:`/pages/index/main`
+                  })
+                  that.$socket.emit('data_chain',{
+                    cmd:'left',
+                    room_id:that.$store.state.room_id,
+                    u_id:that.$store.state.user.userid,
+                    game_cfg_id:2,
+                    game_type:2
+                  })
+                  console.log('用户点击确定')
+                }
+              }
+            })
+          }else{
+            for(let i=0;i<that.team.length;i++){
+              if(that.team[i].id == d.u_id){
+                that.chat.push({
+                  nickname:'【系统】',
+                  msg:`${that.team[i].nickname}离开房间`
+                })
+                that.team.splice(i,1)
+                break
+              }
+            }
+          }
+        }else if(d.cmd == 'chat'){
+          if(d.type == 1){
+            if(d.u_id==that.$store.state.user.userid){
+              that.chat.push({
+                nickname:that.$store.state.userinfo.nickName,
+                msg:d.data
+              })
+            }else{
+              for(let i=0;i<that.team.length;i++){
+                if(that.team[i].id ==d.u_id){
+                  that.chat.push({
+                    nickname:that.team[i].nickname,
+                    msg:d.data
+                  })
+                }
+              }
+            }
+          }else if(d.type == 5){
+            for(let i=0;i<d.stat.length;i++){
+              if(d.stat[i]){
+                that.stat[i]=Number(d.stat[i])+Number(that.stat[i])
+              }
+            }
+            if(d.u_id==that.$store.state.user.userid){
+              that.chat.push({
+                nickname:'【系统】',
+                msg:`${that.$store.state.userinfo.nickName}已选择`
+              })
+            }else{
+              for(let i=0;i<that.team.length;i++){
+                if(that.team[i].id ==d.u_id){
+                  that.chat.push({
+                    nickname:'【系统】',
+                    msg:`${that.team[i].nickname}已选择`
+                  })
+                }
+              }
+            }
+          }else if(d.type == 6){
+            wx.setNavigationBarTitle({
+              title:`第${that.$store.state.step}/${that.$store.state.max_nub}题`
+            })
+            that.gameover=false
+            that.iswin = 0
+            that.chat.push({
+              nickname:'【系统】',
+              msg:'下一关挑战开始'
+            })
+          }
+        }else if(d.cmd == 'answer'){
+          if((that.challenger != that.$store.state.user.userid)&&(that.$store.state.level==0)){
+            that.$store.commit('get_level',d.level)
+          }
+          if(d.content_type == 1){
+            if(d.level == that.$store.state.level){
+              let til
+              clearInterval(til)
+              til=setTimeout(function(){
+                that.iswin=0
+                that.gameover=false
+                that.index=-1
+                that.times=30
+                that.isclick=false
+                that.isshow=false
+                that.isstart=true
+                that.stat=[]
+                that.tool_id=[]
+                for(let i=0;i<d.details[0].answer_json.length;i++){
+                  that.stat.push(0)
+                }
+                that.$store.commit('get_answer',d.details[0])
+                that.$store.commit('get_level',d.level)
+                that.$store.commit('get_step',d.step)
+                that.$store.commit('get_max_nub',d.max_step)
+                wx.setNavigationBarTitle({
+                  title:`第${that.$store.state.step}/${that.$store.state.max_nub}题`
+                })
+              },1000)
+            }else{    //当前关卡结束
+              let useri = that.$store.state.user
+              if(Number(d.level)>Number(useri.game_level)){
+                useri.game_level = d.level
+                that.$store.commit('getm_user',useri)
+              }
+              that.$store.commit('get_level',d.level)
+              that.$store.commit('get_step',d.step)
+              that.$store.commit('get_max_nub',d.max_step)
+              that.iswin = 2
+              that.gameover=true
+              that.index=-1
+              that.times=30
+              that.isclick=false
+              that.isshow=false
+              that.isstart=true
+              that.stat=[]
+              that.tool_id=[]
+              if(d.details[0]){
+                that.$store.commit('get_prize',d.details[0])
+              }else{
+                that.$store.commit('get_prize',{})
+              }
+            }
+          }else if(d.content_type == 2){    //全部挑战结束
+            that.isnext=false
+            that.iswin = 2
+            that.gameover=true
+            if(d.details[0]){
+              that.$store.commit('get_prize',d.details[0])
+            }else{
+              that.$store.commit('get_prize',{})
+            }
+          }else if(d.content_type == 3){       //挑战失败
+            setTimeout(()=>{
+              that.$store.commit('get_prize',{})
+              that.gameover=true
+              that.iswin=1
+            },1000)
+          }
+        }else if(d.cmd == 'error'){
+          if (d.errcode === 404) {
+            wx.showModal({
+              title: '提示',
+              content: '房间不存在',
+              showCancel: false,
+              confirmText: '返回首页',
+              confirmColor: '#df5c3e',
+              success: res => {
+                if (res.confirm) {
+                  wx.switchTab({
+                    url: '/pages/index/main'
+                  })
+                }
+              }
+            })
+          }
+        }
+        console.log(d)
+      })
+
     },
     onUnload(){
         let that =this
@@ -565,8 +600,7 @@
         })
       that.cleardata()
     }
-
-    }
+  }
 </script>
 
 <style lang="less" scoped>
@@ -710,9 +744,9 @@
     }
     }
     .provide{
-      margin-bottom: 38px/2;
+      margin-bottom: 16px/2;
       font-size:24px/2;
-      margin-top:29px/2;
+      margin-top:16px/2;
       color: #666;
       display: flex;
       align-items: center;

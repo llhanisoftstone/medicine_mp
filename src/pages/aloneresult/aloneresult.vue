@@ -98,7 +98,7 @@
       }
       return {
         title: '分享战绩',
-        path: '/pages/result/main',
+        path: '/pages/index/main',
         success: (r)=>{
           console.log(r)
         },
@@ -112,8 +112,14 @@
       this.win=option.result
       if(option.id){
         this.isreward=option.id
+        wx.setNavigationBarTitle({
+          title:`挑战结果`
+        })
       }else{
         this.isreward=0
+        wx.setNavigationBarTitle({
+          title:`对战结果`
+        })
       }
       let that=this
       that.$socket.on('data_chain',d=>{
