@@ -31,7 +31,7 @@
       <div v-else>
         <div class="item">
           <div class="title">姓名</div>
-          <input type="number" v-model='name' maxlength="20" confirm-type="next" placeholder="请输入姓名"/>
+          <input type="text" v-model='name' maxlength="20" confirm-type="next" placeholder="请输入姓名"/>
         </div>
         <div class="item">
           <div class="title">性别</div>

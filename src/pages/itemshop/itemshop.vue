@@ -3,7 +3,6 @@
       <ul class="tablist">
         <li v-on:click="leftclick" stype="1" v-bind:class="{ on: isActive }">道具商店</li>
         <li stype="2" v-on:click="rightclick" v-bind:class="{ on: isclcik}">我的背包</li>
-        <li class="left_line" v-bind:class="{ right: isSelect }"></li>
       </ul>
       <div class="itemlist" v-if="seen">
         <ul>
@@ -50,7 +49,6 @@
               isshow:false,
               isActive:true,
               isclcik:false,
-              isSelect:false,
               paytype1:false,
               paytype2:true,
               goods_id:null,
@@ -71,14 +69,12 @@
               this.isshow=false;
               this.isActive=true;
               this.isclcik=false;
-              this.isSelect=false;
           },
           rightclick(){
             this.seen=false;
             this.isshow=true;
             this.isActive=false;
             this.isclcik=true;
-            this.isSelect=true;
             this.getmybuy();
           },
           buyuse(id,picpath){
@@ -204,32 +200,34 @@
         text-align:center;
         font-size:15px;
         color:#333;
+        border-bottom:3px solid #f6f6f6;
       }
       li.on{
         color:#df5c3e;
+        border-bottom:3px solid #df5c3e;
       }
-      .left_line{
-        position:absolute;
-        left:0;
-        bottom:0;
-        right:auto;
-        transition: all .3s ease;
-        border-bottom: none;
-        width:50%;
-        height:2px;
-        background:#df5c3e;
-      }
-      .left_line.right{
-        position:absolute;
-        right:0;
-        bottom:0;
-        left:auto;
-        transition: all .3s ease;
-        border-bottom: none;
-        width:50%;
-        height:2px;
-        background:#df5c3e;
-      }
+      /*.left_line{*/
+        /*position:absolute;*/
+        /*left:0;*/
+        /*bottom:0;*/
+        /*right:auto;*/
+        /*transition: all .3s ease;*/
+        /*border-bottom: none;*/
+        /*width:50%;*/
+        /*height:3px;*/
+        /*background:#df5c3e;*/
+      /*}*/
+      /*.left_line.right{*/
+        /*position:absolute;*/
+        /*right:0;*/
+        /*bottom:0;*/
+        /*left:auto;*/
+        /*transition: all .3s ease;*/
+        /*border-bottom: none;*/
+        /*width:50%;*/
+        /*height:3px;*/
+        /*background:#df5c3e;*/
+      /*}*/
     }
   .itemlist{
     margin:13px;
@@ -314,10 +312,9 @@
     background:rgba(0,0,0,0.6);
     z-index:20;
     .centermodel{
-      margin-top:147.5px;
       background:#fff;
       width:230px;
-      margin-left:73px;
+      margin:147.5px auto 0;
       text-align:center;
       border-radius:25px;
       position:relative;

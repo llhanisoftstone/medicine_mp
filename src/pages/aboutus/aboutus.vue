@@ -38,8 +38,8 @@
       >div{
         margin-left:138px;
         width:99px;
-        height:98px;
-        background:url(../../../static/img/aboutus_03.png) no-repeat center center;
+        height:99px;
+        background:url(../../../static/img/zhengce.png) no-repeat center center;
         background-size:cover;
       }
     }
