@@ -14,7 +14,6 @@
           })
         },
         'fail': function (res) {
-          console.log(JSON.stringify(res))
           wx.navigateTo({
             url: '/pages/paysuccess/main?isok=false'
           })
