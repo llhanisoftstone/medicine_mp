@@ -40,12 +40,13 @@
           console.log(aa)
           this.$store.commit('get_sliver',aa.rows[0].points);
           this.points=aa.rows[0].points;
-          alert(this.points);
-            if(aa.rows[0].rank<"20"){
-                this.seen=false;
-            }else{
-                this.seen=true;
-            }
+          if(aa.rows[0].rank<"20"){
+            console.log("1")
+              this.seen=false;
+          }else{
+            console.log("2")
+              this.seen=true;
+          }
         }
       }
     },

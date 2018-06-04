@@ -47,7 +47,7 @@
           if (res.rows.length > 0){
             that.ticket_name = res.rows[0].title;
             that.ticket_amount = res.rows[0].total_amount;
-            let rs = await  that.$get('/rs/member_ticket',{ticket_id:pid});
+            let rs = await  that.$get('/rs/member_ticket',{ticket_id:pid,order:'get_time desc'});
             if (rs.rows.length > 0){
               for (let i=0;i<rs.rows.length; i++){
                 rs.rows[i].get_time = this.conversionTime(rs.rows[i].get_time);
@@ -81,7 +81,7 @@
       }
     },
     onLoad: function (option) {
-      this.getticketInfo(option.pid)//获取数据
+      this.getticketInfo(option.pid,option.type)//获取数据
     }
   }
 </script>

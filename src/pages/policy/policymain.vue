@@ -121,6 +121,10 @@
 
     created () {
       this.getpolicyMain()//获取政策百科主页数据
+    },
+
+    onShow: function onShow() {
+      this.getpolicyMain()//获取政策百科主页数据
     }
   }
 </script>
@@ -129,7 +133,7 @@
   @import "../../static/less/common.less";
   .common-head{
     line-height: 0.36rem;
-    margin: 0.234667rem 0 0.257733rem 0;
+    margin: 0.234667rem 0 0 0;
     position: relative;
   }
   .common-head .ui-link{
@@ -149,7 +153,7 @@
   .hot-icon{
     display: block;
     height: 0.35rem;
-    line-height: 0.359rem;
+    line-height: 0.4rem;
     font-size: 0.32rem;
     color: #df5c3e;
     margin-left: 0.288rem;
@@ -160,7 +164,7 @@
   .handbook-icon{
     display: block;
     height: 0.35rem;
-    line-height: 0.359rem;
+    line-height: 0.4rem;
     font-size: 0.32rem;
     color: #df5c3e;
     margin-left: 0.288rem;
@@ -171,7 +175,7 @@
   .policy-icon{
     display: block;
     height: 0.35rem;
-    line-height: 0.359rem;
+    line-height: 0.4rem;
     font-size: 0.32rem;
     color: #df5c3e;
     margin-left: 0.288rem;
@@ -236,7 +240,6 @@
     padding-left: 0.21335rem;
   }
   .info-content .message{
-    line-height: 0.32rem;
     margin-bottom: 0.192rem;
   }
   .message .pub-name{
