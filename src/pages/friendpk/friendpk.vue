@@ -171,6 +171,7 @@
           margin-right: 16px/2;
           display: flex;
           align-items: center;
+          align-content: center;
           justify-content: center;
         }
         .front{
