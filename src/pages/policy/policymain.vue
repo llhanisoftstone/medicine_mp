@@ -243,7 +243,7 @@
   }
   .message .pub-name{
     font-size: 0.32rem;
-    line-height: 100%;
+    line-height: 0.35rem;
     font-weight: bold;
     color: #666666;
   }
