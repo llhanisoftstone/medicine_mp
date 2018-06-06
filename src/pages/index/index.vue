@@ -71,6 +71,9 @@
             res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
           }
             that.win_treasure = res.win_treasure
+        }else{
+          that.p_number=0
+          that.win_treasure=[]
         }
     },
     reward(r_id){
@@ -101,9 +104,6 @@
       })
     }
   },
-  mounted(){
-    this.getpage()
-  },
   computed:{
     userinfo(){
         return this.$store.state.userinfo
@@ -118,6 +118,7 @@
     },
     onShow(){
       this.watchsocket()
+      this.getpage()
     },
     onHide(){
         console.log(22222222222222)
@@ -158,6 +159,7 @@
     padding: 0 26px/2;
     width: 100%;
     box-sizing: border-box;
+    justify-content: space-between;
     display: flex;
     .challenge{
       width: 325px/2;
