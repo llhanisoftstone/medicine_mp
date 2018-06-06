@@ -275,7 +275,10 @@
     margin:0 auto;
   }
   .btn_box{
-    margin-top:906px/2;
+    position: fixed;
+    top:906px/2;
+    width: 100%;
+    left:0;
     height: 70px/2;
     padding: 0 66px/2;
     box-sizing: border-box;

@@ -321,6 +321,7 @@
       border:3px solid #fff;
       box-sizing: border-box;
       border-radius: 50%;
+      overflow: hidden;
     }
   }
     p{
