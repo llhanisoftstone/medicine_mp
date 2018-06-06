@@ -43,7 +43,7 @@
         },
         methods: {
           getpolicyInfo(isok){
-              if(isok==true){
+              if(isok=="true"){
                  this.seen=true;
                 this.isshow=false;
               }else{

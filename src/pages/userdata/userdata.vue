@@ -36,16 +36,16 @@
         <div class="item">
           <div class="title">性别</div>
           <div class="mpvue-picer">
-            <input :value="pickerText" disabled="disabled" type="text" placeholder="请选择性别"/>
+            <input :value="pickerText" disabled="disabled" type="text" value="请选择性别" placeholder="请选择性别"/>
           </div>
         </div>
         <div class="item">
           <div class="title">手机号</div>
-          <input type="number" v-model='phone' maxlength="11" confirm-type="next" placeholder="手机号" />
+          <input type="number" v-model='phone' maxlength="11" confirm-type="next" value="手机号" placeholder="手机号" />
         </div>
         <div class="item">
           <div class="title">身份证</div>
-          <input type="text" onkeyup="value=value.replace(/[^\d|chun]/g,'')"  placeholder="请输入身份证" maxlength="18" confirm-type="done" v-model='cardNum' />
+          <input type="text" onkeyup="value=value.replace(/[^\d|chun]/g,'')"  value="请输入身份证" placeholder="请输入身份证" maxlength="18" confirm-type="done" v-model='cardNum' />
         </div>
         <div :class="{'btn':true}" @click="submitData">
           确&nbsp;&nbsp;&nbsp;认
