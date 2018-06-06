@@ -92,7 +92,7 @@
         <div>
           <input type="text" v-model="content" cursor-spacing='15'>
         </div>
-        <button @click="send">发表</button>
+        <a class="send_btn" @click="send">发表</a>
         <a @click="userTools(user.tools[0].amount,1)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount}}</span></a>
         <a @click="userTools(user.tools[1].amount,2)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount}}</span></a>
       </div>
@@ -234,6 +234,7 @@
             },
             cleardata(){
               this.istime=false
+              this.iswin=0
               this.index=-1
               this.isclick=false
               this.challenger=''
@@ -241,10 +242,12 @@
               this.times=30
               this.isshow=false
               this.isstart=false
+              this.gameover=false
               this.scrollTop=1000
               this.stat=[]
               this.team=[]
               this.chat=[]
+              this.tool_id=[]
               this.content=''
               this.$store.commit('get_room','')
               clearInterval(this.timesfn)
@@ -442,6 +445,7 @@
               showCancel:false,
               confirmText:'返回首页',
               confirmColor:'#df5c3e',
+              mask:true,
               success: function(res) {
                 if (res.confirm) {
                   wx.switchTab({
@@ -588,23 +592,24 @@
               that.iswin=1
             },1000)
           }
-//        }else if(d.cmd == 'error'){
-//          if (d.errcode === 404) {
-//            wx.showModal({
-//              title: '提示',
-//              content: '房间不存在',
-//              showCancel: false,
-//              confirmText: '返回首页',
-//              confirmColor: '#df5c3e',
-//              success: res => {
-//                if (res.confirm) {
-//                  wx.switchTab({
-//                    url: '/pages/index/main'
-//                  })
-//                }
-//              }
-//            })
-//          }
+        }else if(d.cmd == 'error'){
+          if (d.errcode === 404) {
+            wx.showModal({
+              title: '提示',
+              content: '房间不存在',
+              showCancel: false,
+              confirmText: '返回首页',
+              confirmColor: '#df5c3e',
+              mask:true,
+              success: res => {
+                if (res.confirm) {
+                  wx.switchTab({
+                    url: '/pages/index/main'
+                  })
+                }
+              }
+            })
+          }
         }
         console.log(d)
       })
@@ -820,12 +825,13 @@
       width: 100%;
       height: 100px/2;
       box-sizing: border-box;
-      border-top:1px solid #e2e2e2;
+      border-top:1px/2 solid #e2e2e2;
       position: fixed;
       bottom:0;
       left:0;
       background: #fff;
       z-index:3;
+      border-radius: 0;
       padding: 17px/2 14px/2;
       display: flex;
       align-items: center;
@@ -835,13 +841,16 @@
         padding-right: 15px/2;
         height: 100%;
         input{
+          border:none;
+          border-radius: 0;
           border-bottom: 2px/2 solid @bg_color;
           color: #333;
           font-size: 28px/2;
           width: 100%;
+          height: 58px/2;
         }
       }
-    button{
+    .send_btn{
       width: 70px/2;
       height: 51px/2;
       background: @bg_color;
@@ -874,8 +883,7 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      width: 30px/2;
-      height: 30px/2;
+      padding: 4px/2;
     }
     }
     }

@@ -8,7 +8,7 @@
       </userinfo>
     </div>
     <div class="match_box">
-      <a href="/pages/challengemap/main">
+      <a href="/pages/challengemap/main" class="challenge_b">
         <div class="challenge">
           <h2>闯关赛</h2>
           <h4>成功闯关拿礼物</h4>
@@ -161,8 +161,12 @@
     box-sizing: border-box;
     justify-content: space-between;
     display: flex;
+  .challenge_b{
+    width: 46.333%;
+    height: 380px/2;
+  }
     .challenge{
-      width: 325px/2;
+      width: 100%;
       height: 380px/2;
       border-radius: 10px/2;
       background: #ff862d url(../../../static/img/paiming.png) no-repeat;
@@ -171,7 +175,6 @@
       box-sizing: border-box;
       padding: 0 28px/2;
       padding-top: 53px/2;
-      margin-right:15px/2;
       h2{
         color: #fff;
         font-size: 33px/2;
@@ -189,10 +192,14 @@
       display: flex;
       flex-wrap: wrap;
       align-content: space-between;
-      width: 358px/2;
+      width: 51.2%;
       height: 380px/2;
+    a{
+      width: 100%;
+      height: 183px/2;
+    }
       div{
-        width: 358px/2;
+        width: 100%;
         height: 183px/2;
         box-sizing: border-box;
         padding: 0 20px/2;
@@ -214,13 +221,13 @@
       }
       .item_1{
         background: #ffc02a url(../../../static/img/jiangbei.png) no-repeat;
-        background-position: 280px/2 24px/2;
+        background-position: 94.21% 24px/2;
         background-size: 59px/2 59px/2;
       }
       .item_2{
         background: #76caff url(../../../static/img/huangguan.png) no-repeat;
         background-size: 77px/2 49px/2;
-        background-position: 270px/2 24px/2;
+        background-position: 96.21% 24px/2;
       }
     }
   }
@@ -258,14 +265,14 @@
     flex-flow: wrap;
     justify-content: space-between;
     li{
-      width: 220px/2;
+      width: 219px/2;
       height: 280px/2;
       box-shadow: #acacac 4px/2 5px/2 15px/2;
       margin-bottom:20px/2;
       border-radius: 10px/2;
       background: #fff;
       div{
-        width: 220px/2;
+        width: 219px/2;
         height: 173px/2;
         box-sizing: border-box;
         padding: 20px/2;
