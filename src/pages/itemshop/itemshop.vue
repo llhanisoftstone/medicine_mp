@@ -180,6 +180,7 @@
              }
             }
             let res = await that.$post('/rs/order_build',{pay_type:this.pay_type,amount:this.amount,goods_id:this.goods_id});
+            console.log(res)
             if(res.code == 200){
                 this.ishidden=false;
                 if(this.pay_type==1){
@@ -198,6 +199,8 @@
                 }
             }else if(res.code==607){
               this.$mptoast("银两余额不足");
+            }else if(res.code==303){
+              this.$mptoast("该账号已被禁用");
             }
           },
         },

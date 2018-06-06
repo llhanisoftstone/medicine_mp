@@ -10,6 +10,7 @@
         'paySign': response.paySign,
         'appId': response.appId,
         'success': function (res) {
+          console.log(res)
           wx.redirectTo({
             url: '/pages/paysuccess/main?isok=true'   // 充值成功后的处理，可以跳转，也可以根据自己的需要做其他处理
           })
