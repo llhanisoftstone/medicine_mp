@@ -10,7 +10,7 @@
     <div class="middle">
       <ul>
         <li class="money"><a href="/pages/sliver/main"><div class="title">银两</div><p class="messagealert">储备仓</p><span class="listimg moneyimg"></span></a></li>
-        <li class="store"><a href="/pages/giftshoplist/main"><div class="title">礼品店</div><p class="messagealert">精美礼品等你拿</p><span class="listimg storeimg"></span></a></li>
+        <li class="store"><a href="/pages/giftshoplist/main"><div class="title">兑换店</div><p class="messagealert">精美礼品等你拿</p><span class="listimg storeimg"></span></a></li>
         <li class="usermoot"><a href="/pages/itemshop/main"><div class="title">道具</div><p class="messagealert">优惠道具等你来购</p><span class="listimg userimg"></span></a></li>
         <li class="groupcard" v-if="seen"><a href="/pages/ticket/main"><div class="title">优惠券</div><p class="messagealert">优惠券发放</p><span class="listimg cardimg"></span></a></li>
         <li class="setting"><a href="/pages/setting/main"><div class="title">设置</div><p class="messagealert">设置</p><span class="listimg settingimg"></span></a></li>
@@ -67,18 +67,15 @@
     margin-top:10px;
   }
  .middle>ul{
-   width:100%;
-   box-sizing:border-box;
-   display:flex;
-   flex-flow:wrap;
-   justify-content:space-between;
-   padding:0 3.466667%;
+   overflow:hidden;
+   padding:0 3.33333%;
  }
   .middle>ul>li{
+    float:left;
     margin-top:9px;
-    width:45.333%;
+    margin-right:2.66666%;
+    width:45.333333%;
     height:110px;
-    box-sizing:border-box;
     border-radius:5px;
     color:#fff;
     position:relative;
