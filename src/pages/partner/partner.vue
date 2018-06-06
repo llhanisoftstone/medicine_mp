@@ -3,12 +3,12 @@
     <toast :message="message" :visible.sync="visible"></toast>
     <div>
       <div class="item">
-        <div class="title">单位名称</div>
+        <div class="title">商家名称</div>
         <input type="text" v-model='name' maxlength="10"  placeholder="请输入商家名称"/>
       </div>
       <div class="item">
         <div class="title">联系人</div>
-        <input type="text" v-model='people' maxlength="10" placeholder="请输入联系人" />
+        <input type="text" v-model='people' maxlength="8" placeholder="请输入联系人" />
       </div>
       <div class="item">
         <div class="title">联系号码</div>
@@ -42,15 +42,11 @@
         }
         this.isTrue=false;
         this.message='';
-        if(this.name==''){
-          this.message='请输入单位名称';
-        }else if(this.name.length>10){
-          this.message='单位名称输入错误';
+        if((this.name).trim()==''){
+          this.message='请输入商家名称';
         }
-        if(this.message==''){
+        if((this.people).trim()==''){
           this.message='请输入联系人';
-        }else if(this.people.length>10){
-          this.message='联系人输入错误';
         }
         var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
         if(this.phone==''){
@@ -74,6 +70,14 @@
           if(res.code == 200){
             this.message='保存成功';
             this.visible = !this.visible;
+            this.name="";
+            this.phone="";
+            this.people="";
+            setTimeout(function() {
+              wx.navigateBack({     //返回上一页面或多级页面
+                delta: 1
+              })
+            },1000);
           }else{
             this.message='保存失败';
             this.visible = !this.visible;
@@ -100,6 +104,7 @@
   }
   .container .item{
     height: 40px;
+    line-height:40px;
     border-bottom: 1px solid #ccc;
     padding-left: 80px;
     position: relative;
@@ -107,7 +112,6 @@
   .item .title{
     position: absolute;
     font-size: 15px;
-    top: 10px;
     left: 10px;
     color: #333;
   }

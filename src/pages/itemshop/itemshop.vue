@@ -6,7 +6,7 @@
       </ul>
       <div class="itemlist" v-if="seen">
         <ul>
-          <li v-on:click="buyuse(v.id,v.picpath)" v-for="(v,i) in goods" :key="v.id"><img :src="v.picpath" alt=""><div class="bottomlist"><span class="sliverimg"></span><span>{{v.points}}</span></div></li>
+          <li v-on:click="buyuse(v.id,v.picpath,v.category)" v-for="(v,i) in goods" :key="v.id"><img :src="v.picpath" alt=""><div class="bottomlist"><span class="sliverimg"></span><span>{{v.points}}</span></div></li>
         </ul>
       </div>
       <div class="myitemlist" v-if="isshow">
@@ -17,13 +17,14 @@
       <div class="model" v-if="ishidden" @click="show1()">
         <div class="centermodel" @click.stop="show()">
             <div class="topimg"><img :src="picpath" alt=""></div>
+            <div class="toolmessage">{{toolmessage}}</div>
             <ul>
-              <li><span class="icon icon_number"></span>
-                <input id="price" type="number"  v-model="amount" ref="type1" placeholder="购买个数"  maxlength="7"  onkeyup="value=value.replace(/[^\d]/g,'')"/>
-                  <span class="number_right">{{name_type}}<span class="show" v-if="istotalpoint">{{amount*20}}</span><span class="show" v-if="istotalprice">{{amount*0.2}}</span></span>
+              <li>
+                <div class="toolname">{{toolname}}</div>
+                <div class="toolright"><span class="minusbtn" @click="minusbtnnum"></span> <input class="amountcount" id="price" type="number"  v-model="amount" ref="type1" placeholder="个数"  maxlength="3"  onkeyup="value=value.replace(/[^\d]/g,'')"/><span class="addbtn" @click="addbtnnum"></span></div>
               </li>
               <li><span class="icon icon_pointer"></span><span class="content_title">可用银两<span class="isusepointer"></span>{{points}}</span><span class="pay_type" v-on:click="slelecttype(2)" v-bind:class="{active:paytype2}" _pay_type="2"></span></li>
-              <li><span class="icon icon_money"></span><span class="content_title">微信支付</span><span class="pay_type" v-on:click="slelecttype(1)" v-bind:class="{active:paytype1}" _pay_type="1"></span></li>
+              <li><span class="icon icon_money"></span><span class="content_title">微信支付(0.2元=20银两)</span><span class="pay_type" v-on:click="slelecttype(1)" v-bind:class="{active:paytype1}" _pay_type="1"></span></li>
             </ul>
           <div class="ispay" v-on:click="orderlist">确认支付</div>
         </div>
@@ -43,6 +44,8 @@
         },
         data(){
             return {
+              toolname:'',
+              toolmessage:'',
               picpath:"",
               ishidden:false,
               seen:true,
@@ -81,11 +84,18 @@
             this.isclcik=true;
             this.getmybuy();
           },
-          buyuse(id,picpath){
+          buyuse(id,picpath,category){
             this.goods_id=id;
             this.ishidden=true;
             this.amount=1;
             this.picpath=picpath;
+            if(category==1){
+                this.toolmessage="答题时，可看到当前题答案，一道题可使用一张。";
+                this.toolname="答案眼";
+            }else if(category==2){
+              this.toolmessage="答题时，答题时间增加20s，一道题可使用一次。";
+              this.toolname="延时针";
+            }
           },
           slelecttype(type){
             if(type==1){
@@ -103,6 +113,16 @@
                 this.istotalprice=false;
                 this.istotalpoint=true;
             }
+          },
+          minusbtnnum(){
+              if(this.amount<=1){
+                this.amount=1;
+              }else{
+                this.amount=--this.amount;
+              }
+          },
+          addbtnnum(){
+            this.amount=++this.amount;
           },
           show1(){
             this.ishidden=false;
@@ -122,7 +142,7 @@
             let res = await that.$get('/rs/goods');
             if(res.code == 200){
               for(let i = 0;i<res.rows.length;i++){
-                res.rows[i].picpath = that.$store.state.url+ res.rows[i].picpath
+                res.rows[i].picpath = that.$store.state.url+ res.rows[i].picpath;
               }
               that.goods = res.rows;
             }
@@ -160,6 +180,7 @@
              }
             }
             let res = await that.$post('/rs/order_build',{pay_type:this.pay_type,amount:this.amount,goods_id:this.goods_id});
+            console.log(res)
             if(res.code == 200){
                 this.ishidden=false;
                 if(this.pay_type==1){
@@ -172,10 +193,14 @@
                     use.tools[1].amount = Number(use.tools[1].amount)+Number(this.amount)
                   }
                   this.$store.commit('getm_user',use)
+                  this.points=this.points-this.amount*20;
                   this.$mptoast("支付成功");
+
                 }
             }else if(res.code==607){
               this.$mptoast("银两余额不足");
+            }else if(res.code==303){
+              this.$mptoast("该账号已被禁用");
             }
           },
         },
@@ -299,7 +324,7 @@
       .bottomlist{
         position:absolute;
         top:70px;
-        left:70px;
+        right:5px;
         font-size:15px;
         color: #df5c3e;
       }
@@ -321,7 +346,7 @@
       text-align:center;
       border-radius:25px;
       position:relative;
-      padding:0 20px 20px;
+      padding:0 20px 18px;
       .topimg{
         position:absolute;
         top:-21.5px;
@@ -340,30 +365,77 @@
           border-radius:50%;
         }
       }
-      ul{padding-top:43px;}
+      .toolmessage{
+        padding:60px 5px 0 5px;
+        font-size:12px;
+        color:#666;
+        line-height:15px;
+        text-align:left;
+      }
+      ul{margin-top:7px;}
       ul li{
-        border-bottom:1px solid #e2e2e2;
+        border-top:1px solid #e2e2e2;
         height:37px;
-        padding:12.5px 2.5px 9.5px 2.5px;
+        padding:12.5px 5px 9.5px 5px;
         box-sizing:border-box;
         overflow:hidden;
-        .icon{
-          width:15px;
-          height:15px;
-          float:left;
-          padding-right:5px;
+          .icon{
+            width:16px;
+            height:15px;
+            float:left;
+            padding-right:4px;
+          }
+        }
+        li:first-child{
+          padding: 0 5px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .toolname {
+            font-size: 14px;
+            color:#df5c3e;
+            font-weight: bold;
+          }
+          .toolright{
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+          }
+          .amountcount{
+            border:none;
+            float:none;
+            width:20px;
+            padding-left:0;
+            text-align:center;
+          }
+          .minusbtn{
+            width:16px;
+            height:15px;
+            display:inline-block;
+            background:url(../../../static/img/minusbtn.png) no-repeat left center;
+            background-size:16px 15px;
+            margin-right:5px;
+          }
+          .addbtn{
+            width:16px;
+            height:15px;
+            display:inline-block;
+            background:url(../../../static/img/addbtn.png) no-repeat center center;
+            background-size:16px 15px;
+            margin-left:5px;
+          }
         }
         .icon_number{
-          background:url(../../../static/img/buy_2.png) no-repeat left center;
-          background-size:15px 15px;
+          background:url(../../../static/img/buy_2.png) no-repeat center center;
+          background-size:16px 15px;
         }
         .icon_pointer{
           background:url(../../../static/img/buy_1.png) no-repeat left center;
-          background-size:15px 15px;
+          background-size:16px 15px;
         }
         .icon_money{
           background:url(../../../static/img/buy_4.png) no-repeat left center;
-          background-size:15px 15px;
+          background-size:16px 15px;
         }
         input{
           width:45%;
@@ -380,7 +452,7 @@
         }
         .content_title{
           padding-left:6px;
-          font-size:10px;
+          font-size:12px;
           color:#666;
           float:left;
           height:15px;
@@ -395,22 +467,20 @@
         }
         .pay_type{
           float:right;
-          width:15px;
+          width:16px;
           height:15px;
-          background:url(../../../static/img/buy_3.png) no-repeat left center;
-          background-size:15px 15px;
+          background:url(../../../static/img/buy_3.png) no-repeat center center;
+          background-size:16px 15px;
         }
         .pay_type.active{
-          background:url(../../../static/img/buy_5.png) no-repeat left center;
-          background-size:15px 15px;
+          background:url(../../../static/img/buy_5.png) no-repeat center center;
+          background-size:16px 15px;
         }
       }
       ul li:last-child{
         border-bottom:none;
       }
     }
-
-  }
   .nogetList{
     padding-top: 290px;
     box-sizing:border-box;

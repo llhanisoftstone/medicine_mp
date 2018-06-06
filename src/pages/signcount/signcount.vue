@@ -6,13 +6,16 @@
           </div>
           <div class="mui-media-body">
             <p class="sign-success" v-if="nowflag">今日已签到</p>
-            <p class="sign-success" v-if="isoverflag">恭喜你签到成功，<span class="co_fe698a">+5！</span></p>
-            <p class="p-margin">当前积分<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
+            <p class="sign-success" v-if="isoverflag">恭喜你签到成功，<span class="co_fe698a">+{{getpointer}}!</span></p>
+            <p class="p-margin">当前银两<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
             </p>
           </div>
       </div>
       <div class="time-top">
         <div class="mui-pull-left" id="time">{{nowdate}}</div>
+        <div class="mui-pull-right" id="time-list" v-on:click="showsign">
+          <a  class="">签到规则</a>
+        </div>
       </div>
       <div class="calendar_th">
 
@@ -49,7 +52,7 @@
             <!--如果是本月  还需要判断是不是这一天-->
             <span v-else>
                 <span v-if="dayobject.isSign===true" class="active">{{ dayobject.date}}</span>
-                <span v-else>{{ dayobject.date}}</span>
+                <span v-else>{{dayobject.date}}</span>
             </span>
 
           </li>
@@ -69,6 +72,28 @@
           <a href="" :_id="v.id">挑战</a>
         </li>
       </ul>
+      <div id="zhezhao_fu" class="tryoutModelBox" v-if="isshowsign">
+        <div class="zhezhao_zi">
+          <div class="zhezhao_div">
+            <div class="zhezhao_div3 co_333333">签到规则说明</div>
+            <div class="zhezhao_div4" id="zhezhao">
+              <div>
+                <div class="number">1</div>
+                <div class="text">每天登录政策大咖并签到，即可获得相应银两；</div>
+              </div>
+              <div>
+                <div class="number">2</div>
+                <div class="text">签到第1天得5银两，连续第2天得10银两，连续签到第三天得15银两，连续签到第四天得20银两，连续签到第五天得25银两；连续签到第六天起每天30银两；</div>
+              </div>
+              <div>
+                <div class="number">3</div>
+                <div class="text">银两可用于兑换政策大咖道具。</div>
+              </div>
+            </div>
+            <div class="zhezhao_div6 tryFoot" v-on:click="notshowsign">我知道了</div>
+          </div>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -88,7 +113,9 @@
               days: [],
               arrDate: [],
               nowdate:"",
-              nowpointer:0
+              nowpointer:0,
+              getpointer:5,
+              isshowsign:false
             }
         },
       methods: {
@@ -194,11 +221,12 @@
           }
         },
         async getsign(year,month){
-          let aa = await this.$post('/rs/sign_submit',{history_day: year + "-" + month + "-" + "01",auto_id:1});
+          let aa = await this.$post('/rs/sign_submit',{history_day: year + "-" + month + "-" + "01",auto_id:"1"});
           if(aa.code==200){
               this.nowflag=false;
               this.isoverflag=true;
               this.nowpointer=aa.total_points;
+              this.getpointer=aa.points;
             var daystotal=this.days;
             var nowtime=new Date();
             if(aa.days.length>0){
@@ -234,6 +262,12 @@
             }
           }
           }
+        },
+        showsign(){
+          this.isshowsign=true;
+        },
+        notshowsign(){
+          this.isshowsign=false;
         },
         reward(r_id){
           this.r_id=r_id
@@ -298,8 +332,15 @@
   .time-top{
     margin-top:20px;
     padding-left:13px;
+    padding-right:22px;
     font-size:12px ;
     color:#333;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    #time-list{
+      color:#df5c3e;
+    }
   }
   .back_line{
     width:100%;
@@ -462,4 +503,69 @@
       padding: 5px;
       color: transparent;
     }
+  /*签到*/
+  .tryoutModelBox{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 11111;
+    .zhezhao_zi {
+      background:#fff;
+      width:292px;
+      height:243px;
+      position: absolute;
+      top:150px;
+      left:50%;
+      transform:translateX(-50%);
+      -webkit-transform:translateX(-50%);
+      border-radius:10px;
+      margin:0 auto;
+      padding:0 13px;
+      .zhezhao_div3 {
+        width: 100%;
+        font-size: 14px;
+        line-height: 100%;
+        margin-top: 18px;
+        margin-bottom: 13px;
+        text-align: left;
+      }
+      .zhezhao_div4 div{
+        overflow:hidden;
+        .number{
+          width:12px;
+          height:12px;
+          float:left;
+          color:#fff;
+          margin-top:5px;
+          font-size:11px;
+          text-align:center;
+          line-height:12px;
+          border-radius:50%;
+          background:#f08300;
+          margin-right:8px;
+        }
+        .text{
+          float:left;
+          max-width:244px;
+          font-size:11px;
+          color:#333;
+          line-height:20px;
+        }
+      }
+    }
+    .tryFoot{
+      width:115px;
+      height:37px;
+      border-radius:25px;
+      background:#f08300;
+      color:#fff;
+      font-size:15px;
+      margin:20px auto 0;
+      text-align:center;
+      line-height:37px;
+    }
+  }
 </style>

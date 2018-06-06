@@ -186,6 +186,7 @@
     margin: 0.29867rem 0.448rem;
   }
   .hot-list li{
+    word-wrap:break-word;
     margin: 0.213rem 0;
     color: #333333;
     font-size: 0.298667rem;
@@ -243,7 +244,7 @@
   }
   .message .pub-name{
     font-size: 0.32rem;
-    line-height: 0.38rem;
+    line-height: 0.4rem;
     font-weight: bold;
     color: #666666;
   }

@@ -24,25 +24,19 @@
           <div class="title">联系地址</div>
           <input type="text" placeholder="请输入联系地址" maxlength="100" confirm-type="done" v-model='shop_address' />
         </div>
-        <div :class="{'btn':true,'dis':!isTrue}"  @click="submitData1">
+        <div :class="{'btn':true}"  @click="submitData1">
           确认
         </div>
       </div>
       <div v-else>
         <div class="item">
           <div class="title">姓名</div>
-          <input type="text" v-model='name' maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
+          <input type="text" :value='name' disabled maxlength="10" readonly onfocus="this.blur()" confirm-type="next" placeholder="请输入姓名"/>
         </div>
         <div class="item">
           <div class="title">性别</div>
           <div class="mpvue-picer">
-            <input @click="showPicker" :value="pickerText" disabled="disabled" type="text" placeholder="请选择性别"/>
-            <mpvue-picker
-              ref="mpvuePicker"
-              :pickerValueArray="pickerValueArray"
-              :pickerValueDefault='pickerValueDefault'
-              @onConfirm="onConfirm">
-            </mpvue-picker>
+            <input :value="pickerText" disabled="disabled" type="text" placeholder="请选择性别"/>
           </div>
         </div>
         <div class="item">
@@ -51,7 +45,7 @@
         </div>
         <div class="item">
           <div class="title">身份证</div>
-          <input type="text" placeholder="请输入身份证" maxlength="18" confirm-type="done" v-model='cardNum' />
+          <input type="text" onkeyup="value=value.replace(/[^\d|chun]/g,'')"  placeholder="请输入身份证" maxlength="18" confirm-type="done" v-model='cardNum' />
         </div>
         <div :class="{'btn':true}" @click="submitData">
           确&nbsp;&nbsp;&nbsp;认
@@ -96,12 +90,6 @@
               return;
             }
             this.isTrue=false;
-            this.message='';
-            if(this.name==''||this.name==null){
-              this.message='请输入姓名';
-            }else if(this.name.length>10){
-              this.message='姓名输入错误';
-            }
             var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
             if(this.phone==''||this.phone==null){
               this.message='请输入手机号';
@@ -120,18 +108,21 @@
               return;
             }
             var data={
-              nickname:this.name,
-              gender:(this.pickerValue+1),
               phone:this.phone,
               id_card:this.cardNum
             }
             this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
               if(res.code == 200){
+                this.visible = !this.visible;
                 this.message='保存成功';
-                this.visible = !this.visible;
+                setTimeout(function() {
+                  wx.navigateBack({     //返回上一页面或多级页面
+                    delta: 1
+                  })
+                },1000);
               }else{
-                this.message='保存失败';
                 this.visible = !this.visible;
+                this.message='保存失败';
                 this.isTrue=true;
               }
             })
@@ -142,7 +133,7 @@
             }
             this.isTrue=false;
             this.message='';
-            if(this.shop_name==''){
+            if((this.shop_name).trim()==''){
               this.message='请输入商家名称';
             }else if(this.shop_name.length>15){
               this.message='商家名称输入错误';
@@ -174,6 +165,11 @@
               if(res.code == 200){
                 this.message='保存成功';
                 this.visible = !this.visible;
+                setTimeout(function() {
+                  wx.navigateBack({     //返回上一页面或多级页面
+                    delta: 1
+                  })
+                },1000);
               }else{
                 this.message='保存失败';
                 this.visible = !this.visible;
@@ -196,6 +192,8 @@
           getUserinfo(){
             var that=this;
             this.isTrue=true;
+            this.visible=false;
+            this.message="";
             this.$get('/rs/member/'+this.$store.state.user.userid,{}).then(res=>{
               if(res.code==200){
                 var user=res.rows[0];
@@ -234,6 +232,7 @@
     }
     .container .item{
       height: 40px;
+      line-height:40px;
       border-bottom: 1px solid #ccc;
       padding-left: 80px;
       position: relative;
@@ -241,7 +240,6 @@
     .item .title{
       position: absolute;
       font-size: 15px;
-      top: 10px;
       left: 10px;
       color: #333;
     }
