@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h2>#{{title}}</h2>
+      <h2>&emsp;#{{title}}</h2>
       <h4 :class="{'top':distance==1}">{{answer}}</h4>
       <slot name="list"></slot>
     </div>

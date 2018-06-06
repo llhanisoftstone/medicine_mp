@@ -382,11 +382,13 @@
     justify-content: space-between;
     .fraction_box{
       /* 56-44 */
+      width: 101px/2;
       height: auto;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       p{
+        width: 101px/2;
         display: flex;
         align-items: center;
         justify-content: center;
