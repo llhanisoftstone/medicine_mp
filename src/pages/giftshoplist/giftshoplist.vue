@@ -37,7 +37,8 @@
       async getpolicyList() {
         let that = this;
         let data = {
-          u_id:that.$store.state.user.userid
+          u_id:that.$store.state.user.userid,
+          order:'status asc'
         };
         let res = await that.$get('/rs/member_ticket',data);
         if (res.code == 200){
