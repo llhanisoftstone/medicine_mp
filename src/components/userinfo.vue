@@ -51,6 +51,7 @@
                         showCancel: false,
                         confirmText: '确定',
                         confirmColor: '#df5c3e',
+                        mask:true,
                         success: res => {
                           if (res.confirm) {
                             this.$socket.emit('data_chain', {
@@ -70,6 +71,7 @@
                         showCancel: false,
                         confirmText: '返回首页',
                         confirmColor: '#df5c3e',
+                        mask:true,
                         success: res => {
                           if (res.confirm) {
                             wx.switchTab({
@@ -112,7 +114,7 @@
       padding: 0 26px/2;
       position:relative;
       .user_bg{
-        width: 698px/2;
+        width: 93.066%;
         height: 194px/2;
         position: absolute;
         top:0;
@@ -122,7 +124,7 @@
       .user_info{
         position: absolute;
         left:26px/2;
-        width: 698px/2;
+        width: 93.066%;
         height: 194px/2;
         z-index:2;
         align-items: center;

@@ -11,6 +11,9 @@ export default {
         picpath: this.$store.state.userinfo.avatarUrl
       })
     })
+    this.$socket.on('reconnect', d => {
+      console.log(d)
+    })
     // 调用API从本地缓存中获取数据
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -65,6 +68,7 @@ export default {
                       showCancel: false,
                       confirmText: '确定',
                       confirmColor: '#df5c3e',
+                      mask: true,
                       success: res => {
                         if (res.confirm) {
                           this.$socket.emit('data_chain', {
@@ -84,6 +88,7 @@ export default {
                       showCancel: false,
                       confirmText: '返回首页',
                       confirmColor: '#df5c3e',
+                      mask:true,
                       success: res => {
                         if (res.confirm) {
                           wx.switchTab({

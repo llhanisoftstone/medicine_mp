@@ -305,6 +305,7 @@
     display: flex;
     /*height: ;*/
     .user_box_item{
+      width:160px/2;
 
     div{
       width: 160px/2;
@@ -322,9 +323,15 @@
         box-sizing: border-box;
         font-size: 28px/2;
         color: #333;
-        display: flex;
-        align-items: center;
         margin-top:17px/2;
+        display: -webkit-box;
+        overflow: hidden;
+        white-space: normal!important;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        text-align: center;
       }
     }
     .user_box_item:nth-last-child(1) {
@@ -337,7 +344,6 @@
     }
     p{
       justify-content: flex-start;
-      padding-left: 54px/2;
       box-sizing: border-box;
     }
     }
@@ -351,7 +357,6 @@
     }
     p{
       justify-content: flex-end;
-      padding-right: 54px/2;
       box-sizing: border-box;
     }
     }
