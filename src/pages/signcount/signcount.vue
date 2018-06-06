@@ -6,8 +6,8 @@
           </div>
           <div class="mui-media-body">
             <p class="sign-success" v-if="nowflag">今日已签到</p>
-            <p class="sign-success" v-if="isoverflag">恭喜你签到成功，<span class="co_fe698a">+5！</span></p>
-            <p class="p-margin">当前积分<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
+            <p class="sign-success" v-if="isoverflag">恭喜你签到成功，<span class="co_fe698a">+{{getpointer}}!</span></p>
+            <p class="p-margin">当前银两<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
             </p>
           </div>
       </div>
@@ -88,7 +88,8 @@
               days: [],
               arrDate: [],
               nowdate:"",
-              nowpointer:0
+              nowpointer:0,
+              getpointer:5
             }
         },
       methods: {
@@ -194,11 +195,12 @@
           }
         },
         async getsign(year,month){
-          let aa = await this.$post('/rs/sign_submit',{history_day: year + "-" + month + "-" + "01",auto_id:1});
+          let aa = await this.$post('/rs/sign_submit',{history_day: year + "-" + month + "-" + "01",auto_id:"1"});
           if(aa.code==200){
               this.nowflag=false;
               this.isoverflag=true;
               this.nowpointer=aa.total_points;
+              this.getpointer=aa.points;
             var daystotal=this.days;
             var nowtime=new Date();
             if(aa.days.length>0){

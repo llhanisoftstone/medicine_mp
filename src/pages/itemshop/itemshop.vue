@@ -172,7 +172,9 @@
                     use.tools[1].amount = Number(use.tools[1].amount)+Number(this.amount)
                   }
                   this.$store.commit('getm_user',use)
+                  this.points=this.points-this.amount*20;
                   this.$mptoast("支付成功");
+
                 }
             }else if(res.code==607){
               this.$mptoast("银两余额不足");
@@ -299,7 +301,7 @@
       .bottomlist{
         position:absolute;
         top:70px;
-        left:70px;
+        right:5px;
         font-size:15px;
         color: #df5c3e;
       }
