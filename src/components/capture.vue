@@ -72,6 +72,10 @@
     justify-content: space-around;
     display: flex;
     li{
+      flex-wrap: wrap;
+      width: 152px/2;
+      justify-content: center;
+    display:flex;
       div{
         width: 152px/2;
         height: 152px/2;
@@ -91,6 +95,7 @@
       color: #fff;
       height: 28px/2;
       display: flex;
+      white-space: nowrap;
       justify-content: center;
       align-items: center;
     }

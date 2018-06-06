@@ -78,6 +78,9 @@
                 if(this.istime){
                     return
                 }
+                if(this.times==0){
+                    return
+                }
                 this.istime=true
                 this.isprop=true
                 this.times += 20

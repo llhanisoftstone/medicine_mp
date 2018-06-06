@@ -35,7 +35,7 @@ export default {
       navigationBarTextStyle: 'white'
     },
     tabBar: {
-      selectedColor: '#df3c5e',
+      selectedColor: '#df5c3e',
       color: '#666666',
       list: [
         {

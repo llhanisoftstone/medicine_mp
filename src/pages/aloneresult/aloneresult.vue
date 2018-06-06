@@ -17,9 +17,9 @@
       </div>
     </div>
     <div class="btn_box">
-      <a href="" v-if="(win==2)&&isreward==0" @click="toalone">挑战下一关</a>
+      <a href="" v-if="(win==2)&&isreward==0&&user.game_level<10" @click="toalone">挑战下一关</a>
       <a href="" v-if="win==0" @click="repeat">重新开始</a>
-      <button open-type="share">分享战绩</button>
+      <button open-type="share" v-if="win==2">分享战绩</button>
     </div>
   </div>
 </template>
@@ -82,6 +82,9 @@
     computed:{
       userinfo(){
         return this.$store.state.userinfo
+      },
+      user(){
+        return this.$store.state.user
       }
     },
     mounted(){
@@ -118,7 +121,7 @@
       }else{
         this.isreward=0
         wx.setNavigationBarTitle({
-          title:`对战结果`
+          title:`闯关结果`
         })
       }
       let that=this
@@ -182,6 +185,11 @@
     box-sizing: border-box;
     justify-content: center;
   .user_item{
+    flex-wrap: wrap;
+    width: 159px/2;
+    align-content: center;
+    align-items: center;
+    display:flex;
   div{
     width: 159px/2;
     height: 159px/2;
@@ -199,12 +207,16 @@
     margin-top:15px/2;
     font-size: 28px/2;
     color: #333;
+    width: 159px/2;
+    white-space: nowrap;
     height: 28px/2;
     display: flex;
     justify-content: center;
     align-items: center;
   }
   p{
+    width: 159px/2;
+    white-space: nowrap;
     margin-top:12px/2;
     font-size: 28px/2;
     color: #333;

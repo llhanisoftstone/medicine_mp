@@ -7,7 +7,7 @@
     <div class="handbook-info">
       <div class="common-head headbook-head">
         <ul class="headbook-list">
-          <li v-for="(item,i) in policy_list" :key="item.id">
+          <li v-if="ishide" v-for="(item,i) in policy_list" :key="item.id">
             <a :href="'/pages/policydetails/main?pid='+item.id" class="item-details">
               <div class="msg-box">
                 <div class="message-img">
@@ -33,6 +33,7 @@
           </li>
         </ul>
       </div>
+      <div class="nogetList" v-if="iskong">暂无记录</div>
     </div>
   </div>
 </template>
@@ -44,8 +45,10 @@
         policy_list:[],
         _code:'',
         _search:'',
+        iskong:false,
+        ishide:false,
         page:1,
-        size:1
+        size:6
       }
     },
 
@@ -78,12 +81,17 @@
         }
         let res = await that.$get('/rs/infomation',data);
         if (res.code == 200){
+          that.iskong=false;
+          that.ishide=true;
           if (res.rows.length > 0){
             for (let i=0; i<res.rows.length; i++){
               res.rows[i].pic_abbr = 'https://policy.lifeonway.com'+res.rows[i].pic_abbr;
             }
             that.policy_list = res.rows;
           }
+        }else if (res.code == 602 && that.page == 1){
+          that.iskong=true;
+          that.ishide=false;
         }
       },
       confirm(e){
@@ -101,6 +109,11 @@
 
     onLoad: function (option) {
       this._code = option.pid;
+      this.getpolicyList()//获取数据
+    },
+
+    onShow: function onShow() {
+      this._search = '';
       this.getpolicyList()//获取数据
     }
   }
@@ -164,6 +177,7 @@
   }
   .message .pub-name{
     font-size: 0.32rem;
+    line-height: 0.38rem;
     font-weight: bold;
     color: #666666;
   }
@@ -205,5 +219,17 @@
     font-size: 0.261rem;
     line-height: 0.5rem;
     color: #666666;
+  }
+  .nogetList{
+    padding-top: 290px;
+    box-sizing:border-box;
+    background: url(../../../static/img/empty.jpg) center 100px no-repeat;
+    background-size:145px 148px;
+    width: 100%;
+    height: 297px;
+    color: #999999;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 50px;
   }
 </style>

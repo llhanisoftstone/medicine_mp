@@ -71,6 +71,9 @@
             res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
           }
             that.win_treasure = res.win_treasure
+        }else{
+          that.p_number=0
+          that.win_treasure=[]
         }
     },
     reward(r_id){
@@ -101,9 +104,6 @@
       })
     }
   },
-  mounted(){
-    this.getpage()
-  },
   computed:{
     userinfo(){
         return this.$store.state.userinfo
@@ -118,6 +118,7 @@
     },
     onShow(){
       this.watchsocket()
+      this.getpage()
     },
     onHide(){
         console.log(22222222222222)
@@ -158,6 +159,7 @@
     padding: 0 26px/2;
     width: 100%;
     box-sizing: border-box;
+    justify-content: space-between;
     display: flex;
     .challenge{
       width: 325px/2;
@@ -184,6 +186,9 @@
       }
     }
     .challenge_box{
+      display: flex;
+      flex-wrap: wrap;
+      align-content: space-between;
       width: 358px/2;
       height: 380px/2;
       div{
@@ -211,7 +216,6 @@
         background: #ffc02a url(../../../static/img/jiangbei.png) no-repeat;
         background-position: 280px/2 24px/2;
         background-size: 59px/2 59px/2;
-        margin-bottom:14px/2;
       }
       .item_2{
         background: #76caff url(../../../static/img/huangguan.png) no-repeat;
@@ -230,6 +234,7 @@
     justify-content: center;
     font-size: 30px/2;
     color: #333;
+    white-space: nowrap;
     box-sizing: border-box;
     image{
       width: 44px/2;

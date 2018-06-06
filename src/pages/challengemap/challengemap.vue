@@ -139,6 +139,9 @@
       },
       onShow(){
         this.watchsocket()
+      },
+      onUnload(){
+          this.isshow=false
       }
     }
 </script>

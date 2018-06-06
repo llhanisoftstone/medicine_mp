@@ -34,7 +34,7 @@
             <div class="lower-part">
               <a :href="'/pages/ticketdetails/main?pid='+item.id"><span>领取记录</span></a>
               <a :href="'/pages/writeoff/main'"><span>核销</span></a>
-              <a :href="'/pages/ticketdetails/main?pid='+item.id"><span class="bor-rig">已领取</span></a>
+              <a :href="'/pages/ticketdetails/main?pid='+item.id"><span class="bor-rig">核销记录</span></a>
             </div>
           </li>
         </ul>
@@ -48,7 +48,7 @@
       return {
         ticket_list:[],
         page:1,
-        size:1
+        size:6
       }
     },
     onPullDownRefresh () {
@@ -92,6 +92,9 @@
       }
     },
     onLoad: function () {
+      this.getticketList()//获取数据
+    },
+    onShow: function onShow() {
       this.getticketList()//获取数据
     }
   }
