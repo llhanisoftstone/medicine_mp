@@ -400,6 +400,7 @@
             that.join()
           }
         }else if(d.cmd =='fight'){
+            console.log(d)
           that.$store.commit('get_room',d.room_id)
           if(that.$store.state.user.userid==d.u_id){
             that.chat.push({
@@ -407,14 +408,30 @@
               msg:`${that.$store.state.userinfo.nickName}加入房间`
             })
           }else{
-            that.chat.push({
-              nickname:'【系统】',
-              msg:`${d.user[0].nickname}加入房间`
-            })
+              let fl=false
+              for(let i=0;i<that.team.length;i++){
+                  if(that.team[i].id == d.user[0].id){
+                    fl=true
+                  }
+              }
+              if(!fl){
+                that.chat.push({
+                  nickname:'【系统】',
+                  msg:`${d.user[0].nickname}加入房间`
+                })
+              }
           }
           if(d.user){
             for(let i=0;i<d.user.length;i++){
-              that.team.push(d.user[i])
+              let flag=false
+              for(let j=0;j<that.team.length;j++){
+                if(that.team[j].id == d.user[i].id){
+                  flag=true
+                }
+              }
+              if(!flag){
+                that.team.push(d.user[i])
+              }
             }
           }
         }else if(d.cmd == 'left'){
@@ -571,23 +588,23 @@
               that.iswin=1
             },1000)
           }
-        }else if(d.cmd == 'error'){
-          if (d.errcode === 404) {
-            wx.showModal({
-              title: '提示',
-              content: '房间不存在',
-              showCancel: false,
-              confirmText: '返回首页',
-              confirmColor: '#df5c3e',
-              success: res => {
-                if (res.confirm) {
-                  wx.switchTab({
-                    url: '/pages/index/main'
-                  })
-                }
-              }
-            })
-          }
+//        }else if(d.cmd == 'error'){
+//          if (d.errcode === 404) {
+//            wx.showModal({
+//              title: '提示',
+//              content: '房间不存在',
+//              showCancel: false,
+//              confirmText: '返回首页',
+//              confirmColor: '#df5c3e',
+//              success: res => {
+//                if (res.confirm) {
+//                  wx.switchTab({
+//                    url: '/pages/index/main'
+//                  })
+//                }
+//              }
+//            })
+//          }
         }
         console.log(d)
       })
