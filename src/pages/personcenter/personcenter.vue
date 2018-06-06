@@ -72,11 +72,11 @@
    display:flex;
    flex-flow:wrap;
    justify-content:space-between;
-   padding:0 13px;
+   padding:0 3.466667%;
  }
   .middle>ul>li{
     margin-top:9px;
-    width:170px;
+    width:45.333%;
     height:110px;
     box-sizing:border-box;
     border-radius:5px;
