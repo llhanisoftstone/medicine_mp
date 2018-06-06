@@ -2,7 +2,8 @@
   <div>
     <div class="search">
       <div class="search_icon"></div>
-      <input confirm-type="search" class="search-input" placeholder="请输入标题或内容" @confirm="confirm($event)"/>
+      <input confirm-type="search" class="search-input" v-model="searchVal" placeholder="请输入标题或内容" @confirm="confirm($event)"/>
+      <div class="clear" :class="{'clear_icon':clearhide}" v-on:click="clearInput"></div>
     </div>
     <div class="handbook-info">
       <div class="common-head headbook-head">
@@ -45,7 +46,9 @@
         policy_list:[],
         _code:'',
         _search:'',
+        searchVal:'',
         iskong:false,
+        clearhide:false,
         ishide:false,
         page:1,
         size:6
@@ -98,6 +101,9 @@
         this._search = e.target.value;
         this.getpolicyList();
       },
+      clearInput(){
+        this.searchVal = '';
+      },
       refresh(){
         this.page = 1;
         this.getpolicyList();
@@ -106,7 +112,15 @@
         this.getpolicyList();
       }
     },
-
+    watch:{
+      searchVal(val,oldval){
+        if (val.trim().length > 0){
+          this.clearhide = true;
+        }else{
+          this.clearhide = false;
+        }
+      }
+    },
     onLoad: function (option) {
       this._code = option.pid;
       this.getpolicyList()//获取数据
@@ -134,12 +148,20 @@
       border-radius: 10px/2 0 0 10px/2;
     }
     input{
-      width: 90%;
+      width: 100%;
       color: #666666;
       font-size: 26px/2;
       height: 55px/2;
-      border-radius: 0 10px/2 10px/2 0;
       background-color: #ffffff;
+    }
+    .clear_icon{
+      background:url('../../../static/img/zc_6.png') center 14px/2 no-repeat;
+      background-size: 30px/2 30px/2;
+    }
+    .clear{
+      width: 10%;
+      background-color: #ffffff;
+      border-radius: 0 10px/2 10px/2 0;
     }
   }
 
@@ -177,7 +199,7 @@
   }
   .message .pub-name{
     font-size: 0.32rem;
-    line-height: 0.38rem;
+    line-height: 0.4rem;
     font-weight: bold;
     color: #666666;
   }

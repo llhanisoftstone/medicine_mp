@@ -46,7 +46,7 @@
           that.phone = res.rows[0].phone
           that.address = res.rows[0].address
           that.code = res.rows[0].ticket_code
-          that.createQrCode(res.rows[0].ticket_code, "mycanvas", 145, 145)
+          that.createQrCode(res.rows[0].ticket_code, "mycanvas", 130, 130)
         }
       },
       createQrCode:function(url,canvasId,cavW,cavH){

@@ -62,6 +62,7 @@
     text-align: justify;
   }
   .title{
+    word-wrap:break-word;
     margin: 0.512rem 0 0.234667rem;
     text-align: center;
     font-size: 0.341333rem;
@@ -73,11 +74,11 @@
     text-align: center;
   }
   .details{
-    margin: 0.341333rem 0.533333rem 0 0.533333rem;
     font-size: 0.277333rem;
     line-height: 0.426667rem;
     color: #666666;
     text-indent: 2em;
+    word-wrap:break-word;
     margin: 30px/2 30px/2 0 30px/2 ;
   }
 </style>
