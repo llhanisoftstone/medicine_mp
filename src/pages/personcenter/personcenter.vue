@@ -74,7 +74,7 @@
     float:left;
     margin-top:9px;
     margin-right:2.66666%;
-    width:45.333333%;
+    width:48.533333%;
     height:110px;
     border-radius:5px;
     color:#fff;
