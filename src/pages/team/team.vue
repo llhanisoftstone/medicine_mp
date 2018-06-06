@@ -30,7 +30,7 @@
       <!--邀请模块-->
       <div class="invite_box" v-if="iswin==0&&!isstart">
         <image src="/static/img/yaoqing.png"></image>
-        <button :class="{'disabled':challenger!=user.userid}" @click="startgame">开始游戏</button>
+        <div :class="{'disabled':challenger!=user.userid}" @click="startgame">开始游戏</div>
       </div>
       <!--答题结果-->
       <div class="result" v-if="gameover">
@@ -159,6 +159,9 @@
                   if(this.istime){
                       return
                   }
+                  if(this.times == 0){
+                      return
+                  }
                   this.istime=true
                 this.isprop=true
                 this.times += 20
@@ -188,7 +191,7 @@
               that.times=that.times-1
             },
             startgame(){    //开始游戏
-                let that = this
+              let that = this
                 if(this.challenger == that.$store.state.user.userid){
                     that.$socket.emit('data_chain',{
                       cmd:'fight',
@@ -244,6 +247,7 @@
               this.chat=[]
               this.content=''
               this.$store.commit('get_room','')
+              clearInterval(this.timesfn)
               this.timesfn=null
             },
           send(){       //发送聊天
@@ -867,7 +871,7 @@
         display: block;
         margin:0 auto;
       }
-      button{
+      div{
         width: 300px/2;
         height: 70px/2;
         border-radius: 50px/2;

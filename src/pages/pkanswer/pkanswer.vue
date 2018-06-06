@@ -247,8 +247,6 @@
                     that.$store.commit('get_answer',d.details[0])
                     that.$store.commit('get_step',d.step)
                     that.times = 30
-                    that.answernub = 0
-                    that.timenub = 0
                     that.isshow = false
                     that.index = -1
                     that.isclick=false
