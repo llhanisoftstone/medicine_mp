@@ -36,12 +36,12 @@
         <div class="item">
           <div class="title">性别</div>
           <div class="mpvue-picer">
-            <input :value="pickerText" disabled="disabled" type="text" placeholder="请选择性别"/>
+            <input :value="pickerText" disabled="disabled" type="text"  placeholder="请选择性别"/>
           </div>
         </div>
         <div class="item">
           <div class="title">手机号</div>
-          <input type="number" v-model='phone' maxlength="11" confirm-type="next" placeholder="手机号" />
+          <input type="number" v-model='phone' maxlength="11" confirm-type="next"  placeholder="手机号" />
         </div>
         <div class="item">
           <div class="title">身份证</div>

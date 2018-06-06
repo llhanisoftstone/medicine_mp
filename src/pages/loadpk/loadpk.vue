@@ -303,7 +303,7 @@
       z-index:5;
       left:0;
       height: 70px/2;
-      padding: 0 66px/2;
+      padding: 0 56px/2;
       box-sizing: border-box;
       align-items: center;
       justify-content: space-between;

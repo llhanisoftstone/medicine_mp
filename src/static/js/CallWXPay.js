@@ -14,7 +14,7 @@
           })
         },
         'fail': function (res) {
-          wx.navigateTo({
+          wx.redirectTo({
             url: '/pages/paysuccess/main?isok=false'
           })
         }

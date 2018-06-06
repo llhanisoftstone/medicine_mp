@@ -169,10 +169,13 @@
           color: #fff;
           font-size:28px/2;
           margin-right: 16px/2;
-          display: flex;
-          align-items: center;
-          align-content: center;
-          justify-content: center;
+          /*display: flex;*/
+          /*align-items: center;*/
+          /*align-content: center;*/
+          /*justify-content: center;*/
+          display: block;
+          line-height: 37px/2;
+          text-align: center;
         }
         .front{
           background: #ff7400;

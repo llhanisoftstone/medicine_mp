@@ -10,8 +10,11 @@
       <div class="foot">
         <p>Copyright&copy;2018</p>
         <p>本平台由陕西省人力资源和社会保障厅授权</p>
-        <p>由<span>西安藤罗网络科技有限公司</span>独家运营</p>
+        <p>由<span v-on:click="companyclick">西安藤罗网络科技有限公司</span>独家运营</p>
         <p>TEL：029-81101859</p>
+      </div>
+      <div class="model" v-if="seen" @click="show1()">
+        <div class="aboutcompany" @click.stop="show()" ><image v-on:longpress="previewImage" src="/static/img/company_img.png"></image></div>
       </div>
     </div>
 </template>
@@ -21,10 +24,34 @@
         name: 'aboutus',
         props: [],
         data(){
-            return {}
+            return {
+              seen:false,
+              timestart:'',
+              scene:'https://policy.lifeonway.com/upload/community/2018-06-06_60ba9c6ed23bd84167425d48507d3589.png',
+            }
         },
-        methods: {},
-        components: {}
+        methods: {
+          companyclick(){
+            this.seen = true;
+          },
+          show1(){
+            this.seen = false;
+            event.cancelBubble = true;
+          },
+          show(e){
+            this.seen = true;
+          },
+          previewImage: function (e) {
+            wx.previewImage({
+              urls: this.scene.split(',')
+              // 需要预览的图片http链接  使用split把字符串转数组。不然会报错
+            })
+          },
+          components: {},
+          onLoad: function () {
+            this.seen = false;
+          }
+        }
 
     }
 </script>
@@ -76,6 +103,29 @@
         color:#333;
         span{
           color:#df5c3e;
+        }
+      }
+    }
+    .model{
+      position:absolute;
+      top:0;
+      bottom:0;
+      left:0;
+      right:0;
+      text-align:center;
+      background:rgba(0,0,0,0.6);
+      z-index:20;
+      .aboutcompany{
+        position:absolute;
+        top:137px;
+        left:50%;
+        transform:translateX(-50%);
+        -webkit-transform:translateX(-50%);
+        width:220px;
+        height:288px;
+        image{
+          width:100%;
+          height:100%;
         }
       }
     }

@@ -1,18 +1,20 @@
 <template>
     <div class="bg_color">
-      <div class="my_box">
-        <p>挑战者</p>
-        <ul>
-          <li v-if="challenger==user.userid"><image :src="userinfo.avatarUrl"></image></li>
-          <li v-if="(challenger!=user.userid)&&i==0" v-for="(v,i) in team"><image :src="v.picpath"></image></li>
-        </ul>
-      </div>
-      <div class="team_box">
-        <p>亲友团</p>
-        <ul>
-          <li v-if="challenger!=user.userid"><image :src="userinfo.avatarUrl"></image></li>
-          <li v-for="(v,i) in team" v-if="i!=0&&i<13"><image :src="v.picpath"></image></li>
-        </ul>
+      <div class="userurl_box">
+        <div class="my_box">
+          <!--<p>挑战者</p>-->
+          <ul>
+            <li v-if="challenger==user.userid"><image :src="userinfo.avatarUrl"></image></li>
+            <li v-if="(challenger!=user.userid)&&i==0" v-for="(v,i) in team"><image :src="v.picpath"></image></li>
+          </ul>
+        </div>
+        <div class="team_box">
+          <!--<p>亲友团</p>-->
+          <ul>
+            <li v-if="challenger!=user.userid"><image :src="userinfo.avatarUrl"></image></li>
+            <li v-for="(v,i) in team" v-if="i!=0&&i<13"><image :src="v.picpath"></image></li>
+          </ul>
+        </div>
       </div>
       <h2 v-if="isprop">您使用了延迟针，时间延长了20s</h2>
       <!--答题模块-->
@@ -92,7 +94,7 @@
         <div>
           <input type="text" v-model="content" cursor-spacing='15'>
         </div>
-        <button @click="send">发表</button>
+        <a class="send_btn" @click="send">发表</a>
         <a @click="userTools(user.tools[0].amount,1)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount}}</span></a>
         <a @click="userTools(user.tools[1].amount,2)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount}}</span></a>
       </div>
@@ -112,7 +114,7 @@
               times:30,
               isshow:false,          //是否显示答案
               isstart:false,           //是否开始游戏
-              scrollTop:1000,           //聊天滚动条高度
+              scrollTop:0,           //聊天滚动条高度
               stat:[],                //统计信息
               team:[],               //亲友团
               chat:[],                   //聊天信息
@@ -234,6 +236,7 @@
             },
             cleardata(){
               this.istime=false
+              this.iswin=0
               this.index=-1
               this.isclick=false
               this.challenger=''
@@ -241,10 +244,12 @@
               this.times=30
               this.isshow=false
               this.isstart=false
-              this.scrollTop=1000
+              this.gameover=false
+              this.scrollTop=0
               this.stat=[]
               this.team=[]
               this.chat=[]
+              this.tool_id=[]
               this.content=''
               this.$store.commit('get_room','')
               clearInterval(this.timesfn)
@@ -403,7 +408,7 @@
             console.log(d)
           that.$store.commit('get_room',d.room_id)
           if(that.$store.state.user.userid==d.u_id){
-            that.chat.push({
+            that.chat.unshift({
               nickname:'【系统】',
               msg:`${that.$store.state.userinfo.nickName}加入房间`
             })
@@ -415,7 +420,7 @@
                   }
               }
               if(!fl){
-                that.chat.push({
+                that.chat.unshift({
                   nickname:'【系统】',
                   msg:`${d.user[0].nickname}加入房间`
                 })
@@ -442,6 +447,7 @@
               showCancel:false,
               confirmText:'返回首页',
               confirmColor:'#df5c3e',
+              mask:true,
               success: function(res) {
                 if (res.confirm) {
                   wx.switchTab({
@@ -461,7 +467,7 @@
           }else{
             for(let i=0;i<that.team.length;i++){
               if(that.team[i].id == d.u_id){
-                that.chat.push({
+                that.chat.unshift({
                   nickname:'【系统】',
                   msg:`${that.team[i].nickname}离开房间`
                 })
@@ -473,14 +479,14 @@
         }else if(d.cmd == 'chat'){
           if(d.type == 1){
             if(d.u_id==that.$store.state.user.userid){
-              that.chat.push({
+              that.chat.unshift({
                 nickname:that.$store.state.userinfo.nickName,
                 msg:d.data
               })
             }else{
               for(let i=0;i<that.team.length;i++){
                 if(that.team[i].id ==d.u_id){
-                  that.chat.push({
+                  that.chat.unshift({
                     nickname:that.team[i].nickname,
                     msg:d.data
                   })
@@ -494,14 +500,14 @@
               }
             }
             if(d.u_id==that.$store.state.user.userid){
-              that.chat.push({
+              that.chat.unshift({
                 nickname:'【系统】',
                 msg:`${that.$store.state.userinfo.nickName}已选择`
               })
             }else{
               for(let i=0;i<that.team.length;i++){
                 if(that.team[i].id ==d.u_id){
-                  that.chat.push({
+                  that.chat.unshift({
                     nickname:'【系统】',
                     msg:`${that.team[i].nickname}已选择`
                   })
@@ -514,7 +520,7 @@
             })
             that.gameover=false
             that.iswin = 0
-            that.chat.push({
+            that.chat.unshift({
               nickname:'【系统】',
               msg:'下一关挑战开始'
             })
@@ -588,23 +594,24 @@
               that.iswin=1
             },1000)
           }
-//        }else if(d.cmd == 'error'){
-//          if (d.errcode === 404) {
-//            wx.showModal({
-//              title: '提示',
-//              content: '房间不存在',
-//              showCancel: false,
-//              confirmText: '返回首页',
-//              confirmColor: '#df5c3e',
-//              success: res => {
-//                if (res.confirm) {
-//                  wx.switchTab({
-//                    url: '/pages/index/main'
-//                  })
-//                }
-//              }
-//            })
-//          }
+        }else if(d.cmd == 'error'){
+          if (d.errcode === 404) {
+            wx.showModal({
+              title: '提示',
+              content: '房间不存在',
+              showCancel: false,
+              confirmText: '返回首页',
+              confirmColor: '#df5c3e',
+              mask:true,
+              success: res => {
+                if (res.confirm) {
+                  wx.switchTab({
+                    url: '/pages/index/main'
+                  })
+                }
+              }
+            })
+          }
         }
         console.log(d)
       })
@@ -628,16 +635,24 @@
     @import '../../static/less/common.less';
     .bg_color{
       background: #fff3f3;
-      padding-top: 20px/2;
+      padding-top: 18px/2;
       height: 100%;
     }
-    .my_box{
+    .userurl_box{
       width: 100%;
-      height: 89px/2;
+      height: auto;
       display: flex;
-      flex-wrap: wrap;
-      margin-bottom:20px/2;
-      align-items: center;
+      box-sizing: border-box;
+      padding: 0 41px/2;
+    }
+    .my_box{
+      width: 140px/2;
+      height: 140px/2;
+      margin-right:33px/2;
+      /*display: flex;*/
+      /*flex-wrap: wrap;*/
+      /*margin-bottom:20px/2;*/
+      /*align-items: center;*/
       p{
         padding-left: 26px/2;
         padding-right: 14px/2;
@@ -647,23 +662,24 @@
       ul{
         display: flex;
         align-items: center;
-        height: 89px/2;
+        height: 140px/2;
         li{
-          height: 89px/2;
+          height: 140px/2;
           display: flex;
           align-items: center;
           justify-content: center;
-          width:89px/2;
+          width:140px/2;
           image{
-            width: 83px/2;
-            height: 83px/2;
-            border:3px/2 solid #fff;
+            width: 130px/2;
+            height: 130px/2;
+            border:5px/2 solid #fff;
             border-radius: 50%;
           }
         }
       }
     }
     .team_box{
+      flex:1;
       width: 100%;
       display: flex;
       flex-wrap: wrap;
@@ -686,17 +702,17 @@
       flex-wrap: wrap;
       align-items: center;
     li{
-      height: 89px/2;
+      height: 65px/2;
       display: flex;
-      margin-right:11px/2;
-      margin-bottom: 11px/2;
+      margin-right:7px/2;
+      margin-bottom: 8px/2;
       align-items: center;
       justify-content: center;
-      width:89px/2;
+      width:65px/2;
     image{
-      width: 83px/2;
-      height: 83px/2;
-      border:3px/2 solid #fff;
+      width: 61px/2;
+      height: 61px/2;
+      border:2px/2 solid #fff;
       border-radius: 50%;
     }
     }
@@ -820,12 +836,13 @@
       width: 100%;
       height: 100px/2;
       box-sizing: border-box;
-      border-top:1px solid #e2e2e2;
+      border-top:1px/2 solid #e2e2e2;
       position: fixed;
       bottom:0;
       left:0;
       background: #fff;
       z-index:3;
+      border-radius: 0;
       padding: 17px/2 14px/2;
       display: flex;
       align-items: center;
@@ -835,13 +852,16 @@
         padding-right: 15px/2;
         height: 100%;
         input{
+          border:none;
+          border-radius: 0;
           border-bottom: 2px/2 solid @bg_color;
           color: #333;
           font-size: 28px/2;
           width: 100%;
+          height: 58px/2;
         }
       }
-    button{
+    .send_btn{
       width: 70px/2;
       height: 51px/2;
       background: @bg_color;
@@ -874,8 +894,7 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      width: 30px/2;
-      height: 30px/2;
+      padding: 4px/2;
     }
     }
     }

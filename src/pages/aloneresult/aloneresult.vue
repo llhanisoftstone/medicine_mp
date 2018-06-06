@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="btn_box">
-      <a href="" v-if="(win==2)&&isreward==0&&user.game_level<10" @click="toalone">挑战下一关</a>
+      <a href="" v-if="(win==2)&&isreward==0&&level<10" @click="toalone">挑战下一关</a>
       <a href="" v-if="win==0" @click="repeat">重新开始</a>
       <button open-type="share" v-if="win==2">分享战绩</button>
     </div>
@@ -83,8 +83,8 @@
       userinfo(){
         return this.$store.state.userinfo
       },
-      user(){
-        return this.$store.state.user
+      level(){
+        return this.$store.state.level
       }
     },
     mounted(){
@@ -275,7 +275,10 @@
     margin:0 auto;
   }
   .btn_box{
-    margin-top:906px/2;
+    position: fixed;
+    top:906px/2;
+    width: 100%;
+    left:0;
     height: 70px/2;
     padding: 0 66px/2;
     box-sizing: border-box;

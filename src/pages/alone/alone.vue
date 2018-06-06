@@ -2,7 +2,9 @@
     <div>
       <div class="bg">
         <div class="user_box">
-          <image :src="userinfo.avatarUrl"></image>
+          <div class="img_box">
+            <image :src="userinfo.avatarUrl" v-if="userinfo.avatarUrl"></image>
+          </div>
           <p>{{userinfo.nickName}}</p>
           <div class="time_box">
             <counddown :time="times"></counddown>
@@ -50,7 +52,8 @@
               gameover:false,     //当前关卡是否结束
               tool_id:[],              //使用的道具
               isreward:0,             //是否是首页直接进入的奖励关卡      0不是
-              istime:false             //是否使用过延时
+              istime:false,             //是否使用过延时
+              timefn:null
             }
         },
         methods: {
@@ -97,11 +100,10 @@
           },
           countdownfn(){     //倒计时
             let that=this
-            let timefn
-            clearInterval(timefn)
-            timefn = setInterval(function(){
+            clearInterval(that.timefn)
+            that.timefn = setInterval(function(){
               if(that.gameover){
-                clearInterval(timefn)
+                clearInterval(that.timefn)
               }
               if(that.times == 0){
                 return
@@ -160,6 +162,7 @@
             that.isclick=false
             that.gameover=false
             that.tool_id=[]
+            clearInterval(that.timefn)
           }
         },
         components: {
@@ -172,11 +175,12 @@
             return this.$store.state.userinfo
           },
           answer(){
+            this.countdownfn()
             return this.$store.state.answer
           }
         },
         mounted(){
-
+          this.countdownfn()
         },
       watch:{
         times(val,oldval){
@@ -195,7 +199,6 @@
       wx.setNavigationBarTitle({
         title:`第${this.$store.state.step}/${this.$store.state.max_nub}题`
       })
-      this.countdownfn()
       let that =this
       this.$socket.on('data_chain',d=>{
         console.log(d)
@@ -272,6 +275,7 @@
           },1000)
         }
       })
+
     },
     onUnload(){
       let that = this
@@ -306,13 +310,20 @@
     padding-top: 33px/2;
     flex-wrap: wrap;
     justify-content: center;
+  .img_box{
+    width: 156px/2;
+    overflow: hidden;
+    height: 156px/2;
+    border-radius: 50%;
     image{
       width: 156px/2;
       height: 156px/2;
       border:3px solid #fff;
       box-sizing: border-box;
       border-radius: 50%;
+      overflow: hidden;
     }
+  }
     p{
       width: 100%;
       display: flex;

@@ -83,11 +83,11 @@
               </div>
               <div>
                 <div class="number">2</div>
-                <div class="text">签到第1天得5银两，连续第2天得10银两，连续签到第三天得15银两，连续签到第四天得20银两，连续签到第五天得25银两；连续签到第六天起每天30银两</div>
+                <div class="text">签到第1天得5银两，连续第2天得10银两，连续签到第三天得15银两，连续签到第四天得20银两，连续签到第五天得25银两；连续签到第六天起每天30银两；</div>
               </div>
               <div>
                 <div class="number">3</div>
-                <div class="text">银两可用于兑换政策大咖道具</div>
+                <div class="text">银两可用于兑换政策大咖道具。</div>
               </div>
             </div>
             <div class="zhezhao_div6 tryFoot" v-on:click="notshowsign">我知道了</div>
