@@ -1,5 +1,6 @@
 ﻿export function callWXPAY (orderId, openid) {
   this.$post('/wx/pay', {openid: openid, order_id: orderId, iswx: 1}).then(function (response) {
+    console.log(response)
     if (response != null && !response.err) {
       wx.requestPayment({
         'timeStamp': response.timeStamp,
@@ -14,6 +15,7 @@
           })
         },
         'fail': function (res) {
+          console.log(res)
           wx.navigateTo({
             url: '/pages/paysuccess/main?isok=false'
           })
