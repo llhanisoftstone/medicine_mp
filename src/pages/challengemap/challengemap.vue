@@ -168,7 +168,7 @@
       position: absolute;
       width: 72px/2;
       height: 72px/2;
-      background: #ffbeaf;
+      background: #c2c2c2;
       color: #fff;
       font-size:45px/2;
       padding: 6px/2;
@@ -181,7 +181,7 @@
         width: 100%;
         height: 100%;
         border:4px/2 solid #fff;
-        background: #ffbeaf;
+        background: #c2c2c2;
         box-sizing: border-box;
         align-items: center;
         border-radius: 50%;

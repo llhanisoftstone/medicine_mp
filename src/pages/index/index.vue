@@ -138,8 +138,8 @@
     padding-bottom: 15px/2;
   }
   .btn_sign{
-    width: 100px/2;
-    height: 45px/2;
+    width: 120px/2;
+    height: 50px/2;
     border-radius: 50px/2;
     display: flex;
     align-content: center;
