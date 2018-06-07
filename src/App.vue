@@ -14,6 +14,7 @@ export default {
     this.$socket.on('reconnect', d => {
       console.log(d)
     })
+
     // 调用API从本地缓存中获取数据
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -33,6 +34,20 @@ export default {
               if (res.authSetting['scope.userInfo']) {
                 // 已经授权，可以直接调用 getUserInfo 获取头像昵称  weapp/login
                 that.getUserinfo(code)
+              } else {
+                wx.showModal({
+                  title: '提示',
+                  content: '未授权获取用户信息',
+                  showCancel: false,
+                  confirmText: '返回首页',
+                  confirmColor: '#df5c3e',
+                  mask: true,
+                  complete: res => {
+                    wx.switchTab({
+                      url: '/pages/index/main'
+                    })
+                  }
+                })
               }
             }
           })
@@ -60,25 +75,33 @@ export default {
               that.$socket.on('data_chain', d => {
                 if (d.cmd === 'login') {
                   that.$store.commit('getsocket')
-                } else if (d.cmd === 'error') {
+                }
+              })
+              that.$socket.emit('data_chain', {
+                cmd: 'login',
+                u_id: res.userid,
+                nickname: that.$store.state.userinfo.nickName,
+                picpath: that.$store.state.userinfo.avatarUrl
+              })
+              that.$socket.on('global_chain', d => {
+                console.log(d)
+                if (d.cmd === 'error') {
                   if (d.errcode === 601) {
+                    that.$store.commit('getsocket', false)
                     wx.showModal({
                       title: '提示',
-                      content: '获取登录信息失败,请重新获取',
+                      content: '获取登录信息失败,请点击确定重新获取',
                       showCancel: false,
                       confirmText: '确定',
                       confirmColor: '#df5c3e',
                       mask: true,
-                      success: res => {
-                        if (res.confirm) {
-                          this.$socket.emit('data_chain', {
-                            cmd: 'login',
-                            u_id: this.$store.state.user.userid,
-                            nickname: this.$store.state.userinfo.nickName,
-                            picpath: this.$store.state.userinfo.avatarUrl
-                          })
-                          console.log(11111)
-                        }
+                      complete: res => {
+                        this.$socket.emit('data_chain', {
+                          cmd: 'login',
+                          u_id: this.$store.state.user.userid,
+                          nickname: this.$store.state.userinfo.nickName,
+                          picpath: this.$store.state.userinfo.avatarUrl
+                        })
                       }
                     })
                   } else if (d.errcode === 404) {
@@ -88,25 +111,15 @@ export default {
                       showCancel: false,
                       confirmText: '返回首页',
                       confirmColor: '#df5c3e',
-                      mask:true,
-                      success: res => {
-                        if (res.confirm) {
-                          wx.switchTab({
-                            url: '/pages/index/main'
-                          })
-                          console.log('用户点击确定')
-                        }
+                      mask: true,
+                      complete: res => {
+                        wx.switchTab({
+                          url: '/pages/index/main'
+                        })
                       }
                     })
                   }
                 }
-                console.log(d)
-              })
-              that.$socket.emit('data_chain', {
-                cmd: 'login',
-                u_id: res.userid,
-                nickname: that.$store.state.userinfo.nickName,
-                picpath: that.$store.state.userinfo.avatarUrl
               })
 //                console.log(res)
             }

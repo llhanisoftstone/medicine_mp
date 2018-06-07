@@ -116,7 +116,7 @@
         }
         return {
           title: '邀请好友助阵',
-          path: `/pages/team/main?id=${that.$store.state.user.userid}`,
+          path: `/pages/team/main?id=${that.$store.state.user.userid}&&ismy=1`,
           success: (r)=>{
             that.team()
           },

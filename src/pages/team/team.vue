@@ -143,6 +143,9 @@
               if(this.challenger != this.$store.state.user.userid){
                   return
               }
+              if(this.times == 0){
+                return
+              }
             if(nub>0){
               console.log(`使用道具${id}`)
               if(Number(id) == 1){
@@ -220,11 +223,12 @@
               }
             },
             next(){    //挑战下一关
+              if(this.challenger != this.$store.state.user.userid){
+                  return
+              }
               wx.setNavigationBarTitle({
                 title:`第${this.$store.state.step}/${this.$store.state.max_nub}题`
               })
-              this.gameover=false
-              this.iswin = 0
               this.$socket.emit('data_chain',{
                 cmd:'fight',
                 u_id:this.challenger,
@@ -301,7 +305,7 @@
                   u_id:that.$store.state.user.userid,
                   level:that.$store.state.level,
                   step:that.$store.state.step,
-                  data:that.index
+                  data:JSON.stringify(that.index)
                 })
             }
           },
@@ -321,6 +325,7 @@
           },
           join(){    //加入房间
               let that = this
+            console.log("加入房间")
               that.$socket.emit('data_chain',{
                   cmd:'fight',
                   game_cfg_id:2,
@@ -379,6 +384,7 @@
     },
     onLoad(option){
       let that =this
+      that.cleardata()
       clearInterval(that.timesfn)
       that.timesfn=setInterval(()=>{
         that.countdownfn()
@@ -391,20 +397,37 @@
           picpath:that.$store.state.userinfo.avatarUrl
         })
       }
-      that.$socket.emit('data_chain', {
-        cmd: 'login',
-        u_id: that.$store.state.user.userid,
-        nickname: that.$store.state.userinfo.nickName,
-        picpath: that.$store.state.userinfo.avatarUrl
-      })
+      if(!that.$store.state.issocket) {
+        that.$socket.emit('data_chain', {
+          cmd: 'login',
+          u_id: that.$store.state.user.userid,
+          nickname: that.$store.state.userinfo.nickName,
+          picpath: that.$store.state.userinfo.avatarUrl
+        })
+      }
+      if(that.$store.state.issocket){
+        if(option.ismy == 1&&that.challenger == that.$store.state.user.userid){
+          that.join()
+        }else{
+          if(that.challenger != that.$store.state.user.userid){
+              console.log("直接加入房间")
+            that.join()
+          }
+        }
+      }
       that.$socket.removeAllListeners('data_chain')
       that.$socket.on('data_chain',d=>{
         if(d.cmd=='login'){
-          if(that.challenger != that.$store.state.user.userid){
-            that.$store.commit('getsocket')
+          if(option.ismy == 1){
             that.join()
+          }else{
+            if(that.challenger != that.$store.state.user.userid){
+              that.$store.commit('getsocket')
+              that.join()
+            }
           }
         }else if(d.cmd =='fight'){
+            console.log('多人测试')
             console.log(d)
           that.$store.commit('get_room',d.room_id)
           if(that.$store.state.user.userid==d.u_id){
@@ -448,8 +471,7 @@
               confirmText:'返回首页',
               confirmColor:'#df5c3e',
               mask:true,
-              success: function(res) {
-                if (res.confirm) {
+              complete: function(res) {
                   wx.switchTab({
                     url:`/pages/index/main`
                   })
@@ -461,7 +483,6 @@
                     game_type:2
                   })
                   console.log('用户点击确定')
-                }
               }
             })
           }else{
@@ -495,8 +516,10 @@
             }
           }else if(d.type == 5){
             for(let i=0;i<d.stat.length;i++){
+                console.log("统计信息")
+                console.log(d.stat)
               if(d.stat[i]){
-                that.stat[i]=Number(d.stat[i])+Number(that.stat[i])
+                that.stat[i]=Number(d.stat[i])
               }
             }
             if(d.u_id==that.$store.state.user.userid){
@@ -526,13 +549,17 @@
             })
           }
         }else if(d.cmd == 'answer'){
-          if((that.challenger != that.$store.state.user.userid)&&(that.$store.state.level==0)){
-            that.$store.commit('get_level',d.level)
+          that.$store.commit('get_room',d.room_id)
+          if((that.challenger != that.$store.state.user.userid)&&(that.$store.state.f_level==0)){
+            that.$store.commit('get_f_level',d.level)
           }
           if(d.content_type == 1){
-            if(d.level == that.$store.state.level){
+                let level = that.challenger == that.$store.state.user.userid?that.$store.state.level:that.$store.state.f_level
+            if(d.level == level){
               let til
               clearInterval(til)
+              that.isshow=true
+              that.index = d.other_reply == null?-1:d.other_reply
               til=setTimeout(function(){
                 that.iswin=0
                 that.gameover=false
@@ -541,13 +568,18 @@
                 that.isclick=false
                 that.isshow=false
                 that.isstart=true
+                that.istime=false
                 that.stat=[]
                 that.tool_id=[]
                 for(let i=0;i<d.details[0].answer_json.length;i++){
                   that.stat.push(0)
                 }
                 that.$store.commit('get_answer',d.details[0])
-                that.$store.commit('get_level',d.level)
+                if(that.challenger != that.$store.state.user.userid){
+                  that.$store.commit('get_f_level',d.level)
+                }else{
+                  that.$store.commit('get_level',d.level)
+                }
                 that.$store.commit('get_step',d.step)
                 that.$store.commit('get_max_nub',d.max_step)
                 wx.setNavigationBarTitle({
@@ -556,11 +588,17 @@
               },1000)
             }else{    //当前关卡结束
               let useri = that.$store.state.user
-              if(Number(d.level)>Number(useri.game_level)){
-                useri.game_level = d.level
-                that.$store.commit('getm_user',useri)
+              if(that.challenger == that.$store.state.user.userid){
+                if(Number(d.level)>Number(useri.game_level)){
+                  useri.game_level = d.level
+                  that.$store.commit('getm_user',useri)
+                }
               }
-              that.$store.commit('get_level',d.level)
+              if(that.challenger != that.$store.state.user.userid){
+                that.$store.commit('get_f_level',d.level)
+              }else{
+                that.$store.commit('get_level',d.level)
+              }
               that.$store.commit('get_step',d.step)
               that.$store.commit('get_max_nub',d.max_step)
               that.iswin = 2
@@ -588,29 +626,15 @@
               that.$store.commit('get_prize',{})
             }
           }else if(d.content_type == 3){       //挑战失败
+            that.isshow=true
+            that.index = d.other_reply == null?-1:d.other_reply
             setTimeout(()=>{
               that.$store.commit('get_prize',{})
               that.gameover=true
               that.iswin=1
+              that.isshow=false
+              that.index = -1
             },1000)
-          }
-        }else if(d.cmd == 'error'){
-          if (d.errcode === 404) {
-            wx.showModal({
-              title: '提示',
-              content: '房间不存在',
-              showCancel: false,
-              confirmText: '返回首页',
-              confirmColor: '#df5c3e',
-              mask:true,
-              success: res => {
-                if (res.confirm) {
-                  wx.switchTab({
-                    url: '/pages/index/main'
-                  })
-                }
-              }
-            })
           }
         }
         console.log(d)
@@ -619,6 +643,7 @@
     },
     onUnload(){
         let that =this
+        that.$store.commit('get_f_level',0)
         that.$socket.emit('data_chain',{
             cmd:'left',
             room_id:that.$store.state.room_id,
@@ -626,7 +651,12 @@
             game_cfg_id:2,
             game_type:2
         })
+      that.$socket.removeAllListeners('data_chain')
       that.cleardata()
+    },
+    onHide(){
+        console.log("隐藏页面")
+      that.$socket.removeAllListeners('data_chain')
     }
   }
 </script>

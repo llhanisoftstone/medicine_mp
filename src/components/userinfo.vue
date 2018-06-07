@@ -43,45 +43,6 @@
                 that.$socket.on('data_chain', d => {
                   if (d.cmd === 'login') {
                     that.$store.commit('getsocket')
-                  } else if (d.cmd === 'error') {
-                    if (d.errcode === 601) {
-                      wx.showModal({
-                        title: '提示',
-                        content: '获取登录信息失败,请重新获取',
-                        showCancel: false,
-                        confirmText: '确定',
-                        confirmColor: '#df5c3e',
-                        mask:true,
-                        success: res => {
-                          if (res.confirm) {
-                            this.$socket.emit('data_chain', {
-                              cmd: 'login',
-                              u_id: this.$store.state.user.userid,
-                              nickname: this.$store.state.userinfo.nickName,
-                              picpath: this.$store.state.userinfo.avatarUrl
-                            })
-                            console.log(11111)
-                          }
-                        }
-                      })
-                    } else if (d.errcode === 404) {
-                      wx.showModal({
-                        title: '提示',
-                        content: '房间不存在',
-                        showCancel: false,
-                        confirmText: '返回首页',
-                        confirmColor: '#df5c3e',
-                        mask:true,
-                        success: res => {
-                          if (res.confirm) {
-                            wx.switchTab({
-                              url: '/pages/index/main'
-                            })
-                            console.log('用户点击确定')
-                          }
-                        }
-                      })
-                    }
                   }
                   console.log(d)
                 })

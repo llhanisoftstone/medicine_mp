@@ -30,12 +30,13 @@ const store = new Vuex.Store({
     step: 0,              //   第几题
     prize: {},             //  奖品
     level: 0,                 // 当前进行的关卡
+    f_level: 0,                 // 亲友团进行的关卡
     max_nub: 0                    // 关卡题目数量
   },
   mutations: {
-    getsocket: (state) => {
+    getsocket: (state, islogin = true) => {
       const obj = state
-      obj.issocket = true
+      obj.issocket = islogin
     },
     getuser: (state, res) => {
       const obj = state
@@ -97,6 +98,10 @@ const store = new Vuex.Store({
     get_level: (state, level) => {
       const obj = state
       obj.level = level
+    },
+    get_f_level: (state, level) => {
+      const obj = state
+      obj.f_level = level
     },
     get_max_nub: (state, maxnub) => {
       const obj = state
