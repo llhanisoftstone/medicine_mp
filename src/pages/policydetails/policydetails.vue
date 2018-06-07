@@ -23,7 +23,12 @@
         if (res.code == 200){
           that.title = res.rows[0].title;
           that.create_time = this.conversionTime(res.rows[0].create_time);
-          that.details = res.rows[0].details;
+          var dt = res.rows[0].details;
+          if (dt){
+            var aimurl = that.$store.url+"/upload";
+            dt.replace(/\/upload/g, aimurl);
+          }
+          that.details = dt;
         }
       },
       conversionTime(time){
@@ -79,6 +84,8 @@
     color: #666666;
     text-indent: 2em;
     word-wrap:break-word;
-    margin: 30px/2 30px/2 0 30px/2 ;
+    margin: 30px/2 30px/2 0 30px/2;
+    width: 100%;
+    height: auto;
   }
 </style>

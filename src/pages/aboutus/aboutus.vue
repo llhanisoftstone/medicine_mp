@@ -14,7 +14,7 @@
         <p>TEL：029-81101859</p>
       </div>
       <div class="model" v-if="seen" @click="show1()">
-        <div class="aboutcompany" @click.stop="show()" ><image bindtap="previewImage" src="/static/img/company_img.png"></image></div>
+        <div class="aboutcompany" @click.stop="show()" ><image v-on:longpress="previewImage" src="/static/img/company_img.png"></image></div>
       </div>
     </div>
 </template>
@@ -26,27 +26,32 @@
         data(){
             return {
               seen:false,
+              timestart:'',
+              scene:'https://policy.lifeonway.com/upload/community/2018-06-06_60ba9c6ed23bd84167425d48507d3589.png',
             }
         },
         methods: {
           companyclick(){
-              this.seen=true;
+            this.seen = true;
           },
           show1(){
-            this.seen=false;
+            this.seen = false;
             event.cancelBubble = true;
           },
           show(e){
-            this.seen=true;
+            this.seen = true;
           },
-          previewImage(){
+          previewImage: function (e) {
             wx.previewImage({
-              current: this.data.imgalist, // 当前显示图片的http链接
-              urls: this.data.imgalist // 需要预览的图片http链接列表
+              urls: this.scene.split(',')
+              // 需要预览的图片http链接  使用split把字符串转数组。不然会报错
             })
+          },
+          components: {},
+          onLoad: function () {
+            this.seen = false;
           }
-        },
-        components: {}
+        }
 
     }
 </script>

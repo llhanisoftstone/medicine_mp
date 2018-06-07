@@ -2,12 +2,13 @@
   <div class="main">
     <ul class="mainlist">
       <li :class="{'mainlist_item':true,'inside':item.type==1,'external':item.type==0}" v-for="(item,i) in policy_list">
-        <a :href="'/pages/giftshopdetail/main?pid='+item.id" v-if="item.type==1" >
+        <a :href="'/pages/giftshopdetail/main?pid='+item.id" class="pellucidity" v-if="item.type==1" >
           <img class="item_img" :src="item.picurl" alt="">
           <div class="item_info">
             <p class="item_title">{{item.name}}</p>
             <p class="item_tro">到店消费</p>
-            <p class="item_time">有效期至：{{item.end_time}}</p>
+            <p class="item_time">获得时间：{{item.get_time}}</p>
+            <p class="item_time" style="margin-top: 0.426rem">有效期至：{{item.end_time}}</p>
             <img class="item_sign" src="/static/img/giftshop_ysy.png" v-if="item.status==1" alt="">
             <img class="item_sign" src="/static/img/giftshop_ygq.png" v-if="item.status==2" alt="">
           </div>
@@ -51,6 +52,7 @@
                 res.rows[i].end_time = that.conversionTimelist(res.rows[i].effect_hour,".");
                 res.rows[i].price=that.pricetab(res.rows[i].price);
               }else{
+                res.rows[i].get_time = that.conversionTime(res.rows[i].get_time,"-");
                 res.rows[i].end_time = that.conversionTimelist(res.rows[i].effect_hour,"-");
               }
               if(res.rows[i].picurl){
@@ -97,18 +99,10 @@
         var data = new Date(time);
         var month=parseInt(data.getMonth()+1);
         var months="";
-        if(month<10){
-          months="0"+month;
-        }else{
-          months=month;
-        }
+        months=month;
         var day=data.getDate();
         var days="";
-        if(day<10){
-          days="0"+day;
-        }else{
-          days=day;
-        }
+        days=day;
         return data.getFullYear()+sign+months+sign+days;
       },
       pricetab(price){
@@ -150,6 +144,9 @@
     overflow: hidden;
     position: relative;
   }
+  .pellucidity{
+    opacity: 0.7;
+  }
   .inside{
     .item_img{
       width: 698px/2;
@@ -165,7 +162,7 @@
       color:#fff;
       text-align: center;
       .item_title{
-        padding: 78px/2 50px/2 39px/2;
+        padding: 60px/2 50px/2 39px/2;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
