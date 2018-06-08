@@ -175,7 +175,13 @@
                 this.$store.commit('getm_user',use)
                 this.answernub = this.$store.state.user.tools[0].amount
                 this.timenub = this.$store.state.user.tools[1].amount
-                this.tool_id.push(Number(id))
+//                this.tool_id.push(Number(id))
+                this.$socket.emit('data_chain',{
+                    cmd:'tool',
+                    u_id: this.$store.state.user.userid,
+                    tool_id: Number(id),
+                    room_id: this.$store.state.room_id
+                })
                 setTimeout(()=>{
                   this.isprop=false
                 },1000)
@@ -497,56 +503,64 @@
               }
             }
           }
-        }else if(d.cmd == 'chat'){
-          if(d.type == 1){
-            if(d.u_id==that.$store.state.user.userid){
+        }else if(d.cmd == 'chat') {
+          if (d.type == 1) {
+            if (d.u_id == that.$store.state.user.userid) {
               that.chat.unshift({
-                nickname:that.$store.state.userinfo.nickName,
-                msg:d.data
+                nickname: that.$store.state.userinfo.nickName,
+                msg: d.data
               })
-            }else{
-              for(let i=0;i<that.team.length;i++){
-                if(that.team[i].id ==d.u_id){
+            } else {
+              for (let i = 0; i < that.team.length; i++) {
+                if (that.team[i].id == d.u_id) {
                   that.chat.unshift({
-                    nickname:that.team[i].nickname,
-                    msg:d.data
+                    nickname: that.team[i].nickname,
+                    msg: d.data
                   })
                 }
               }
             }
-          }else if(d.type == 5){
-            for(let i=0;i<d.stat.length;i++){
-                console.log("统计信息")
-                console.log(d.stat)
-              if(d.stat[i]){
-                that.stat[i]=Number(d.stat[i])
+          } else if (d.type == 5) {
+            for (let i = 0; i < d.stat.length; i++) {
+              console.log("统计信息")
+              console.log(d.stat)
+              if (d.stat[i]) {
+                that.stat[i] = Number(d.stat[i])
               }
             }
-            if(d.u_id==that.$store.state.user.userid){
+            if (d.u_id == that.$store.state.user.userid) {
               that.chat.unshift({
-                nickname:'【系统】',
-                msg:`${that.$store.state.userinfo.nickName}已选择`
+                nickname: '【系统】',
+                msg: `${that.$store.state.userinfo.nickName}已选择`
               })
-            }else{
-              for(let i=0;i<that.team.length;i++){
-                if(that.team[i].id ==d.u_id){
+            } else {
+              for (let i = 0; i < that.team.length; i++) {
+                if (that.team[i].id == d.u_id) {
                   that.chat.unshift({
-                    nickname:'【系统】',
-                    msg:`${that.team[i].nickname}已选择`
+                    nickname: '【系统】',
+                    msg: `${that.team[i].nickname}已选择`
                   })
                 }
               }
             }
-          }else if(d.type == 6){
+          } else if (d.type == 6) {
             wx.setNavigationBarTitle({
-              title:`第${that.$store.state.step}/${that.$store.state.max_nub}题`
+              title: `第${that.$store.state.step}/${that.$store.state.max_nub}题`
             })
-            that.gameover=false
+            that.gameover = false
             that.iswin = 0
             that.chat.unshift({
-              nickname:'【系统】',
-              msg:'下一关挑战开始'
+              nickname: '【系统】',
+              msg: '下一关挑战开始'
             })
+          }
+        }else if(d.cmd == 'tool'){
+          if(that.challenger != that.$store.state.user.userid){
+            this.isprop=true
+            this.times += 20
+            setTimeout(()=>{
+              this.isprop=false
+            },1000)
           }
         }else if(d.cmd == 'answer'){
           that.$store.commit('get_room',d.room_id)

@@ -11,8 +11,26 @@ export default {
         picpath: this.$store.state.userinfo.avatarUrl
       })
     })
+    this.$socket.on('disconnect', d => {
+      console.log(d)
+    })
     this.$socket.on('reconnect', d => {
       console.log(d)
+      if (this.$store.state.answer.name) {
+        wx.showModal({
+          title: '提示',
+          content: '游戏已结束',
+          showCancel: false,
+          confirmText: '返回首页',
+          confirmColor: '#df5c3e',
+          mask: true,
+          complete: res => {
+            wx.switchTab({
+              url: '/pages/index/main'
+            })
+          }
+        })
+      }
     })
 
     // 调用API从本地缓存中获取数据

@@ -92,7 +92,13 @@
                 this.$store.commit('getm_user',use)
                 this.answernub = this.$store.state.user.tools[0].amount
                 this.timenub = this.$store.state.user.tools[1].amount
-                this.tool_id.push(Number(id))
+//                this.tool_id.push(Number(id))
+              this.$socket.emit('data_chain',{
+                cmd:'tool',
+                u_id: this.$store.state.user.userid,
+                tool_id: Number(id),
+                room_id: this.$store.state.room_id
+              })
               setTimeout(()=>{
                   this.isprop=false
                 },1000)
