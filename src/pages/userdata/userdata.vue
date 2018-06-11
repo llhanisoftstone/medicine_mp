@@ -45,7 +45,7 @@
         </div>
         <div class="item">
           <div class="title">身份证</div>
-          <input type="text" onkeyup="value=value.replace(/[^\d|chun]/g,'')"  placeholder="请输入身份证" maxlength="18" confirm-type="done" v-model='cardNum' />
+          <input type="idcard" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"  placeholder="请输入身份证" maxlength="18" confirm-type="done" v-model='cardNum' />
         </div>
         <div :class="{'btn':true}" @click="submitData">
           确&nbsp;&nbsp;&nbsp;认
@@ -217,6 +217,17 @@
           toast,
           mpvuePicker
         },
+      computed:{
+        cardNum:{
+          get:function(){
+            return this.cardNum;
+
+          },
+          set:function(newValue){
+            this.cardNum=newValue.replace(/[^\w\.\/]/ig,'');
+          }
+        }
+      },
         mounted(){
           this.getUserinfo();
           this.rank=this.$store.state.user.userrank||1;
