@@ -279,6 +279,23 @@
             level:1
           })
         },
+        watchsocket(){
+          let that=this
+          that.$socket.removeAllListeners('data_chain')
+          that.$socket.on('data_chain',d=>{
+            if(d.cmd == 'answer'&&d.step == 1){
+              that.$socket.removeAllListeners('data_chain')
+              that.$store.commit('get_answer',d.details[0])
+              that.$store.commit('get_step',d.step)
+              that.$store.commit('get_level',1)
+              that.$store.commit('get_room',d.room_id)
+              that.$store.commit('get_max_nub',d.max_step)
+              wx.navigateTo({
+                url:`/pages/alone/main?id=${that.r_id}`
+              })
+            }
+          })
+        }
       },
       mounted(){
         this.initData(null);
@@ -292,6 +309,16 @@
            return this.$store.state.userinfo.avatarUrl
           }
 
+      },
+      onLoad(){
+        this.watchsocket()
+      },
+      onShow(){
+        this.watchsocket();
+        this.getpage()
+      },
+      onHide(){
+        this.$socket.removeAllListeners('data_chain')
       }
 
     }
