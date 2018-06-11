@@ -217,17 +217,6 @@
           toast,
           mpvuePicker
         },
-      computed:{
-        cardNum:{
-          get:function(){
-            return this.cardNum;
-
-          },
-          set:function(newValue){
-            this.cardNum=newValue.replace(/[^\w\.\/]/ig,'');
-          }
-        }
-      },
         mounted(){
           this.getUserinfo();
           this.rank=this.$store.state.user.userrank||1;
