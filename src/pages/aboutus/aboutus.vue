@@ -48,10 +48,10 @@
             })
           },
           components: {},
-          onLoad: function () {
-            this.seen = false;
-          }
-        }
+        },
+      onLoad: function (option) {
+        this.seen = false;
+      }
 
     }
 </script>
