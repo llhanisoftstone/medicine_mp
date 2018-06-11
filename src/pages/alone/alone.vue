@@ -288,6 +288,8 @@
       that.gameover=true
       that.isreward=0
       that.$socket.removeAllListeners('data_chain')
+      that.$store.commit('get_answer',{})
+      that.cleardata()
       this.$socket.emit('data_chain',{
             cmd:'left',
             u_id:that.$store.state.user.userid,

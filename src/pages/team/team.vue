@@ -658,7 +658,8 @@
     onUnload(){
         let that =this
         that.$store.commit('get_f_level',0)
-        that.$socket.emit('data_chain',{
+      that.$store.commit('get_answer',{})
+      that.$socket.emit('data_chain',{
             cmd:'left',
             room_id:that.$store.state.room_id,
             u_id:that.$store.state.user.userid,

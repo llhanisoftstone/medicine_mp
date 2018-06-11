@@ -231,15 +231,7 @@
               that.vs=true
               if(d.other_reply.use_time!=-1&&d.other_reply.use_time!=-2){
                 that.other = d.other_reply.reply
-                if(that.$store.state.answer.answer_json[that.other].right==true){
-                  if(d.other_reply.use_time<10){
-                    that.$store.commit('get_vsscore',100)
-                  }else if(d.other_reply.use_time<20){
-                    that.$store.commit('get_vsscore',60)
-                  }else if(d.other_reply.use_time<30){
-                    that.$store.commit('get_vsscore',40)
-                  }
-                }
+                that.$store.commit('get_vsscore',d.other_reply.score)
               }
               if(d.content_type == 1){
                 if(d.step>1){
@@ -275,7 +267,9 @@
       },
       onUnload(){
           let that=this
-          that.gameover=true
+          that.cleardata()
+        that.$store.commit('get_answer',{})
+        that.gameover=true
           that.$socket.emit('data_chain',{
               cmd:'left',
               room_id:this.$store.state.room_id,
