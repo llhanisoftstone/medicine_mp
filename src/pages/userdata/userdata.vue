@@ -22,7 +22,7 @@
         </div>
         <div class="item">
           <div class="title">联系地址</div>
-          <input type="text" placeholder="请输入联系地址" maxlength="100" confirm-type="done" v-model='shop_address' />
+          <input type="text" placeholder="请输入联系地址" maxlength="30" confirm-type="done" v-model='shop_address' />
         </div>
         <div :class="{'btn':true}"  @click="submitData1">
           确认
