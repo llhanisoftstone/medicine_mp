@@ -219,7 +219,7 @@
         },
         mounted(){
           this.getUserinfo();
-          this.rank=this.$store.state.user.userrank||1;
+          this.rank=1;
         },
     }
 </script>
