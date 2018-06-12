@@ -235,6 +235,7 @@
               }
               if(d.content_type == 1){
                 if(d.step>1){
+                  that.isshow = true
                   setTimeout(function(){
                     that.$store.commit('get_answer',d.details[0])
                     that.$store.commit('get_step',d.step)
@@ -244,7 +245,7 @@
                     that.isclick=false
                     that.other= -1
                     that.tool_id=[]
-                  },1000)
+                  },2000)
                 }
               }else if(d.content_type == 2){
                 that.gameover=true   //延时跳转页面
@@ -258,7 +259,7 @@
                   wx.redirectTo({
                     url:`/pages/result/main?from=${that.from}`
                   })
-                },1000)
+                },2000)
               }
               that.$store.commit('get_room',d.room_id)
             }
@@ -398,7 +399,7 @@
     }
   }
     .answer_box{
-      width: 524px/2;
+      width: 100%;
       height: auto;
       li{
         width: 524px/2;

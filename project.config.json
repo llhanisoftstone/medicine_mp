@@ -35,8 +35,9 @@
 				{
 					"id": 0,
 					"name": "test",
-					"pathName": "pages/test/main",
-					"query": ""
+					"pathName": "pages/result/main",
+					"query": "",
+					"scene": "1007"
 				},
 				{
 					"id": 1,

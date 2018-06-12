@@ -12,11 +12,11 @@
           <!--<p>亲友团</p>-->
           <ul>
             <li v-if="challenger!=user.userid"><image :src="userinfo.avatarUrl"></image></li>
-            <li v-for="(v,i) in team" v-if="i!=0&&i<13"><image :src="v.picpath"></image></li>
+            <li v-for="(v,i) in team" v-if="i!=0&&i<14"><image :src="v.picpath"></image></li>
           </ul>
         </div>
       </div>
-      <h2 v-if="isprop">您使用了延迟针，时间延长了20s</h2>
+      <h2 v-if="isprop">挑战者使用了延迟针，时间延长了20s</h2>
       <!--答题模块-->
       <div class="time_box" v-if="isstart&&iswin==0">
         <counddown :time="times"></counddown>
@@ -24,7 +24,7 @@
       <div class="answer" v-if="isstart&&iswin==0">
         <answer :title="answer.category_name" :answer="answer.name" distance="1">
           <ul slot="list" class="answer_box_ul">
-            <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}<span>{{stat[i]}}人</span></li>
+            <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right,'friend_c':is_f_click==i}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}<span>{{stat[i]}}人</span></li>
           </ul>
         </answer>
       </div>
@@ -127,7 +127,8 @@
               tool_id:[],                 //使用过的道具id
               istime:false,                   //是否使用过延时
               timesfn:null,                     //定时器
-              isjoin:false                     // 是否发送加入房间请求
+              isjoin:false,                     // 是否发送加入房间请求
+              is_f_click:-1                        //亲友团选择答案
             }
         },
         methods: {
@@ -184,7 +185,7 @@
                 })
                 setTimeout(()=>{
                   this.isprop=false
-                },1000)
+                },2000)
               }
             }
           },
@@ -265,6 +266,7 @@
               clearInterval(this.timesfn)
               this.timesfn=null
               this.isjoin=false
+              this.is_f_click=-1
             },
           send(){       //发送聊天
             let that =this
@@ -305,6 +307,7 @@
                 step:that.$store.state.step
               })
             }else{
+                that.is_f_click = index
                 that.$socket.emit('data_chain',{
                   cmd:'chat',
                   type:5,
@@ -575,6 +578,8 @@
               that.isshow=true
               that.index = d.other_reply == null?-1:d.other_reply
               til=setTimeout(function(){
+                that.$store.commit('get_answer',d.details[0])
+                that.is_f_click=-1
                 that.iswin=0
                 that.gameover=false
                 that.index=-1
@@ -588,7 +593,6 @@
                 for(let i=0;i<d.details[0].answer_json.length;i++){
                   that.stat.push(0)
                 }
-                that.$store.commit('get_answer',d.details[0])
                 if(that.challenger != that.$store.state.user.userid){
                   that.$store.commit('get_f_level',d.level)
                 }else{
@@ -599,7 +603,7 @@
                 wx.setNavigationBarTitle({
                   title:`第${that.$store.state.step}/${that.$store.state.max_nub}题`
                 })
-              },1000)
+              },2000)
             }else{    //当前关卡结束
               let useri = that.$store.state.user
               if(that.challenger == that.$store.state.user.userid){
@@ -615,6 +619,7 @@
               }
               that.$store.commit('get_step',d.step)
               that.$store.commit('get_max_nub',d.max_step)
+              that.is_f_click=-1
               that.iswin = 2
               that.gameover=true
               that.index=-1
@@ -648,7 +653,7 @@
               that.iswin=1
               that.isshow=false
               that.index = -1
-            },1000)
+            },2000)
           }
         }
       })
@@ -819,6 +824,9 @@
     }
     li:nth-last-child(1){
       margin-bottom: 0;
+    }
+    .friend_c{
+      background: #ffc02a;
     }
     .correct{
       background: #86d132;
@@ -1058,6 +1066,7 @@
       width: 100%;
       display: flex;
       align-items: center;
+      white-space: nowrap;
       justify-content: center;
       margin-top:16px/2;
       color: #fff;

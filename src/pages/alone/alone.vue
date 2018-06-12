@@ -101,7 +101,7 @@
               })
               setTimeout(()=>{
                   this.isprop=false
-                },1000)
+                },2000)
             }
           },
           countdownfn(){     //倒计时
@@ -219,7 +219,7 @@
                 title:`第${that.$store.state.step}/${that.$store.state.max_nub}题`
               })
               that.cleardata()
-            },1000)
+            },2000)
           }else if(d.cmd == 'answer'&&d.level!=that.$store.state.level){    //当前关卡挑战结束
             setTimeout(function(){
               let useri = that.$store.state.user
@@ -241,7 +241,7 @@
               wx.redirectTo({
                 url:'/pages/aloneresult/main?result=2'
               })
-            },1000)
+            },2000)
           }
         }else if(d.content_type == 2){    //全部挑战结束
           setTimeout(function(){
@@ -262,7 +262,7 @@
                 url:'/pages/aloneresult/main?result=2'
               })
             }
-          },1000)
+          },2000)
         }else if(d.content_type == 3){    //挑战失败
           setTimeout(function(){
             that.$store.commit('get_prize',{})
@@ -278,7 +278,7 @@
                 url:'/pages/aloneresult/main?result=0'
               })
             }
-          },1000)
+          },2000)
         }
       })
 
