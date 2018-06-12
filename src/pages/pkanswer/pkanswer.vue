@@ -24,12 +24,8 @@
           <fraction :number="mynumber" color="#ffc02a"></fraction>
         </div>
         <div>
-          <answer :title="answer.category_name" :answer="answer.name" distance="0">
+          <answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="0">
             <ul slot="list" class="answer_box">
-              <!--<li class="my n_correct"><span class="ismy"></span>答案1<span class="nomy"></span></li>&lt;!&ndash;自己错误&ndash;&gt;-->
-              <!--<li class="opponent n_correct"><span class="ismy"></span>答案2<span class="nomy"></span></li>&lt;!&ndash;对方错误&ndash;&gt;    未完成-->
-              <!--<li class="correct"><span class="ismy"></span>答案3<span class="nomy"></span></li>&lt;!&ndash;正确答案&ndash;&gt;-->
-              <!--<li :class="{'my':index==i,'correct':v.right&&isshow,'n_correct':ismy&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)"><span class="ismy"></span>{{v.answer}}<span class="nomy"></span></li>-->
               <li :class="{'my':index==i,'opponent':other==i,'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right,'n_correct':other==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)"><span class="ismy"></span>{{v.answer}}<span class="nomy"></span></li>
             </ul>
           </answer>
@@ -39,7 +35,7 @@
           <fraction :number="usernumber" color="#df5c3e"></fraction>
         </div>
       </div>
-      <p class="provide">本题由{{answer.organiz_name}}提供</p>
+      <!--<p class="provide">本题由{{answer.organiz_name}}提供</p>-->
       <div class="prop_box">
         <prop :istimes="false" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
       </div>
@@ -235,6 +231,7 @@
               }
               if(d.content_type == 1){
                 if(d.step>1){
+                  that.isshow = true
                   setTimeout(function(){
                     that.$store.commit('get_answer',d.details[0])
                     that.$store.commit('get_step',d.step)
@@ -244,7 +241,7 @@
                     that.isclick=false
                     that.other= -1
                     that.tool_id=[]
-                  },1000)
+                  },2000)
                 }
               }else if(d.content_type == 2){
                 that.gameover=true   //延时跳转页面
@@ -258,7 +255,7 @@
                   wx.redirectTo({
                     url:`/pages/result/main?from=${that.from}`
                   })
-                },1000)
+                },2000)
               }
               that.$store.commit('get_room',d.room_id)
             }
@@ -398,7 +395,7 @@
     }
   }
     .answer_box{
-      width: 524px/2;
+      width: 100%;
       height: auto;
       li{
         width: 524px/2;

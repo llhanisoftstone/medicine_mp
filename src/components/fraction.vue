@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="fraction">
-        <div class="fraction_item" :style="'height:'+nub+'px;background:'+color+';'"></div>
+        <div class="fraction_item" :style="'height:'+nub+'%;background:'+color+';'"></div>
       </div>
     </div>
 </template>
@@ -18,7 +18,7 @@
         components: {},
         computed:{
             nub(){
-                return this.number*320/1000
+                return this.number*100/500
             }
         }
     }

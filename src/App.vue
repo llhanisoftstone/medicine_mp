@@ -16,6 +16,12 @@ export default {
       console.log(d)
     })
     this.$socket.on('reconnect', d => {
+      that.$socket.emit('data_chain', {
+        cmd: 'login',
+        u_id: that.$store.state.user.userid,
+        nickname: that.$store.state.userinfo.nickName,
+        picpath: that.$store.state.userinfo.avatarUrl
+      })
       console.log(d)
       let pagesArr = getCurrentPages()
       let currentPage = pagesArr[pagesArr.length - 1]
@@ -139,7 +145,7 @@ export default {
                       that.$store.commit('getmodal', false)
                       wx.showModal({
                         title: '提示',
-                        content: '获取登录信息失败,请点击确定重新获取',
+                        content: '无法获取好友信息,请重试',
                         showCancel: false,
                         confirmText: '确定',
                         confirmColor: '#df5c3e',
