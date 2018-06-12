@@ -23,8 +23,8 @@
                 <div class="toolname">{{toolname}}</div>
                 <div class="toolright"><span class="minusbtn" @click="minusbtnnum"></span> <input class="amountcount" id="price" type="number"  v-model="amount" ref="type1" placeholder="个数"  maxlength="3"  onkeyup="value=value.replace(/[^\d]/g,'')"/><span class="addbtn" @click="addbtnnum"></span></div>
               </li>
-              <li><span class="icon icon_pointer"></span><span class="content_title">可用银两<span class="isusepointer"></span>{{points}}</span><span class="pay_type" v-on:click="slelecttype(2)" v-bind:class="{active:paytype2}" _pay_type="2"></span></li>
-              <li><span class="icon icon_money"></span><span class="content_title">微信支付(0.2元=20银两)</span><span class="pay_type" v-on:click="slelecttype(1)" v-bind:class="{active:paytype1}" _pay_type="1"></span></li>
+              <li v-on:click="slelecttype(2)"  _pay_type="2"><span class="icon icon_pointer"></span><span class="content_title">可用银两<span class="isusepointer"></span>{{points}}</span><span class="pay_type" v-bind:class="{active:paytype2}"></span></li>
+              <li v-on:click="slelecttype(1)"  _pay_type="1"><span class="icon icon_money"></span><span class="content_title">微信支付(0.2元=20银两)</span><span class="pay_type" v-bind:class="{active:paytype1}"></span></li>
             </ul>
           <div class="ispay" v-on:click="orderlist">确认支付</div>
         </div>
@@ -182,8 +182,8 @@
             let res = await that.$post('/rs/order_build',{pay_type:this.pay_type,amount:this.amount,goods_id:this.goods_id});
             console.log(res)
             if(res.code == 200){
-                this.ishidden=false;
                 if(this.pay_type==1){
+                  this.ishidden=false;
                   this.$callWXPAY(res.main_order_id,this.$store.state.openid);
                 }else{
                   let use = this.$store.state.user
@@ -194,6 +194,7 @@
                   }
                   this.$store.commit('getm_user',use)
                   this.points=this.points-this.amount*20;
+                  this.ishidden=false;
                   this.$mptoast("支付成功");
 
                 }

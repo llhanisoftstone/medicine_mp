@@ -121,8 +121,8 @@
         left:50%;
         transform:translateX(-50%);
         -webkit-transform:translateX(-50%);
-        width:220px;
-        height:288px;
+        width:222px;
+        height:289px;
         image{
           width:100%;
           height:100%;

@@ -32,7 +32,8 @@
         people:'',
         visible: false,
         message:'',
-        isTrue:true
+        isTrue:true,
+        id:"",
       }
     },
     methods: {
@@ -64,7 +65,46 @@
           name:this.name,
           phone:this.phone,
           contacts:this.people,
-          status:0
+          status:1
+        }
+        if(this.id){
+          this.$put('/rs/cooperator/'+this.id,data).then(res=>{
+            if(res.code == 200){
+              this.message='修改成功';
+              this.visible = !this.visible;
+              this.name="";
+              this.phone="";
+              this.people="";
+              setTimeout(function() {
+                wx.navigateBack({     //返回上一页面或多级页面
+                  delta: 1
+                })
+              },1000);
+            }else{
+              this.message='修改失败';
+              this.visible = !this.visible;
+              this.isTrue=true;
+            }
+          })
+        }else{
+          this.$post('/rs/cooperator',data).then(res=>{
+            if(res.code == 200){
+              this.message='保存成功';
+              this.visible = !this.visible;
+              this.name="";
+              this.phone="";
+              this.people="";
+              setTimeout(function() {
+                wx.navigateBack({     //返回上一页面或多级页面
+                  delta: 1
+                })
+              },1000);
+            }else{
+              this.message='保存失败';
+              this.visible = !this.visible;
+              this.isTrue=true;
+            }
+          })
         }
         this.$post('/rs/cooperator',data).then(res=>{
           if(res.code == 200){
@@ -84,13 +124,29 @@
             this.isTrue=true;
           }
         })
+
       },
+      getUserinfo(){
+        var that=this;
+        this.message="";
+        this.$get('/rs/cooperator',{u_id:this.$store.state.user.userid}).then(res=>{
+          if(res.code==200){
+            var user=res.rows[0];
+            that.name=user.name;
+            that.phone=user.phone;
+            that.people=user.contacts;
+            that.id=user.id;
+          }
+
+        })
+      }
 
     },
     components: {
       toast
     },
     mounted(){
+      this.getUserinfo();
       this.isTrue=true;
     },
     onLoad(){
