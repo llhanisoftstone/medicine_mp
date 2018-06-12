@@ -22,13 +22,13 @@
         <counddown :time="times"></counddown>
       </div>
       <div class="answer" v-if="isstart&&iswin==0">
-        <answer :title="answer.category_name" :answer="answer.name" distance="1">
+        <answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="1">
           <ul slot="list" class="answer_box_ul">
             <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right,'friend_c':is_f_click==i}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}<span>{{stat[i]}}人</span></li>
           </ul>
         </answer>
       </div>
-      <p class="provide" v-if="isstart&&iswin==0">本题由{{answer.organiz_name}}提供</p>
+      <!--<p class="provide" v-if="isstart&&iswin==0">本题由{{answer.organiz_name}}提供</p>-->
       <!--邀请模块-->
       <div class="invite_box" v-if="iswin==0&&!isstart">
         <image src="/static/img/yaoqing.png"></image>

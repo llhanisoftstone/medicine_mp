@@ -12,18 +12,13 @@
           <h2 v-if="isprop">您使用了延迟针，时间延长了20s</h2>
         </div>
         <div class="answer">
-          <answer :title="answer.category_name" :answer="answer.name" distance="1">
+          <answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="1">
             <ul slot="list" class="answer_box_ul">
               <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}</li>
             </ul>
           </answer>
-          <!--<answer title="分类" answer="题目" distance="1">-->
-            <!--<ul slot="list" class="answer_box_ul">-->
-              <!--<li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in an" v-on:click="submit(i,v.right)">{{v.answer}}</li>-->
-            <!--</ul>-->
-          <!--</answer>-->
         </div>
-        <p class="provide">本题由{{answer.organiz_name}}提供</p>
+        <!--<p class="provide">本题由{{answer.organiz_name}}提供</p>-->
         <div class="prop_box">
           <prop :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
         </div>
