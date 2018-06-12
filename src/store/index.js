@@ -31,12 +31,17 @@ const store = new Vuex.Store({
     prize: {},             //  奖品
     level: 0,                 // 当前进行的关卡
     f_level: 0,                 // 亲友团进行的关卡
-    max_nub: 0                    // 关卡题目数量
+    max_nub: 0,                    // 关卡题目数量
+    modalshow: true               // 是否显示弹窗
   },
   mutations: {
     getsocket: (state, islogin = true) => {
       const obj = state
       obj.issocket = islogin
+    },
+    getmodal: (state, res) => {
+      const obj = state
+      obj.modalshow = res
     },
     getuser: (state, res) => {
       const obj = state

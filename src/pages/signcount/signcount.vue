@@ -115,7 +115,8 @@
               nowdate:"",
               nowpointer:0,
               getpointer:5,
-              isshowsign:false
+              isshowsign:false,
+              r_id:0
             }
         },
       methods: {
@@ -311,16 +312,14 @@
 
       },
       onLoad(){
-        this.isshowsign=false;
-        this.watchsocket();
+        this.watchsocket()
       },
       onShow(){
-        this.watchsocket();
-        this.getpage()
+        this.watchsocket()
       },
       onHide(){
         this.$socket.removeAllListeners('data_chain')
-      },
+      }
 
     }
 </script>
@@ -578,7 +577,7 @@
         .text{
           float:left;
           max-width:244px;
-          font-size:12px;
+          font-size:11px;
           color:#333;
           line-height:20px;
         }
@@ -591,7 +590,7 @@
       background:#f08300;
       color:#fff;
       font-size:15px;
-      margin:18px auto 0;
+      margin:20px auto 0;
       text-align:center;
       line-height:37px;
     }

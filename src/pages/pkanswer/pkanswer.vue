@@ -267,7 +267,6 @@
       },
       onUnload(){
           let that=this
-          that.cleardata()
         that.$store.commit('get_answer',{})
         that.gameover=true
           that.$socket.emit('data_chain',{
@@ -339,6 +338,7 @@
     p{
       justify-content: flex-start;
       box-sizing: border-box;
+      padding-left: 2px/2;
     }
     }
     .user_box_item:nth-of-type(1) {

@@ -2,7 +2,7 @@
 	"description": "项目配置文件。",
 	"setting": {
 		"urlCheck": false,
-		"es6": false,
+		"es6": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true
@@ -69,7 +69,7 @@
 					"id": 5,
 					"name": "load",
 					"pathName": "pages/loadpk/main",
-					"query": "from=1&&id=44147",
+					"query": "id=2&&from=1",
 					"scene": "1007"
 				}
 			]

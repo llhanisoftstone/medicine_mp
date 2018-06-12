@@ -126,7 +126,8 @@
               isnext:true,                //是否有下一关
               tool_id:[],                 //使用过的道具id
               istime:false,                   //是否使用过延时
-              timesfn:null                     //定时器
+              timesfn:null,                     //定时器
+              isjoin:false                     // 是否发送加入房间请求
             }
         },
         methods: {
@@ -147,7 +148,6 @@
                 return
               }
             if(nub>0){
-              console.log(`使用道具${id}`)
               if(Number(id) == 1){
                 for(let i=0;i<this.$store.state.answer.answer_json.length;i++){
                   if(this.$store.state.answer.answer_json[i].right){
@@ -203,7 +203,7 @@
             },
             startgame(){    //开始游戏
               let that = this
-                if(this.challenger == that.$store.state.user.userid){
+                if(that.challenger == that.$store.state.user.userid){
                     that.$socket.emit('data_chain',{
                       cmd:'fight',
                       u_id:that.challenger,
@@ -217,6 +217,7 @@
             repeat(){   //重新开始
               let that = this
               if(this.challenger == that.$store.state.user.userid){
+
                 that.$socket.emit('data_chain',{
                   cmd:'fight',
                   u_id:Number(that.challenger),
@@ -261,9 +262,9 @@
               this.chat=[]
               this.tool_id=[]
               this.content=''
-              this.$store.commit('get_room','')
               clearInterval(this.timesfn)
               this.timesfn=null
+              this.isjoin=false
             },
           send(){       //发送聊天
             let that =this
@@ -309,7 +310,7 @@
                   type:5,
                   room_id:that.$store.state.room_id,
                   u_id:that.$store.state.user.userid,
-                  level:that.$store.state.level,
+                  level:that.$store.state.f_level,
                   step:that.$store.state.step,
                   data:JSON.stringify(that.index)
                 })
@@ -330,7 +331,11 @@
             }
           },
           join(){    //加入房间
-              let that = this
+            let that = this
+            if(that.isjoin){
+                  return
+            }
+            that.isjoin=true
             console.log("加入房间")
               that.$socket.emit('data_chain',{
                   cmd:'fight',
@@ -391,6 +396,7 @@
     onLoad(option){
       let that =this
       that.cleardata()
+      that.$store.commit('get_f_level',0)
       clearInterval(that.timesfn)
       that.timesfn=setInterval(()=>{
         that.countdownfn()
@@ -410,13 +416,11 @@
           nickname: that.$store.state.userinfo.nickName,
           picpath: that.$store.state.userinfo.avatarUrl
         })
-      }
-      if(that.$store.state.issocket){
+      }else{
         if(option.ismy == 1&&that.challenger == that.$store.state.user.userid){
           that.join()
         }else{
           if(that.challenger != that.$store.state.user.userid){
-              console.log("直接加入房间")
             that.join()
           }
         }
@@ -433,8 +437,6 @@
             }
           }
         }else if(d.cmd =='fight'){
-            console.log('多人测试')
-            console.log(d)
           that.$store.commit('get_room',d.room_id)
           if(that.$store.state.user.userid==d.u_id){
             that.chat.unshift({
@@ -488,7 +490,7 @@
                     game_cfg_id:2,
                     game_type:2
                   })
-                  console.log('用户点击确定')
+                that.$socket.removeAllListeners('data_chain')
               }
             })
           }else{
@@ -522,8 +524,6 @@
             }
           } else if (d.type == 5) {
             for (let i = 0; i < d.stat.length; i++) {
-              console.log("统计信息")
-              console.log(d.stat)
               if (d.stat[i]) {
                 that.stat[i] = Number(d.stat[i])
               }
@@ -568,7 +568,7 @@
             that.$store.commit('get_f_level',d.level)
           }
           if(d.content_type == 1){
-                let level = that.challenger == that.$store.state.user.userid?that.$store.state.level:that.$store.state.f_level
+                let level = (that.challenger == that.$store.state.user.userid)?that.$store.state.level:that.$store.state.f_level
             if(d.level == level){
               let til
               clearInterval(til)
@@ -651,13 +651,12 @@
             },1000)
           }
         }
-        console.log(d)
       })
 
     },
     onUnload(){
-        let that =this
-        that.$store.commit('get_f_level',0)
+      let that =this
+      that.$store.commit('get_f_level',0)
       that.$store.commit('get_answer',{})
       that.$socket.emit('data_chain',{
             cmd:'left',
@@ -668,10 +667,13 @@
         })
       that.$socket.removeAllListeners('data_chain')
       that.cleardata()
+      that.$store.commit('get_room','')
+
     },
     onHide(){
-        console.log("隐藏页面")
-      that.$socket.removeAllListeners('data_chain')
+//        console.log("隐藏页面")
+//        this.$socket.removeAllListeners('data_chain')
+//        this.$store.commit('get_f_level',0)
     }
   }
 </script>
@@ -856,6 +858,7 @@
         font-size: 32px/2;
         color: #333;
         margin-right:14px/2;
+        white-space: nowrap;
       }
       i{
         height: 1px;
@@ -939,7 +942,7 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      padding: 4px/2;
+      padding: 4px/2 12px/2;
     }
     }
     }

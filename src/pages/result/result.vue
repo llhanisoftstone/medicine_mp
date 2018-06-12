@@ -163,6 +163,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      white-space: nowrap;
     }
     p{
       margin-top:12px/2;
@@ -225,7 +226,7 @@
   .btn_box{
     margin-top:906px/2;
     height: 70px/2;
-    padding: 0 66px/2;
+    padding: 0 8%;
     box-sizing: border-box;
     align-items: center;
     justify-content: space-between;
