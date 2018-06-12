@@ -5,12 +5,12 @@ export default {
     this.getLogin()
     this.$socket.on('connect', () => {
       console.log('connect success')
-      this.$socket.emit('data_chain', {
-        cmd: 'login',
-        u_id: this.$store.state.user.userid,
-        nickname: this.$store.state.userinfo.nickName,
-        picpath: this.$store.state.userinfo.avatarUrl
-      })
+//      this.$socket.emit('data_chain', {
+//        cmd: 'login',
+//        u_id: this.$store.state.user.userid,
+//        nickname: this.$store.state.userinfo.nickName,
+//        picpath: this.$store.state.userinfo.avatarUrl
+//      })
     })
     this.$socket.on('disconnect', d => {
       console.log(d)
@@ -145,13 +145,17 @@ export default {
                         confirmColor: '#df5c3e',
                         mask: true,
                         complete: res => {
-                          this.$socket.emit('data_chain', {
+                          console.log(`重新登录${that.$store.state.user.userid}`)
+                          that.$socket.emit('data_chain', {
                             cmd: 'login',
-                            u_id: this.$store.state.user.userid,
-                            nickname: this.$store.state.userinfo.nickName,
-                            picpath: this.$store.state.userinfo.avatarUrl
+                            u_id: that.$store.state.user.userid,
+                            nickname: that.$store.state.userinfo.nickName,
+                            picpath: that.$store.state.userinfo.avatarUrl
                           })
                           that.$store.commit('getmodal', true)
+                          wx.switchTab({
+                            url: '/pages/index/main'
+                          })
                         }
                       })
                     }

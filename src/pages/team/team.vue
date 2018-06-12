@@ -217,6 +217,7 @@
             repeat(){   //重新开始
               let that = this
               if(this.challenger == that.$store.state.user.userid){
+
                 that.$socket.emit('data_chain',{
                   cmd:'fight',
                   u_id:Number(that.challenger),
