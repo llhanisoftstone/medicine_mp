@@ -93,6 +93,12 @@
     mounted(){
       this.isTrue=true;
     },
+    onLoad(){
+      this.message='';
+      this.name="";
+      this.phone="";
+      this.people="";
+    }
   }
 </script>
 

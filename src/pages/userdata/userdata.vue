@@ -22,7 +22,7 @@
         </div>
         <div class="item">
           <div class="title">联系地址</div>
-          <input type="text" placeholder="请输入联系地址" maxlength="100" confirm-type="done" v-model='shop_address' />
+          <input type="text" placeholder="请输入联系地址" maxlength="30" confirm-type="done" v-model='shop_address' />
         </div>
         <div :class="{'btn':true}"  @click="submitData1">
           确认
@@ -45,7 +45,7 @@
         </div>
         <div class="item">
           <div class="title">身份证</div>
-          <input type="text" onkeyup="value=value.replace(/[^\d|chun]/g,'')"  placeholder="请输入身份证" maxlength="18" confirm-type="done" v-model='cardNum' />
+          <input type="idcard" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"  placeholder="请输入身份证" maxlength="18" confirm-type="done" v-model='cardNum' />
         </div>
         <div :class="{'btn':true}" @click="submitData">
           确&nbsp;&nbsp;&nbsp;认
