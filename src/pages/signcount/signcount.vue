@@ -72,7 +72,7 @@
           <a href="" :_id="v.id">挑战</a>
         </li>
       </ul>
-      <div id="zhezhao_fu" class="tryoutModelBox" v-if="isshowsign">
+      <div id="zhezhao_fu" catchtouchmove='true' class="tryoutModelBox" v-if="isshowsign">
         <div class="zhezhao_zi">
           <div class="zhezhao_div">
             <div class="zhezhao_div3 co_333333">签到规则说明</div>
@@ -312,6 +312,7 @@
 
       },
       onLoad(){
+        this.isshowsign=false;
         this.watchsocket()
       },
       onShow(){
