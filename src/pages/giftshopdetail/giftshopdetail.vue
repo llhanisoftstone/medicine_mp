@@ -5,7 +5,7 @@
     <p class="phone">{{phone}}</p>
     <p class="address">{{address}}</p>
     <div class="codek">
-      <div class="imgk">
+      <div class="imgkqrcode">
         <canvas class="canvas_sty" canvas-id="mycanvas"/>
       </div>
     </div>
@@ -109,20 +109,15 @@
     padding: 26px/2 20px/2 0;
   }
   .codek{
-    width: 305px/2;
-    height:305px/2;
+    width: 350px/2;
+    height:350px/2;
     border:1px solid #e2e2e2;
     margin: 56px/2 auto 0;
     padding-top:22px/2;
     box-sizing: border-box;
-    .imgk{
+    .imgkqrcode{
       margin:0 auto;
-      width: 261px/2;
-      height:261px/2;
-      img{
-        width: 261px/2;
-        height:261px/2;
-      }
+      margin-left: 24px/2;
     }
   }
   .codeinfo{
@@ -131,8 +126,8 @@
     padding-top: 80px/2;
   }
   .canvas_sty{
-    width: 261px/2;
-    height: 261px/2;
-    background-size: 261px/2 261px/2;
+    width: 270px/2;
+    height: 270px/2;
+    background-size: 270px/2 270px/2;
   }
 </style>

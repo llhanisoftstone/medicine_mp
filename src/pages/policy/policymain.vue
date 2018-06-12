@@ -262,6 +262,8 @@
     line-height: 0.34165rem;
     color: #666666;
     margin-bottom: 0.24535rem;
+    word-break: break-all;
+    word-wrap: break-word;
     display: -webkit-box;
     overflow: hidden;
     white-space: normal!important;

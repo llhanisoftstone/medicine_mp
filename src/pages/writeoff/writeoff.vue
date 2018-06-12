@@ -19,7 +19,6 @@
         let that = this;
         wx.scanCode({
           success: (rs) => {
-            console.log(JSON.stringify(rs));
             let res = rs.result;
             if (res){
               if (res.length == 8){
@@ -38,7 +37,6 @@
         if (res.code == 200){
           let time = new Date();
           let use_time = that.getformatDate(time,'yyyy-MM-dd hh:mm:ss');
-          console.log(use_time);
           let result = await that.$put('/rs/member_ticket/'+res.rows[0].id,{status:1,use_time:use_time});
           if (result.code == 200){
             that.$mptoast('核销成功!');

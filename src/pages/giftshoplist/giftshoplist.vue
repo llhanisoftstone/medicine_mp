@@ -32,7 +32,23 @@
       return {
         policy_list:[],
         iskong:false,
+        page:1,
+        size:6
       }
+    },
+    onPullDownRefresh () {
+      wx.showNavigationBarLoading() //在标题栏中显示加载
+      this.page=1;
+      this.policy_list=[];
+      this.refresh();
+      // 下拉刷新
+      wx.hideNavigationBarLoading() //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
+    },
+    onReachBottom () {
+      this.pages++;
+      this.loadmore()
+      // 上拉加载
     },
     methods: {
       async getpolicyList() {
@@ -48,12 +64,12 @@
             for (let i=0; i<res.rows.length; i++){
               res.rows[i].type = 1;
               if(res.rows[i].type == 0){
-                res.rows[i].get_time = that.conversionTime(res.rows[i].get_time,".");
-                res.rows[i].end_time = that.conversionTimelist(res.rows[i].effect_hour,".");
+                res.rows[i].get_time = that.conversionTime(res.rows[i].get_time,"/");
+                res.rows[i].end_time = that.conversionTimelist(res.rows[i].effect_hour,"/");
                 res.rows[i].price=that.pricetab(res.rows[i].price);
               }else{
-                res.rows[i].get_time = that.conversionTime(res.rows[i].get_time,"-");
-                res.rows[i].end_time = that.conversionTimelist(res.rows[i].effect_hour,"-");
+                res.rows[i].get_time = that.conversionTime(res.rows[i].get_time,"/");
+                res.rows[i].end_time = that.conversionTimelist(res.rows[i].effect_hour,"/");
               }
               if(res.rows[i].picurl){
                   if(res.rows[i].picurl.substring(0,4)!="http"){
@@ -80,6 +96,13 @@
           this.iskong=true;
         }
       },
+      refresh(){
+        this.page = 1;
+        this.getpolicyList();
+      },
+      loadmore () {
+        this.getpolicyList();
+      },
       conversionTimelist(time,sign){
         if(time==null){
           return;
@@ -101,9 +124,7 @@
         var months="";
         months=month;
         var day=data.getDate();
-        var days="";
-        days=day;
-        return data.getFullYear()+sign+months+sign+days;
+        return data.getFullYear()+sign+months+sign+day;
       },
       pricetab(price){
         price=(parseFloat(price)/100).toFixed(0);
@@ -115,6 +136,9 @@
       this.policy_list=[];
       this.getpolicyList()//获取数据
       this.iskong=false;
+    },
+    onShow: function onShow() {
+      this.getpolicyList()//获取数据
     }
   }
 </script>
