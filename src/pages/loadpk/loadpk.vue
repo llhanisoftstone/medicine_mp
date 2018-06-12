@@ -34,7 +34,8 @@
                 other_uid:'',
                 from: 2,                //  1 好友  2全网    好友添加按钮
                 again:0,                 //是否重复挑战   好友对战使用
-                router:0                //0返回   1跳转
+                router:0,                //0返回   1跳转
+                isend:false               //是否已发送匹配请求
             }
         },
         methods: {
@@ -60,9 +61,14 @@
             this.$store.commit('get_room','')
           },
           sendnews(){
-              console.log('11111111111111111111')
+            console.log(`是否发送${this.isend}`)
             let that = this
             if(this.$store.state.issocket){
+              if(that.isend){
+                return
+              }
+              that.isend=true
+              console.log('发送成功')
               let senddata={
                 cmd:'fight',
                 u_id:that.$store.state.user.userid,
@@ -112,13 +118,15 @@
           }
         }
         this.cleardata()
+        this.isend=false
         console.log(option)
         if(option.id){
           this.other_uid = option.id
         }
         this.from = option.from
         let that =this
-        this.$socket.on('data_chain', d=>{
+        that.$socket.removeAllListeners('data_chain')
+        that.$socket.on('data_chain', d=>{
           console.log(d)
           if(d.cmd == 'login'){
             that.$store.commit('getsocket')
@@ -142,33 +150,16 @@
                 wx.redirectTo({
                   url:`/pages/pkanswer/main?from=${that.from}`
                 })
+                that.isend=false
               },1500)
             }
           }
         })
       },
-      onShow:function(option){
-        if(option){
-          if(option.again){
-            this.again =1
-          }else{
-            this.again =0
-          }
-        }
-        this.cleardata()
-        console.log(option)
-        if(option){
-          if(option.id){
-            this.other_uid = option.id
-          }
-          if(option.from){
-            this.from = option.from
-          }
-        }
-      },
       onUnload(){
           if(this.router == 0){
             this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
+            this.isend=false
           }
       },
       onShareAppMessage(res){

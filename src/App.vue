@@ -1,6 +1,7 @@
 <script>
 export default {
   created () {
+    let that = this
     this.getLogin()
     this.$socket.on('connect', () => {
       console.log('connect success')
@@ -16,19 +17,43 @@ export default {
     })
     this.$socket.on('reconnect', d => {
       console.log(d)
-      if (this.$store.state.answer.name) {
-        wx.showModal({
-          title: '提示',
-          content: '游戏已结束',
-          showCancel: false,
-          confirmText: '返回首页',
-          confirmColor: '#df5c3e',
-          mask: true,
-          complete: res => {
-            wx.switchTab({
-              url: '/pages/index/main'
-            })
-          }
+      let pagesArr = getCurrentPages()
+      let currentPage = pagesArr[pagesArr.length - 1]
+      let url = currentPage.route
+      if ((url === 'pages/alone/main') || (url === 'pages/pkanswer/main')) {
+        console.log(`页面路径${url}`)
+        if (that.$store.state.modalshow) {
+          that.$store.commit('getmodal', false)
+          wx.showModal({
+            title: '提示',
+            content: '游戏已结束',
+            showCancel: false,
+            confirmText: '返回首页',
+            confirmColor: '#df5c3e',
+            mask: true,
+            complete: res => {
+              wx.switchTab({
+                url: '/pages/index/main'
+              })
+              that.$store.commit('getmodal', true)
+            }
+          })
+        }
+      } else if (url === 'pages/team/main') {
+        that.$socket.emit('data_chain', {
+          cmd: 'left',
+          room_id: that.$store.state.room_id,
+          u_id: that.$store.state.user.userid,
+          game_cfg_id: 2,
+          game_type: 2
+        })
+        that.$socket.emit('data_chain', {
+          cmd: 'fight',
+          game_cfg_id: 2,
+          game_type: 2,
+          u_id: that.$store.state.user.userid,
+          to_u_id: currentPage.options.id,
+          game_style: 2
         })
       }
     })
@@ -53,19 +78,23 @@ export default {
                 // 已经授权，可以直接调用 getUserInfo 获取头像昵称  weapp/login
                 that.getUserinfo(code)
               } else {
-                wx.showModal({
-                  title: '提示',
-                  content: '未授权获取用户信息',
-                  showCancel: false,
-                  confirmText: '返回首页',
-                  confirmColor: '#df5c3e',
-                  mask: true,
-                  complete: res => {
-                    wx.switchTab({
-                      url: '/pages/index/main'
-                    })
-                  }
-                })
+                if (that.$store.state.modalshow) {
+                  that.$store.commit('getmodal', false)
+                  wx.showModal({
+                    title: '提示',
+                    content: '未授权获取用户信息',
+                    showCancel: false,
+                    confirmText: '返回首页',
+                    confirmColor: '#df5c3e',
+                    mask: true,
+                    complete: res => {
+                      wx.switchTab({
+                        url: '/pages/index/main'
+                      })
+                      that.$store.commit('getmodal', true)
+                    }
+                  })
+                }
               }
             }
           })
@@ -106,36 +135,62 @@ export default {
                 if (d.cmd === 'error') {
                   if (d.errcode === 601) {
                     that.$store.commit('getsocket', false)
-                    wx.showModal({
-                      title: '提示',
-                      content: '获取登录信息失败,请点击确定重新获取',
-                      showCancel: false,
-                      confirmText: '确定',
-                      confirmColor: '#df5c3e',
-                      mask: true,
-                      complete: res => {
-                        this.$socket.emit('data_chain', {
-                          cmd: 'login',
-                          u_id: this.$store.state.user.userid,
-                          nickname: this.$store.state.userinfo.nickName,
-                          picpath: this.$store.state.userinfo.avatarUrl
-                        })
-                      }
-                    })
+                    if (that.$store.state.modalshow) {
+                      that.$store.commit('getmodal', false)
+                      wx.showModal({
+                        title: '提示',
+                        content: '获取登录信息失败,请点击确定重新获取',
+                        showCancel: false,
+                        confirmText: '确定',
+                        confirmColor: '#df5c3e',
+                        mask: true,
+                        complete: res => {
+                          this.$socket.emit('data_chain', {
+                            cmd: 'login',
+                            u_id: this.$store.state.user.userid,
+                            nickname: this.$store.state.userinfo.nickName,
+                            picpath: this.$store.state.userinfo.avatarUrl
+                          })
+                          that.$store.commit('getmodal', true)
+                        }
+                      })
+                    }
                   } else if (d.errcode === 404) {
-                    wx.showModal({
-                      title: '提示',
-                      content: '房间不存在',
-                      showCancel: false,
-                      confirmText: '返回首页',
-                      confirmColor: '#df5c3e',
-                      mask: true,
-                      complete: res => {
-                        wx.switchTab({
-                          url: '/pages/index/main'
+                      if (that.$store.state.modalshow) {
+                        that.$store.commit('getmodal', false)
+                        wx.showModal({
+                          title: '提示',
+                          content: '房间不存在',
+                          showCancel: false,
+                          confirmText: '返回首页',
+                          confirmColor: '#df5c3e',
+                          mask: true,
+                          complete: res => {
+                            wx.switchTab({
+                              url: '/pages/index/main'
+                            })
+                            that.$store.commit('getmodal', true)
+                          }
                         })
                       }
-                    })
+                  } else if (d.errcode === 301) {
+                      if (that.$store.state.modalshow) {
+                        that.$store.commit('getmodal', false)
+                        wx.showModal({
+                          title: '提示',
+                          content: '不能旁观自己的游戏',
+                          showCancel: false,
+                          confirmText: '返回首页',
+                          confirmColor: '#df5c3e',
+                          mask: true,
+                          complete: res => {
+                            wx.switchTab({
+                              url: '/pages/index/main'
+                            })
+                            that.$store.commit('getmodal', true)
+                          }
+                        })
+                      }
                   }
                 }
               })
