@@ -77,7 +77,7 @@
         }else{
           days=day;
         }
-        return data.getFullYear()+"-"+months+"-"+days;
+        return data.getFullYear()+"/"+months+"/"+days;
       }
     },
     onLoad: function (option) {
