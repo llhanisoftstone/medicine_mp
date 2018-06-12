@@ -142,6 +142,7 @@
       box-sizing: border-box;
       justify-content: space-between;
       .user_item{
+        max-width:257px/2;
         div{
           width: 159px/2;
           height: 159px/2;
@@ -158,14 +159,19 @@
     h4{
       margin-top:15px/2;
       font-size: 28px/2;
+      overflow: hidden;
+      text-overflow: ellipsis;
       color: #333;
-      height: 28px/2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      height: 32px/2;
+      line-height: 32px/2;
+      display: block;
+      text-align: center;
+      white-space: nowrap;
+      width:159px/2;
     }
     p{
       margin-top:12px/2;
+      max-width:159px/2;
       font-size: 28px/2;
       color: #333;
       height: 28px/2;
@@ -225,7 +231,7 @@
   .btn_box{
     margin-top:906px/2;
     height: 70px/2;
-    padding: 0 66px/2;
+    padding: 0 8%;
     box-sizing: border-box;
     align-items: center;
     justify-content: space-between;

@@ -191,8 +191,8 @@
       .gift{
         position: absolute;
         top:-60px/2;
-        left:-38px/2;
-        width: 205px/2;
+        left:-26px/2;
+        width: 185px/2;
         padding-top: 80px/2;
         height: auto;
         .a_up{
@@ -225,10 +225,10 @@
         }
       }
       .gift_r{
-        width: 217px/2;
+        width: 194px/2;
         display: flex;
         top:-8px/2;
-        left:-176px/2;
+        left:-231.6%;
         align-items: center;
         padding-top: 0;
        }
@@ -245,7 +245,7 @@
          top: 145px/2;
        }
       &:nth-of-type(4){
-         left:668px/2;
+         left:89.06%;
          top: 287px/2;
        }
     &:nth-of-type(5){

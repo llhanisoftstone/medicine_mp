@@ -72,7 +72,7 @@
           <a href="" :_id="v.id">挑战</a>
         </li>
       </ul>
-      <div id="zhezhao_fu" class="tryoutModelBox" v-if="isshowsign">
+      <div id="zhezhao_fu" catchtouchmove='true' class="tryoutModelBox" v-if="isshowsign">
         <div class="zhezhao_zi">
           <div class="zhezhao_div">
             <div class="zhezhao_div3 co_333333">签到规则说明</div>
@@ -115,7 +115,8 @@
               nowdate:"",
               nowpointer:0,
               getpointer:5,
-              isshowsign:false
+              isshowsign:false,
+              r_id:0
             }
         },
       methods: {
@@ -312,15 +313,14 @@
       },
       onLoad(){
         this.isshowsign=false;
-        this.watchsocket();
+        this.watchsocket()
       },
       onShow(){
-        this.watchsocket();
-        this.getpage()
+        this.watchsocket()
       },
       onHide(){
         this.$socket.removeAllListeners('data_chain')
-      },
+      }
 
     }
 </script>
@@ -578,7 +578,7 @@
         .text{
           float:left;
           max-width:244px;
-          font-size:12px;
+          font-size:11px;
           color:#333;
           line-height:20px;
         }
@@ -591,7 +591,7 @@
       background:#f08300;
       color:#fff;
       font-size:15px;
-      margin:18px auto 0;
+      margin:20px auto 0;
       text-align:center;
       line-height:37px;
     }

@@ -34,7 +34,9 @@
                 other_uid:'',
                 from: 2,                //  1 好友  2全网    好友添加按钮
                 again:0,                 //是否重复挑战   好友对战使用
-                router:0                //0返回   1跳转
+                router:0,                //0返回   1跳转
+                isend:false,               //是否已发送匹配请求
+                rout:null              // 延时跳转页面
             }
         },
         methods: {
@@ -58,11 +60,27 @@
             this.$store.commit('get_answer',{})
             this.$store.commit('get_step',0)
             this.$store.commit('get_room','')
+            clearTimeout(this.rout)
+            this.rout=null
           },
           sendnews(){
-              console.log('11111111111111111111')
+            if(this.from == 1){
+              wx.setNavigationBarTitle({
+                title: '全网挑战'
+              })
+            }else{
+              wx.setNavigationBarTitle({
+                title: '好友对战'
+              })
+            }
+            console.log(`是否发送${this.isend}`)
             let that = this
             if(this.$store.state.issocket){
+              if(that.isend){
+                return
+              }
+              that.isend=true
+              console.log('发送成功')
               let senddata={
                 cmd:'fight',
                 u_id:that.$store.state.user.userid,
@@ -108,21 +126,30 @@
           if(option.again){
             this.again=1
           }else{
+//            this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
             this.again=0
           }
         }
         this.cleardata()
+        clearTimeout(this.rout)
+        this.isend=false
         console.log(option)
         if(option.id){
           this.other_uid = option.id
+        }else{
+          this.other_uid=''
         }
         this.from = option.from
         let that =this
-        this.$socket.on('data_chain', d=>{
+        if(this.$store.state.issocket){
+          this.sendnews()
+        }
+        that.$socket.removeAllListeners('data_chain')
+        that.$socket.on('data_chain', d=>{
           console.log(d)
           if(d.cmd == 'login'){
-            that.$store.commit('getsocket')
-            that.sendnews()
+              that.$store.commit('getsocket')
+              that.sendnews()
           }else if(d.cmd == 'answer'){
             if(d.step == 1){
               that.vs=true
@@ -134,41 +161,22 @@
                 that.$store.commit('get_step',d.step)
               }
               that.$store.commit('get_room',d.room_id)
-              let rout
-              clearTimeout(rout)
-              rout = setTimeout(function(){
+              that.rout = setTimeout(function(){
                 that.$socket.removeAllListeners('data_chain')
                 that.router=1
                 wx.redirectTo({
                   url:`/pages/pkanswer/main?from=${that.from}`
                 })
-              },1500)
+                that.isend=false
+              },500)
             }
           }
         })
       },
-      onShow:function(option){
-        if(option){
-          if(option.again){
-            this.again =1
-          }else{
-            this.again =0
-          }
-        }
-        this.cleardata()
-        console.log(option)
-        if(option){
-          if(option.id){
-            this.other_uid = option.id
-          }
-          if(option.from){
-            this.from = option.from
-          }
-        }
-      },
       onUnload(){
           if(this.router == 0){
             this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
+            this.isend=false
           }
       },
       onShareAppMessage(res){
@@ -279,10 +287,13 @@
       left:26px/2;
       font-size: 36px/2;
       color: #333;
-      height: 36px/2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 40px/2;
+      white-space: nowrap;
+      text-align: center;
+      line-height: 40px/2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
     }
   .username{
     position: absolute;
@@ -291,10 +302,11 @@
     right:30px/2;
     font-size: 36px/2;
     color: #333;
-    height: 36px/2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 40px/2;
+    white-space: nowrap;
+    line-height: 40px/2;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
     .btn_box{
       position: absolute;

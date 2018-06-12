@@ -99,7 +99,6 @@
           border-radius: 50%;
           background: #fff;
           border:3px solid #fff;
-          overflow: hidden;
           display: flex;
           box-sizing: border-box;
           margin-left:50px/2;

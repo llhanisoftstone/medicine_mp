@@ -245,7 +245,7 @@
   .nogetList{
     padding-top: 290px;
     box-sizing:border-box;
-    background: url(../../../static/img/empty.jpg) center 100px no-repeat;
+    background: url(../../../static/img/konhyemain.jpg) center 100px no-repeat;
     background-size:145px 148px;
     width: 100%;
     height: 297px;
