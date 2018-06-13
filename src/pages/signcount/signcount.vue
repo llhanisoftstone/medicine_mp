@@ -391,14 +391,14 @@
       justify-content: space-between;
       li{
         width: 220px/2;
-        height: 280px/2;
+        height: 327px/2;
         box-shadow: #acacac 4px/2 5px/2 15px/2;
         margin-bottom:20px/2;
         border-radius: 10px/2;
         background: #fff;
         div{
           width: 220px/2;
-          height: 173px/2;
+          height: 220px/2;
           box-sizing: border-box;
           padding: 20px/2;
           image{

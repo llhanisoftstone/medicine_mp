@@ -95,6 +95,13 @@
       }
     },
     onShareAppMessage(res){
+        let that =this
+        let til = ''
+      if(that.isreward == 0){
+            til = '@你 答题赢礼品，千种礼券任你选'
+      }else{
+          til = '@你 20枚银两get，下一关等你哦~'
+      }
       if (res.from === 'menu') {
         // 来自页面内转发按钮
         console.log(res.target)

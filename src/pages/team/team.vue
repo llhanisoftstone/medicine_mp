@@ -92,18 +92,20 @@
       </div>
       <div class="publish_box">
         <div>
-          <input type="text" v-model="content" cursor-spacing='15'>
+            <input type="text" v-model="content" cursor-spacing='15' @confirm="send">
         </div>
         <a class="send_btn" @click="send">发表</a>
         <a @click="userTools(user.tools[0].amount,1)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount}}</span></a>
         <a @click="userTools(user.tools[1].amount,2)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount}}</span></a>
       </div>
+      <mptoast/>
     </div>
 </template>
 
 <script type="javascript">
   import counddown from '../../components/countdown.vue'
   import answer from '../../components/answer.vue'
+  import mptoast from '../../components/mptoast'
 
   export default {
         name: 'team',
@@ -128,7 +130,7 @@
               istime:false,                   //是否使用过延时
               timesfn:null,                     //定时器
               isjoin:false,                     // 是否发送加入房间请求
-              is_f_click:-1                        //亲友团选择答案
+              is_f_click:-1,                        //亲友团选择答案
             }
         },
         methods: {
@@ -146,6 +148,7 @@
                   return
               }
               if(this.times == 0){
+                this.$mptoast('暂无该道具,请前往个人中心购买');
                 return
               }
             if(nub>0){
@@ -163,6 +166,7 @@
                 }
               }else if(Number(id) == 2){
                   if(this.istime){
+                    this.$mptoast('一道题目只能使用一次');
                       return
                   }
                   if(this.times == 0){
@@ -189,7 +193,7 @@
               }
             }
           },
-            countdownfn(){     //倒计时
+            countdownfn(){         //倒计时
               let that=this
               if(!that.isstart){
                   return
@@ -213,6 +217,9 @@
                       game_type:2,
                       game_style:3
                     })
+                  wx.showLoading({
+                    mask:true
+                  })
                 }
             },
             repeat(){   //重新开始
@@ -227,6 +234,9 @@
                   game_type:2,
                   game_style:3,
                   play_again:1
+                })
+                wx.showLoading({
+                  mask:true
                 })
               }
             },
@@ -361,7 +371,8 @@
         },
         components: {
           counddown,
-          answer
+          answer,
+          mptoast
         },
         computed:{
             userinfo(){
@@ -386,7 +397,7 @@
         console.log(res.target)
       }
       return {
-        title: '分享战绩',
+        title: '@你 20枚银两get，下一关等你哦~',
         path: '/pages/index/main',
         success: (r)=>{
           console.log(r)
@@ -578,6 +589,7 @@
               that.isshow=true
               that.index = d.other_reply == null?-1:d.other_reply
               til=setTimeout(function(){
+                  wx.hideLoading()
                 that.$store.commit('get_answer',d.details[0])
                 that.is_f_click=-1
                 that.iswin=0
