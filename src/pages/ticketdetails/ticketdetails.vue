@@ -77,7 +77,7 @@
         }else{
           days=day;
         }
-        return data.getFullYear()+"-"+months+"-"+days;
+        return data.getFullYear()+"/"+months+"/"+days;
       }
     },
     onLoad: function (option) {
@@ -163,6 +163,13 @@
         color: #666666;
         font-size: 28px/2;
         line-height: 80px/2;
+        display: -webkit-box;
+        overflow: hidden;
+        white-space: normal!important;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
       }
     }
   }

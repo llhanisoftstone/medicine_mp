@@ -23,12 +23,7 @@
         if (res.code == 200){
           that.title = res.rows[0].title;
           that.create_time = this.conversionTime(res.rows[0].create_time);
-          var dt = res.rows[0].details;
-          if (dt){
-            var aimurl = that.$store.url+"/upload";
-            dt.replace(/\/upload/g, aimurl);
-          }
-          that.details = dt;
+          that.details = res.rows[0].details;
         }
       },
       conversionTime(time){
@@ -50,7 +45,7 @@
         }else{
           days=day;
         }
-        return data.getFullYear()+"-"+months+"-"+days;
+        return data.getFullYear()+"/"+months+"/"+days;
       }
     },
 
