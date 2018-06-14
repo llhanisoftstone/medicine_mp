@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div class="hot-info">
+      <div class="hot-info" v-if="is_hot_hide">
         <div class="common-head hot-head">
           <span class="hot-icon">热门关注</span>
           <ul class="hot-list">
@@ -12,8 +12,8 @@
           </ul>
         </div>
       </div>
-      <div class="line-division"></div>
-      <div class="handbook-info">
+      <div class="handbook-info" v-if="is_bl_hide">
+        <div class="line-division"></div>
         <div class="common-head headbook-head">
           <span class="handbook-icon">办理手册</span>
           <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl'"><span>更多></span></a>
@@ -45,8 +45,8 @@
           </ul>
         </div>
       </div>
-      <div class="line-division"></div>
-      <div class="policy-list">
+      <div class="policy-list" v-if="is_bk_hide">
+        <div class="line-division"></div>
         <div class="common-head policy-head">
           <span class="policy-icon">政策百科</span>
           <a :href="'/pages/policylist/main?pid=zcbk'" class="ui-link"><span>更多></span></a>
@@ -85,6 +85,9 @@
   export default {
     data () {
       return {
+        is_hot_hide: false,
+        is_bl_hide: false,
+        is_bk_hide: false,
         hot_list:[],
         headbook_list:[],
         policy_list:[]
@@ -101,18 +104,30 @@
               res.hots[i]._index = i+1;
             }
             that.hot_list = res.hots;
+            that.is_hot_hide = true;
+          }else{
+            that.hot_list = [];
+            that.is_hot_hide = false;
           }
           if (res.zcbl.length > 0){
             for (var i=0; i<res.zcbl.length; i++){
               res.zcbl[i].pic_abbr = 'https://policy.lifeonway.com'+res.zcbl[i].pic_abbr;
             }
             that.headbook_list = res.zcbl;
+            that.is_bl_hide = true;
+          }else{
+            that.headbook_list = [];
+            that.is_bl_hide = false;
           }
           if (res.zcbk.length > 0){
             for (var i=0; i<res.zcbk.length; i++){
               res.zcbk[i].pic_abbr = 'https://policy.lifeonway.com'+res.zcbk[i].pic_abbr;
             }
             that.policy_list = res.zcbk;
+            that.is_bk_hide = true;
+          }else{
+            that.policy_list = [];
+            that.is_bk_hide = false;
           }
         }
       }
@@ -132,7 +147,7 @@
   @import "../../static/less/common.less";
   .common-head{
     line-height: 0.36rem;
-    margin: 0.234667rem 0 0 0;
+    margin: 0.126rem 0 0 0;
     position: relative;
   }
   .common-head .ui-link{
@@ -151,7 +166,6 @@
   }
   .hot-icon{
     display: block;
-    height: 0.35rem;
     line-height: 0.4rem;
     font-size: 0.32rem;
     color: #df5c3e;
@@ -162,7 +176,6 @@
   }
   .handbook-icon{
     display: block;
-    height: 0.35rem;
     line-height: 0.4rem;
     font-size: 0.32rem;
     color: #df5c3e;
@@ -173,7 +186,6 @@
   }
   .policy-icon{
     display: block;
-    height: 0.35rem;
     line-height: 0.4rem;
     font-size: 0.32rem;
     color: #df5c3e;
