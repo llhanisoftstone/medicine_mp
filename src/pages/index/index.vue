@@ -30,13 +30,13 @@
         </a>
       </div>
     </div>
-    <div class="gift_title"><span></span><i></i><image src="/static/img/liwu.png"></image>礼物店<i></i><span></span></div>
+    <div class="gift_title"><span></span><i></i><image src="/static/img/liwu.png"></image>为礼物而战<i></i><span></span></div>
     <ul class="gift_list">
       <li v-for="(v,i) in win_treasure" @click="reward(v.id)">
         <div>
           <image :src="v.picpath"></image>
         </div>
-        <h3>{{v.name}}</h3>
+        <h3>{{v.price}}代金券</h3>
         <a href="">挑战</a>
       </li>
     </ul>

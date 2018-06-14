@@ -109,6 +109,7 @@
       return {
         title: '分享战绩',
         path: '/pages/index/main',
+        imageUrl: `${that.$store.state.url}/admin/img/success.jpg`,
         success: (r)=>{
           console.log(r)
         },

@@ -101,6 +101,7 @@
         return {
           title: til,
           path: '/pages/index/main',
+          imageUrl: `${that.$store.state.url}/admin/img/success.jpg`,
           success: (r)=>{
             console.log(r)
           },

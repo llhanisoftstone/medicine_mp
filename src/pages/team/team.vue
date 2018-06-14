@@ -405,6 +405,7 @@
       return {
         title: '@你 20枚银两get，下一关等你哦~',
         path: '/pages/index/main',
+        imageUrl: `${that.$store.state.url}/admin/img/success.jpg`,
         success: (r)=>{
           console.log(r)
         },
