@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h2>&emsp;#{{title}}</h2>
+      <h2>#{{title}}</h2>
       <h4 :class="{'top':distance==1}">{{answer}}</h4>
       <slot name="list"></slot>
     </div>
@@ -34,6 +34,7 @@
       width: 524px/2;
       line-height: 40px/2;
       margin-bottom: 70px/2;
+      text-align: justify;
     }
     .top{
       margin-top:23px/2;

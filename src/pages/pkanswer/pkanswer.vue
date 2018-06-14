@@ -39,6 +39,7 @@
       <div class="prop_box">
         <prop :istimes="false" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
       </div>
+      <mptoast/>
     </div>
 </template>
 
@@ -47,7 +48,11 @@
   import fraction from '../../components/fraction.vue'
   import answer from '../../components/answer.vue'
   import prop from '../../components/prop.vue'
-    export default {
+  import mptoast from '../../components/mptoast'
+
+
+
+  export default {
         name: 'pkanswer',
         data(){
             return {
@@ -173,7 +178,8 @@
           counddown,
           fraction,
           answer,
-          prop
+          prop,
+          mptoast
         },
         computed:{
           userinfo(){

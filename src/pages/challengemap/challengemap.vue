@@ -115,8 +115,9 @@
           console.log(res.target)
         }
         return {
-          title: '邀请好友助阵',
+          title: '@你 助力好友一起闯关吧~',
           path: `/pages/team/main?id=${that.$store.state.user.userid}&&ismy=1`,
+          imageUrl: `${that.$store.state.url}/admin/img/team.jpg`,
           success: (r)=>{
             that.team()
           },
