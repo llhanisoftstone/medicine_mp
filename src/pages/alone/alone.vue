@@ -114,6 +114,9 @@
             if(that.gameover){
               return
             }
+            if(that.isclick){
+                return
+            }
             if(that.times == 0){
               return
             }
@@ -170,8 +173,6 @@
             that.isclick=false
             that.gameover=false
             that.tool_id=[]
-            clearInterval(that.atimefn)
-            that.atimefn=null
           }
         },
         components: {
@@ -201,7 +202,8 @@
       let that =this
       that.left=0
       that.cleardata()
-      clearInterval(this.atimefn)
+      clearInterval(that.atimefn)
+      that.atimefn=null
       that.atimefn=setInterval(()=>{
         that.countdownfn()
       },1000)

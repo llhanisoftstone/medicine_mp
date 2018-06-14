@@ -201,6 +201,11 @@
               if(that.gameover){
                 return
               }
+              if(that.isclick){
+                  if(that.challenger == that.$store.state.user.userid){
+                      return
+                  }
+              }
               if(that.times == 0){
                 return
               }
