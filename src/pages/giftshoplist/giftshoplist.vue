@@ -56,7 +56,7 @@
       wx.stopPullDownRefresh() //停止下拉刷新
     },
     onReachBottom () {
-      this.pages++;
+      this.page++;
       this.loadmore()
       // 上拉加载
     },
