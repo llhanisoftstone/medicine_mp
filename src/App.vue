@@ -2,9 +2,12 @@
 export default {
   created () {
     let that = this
-    this.getLogin()
+//    this.getLogin()
     this.$socket.on('connect', () => {
       console.log('connect success')
+      if (!that.$store.state.user.userid) {
+        that.getLogin()
+      }
 //      if (!that.$store.state.issocket) {
 //        this.$socket.emit('data_chain', {
 //          cmd: 'login',

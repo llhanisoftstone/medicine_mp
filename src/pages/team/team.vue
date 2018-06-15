@@ -22,7 +22,8 @@
         <counddown :time="times"></counddown>
       </div>
       <div class="answer" v-if="isstart&&iswin==0">
-        <answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="1">
+        <!--<answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="1">-->
+        <answer title="题库由西安市人社局失业保险处提供" :answer="answer.name" distance="1">
           <ul slot="list" class="answer_box_ul">
             <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right,'friend_c':is_f_click==i}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}<span>{{stat[i]}}人</span></li>
           </ul>
@@ -200,6 +201,11 @@
               }
               if(that.gameover){
                 return
+              }
+              if(that.isclick){
+                  if(that.challenger == that.$store.state.user.userid){
+                      return
+                  }
               }
               if(that.times == 0){
                 return
@@ -399,6 +405,7 @@
       return {
         title: '@你 20枚银两get，下一关等你哦~',
         path: '/pages/index/main',
+        imageUrl: `${that.$store.state.url}/admin/img/success.jpg`,
         success: (r)=>{
           console.log(r)
         },

@@ -17,7 +17,8 @@
           <h2 v-if="isprop">您使用了延迟针，时间延长了20s</h2>
         </div>
         <div class="answer">
-          <answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="1">
+          <!--<answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="1">-->
+          <answer title="题库由西安市人社局失业保险处提供" :answer="answer.name" distance="1">
             <ul slot="list" class="answer_box_ul">
               <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}</li>
             </ul>
@@ -114,6 +115,9 @@
             if(that.gameover){
               return
             }
+            if(that.isclick){
+                return
+            }
             if(that.times == 0){
               return
             }
@@ -170,8 +174,6 @@
             that.isclick=false
             that.gameover=false
             that.tool_id=[]
-            clearInterval(that.atimefn)
-            that.atimefn=null
           }
         },
         components: {
@@ -201,7 +203,8 @@
       let that =this
       that.left=0
       that.cleardata()
-      clearInterval(this.atimefn)
+      clearInterval(that.atimefn)
+      that.atimefn=null
       that.atimefn=setInterval(()=>{
         that.countdownfn()
       },1000)

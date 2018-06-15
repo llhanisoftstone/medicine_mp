@@ -4,13 +4,13 @@
         <div></div>
       </div>
       <div class="aboutus_text">
-        <div class="ab_title">陕西人社政策大咖</div>
-        <div class="ab_content">Ver&nbsp;&nbsp;1.0.0</div>
+        <div class="ab_title">公共政策宣传平台</div>
+        <div class="ab_content">V1.0.0</div>
       </div>
       <div class="foot">
         <p>Copyright&copy;2018</p>
-        <p>本平台由陕西省人力资源和社会保障厅授权</p>
-        <p>由<span v-on:click="companyclick">西安藤罗网络科技有限公司</span>独家运营</p>
+        <p>西安市人社局失业保险处指导</p>
+        <p><span v-on:click="companyclick">西安藤罗网络科技有限公司</span>设计开发</p>
         <p>TEL：029-81101859</p>
       </div>
       <div class="model" v-if="seen" @click="show1()">
