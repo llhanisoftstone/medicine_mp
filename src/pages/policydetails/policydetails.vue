@@ -22,30 +22,21 @@
         let res = await this.$get('/rs/infomation/'+pid);
         if (res.code == 200){
           that.title = res.rows[0].title;
-          that.create_time = this.conversionTime(res.rows[0].create_time);
+          that.create_time = this.conversionTime(res.rows[0].create_time,'/');
           that.details = res.rows[0].details;
         }
       },
-      conversionTime(time){
+      conversionTime(time,sign){
         if(time==null){
           return;
         }
+        time=time.replace(/-/g, '/');
         var data = new Date(time);
         var month=parseInt(data.getMonth()+1);
         var months="";
-        if(month<10){
-          months="0"+month;
-        }else{
-          months=month;
-        }
+        months=month;
         var day=data.getDate();
-        var days="";
-        if(day<10){
-          days="0"+day;
-        }else{
-          days=day;
-        }
-        return data.getFullYear()+"/"+months+"/"+days;
+        return data.getFullYear()+sign+months+sign+day;
       }
     },
 
