@@ -7,7 +7,7 @@
             <div>
               <image :src="card.ticket_pic"></image>
             </div>
-            <p>{{card.title}}</p>
+            <p>{{card.ticket_price}}元代金券</p>
           </li>
           <li>
             <div>
@@ -99,6 +99,13 @@
       justify-content: center;
       align-items: center;
     }
+    }
+    li:nth-of-type(1){
+      image{
+        width: 140px/2;
+        height: 140px/2;
+        border-radius: 10px/2;
+      }
     }
   }
     .fail{
