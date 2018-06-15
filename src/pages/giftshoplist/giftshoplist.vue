@@ -64,6 +64,8 @@
       async getpolicyList() {
         let that = this;
         let data = {
+          page:this.page,
+          size:this.size,
           u_id:that.$store.state.user.userid,
           order:'status asc'
         };
@@ -134,6 +136,7 @@
       }
     },
     onShow: function onShow() {
+      this.policy_list=[];
       this.getpolicyList()//获取数据
     }
   }
@@ -142,7 +145,7 @@
 <style scoped lang="less">
   @import "../../static/less/common.less";
   .mainlist{
-    padding: 21px/2 26px/2;
+    padding: 21px/2 16px/2 21px/2 26px/2;
   }
   .nogetList{
     padding-top: 290px;
@@ -192,6 +195,7 @@
     .item_img2{
       width: 704px/2;
       height:305px/2;
+      box-shadow: 5px/2 10px/2 10px/2 rgba(101, 101, 101, 0.3);
     }
     .item_img1{
       width: 698px/2;
@@ -225,6 +229,7 @@
     .item_logo{
       width: 127px/2;
       height: 127px/2;
+      border-radius: 50%;
       margin-top: 2px/2;
       margin-left: 2px/2;
     }
