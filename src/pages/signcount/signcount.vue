@@ -68,7 +68,7 @@
           <div>
             <image :src="v.picpath"></image>
           </div>
-          <h3>{{v.name}}</h3>
+          <h3>{{v.price}}元代金券</h3>
           <a href="" :_id="v.id">挑战</a>
         </li>
       </ul>
