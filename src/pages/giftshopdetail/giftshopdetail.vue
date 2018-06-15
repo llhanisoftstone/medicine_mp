@@ -1,7 +1,7 @@
 <template>
   <div class="main">
-    <div class="imgk"><img :src="logo_url" alt=""></div>
-    <p class="title">{{title}}</p>
+    <div class="imgk"><img :src="piclogo" alt=""></div>
+    <p class="title">{{name}}</p>
     <p class="phone">{{phone}}</p>
     <p class="address">{{address}}</p>
     <div class="codek">
@@ -18,8 +18,8 @@
   export default {
     data(){
       return {
-        logo_url:'',
-        title:'',
+        piclogo:'',
+        name:'',
         phone:'',
         address:'',
         code:'',
@@ -34,19 +34,19 @@
         let that = this;
         let res = await this.$get('/rs/member_ticket/'+pid);
         if (res.code == 200){
-          if(res.rows[0].logo_url){
-            if(res.rows[0].logo_url.substring(0,4)!="http"){
-              res.rows[0].logo_url = 'https://policy.lifeonway.com'+res.rows[0].logo_url;
+          if(res.rows[0].piclogo){
+            if(res.rows[0].piclogo.substring(0,4)!="http"){
+              res.rows[0].piclogo = 'https://policy.lifeonway.com'+res.rows[0].piclogo;
             }
-            that.logo_url = res.rows[0].logo_url
+            that.piclogo = res.rows[0].piclogo
           }else{
-            that.logo_url = "/static/img/logo_moren.jpg";
+            that.piclogo = "/static/img/logo_moren.jpg";
           }
-          that.title = res.rows[0].title
+          that.name = res.rows[0].name
           that.phone = res.rows[0].phone
           that.address = res.rows[0].address
           that.code = res.rows[0].ticket_code
-          that.createQrCode(res.rows[0].ticket_code, "mycanvas", 145, 145)
+          that.createQrCode(res.rows[0].ticket_code, "mycanvas", 170, 170)
         }
       },
       createQrCode:function(url,canvasId,cavW,cavH){
@@ -86,12 +86,13 @@
     padding: 80px/2 20px/2;
   }
   .imgk{
-    width: 320px/2;
-    height:197px/2;
+    width: 220px/2;
+    height:220px/2;
     margin:0 auto;
     img{
-      width: 320px/2;
-      height:197px/2;
+      width: 220px/2;
+      height:220px/2;
+      border-radius: 50%;
     }
   }
   .title{
@@ -111,13 +112,11 @@
   .codek{
     width: 350px/2;
     height:350px/2;
-    border:1px solid #e2e2e2;
     margin: 56px/2 auto 0;
     padding-top:22px/2;
     box-sizing: border-box;
     .imgkqrcode{
       margin:0 auto;
-      margin-left: 24px/2;
     }
   }
   .codeinfo{
@@ -126,8 +125,8 @@
     padding-top: 80px/2;
   }
   .canvas_sty{
-    width: 270px/2;
-    height: 270px/2;
-    background-size: 270px/2 270px/2;
+    width: 340px/2;
+    height: 340px/2;
+    background-size: 340px/2 340px/2;
   }
 </style>

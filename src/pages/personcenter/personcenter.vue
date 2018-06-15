@@ -27,6 +27,7 @@
       return {
         isnewuser: true,
         seen:false,
+        points:0
       }
     },
     computed:{
@@ -39,7 +40,7 @@
     },
     methods: {
       async getuserperson(){
-        let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
+        let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});debugger
         if(aa.code==200){
           this.$store.commit('get_sliver',aa.rows[0].points);
           this.$store.commit('get_openid',aa.rows[0].open_id);
@@ -51,15 +52,10 @@
         }
       }
     },
-    mounted(){
-      this.getuserperson()
-    },
-    created (){
-    },
     onShow(){
       this.getuserperson();
     }
-    }
+  }
 </script>
 
 <style scoped lang="css">

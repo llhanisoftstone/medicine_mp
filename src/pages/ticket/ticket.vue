@@ -5,7 +5,7 @@
           <li class="list-li" v-for="(item,i) in ticket_list" :key="item.id">
             <div class="upper-part">
               <div class="shade"></div>
-              <img :src="item.picurl" class="background-img"></img>
+              <img :src="item.piclogo" class="background-img"></img>
               <div class="ticket-info">
                 <div class="ticket-name">{{item.name}}</div>
                 <div class="ticket-count">{{item.total_amount}}张</div>
@@ -77,7 +77,7 @@
         if (res.code == 200){
           if (res.rows.length > 0){
             for (var i=0; i<res.rows.length; i++){
-              res.rows[i].picurl = 'https://policy.lifeonway.com'+res.rows[i].picurl;
+              res.rows[i].piclogo = 'https://policy.lifeonway.com'+res.rows[i].piclogo;
               res.rows[i].surplus_count = res.rows[i].total_amount - res.rows[i].total_count;
             }
             that.ticket_list = res.rows;
@@ -91,9 +91,6 @@
       loadmore () {
         this.getticketList();
       }
-    },
-    onLoad: function () {
-      this.getticketList()//获取数据
     },
     onShow: function onShow() {
       this.getticketList()//获取数据
