@@ -39,9 +39,6 @@
   import prop from '../../components/prop.vue'
   import mptoast from '../../components/mptoast'
 
-
-
-
   export default {
         name: 'alone',
         data(){

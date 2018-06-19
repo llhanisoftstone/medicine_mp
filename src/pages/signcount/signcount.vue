@@ -443,8 +443,9 @@
     .month ul {
       padding: 0;
       display: flex;
-      margin:27px 39px 0;
+      margin:17px 39px 0;
       justify-content: space-between;
+      align-items: center;
     }
 
     .year-month {
@@ -472,21 +473,20 @@
       letter-spacing: 3px;
     }
     .arrow{
-      padding-top:3px;
       width:50px;
       color:#df5c3e;
+      padding:10px;
     }
     .arrow_left{
-      padding-left:20px;
+      padding:20px;
       text-align:left;
     }
     .arrow_right{
-      padding-right:20px;
       text-align:right;
     }
     .weekdays {
       margin: 0;
-      padding: 10px 0;
+      padding:0 0 10px 0;
       display: flex;
       flex-wrap: wrap;
       color: #333;

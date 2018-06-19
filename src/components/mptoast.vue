@@ -48,7 +48,7 @@
     font-size: 14px;
     color: #ffffff;
     background-color: #666666;
-    top:55%;
+    top:65%;
     left: 50%;
     display: flex;
     flex-direction: column;
