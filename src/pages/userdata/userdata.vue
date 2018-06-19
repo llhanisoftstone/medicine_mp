@@ -48,14 +48,15 @@
             ref="mpvuePicker"
             :pickerValueArray="pickerValueArray"
             :pickerValueDefault='pickerValueDefault'
-            :mode="multiSelector"
-            @onConfirm="onConfirm" :deepLength="3">
+            :mode="mode"
+            :deepLength='deepLength'
+            @onConfirm="onConfirm" >
           </mpvue-picker>
           </div>
         </div>
         <div class="item">
           <div class="title">详细地址</div>
-          <input type="text"   placeholder="详细地址" maxlength="18" confirm-type="done" v-model='cardNum' />
+          <input type="text"   placeholder="详细地址" maxlength="18" confirm-type="done" v-model='address' />
         </div>
         <div :class="{'btn':true}" @click="submitData">
           确&nbsp;&nbsp;&nbsp;认
@@ -80,2010 +81,2005 @@
               rank:1,
               pickerValueArray:  [
                 {
-                  lable: "北京",
+                  label: "北京",
                   value:0,
                   children: [
                     {
-                      lable: "北京",
+                      label: "北京",
                       value:1,
-                      children: [{lable: "东城区",value:1}, {lable: "西城区",value:2}, {lable: "崇文区",value:3}, {lable: "宣武区",value:4}, {lable: "朝阳区",value:5}, {lable: "海淀区",value:6}, {lable: "丰台区",value:7}, {lable: "石景山区",value:8}, {lable: "房山区",value:9}, {lable: "通州区",value:10}, {lable: "顺义区",value:11}, {lable: "昌平区",value:12}, {lable: "大兴区",value:13}, {lable: "怀柔区",value:14}, {lable: "平谷区",value:15}, {lable: "门头沟区",value:16}, {lable: "密云县",value:17}, {lable: "延庆县",value:18}],
+                      children: [{label: "东城区",value:1}, {label: "西城区",value:2}, {label: "崇文区",value:3}, {label: "宣武区",value:4}, {label: "朝阳区",value:5}, {label: "海淀区",value:6}, {label: "丰台区",value:7}, {label: "石景山区",value:8}, {label: "房山区",value:9}, {label: "通州区",value:10}, {label: "顺义区",value:11}, {label: "昌平区",value:12}, {label: "大兴区",value:13}, {label: "怀柔区",value:14}, {label: "平谷区",value:15}, {label: "门头沟区",value:16}, {label: "密云县",value:17}, {label: "延庆县",value:18}],
                     }],
                 },
                 {
-                  lable: "广东",
+                  label: "广东",
                   value:0,
                   children: [
                     {
-                      lable: "广州",
+                      label: "广州",
                       value:1,
-                      children: [{lable: "越秀区",value:1}, {lable: "荔湾区",value:2}, {lable: "海珠区",value:3}, {lable: "天河区",value:4}, {lable: "白云区",value:5}, {lable: "黄埔区",value:6}, {lable: "番禺区",value:7}, {lable: "花都区",value:8}, {lable: "南沙区",value:9}, {lable: "萝岗区",value:10}, {lable: "增城市",value:11}, {lable: "从化市",value:12}],
+                      children: [{label: "越秀区",value:1}, {label: "荔湾区",value:2}, {label: "海珠区",value:3}, {label: "天河区",value:4}, {label: "白云区",value:5}, {label: "黄埔区",value:6}, {label: "番禺区",value:7}, {label: "花都区",value:8}, {label: "南沙区",value:9}, {label: "萝岗区",value:10}, {label: "增城市",value:11}, {label: "从化市",value:12}],
                     },
                     {
-                      lable: "深圳",
+                      label: "深圳",
                       value:1,
-                      children: [ {lable: "福田区",value:1}, {lable: "罗湖区",value:2}, {lable: "南山区",value:3}, {lable: "宝安区",value:4}, {lable: "龙岗区",value:5}, {lable: "盐田区",value:6}],
+                      children: [ {label: "福田区",value:1}, {label: "罗湖区",value:2}, {label: "南山区",value:3}, {label: "宝安区",value:4}, {label: "龙岗区",value:5}, {label: "盐田区",value:6}],
                     },
                     {
-                      lable: "珠海",
+                      label: "珠海",
                       value:1,
-                      children: [{lable: "香洲区",value:1}, {lable: "斗门区",value:2}, {lable: "金湾区",value:3}],
+                      children: [{label: "香洲区",value:1}, {label: "斗门区",value:2}, {label: "金湾区",value:3}],
                     },
                     {
-                      lable: "汕头",
+                      label: "汕头",
                       value:1,
-                      children: [ {lable: "金平区"}, {lable: "濠江区"}, {lable: "龙湖区"}, {lable: "潮阳区"}, {lable: "潮南区"}, {lable: "澄海区"}, {lable: "南澳县"}],
+                      children: [ {label: "金平区"}, {label: "濠江区"}, {label: "龙湖区"}, {label: "潮阳区"}, {label: "潮南区"}, {label: "澄海区"}, {label: "南澳县"}],
                     },
                     {
-                      lable: "韶关",
+                      label: "韶关",
                       value:1,
-                      children: [{lable: "浈江区"}, {lable: "武江区"}, {lable: "曲江区"}, {lable: "乐昌市"}, {lable: "南雄市"}, {lable: "始兴县"}, {lable: "仁化县"}, {lable: "翁源县"}, {lable: "新丰县"}, {lable: "乳源瑶族自治县"}],
+                      children: [{label: "浈江区"}, {label: "武江区"}, {label: "曲江区"}, {label: "乐昌市"}, {label: "南雄市"}, {label: "始兴县"}, {label: "仁化县"}, {label: "翁源县"}, {label: "新丰县"}, {label: "乳源瑶族自治县"}],
                     },
                     {
-                      lable: "佛山",
+                      label: "佛山",
                       value:1,
-                      children: [{lable: "禅城区"}, {lable: "南海区"}, {lable: "顺德区"}, {lable: "三水区"}, {lable: "高明区"}],
+                      children: [{label: "禅城区"}, {label: "南海区"}, {label: "顺德区"}, {label: "三水区"}, {label: "高明区"}],
                     },
                     {
-                      lable: "江门",
+                      label: "江门",
                       value:1,
-                      children: [{lable: "蓬江区"}, {lable: "江海区"}, {lable: "新会区"}, {lable: "恩平市"}, {lable: "台山市"}, {lable: "开平市"}, {lable: "鹤山市"}],
+                      children: [{label: "蓬江区"}, {label: "江海区"}, {label: "新会区"}, {label: "恩平市"}, {label: "台山市"}, {label: "开平市"}, {label: "鹤山市"}],
                     },
                     {
-                      lable: "湛江",
+                      label: "湛江",
                       value:1,
-                      children: [{lable: "赤坎区"}, {lable: "霞山区"}, {lable: "坡头区"}, {lable: "麻章区"}, {lable: "吴川市"}, {lable: "廉江市"}, {lable: "雷州市"}, {lable: "遂溪县"}, {lable: "徐闻县"}],
+                      children: [{label: "赤坎区"}, {label: "霞山区"}, {label: "坡头区"}, {label: "麻章区"}, {label: "吴川市"}, {label: "廉江市"}, {label: "雷州市"}, {label: "遂溪县"}, {label: "徐闻县"}],
                     },
                     {
-                      lable: "茂名",
+                      label: "茂名",
                       value:1,
-                      children: [{lable: "茂南区"}, {lable: "茂港区"}, {lable: "化州市"}, {lable: "信宜市"}, {lable: "高州市"}, {lable: "电白县"}],
+                      children: [{label: "茂南区"}, {label: "茂港区"}, {label: "化州市"}, {label: "信宜市"}, {label: "高州市"}, {label: "电白县"}],
                     },
                     {
-                      lable: "肇庆",
+                      label: "肇庆",
                       value:1,
-                      children: [{lable: "端州区"}, {lable: "鼎湖区"}, {lable: "高要市"}, {lable: "四会市"}, {lable: "广宁县"}, {lable: "怀集县"}, {lable: "封开县"}, {lable: "德庆县"}],
+                      children: [{label: "端州区"}, {label: "鼎湖区"}, {label: "高要市"}, {label: "四会市"}, {label: "广宁县"}, {label: "怀集县"}, {label: "封开县"}, {label: "德庆县"}],
                     },
                     {
-                      lable: "惠州",
+                      label: "惠州",
                       value:1,
-                      children: [{lable: "惠城区"}, {lable: "惠阳区"}, {lable: "博罗县"}, {lable: "惠东县"}, {lable: "龙门县"}],
+                      children: [{label: "惠城区"}, {label: "惠阳区"}, {label: "博罗县"}, {label: "惠东县"}, {label: "龙门县"}],
                     },
                     {
-                      lable: "梅州",
+                      label: "梅州",
                       value:1,
-                      children: [{lable: "梅江区"}, {lable: "兴宁市"}, {lable: "梅县"}, {lable: "大埔县"}, {lable: "丰顺县"}, {lable: "五华县"}, {lable: "平远县"}, {lable: "蕉岭县"}],
+                      children: [{label: "梅江区"}, {label: "兴宁市"}, {label: "梅县"}, {label: "大埔县"}, {label: "丰顺县"}, {label: "五华县"}, {label: "平远县"}, {label: "蕉岭县"}],
                     },
                     {
-                      lable: "汕尾",
+                      label: "汕尾",
                       value:1,
-                      children: [{lable: "城区"}, {lable: "陆丰市"}, {lable: "海丰县"}, {lable: "陆河县"}],
+                      children: [{label: "城区"}, {label: "陆丰市"}, {label: "海丰县"}, {label: "陆河县"}],
                     },
                     {
-                      lable: "河源",
+                      label: "河源",
                       value:1,
-                      children: [ {lable: "源城区"}, {lable: "紫金县"}, {lable: "龙川县"}, {lable: "连平县"}, {lable: "和平县"}, {lable: "东源县"}],
+                      children: [ {label: "源城区"}, {label: "紫金县"}, {label: "龙川县"}, {label: "连平县"}, {label: "和平县"}, {label: "东源县"}],
                     },
                     {
-                      lable: "阳江",
+                      label: "阳江",
                       value:1,
-                      children: [{lable: "江城区"}, {lable: "阳春市"}, {lable: "阳西县"}, {lable: "阳东县"}],
+                      children: [{label: "江城区"}, {label: "阳春市"}, {label: "阳西县"}, {label: "阳东县"}],
                     },
                     {
-                      lable: "清远",
+                      label: "清远",
                       value:1,
-                      children: [{lable: "清城区"}, {lable: "英德市"}, {lable: "连州市"}, {lable: "佛冈县"}, {lable: "阳山县"}, {lable: "清新县"}, {lable: "连山壮族瑶族自治县"}, {lable: "连南瑶族自治县"}],
+                      children: [{label: "清城区"}, {label: "英德市"}, {label: "连州市"}, {label: "佛冈县"}, {label: "阳山县"}, {label: "清新县"}, {label: "连山壮族瑶族自治县"}, {label: "连南瑶族自治县"}],
                     },
                     {
-                      lable: "东莞",
+                      label: "东莞",
                       value:1,
                       children: [],
                     },
                     {
-                      lable: "中山",
+                      label: "中山",
                       value:1,
                       children: [],
                     },
                     {
-                      lable: "潮州",
+                      label: "潮州",
                       value:1,
-                      children: [{lable: "湘桥区"}, {lable: "潮安县"}, {lable: "饶平县"}],
+                      children: [{label: "湘桥区"}, {label: "潮安县"}, {label: "饶平县"}],
                     },
                     {
-                      lable: "揭阳",
+                      label: "揭阳",
                       value:1,
-                      children: [ {lable: "榕城区"}, {lable: "普宁市"}, {lable: "揭东县"}, {lable: "揭西县"}, {lable: "惠来县"}],
+                      children: [ {label: "榕城区"}, {label: "普宁市"}, {label: "揭东县"}, {label: "揭西县"}, {label: "惠来县"}],
                     },
                     {
-                      lable: "云浮",
+                      label: "云浮",
                       value:1,
-                      children: [{lable: "云城区"}, {lable: "罗定市"}, {lable: "云安县"}, {lable: "新兴县"}, {lable: "郁南县"}],
+                      children: [{label: "云城区"}, {label: "罗定市"}, {label: "云安县"}, {label: "新兴县"}, {label: "郁南县"}],
                     }
                   ]
                 },
                 {
-                  lable: "上海",
+                  label: "上海",
                   value:0,
                   children: [
                     {
-                      lable: "上海",
+                      label: "上海",
                       value:1,
-                      children: [ {lable: "黄浦区"}, {lable: "卢湾区"}, {lable: "徐汇区"}, {lable: "长宁区"}, {lable: "静安区"}, {lable: "普陀区"}, {lable: "闸北区"}, {lable: "虹口区"}, {lable: "杨浦区"}, {lable: "宝山区"}, {lable: "闵行区"}, {lable: "嘉定区"}, {lable: "松江区"}, {lable: "金山区"}, {lable: "青浦区"}, {lable: "南汇区"}, {lable: "奉贤区"}, {lable: "浦东新区"}, {lable: "崇明县"}],
+                      children: [ {label: "黄浦区"}, {label: "卢湾区"}, {label: "徐汇区"}, {label: "长宁区"}, {label: "静安区"}, {label: "普陀区"}, {label: "闸北区"}, {label: "虹口区"}, {label: "杨浦区"}, {label: "宝山区"}, {label: "闵行区"}, {label: "嘉定区"}, {label: "松江区"}, {label: "金山区"}, {label: "青浦区"}, {label: "南汇区"}, {label: "奉贤区"}, {label: "浦东新区"}, {label: "崇明县"}],
                     }],
                 },
                 {
-                  lable: "天津",
+                  label: "天津",
                   value:0,
                   children: [
                     {
-                      lable: "天津",
-                      children: [{lable: "和平区"}, {lable: "河东区"}, {lable: "河西区"}, {lable: "南开区"}, {lable: "河北区"}, {lable: "红桥区"}, {lable: "塘沽区"}, {lable: "汉沽区"}, {lable: "大港区"}, {lable: "东丽区"}, {lable: "西青区"}, {lable: "北辰区"}, {lable: "津南区"}, {lable: "武清区"}, {lable: "宝坻区"}, {lable: "静海县"}, {lable: "宁河县"}, {lable: "蓟县"}],
+                      label: "天津",
+                      children: [{label: "和平区"}, {label: "河东区"}, {label: "河西区"}, {label: "南开区"}, {label: "河北区"}, {label: "红桥区"}, {label: "塘沽区"}, {label: "汉沽区"}, {label: "大港区"}, {label: "东丽区"}, {label: "西青区"}, {label: "北辰区"}, {label: "津南区"}, {label: "武清区"}, {label: "宝坻区"}, {label: "静海县"}, {label: "宁河县"}, {label: "蓟县"}],
                       value:1
                     }],
                 },
                 {
-                  lable: "重庆",
+                  label: "重庆",
                   value:0,
                   children: [
                     {
-                      lable: "重庆",
-                      children: [{lable: "渝中区"}, {lable: "大渡口区"}, {lable: "江北区"}, {lable: "南岸区"}, {lable: "北碚区"}, {lable: "渝北区"}, {lable: "巴南区"}, {lable: "长寿区"}, {lable: "双桥区"}, {lable: "沙坪坝区"}, {lable: "万盛区"}, {lable: "万州区"}, {lable: "涪陵区"}, {lable: "黔江区"}, {lable: "永川区"}, {lable: "合川区"}, {lable: "江津区"}, {lable: "九龙坡区"}, {lable: "南川区"}, {lable: "綦江县"}, {lable: "潼南县"}, {lable: "荣昌县"}, {lable: "璧山县"}, {lable: "大足县"}, {lable: "铜梁县"}, {lable: "梁平县"}, {lable: "开县"}, {lable: "忠县"}, {lable: "城口县"}, {lable: "垫江县"}, {lable: "武隆县"}, {lable: "丰都县"}, {lable: "奉节县"}, {lable: "云阳县"}, {lable: "巫溪县"}, {lable: "巫山县"}, {lable: "石柱土家族自治县"}, {lable: "秀山土家族苗族自治县"}, {lable: "酉阳土家族苗族自治县"}, {lable: "彭水苗族土家族自治县"}],
+                      label: "重庆",
+                      children: [{label: "渝中区"}, {label: "大渡口区"}, {label: "江北区"}, {label: "南岸区"}, {label: "北碚区"}, {label: "渝北区"}, {label: "巴南区"}, {label: "长寿区"}, {label: "双桥区"}, {label: "沙坪坝区"}, {label: "万盛区"}, {label: "万州区"}, {label: "涪陵区"}, {label: "黔江区"}, {label: "永川区"}, {label: "合川区"}, {label: "江津区"}, {label: "九龙坡区"}, {label: "南川区"}, {label: "綦江县"}, {label: "潼南县"}, {label: "荣昌县"}, {label: "璧山县"}, {label: "大足县"}, {label: "铜梁县"}, {label: "梁平县"}, {label: "开县"}, {label: "忠县"}, {label: "城口县"}, {label: "垫江县"}, {label: "武隆县"}, {label: "丰都县"}, {label: "奉节县"}, {label: "云阳县"}, {label: "巫溪县"}, {label: "巫山县"}, {label: "石柱土家族自治县"}, {label: "秀山土家族苗族自治县"}, {label: "酉阳土家族苗族自治县"}, {label: "彭水苗族土家族自治县"}],
                       value: 1
                     }],
                 },
                 {
-                  lable: "辽宁",
+                  label: "辽宁",
                   value:0,
                   children: [
                     {
-                      lable: "沈阳",
-                      children: [{lable: "沈河区"}, {lable: "皇姑区"}, {lable: "和平区"}, {lable: "大东区"}, {lable: "铁西区"}, {lable: "苏家屯区"}, {lable: "东陵区"}, {lable: "于洪区"}, {lable: "新民市"}, {lable: "法库县"}, {lable: "辽中县"}, {lable: "康平县"}, {lable: "新城子区"}],
+                      label: "沈阳",
+                      children: [{label: "沈河区"}, {label: "皇姑区"}, {label: "和平区"}, {label: "大东区"}, {label: "铁西区"}, {label: "苏家屯区"}, {label: "东陵区"}, {label: "于洪区"}, {label: "新民市"}, {label: "法库县"}, {label: "辽中县"}, {label: "康平县"}, {label: "新城子区"}],
                       value: 1,
                     },
                     {
-                      lable: "大连",
-                      children: [{lable: "请选择"}, {lable: "西岗区"}, {lable: "中山区"}, {lable: "沙河口区"}, {lable: "甘井子区"}, {lable: "旅顺口区"}, {lable: "金州区"}, {lable: "瓦房店市"}, {lable: "普兰店市"}, {lable: "庄河市"}, {lable: "长海县"}, {lable: "其他"}],
+                      label: "大连",
+                      children: [{label: "请选择"}, {label: "西岗区"}, {label: "中山区"}, {label: "沙河口区"}, {label: "甘井子区"}, {label: "旅顺口区"}, {label: "金州区"}, {label: "瓦房店市"}, {label: "普兰店市"}, {label: "庄河市"}, {label: "长海县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "鞍山",
-                      children: [{lable: "请选择"}, {lable: "铁东区"}, {lable: "铁西区"}, {lable: "立山区"}, {lable: "千山区"}, {lable: "海城市"}, {lable: "台安县"}, {lable: "岫岩满族自治县"}, {lable: "其他"}],
+                      label: "鞍山",
+                      children: [{label: "请选择"}, {label: "铁东区"}, {label: "铁西区"}, {label: "立山区"}, {label: "千山区"}, {label: "海城市"}, {label: "台安县"}, {label: "岫岩满族自治县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "抚顺",
-                      children: [{lable: "请选择"}, {lable: "顺城区"}, {lable: "新抚区"}, {lable: "东洲区"}, {lable: "望花区"}, {lable: "抚顺县"}, {lable: "清原满族自治县"}, {lable: "新宾满族自治县"}, {lable: "其他"}],
+                      label: "抚顺",
+                      children: [{label: "请选择"}, {label: "顺城区"}, {label: "新抚区"}, {label: "东洲区"}, {label: "望花区"}, {label: "抚顺县"}, {label: "清原满族自治县"}, {label: "新宾满族自治县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "本溪",
-                      children: [{lable: "请选择"}, {lable: "平山区"}, {lable: "明山区"}, {lable: "溪湖区"}, {lable: "南芬区"}, {lable: "本溪满族自治县"}, {lable: "桓仁满族自治县"}, {lable: "其他"}],
+                      label: "本溪",
+                      children: [{label: "请选择"}, {label: "平山区"}, {label: "明山区"}, {label: "溪湖区"}, {label: "南芬区"}, {label: "本溪满族自治县"}, {label: "桓仁满族自治县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "丹东",
-                      children: [{lable: "请选择"}, {lable: "振兴区"}, {lable: "元宝区"}, {lable: "振安区"}, {lable: "东港市"}, {lable: "凤城市"}, {lable: "宽甸满族自治县"}, {lable: "其他"}],
+                      label: "丹东",
+                      children: [{label: "请选择"}, {label: "振兴区"}, {label: "元宝区"}, {label: "振安区"}, {label: "东港市"}, {label: "凤城市"}, {label: "宽甸满族自治县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "锦州",
-                      children: [{lable: "请选择"}, {lable: "太和区"}, {lable: "古塔区"}, {lable: "凌河区"}, {lable: "凌海市"}, {lable: "黑山县"}, {lable: "义县"}, {lable: "北宁市"}, {lable: "其他"}],
+                      label: "锦州",
+                      children: [{label: "请选择"}, {label: "太和区"}, {label: "古塔区"}, {label: "凌河区"}, {label: "凌海市"}, {label: "黑山县"}, {label: "义县"}, {label: "北宁市"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "营口",
-                      children: [{lable: "请选择"}, {lable: "站前区"}, {lable: "西市区"}, {lable: "鲅鱼圈区"}, {lable: "老边区"}, {lable: "大石桥市"}, {lable: "盖州市"}, {lable: "其他"}],
+                      label: "营口",
+                      children: [{label: "请选择"}, {label: "站前区"}, {label: "西市区"}, {label: "鲅鱼圈区"}, {label: "老边区"}, {label: "大石桥市"}, {label: "盖州市"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "阜新",
-                      children: [{lable: "请选择"}, {lable: "海州区"}, {lable: "新邱区"}, {lable: "太平区"}, {lable: "清河门区"}, {lable: "细河区"}, {lable: "彰武县"}, {lable: "阜新蒙古族自治县"}, {lable: "其他"}],
+                      label: "阜新",
+                      children: [{label: "请选择"}, {label: "海州区"}, {label: "新邱区"}, {label: "太平区"}, {label: "清河门区"}, {label: "细河区"}, {label: "彰武县"}, {label: "阜新蒙古族自治县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "辽阳",
-                      children: [{lable: "请选择"}, {lable: "白塔区"}, {lable: "文圣区"}, {lable: "宏伟区"}, {lable: "太子河区"}, {lable: "弓长岭区"}, {lable: "灯塔市"}, {lable: "辽阳县"}, {lable: "其他"}],
+                      label: "辽阳",
+                      children: [{label: "请选择"}, {label: "白塔区"}, {label: "文圣区"}, {label: "宏伟区"}, {label: "太子河区"}, {label: "弓长岭区"}, {label: "灯塔市"}, {label: "辽阳县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "盘锦",
-                      children: [{lable: "请选择"}, {lable: "双台子区"}, {lable: "兴隆台区"}, {lable: "盘山县"}, {lable: "大洼县"}, {lable: "其他"}],
+                      label: "盘锦",
+                      children: [{label: "请选择"}, {label: "双台子区"}, {label: "兴隆台区"}, {label: "盘山县"}, {label: "大洼县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "铁岭",
-                      children: [{lable: "请选择"}, {lable: "银州区"}, {lable: "清河区"}, {lable: "调兵山市"}, {lable: "开原市"}, {lable: "铁岭县"}, {lable: "昌图县"}, {lable: "西丰县"}, {lable: "其他"}],
+                      label: "铁岭",
+                      children: [{label: "请选择"}, {label: "银州区"}, {label: "清河区"}, {label: "调兵山市"}, {label: "开原市"}, {label: "铁岭县"}, {label: "昌图县"}, {label: "西丰县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "朝阳",
-                      children: [{lable: "请选择"}, {lable: "双塔区"}, {lable: "龙城区"}, {lable: "凌源市"}, {lable: "北票市"}, {lable: "朝阳县"}, {lable: "建平县"}, {lable: "喀喇沁左翼蒙古族自治县"}, {lable: "其他"}],
+                      label: "朝阳",
+                      children: [{label: "请选择"}, {label: "双塔区"}, {label: "龙城区"}, {label: "凌源市"}, {label: "北票市"}, {label: "朝阳县"}, {label: "建平县"}, {label: "喀喇沁左翼蒙古族自治县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "葫芦岛",
-                      children: [{lable: "请选择"}, {lable: "龙港区"}, {lable: "南票区"}, {lable: "连山区"}, {lable: "兴城市"}, {lable: "绥中县"}, {lable: "建昌县"}, {lable: "其他"}],
+                      label: "葫芦岛",
+                      children: [{label: "请选择"}, {label: "龙港区"}, {label: "南票区"}, {label: "连山区"}, {label: "兴城市"}, {label: "绥中县"}, {label: "建昌县"}, {label: "其他"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                    {label: "其他"}],
                 },
                 {
-                  lable: "江苏",
+                  label: "江苏",
                   value:0,
                   children: [
                     {
-                      lable: "南京",
-                      children: [ {lable: "玄武区"}, {lable: "白下区"}, {lable: "秦淮区"}, {lable: "建邺区"}, {lable: "鼓楼区"}, {lable: "下关区"}, {lable: "栖霞区"}, {lable: "雨花台区"}, {lable: "浦口区"}, {lable: "江宁区"}, {lable: "六合区"}, {lable: "溧水县"}, {lable: "高淳县"}],
+                      label: "南京",
+                      children: [ {label: "玄武区"}, {label: "白下区"}, {label: "秦淮区"}, {label: "建邺区"}, {label: "鼓楼区"}, {label: "下关区"}, {label: "栖霞区"}, {label: "雨花台区"}, {label: "浦口区"}, {label: "江宁区"}, {label: "六合区"}, {label: "溧水县"}, {label: "高淳县"}],
                       value: 1
                     },
                     {
-                      lable: "苏州",
-                      children: [{lable: "金阊区"}, {lable: "平江区"}, {lable: "沧浪区"}, {lable: "虎丘区"}, {lable: "吴中区"}, {lable: "相城区"}, {lable: "常熟市"}, {lable: "张家港市"}, {lable: "昆山市"}, {lable: "吴江市"}, {lable: "太仓市"}],
+                      label: "苏州",
+                      children: [{label: "金阊区"}, {label: "平江区"}, {label: "沧浪区"}, {label: "虎丘区"}, {label: "吴中区"}, {label: "相城区"}, {label: "常熟市"}, {label: "张家港市"}, {label: "昆山市"}, {label: "吴江市"}, {label: "太仓市"}],
                       value: 1
                     },
                     {
-                      lable: "无锡",
-                      children: [{lable: "崇安区"}, {lable: "南长区"}, {lable: "北塘区"}, {lable: "滨湖区"}, {lable: "锡山区"}, {lable: "惠山区"}, {lable: "江阴市"}, {lable: "宜兴市"}],
+                      label: "无锡",
+                      children: [{label: "崇安区"}, {label: "南长区"}, {label: "北塘区"}, {label: "滨湖区"}, {label: "锡山区"}, {label: "惠山区"}, {label: "江阴市"}, {label: "宜兴市"}],
                       value: 1
                     },
                     {
-                      lable: "常州",
-                      children: [{lable: "钟楼区"}, {lable: "天宁区"}, {lable: "戚墅堰区"}, {lable: "新北区"}, {lable: "武进区"}, {lable: "金坛市"}, {lable: "溧阳市"}],
+                      label: "常州",
+                      children: [{label: "钟楼区"}, {label: "天宁区"}, {label: "戚墅堰区"}, {label: "新北区"}, {label: "武进区"}, {label: "金坛市"}, {label: "溧阳市"}],
                       value: 1
                     },
                     {
-                      lable: "镇江",
-                      children: [{lable: "京口区"}, {lable: "润州区"}, {lable: "丹徒区"}, {lable: "丹阳市"}, {lable: "扬中市"}, {lable: "句容市"}],
+                      label: "镇江",
+                      children: [{label: "京口区"}, {label: "润州区"}, {label: "丹徒区"}, {label: "丹阳市"}, {label: "扬中市"}, {label: "句容市"}],
                       value: 1
                     },
                     {
-                      lable: "南通",
-                      children: [ {lable: "崇川区"}, {lable: "港闸区"}, {lable: "通州市"}, {lable: "如皋市"}, {lable: "海门市"}, {lable: "启东市"}, {lable: "海安县"}, {lable: "如东县"}],
+                      label: "南通",
+                      children: [ {label: "崇川区"}, {label: "港闸区"}, {label: "通州市"}, {label: "如皋市"}, {label: "海门市"}, {label: "启东市"}, {label: "海安县"}, {label: "如东县"}],
                       value: 1
                     },
                     {
-                      lable: "泰州",
-                      children: [{lable: "海陵区"}, {lable: "高港区"}, {lable: "姜堰市"}, {lable: "泰兴市"}, {lable: "靖江市"}, {lable: "兴化市"}],
+                      label: "泰州",
+                      children: [{label: "海陵区"}, {label: "高港区"}, {label: "姜堰市"}, {label: "泰兴市"}, {label: "靖江市"}, {label: "兴化市"}],
                       value: 1
                     },
                     {
-                      lable: "扬州",
-                      children: [{lable: "广陵区"}, {lable: "维扬区"}, {lable: "邗江区"}, {lable: "江都市"}, {lable: "仪征市"}, {lable: "高邮市"}, {lable: "宝应县"}],
+                      label: "扬州",
+                      children: [{label: "广陵区"}, {label: "维扬区"}, {label: "邗江区"}, {label: "江都市"}, {label: "仪征市"}, {label: "高邮市"}, {label: "宝应县"}],
                       value: 1
                     },
                     {
-                      lable: "盐城",
-                      children: [{lable: "亭湖区"}, {lable: "盐都区"}, {lable: "大丰市"}, {lable: "东台市"}, {lable: "建湖县"}, {lable: "射阳县"}, {lable: "阜宁县"}, {lable: "滨海县"}, {lable: "响水县"}],
+                      label: "盐城",
+                      children: [{label: "亭湖区"}, {label: "盐都区"}, {label: "大丰市"}, {label: "东台市"}, {label: "建湖县"}, {label: "射阳县"}, {label: "阜宁县"}, {label: "滨海县"}, {label: "响水县"}],
                       value: 1
                     },
                     {
-                      lable: "连云港",
-                      children: [{lable: "请选择"}, {lable: "新浦区"}, {lable: "海州区"}, {lable: "连云区"}, {lable: "东海县"}, {lable: "灌云县"}, {lable: "赣榆县"}, {lable: "灌南县"}],
+                      label: "连云港",
+                      children: [{label: "请选择"}, {label: "新浦区"}, {label: "海州区"}, {label: "连云区"}, {label: "东海县"}, {label: "灌云县"}, {label: "赣榆县"}, {label: "灌南县"}],
                       value: 1
                     },
                     {
-                      lable: "徐州",
-                      children: [{lable: "云龙区"}, {lable: "鼓楼区"}, {lable: "九里区"}, {lable: "泉山区"}, {lable: "贾汪区"}, {lable: "邳州市"}, {lable: "新沂市"}, {lable: "铜山县"}, {lable: "睢宁县"}, {lable: "沛县"}, {lable: "丰县"}],
+                      label: "徐州",
+                      children: [{label: "云龙区"}, {label: "鼓楼区"}, {label: "九里区"}, {label: "泉山区"}, {label: "贾汪区"}, {label: "邳州市"}, {label: "新沂市"}, {label: "铜山县"}, {label: "睢宁县"}, {label: "沛县"}, {label: "丰县"}],
                       value: 1
                     },
                     {
-                      lable: "淮安",
-                      children: [{lable: "清河区"}, {lable: "清浦区"}, {lable: "楚州区"}, {lable: "淮阴区"}, {lable: "涟水县"}, {lable: "洪泽县"}, {lable: "金湖县"}, {lable: "盱眙县"}],
+                      label: "淮安",
+                      children: [{label: "清河区"}, {label: "清浦区"}, {label: "楚州区"}, {label: "淮阴区"}, {label: "涟水县"}, {label: "洪泽县"}, {label: "金湖县"}, {label: "盱眙县"}],
                       value: 1
                     },
                     {
-                      lable: "宿迁",
-                      children: [ {lable: "宿城区"}, {lable: "宿豫区"}, {lable: "沭阳县"}, {lable: "泗阳县"}, {lable: "泗洪县"}],
+                      label: "宿迁",
+                      children: [ {label: "宿城区"}, {label: "宿豫区"}, {label: "沭阳县"}, {label: "泗阳县"}, {label: "泗洪县"}],
                       value: 1
                     }
                   ],
                 },
                 {
-                  lable: "湖北",
+                  label: "湖北",
                   value:0,
                   children: [
                     {
-                      lable: "武汉",
-                      children: [{lable: "江岸区"}, {lable: "武昌区"}, {lable: "江汉区"}, {lable: "硚口区"}, {lable: "汉阳区"}, {lable: "青山区"}, {lable: "洪山区"}, {lable: "东西湖区"}, {lable: "汉南区"}, {lable: "蔡甸区"}, {lable: "江夏区"}, {lable: "黄陂区"}, {lable: "新洲区"}],
+                      label: "武汉",
+                      children: [{label: "江岸区"}, {label: "武昌区"}, {label: "江汉区"}, {label: "硚口区"}, {label: "汉阳区"}, {label: "青山区"}, {label: "洪山区"}, {label: "东西湖区"}, {label: "汉南区"}, {label: "蔡甸区"}, {label: "江夏区"}, {label: "黄陂区"}, {label: "新洲区"}],
                       value: 1
                     },
                     {
-                      lable: "黄石",
-                      children: [ {lable: "黄石港区"}, {lable: "西塞山区"}, {lable: "下陆区"}, {lable: "铁山区"}, {lable: "大冶市"}, {lable: "阳新县"}],
+                      label: "黄石",
+                      children: [ {label: "黄石港区"}, {label: "西塞山区"}, {label: "下陆区"}, {label: "铁山区"}, {label: "大冶市"}, {label: "阳新县"}],
                       value: 1
                     },
                     {
-                      lable: "十堰",
-                      children: [{lable: "张湾区"}, {lable: "茅箭区"}, {lable: "丹江口市"}, {lable: "郧县"}, {lable: "竹山县"}, {lable: "房县"}, {lable: "郧西县"}, {lable: "竹溪县"}],
+                      label: "十堰",
+                      children: [{label: "张湾区"}, {label: "茅箭区"}, {label: "丹江口市"}, {label: "郧县"}, {label: "竹山县"}, {label: "房县"}, {label: "郧西县"}, {label: "竹溪县"}],
                       value: 1
                     },
                     {
-                      lable: "荆州",
-                      children: [{lable: "沙市区"}, {lable: "荆州区"}, {lable: "洪湖市"}, {lable: "石首市"}, {lable: "松滋市"}, {lable: "监利县"}, {lable: "公安县"}, {lable: "江陵县"}],
+                      label: "荆州",
+                      children: [{label: "沙市区"}, {label: "荆州区"}, {label: "洪湖市"}, {label: "石首市"}, {label: "松滋市"}, {label: "监利县"}, {label: "公安县"}, {label: "江陵县"}],
                       value: 1
                     },
                     {
-                      lable: "宜昌",
-                      children: [ {lable: "西陵区"}, {lable: "伍家岗区"}, {lable: "点军区"}, {lable: "猇亭区"}, {lable: "夷陵区"}, {lable: "宜都市"}, {lable: "当阳市"}, {lable: "枝江市"}, {lable: "秭归县"}, {lable: "远安县"}, {lable: "兴山县"}, {lable: "五峰土家族自治县"}, {lable: "长阳土家族自治县"}],
+                      label: "宜昌",
+                      children: [ {label: "西陵区"}, {label: "伍家岗区"}, {label: "点军区"}, {label: "猇亭区"}, {label: "夷陵区"}, {label: "宜都市"}, {label: "当阳市"}, {label: "枝江市"}, {label: "秭归县"}, {label: "远安县"}, {label: "兴山县"}, {label: "五峰土家族自治县"}, {label: "长阳土家族自治县"}],
                       value: 1
                     },
                     {
-                      lable: "襄樊",
-                      children: [{lable: "襄城区"}, {lable: "樊城区"}, {lable: "襄阳区"}, {lable: "老河口市"}, {lable: "枣阳市"}, {lable: "宜城市"}, {lable: "南漳县"}, {lable: "谷城县"}, {lable: "保康县"}],
+                      label: "襄樊",
+                      children: [{label: "襄城区"}, {label: "樊城区"}, {label: "襄阳区"}, {label: "老河口市"}, {label: "枣阳市"}, {label: "宜城市"}, {label: "南漳县"}, {label: "谷城县"}, {label: "保康县"}],
                       value: 1
                     },
                     {
-                      lable: "鄂州",
-                      children: [{lable: "请选择"}, {lable: "鄂城区"}, {lable: "华容区"}, {lable: "梁子湖区"}, {lable: "其他"}],
+                      label: "鄂州",
+                      children: [{label: "请选择"}, {label: "鄂城区"}, {label: "华容区"}, {label: "梁子湖区"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "荆门",
-                      children: [{lable: "东宝区"}, {lable: "掇刀区"}, {lable: "钟祥市"}, {lable: "京山县"}, {lable: "沙洋县"}],
+                      label: "荆门",
+                      children: [{label: "东宝区"}, {label: "掇刀区"}, {label: "钟祥市"}, {label: "京山县"}, {label: "沙洋县"}],
                       value: 1
                     },
                     {
-                      lable: "孝感",
-                      children: [{lable: "孝南区"}, {lable: "应城市"}, {lable: "安陆市"}, {lable: "汉川市"}, {lable: "云梦县"}, {lable: "大悟县"}, {lable: "孝昌县"}],
+                      label: "孝感",
+                      children: [{label: "孝南区"}, {label: "应城市"}, {label: "安陆市"}, {label: "汉川市"}, {label: "云梦县"}, {label: "大悟县"}, {label: "孝昌县"}],
                       value:1
                     },
                     {
-                      lable: "黄冈",
-                      children: [ {lable: "黄州区"}, {lable: "麻城市"}, {lable: "武穴市"}, {lable: "红安县"}, {lable: "罗田县"}, {lable: "浠水县"}, {lable: "蕲春县"}, {lable: "黄梅县"}, {lable: "英山县"}, {lable: "团风县"}],
+                      label: "黄冈",
+                      children: [ {label: "黄州区"}, {label: "麻城市"}, {label: "武穴市"}, {label: "红安县"}, {label: "罗田县"}, {label: "浠水县"}, {label: "蕲春县"}, {label: "黄梅县"}, {label: "英山县"}, {label: "团风县"}],
                       value: 1
                     },
                     {
-                      lable: "咸宁",
-                      children: [{lable: "咸安区"}, {lable: "赤壁市"}, {lable: "嘉鱼县"}, {lable: "通山县"}, {lable: "崇阳县"}, {lable: "通城县"}],
+                      label: "咸宁",
+                      children: [{label: "咸安区"}, {label: "赤壁市"}, {label: "嘉鱼县"}, {label: "通山县"}, {label: "崇阳县"}, {label: "通城县"}],
                       value: 1
                     },
                     {
-                      lable: "随州",
-                      children: [{lable: "曾都区"}, {lable: "广水市"}],
+                      label: "随州",
+                      children: [{label: "曾都区"}, {label: "广水市"}],
                       value: 1
                     },
                     {
-                      lable: "恩施土家族苗族自治州",
-                      children: [{lable: "恩施市"}, {lable: "利川市"}, {lable: "建始县"}, {lable: "来凤县"}, {lable: "巴东县"}, {lable: "鹤峰县"}, {lable: "宣恩县"}, {lable: "咸丰县"}],
+                      label: "恩施土家族苗族自治州",
+                      children: [{label: "恩施市"}, {label: "利川市"}, {label: "建始县"}, {label: "来凤县"}, {label: "巴东县"}, {label: "鹤峰县"}, {label: "宣恩县"}, {label: "咸丰县"}],
                       value: 1
                     },
                     {
-                      lable: "仙桃",
+                      label: "仙桃",
                       children: [],
                       value: 1
                     },
                     {
-                      lable: "天门",
+                      label: "天门",
                       children: [],
                       value: 1
                     },
                     {
-                      lable: "潜江",
+                      label: "潜江",
                       children: [],
                       value: 1
                     },
                     {
-                      lable: "神农架林区",
+                      label: "神农架林区",
                       children: [],
                       value: 1
                     }
                   ],
                 },
                 {
-                  lable: "四川",
+                  label: "四川",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [{label: "请选择", children: []},
                     {
-                      lable: "成都",
-                      children: [{lable: "青羊区"}, {lable: "锦江区"}, {lable: "金牛区"}, {lable: "武侯区"}, {lable: "成华区"}, {lable: "龙泉驿区"}, {lable: "青白江区"}, {lable: "新都区"}, {lable: "温江区"}, {lable: "都江堰市"}, {lable: "彭州市"}, {lable: "邛崃市"}, {lable: "崇州市"}, {lable: "金堂县"}, {lable: "郫县"}, {lable: "新津县"}, {lable: "双流县"}, {lable: "蒲江县"}, {lable: "大邑县"}],
+                      label: "成都",
+                      children: [{label: "青羊区"}, {label: "锦江区"}, {label: "金牛区"}, {label: "武侯区"}, {label: "成华区"}, {label: "龙泉驿区"}, {label: "青白江区"}, {label: "新都区"}, {label: "温江区"}, {label: "都江堰市"}, {label: "彭州市"}, {label: "邛崃市"}, {label: "崇州市"}, {label: "金堂县"}, {label: "郫县"}, {label: "新津县"}, {label: "双流县"}, {label: "蒲江县"}, {label: "大邑县"}],
                       value: 1
                     },
                     {
-                      lable: "自贡",
-                      children: [{lable: "大安区"}, {lable: "自流井区"}, {lable: "贡井区"}, {lable: "沿滩区"}, {lable: "荣县"}, {lable: "富顺县"}],
+                      label: "自贡",
+                      children: [{label: "大安区"}, {label: "自流井区"}, {label: "贡井区"}, {label: "沿滩区"}, {label: "荣县"}, {label: "富顺县"}],
                       value: 1
                     },
                     {
-                      lable: "攀枝花",
-                      children: [{lable: "仁和区"}, {lable: "米易县"}, {lable: "盐边县"}, {lable: "东区"}, {lable: "西区"}],
+                      label: "攀枝花",
+                      children: [{label: "仁和区"}, {label: "米易县"}, {label: "盐边县"}, {label: "东区"}, {label: "西区"}],
                       value:1
                     },
                     {
-                      lable: "泸州",
-                      children: [{lable: "江阳区"}, {lable: "纳溪区"}, {lable: "龙马潭区"}, {lable: "泸县"}, {lable: "合江县"}, {lable: "叙永县"}, {lable: "古蔺县"}],
+                      label: "泸州",
+                      children: [{label: "江阳区"}, {label: "纳溪区"}, {label: "龙马潭区"}, {label: "泸县"}, {label: "合江县"}, {label: "叙永县"}, {label: "古蔺县"}],
                       value: 1
                     },
                     {
-                      lable: "德阳",
-                      children: [{lable: "请选择"}, {lable: "旌阳区"}, {lable: "广汉市"}, {lable: "什邡市"}, {lable: "绵竹市"}, {lable: "罗江县"}, {lable: "中江县"}, {lable: "其他"}],
+                      label: "德阳",
+                      children: [{label: "请选择"}, {label: "旌阳区"}, {label: "广汉市"}, {label: "什邡市"}, {label: "绵竹市"}, {label: "罗江县"}, {label: "中江县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "绵阳",
-                      children: [{lable: "涪城区"}, {lable: "游仙区"}, {lable: "江油市"}, {lable: "盐亭县"}, {lable: "三台县"}, {lable: "平武县"}, {lable: "安县"}, {lable: "梓潼县"}, {lable: "北川羌族自治县"}],
+                      label: "绵阳",
+                      children: [{label: "涪城区"}, {label: "游仙区"}, {label: "江油市"}, {label: "盐亭县"}, {label: "三台县"}, {label: "平武县"}, {label: "安县"}, {label: "梓潼县"}, {label: "北川羌族自治县"}],
                       value: 1
                     },
                     {
-                      lable: "广元",
-                      children: [{lable: "元坝区"}, {lable: "朝天区"}, {lable: "青川县"}, {lable: "旺苍县"}, {lable: "剑阁县"}, {lable: "苍溪县"}, {lable: "市中区"}],
+                      label: "广元",
+                      children: [{label: "元坝区"}, {label: "朝天区"}, {label: "青川县"}, {label: "旺苍县"}, {label: "剑阁县"}, {label: "苍溪县"}, {label: "市中区"}],
                       value: 1
                     },
                     {
-                      lable: "遂宁",
-                      children: [{lable: "船山区"}, {lable: "安居区"}, {lable: "射洪县"}, {lable: "蓬溪县"}, {lable: "大英县"}],
+                      label: "遂宁",
+                      children: [{label: "船山区"}, {label: "安居区"}, {label: "射洪县"}, {label: "蓬溪县"}, {label: "大英县"}],
                       value: 1
                     },
                     {
-                      lable: "内江",
-                      children: [ {lable: "市中区"}, {lable: "东兴区"}, {lable: "资中县"}, {lable: "隆昌县"}, {lable: "威远县"}],
+                      label: "内江",
+                      children: [ {label: "市中区"}, {label: "东兴区"}, {label: "资中县"}, {label: "隆昌县"}, {label: "威远县"}],
                       value: 1
                     },
                     {
-                      lable: "乐山",
-                      children: [{lable: "市中区"}, {lable: "五通桥区"}, {lable: "沙湾区"}, {lable: "金口河区"}, {lable: "峨眉山市"}, {lable: "夹江县"}, {lable: "井研县"}, {lable: "犍为县"}, {lable: "沐川县"}, {lable: "马边彝族自治县"}, {lable: "峨边彝族自治县"}],
+                      label: "乐山",
+                      children: [{label: "市中区"}, {label: "五通桥区"}, {label: "沙湾区"}, {label: "金口河区"}, {label: "峨眉山市"}, {label: "夹江县"}, {label: "井研县"}, {label: "犍为县"}, {label: "沐川县"}, {label: "马边彝族自治县"}, {label: "峨边彝族自治县"}],
                       value: 1
                     },
                     {
-                      lable: "南充",
-                      children: [{lable: "顺庆区"}, {lable: "高坪区"}, {lable: "嘉陵区"}, {lable: "阆中市"}, {lable: "营山县"}, {lable: "蓬安县"}, {lable: "仪陇县"}, {lable: "南部县"}, {lable: "西充县"}],
+                      label: "南充",
+                      children: [{label: "顺庆区"}, {label: "高坪区"}, {label: "嘉陵区"}, {label: "阆中市"}, {label: "营山县"}, {label: "蓬安县"}, {label: "仪陇县"}, {label: "南部县"}, {label: "西充县"}],
                       value: 1
                     },
                     {
-                      lable: "眉山",
-                      children: [{lable: "东坡区"}, {lable: "仁寿县"}, {lable: "彭山县"}, {lable: "洪雅县"}, {lable: "丹棱县"}, {lable: "青神县"}],
+                      label: "眉山",
+                      children: [{label: "东坡区"}, {label: "仁寿县"}, {label: "彭山县"}, {label: "洪雅县"}, {label: "丹棱县"}, {label: "青神县"}],
                       value: 1
                     },
                     {
-                      lable: "宜宾",
-                      children: [{lable: "翠屏区"}, {lable: "宜宾县"}, {lable: "兴文县"}, {lable: "南溪县"}, {lable: "珙县"}, {lable: "长宁县"}, {lable: "高县"}, {lable: "江安县"}, {lable: "筠连县"}, {lable: "屏山县"}],
+                      label: "宜宾",
+                      children: [{label: "翠屏区"}, {label: "宜宾县"}, {label: "兴文县"}, {label: "南溪县"}, {label: "珙县"}, {label: "长宁县"}, {label: "高县"}, {label: "江安县"}, {label: "筠连县"}, {label: "屏山县"}],
                       value: 1
                     },
                     {
-                      lable: "广安",
-                      children: [{lable: "广安区"}, {lable: "华蓥市"}, {lable: "岳池县"}, {lable: "邻水县"}, {lable: "武胜县"}],
+                      label: "广安",
+                      children: [{label: "广安区"}, {label: "华蓥市"}, {label: "岳池县"}, {label: "邻水县"}, {label: "武胜县"}],
                       value: 1
                     },
                     {
-                      lable: "达州",
-                      children: [{lable: "通川区"}, {lable: "万源市"}, {lable: "达县"}, {lable: "渠县"}, {lable: "宣汉县"}, {lable: "开江县"}, {lable: "大竹县"}],
+                      label: "达州",
+                      children: [{label: "通川区"}, {label: "万源市"}, {label: "达县"}, {label: "渠县"}, {label: "宣汉县"}, {label: "开江县"}, {label: "大竹县"}],
                       value: 1
                     },
                     {
-                      lable: "雅安",
-                      children: [{lable: "雨城区"}, {lable: "芦山县"}, {lable: "石棉县"}, {lable: "名山县"}, {lable: "天全县"}, {lable: "荥经县"}, {lable: "宝兴县"}, {lable: "汉源县"}],
+                      label: "雅安",
+                      children: [{label: "雨城区"}, {label: "芦山县"}, {label: "石棉县"}, {label: "名山县"}, {label: "天全县"}, {label: "荥经县"}, {label: "宝兴县"}, {label: "汉源县"}],
                       value: 1
                     },
                     {
-                      lable: "巴中",
-                      children: [{lable: "巴州区"}, {lable: "南江县"}, {lable: "平昌县"}, {lable: "通江县"}],
+                      label: "巴中",
+                      children: [{label: "巴州区"}, {label: "南江县"}, {label: "平昌县"}, {label: "通江县"}],
                       value: 1
                     },
                     {
-                      lable: "资阳",
-                      children: [{lable: "雁江区"}, {lable: "简阳市"}, {lable: "安岳县"}, {lable: "乐至县"}],
+                      label: "资阳",
+                      children: [{label: "雁江区"}, {label: "简阳市"}, {label: "安岳县"}, {label: "乐至县"}],
                       value: 1
                     },
                     {
-                      lable: "阿坝藏族羌族自治州",
-                      children: [{lable: "马尔康县"}, {lable: "九寨沟县"}, {lable: "红原县"}, {lable: "汶川县"}, {lable: "阿坝县"}, {lable: "理县"}, {lable: "若尔盖县"}, {lable: "小金县"}, {lable: "黑水县"}, {lable: "金川县"}, {lable: "松潘县"}, {lable: "壤塘县"}, {lable: "茂县"}],
+                      label: "阿坝藏族羌族自治州",
+                      children: [{label: "马尔康县"}, {label: "九寨沟县"}, {label: "红原县"}, {label: "汶川县"}, {label: "阿坝县"}, {label: "理县"}, {label: "若尔盖县"}, {label: "小金县"}, {label: "黑水县"}, {label: "金川县"}, {label: "松潘县"}, {label: "壤塘县"}, {label: "茂县"}],
                       value: 1
                     },
                     {
-                      lable: "甘孜藏族自治州",
-                      children: [{lable: "康定县"}, {lable: "丹巴县"}, {lable: "炉霍县"}, {lable: "九龙县"}, {lable: "甘孜县"}, {lable: "雅江县"}, {lable: "新龙县"}, {lable: "道孚县"}, {lable: "白玉县"}, {lable: "理塘县"}, {lable: "德格县"}, {lable: "乡城县"}, {lable: "石渠县"}, {lable: "稻城县"}, {lable: "色达县"}, {lable: "巴塘县"}, {lable: "泸定县"}, {lable: "得荣县"}],
+                      label: "甘孜藏族自治州",
+                      children: [{label: "康定县"}, {label: "丹巴县"}, {label: "炉霍县"}, {label: "九龙县"}, {label: "甘孜县"}, {label: "雅江县"}, {label: "新龙县"}, {label: "道孚县"}, {label: "白玉县"}, {label: "理塘县"}, {label: "德格县"}, {label: "乡城县"}, {label: "石渠县"}, {label: "稻城县"}, {label: "色达县"}, {label: "巴塘县"}, {label: "泸定县"}, {label: "得荣县"}],
                       value: 1
                     },
                     {
-                      lable: "凉山彝族自治州",
-                      children: [{lable: "西昌市"}, {lable: "美姑县"}, {lable: "昭觉县"}, {lable: "金阳县"}, {lable: "甘洛县"}, {lable: "布拖县"}, {lable: "雷波县"}, {lable: "普格县"}, {lable: "宁南县"}, {lable: "喜德县"}, {lable: "会东县"}, {lable: "越西县"}, {lable: "会理县"}, {lable: "盐源县"}, {lable: "德昌县"}, {lable: "冕宁县"}, {lable: "木里藏族自治县"}],
+                      label: "凉山彝族自治州",
+                      children: [{label: "西昌市"}, {label: "美姑县"}, {label: "昭觉县"}, {label: "金阳县"}, {label: "甘洛县"}, {label: "布拖县"}, {label: "雷波县"}, {label: "普格县"}, {label: "宁南县"}, {label: "喜德县"}, {label: "会东县"}, {label: "越西县"}, {label: "会理县"}, {label: "盐源县"}, {label: "德昌县"}, {label: "冕宁县"}, {label: "木里藏族自治县"}],
                       value: 1
                     }
                   ],
                 },
                 {
-                  lable: "陕西",
+                  label: "陕西",
                   value:0,
                   children: [
                     {
-                      lable: "西安",
-                      children: [{lable: "莲湖区"}, {lable: "新城区"}, {lable: "碑林区"}, {lable: "雁塔区"}, {lable: "灞桥区"}, {lable: "未央区"}, {lable: "阎良区"}, {lable: "临潼区"}, {lable: "长安区"}, {lable: "高陵县"}, {lable: "蓝田县"}, {lable: "户县"}, {lable: "周至县"}],
+                      label: "西安",
+                      children: [{label: "莲湖区"}, {label: "新城区"}, {label: "碑林区"}, {label: "雁塔区"}, {label: "灞桥区"}, {label: "未央区"}, {label: "阎良区"}, {label: "临潼区"}, {label: "长安区"}, {label: "高陵县"}, {label: "蓝田县"}, {label: "户县"}, {label: "周至县"}],
                       value:1
                     },
                     {
-                      lable: "铜川",
-                      children: [{lable: "耀州区"}, {lable: "王益区"}, {lable: "印台区"}, {lable: "宜君县"}, {lable: "其他"}],
+                      label: "铜川",
+                      children: [{label: "耀州区"}, {label: "王益区"}, {label: "印台区"}, {label: "宜君县"}, {label: "其他"}],
                       value: 1
                     },
                     {
-                      lable: "宝鸡",
-                      children: [{lable: "渭滨区"}, {lable: "金台区"}, {lable: "陈仓区"}, {lable: "岐山县"}, {lable: "凤翔县"}, {lable: "陇县"}, {lable: "太白县"}, {lable: "麟游县"}, {lable: "扶风县"}, {lable: "千阳县"}, {lable: "眉县"}, {lable: "凤县"}],
+                      label: "宝鸡",
+                      children: [{label: "渭滨区"}, {label: "金台区"}, {label: "陈仓区"}, {label: "岐山县"}, {label: "凤翔县"}, {label: "陇县"}, {label: "太白县"}, {label: "麟游县"}, {label: "扶风县"}, {label: "千阳县"}, {label: "眉县"}, {label: "凤县"}],
                       value: 1
                     },
                     {
-                      lable: "咸阳",
-                      children: [{lable: "秦都区"}, {lable: "渭城区"}, {lable: "杨陵区"}, {lable: "兴平市"}, {lable: "礼泉县"}, {lable: "泾阳县"}, {lable: "永寿县"}, {lable: "三原县"}, {lable: "彬县"}, {lable: "旬邑县"}, {lable: "长武县"}, {lable: "乾县"}, {lable: "武功县"}, {lable: "淳化县"}],
+                      label: "咸阳",
+                      children: [{label: "秦都区"}, {label: "渭城区"}, {label: "杨陵区"}, {label: "兴平市"}, {label: "礼泉县"}, {label: "泾阳县"}, {label: "永寿县"}, {label: "三原县"}, {label: "彬县"}, {label: "旬邑县"}, {label: "长武县"}, {label: "乾县"}, {label: "武功县"}, {label: "淳化县"}],
                       value: 1
                     },
                     {
-                      lable: "渭南",
-                      children: [{lable: "临渭区"}, {lable: "韩城市"}, {lable: "华阴市"}, {lable: "蒲城县"}, {lable: "潼关县"}, {lable: "白水县"}, {lable: "澄城县"}, {lable: "华县"}, {lable: "合阳县"}, {lable: "富平县"}, {lable: "大荔县"}],
+                      label: "渭南",
+                      children: [{label: "临渭区"}, {label: "韩城市"}, {label: "华阴市"}, {label: "蒲城县"}, {label: "潼关县"}, {label: "白水县"}, {label: "澄城县"}, {label: "华县"}, {label: "合阳县"}, {label: "富平县"}, {label: "大荔县"}],
                       value: 1
                     },
                     {
-                      lable: "延安",
-                      children: [ {lable: "宝塔区"}, {lable: "安塞县"}, {lable: "洛川县"}, {lable: "子长县"}, {lable: "黄陵县"}, {lable: "延川县"}, {lable: "富县"}, {lable: "延长县"}, {lable: "甘泉县"}, {lable: "宜川县"}, {lable: "志丹县"}, {lable: "黄龙县"}, {lable: "吴起县"}],
+                      label: "延安",
+                      children: [ {label: "宝塔区"}, {label: "安塞县"}, {label: "洛川县"}, {label: "子长县"}, {label: "黄陵县"}, {label: "延川县"}, {label: "富县"}, {label: "延长县"}, {label: "甘泉县"}, {label: "宜川县"}, {label: "志丹县"}, {label: "黄龙县"}, {label: "吴起县"}],
                       value: 0
                     },
                     {
-                      lable: "汉中",
-                      children: [{lable: "汉台区"}, {lable: "留坝县"}, {lable: "镇巴县"}, {lable: "城固县"}, {lable: "南郑县"}, {lable: "洋县"}, {lable: "宁强县"}, {lable: "佛坪县"}, {lable: "勉县"}, {lable: "西乡县"}, {lable: "略阳县"}],
+                      label: "汉中",
+                      children: [{label: "汉台区"}, {label: "留坝县"}, {label: "镇巴县"}, {label: "城固县"}, {label: "南郑县"}, {label: "洋县"}, {label: "宁强县"}, {label: "佛坪县"}, {label: "勉县"}, {label: "西乡县"}, {label: "略阳县"}],
                       value: 1
                     },
                     {
-                      lable: "榆林",
-                      children: [{lable: "榆阳区"}, {lable: "清涧县"}, {lable: "绥德县"}, {lable: "神木县"}, {lable: "佳县"}, {lable: "府谷县"}, {lable: "子洲县"}, {lable: "靖边县"}, {lable: "横山县"}, {lable: "米脂县"}, {lable: "吴堡县"}, {lable: "定边县"}],
+                      label: "榆林",
+                      children: [{label: "榆阳区"}, {label: "清涧县"}, {label: "绥德县"}, {label: "神木县"}, {label: "佳县"}, {label: "府谷县"}, {label: "子洲县"}, {label: "靖边县"}, {label: "横山县"}, {label: "米脂县"}, {label: "吴堡县"}, {label: "定边县"}],
                       value: 0
                     },
                     {
-                      lable: "安康",
-                      children: [{lable: "汉滨区"}, {lable: "紫阳县"}, {lable: "岚皋县"}, {lable: "旬阳县"}, {lable: "镇坪县"}, {lable: "平利县"}, {lable: "石泉县"}, {lable: "宁陕县"}, {lable: "白河县"}, {lable: "汉阴县"}],
+                      label: "安康",
+                      children: [{label: "汉滨区"}, {label: "紫阳县"}, {label: "岚皋县"}, {label: "旬阳县"}, {label: "镇坪县"}, {label: "平利县"}, {label: "石泉县"}, {label: "宁陕县"}, {label: "白河县"}, {label: "汉阴县"}],
                       value: 1
                     },
                     {
-                      lable: "商洛",
-                      children: [{lable: "商州区"}, {lable: "镇安县"}, {lable: "山阳县"}, {lable: "洛南县"}, {lable: "商南县"}, {lable: "丹凤县"}, {lable: "柞水县"}],
+                      label: "商洛",
+                      children: [{label: "商州区"}, {label: "镇安县"}, {label: "山阳县"}, {label: "洛南县"}, {label: "商南县"}, {label: "丹凤县"}, {label: "柞水县"}],
                       value:1
                     }
                   ],
                 },
                 {
-                  lable: "河北",
+                  label: "河北",
                   value:0,
                   children: [
                     {
-                      lable: "石家庄",
-                      children: [{lable: "长安区"}, {lable: "桥东区"}, {lable: "桥西区"}, {lable: "新华区"}, {lable: "裕华区"}, {lable: "井陉矿区"}, {lable: "鹿泉市"}, {lable: "辛集市"}, {lable: "藁城市"}, {lable: "晋州市"}, {lable: "新乐市"}, {lable: "深泽县"}, {lable: "无极县"}, {lable: "赵县"}, {lable: "灵寿县"}, {lable: "高邑县"}, {lable: "元氏县"}, {lable: "赞皇县"}, {lable: "平山县"}, {lable: "井陉县"}, {lable: "栾城县"}, {lable: "正定县"}, {lable: "行唐县"}],
+                      label: "石家庄",
+                      children: [{label: "长安区"}, {label: "桥东区"}, {label: "桥西区"}, {label: "新华区"}, {label: "裕华区"}, {label: "井陉矿区"}, {label: "鹿泉市"}, {label: "辛集市"}, {label: "藁城市"}, {label: "晋州市"}, {label: "新乐市"}, {label: "深泽县"}, {label: "无极县"}, {label: "赵县"}, {label: "灵寿县"}, {label: "高邑县"}, {label: "元氏县"}, {label: "赞皇县"}, {label: "平山县"}, {label: "井陉县"}, {label: "栾城县"}, {label: "正定县"}, {label: "行唐县"}],
                       value: 1
                     },
                     {
-                      lable: "唐山",
-                      children: [{lable: "路北区"}, {lable: "路南区"}, {lable: "古冶区"}, {lable: "开平区"}, {lable: "丰南区"}, {lable: "丰润区"}, {lable: "遵化市"}, {lable: "迁安市"}, {lable: "迁西县"}, {lable: "滦南县"}, {lable: "玉田县"}, {lable: "唐海县"}, {lable: "乐亭县"}, {lable: "滦县"}],
+                      label: "唐山",
+                      children: [{label: "路北区"}, {label: "路南区"}, {label: "古冶区"}, {label: "开平区"}, {label: "丰南区"}, {label: "丰润区"}, {label: "遵化市"}, {label: "迁安市"}, {label: "迁西县"}, {label: "滦南县"}, {label: "玉田县"}, {label: "唐海县"}, {label: "乐亭县"}, {label: "滦县"}],
                       value: 1
                     },
                     {
-                      lable: "秦皇岛",
-                      children: [{lable: "海港区"}, {lable: "山海关区"}, {lable: "北戴河区"}, {lable: "昌黎县"}, {lable: "抚宁县"}, {lable: "卢龙县"}, {lable: "青龙满族自治县"}],
+                      label: "秦皇岛",
+                      children: [{label: "海港区"}, {label: "山海关区"}, {label: "北戴河区"}, {label: "昌黎县"}, {label: "抚宁县"}, {label: "卢龙县"}, {label: "青龙满族自治县"}],
                       value: 1
                     },
                     {
-                      lable: "邯郸",
-                      children: [{lable: "邯山区"}, {lable: "丛台区"}, {lable: "复兴区"}, {lable: "峰峰矿区"}, {lable: "武安市"}, {lable: "邱县"}, {lable: "大名县"}, {lable: "魏县"}, {lable: "曲周县"}, {lable: "鸡泽县"}, {lable: "肥乡县"}, {lable: "广平县"}, {lable: "成安县"}, {lable: "临漳县"}, {lable: "磁县"}, {lable: "涉县"}, {lable: "永年县"}, {lable: "馆陶县"}, {lable: "邯郸县"}],
+                      label: "邯郸",
+                      children: [{label: "邯山区"}, {label: "丛台区"}, {label: "复兴区"}, {label: "峰峰矿区"}, {label: "武安市"}, {label: "邱县"}, {label: "大名县"}, {label: "魏县"}, {label: "曲周县"}, {label: "鸡泽县"}, {label: "肥乡县"}, {label: "广平县"}, {label: "成安县"}, {label: "临漳县"}, {label: "磁县"}, {label: "涉县"}, {label: "永年县"}, {label: "馆陶县"}, {label: "邯郸县"}],
                       value: 1
                     },
                     {
-                      lable: "邢台",
-                      children: [{lable: "桥东区"}, {lable: "桥西区"}, {lable: "南宫市"}, {lable: "沙河市"}, {lable: "临城县"}, {lable: "内丘县"}, {lable: "柏乡县"}, {lable: "隆尧县"}, {lable: "任县"}, {lable: "南和县"}, {lable: "宁晋县"}, {lable: "巨鹿县"}, {lable: "新河县"}, {lable: "广宗县"}, {lable: "平乡县"}, {lable: "威县"}, {lable: "清河县"}, {lable: "临西县"}, {lable: "邢台县"}],
+                      label: "邢台",
+                      children: [{label: "桥东区"}, {label: "桥西区"}, {label: "南宫市"}, {label: "沙河市"}, {label: "临城县"}, {label: "内丘县"}, {label: "柏乡县"}, {label: "隆尧县"}, {label: "任县"}, {label: "南和县"}, {label: "宁晋县"}, {label: "巨鹿县"}, {label: "新河县"}, {label: "广宗县"}, {label: "平乡县"}, {label: "威县"}, {label: "清河县"}, {label: "临西县"}, {label: "邢台县"}],
                       value:1
                     },
                     {
-                      lable: "保定",
-                      children: [{lable: "新市区"}, {lable: "北市区"}, {lable: "南市区"}, {lable: "定州市"}, {lable: "涿州市"}, {lable: "安国市"}, {lable: "高碑店市"}, {lable: "易县"}, {lable: "徐水县"}, {lable: "涞源县"}, {lable: "顺平县"}, {lable: "唐县"}, {lable: "望都县"}, {lable: "涞水县"}, {lable: "高阳县"}, {lable: "安新县"}, {lable: "雄县"}, {lable: "容城县"}, {lable: "蠡县"}, {lable: "曲阳县"}, {lable: "阜平县"}, {lable: "博野县"}, {lable: "满城县"}, {lable: "清苑县"}, {lable: "定兴县"}],
+                      label: "保定",
+                      children: [{label: "新市区"}, {label: "北市区"}, {label: "南市区"}, {label: "定州市"}, {label: "涿州市"}, {label: "安国市"}, {label: "高碑店市"}, {label: "易县"}, {label: "徐水县"}, {label: "涞源县"}, {label: "顺平县"}, {label: "唐县"}, {label: "望都县"}, {label: "涞水县"}, {label: "高阳县"}, {label: "安新县"}, {label: "雄县"}, {label: "容城县"}, {label: "蠡县"}, {label: "曲阳县"}, {label: "阜平县"}, {label: "博野县"}, {label: "满城县"}, {label: "清苑县"}, {label: "定兴县"}],
                       value: 1
                     },
                     {
-                      lable: "张家口",
-                      children: [ {lable: "桥东区"}, {lable: "桥西区"}, {lable: "宣化区"}, {lable: "下花园区"}, {lable: "张北县"}, {lable: "康保县"}, {lable: "沽源县"}, {lable: "尚义县"}, {lable: "蔚县"}, {lable: "阳原县"}, {lable: "怀安县"}, {lable: "万全县"}, {lable: "怀来县"}, {lable: "赤城县"}, {lable: "崇礼县"}, {lable: "宣化县"}, {lable: "涿鹿县"}],
+                      label: "张家口",
+                      children: [ {label: "桥东区"}, {label: "桥西区"}, {label: "宣化区"}, {label: "下花园区"}, {label: "张北县"}, {label: "康保县"}, {label: "沽源县"}, {label: "尚义县"}, {label: "蔚县"}, {label: "阳原县"}, {label: "怀安县"}, {label: "万全县"}, {label: "怀来县"}, {label: "赤城县"}, {label: "崇礼县"}, {label: "宣化县"}, {label: "涿鹿县"}],
                       value: 1
                     },
                     {
-                      lable: "承德",
-                      children: [ {lable: "双桥区"}, {lable: "双滦区"}, {lable: "鹰手营子矿区"}, {lable: "兴隆县"}, {lable: "平泉县"}, {lable: "滦平县"}, {lable: "隆化县"}, {lable: "承德县"}, {lable: "丰宁满族自治县"}, {lable: "宽城满族自治县"}, {lable: "围场满族蒙古族自治县"}],
+                      label: "承德",
+                      children: [ {label: "双桥区"}, {label: "双滦区"}, {label: "鹰手营子矿区"}, {label: "兴隆县"}, {label: "平泉县"}, {label: "滦平县"}, {label: "隆化县"}, {label: "承德县"}, {label: "丰宁满族自治县"}, {label: "宽城满族自治县"}, {label: "围场满族蒙古族自治县"}],
                       value: 1
                     },
                     {
-                      lable: "沧州",
-                      children: [{lable: "新华区"}, {lable: "运河区"}, {lable: "泊头市"}, {lable: "任丘市"}, {lable: "黄骅市"}, {lable: "河间市"}, {lable: "献县"}, {lable: "吴桥县"}, {lable: "沧县"}, {lable: "东光县"}, {lable: "肃宁县"}, {lable: "南皮县"}, {lable: "盐山县"}, {lable: "青县"}, {lable: "海兴县"}, {lable: "孟村回族自治县"}],
+                      label: "沧州",
+                      children: [{label: "新华区"}, {label: "运河区"}, {label: "泊头市"}, {label: "任丘市"}, {label: "黄骅市"}, {label: "河间市"}, {label: "献县"}, {label: "吴桥县"}, {label: "沧县"}, {label: "东光县"}, {label: "肃宁县"}, {label: "南皮县"}, {label: "盐山县"}, {label: "青县"}, {label: "海兴县"}, {label: "孟村回族自治县"}],
                       value: 1
                     },
                     {
-                      lable: "廊坊",
-                      children: [{lable: "安次区"}, {lable: "广阳区"}, {lable: "霸州市"}, {lable: "三河市"}, {lable: "香河县"}, {lable: "永清县"}, {lable: "固安县"}, {lable: "文安县"}, {lable: "大城县"}, {lable: "大厂回族自治县"}],
+                      label: "廊坊",
+                      children: [{label: "安次区"}, {label: "广阳区"}, {label: "霸州市"}, {label: "三河市"}, {label: "香河县"}, {label: "永清县"}, {label: "固安县"}, {label: "文安县"}, {label: "大城县"}, {label: "大厂回族自治县"}],
                       value: 1
                     },
                     {
-                      lable: "衡水",
-                      children: [{lable: "桃城区"}, {lable: "冀州市"}, {lable: "深州市"}, {lable: "枣强县"}, {lable: "武邑县"}, {lable: "武强县"}, {lable: "饶阳县"}, {lable: "安平县"}, {lable: "故城县"}, {lable: "景县"}, {lable: "阜城县"}],
+                      label: "衡水",
+                      children: [{label: "桃城区"}, {label: "冀州市"}, {label: "深州市"}, {label: "枣强县"}, {label: "武邑县"}, {label: "武强县"}, {label: "饶阳县"}, {label: "安平县"}, {label: "故城县"}, {label: "景县"}, {label: "阜城县"}],
                       value: 0
                     }
                   ],
                 },
                 {
-                  lable: "山西",
+                  label: "山西",
                   value:0,
                   children: [
                     {
-                      lable: "太原",
-                      children: [{lable: "杏花岭区"}, {lable: "小店区"}, {lable: "迎泽区"}, {lable: "尖草坪区"}, {lable: "万柏林区"}, {lable: "晋源区"}, {lable: "古交市"}, {lable: "阳曲县"}, {lable: "清徐县"}, {lable: "娄烦县"}],
+                      label: "太原",
+                      children: [{label: "杏花岭区"}, {label: "小店区"}, {label: "迎泽区"}, {label: "尖草坪区"}, {label: "万柏林区"}, {label: "晋源区"}, {label: "古交市"}, {label: "阳曲县"}, {label: "清徐县"}, {label: "娄烦县"}],
                       value: 1
                     },
                     {
-                      lable: "大同",
-                      children: [{lable: "城区"}, {lable: "矿区"}, {lable: "南郊区"}, {lable: "新荣区"}, {lable: "大同县"}, {lable: "天镇县"}, {lable: "灵丘县"}, {lable: "阳高县"}, {lable: "左云县"}, {lable: "广灵县"}, {lable: "浑源县"}],
+                      label: "大同",
+                      children: [{label: "城区"}, {label: "矿区"}, {label: "南郊区"}, {label: "新荣区"}, {label: "大同县"}, {label: "天镇县"}, {label: "灵丘县"}, {label: "阳高县"}, {label: "左云县"}, {label: "广灵县"}, {label: "浑源县"}],
                       value: 1
                     },
                     {
-                      lable: "阳泉",
-                      children: [{lable: "城区"}, {lable: "矿区"}, {lable: "郊区"}, {lable: "平定县"}, {lable: "盂县"}],
+                      label: "阳泉",
+                      children: [{label: "城区"}, {label: "矿区"}, {label: "郊区"}, {label: "平定县"}, {label: "盂县"}],
                       value: 1
                     },
                     {
-                      lable: "长治",
-                      children: [{lable: "城区"}, {lable: "郊区"}, {lable: "潞城市"}, {lable: "长治县"}, {lable: "长子县"}, {lable: "平顺县"}, {lable: "襄垣县"}, {lable: "沁源县"}, {lable: "屯留县"}, {lable: "黎城县"}, {lable: "武乡县"}, {lable: "沁县"}, {lable: "壶关县"}],
+                      label: "长治",
+                      children: [{label: "城区"}, {label: "郊区"}, {label: "潞城市"}, {label: "长治县"}, {label: "长子县"}, {label: "平顺县"}, {label: "襄垣县"}, {label: "沁源县"}, {label: "屯留县"}, {label: "黎城县"}, {label: "武乡县"}, {label: "沁县"}, {label: "壶关县"}],
                       value: 1
                     },
                     {
-                      lable: "晋城",
-                      children: [{lable: "城区"}, {lable: "高平市"}, {lable: "泽州县"}, {lable: "陵川县"}, {lable: "阳城县"}, {lable: "沁水县"}],
+                      label: "晋城",
+                      children: [{label: "城区"}, {label: "高平市"}, {label: "泽州县"}, {label: "陵川县"}, {label: "阳城县"}, {label: "沁水县"}],
                       value: 1
                     },
                     {
-                      lable: "朔州",
-                      children: [ {lable: "朔城区"}, {lable: "平鲁区"}, {lable: "山阴县"}, {lable: "右玉县"}, {lable: "应县"}, {lable: "怀仁县"}],
+                      label: "朔州",
+                      children: [ {label: "朔城区"}, {label: "平鲁区"}, {label: "山阴县"}, {label: "右玉县"}, {label: "应县"}, {label: "怀仁县"}],
                       value: 1
                     },
                     {
-                      lable: "晋中",
-                      children: [{lable: "榆次区"}, {lable: "介休市"}, {lable: "昔阳县"}, {lable: "灵石县"}, {lable: "祁县"}, {lable: "左权县"}, {lable: "寿阳县"}, {lable: "太谷县"}, {lable: "和顺县"}, {lable: "平遥县"}, {lable: "榆社县"}],
+                      label: "晋中",
+                      children: [{label: "榆次区"}, {label: "介休市"}, {label: "昔阳县"}, {label: "灵石县"}, {label: "祁县"}, {label: "左权县"}, {label: "寿阳县"}, {label: "太谷县"}, {label: "和顺县"}, {label: "平遥县"}, {label: "榆社县"}],
                       value: 1
                     },
                     {
-                      lable: "运城",
-                      children: [{lable: "盐湖区"}, {lable: "河津市"}, {lable: "永济市"}, {lable: "闻喜县"}, {lable: "新绛县"}, {lable: "平陆县"}, {lable: "垣曲县"}, {lable: "绛县"}, {lable: "稷山县"}, {lable: "芮城县"}, {lable: "夏县"}, {lable: "万荣县"}, {lable: "临猗县"}],
+                      label: "运城",
+                      children: [{label: "盐湖区"}, {label: "河津市"}, {label: "永济市"}, {label: "闻喜县"}, {label: "新绛县"}, {label: "平陆县"}, {label: "垣曲县"}, {label: "绛县"}, {label: "稷山县"}, {label: "芮城县"}, {label: "夏县"}, {label: "万荣县"}, {label: "临猗县"}],
                       value: 1
                     },
                     {
-                      lable: "忻州",
-                      children: [{lable: "忻府区"}, {lable: "原平市"}, {lable: "代县"}, {lable: "神池县"}, {lable: "五寨县"}, {lable: "五台县"}, {lable: "偏关县"}, {lable: "宁武县"}, {lable: "静乐县"}, {lable: "繁峙县"}, {lable: "河曲县"}, {lable: "保德县"}, {lable: "定襄县"}, {lable: "岢岚县"}],
+                      label: "忻州",
+                      children: [{label: "忻府区"}, {label: "原平市"}, {label: "代县"}, {label: "神池县"}, {label: "五寨县"}, {label: "五台县"}, {label: "偏关县"}, {label: "宁武县"}, {label: "静乐县"}, {label: "繁峙县"}, {label: "河曲县"}, {label: "保德县"}, {label: "定襄县"}, {label: "岢岚县"}],
                       value: 1
                     },
                     {
-                      lable: "临汾",
-                      children: [{lable: "尧都区"}, {lable: "侯马市"}, {lable: "霍州市"}, {lable: "汾西县"}, {lable: "吉县"}, {lable: "安泽县"}, {lable: "大宁县"}, {lable: "浮山县"}, {lable: "古县"}, {lable: "隰县"}, {lable: "襄汾县"}, {lable: "翼城县"}, {lable: "永和县"}, {lable: "乡宁县"}, {lable: "曲沃县"}, {lable: "洪洞县"}, {lable: "蒲县"}],
+                      label: "临汾",
+                      children: [{label: "尧都区"}, {label: "侯马市"}, {label: "霍州市"}, {label: "汾西县"}, {label: "吉县"}, {label: "安泽县"}, {label: "大宁县"}, {label: "浮山县"}, {label: "古县"}, {label: "隰县"}, {label: "襄汾县"}, {label: "翼城县"}, {label: "永和县"}, {label: "乡宁县"}, {label: "曲沃县"}, {label: "洪洞县"}, {label: "蒲县"}],
                       value:1
                     },
                     {
-                      lable: "吕梁",
-                      children: [{lable: "离石区"}, {lable: "孝义市"}, {lable: "汾阳市"}, {lable: "文水县"}, {lable: "中阳县"}, {lable: "兴县"}, {lable: "临县"}, {lable: "方山县"}, {lable: "柳林县"}, {lable: "岚县"}, {lable: "交口县"}, {lable: "交城县"}, {lable: "石楼县"}],
+                      label: "吕梁",
+                      children: [{label: "离石区"}, {label: "孝义市"}, {label: "汾阳市"}, {label: "文水县"}, {label: "中阳县"}, {label: "兴县"}, {label: "临县"}, {label: "方山县"}, {label: "柳林县"}, {label: "岚县"}, {label: "交口县"}, {label: "交城县"}, {label: "石楼县"}],
                       value: 1
                     },
                   ],
                 },
                 {
-                  lable: "河南",
+                  label: "河南",
                   value:0,
                   children: [
                     {
-                      lable: "郑州",
-                      children: [{lable: "中原区"}, {lable: "金水区"}, {lable: "二七区"}, {lable: "管城回族区"}, {lable: "上街区"}, {lable: "惠济区"}, {lable: "巩义市"}, {lable: "新郑市"}, {lable: "新密市"}, {lable: "登封市"}, {lable: "荥阳市"}, {lable: "中牟县"}],
+                      label: "郑州",
+                      children: [{label: "中原区"}, {label: "金水区"}, {label: "二七区"}, {label: "管城回族区"}, {label: "上街区"}, {label: "惠济区"}, {label: "巩义市"}, {label: "新郑市"}, {label: "新密市"}, {label: "登封市"}, {label: "荥阳市"}, {label: "中牟县"}],
                       value: 1
                     },
                     {
-                      lable: "开封",
-                      children: [{lable: "鼓楼区"}, {lable: "龙亭区"}, {lable: "顺河回族区"}, {lable: "禹王台区"}, {lable: "金明区"}, {lable: "开封县"}, {lable: "尉氏县"}, {lable: "兰考县"}, {lable: "杞县"}, {lable: "通许县"}],
+                      label: "开封",
+                      children: [{label: "鼓楼区"}, {label: "龙亭区"}, {label: "顺河回族区"}, {label: "禹王台区"}, {label: "金明区"}, {label: "开封县"}, {label: "尉氏县"}, {label: "兰考县"}, {label: "杞县"}, {label: "通许县"}],
                       value: 1
                     },
                     {
-                      lable: "洛阳",
-                      children: [{lable: "西工区"}, {lable: "老城区"}, {lable: "涧西区"}, {lable: "瀍河回族区"}, {lable: "洛龙区"}, {lable: "吉利区"}, {lable: "偃师市"}, {lable: "孟津县"}, {lable: "汝阳县"}, {lable: "伊川县"}, {lable: "洛宁县"}, {lable: "嵩县"}, {lable: "宜阳县"}, {lable: "新安县"}, {lable: "栾川县"}],
+                      label: "洛阳",
+                      children: [{label: "西工区"}, {label: "老城区"}, {label: "涧西区"}, {label: "瀍河回族区"}, {label: "洛龙区"}, {label: "吉利区"}, {label: "偃师市"}, {label: "孟津县"}, {label: "汝阳县"}, {label: "伊川县"}, {label: "洛宁县"}, {label: "嵩县"}, {label: "宜阳县"}, {label: "新安县"}, {label: "栾川县"}],
                       value: 1
                     },
                     {
-                      lable: "平顶山",
-                      children: [{lable: "新华区"}, {lable: "卫东区"}, {lable: "湛河区"}, {lable: "石龙区"}, {lable: "汝州市"}, {lable: "舞钢市"}, {lable: "宝丰县"}, {lable: "叶县"}, {lable: "郏县"}, {lable: "鲁山县"}],
+                      label: "平顶山",
+                      children: [{label: "新华区"}, {label: "卫东区"}, {label: "湛河区"}, {label: "石龙区"}, {label: "汝州市"}, {label: "舞钢市"}, {label: "宝丰县"}, {label: "叶县"}, {label: "郏县"}, {label: "鲁山县"}],
                       value: 0
                     },
                     {
-                      lable: "安阳",
-                      children: [{lable: "北关区"}, {lable: "文峰区"}, {lable: "殷都区"}, {lable: "龙安区"}, {lable: "林州市"}, {lable: "安阳县"}, {lable: "滑县"}, {lable: "内黄县"}, {lable: "汤阴县"}],
+                      label: "安阳",
+                      children: [{label: "北关区"}, {label: "文峰区"}, {label: "殷都区"}, {label: "龙安区"}, {label: "林州市"}, {label: "安阳县"}, {label: "滑县"}, {label: "内黄县"}, {label: "汤阴县"}],
                       value: 1
                     },
                     {
-                      lable: "鹤壁",
-                      children: [{lable: "淇滨区"}, {lable: "山城区"}, {lable: "鹤山区"}, {lable: "浚县"}, {lable: "淇县"}],
+                      label: "鹤壁",
+                      children: [{label: "淇滨区"}, {label: "山城区"}, {label: "鹤山区"}, {label: "浚县"}, {label: "淇县"}],
                       value: 1
                     },
                     {
-                      lable: "新乡",
-                      children: [{lable: "卫滨区"}, {lable: "红旗区"}, {lable: "凤泉区"}, {lable: "牧野区"}, {lable: "卫辉市"}, {lable: "辉县市"}, {lable: "新乡县"}, {lable: "获嘉县"}, {lable: "原阳县"}, {lable: "长垣县"}, {lable: "封丘县"}, {lable: "延津县"}],
+                      label: "新乡",
+                      children: [{label: "卫滨区"}, {label: "红旗区"}, {label: "凤泉区"}, {label: "牧野区"}, {label: "卫辉市"}, {label: "辉县市"}, {label: "新乡县"}, {label: "获嘉县"}, {label: "原阳县"}, {label: "长垣县"}, {label: "封丘县"}, {label: "延津县"}],
                       value: 1
                     },
                     {
-                      lable: "焦作",
-                      children: [{lable: "解放区"}, {lable: "中站区"}, {lable: "马村区"}, {lable: "山阳区"}, {lable: "沁阳市"}, {lable: "孟州市"}, {lable: "修武县"}, {lable: "温县"}, {lable: "武陟县"}, {lable: "博爱县"}],
+                      label: "焦作",
+                      children: [{label: "解放区"}, {label: "中站区"}, {label: "马村区"}, {label: "山阳区"}, {label: "沁阳市"}, {label: "孟州市"}, {label: "修武县"}, {label: "温县"}, {label: "武陟县"}, {label: "博爱县"}],
                       value: 1
                     },
                     {
-                      lable: "濮阳",
-                      children: [{lable: "华龙区"}, {lable: "濮阳县"}, {lable: "南乐县"}, {lable: "台前县"}, {lable: "清丰县"}, {lable: "范县"}],
+                      label: "濮阳",
+                      children: [{label: "华龙区"}, {label: "濮阳县"}, {label: "南乐县"}, {label: "台前县"}, {label: "清丰县"}, {label: "范县"}],
                       value: 1
                     },
                     {
-                      lable: "许昌",
-                      children: [{lable: "魏都区"}, {lable: "禹州市"}, {lable: "长葛市"}, {lable: "许昌县"}, {lable: "鄢陵县"}, {lable: "襄城县"}],
+                      label: "许昌",
+                      children: [{label: "魏都区"}, {label: "禹州市"}, {label: "长葛市"}, {label: "许昌县"}, {label: "鄢陵县"}, {label: "襄城县"}],
                       value: 1
                     },
                     {
-                      lable: "漯河",
-                      children: [{lable: "源汇区"}, {lable: "郾城区"}, {lable: "召陵区"}, {lable: "临颍县"}, {lable: "舞阳县"}],
+                      label: "漯河",
+                      children: [{label: "源汇区"}, {label: "郾城区"}, {label: "召陵区"}, {label: "临颍县"}, {label: "舞阳县"}],
                       value: 1
                     },
                     {
-                      lable: "三门峡",
-                      children: [{lable: "湖滨区"}, {lable: "义马市"}, {lable: "灵宝市"}, {lable: "渑池县"}, {lable: "卢氏县"}, {lable: "陕县"}],
+                      label: "三门峡",
+                      children: [{label: "湖滨区"}, {label: "义马市"}, {label: "灵宝市"}, {label: "渑池县"}, {label: "卢氏县"}, {label: "陕县"}],
                       value: 1
                     },
                     {
-                      lable: "南阳",
-                      children: [{lable: "卧龙区"}, {lable: "宛城区"}, {lable: "邓州市"}, {lable: "桐柏县"}, {lable: "方城县"}, {lable: "淅川县"}, {lable: "镇平县"}, {lable: "唐河县"}, {lable: "南召县"}, {lable: "内乡县"}, {lable: "新野县"}, {lable: "社旗县"}, {lable: "西峡县"}],
+                      label: "南阳",
+                      children: [{label: "卧龙区"}, {label: "宛城区"}, {label: "邓州市"}, {label: "桐柏县"}, {label: "方城县"}, {label: "淅川县"}, {label: "镇平县"}, {label: "唐河县"}, {label: "南召县"}, {label: "内乡县"}, {label: "新野县"}, {label: "社旗县"}, {label: "西峡县"}],
                       value: 1
                     },
                     {
-                      lable: "商丘",
-                      children: [{lable: "梁园区"}, {lable: "睢阳区"}, {lable: "永城市"}, {lable: "宁陵县"}, {lable: "虞城县"}, {lable: "民权县"}, {lable: "夏邑县"}, {lable: "柘城县"}, {lable: "睢县"}],
+                      label: "商丘",
+                      children: [{label: "梁园区"}, {label: "睢阳区"}, {label: "永城市"}, {label: "宁陵县"}, {label: "虞城县"}, {label: "民权县"}, {label: "夏邑县"}, {label: "柘城县"}, {label: "睢县"}],
                       value: 1
                     },
                     {
-                      lable: "信阳",
-                      children: [{lable: "浉河区"}, {lable: "平桥区"}, {lable: "潢川县"}, {lable: "淮滨县"}, {lable: "息县"}, {lable: "新县"}, {lable: "商城县"}, {lable: "固始县"}, {lable: "罗山县"}, {lable: "光山县"}],
+                      label: "信阳",
+                      children: [{label: "浉河区"}, {label: "平桥区"}, {label: "潢川县"}, {label: "淮滨县"}, {label: "息县"}, {label: "新县"}, {label: "商城县"}, {label: "固始县"}, {label: "罗山县"}, {label: "光山县"}],
                       value: 1
                     },
                     {
-                      lable: "周口",
-                      children: [{lable: "川汇区"}, {lable: "项城市"}, {lable: "商水县"}, {lable: "淮阳县"}, {lable: "太康县"}, {lable: "鹿邑县"}, {lable: "西华县"}, {lable: "扶沟县"}, {lable: "沈丘县"}, {lable: "郸城县"}],
+                      label: "周口",
+                      children: [{label: "川汇区"}, {label: "项城市"}, {label: "商水县"}, {label: "淮阳县"}, {label: "太康县"}, {label: "鹿邑县"}, {label: "西华县"}, {label: "扶沟县"}, {label: "沈丘县"}, {label: "郸城县"}],
                       value: 1
                     },
                     {
-                      lable: "驻马店",
-                      children: [{lable: "驿城区"}, {lable: "确山县"}, {lable: "新蔡县"}, {lable: "上蔡县"}, {lable: "西平县"}, {lable: "泌阳县"}, {lable: "平舆县"}, {lable: "汝南县"}, {lable: "遂平县"}, {lable: "正阳县"}],
+                      label: "驻马店",
+                      children: [{label: "驿城区"}, {label: "确山县"}, {label: "新蔡县"}, {label: "上蔡县"}, {label: "西平县"}, {label: "泌阳县"}, {label: "平舆县"}, {label: "汝南县"}, {label: "遂平县"}, {label: "正阳县"}],
                       value: 1
                     },
                     {
-                      lable: "焦作",
-                      children: [{lable: "济源市"}],
+                      label: "焦作",
+                      children: [{label: "济源市"}],
                       value: 1
                     },
                   ],
                 },
                 {
-                  lable: "吉林",
+                  label: "吉林",
                   value:0,
                   children: [
                     {
-                      lable: "长春",
-                      children: [{lable: "朝阳区"}, {lable: "宽城区"}, {lable: "二道区"}, {lable: "南关区"}, {lable: "绿园区"}, {lable: "双阳区"}, {lable: "九台市"}, {lable: "榆树市"}, {lable: "德惠市"}, {lable: "农安县"}],
+                      label: "长春",
+                      children: [{label: "朝阳区"}, {label: "宽城区"}, {label: "二道区"}, {label: "南关区"}, {label: "绿园区"}, {label: "双阳区"}, {label: "九台市"}, {label: "榆树市"}, {label: "德惠市"}, {label: "农安县"}],
                       value: 1
                     },
                     {
-                      lable: "吉林",
-                      children: [ {lable: "船营区"}, {lable: "昌邑区"}, {lable: "龙潭区"}, {lable: "丰满区"}, {lable: "舒兰市"}, {lable: "桦甸市"}, {lable: "蛟河市"}, {lable: "磐石市"}, {lable: "永吉县"}],
+                      label: "吉林",
+                      children: [ {label: "船营区"}, {label: "昌邑区"}, {label: "龙潭区"}, {label: "丰满区"}, {label: "舒兰市"}, {label: "桦甸市"}, {label: "蛟河市"}, {label: "磐石市"}, {label: "永吉县"}],
                       value: 1
                     },
                     {
-                      lable: "四平",
-                      children: [{lable: "铁西区"}, {lable: "铁东区"}, {lable: "公主岭市"}, {lable: "双辽市"}, {lable: "梨树县"}, {lable: "伊通满族自治县"}],
+                      label: "四平",
+                      children: [{label: "铁西区"}, {label: "铁东区"}, {label: "公主岭市"}, {label: "双辽市"}, {label: "梨树县"}, {label: "伊通满族自治县"}],
                       value: 1
                     },
                     {
-                      lable: "辽源",
-                      children: [{lable: "龙山区"}, {lable: "西安区"}, {lable: "东辽县"}, {lable: "东丰县"}],
+                      label: "辽源",
+                      children: [{label: "龙山区"}, {label: "西安区"}, {label: "东辽县"}, {label: "东丰县"}],
                       value: 1
                     },
                     {
-                      lable: "通化",
-                      children: [{lable: "东昌区"}, {lable: "二道江区"}, {lable: "梅河口市"}, {lable: "集安市"}, {lable: "通化县"}, {lable: "辉南县"}, {lable: "柳河县"}],
+                      label: "通化",
+                      children: [{label: "东昌区"}, {label: "二道江区"}, {label: "梅河口市"}, {label: "集安市"}, {label: "通化县"}, {label: "辉南县"}, {label: "柳河县"}],
                       value: 1
                     },
                     {
-                      lable: "白山",
-                      children: [{lable: "八道江区"}, {lable: "江源区"}, {lable: "临江市"}, {lable: "靖宇县"}, {lable: "抚松县"}, {lable: "长白朝鲜族自治县"}],
+                      label: "白山",
+                      children: [{label: "八道江区"}, {label: "江源区"}, {label: "临江市"}, {label: "靖宇县"}, {label: "抚松县"}, {label: "长白朝鲜族自治县"}],
                       value:1
                     },
                     {
-                      lable: "松原",
-                      children: [{lable: "宁江区"}, {lable: "乾安县"}, {lable: "长岭县"}, {lable: "扶余县"}, {lable: "前郭尔罗斯蒙古族自治县"}],
+                      label: "松原",
+                      children: [{label: "宁江区"}, {label: "乾安县"}, {label: "长岭县"}, {label: "扶余县"}, {label: "前郭尔罗斯蒙古族自治县"}],
                       value: 1
                     },
                     {
-                      lable: "白城",
-                      children: [{lable: "洮北区"}, {lable: "大安市"}, {lable: "洮南市"}, {lable: "镇赉县"}, {lable: "通榆县"}],
+                      label: "白城",
+                      children: [{label: "洮北区"}, {label: "大安市"}, {label: "洮南市"}, {label: "镇赉县"}, {label: "通榆县"}],
                       value: 1
                     },
                     {
-                      lable: "延边朝鲜族自治州",
-                      children: [{lable: "延吉市"}, {lable: "图们市"}, {lable: "敦化市"}, {lable: "龙井市"}, {lable: "珲春市"}, {lable: "和龙市"}, {lable: "安图县"}, {lable: "汪清县"}],
+                      label: "延边朝鲜族自治州",
+                      children: [{label: "延吉市"}, {label: "图们市"}, {label: "敦化市"}, {label: "龙井市"}, {label: "珲春市"}, {label: "和龙市"}, {label: "安图县"}, {label: "汪清县"}],
                       value: 1
                     },
                   ],
                 },
                 {
-                  lable: "黑龙江",
+                  label: "黑龙江",
                   value:0,
                   children: [
                     {
-                      lable: "哈尔滨",
-                      children: [{lable: "松北区"}, {lable: "道里区"}, {lable: "南岗区"}, {lable: "平房区"}, {lable: "香坊区"}, {lable: "道外区"}, {lable: "呼兰区"}, {lable: "阿城区"}, {lable: "双城市"}, {lable: "尚志市"}, {lable: "五常市"}, {lable: "宾县"}, {lable: "方正县"}, {lable: "通河县"}, {lable: "巴彦县"}, {lable: "延寿县"}, {lable: "木兰县"}, {lable: "依兰县"}],
+                      label: "哈尔滨",
+                      children: [{label: "松北区"}, {label: "道里区"}, {label: "南岗区"}, {label: "平房区"}, {label: "香坊区"}, {label: "道外区"}, {label: "呼兰区"}, {label: "阿城区"}, {label: "双城市"}, {label: "尚志市"}, {label: "五常市"}, {label: "宾县"}, {label: "方正县"}, {label: "通河县"}, {label: "巴彦县"}, {label: "延寿县"}, {label: "木兰县"}, {label: "依兰县"}],
                       value: 1
                     },
                     {
-                      lable: "齐齐哈尔",
-                      children: [ {lable: "龙沙区"}, {lable: "昂昂溪区"}, {lable: "铁锋区"}, {lable: "建华区"}, {lable: "富拉尔基区"}, {lable: "碾子山区"}, {lable: "梅里斯达斡尔族区"}, {lable: "讷河市"}, {lable: "富裕县"}, {lable: "拜泉县"}, {lable: "甘南县"}, {lable: "依安县"}, {lable: "克山县"}, {lable: "泰来县"}, {lable: "克东县"}, {lable: "龙江县"}],
+                      label: "齐齐哈尔",
+                      children: [ {label: "龙沙区"}, {label: "昂昂溪区"}, {label: "铁锋区"}, {label: "建华区"}, {label: "富拉尔基区"}, {label: "碾子山区"}, {label: "梅里斯达斡尔族区"}, {label: "讷河市"}, {label: "富裕县"}, {label: "拜泉县"}, {label: "甘南县"}, {label: "依安县"}, {label: "克山县"}, {label: "泰来县"}, {label: "克东县"}, {label: "龙江县"}],
                       value: 1
                     },
                     {
-                      lable: "鹤岗",
-                      children: [{lable: "兴山区"}, {lable: "工农区"}, {lable: "南山区"}, {lable: "兴安区"}, {lable: "向阳区"}, {lable: "东山区"}, {lable: "萝北县"}, {lable: "绥滨县"}],
+                      label: "鹤岗",
+                      children: [{label: "兴山区"}, {label: "工农区"}, {label: "南山区"}, {label: "兴安区"}, {label: "向阳区"}, {label: "东山区"}, {label: "萝北县"}, {label: "绥滨县"}],
                       value: 1
                     },
                     {
-                      lable: "双鸭山",
-                      children: [ {lable: "尖山区"}, {lable: "岭东区"}, {lable: "四方台区"}, {lable: "宝山区"}, {lable: "集贤县"}, {lable: "宝清县"}, {lable: "友谊县"}, {lable: "饶河县"}],
+                      label: "双鸭山",
+                      children: [ {label: "尖山区"}, {label: "岭东区"}, {label: "四方台区"}, {label: "宝山区"}, {label: "集贤县"}, {label: "宝清县"}, {label: "友谊县"}, {label: "饶河县"}],
                       value: 1
                     },
                     {
-                      lable: "鸡西",
-                      children: [ {lable: "鸡冠区"}, {lable: "恒山区"}, {lable: "城子河区"}, {lable: "滴道区"}, {lable: "梨树区"}, {lable: "麻山区"}, {lable: "密山市"}, {lable: "虎林市"}, {lable: "鸡东县"}],
+                      label: "鸡西",
+                      children: [ {label: "鸡冠区"}, {label: "恒山区"}, {label: "城子河区"}, {label: "滴道区"}, {label: "梨树区"}, {label: "麻山区"}, {label: "密山市"}, {label: "虎林市"}, {label: "鸡东县"}],
                       value: 1
                     },
                     {
-                      lable: "大庆",
-                      children: [{lable: "萨尔图区"}, {lable: "红岗区"}, {lable: "龙凤区"}, {lable: "让胡路区"}, {lable: "大同区"}, {lable: "林甸县"}, {lable: "肇州县"}, {lable: "肇源县"}, {lable: "杜尔伯特蒙古族自治县"}],
+                      label: "大庆",
+                      children: [{label: "萨尔图区"}, {label: "红岗区"}, {label: "龙凤区"}, {label: "让胡路区"}, {label: "大同区"}, {label: "林甸县"}, {label: "肇州县"}, {label: "肇源县"}, {label: "杜尔伯特蒙古族自治县"}],
                       value: 1
                     },
                     {
-                      lable: "伊春",
-                      children: [{lable: "伊春区"}, {lable: "带岭区"}, {lable: "南岔区"}, {lable: "金山屯区"}, {lable: "西林区"}, {lable: "美溪区"}, {lable: "乌马河区"}, {lable: "翠峦区"}, {lable: "友好区"}, {lable: "上甘岭区"}, {lable: "五营区"}, {lable: "红星区"}, {lable: "新青区"}, {lable: "汤旺河区"}, {lable: "乌伊岭区"}, {lable: "铁力市"}, {lable: "嘉荫县"}],
+                      label: "伊春",
+                      children: [{label: "伊春区"}, {label: "带岭区"}, {label: "南岔区"}, {label: "金山屯区"}, {label: "西林区"}, {label: "美溪区"}, {label: "乌马河区"}, {label: "翠峦区"}, {label: "友好区"}, {label: "上甘岭区"}, {label: "五营区"}, {label: "红星区"}, {label: "新青区"}, {label: "汤旺河区"}, {label: "乌伊岭区"}, {label: "铁力市"}, {label: "嘉荫县"}],
                       value: 1
                     },
                     {
-                      lable: "牡丹江",
-                      children: [{lable: "爱民区"}, {lable: "东安区"}, {lable: "阳明区"}, {lable: "西安区"}, {lable: "绥芬河市"}, {lable: "宁安市"}, {lable: "海林市"}, {lable: "穆棱市"}, {lable: "林口县"}, {lable: "东宁县"}],
+                      label: "牡丹江",
+                      children: [{label: "爱民区"}, {label: "东安区"}, {label: "阳明区"}, {label: "西安区"}, {label: "绥芬河市"}, {label: "宁安市"}, {label: "海林市"}, {label: "穆棱市"}, {label: "林口县"}, {label: "东宁县"}],
                       value: 1
                     },
                     {
-                      lable: "佳木斯",
-                      children: [{lable: "向阳区"}, {lable: "前进区"}, {lable: "东风区"}, {lable: "郊区"}, {lable: "同江市"}, {lable: "富锦市"}, {lable: "桦川县"}, {lable: "抚远县"}, {lable: "桦南县"}, {lable: "汤原县"}],
+                      label: "佳木斯",
+                      children: [{label: "向阳区"}, {label: "前进区"}, {label: "东风区"}, {label: "郊区"}, {label: "同江市"}, {label: "富锦市"}, {label: "桦川县"}, {label: "抚远县"}, {label: "桦南县"}, {label: "汤原县"}],
                       value: 1
                     },
                     {
-                      lable: "七台河",
-                      children: [{lable: "桃山区"}, {lable: "新兴区"}, {lable: "茄子河区"}, {lable: "勃利县"}],
+                      label: "七台河",
+                      children: [{label: "桃山区"}, {label: "新兴区"}, {label: "茄子河区"}, {label: "勃利县"}],
                       value: 1
                     },
                     {
-                      lable: "黑河",
-                      children: [{lable: "爱辉区"}, {lable: "北安市"}, {lable: "五大连池市"}, {lable: "逊克县"}, {lable: "嫩江县"}, {lable: "孙吴县"}],
+                      label: "黑河",
+                      children: [{label: "爱辉区"}, {label: "北安市"}, {label: "五大连池市"}, {label: "逊克县"}, {label: "嫩江县"}, {label: "孙吴县"}],
                       value: 1
                     },
                     {
-                      lable: "绥化",
-                      children: [{lable: "北林区"}, {lable: "安达市"}, {lable: "肇东市"}, {lable: "海伦市"}, {lable: "绥棱县"}, {lable: "兰西县"}, {lable: "明水县"}, {lable: "青冈县"}, {lable: "庆安县"}, {lable: "望奎县"}],
+                      label: "绥化",
+                      children: [{label: "北林区"}, {label: "安达市"}, {label: "肇东市"}, {label: "海伦市"}, {label: "绥棱县"}, {label: "兰西县"}, {label: "明水县"}, {label: "青冈县"}, {label: "庆安县"}, {label: "望奎县"}],
                       value: 1
                     },
                     {
-                      lable: "大兴安岭地区",
-                      children: [{lable: "请选择"}, {lable: "呼玛县"}, {lable: "塔河县"}, {lable: "漠河县"}, {lable: "大兴安岭辖区"}],
+                      label: "大兴安岭地区",
+                      children: [{label: "请选择"}, {label: "呼玛县"}, {label: "塔河县"}, {label: "漠河县"}, {label: "大兴安岭辖区"}],
                       value: 1
                     }],
                 },
                 {
-                  lable: "内蒙古",
+                  label: "内蒙古",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "呼和浩特",
-                      children: [{lable: "请选择"}, {lable: "回民区"}, {lable: "玉泉区"}, {lable: "新城区"}, {lable: "赛罕区"}, {lable: "托克托县"}, {lable: "清水河县"}, {lable: "武川县"}, {lable: "和林格尔县"}, {lable: "土默特左旗"}, {lable: "其他"}],
+                      label: "呼和浩特",
+                      children: [{label: "回民区"}, {label: "玉泉区"}, {label: "新城区"}, {label: "赛罕区"}, {label: "托克托县"}, {label: "清水河县"}, {label: "武川县"}, {label: "和林格尔县"}, {label: "土默特左旗"}],
                       value: 0
                     },
                     {
-                      lable: "包头",
-                      children: [{lable: "请选择"}, {lable: "昆都仑区"}, {lable: "青山区"}, {lable: "东河区"}, {lable: "九原区"}, {lable: "石拐区"}, {lable: "白云矿区"}, {lable: "固阳县"}, {lable: "土默特右旗"}, {lable: "达尔罕茂明安联合旗"}, {lable: "其他"}],
+                      label: "包头",
+                      children: [ {label: "昆都仑区"}, {label: "青山区"}, {label: "东河区"}, {label: "九原区"}, {label: "石拐区"}, {label: "白云矿区"}, {label: "固阳县"}, {label: "土默特右旗"}, {label: "达尔罕茂明安联合旗"}],
                       value: 0
                     },
                     {
-                      lable: "乌海",
-                      children: [{lable: "请选择"}, {lable: "海勃湾区"}, {lable: "乌达区"}, {lable: "海南区"}, {lable: "其他"}],
+                      label: "乌海",
+                      children: [{label: "海勃湾区"}, {label: "乌达区"}, {label: "海南区"}],
                       value: 0
                     },
                     {
-                      lable: "赤峰",
-                      children: [{lable: "请选择"}, {lable: "红山区"}, {lable: "元宝山区"}, {lable: "松山区"}, {lable: "宁城县"}, {lable: "林西县"}, {lable: "喀喇沁旗"}, {lable: "巴林左旗"}, {lable: "敖汉旗"}, {lable: "阿鲁科尔沁旗"}, {lable: "翁牛特旗"}, {lable: "克什克腾旗"}, {lable: "巴林右旗"}, {lable: "其他"}],
+                      label: "赤峰",
+                      children: [{label: "红山区"}, {label: "元宝山区"}, {label: "松山区"}, {label: "宁城县"}, {label: "林西县"}, {label: "喀喇沁旗"}, {label: "巴林左旗"}, {label: "敖汉旗"}, {label: "阿鲁科尔沁旗"}, {label: "翁牛特旗"}, {label: "克什克腾旗"}, {label: "巴林右旗"}],
                       value: 0
                     },
                     {
-                      lable: "通辽",
-                      children: [{lable: "请选择"}, {lable: "科尔沁区"}, {lable: "霍林郭勒市"}, {lable: "开鲁县"}, {lable: "科尔沁左翼中旗"}, {lable: "科尔沁左翼后旗"}, {lable: "库伦旗"}, {lable: "奈曼旗"}, {lable: "扎鲁特旗"}, {lable: "其他"}],
+                      label: "通辽",
+                      children: [{label: "科尔沁区"}, {label: "霍林郭勒市"}, {label: "开鲁县"}, {label: "科尔沁左翼中旗"}, {label: "科尔沁左翼后旗"}, {label: "库伦旗"}, {label: "奈曼旗"}, {label: "扎鲁特旗"}],
                       value: 0
                     },
                     {
-                      lable: "鄂尔多斯",
-                      children: [{lable: "请选择"}, {lable: "东胜区"}, {lable: "准格尔旗"}, {lable: "乌审旗"}, {lable: "伊金霍洛旗"}, {lable: "鄂托克旗"}, {lable: "鄂托克前旗"}, {lable: "杭锦旗"}, {lable: "达拉特旗"}, {lable: "其他"}],
+                      label: "鄂尔多斯",
+                      children: [{label: "东胜区"}, {label: "准格尔旗"}, {label: "乌审旗"}, {label: "伊金霍洛旗"}, {label: "鄂托克旗"}, {label: "鄂托克前旗"}, {label: "杭锦旗"}, {label: "达拉特旗"}],
                       value: 0
                     },
                     {
-                      lable: "呼伦贝尔",
-                      children: [{lable: "请选择"}, {lable: "海拉尔区"}, {lable: "满洲里市"}, {lable: "牙克石市"}, {lable: "扎兰屯市"}, {lable: "根河市"}, {lable: "额尔古纳市"}, {lable: "陈巴尔虎旗"}, {lable: "阿荣旗"}, {lable: "新巴尔虎左旗"}, {lable: "新巴尔虎右旗"}, {lable: "鄂伦春自治旗"}, {lable: "莫力达瓦达斡尔族自治旗"}, {lable: "鄂温克族自治旗"}, {lable: "其他"}],
+                      label: "呼伦贝尔",
+                      children: [{label: "海拉尔区"}, {label: "满洲里市"}, {label: "牙克石市"}, {label: "扎兰屯市"}, {label: "根河市"}, {label: "额尔古纳市"}, {label: "陈巴尔虎旗"}, {label: "阿荣旗"}, {label: "新巴尔虎左旗"}, {label: "新巴尔虎右旗"}, {label: "鄂伦春自治旗"}, {label: "莫力达瓦达斡尔族自治旗"}, {label: "鄂温克族自治旗"}],
                       value: 0
                     },
                     {
-                      lable: "巴彦淖尔",
-                      children: [{lable: "请选择"}, {lable: "临河区"}, {lable: "五原县"}, {lable: "磴口县"}, {lable: "杭锦后旗"}, {lable: "乌拉特中旗"}, {lable: "乌拉特前旗"}, {lable: "乌拉特后旗"}, {lable: "其他"}],
+                      label: "巴彦淖尔",
+                      children: [{label: "临河区"}, {label: "五原县"}, {label: "磴口县"}, {label: "杭锦后旗"}, {label: "乌拉特中旗"}, {label: "乌拉特前旗"}, {label: "乌拉特后旗"}],
                       value: 0
                     },
                     {
-                      lable: "乌兰察布",
-                      children: [{lable: "请选择"}, {lable: "集宁区"}, {lable: "丰镇市"}, {lable: "兴和县"}, {lable: "卓资县"}, {lable: "商都县"}, {lable: "凉城县"}, {lable: "化德县"}, {lable: "四子王旗"}, {lable: "察哈尔右翼前旗"}, {lable: "察哈尔右翼中旗"}, {lable: "察哈尔右翼后旗"}, {lable: "其他"}],
+                      label: "乌兰察布",
+                      children: [{label: "集宁区"}, {label: "丰镇市"}, {label: "兴和县"}, {label: "卓资县"}, {label: "商都县"}, {label: "凉城县"}, {label: "化德县"}, {label: "四子王旗"}, {label: "察哈尔右翼前旗"}, {label: "察哈尔右翼中旗"}, {label: "察哈尔右翼后旗"}],
                       value: 0
                     },
                     {
-                      lable: "锡林郭勒盟",
-                      children: [{lable: "请选择"}, {lable: "锡林浩特市"}, {lable: "二连浩特市"}, {lable: "多伦县"}, {lable: "阿巴嘎旗"}, {lable: "西乌珠穆沁旗"}, {lable: "东乌珠穆沁旗"}, {lable: "苏尼特左旗"}, {lable: "苏尼特右旗"}, {lable: "太仆寺旗"}, {lable: "正镶白旗"}, {lable: "正蓝旗"}, {lable: "镶黄旗"}, {lable: "其他"}],
+                      label: "锡林郭勒盟",
+                      children: [{label: "锡林浩特市"}, {label: "二连浩特市"}, {label: "多伦县"}, {label: "阿巴嘎旗"}, {label: "西乌珠穆沁旗"}, {label: "东乌珠穆沁旗"}, {label: "苏尼特左旗"}, {label: "苏尼特右旗"}, {label: "太仆寺旗"}, {label: "正镶白旗"}, {label: "正蓝旗"}, {label: "镶黄旗"}],
                       value: 0
                     },
                     {
-                      lable: "兴安盟",
-                      children: [{lable: "请选择"}, {lable: "乌兰浩特市"}, {lable: "阿尔山市"}, {lable: "突泉县"}, {lable: "扎赉特旗"}, {lable: "科尔沁右翼前旗"}, {lable: "科尔沁右翼中旗"}, {lable: "其他"}],
+                      label: "兴安盟",
+                      children: [{label: "乌兰浩特市"}, {label: "阿尔山市"}, {label: "突泉县"}, {label: "扎赉特旗"}, {label: "科尔沁右翼前旗"}, {label: "科尔沁右翼中旗"}],
                       value: 0
                     },
                     {
-                      lable: "阿拉善盟",
-                      children: [{lable: "请选择"}, {lable: "阿拉善左旗"}, {lable: "阿拉善右旗"}, {lable: "额济纳旗"}, {lable: "其他"}],
+                      label: "阿拉善盟",
+                      children: [{label: "阿拉善左旗"}, {label: "阿拉善右旗"}, {label: "额济纳旗"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                   ],
                 },
                 {
-                  lable: "山东",
+                  label: "山东",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "济南",
-                      children: [{lable: "请选择"}, {lable: "市中区"}, {lable: "历下区"}, {lable: "天桥区"}, {lable: "槐荫区"}, {lable: "历城区"}, {lable: "长清区"}, {lable: "章丘市"}, {lable: "平阴县"}, {lable: "济阳县"}, {lable: "商河县"}, {lable: "其他"}],
+                      label: "济南",
+                      children: [{label: "市中区"}, {label: "历下区"}, {label: "天桥区"}, {label: "槐荫区"}, {label: "历城区"}, {label: "长清区"}, {label: "章丘市"}, {label: "平阴县"}, {label: "济阳县"}, {label: "商河县"}],
                       value: 0
                     },
                     {
-                      lable: "青岛",
-                      children: [{lable: "请选择"}, {lable: "市南区"}, {lable: "市北区"}, {lable: "城阳区"}, {lable: "四方区"}, {lable: "李沧区"}, {lable: "黄岛区"}, {lable: "崂山区"}, {lable: "胶南市"}, {lable: "胶州市"}, {lable: "平度市"}, {lable: "莱西市"}, {lable: "即墨市"}, {lable: "其他"}],
+                      label: "青岛",
+                      children: [{label: "市南区"}, {label: "市北区"}, {label: "城阳区"}, {label: "四方区"}, {label: "李沧区"}, {label: "黄岛区"}, {label: "崂山区"}, {label: "胶南市"}, {label: "胶州市"}, {label: "平度市"}, {label: "莱西市"}, {label: "即墨市"}],
                       value: 0
                     },
                     {
-                      lable: "淄博",
-                      children: [{lable: "请选择"}, {lable: "张店区"}, {lable: "临淄区"}, {lable: "淄川区"}, {lable: "博山区"}, {lable: "周村区"}, {lable: "桓台县"}, {lable: "高青县"}, {lable: "沂源县"}, {lable: "其他"}],
+                      label: "淄博",
+                      children: [{label: "张店区"}, {label: "临淄区"}, {label: "淄川区"}, {label: "博山区"}, {label: "周村区"}, {label: "桓台县"}, {label: "高青县"}, {label: "沂源县"}],
                       value: 0
                     },
                     {
-                      lable: "枣庄",
-                      children: [{lable: "请选择"}, {lable: "市中区"}, {lable: "山亭区"}, {lable: "峄城区"}, {lable: "台儿庄区"}, {lable: "薛城区"}, {lable: "滕州市"}, {lable: "其他"}],
+                      label: "枣庄",
+                      children: [{label: "市中区"}, {label: "山亭区"}, {label: "峄城区"}, {label: "台儿庄区"}, {label: "薛城区"}, {label: "滕州市"}],
                       value: 0
                     },
                     {
-                      lable: "东营",
-                      children: [{lable: "请选择"}, {lable: "东营区"}, {lable: "河口区"}, {lable: "垦利县"}, {lable: "广饶县"}, {lable: "利津县"}, {lable: "其他"}],
+                      label: "东营",
+                      children: [{label: "东营区"}, {label: "河口区"}, {label: "垦利县"}, {label: "广饶县"}, {label: "利津县"}],
                       value: 0
                     },
                     {
-                      lable: "烟台",
-                      children: [{lable: "请选择"}, {lable: "芝罘区"}, {lable: "福山区"}, {lable: "牟平区"}, {lable: "莱山区"}, {lable: "龙口市"}, {lable: "莱阳市"}, {lable: "莱州市"}, {lable: "招远市"}, {lable: "蓬莱市"}, {lable: "栖霞市"}, {lable: "海阳市"}, {lable: "长岛县"}, {lable: "其他"}],
+                      label: "烟台",
+                      children: [{label: "芝罘区"}, {label: "福山区"}, {label: "牟平区"}, {label: "莱山区"}, {label: "龙口市"}, {label: "莱阳市"}, {label: "莱州市"}, {label: "招远市"}, {label: "蓬莱市"}, {label: "栖霞市"}, {label: "海阳市"}, {label: "长岛县"}],
                       value: 0
                     },
                     {
-                      lable: "潍坊",
-                      children: [{lable: "请选择"}, {lable: "潍城区"}, {lable: "寒亭区"}, {lable: "坊子区"}, {lable: "奎文区"}, {lable: "青州市"}, {lable: "诸城市"}, {lable: "寿光市"}, {lable: "安丘市"}, {lable: "高密市"}, {lable: "昌邑市"}, {lable: "昌乐县"}, {lable: "临朐县"}, {lable: "其他"}],
+                      label: "潍坊",
+                      children: [{label: "潍城区"}, {label: "寒亭区"}, {label: "坊子区"}, {label: "奎文区"}, {label: "青州市"}, {label: "诸城市"}, {label: "寿光市"}, {label: "安丘市"}, {label: "高密市"}, {label: "昌邑市"}, {label: "昌乐县"}, {label: "临朐县"}],
                       value: 0
                     },
                     {
-                      lable: "济宁",
-                      children: [{lable: "请选择"}, {lable: "市中区"}, {lable: "任城区"}, {lable: "曲阜市"}, {lable: "兖州市"}, {lable: "邹城市"}, {lable: "鱼台县"}, {lable: "金乡县"}, {lable: "嘉祥县"}, {lable: "微山县"}, {lable: "汶上县"}, {lable: "泗水县"}, {lable: "梁山县"}, {lable: "其他"}],
+                      label: "济宁",
+                      children: [{label: "市中区"}, {label: "任城区"}, {label: "曲阜市"}, {label: "兖州市"}, {label: "邹城市"}, {label: "鱼台县"}, {label: "金乡县"}, {label: "嘉祥县"}, {label: "微山县"}, {label: "汶上县"}, {label: "泗水县"}, {label: "梁山县"}],
                       value: 0
                     },
                     {
-                      lable: "泰安",
-                      children: [{lable: "请选择"}, {lable: "泰山区"}, {lable: "岱岳区"}, {lable: "新泰市"}, {lable: "肥城市"}, {lable: "宁阳县"}, {lable: "东平县"}, {lable: "其他"}],
+                      label: "泰安",
+                      children: [{label: "泰山区"}, {label: "岱岳区"}, {label: "新泰市"}, {label: "肥城市"}, {label: "宁阳县"}, {label: "东平县"}],
                       value: 0
                     },
                     {
-                      lable: "威海",
-                      children: [{lable: "请选择"}, {lable: "环翠区"}, {lable: "乳山市"}, {lable: "文登市"}, {lable: "荣成市"}, {lable: "其他"}],
+                      label: "威海",
+                      children: [{label: "环翠区"}, {label: "乳山市"}, {label: "文登市"}, {label: "荣成市"}],
                       value: 0
                     },
                     {
-                      lable: "日照",
-                      children: [{lable: "请选择"}, {lable: "东港区"}, {lable: "岚山区"}, {lable: "五莲县"}, {lable: "莒县"}, {lable: "其他"}],
+                      label: "日照",
+                      children: [{label: "东港区"}, {label: "岚山区"}, {label: "五莲县"}, {label: "莒县"}],
                       value: 0
                     },
                     {
-                      lable: "莱芜",
-                      children: [{lable: "请选择"}, {lable: "莱城区"}, {lable: "钢城区"}, {lable: "其他"}],
+                      label: "莱芜",
+                      children: [ {label: "莱城区"}, {label: "钢城区"}],
                       value: 0
                     },
                     {
-                      lable: "临沂",
-                      children: [{lable: "请选择"}, {lable: "兰山区"}, {lable: "罗庄区"}, {lable: "河东区"}, {lable: "沂南县"}, {lable: "郯城县"}, {lable: "沂水县"}, {lable: "苍山县"}, {lable: "费县"}, {lable: "平邑县"}, {lable: "莒南县"}, {lable: "蒙阴县"}, {lable: "临沭县"}, {lable: "其他"}],
+                      label: "临沂",
+                      children: [ {label: "兰山区"}, {label: "罗庄区"}, {label: "河东区"}, {label: "沂南县"}, {label: "郯城县"}, {label: "沂水县"}, {label: "苍山县"}, {label: "费县"}, {label: "平邑县"}, {label: "莒南县"}, {label: "蒙阴县"}, {label: "临沭县"}],
                       value: 0
                     },
                     {
-                      lable: "德州",
-                      children: [{lable: "请选择"}, {lable: "德城区"}, {lable: "乐陵市"}, {lable: "禹城市"}, {lable: "陵县"}, {lable: "宁津县"}, {lable: "齐河县"}, {lable: "武城县"}, {lable: "庆云县"}, {lable: "平原县"}, {lable: "夏津县"}, {lable: "临邑县"}, {lable: "其他"}],
+                      label: "德州",
+                      children: [{label: "德城区"}, {label: "乐陵市"}, {label: "禹城市"}, {label: "陵县"}, {label: "宁津县"}, {label: "齐河县"}, {label: "武城县"}, {label: "庆云县"}, {label: "平原县"}, {label: "夏津县"}, {label: "临邑县"}],
                       value: 0
                     },
                     {
-                      lable: "聊城",
-                      children: [{lable: "请选择"}, {lable: "东昌府区"}, {lable: "临清市"}, {lable: "高唐县"}, {lable: "阳谷县"}, {lable: "茌平县"}, {lable: "莘县"}, {lable: "东阿县"}, {lable: "冠县"}, {lable: "其他"}],
+                      label: "聊城",
+                      children: [{label: "东昌府区"}, {label: "临清市"}, {label: "高唐县"}, {label: "阳谷县"}, {label: "茌平县"}, {label: "莘县"}, {label: "东阿县"}, {label: "冠县"}],
                       value: 0
                     },
                     {
-                      lable: "滨州",
-                      children: [{lable: "请选择"}, {lable: "滨城区"}, {lable: "邹平县"}, {lable: "沾化县"}, {lable: "惠民县"}, {lable: "博兴县"}, {lable: "阳信县"}, {lable: "无棣县"}, {lable: "其他"}],
+                      label: "滨州",
+                      children: [{label: "滨城区"}, {label: "邹平县"}, {label: "沾化县"}, {label: "惠民县"}, {label: "博兴县"}, {label: "阳信县"}, {label: "无棣县"}],
                       value: 0
                     },
                     {
-                      lable: "菏泽",
-                      children: [{lable: "请选择"}, {lable: "牡丹区"}, {lable: "鄄城县"}, {lable: "单县"}, {lable: "郓城县"}, {lable: "曹县"}, {lable: "定陶县"}, {lable: "巨野县"}, {lable: "东明县"}, {lable: "成武县"}, {lable: "其他"}],
+                      label: "菏泽",
+                      children: [{label: "牡丹区"}, {label: "鄄城县"}, {label: "单县"}, {label: "郓城县"}, {label: "曹县"}, {label: "定陶县"}, {label: "巨野县"}, {label: "东明县"}, {label: "成武县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                   ],
                 },
                 {
-                  lable: "安徽",
+                  label: "安徽",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "合肥",
-                      children: [{lable: "请选择"}, {lable: "庐阳区"}, {lable: "瑶海区"}, {lable: "蜀山区"}, {lable: "包河区"}, {lable: "长丰县"}, {lable: "肥东县"}, {lable: "肥西县"}, {lable: "其他"}],
+                      label: "合肥",
+                      children: [{label: "庐阳区"}, {label: "瑶海区"}, {label: "蜀山区"}, {label: "包河区"}, {label: "长丰县"}, {label: "肥东县"}, {label: "肥西县"}],
                       value: 0
                     },
                     {
-                      lable: "芜湖",
-                      children: [{lable: "请选择"}, {lable: "镜湖区"}, {lable: "弋江区"}, {lable: "鸠江区"}, {lable: "三山区"}, {lable: "芜湖县"}, {lable: "南陵县"}, {lable: "繁昌县"}, {lable: "其他"}],
+                      label: "芜湖",
+                      children: [{label: "镜湖区"}, {label: "弋江区"}, {label: "鸠江区"}, {label: "三山区"}, {label: "芜湖县"}, {label: "南陵县"}, {label: "繁昌县"}],
                       value: 0
                     },
                     {
-                      lable: "蚌埠",
-                      children: [{lable: "请选择"}, {lable: "蚌山区"}, {lable: "龙子湖区"}, {lable: "禹会区"}, {lable: "淮上区"}, {lable: "怀远县"}, {lable: "固镇县"}, {lable: "五河县"}, {lable: "其他"}],
+                      label: "蚌埠",
+                      children: [{label: "蚌山区"}, {label: "龙子湖区"}, {label: "禹会区"}, {label: "淮上区"}, {label: "怀远县"}, {label: "固镇县"}, {label: "五河县"}],
                       value: 0
                     },
                     {
-                      lable: "淮南",
-                      children: [{lable: "请选择"}, {lable: "田家庵区"}, {lable: "大通区"}, {lable: "谢家集区"}, {lable: "八公山区"}, {lable: "潘集区"}, {lable: "凤台县"}, {lable: "其他"}],
+                      label: "淮南",
+                      children: [{label: "大通区"}, {label: "谢家集区"}, {label: "八公山区"}, {label: "潘集区"}, {label: "凤台县"}],
                       value: 0
                     },
                     {
-                      lable: "马鞍山",
-                      children: [{lable: "请选择"}, {lable: "雨山区"}, {lable: "花山区"}, {lable: "金家庄区"}, {lable: "当涂县"}, {lable: "其他"}],
+                      label: "马鞍山",
+                      children: [{label: "花山区"}, {label: "金家庄区"}, {label: "当涂县"}],
                       value: 0
                     },
                     {
-                      lable: "淮北",
-                      children: [{lable: "请选择"}, {lable: "相山区"}, {lable: "杜集区"}, {lable: "烈山区"}, {lable: "濉溪县"}, {lable: "其他"}],
+                      label: "淮北",
+                      children: [{label: "相山区"}, {label: "杜集区"}, {label: "烈山区"}, {label: "濉溪县"}],
                       value: 0
                     },
                     {
-                      lable: "铜陵",
-                      children: [{lable: "请选择"}, {lable: "铜官山区"}, {lable: "狮子山区"}, {lable: "郊区"}, {lable: "铜陵县"}, {lable: "其他"}],
+                      label: "铜陵",
+                      children: [{label: "铜官山区"}, {label: "狮子山区"}, {label: "郊区"}, {label: "铜陵县"}],
                       value: 0
                     },
                     {
-                      lable: "安庆",
-                      children: [{lable: "请选择"}, {lable: "迎江区"}, {lable: "大观区"}, {lable: "宜秀区"}, {lable: "桐城市"}, {lable: "宿松县"}, {lable: "枞阳县"}, {lable: "太湖县"}, {lable: "怀宁县"}, {lable: "岳西县"}, {lable: "望江县"}, {lable: "潜山县"}, {lable: "其他"}],
+                      label: "安庆",
+                      children: [{label: "迎江区"}, {label: "大观区"}, {label: "宜秀区"}, {label: "桐城市"}, {label: "宿松县"}, {label: "枞阳县"}, {label: "太湖县"}, {label: "怀宁县"}, {label: "岳西县"}, {label: "望江县"}, {label: "潜山县"}],
                       value: 0
                     },
                     {
-                      lable: "黄山",
-                      children: [{lable: "请选择"}, {lable: "屯溪区"}, {lable: "黄山区"}, {lable: "徽州区"}, {lable: "休宁县"}, {lable: "歙县"}, {lable: "祁门县"}, {lable: "黟县"}, {lable: "其他"}],
+                      label: "黄山",
+                      children: [{label: "屯溪区"}, {label: "黄山区"}, {label: "徽州区"}, {label: "休宁县"}, {label: "歙县"}, {label: "祁门县"}, {label: "黟县"}],
                       value: 0
                     },
                     {
-                      lable: "滁州",
-                      children: [{lable: "请选择"}, {lable: "琅琊区"}, {lable: "南谯区"}, {lable: "天长市"}, {lable: "明光市"}, {lable: "全椒县"}, {lable: "来安县"}, {lable: "定远县"}, {lable: "凤阳县"}, {lable: "其他"}],
+                      label: "滁州",
+                      children: [{label: "琅琊区"}, {label: "南谯区"}, {label: "天长市"}, {label: "明光市"}, {label: "全椒县"}, {label: "来安县"}, {label: "定远县"}, {label: "凤阳县"}],
                       value: 0
                     },
                     {
-                      lable: "阜阳",
-                      children: [{lable: "请选择"}, {lable: "颍州区"}, {lable: "颍东区"}, {lable: "颍泉区"}, {lable: "界首市"}, {lable: "临泉县"}, {lable: "颍上县"}, {lable: "阜南县"}, {lable: "太和县"}, {lable: "其他"}],
+                      label: "阜阳",
+                      children: [{label: "颍州区"}, {label: "颍东区"}, {label: "颍泉区"}, {label: "界首市"}, {label: "临泉县"}, {label: "颍上县"}, {label: "阜南县"}, {label: "太和县"}],
                       value: 0
                     },
                     {
-                      lable: "宿州",
-                      children: [{lable: "请选择"}, {lable: "埇桥区"}, {lable: "萧县"}, {lable: "泗县"}, {lable: "砀山县"}, {lable: "灵璧县"}, {lable: "其他"}],
+                      label: "宿州",
+                      children: [{label: "埇桥区"}, {label: "萧县"}, {label: "泗县"}, {label: "砀山县"}, {label: "灵璧县"}],
                       value: 0
                     },
                     {
-                      lable: "巢湖",
-                      children: [{lable: "请选择"}, {lable: "居巢区"}, {lable: "含山县"}, {lable: "无为县"}, {lable: "庐江县"}, {lable: "和县"}, {lable: "其他"}],
+                      label: "巢湖",
+                      children: [{label: "居巢区"}, {label: "含山县"}, {label: "无为县"}, {label: "庐江县"}, {label: "和县"}],
                       value: 0
                     },
                     {
-                      lable: "六安",
-                      children: [{lable: "请选择"}, {lable: "金安区"}, {lable: "裕安区"}, {lable: "寿县"}, {lable: "霍山县"}, {lable: "霍邱县"}, {lable: "舒城县"}, {lable: "金寨县"}, {lable: "其他"}],
+                      label: "六安",
+                      children: [{label: "金安区"}, {label: "裕安区"}, {label: "寿县"}, {label: "霍山县"}, {label: "霍邱县"}, {label: "舒城县"}, {label: "金寨县"}],
                       value: 0
                     },
                     {
-                      lable: "亳州",
-                      children: [{lable: "请选择"}, {lable: "谯城区"}, {lable: "利辛县"}, {lable: "涡阳县"}, {lable: "蒙城县"}, {lable: "其他"}],
+                      label: "亳州",
+                      children: [ {label: "谯城区"}, {label: "利辛县"}, {label: "涡阳县"}, {label: "蒙城县"}],
                       value: 0
                     },
                     {
-                      lable: "池州",
-                      children: [{lable: "请选择"}, {lable: "贵池区"}, {lable: "东至县"}, {lable: "石台县"}, {lable: "青阳县"}, {lable: "其他"}],
+                      label: "池州",
+                      children: [{label: "贵池区"}, {label: "东至县"}, {label: "石台县"}, {label: "青阳县"}],
                       value: 0
                     },
                     {
-                      lable: "宣城",
-                      children: [{lable: "请选择"}, {lable: "宣州区"}, {lable: "宁国市"}, {lable: "广德县"}, {lable: "郎溪县"}, {lable: "泾县"}, {lable: "旌德县"}, {lable: "绩溪县"}, {lable: "其他"}],
+                      label: "宣城",
+                      children: [{label: "宣州区"}, {label: "宁国市"}, {label: "广德县"}, {label: "郎溪县"}, {label: "泾县"}, {label: "旌德县"}, {label: "绩溪县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                    ],
                 },
                 {
-                  lable: "浙江",
+                  label: "浙江",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "杭州",
-                      children: [{lable: "请选择"}, {lable: "拱墅区"}, {lable: "西湖区"}, {lable: "上城区"}, {lable: "下城区"}, {lable: "江干区"}, {lable: "滨江区"}, {lable: "余杭区"}, {lable: "萧山区"}, {lable: "建德市"}, {lable: "富阳市"}, {lable: "临安市"}, {lable: "桐庐县"}, {lable: "淳安县"}, {lable: "其他"}],
+                      label: "杭州",
+                      children: [{label: "拱墅区"}, {label: "西湖区"}, {label: "上城区"}, {label: "下城区"}, {label: "江干区"}, {label: "滨江区"}, {label: "余杭区"}, {label: "萧山区"}, {label: "建德市"}, {label: "富阳市"}, {label: "临安市"}, {label: "桐庐县"}, {label: "淳安县"}],
                       value: 0
                     },
                     {
-                      lable: "宁波",
-                      children: [{lable: "请选择"}, {lable: "海曙区"}, {lable: "江东区"}, {lable: "江北区"}, {lable: "镇海区"}, {lable: "北仑区"}, {lable: "鄞州区"}, {lable: "余姚市"}, {lable: "慈溪市"}, {lable: "奉化市"}, {lable: "宁海县"}, {lable: "象山县"}, {lable: "其他"}],
+                      label: "宁波",
+                      children: [{label: "海曙区"}, {label: "江东区"}, {label: "江北区"}, {label: "镇海区"}, {label: "北仑区"}, {label: "鄞州区"}, {label: "余姚市"}, {label: "慈溪市"}, {label: "奉化市"}, {label: "宁海县"}, {label: "象山县"}],
                       value: 0
                     },
                     {
-                      lable: "温州",
-                      children: [{lable: "请选择"}, {lable: "鹿城区"}, {lable: "龙湾区"}, {lable: "瓯海区"}, {lable: "瑞安市"}, {lable: "乐清市"}, {lable: "永嘉县"}, {lable: "洞头县"}, {lable: "平阳县"}, {lable: "苍南县"}, {lable: "文成县"}, {lable: "泰顺县"}, {lable: "其他"}],
+                      label: "温州",
+                      children: [{label: "鹿城区"}, {label: "龙湾区"}, {label: "瓯海区"}, {label: "瑞安市"}, {label: "乐清市"}, {label: "永嘉县"}, {label: "洞头县"}, {label: "平阳县"}, {label: "苍南县"}, {label: "文成县"}, {label: "泰顺县"}],
                       value: 0
                     },
                     {
-                      lable: "嘉兴",
-                      children: [{lable: "请选择"}, {lable: "秀城区"}, {lable: "秀洲区"}, {lable: "海宁市"}, {lable: "平湖市"}, {lable: "桐乡市"}, {lable: "嘉善县"}, {lable: "海盐县"}, {lable: "其他"}],
+                      label: "嘉兴",
+                      children: [ {label: "秀城区"}, {label: "秀洲区"}, {label: "海宁市"}, {label: "平湖市"}, {label: "桐乡市"}, {label: "嘉善县"}, {label: "海盐县"}],
                       value: 0
                     },
                     {
-                      lable: "湖州",
-                      children: [{lable: "请选择"}, {lable: "吴兴区"}, {lable: "南浔区"}, {lable: "长兴县"}, {lable: "德清县"}, {lable: "安吉县"}, {lable: "其他"}],
+                      label: "湖州",
+                      children: [{label: "吴兴区"}, {label: "南浔区"}, {label: "长兴县"}, {label: "德清县"}, {label: "安吉县"}],
                       value: 0
                     },
                     {
-                      lable: "绍兴",
-                      children: [{lable: "请选择"}, {lable: "越城区"}, {lable: "诸暨市"}, {lable: "上虞市"}, {lable: "嵊州市"}, {lable: "绍兴县"}, {lable: "新昌县"}, {lable: "其他"}],
+                      label: "绍兴",
+                      children: [ {label: "越城区"}, {label: "诸暨市"}, {label: "上虞市"}, {label: "嵊州市"}, {label: "绍兴县"}, {label: "新昌县"}],
                       value: 0
                     },
                     {
-                      lable: "金华",
-                      children: [{lable: "请选择"}, {lable: "婺城区"}, {lable: "金东区"}, {lable: "兰溪市"}, {lable: "义乌市"}, {lable: "东阳市"}, {lable: "永康市"}, {lable: "武义县"}, {lable: "浦江县"}, {lable: "磐安县"}, {lable: "其他"}],
+                      label: "金华",
+                      children: [{label: "婺城区"}, {label: "金东区"}, {label: "兰溪市"}, {label: "义乌市"}, {label: "东阳市"}, {label: "永康市"}, {label: "武义县"}, {label: "浦江县"}, {label: "磐安县"}],
                       value: 0
                     },
                     {
-                      lable: "衢州",
-                      children: [{lable: "请选择"}, {lable: "柯城区"}, {lable: "衢江区"}, {lable: "江山市"}, {lable: "龙游县"}, {lable: "常山县"}, {lable: "开化县"}, {lable: "其他"}],
+                      label: "衢州",
+                      children: [ {label: "柯城区"}, {label: "衢江区"}, {label: "江山市"}, {label: "龙游县"}, {label: "常山县"}, {label: "开化县"}],
                       value: 0
                     },
                     {
-                      lable: "舟山",
-                      children: [{lable: "请选择"}, {lable: "定海区"}, {lable: "普陀区"}, {lable: "岱山县"}, {lable: "嵊泗县"}, {lable: "其他"}],
+                      label: "舟山",
+                      children: [{label: "定海区"}, {label: "普陀区"}, {label: "岱山县"}, {label: "嵊泗县"}],
                       value: 0
                     },
                     {
-                      lable: "台州",
-                      children: [{lable: "请选择"}, {lable: "椒江区"}, {lable: "黄岩区"}, {lable: "路桥区"}, {lable: "临海市"}, {lable: "温岭市"}, {lable: "玉环县"}, {lable: "天台县"}, {lable: "仙居县"}, {lable: "三门县"}, {lable: "其他"}],
+                      label: "台州",
+                      children: [{label: "椒江区"}, {label: "黄岩区"}, {label: "路桥区"}, {label: "临海市"}, {label: "温岭市"}, {label: "玉环县"}, {label: "天台县"}, {label: "仙居县"}, {label: "三门县"}],
                       value: 0
                     },
                     {
-                      lable: "丽水",
-                      children: [{lable: "请选择"}, {lable: "莲都区"}, {lable: "龙泉市"}, {lable: "缙云县"}, {lable: "青田县"}, {lable: "云和县"}, {lable: "遂昌县"}, {lable: "松阳县"}, {lable: "庆元县"}, {lable: "景宁畲族自治县"}, {lable: "其他"}],
+                      label: "丽水",
+                      children: [{label: "莲都区"}, {label: "龙泉市"}, {label: "缙云县"}, {label: "青田县"}, {label: "云和县"}, {label: "遂昌县"}, {label: "松阳县"}, {label: "庆元县"}, {label: "景宁畲族自治县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                    ],
                 },
                 {
-                  lable: "福建",
+                  label: "福建",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "福州",
-                      children: [{lable: "请选择"}, {lable: "鼓楼区"}, {lable: "台江区"}, {lable: "仓山区"}, {lable: "马尾区"}, {lable: "晋安区"}, {lable: "福清市"}, {lable: "长乐市"}, {lable: "闽侯县"}, {lable: "闽清县"}, {lable: "永泰县"}, {lable: "连江县"}, {lable: "罗源县"}, {lable: "平潭县"}, {lable: "其他"}],
+                      label: "福州",
+                      children: [{label: "鼓楼区"}, {label: "台江区"}, {label: "仓山区"}, {label: "马尾区"}, {label: "晋安区"}, {label: "福清市"}, {label: "长乐市"}, {label: "闽侯县"}, {label: "闽清县"}, {label: "永泰县"}, {label: "连江县"}, {label: "罗源县"}, {label: "平潭县"}],
                       value: 0
                     },
                     {
-                      lable: "厦门",
-                      children: [{lable: "请选择"}, {lable: "思明区"}, {lable: "海沧区"}, {lable: "湖里区"}, {lable: "集美区"}, {lable: "同安区"}, {lable: "翔安区"}, {lable: "其他"}],
+                      label: "厦门",
+                      children: [{label: "思明区"}, {label: "海沧区"}, {label: "湖里区"}, {label: "集美区"}, {label: "同安区"}, {label: "翔安区"}],
                       value: 0
                     },
                     {
-                      lable: "莆田",
-                      children: [{lable: "请选择"}, {lable: "城厢区"}, {lable: "涵江区"}, {lable: "荔城区"}, {lable: "秀屿区"}, {lable: "仙游县"}, {lable: "其他"}],
+                      label: "莆田",
+                      children: [ {label: "城厢区"}, {label: "涵江区"}, {label: "荔城区"}, {label: "秀屿区"}, {label: "仙游县"}],
                       value: 0
                     },
                     {
-                      lable: "三明",
-                      children: [{lable: "请选择"}, {lable: "梅列区"}, {lable: "三元区"}, {lable: "永安市"}, {lable: "明溪县"}, {lable: "将乐县"}, {lable: "大田县"}, {lable: "宁化县"}, {lable: "建宁县"}, {lable: "沙县"}, {lable: "尤溪县"}, {lable: "清流县"}, {lable: "泰宁县"}, {lable: "其他"}],
+                      label: "三明",
+                      children: [{label: "梅列区"}, {label: "三元区"}, {label: "永安市"}, {label: "明溪县"}, {label: "将乐县"}, {label: "大田县"}, {label: "宁化县"}, {label: "建宁县"}, {label: "沙县"}, {label: "尤溪县"}, {label: "清流县"}, {label: "泰宁县"}],
                       value: 0
                     },
                     {
-                      lable: "泉州",
-                      children: [{lable: "请选择"}, {lable: "鲤城区"}, {lable: "丰泽区"}, {lable: "洛江区"}, {lable: "泉港区"}, {lable: "石狮市"}, {lable: "晋江市"}, {lable: "南安市"}, {lable: "惠安县"}, {lable: "永春县"}, {lable: "安溪县"}, {lable: "德化县"}, {lable: "金门县"}, {lable: "其他"}],
+                      label: "泉州",
+                      children: [{label: "鲤城区"}, {label: "丰泽区"}, {label: "洛江区"}, {label: "泉港区"}, {label: "石狮市"}, {label: "晋江市"}, {label: "南安市"}, {label: "惠安县"}, {label: "永春县"}, {label: "安溪县"}, {label: "德化县"}, {label: "金门县"}],
                       value: 0
                     },
                     {
-                      lable: "漳州",
-                      children: [{lable: "请选择"}, {lable: "芗城区"}, {lable: "龙文区"}, {lable: "龙海市"}, {lable: "平和县"}, {lable: "南靖县"}, {lable: "诏安县"}, {lable: "漳浦县"}, {lable: "华安县"}, {lable: "东山县"}, {lable: "长泰县"}, {lable: "云霄县"}, {lable: "其他"}],
+                      label: "漳州",
+                      children: [{label: "芗城区"}, {label: "龙文区"}, {label: "龙海市"}, {label: "平和县"}, {label: "南靖县"}, {label: "诏安县"}, {label: "漳浦县"}, {label: "华安县"}, {label: "东山县"}, {label: "长泰县"}, {label: "云霄县"}],
                       value: 0
                     },
                     {
-                      lable: "南平",
-                      children: [{lable: "请选择"}, {lable: "延平区"}, {lable: "建瓯市"}, {lable: "邵武市"}, {lable: "武夷山市"}, {lable: "建阳市"}, {lable: "松溪县"}, {lable: "光泽县"}, {lable: "顺昌县"}, {lable: "浦城县"}, {lable: "政和县"}, {lable: "其他"}],
+                      label: "南平",
+                      children: [{label: "延平区"}, {label: "建瓯市"}, {label: "邵武市"}, {label: "武夷山市"}, {label: "建阳市"}, {label: "松溪县"}, {label: "光泽县"}, {label: "顺昌县"}, {label: "浦城县"}, {label: "政和县"}],
                       value: 0
                     },
                     {
-                      lable: "龙岩",
-                      children: [{lable: "请选择"}, {lable: "新罗区"}, {lable: "漳平市"}, {lable: "长汀县"}, {lable: "武平县"}, {lable: "上杭县"}, {lable: "永定县"}, {lable: "连城县"}, {lable: "其他"}],
+                      label: "龙岩",
+                      children: [ {label: "新罗区"}, {label: "漳平市"}, {label: "长汀县"}, {label: "武平县"}, {label: "上杭县"}, {label: "永定县"}, {label: "连城县"}],
                       value: 0
                     },
                     {
-                      lable: "宁德",
-                      children: [{lable: "请选择"}, {lable: "蕉城区"}, {lable: "福安市"}, {lable: "福鼎市"}, {lable: "寿宁县"}, {lable: "霞浦县"}, {lable: "柘荣县"}, {lable: "屏南县"}, {lable: "古田县"}, {lable: "周宁县"}, {lable: "其他"}],
+                      label: "宁德",
+                      children: [ {label: "蕉城区"}, {label: "福安市"}, {label: "福鼎市"}, {label: "寿宁县"}, {label: "霞浦县"}, {label: "柘荣县"}, {label: "屏南县"}, {label: "古田县"}, {label: "周宁县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                    ],
                 },
                 {
-                  lable: "湖南",
+                  label: "湖南",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "长沙",
-                      children: [{lable: "请选择"}, {lable: "岳麓区"}, {lable: "芙蓉区"}, {lable: "天心区"}, {lable: "开福区"}, {lable: "雨花区"}, {lable: "浏阳市"}, {lable: "长沙县"}, {lable: "望城县"}, {lable: "宁乡县"}, {lable: "其他"}],
+                      label: "长沙",
+                      children: [{label: "岳麓区"}, {label: "芙蓉区"}, {label: "天心区"}, {label: "开福区"}, {label: "雨花区"}, {label: "浏阳市"}, {label: "长沙县"}, {label: "望城县"}, {label: "宁乡县"}],
                       value: 0
                     },
                     {
-                      lable: "株洲",
-                      children: [{lable: "请选择"}, {lable: "天元区"}, {lable: "荷塘区"}, {lable: "芦淞区"}, {lable: "石峰区"}, {lable: "醴陵市"}, {lable: "株洲县"}, {lable: "炎陵县"}, {lable: "茶陵县"}, {lable: "攸县"}, {lable: "其他"}],
+                      label: "株洲",
+                      children: [{label: "天元区"}, {label: "荷塘区"}, {label: "芦淞区"}, {label: "石峰区"}, {label: "醴陵市"}, {label: "株洲县"}, {label: "炎陵县"}, {label: "茶陵县"}, {label: "攸县"}],
                       value: 0
                     },
                     {
-                      lable: "湘潭",
-                      children: [{lable: "请选择"}, {lable: "岳塘区"}, {lable: "雨湖区"}, {lable: "湘乡市"}, {lable: "韶山市"}, {lable: "湘潭县"}, {lable: "其他"}],
+                      label: "湘潭",
+                      children: [{label: "岳塘区"}, {label: "雨湖区"}, {label: "湘乡市"}, {label: "韶山市"}, {label: "湘潭县"}],
                       value: 0
                     },
                     {
-                      lable: "衡阳",
-                      children: [{lable: "请选择"}, {lable: "雁峰区"}, {lable: "珠晖区"}, {lable: "石鼓区"}, {lable: "蒸湘区"}, {lable: "南岳区"}, {lable: "耒阳市"}, {lable: "常宁市"}, {lable: "衡阳县"}, {lable: "衡东县"}, {lable: "衡山县"}, {lable: "衡南县"}, {lable: "祁东县"}, {lable: "其他"}],
+                      label: "衡阳",
+                      children: [{label: "雁峰区"}, {label: "珠晖区"}, {label: "石鼓区"}, {label: "蒸湘区"}, {label: "南岳区"}, {label: "耒阳市"}, {label: "常宁市"}, {label: "衡阳县"}, {label: "衡东县"}, {label: "衡山县"}, {label: "衡南县"}, {label: "祁东县"}],
                       value: 0
                     },
                     {
-                      lable: "邵阳",
-                      children: [{lable: "请选择"}, {lable: "双清区"}, {lable: "大祥区"}, {lable: "北塔区"}, {lable: "武冈市"}, {lable: "邵东县"}, {lable: "洞口县"}, {lable: "新邵县"}, {lable: "绥宁县"}, {lable: "新宁县"}, {lable: "邵阳县"}, {lable: "隆回县"}, {lable: "城步苗族自治县"}, {lable: "其他"}],
+                      label: "邵阳",
+                      children: [{label: "双清区"}, {label: "大祥区"}, {label: "北塔区"}, {label: "武冈市"}, {label: "邵东县"}, {label: "洞口县"}, {label: "新邵县"}, {label: "绥宁县"}, {label: "新宁县"}, {label: "邵阳县"}, {label: "隆回县"}, {label: "城步苗族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "岳阳",
-                      children: [{lable: "请选择"}, {lable: "岳阳楼区"}, {lable: "云溪区"}, {lable: "君山区"}, {lable: "临湘市"}, {lable: "汨罗市"}, {lable: "岳阳县"}, {lable: "湘阴县"}, {lable: "平江县"}, {lable: "华容县"}, {lable: "其他"}],
+                      label: "岳阳",
+                      children: [{label: "岳阳楼区"}, {label: "云溪区"}, {label: "君山区"}, {label: "临湘市"}, {label: "汨罗市"}, {label: "岳阳县"}, {label: "湘阴县"}, {label: "平江县"}, {label: "华容县"}],
                       value: 0
                     },
                     {
-                      lable: "常德",
-                      children: [{lable: "请选择"}, {lable: "武陵区"}, {lable: "鼎城区"}, {lable: "津市市"}, {lable: "澧县"}, {lable: "临澧县"}, {lable: "桃源县"}, {lable: "汉寿县"}, {lable: "安乡县"}, {lable: "石门县"}, {lable: "其他"}],
+                      label: "常德",
+                      children: [{label: "武陵区"}, {label: "鼎城区"}, {label: "津市市"}, {label: "澧县"}, {label: "临澧县"}, {label: "桃源县"}, {label: "汉寿县"}, {label: "安乡县"}, {label: "石门县"}],
                       value: 0
                     },
                     {
-                      lable: "张家界",
-                      children: [{lable: "请选择"}, {lable: "永定区"}, {lable: "武陵源区"}, {lable: "慈利县"}, {lable: "桑植县"}, {lable: "其他"}],
+                      label: "张家界",
+                      children: [{label: "永定区"}, {label: "武陵源区"}, {label: "慈利县"}, {label: "桑植县"}],
                       value: 0
                     },
                     {
-                      lable: "益阳",
-                      children: [{lable: "请选择"}, {lable: "赫山区"}, {lable: "资阳区"}, {lable: "沅江市"}, {lable: "桃江县"}, {lable: "南县"}, {lable: "安化县"}, {lable: "其他"}],
+                      label: "益阳",
+                      children: [{label: "赫山区"}, {label: "资阳区"}, {label: "沅江市"}, {label: "桃江县"}, {label: "南县"}, {label: "安化县"}],
                       value: 0
                     },
                     {
-                      lable: "郴州",
-                      children: [{lable: "请选择"}, {lable: "北湖区"}, {lable: "苏仙区"}, {lable: "资兴市"}, {lable: "宜章县"}, {lable: "汝城县"}, {lable: "安仁县"}, {lable: "嘉禾县"}, {lable: "临武县"}, {lable: "桂东县"}, {lable: "永兴县"}, {lable: "桂阳县"}, {lable: "其他"}],
+                      label: "郴州",
+                      children: [{label: "北湖区"}, {label: "苏仙区"}, {label: "资兴市"}, {label: "宜章县"}, {label: "汝城县"}, {label: "安仁县"}, {label: "嘉禾县"}, {label: "临武县"}, {label: "桂东县"}, {label: "永兴县"}, {label: "桂阳县"}],
                       value: 0
                     },
                     {
-                      lable: "永州",
-                      children: [{lable: "请选择"}, {lable: "冷水滩区"}, {lable: "零陵区"}, {lable: "祁阳县"}, {lable: "蓝山县"}, {lable: "宁远县"}, {lable: "新田县"}, {lable: "东安县"}, {lable: "江永县"}, {lable: "道县"}, {lable: "双牌县"}, {lable: "江华瑶族自治县"}, {lable: "其他"}],
+                      label: "永州",
+                      children: [{label: "冷水滩区"}, {label: "零陵区"}, {label: "祁阳县"}, {label: "蓝山县"}, {label: "宁远县"}, {label: "新田县"}, {label: "东安县"}, {label: "江永县"}, {label: "道县"}, {label: "双牌县"}, {label: "江华瑶族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "怀化",
-                      children: [{lable: "请选择"}, {lable: "鹤城区"}, {lable: "洪江市"}, {lable: "会同县"}, {lable: "沅陵县"}, {lable: "辰溪县"}, {lable: "溆浦县"}, {lable: "中方县"}, {lable: "新晃侗族自治县"}, {lable: "芷江侗族自治县"}, {lable: "通道侗族自治县"}, {lable: "靖州苗族侗族自治县"}, {lable: "麻阳苗族自治县"}, {lable: "其他"}],
+                      label: "怀化",
+                      children: [{label: "鹤城区"}, {label: "洪江市"}, {label: "会同县"}, {label: "沅陵县"}, {label: "辰溪县"}, {label: "溆浦县"}, {label: "中方县"}, {label: "新晃侗族自治县"}, {label: "芷江侗族自治县"}, {label: "通道侗族自治县"}, {label: "靖州苗族侗族自治县"}, {label: "麻阳苗族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "娄底",
-                      children: [{lable: "请选择"}, {lable: "娄星区"}, {lable: "冷水江市"}, {lable: "涟源市"}, {lable: "新化县"}, {lable: "双峰县"}, {lable: "其他"}],
+                      label: "娄底",
+                      children: [{label: "娄星区"}, {label: "冷水江市"}, {label: "涟源市"}, {label: "新化县"}, {label: "双峰县"}],
                       value: 0
                     },
                     {
-                      lable: "湘西土家族苗族自治州",
-                      children: [{lable: "请选择"}, {lable: "吉首市"}, {lable: "古丈县"}, {lable: "龙山县"}, {lable: "永顺县"}, {lable: "凤凰县"}, {lable: "泸溪县"}, {lable: "保靖县"}, {lable: "花垣县"}, {lable: "其他"}],
+                      label: "湘西土家族苗族自治州",
+                      children: [{label: "吉首市"}, {label: "古丈县"}, {label: "龙山县"}, {label: "永顺县"}, {label: "凤凰县"}, {label: "泸溪县"}, {label: "保靖县"}, {label: "花垣县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                    ],
                 },
                 {
-                  lable: "广西",
+                  label: "广西",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "南宁",
-                      children: [{lable: "请选择"}, {lable: "青秀区"}, {lable: "兴宁区"}, {lable: "西乡塘区"}, {lable: "良庆区"}, {lable: "江南区"}, {lable: "邕宁区"}, {lable: "武鸣县"}, {lable: "隆安县"}, {lable: "马山县"}, {lable: "上林县"}, {lable: "宾阳县"}, {lable: "横县"}, {lable: "其他"}],
+                      label: "南宁",
+                      children: [{label: "青秀区"}, {label: "兴宁区"}, {label: "西乡塘区"}, {label: "良庆区"}, {label: "江南区"}, {label: "邕宁区"}, {label: "武鸣县"}, {label: "隆安县"}, {label: "马山县"}, {label: "上林县"}, {label: "宾阳县"}, {label: "横县"}],
                       value: 0
                     },
                     {
-                      lable: "柳州",
-                      children: [{lable: "请选择"}, {lable: "城中区"}, {lable: "鱼峰区"}, {lable: "柳北区"}, {lable: "柳南区"}, {lable: "柳江县"}, {lable: "柳城县"}, {lable: "鹿寨县"}, {lable: "融安县"}, {lable: "融水苗族自治县"}, {lable: "三江侗族自治县"}, {lable: "其他"}],
+                      label: "柳州",
+                      children: [{label: "城中区"}, {label: "鱼峰区"}, {label: "柳北区"}, {label: "柳南区"}, {label: "柳江县"}, {label: "柳城县"}, {label: "鹿寨县"}, {label: "融安县"}, {label: "融水苗族自治县"}, {label: "三江侗族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "桂林",
-                      children: [{lable: "请选择"}, {lable: "象山区"}, {lable: "秀峰区"}, {lable: "叠彩区"}, {lable: "七星区"}, {lable: "雁山区"}, {lable: "阳朔县"}, {lable: "临桂县"}, {lable: "灵川县"}, {lable: "全州县"}, {lable: "平乐县"}, {lable: "兴安县"}, {lable: "灌阳县"}, {lable: "荔浦县"}, {lable: "资源县"}, {lable: "永福县"}, {lable: "龙胜各族自治县"}, {lable: "恭城瑶族自治县"}, {lable: "其他"}],
+                      label: "桂林",
+                      children: [{label: "请选择"}, {label: "象山区"}, {label: "秀峰区"}, {label: "叠彩区"}, {label: "七星区"}, {label: "雁山区"}, {label: "阳朔县"}, {label: "临桂县"}, {label: "灵川县"}, {label: "全州县"}, {label: "平乐县"}, {label: "兴安县"}, {label: "灌阳县"}, {label: "荔浦县"}, {label: "资源县"}, {label: "永福县"}, {label: "龙胜各族自治县"}, {label: "恭城瑶族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "梧州",
-                      children: [{lable: "请选择"}, {lable: "万秀区"}, {lable: "蝶山区"}, {lable: "长洲区"}, {lable: "岑溪市"}, {lable: "苍梧县"}, {lable: "藤县"}, {lable: "蒙山县"}, {lable: "其他"}],
+                      label: "梧州",
+                      children: [{label: "万秀区"}, {label: "蝶山区"}, {label: "长洲区"}, {label: "岑溪市"}, {label: "苍梧县"}, {label: "藤县"}, {label: "蒙山县"}],
                       value: 0
                     },
                     {
-                      lable: "北海",
-                      children: [{lable: "请选择"}, {lable: "海城区"}, {lable: "银海区"}, {lable: "铁山港区"}, {lable: "合浦县"}, {lable: "其他"}],
+                      label: "北海",
+                      children: [ {label: "海城区"}, {label: "银海区"}, {label: "铁山港区"}, {label: "合浦县"}],
                       value: 0
                     },
                     {
-                      lable: "防城港",
-                      children: [{lable: "请选择"}, {lable: "港口区"}, {lable: "防城区"}, {lable: "东兴市"}, {lable: "上思县"}, {lable: "其他"}],
+                      label: "防城港",
+                      children: [ {label: "港口区"}, {label: "防城区"}, {label: "东兴市"}, {label: "上思县"}],
                       value: 0
                     },
                     {
-                      lable: "钦州",
-                      children: [{lable: "请选择"}, {lable: "钦南区"}, {lable: "钦北区"}, {lable: "灵山县"}, {lable: "浦北县"}, {lable: "其他"}],
+                      label: "钦州",
+                      children: [{label: "钦南区"}, {label: "钦北区"}, {label: "灵山县"}, {label: "浦北县"}],
                       value: 0
                     },
                     {
-                      lable: "贵港",
-                      children: [{lable: "请选择"}, {lable: "港北区"}, {lable: "港南区"}, {lable: "覃塘区"}, {lable: "桂平市"}, {lable: "平南县"}, {lable: "其他"}],
+                      label: "贵港",
+                      children: [{label: "港北区"}, {label: "港南区"}, {label: "覃塘区"}, {label: "桂平市"}, {label: "平南县"}],
                       value: 0
                     },
                     {
-                      lable: "玉林",
-                      children: [{lable: "请选择"}, {lable: "玉州区"}, {lable: "北流市"}, {lable: "容县"}, {lable: "陆川县"}, {lable: "博白县"}, {lable: "兴业县"}, {lable: "其他"}],
+                      label: "玉林",
+                      children: [{label: "玉州区"}, {label: "北流市"}, {label: "容县"}, {label: "陆川县"}, {label: "博白县"}, {label: "兴业县"}],
                       value: 0
                     },
                     {
-                      lable: "百色",
-                      children: [{lable: "请选择"}, {lable: "右江区"}, {lable: "凌云县"}, {lable: "平果县"}, {lable: "西林县"}, {lable: "乐业县"}, {lable: "德保县"}, {lable: "田林县"}, {lable: "田阳县"}, {lable: "靖西县"}, {lable: "田东县"}, {lable: "那坡县"}, {lable: "隆林各族自治县"}, {lable: "其他"}],
+                      label: "百色",
+                      children: [ {label: "右江区"}, {label: "凌云县"}, {label: "平果县"}, {label: "西林县"}, {label: "乐业县"}, {label: "德保县"}, {label: "田林县"}, {label: "田阳县"}, {label: "靖西县"}, {label: "田东县"}, {label: "那坡县"}, {label: "隆林各族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "贺州",
-                      children: [{lable: "请选择"}, {lable: "八步区"}, {lable: "钟山县"}, {lable: "昭平县"}, {lable: "富川瑶族自治县"}, {lable: "其他"}],
+                      label: "贺州",
+                      children: [{label: "八步区"}, {label: "钟山县"}, {label: "昭平县"}, {label: "富川瑶族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "河池",
-                      children: [{lable: "请选择"}, {lable: "金城江区"}, {lable: "宜州市"}, {lable: "天峨县"}, {lable: "凤山县"}, {lable: "南丹县"}, {lable: "东兰县"}, {lable: "都安瑶族自治县"}, {lable: "罗城仫佬族自治县"}, {lable: "巴马瑶族自治县"}, {lable: "环江毛南族自治县"}, {lable: "大化瑶族自治县"}, {lable: "其他"}],
+                      label: "河池",
+                      children: [{label: "金城江区"}, {label: "宜州市"}, {label: "天峨县"}, {label: "凤山县"}, {label: "南丹县"}, {label: "东兰县"}, {label: "都安瑶族自治县"}, {label: "罗城仫佬族自治县"}, {label: "巴马瑶族自治县"}, {label: "环江毛南族自治县"}, {label: "大化瑶族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "来宾",
-                      children: [{lable: "请选择"}, {lable: "兴宾区"}, {lable: "合山市"}, {lable: "象州县"}, {lable: "武宣县"}, {lable: "忻城县"}, {lable: "金秀瑶族自治县"}, {lable: "其他"}],
+                      label: "来宾",
+                      children: [ {label: "兴宾区"}, {label: "合山市"}, {label: "象州县"}, {label: "武宣县"}, {label: "忻城县"}, {label: "金秀瑶族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "崇左",
-                      children: [{lable: "请选择"}, {lable: "江州区"}, {lable: "凭祥市"}, {lable: "宁明县"}, {lable: "扶绥县"}, {lable: "龙州县"}, {lable: "大新县"}, {lable: "天等县"}, {lable: "其他"}],
+                      label: "崇左",
+                      children: [{label: "江州区"}, {label: "凭祥市"}, {label: "宁明县"}, {label: "扶绥县"}, {label: "龙州县"}, {label: "大新县"}, {label: "天等县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                   ],
                 },
                 {
-                  lable: "江西",
+                  label: "江西",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "南昌",
-                      children: [{lable: "请选择"}, {lable: "东湖区"}, {lable: "西湖区"}, {lable: "青云谱区"}, {lable: "湾里区"}, {lable: "青山湖区"}, {lable: "新建县"}, {lable: "南昌县"}, {lable: "进贤县"}, {lable: "安义县"}, {lable: "其他"}],
+                      label: "南昌",
+                      children: [ {label: "东湖区"}, {label: "西湖区"}, {label: "青云谱区"}, {label: "湾里区"}, {label: "青山湖区"}, {label: "新建县"}, {label: "南昌县"}, {label: "进贤县"}, {label: "安义县"}],
                       value: 0
                     },
                     {
-                      lable: "景德镇",
-                      children: [{lable: "请选择"}, {lable: "珠山区"}, {lable: "昌江区"}, {lable: "乐平市"}, {lable: "浮梁县"}, {lable: "其他"}],
+                      label: "景德镇",
+                      children: [ {label: "珠山区"}, {label: "昌江区"}, {label: "乐平市"}, {label: "浮梁县"}],
                       value: 0
                     },
                     {
-                      lable: "萍乡",
-                      children: [{lable: "请选择"}, {lable: "安源区"}, {lable: "湘东区"}, {lable: "莲花县"}, {lable: "上栗县"}, {lable: "芦溪县"}, {lable: "其他"}],
+                      label: "萍乡",
+                      children: [{label: "安源区"}, {label: "湘东区"}, {label: "莲花县"}, {label: "上栗县"}, {label: "芦溪县"}],
                       value: 0
                     },
                     {
-                      lable: "九江",
-                      children: [{lable: "请选择"}, {lable: "浔阳区"}, {lable: "庐山区"}, {lable: "瑞昌市"}, {lable: "九江县"}, {lable: "星子县"}, {lable: "武宁县"}, {lable: "彭泽县"}, {lable: "永修县"}, {lable: "修水县"}, {lable: "湖口县"}, {lable: "德安县"}, {lable: "都昌县"}, {lable: "其他"}],
+                      label: "九江",
+                      children: [{label: "浔阳区"}, {label: "庐山区"}, {label: "瑞昌市"}, {label: "九江县"}, {label: "星子县"}, {label: "武宁县"}, {label: "彭泽县"}, {label: "永修县"}, {label: "修水县"}, {label: "湖口县"}, {label: "德安县"}, {label: "都昌县"}],
                       value: 0
                     },
                     {
-                      lable: "新余",
-                      children: [{lable: "请选择"}, {lable: "渝水区"}, {lable: "分宜县"}, {lable: "其他"}],
+                      label: "新余",
+                      children: [{label: "渝水区"}, {label: "分宜县"}],
                       value: 0
                     },
                     {
-                      lable: "鹰潭",
-                      children: [{lable: "请选择"}, {lable: "月湖区"}, {lable: "贵溪市"}, {lable: "余江县"}, {lable: "其他"}],
+                      label: "鹰潭",
+                      children: [{label: "月湖区"}, {label: "贵溪市"}, {label: "余江县"}],
                       value: 0
                     },
                     {
-                      lable: "赣州",
-                      children: [{lable: "请选择"}, {lable: "章贡区"}, {lable: "瑞金市"}, {lable: "南康市"}, {lable: "石城县"}, {lable: "安远县"}, {lable: "赣县"}, {lable: "宁都县"}, {lable: "寻乌县"}, {lable: "兴国县"}, {lable: "定南县"}, {lable: "上犹县"}, {lable: "于都县"}, {lable: "龙南县"}, {lable: "崇义县"}, {lable: "信丰县"}, {lable: "全南县"}, {lable: "大余县"}, {lable: "会昌县"}, {lable: "其他"}],
+                      label: "赣州",
+                      children: [{label: "章贡区"}, {label: "瑞金市"}, {label: "南康市"}, {label: "石城县"}, {label: "安远县"}, {label: "赣县"}, {label: "宁都县"}, {label: "寻乌县"}, {label: "兴国县"}, {label: "定南县"}, {label: "上犹县"}, {label: "于都县"}, {label: "龙南县"}, {label: "崇义县"}, {label: "信丰县"}, {label: "全南县"}, {label: "大余县"}, {label: "会昌县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "吉安",
-                      children: [{lable: "请选择"}, {lable: "吉州区"}, {lable: "青原区"}, {lable: "井冈山市"}, {lable: "吉安县"}, {lable: "永丰县"}, {lable: "永新县"}, {lable: "新干县"}, {lable: "泰和县"}, {lable: "峡江县"}, {lable: "遂川县"}, {lable: "安福县"}, {lable: "吉水县"}, {lable: "万安县"}, {lable: "其他"}],
+                      label: "吉安",
+                      children: [{label: "吉州区"}, {label: "青原区"}, {label: "井冈山市"}, {label: "吉安县"}, {label: "永丰县"}, {label: "永新县"}, {label: "新干县"}, {label: "泰和县"}, {label: "峡江县"}, {label: "遂川县"}, {label: "安福县"}, {label: "吉水县"}, {label: "万安县"}],
                       value: 0
                     },
                     {
-                      lable: "宜春",
-                      children: [{lable: "请选择"}, {lable: "袁州区"}, {lable: "丰城市"}, {lable: "樟树市"}, {lable: "高安市"}, {lable: "铜鼓县"}, {lable: "靖安县"}, {lable: "宜丰县"}, {lable: "奉新县"}, {lable: "万载县"}, {lable: "上高县"}, {lable: "其他"}],
+                      label: "宜春",
+                      children: [ {label: "袁州区"}, {label: "丰城市"}, {label: "樟树市"}, {label: "高安市"}, {label: "铜鼓县"}, {label: "靖安县"}, {label: "宜丰县"}, {label: "奉新县"}, {label: "万载县"}, {label: "上高县"}],
                       value: 0
                     },
                     {
-                      lable: "抚州",
-                      children: [{lable: "请选择"}, {lable: "临川区"}, {lable: "南丰县"}, {lable: "乐安县"}, {lable: "金溪县"}, {lable: "南城县"}, {lable: "东乡县"}, {lable: "资溪县"}, {lable: "宜黄县"}, {lable: "广昌县"}, {lable: "黎川县"}, {lable: "崇仁县"}, {lable: "其他"}],
+                      label: "抚州",
+                      children: [{label: "临川区"}, {label: "南丰县"}, {label: "乐安县"}, {label: "金溪县"}, {label: "南城县"}, {label: "东乡县"}, {label: "资溪县"}, {label: "宜黄县"}, {label: "广昌县"}, {label: "黎川县"}, {label: "崇仁县"}],
                       value: 0
                     },
                     {
-                      lable: "上饶",
-                      children: [{lable: "请选择"}, {lable: "信州区"}, {lable: "德兴市"}, {lable: "上饶县"}, {lable: "广丰县"}, {lable: "鄱阳县"}, {lable: "婺源县"}, {lable: "铅山县"}, {lable: "余干县"}, {lable: "横峰县"}, {lable: "弋阳县"}, {lable: "玉山县"}, {lable: "万年县"}, {lable: "其他"}],
+                      label: "上饶",
+                      children: [ {label: "信州区"}, {label: "德兴市"}, {label: "上饶县"}, {label: "广丰县"}, {label: "鄱阳县"}, {label: "婺源县"}, {label: "铅山县"}, {label: "余干县"}, {label: "横峰县"}, {label: "弋阳县"}, {label: "玉山县"}, {label: "万年县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                   ],
                 },
                 {
-                  lable: "贵州",
+                  label: "贵州",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "贵阳",
-                      children: [{lable: "请选择"}, {lable: "南明区"}, {lable: "云岩区"}, {lable: "花溪区"}, {lable: "乌当区"}, {lable: "白云区"}, {lable: "小河区"}, {lable: "清镇市"}, {lable: "开阳县"}, {lable: "修文县"}, {lable: "息烽县"}, {lable: "其他"}],
+                      label: "贵阳",
+                      children: [{label: "南明区"}, {label: "云岩区"}, {label: "花溪区"}, {label: "乌当区"}, {label: "白云区"}, {label: "小河区"}, {label: "清镇市"}, {label: "开阳县"}, {label: "修文县"}, {label: "息烽县"}],
                       value: 0
                     },
                     {
-                      lable: "六盘水",
-                      children: [{lable: "请选择"}, {lable: "钟山区"}, {lable: "水城县"}, {lable: "盘县"}, {lable: "六枝特区"}, {lable: "其他"}],
+                      label: "六盘水",
+                      children: [{label: "钟山区"}, {label: "水城县"}, {label: "盘县"}, {label: "六枝特区"}],
                       value: 0
                     },
                     {
-                      lable: "遵义",
-                      children: [{lable: "请选择"}, {lable: "红花岗区"}, {lable: "汇川区"}, {lable: "赤水市"}, {lable: "仁怀市"}, {lable: "遵义县"}, {lable: "绥阳县"}, {lable: "桐梓县"}, {lable: "习水县"}, {lable: "凤冈县"}, {lable: "正安县"}, {lable: "余庆县"}, {lable: "湄潭县"}, {lable: "道真仡佬族苗族自治县"}, {lable: "务川仡佬族苗族自治县"}, {lable: "其他"}],
+                      label: "遵义",
+                      children: [{label: "红花岗区"}, {label: "汇川区"}, {label: "赤水市"}, {label: "仁怀市"}, {label: "遵义县"}, {label: "绥阳县"}, {label: "桐梓县"}, {label: "习水县"}, {label: "凤冈县"}, {label: "正安县"}, {label: "余庆县"}, {label: "湄潭县"}, {label: "道真仡佬族苗族自治县"}, {label: "务川仡佬族苗族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "安顺",
-                      children: [{lable: "请选择"}, {lable: "西秀区"}, {lable: "普定县"}, {lable: "平坝县"}, {lable: "镇宁布依族苗族自治县"}, {lable: "紫云苗族布依族自治县"}, {lable: "关岭布依族苗族自治县"}, {lable: "其他"}],
+                      label: "安顺",
+                      children: [{label: "西秀区"}, {label: "普定县"}, {label: "平坝县"}, {label: "镇宁布依族苗族自治县"}, {label: "紫云苗族布依族自治县"}, {label: "关岭布依族苗族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "铜仁地区",
-                      children: [{lable: "请选择"}, {lable: "铜仁市"}, {lable: "德江县"}, {lable: "江口县"}, {lable: "思南县"}, {lable: "石阡县"}, {lable: "玉屏侗族自治县"}, {lable: "松桃苗族自治县"}, {lable: "印江土家族苗族自治县"}, {lable: "沿河土家族自治县"}, {lable: "万山特区"}, {lable: "其他"}],
+                      label: "铜仁地区",
+                      children: [{label: "铜仁市"}, {label: "德江县"}, {label: "江口县"}, {label: "思南县"}, {label: "石阡县"}, {label: "玉屏侗族自治县"}, {label: "松桃苗族自治县"}, {label: "印江土家族苗族自治县"}, {label: "沿河土家族自治县"}, {label: "万山特区"}],
                       value: 0
                     },
                     {
-                      lable: "毕节地区",
-                      children: [{lable: "请选择"}, {lable: "毕节市"}, {lable: "黔西县"}, {lable: "大方县"}, {lable: "织金县"}, {lable: "金沙县"}, {lable: "赫章县"}, {lable: "纳雍县"}, {lable: "威宁彝族回族苗族自治县"}, {lable: "其他"}],
+                      label: "毕节地区",
+                      children: [{label: "毕节市"}, {label: "黔西县"}, {label: "大方县"}, {label: "织金县"}, {label: "金沙县"}, {label: "赫章县"}, {label: "纳雍县"}, {label: "威宁彝族回族苗族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "黔西南布依族苗族自治州",
-                      children: [{lable: "请选择"}, {lable: "兴义市"}, {lable: "望谟县"}, {lable: "兴仁县"}, {lable: "普安县"}, {lable: "册亨县"}, {lable: "晴隆县"}, {lable: "贞丰县"}, {lable: "安龙县"}, {lable: "其他"}],
+                      label: "黔西南布依族苗族自治州",
+                      children: [{label: "兴义市"}, {label: "望谟县"}, {label: "兴仁县"}, {label: "普安县"}, {label: "册亨县"}, {label: "晴隆县"}, {label: "贞丰县"}, {label: "安龙县"}],
                       value: 0
                     },
                     {
-                      lable: "黔东南苗族侗族自治州",
-                      children: [{lable: "请选择"}, {lable: "凯里市"}, {lable: "施秉县"}, {lable: "从江县"}, {lable: "锦屏县"}, {lable: "镇远县"}, {lable: "麻江县"}, {lable: "台江县"}, {lable: "天柱县"}, {lable: "黄平县"}, {lable: "榕江县"}, {lable: "剑河县"}, {lable: "三穗县"}, {lable: "雷山县"}, {lable: "黎平县"}, {lable: "岑巩县"}, {lable: "丹寨县"}, {lable: "其他"}],
+                      label: "黔东南苗族侗族自治州",
+                      children: [{label: "凯里市"}, {label: "施秉县"}, {label: "从江县"}, {label: "锦屏县"}, {label: "镇远县"}, {label: "麻江县"}, {label: "台江县"}, {label: "天柱县"}, {label: "黄平县"}, {label: "榕江县"}, {label: "剑河县"}, {label: "三穗县"}, {label: "雷山县"}, {label: "黎平县"}, {label: "岑巩县"}, {label: "丹寨县"}],
                       value: 0
                     },
                     {
-                      lable: "黔南布依族苗族自治州",
-                      children: [{lable: "请选择"}, {lable: "都匀市"}, {lable: "福泉市"}, {lable: "贵定县"}, {lable: "惠水县"}, {lable: "罗甸县"}, {lable: "瓮安县"}, {lable: "荔波县"}, {lable: "龙里县"}, {lable: "平塘县"}, {lable: "长顺县"}, {lable: "独山县"}, {lable: "三都水族自治县"}, {lable: "其他"}],
+                      label: "黔南布依族苗族自治州",
+                      children: [ {label: "都匀市"}, {label: "福泉市"}, {label: "贵定县"}, {label: "惠水县"}, {label: "罗甸县"}, {label: "瓮安县"}, {label: "荔波县"}, {label: "龙里县"}, {label: "平塘县"}, {label: "长顺县"}, {label: "独山县"}, {label: "三都水族自治县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                   ],
                 },
                 {
-                  lable: "云南",
+                  label: "云南",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "昆明",
-                      children: [{lable: "请选择"}, {lable: "盘龙区"}, {lable: "五华区"}, {lable: "官渡区"}, {lable: "西山区"}, {lable: "东川区"}, {lable: "安宁市"}, {lable: "呈贡县"}, {lable: "晋宁县"}, {lable: "富民县"}, {lable: "宜良县"}, {lable: "嵩明县"}, {lable: "石林彝族自治县"}, {lable: "禄劝彝族苗族自治县"}, {lable: "寻甸回族彝族自治县"}, {lable: "其他"}],
+                      label: "昆明",
+                      children: [{label: "盘龙区"}, {label: "五华区"}, {label: "官渡区"}, {label: "西山区"}, {label: "东川区"}, {label: "安宁市"}, {label: "呈贡县"}, {label: "晋宁县"}, {label: "富民县"}, {label: "宜良县"}, {label: "嵩明县"}, {label: "石林彝族自治县"}, {label: "禄劝彝族苗族自治县"}, {label: "寻甸回族彝族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "曲靖",
-                      children: [{lable: "请选择"}, {lable: "麒麟区"}, {lable: "宣威市"}, {lable: "马龙县"}, {lable: "沾益县"}, {lable: "富源县"}, {lable: "罗平县"}, {lable: "师宗县"}, {lable: "陆良县"}, {lable: "会泽县"}, {lable: "其他"}],
+                      label: "曲靖",
+                      children: [{label: "麒麟区"}, {label: "宣威市"}, {label: "马龙县"}, {label: "沾益县"}, {label: "富源县"}, {label: "罗平县"}, {label: "师宗县"}, {label: "陆良县"}, {label: "会泽县"}],
                       value: 0
                     },
                     {
-                      lable: "玉溪",
-                      children: [{lable: "请选择"}, {lable: "红塔区"}, {lable: "江川县"}, {lable: "澄江县"}, {lable: "通海县"}, {lable: "华宁县"}, {lable: "易门县"}, {lable: "峨山彝族自治县"}, {lable: "新平彝族傣族自治县"}, {lable: "元江哈尼族彝族傣族自治县"}, {lable: "其他"}],
+                      label: "玉溪",
+                      children: [{label: "红塔区"}, {label: "江川县"}, {label: "澄江县"}, {label: "通海县"}, {label: "华宁县"}, {label: "易门县"}, {label: "峨山彝族自治县"}, {label: "新平彝族傣族自治县"}, {label: "元江哈尼族彝族傣族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "保山",
-                      children: [{lable: "请选择"}, {lable: "隆阳区"}, {lable: "施甸县"}, {lable: "腾冲县"}, {lable: "龙陵县"}, {lable: "昌宁县"}, {lable: "其他"}],
+                      label: "保山",
+                      children: [{label: "隆阳区"}, {label: "施甸县"}, {label: "腾冲县"}, {label: "龙陵县"}, {label: "昌宁县"}, {label: "其他"}],
                       value: 0
                     },
                     {
-                      lable: "昭通",
-                      children: [{lable: "请选择"}, {lable: "昭阳区"}, {lable: "鲁甸县"}, {lable: "巧家县"}, {lable: "盐津县"}, {lable: "大关县"}, {lable: "永善县"}, {lable: "绥江县"}, {lable: "镇雄县"}, {lable: "彝良县"}, {lable: "威信县"}, {lable: "水富县"}, {lable: "其他"}],
+                      label: "昭通",
+                      children: [{label: "昭阳区"}, {label: "鲁甸县"}, {label: "巧家县"}, {label: "盐津县"}, {label: "大关县"}, {label: "永善县"}, {label: "绥江县"}, {label: "镇雄县"}, {label: "彝良县"}, {label: "威信县"}, {label: "水富县"}],
                       value: 0
                     },
                     {
-                      lable: "丽江",
-                      children: [{lable: "请选择"}, {lable: "古城区"}, {lable: "永胜县"}, {lable: "华坪县"}, {lable: "玉龙纳西族自治县"}, {lable: "宁蒗彝族自治县"}, {lable: "其他"}],
+                      label: "丽江",
+                      children: [{label: "古城区"}, {label: "永胜县"}, {label: "华坪县"}, {label: "玉龙纳西族自治县"}, {label: "宁蒗彝族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "普洱",
-                      children: [{lable: "请选择"}, {lable: "思茅区"}, {lable: "普洱哈尼族彝族自治县"}, {lable: "墨江哈尼族自治县"}, {lable: "景东彝族自治县"}, {lable: "景谷傣族彝族自治县"}, {lable: "镇沅彝族哈尼族拉祜族自治县"}, {lable: "江城哈尼族彝族自治县"}, {lable: "孟连傣族拉祜族佤族自治县"}, {lable: "澜沧拉祜族自治县"}, {lable: "西盟佤族自治县"}, {lable: "其他"}],
+                      label: "普洱",
+                      children: [{label: "思茅区"}, {label: "普洱哈尼族彝族自治县"}, {label: "墨江哈尼族自治县"}, {label: "景东彝族自治县"}, {label: "景谷傣族彝族自治县"}, {label: "镇沅彝族哈尼族拉祜族自治县"}, {label: "江城哈尼族彝族自治县"}, {label: "孟连傣族拉祜族佤族自治县"}, {label: "澜沧拉祜族自治县"}, {label: "西盟佤族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "临沧",
-                      children: [{lable: "请选择"}, {lable: "临翔区"}, {lable: "凤庆县"}, {lable: "云县"}, {lable: "永德县"}, {lable: "镇康县"}, {lable: "双江拉祜族佤族布朗族傣族自治县"}, {lable: "耿马傣族佤族自治县"}, {lable: "沧源佤族自治县"}, {lable: "其他"}],
+                      label: "临沧",
+                      children: [{label: "临翔区"}, {label: "凤庆县"}, {label: "云县"}, {label: "永德县"}, {label: "镇康县"}, {label: "双江拉祜族佤族布朗族傣族自治县"}, {label: "耿马傣族佤族自治县"}, {label: "沧源佤族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "德宏傣族景颇族自治州",
-                      children: [{lable: "请选择"}, {lable: "潞西市"}, {lable: "瑞丽市"}, {lable: "梁河县"}, {lable: "盈江县"}, {lable: "陇川县"}, {lable: "其他"}],
+                      label: "德宏傣族景颇族自治州",
+                      children: [{label: "潞西市"}, {label: "瑞丽市"}, {label: "梁河县"}, {label: "盈江县"}, {label: "陇川县"}],
                       value: 0
                     },
                     {
-                      lable: "怒江傈僳族自治州",
-                      children: [{lable: "请选择"}, {lable: "泸水县"}, {lable: "福贡县"}, {lable: "贡山独龙族怒族自治县"}, {lable: "兰坪白族普米族自治县"}, {lable: "其他"}],
+                      label: "怒江傈僳族自治州",
+                      children: [{label: "泸水县"}, {label: "福贡县"}, {label: "贡山独龙族怒族自治县"}, {label: "兰坪白族普米族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "迪庆藏族自治州",
-                      children: [{lable: "请选择"}, {lable: "香格里拉县"}, {lable: "德钦县"}, {lable: "维西傈僳族自治县"}, {lable: "其他"}],
+                      label: "迪庆藏族自治州",
+                      children: [{label: "香格里拉县"}, {label: "德钦县"}, {label: "维西傈僳族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "大理白族自治州",
-                      children: [{lable: "请选择"}, {lable: "大理市"}, {lable: "祥云县"}, {lable: "宾川县"}, {lable: "弥渡县"}, {lable: "永平县"}, {lable: "云龙县"}, {lable: "洱源县"}, {lable: "剑川县"}, {lable: "鹤庆县"}, {lable: "漾濞彝族自治县"}, {lable: "南涧彝族自治县"}, {lable: "巍山彝族回族自治县"}, {lable: "其他"}],
+                      label: "大理白族自治州",
+                      children: [{label: "大理市"}, {label: "祥云县"}, {label: "宾川县"}, {label: "弥渡县"}, {label: "永平县"}, {label: "云龙县"}, {label: "洱源县"}, {label: "剑川县"}, {label: "鹤庆县"}, {label: "漾濞彝族自治县"}, {label: "南涧彝族自治县"}, {label: "巍山彝族回族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "楚雄彝族自治州",
-                      children: [{lable: "请选择"}, {lable: "楚雄市"}, {lable: "双柏县"}, {lable: "牟定县"}, {lable: "南华县"}, {lable: "姚安县"}, {lable: "大姚县"}, {lable: "永仁县"}, {lable: "元谋县"}, {lable: "武定县"}, {lable: "禄丰县"}, {lable: "其他"}],
+                      label: "楚雄彝族自治州",
+                      children: [{label: "楚雄市"}, {label: "双柏县"}, {label: "牟定县"}, {label: "南华县"}, {label: "姚安县"}, {label: "大姚县"}, {label: "永仁县"}, {label: "元谋县"}, {label: "武定县"}, {label: "禄丰县"}],
                       value: 0
                     },
                     {
-                      lable: "红河哈尼族彝族自治州",
-                      children: [{lable: "请选择"}, {lable: "蒙自县"}, {lable: "个旧市"}, {lable: "开远市"}, {lable: "绿春县"}, {lable: "建水县"}, {lable: "石屏县"}, {lable: "弥勒县"}, {lable: "泸西县"}, {lable: "元阳县"}, {lable: "红河县"}, {lable: "金平苗族瑶族傣族自治县"}, {lable: "河口瑶族自治县"}, {lable: "屏边苗族自治县"}, {lable: "其他"}],
+                      label: "红河哈尼族彝族自治州",
+                      children: [{label: "蒙自县"}, {label: "个旧市"}, {label: "开远市"}, {label: "绿春县"}, {label: "建水县"}, {label: "石屏县"}, {label: "弥勒县"}, {label: "泸西县"}, {label: "元阳县"}, {label: "红河县"}, {label: "金平苗族瑶族傣族自治县"}, {label: "河口瑶族自治县"}, {label: "屏边苗族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "文山壮族苗族自治州",
-                      children: [{lable: "请选择"}, {lable: "文山县"}, {lable: "砚山县"}, {lable: "西畴县"}, {lable: "麻栗坡县"}, {lable: "马关县"}, {lable: "丘北县"}, {lable: "广南县"}, {lable: "富宁县"}, {lable: "其他"}],
+                      label: "文山壮族苗族自治州",
+                      children: [{label: "文山县"}, {label: "砚山县"}, {label: "西畴县"}, {label: "麻栗坡县"}, {label: "马关县"}, {label: "丘北县"}, {label: "广南县"}, {label: "富宁县"}],
                       value: 0
                     },
                     {
-                      lable: "西双版纳傣族自治州",
-                      children: [{lable: "请选择"}, {lable: "景洪市"}, {lable: "勐海县"}, {lable: "勐腊县"}, {lable: "其他"}],
+                      label: "西双版纳傣族自治州",
+                      children: [ {label: "景洪市"}, {label: "勐海县"}, {label: "勐腊县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                    ],
                 },
                 {
-                  lable: "西藏",
+                  label: "西藏",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "拉萨",
-                      children: [{lable: "请选择"}, {lable: "城关区"}, {lable: "林周县"}, {lable: "当雄县"}, {lable: "尼木县"}, {lable: "曲水县"}, {lable: "堆龙德庆县"}, {lable: "达孜县"}, {lable: "墨竹工卡县"}, {lable: "其他"}],
+                      label: "拉萨",
+                      children: [{label: "城关区"}, {label: "林周县"}, {label: "当雄县"}, {label: "尼木县"}, {label: "曲水县"}, {label: "堆龙德庆县"}, {label: "达孜县"}, {label: "墨竹工卡县"}],
                       value: 0
                     },
                     {
-                      lable: "那曲地区",
-                      children: [{lable: "请选择"}, {lable: "那曲县"}, {lable: "嘉黎县"}, {lable: "比如县"}, {lable: "聂荣县"}, {lable: "安多县"}, {lable: "申扎县"}, {lable: "索县"}, {lable: "班戈县"}, {lable: "巴青县"}, {lable: "尼玛县"}, {lable: "其他"}],
+                      label: "那曲地区",
+                      children: [{label: "那曲县"}, {label: "嘉黎县"}, {label: "比如县"}, {label: "聂荣县"}, {label: "安多县"}, {label: "申扎县"}, {label: "索县"}, {label: "班戈县"}, {label: "巴青县"}, {label: "尼玛县"}],
                       value: 0
                     },
                     {
-                      lable: "昌都地区",
-                      children: [{lable: "请选择"}, {lable: "昌都县"}, {lable: "江达县"}, {lable: "贡觉县"}, {lable: "类乌齐县"}, {lable: "丁青县"}, {lable: "察雅县"}, {lable: "八宿县"}, {lable: "左贡县"}, {lable: "芒康县"}, {lable: "洛隆县"}, {lable: "边坝县"}, {lable: "其他"}],
+                      label: "昌都地区",
+                      children: [{label: "昌都县"}, {label: "江达县"}, {label: "贡觉县"}, {label: "类乌齐县"}, {label: "丁青县"}, {label: "察雅县"}, {label: "八宿县"}, {label: "左贡县"}, {label: "芒康县"}, {label: "洛隆县"}, {label: "边坝县"}],
                       value: 0
                     },
                     {
-                      lable: "林芝地区",
-                      children: [{lable: "请选择"}, {lable: "林芝县"}, {lable: "工布江达县"}, {lable: "米林县"}, {lable: "墨脱县"}, {lable: "波密县"}, {lable: "察隅县"}, {lable: "朗县"}, {lable: "其他"}],
+                      label: "林芝地区",
+                      children: [{label: "林芝县"}, {label: "工布江达县"}, {label: "米林县"}, {label: "墨脱县"}, {label: "波密县"}, {label: "察隅县"}, {label: "朗县"}],
                       value: 0
                     },
                     {
-                      lable: "山南地区",
-                      children: [{lable: "请选择"}, {lable: "乃东县"}, {lable: "扎囊县"}, {lable: "贡嘎县"}, {lable: "桑日县"}, {lable: "琼结县"}, {lable: "曲松县"}, {lable: "措美县"}, {lable: "洛扎县"}, {lable: "加查县"}, {lable: "隆子县"}, {lable: "错那县"}, {lable: "浪卡子县"}, {lable: "其他"}],
+                      label: "山南地区",
+                      children: [{label: "乃东县"}, {label: "扎囊县"}, {label: "贡嘎县"}, {label: "桑日县"}, {label: "琼结县"}, {label: "曲松县"}, {label: "措美县"}, {label: "洛扎县"}, {label: "加查县"}, {label: "隆子县"}, {label: "错那县"}, {label: "浪卡子县"}],
                       value: 0
                     },
                     {
-                      lable: "日喀则地区",
-                      children: [{lable: "请选择"}, {lable: "日喀则市"}, {lable: "南木林县"}, {lable: "江孜县"}, {lable: "定日县"}, {lable: "萨迦县"}, {lable: "拉孜县"}, {lable: "昂仁县"}, {lable: "谢通门县"}, {lable: "白朗县"}, {lable: "仁布县"}, {lable: "康马县"}, {lable: "定结县"}, {lable: "仲巴县"}, {lable: "亚东县"}, {lable: "吉隆县"}, {lable: "聂拉木县"}, {lable: "萨嘎县"}, {lable: "岗巴县"}, {lable: "其他"}],
+                      label: "日喀则地区",
+                      children: [{label: "日喀则市"}, {label: "南木林县"}, {label: "江孜县"}, {label: "定日县"}, {label: "萨迦县"}, {label: "拉孜县"}, {label: "昂仁县"}, {label: "谢通门县"}, {label: "白朗县"}, {label: "仁布县"}, {label: "康马县"}, {label: "定结县"}, {label: "仲巴县"}, {label: "亚东县"}, {label: "吉隆县"}, {label: "聂拉木县"}, {label: "萨嘎县"}, {label: "岗巴县"}],
                       value: 0
                     },
                     {
-                      lable: "阿里地区",
-                      children: [{lable: "请选择"}, {lable: "噶尔县"}, {lable: "普兰县"}, {lable: "札达县"}, {lable: "日土县"}, {lable: "革吉县"}, {lable: "改则县"}, {lable: "措勤县"}, {lable: "其他"}],
+                      label: "阿里地区",
+                      children: [{label: "噶尔县"}, {label: "普兰县"}, {label: "札达县"}, {label: "日土县"}, {label: "革吉县"}, {label: "改则县"}, {label: "措勤县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                   ],
                 },
                 {
-                  lable: "海南",
+                  label: "海南",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "海口",
-                      children: [{lable: "请选择"}, {lable: "龙华区"}, {lable: "秀英区"}, {lable: "琼山区"}, {lable: "美兰区"}, {lable: "其他"}],
+                      label: "海口",
+                      children: [{label: "龙华区"}, {label: "秀英区"}, {label: "琼山区"}, {label: "美兰区"}],
                       value: 0
                     },
                     {
-                      lable: "三亚",
-                      children: [{lable: "请选择"}, {lable: "三亚市"}, {lable: "其他"}],
+                      label: "三亚",
+                      children: [ {label: "三亚市"}],
                       value: 0
                     },
                     {
-                      lable: "五指山",
+                      label: "五指山",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "琼海",
+                      label: "琼海",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "儋州",
+                      label: "儋州",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "文昌",
+                      label: "文昌",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "万宁",
+                      label: "万宁",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "东方",
+                      label: "东方",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "澄迈县",
+                      label: "澄迈县",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "定安县",
+                      label: "定安县",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "屯昌县",
+                      label: "屯昌县",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "临高县",
+                      label: "临高县",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "白沙黎族自治县",
+                      label: "白沙黎族自治县",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "昌江黎族自治县",
+                      label: "昌江黎族自治县",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "乐东黎族自治县",
+                      label: "乐东黎族自治县",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "陵水黎族自治县",
+                      label: "陵水黎族自治县",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "保亭黎族苗族自治县",
+                      label: "保亭黎族苗族自治县",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "琼中黎族苗族自治县",
+                      label: "琼中黎族苗族自治县",
                       children: [],
                       value: 0
-                    },
-                    {lable: "其他"}],
+                    },],
                 },
                 {
-                  lable: "甘肃",
+                  label: "甘肃",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "兰州",
-                      children: [{lable: "请选择"}, {lable: "城关区"}, {lable: "七里河区"}, {lable: "西固区"}, {lable: "安宁区"}, {lable: "红古区"}, {lable: "永登县"}, {lable: "皋兰县"}, {lable: "榆中县"}, {lable: "其他"}],
+                      label: "兰州",
+                      children: [{label: "城关区"}, {label: "七里河区"}, {label: "西固区"}, {label: "安宁区"}, {label: "红古区"}, {label: "永登县"}, {label: "皋兰县"}, {label: "榆中县"}],
                       value: 0
                     },
                     {
-                      lable: "嘉峪关",
-                      children: [{lable: "请选择"}, {lable: "嘉峪关市"}, {lable: "其他"}],
+                      label: "嘉峪关",
+                      children: [ {label: "嘉峪关市"}],
                       value: 0
                     },
                     {
-                      lable: "金昌",
-                      children: [{lable: "请选择"}, {lable: "金川区"}, {lable: "永昌县"}, {lable: "其他"}],
+                      label: "金昌",
+                      children: [ {label: "金川区"}, {label: "永昌县"}],
                       value: 0
                     },
                     {
-                      lable: "白银",
-                      children: [{lable: "请选择"}, {lable: "白银区"}, {lable: "平川区"}, {lable: "靖远县"}, {lable: "会宁县"}, {lable: "景泰县"}, {lable: "其他"}],
+                      label: "白银",
+                      children: [{label: "白银区"}, {label: "平川区"}, {label: "靖远县"}, {label: "会宁县"}, {label: "景泰县"}],
                       value: 0
                     },
                     {
-                      lable: "天水",
-                      children: [{lable: "请选择"}, {lable: "清水县"}, {lable: "秦安县"}, {lable: "甘谷县"}, {lable: "武山县"}, {lable: "张家川回族自治县"}, {lable: "北道区"}, {lable: "秦城区"}, {lable: "其他"}],
+                      label: "天水",
+                      children: [{label: "清水县"}, {label: "秦安县"}, {label: "甘谷县"}, {label: "武山县"}, {label: "张家川回族自治县"}, {label: "北道区"}, {label: "秦城区"}],
                       value: 0
                     },
                     {
-                      lable: "武威",
-                      children: [{lable: "请选择"}, {lable: "凉州区"}, {lable: "民勤县"}, {lable: "古浪县"}, {lable: "天祝藏族自治县"}, {lable: "其他"}],
+                      label: "武威",
+                      children: [{label: "凉州区"}, {label: "民勤县"}, {label: "古浪县"}, {label: "天祝藏族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "酒泉",
-                      children: [{lable: "请选择"}, {lable: "肃州区"}, {lable: "玉门市"}, {lable: "敦煌市"}, {lable: "金塔县"}, {lable: "肃北蒙古族自治县"}, {lable: "阿克塞哈萨克族自治县"}, {lable: "安西县"}, {lable: "其他"}],
+                      label: "酒泉",
+                      children: [{label: "肃州区"}, {label: "玉门市"}, {label: "敦煌市"}, {label: "金塔县"}, {label: "肃北蒙古族自治县"}, {label: "阿克塞哈萨克族自治县"}, {label: "安西县"}],
                       value: 0
                     },
                     {
-                      lable: "张掖",
-                      children: [{lable: "请选择"}, {lable: "甘州区"}, {lable: "民乐县"}, {lable: "临泽县"}, {lable: "高台县"}, {lable: "山丹县"}, {lable: "肃南裕固族自治县"}, {lable: "其他"}],
+                      label: "张掖",
+                      children: [{label: "请选择"}, {label: "甘州区"}, {label: "民乐县"}, {label: "临泽县"}, {label: "高台县"}, {label: "山丹县"}, {label: "肃南裕固族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "庆阳",
-                      children: [{lable: "请选择"}, {lable: "西峰区"}, {lable: "庆城县"}, {lable: "环县"}, {lable: "华池县"}, {lable: "合水县"}, {lable: "正宁县"}, {lable: "宁县"}, {lable: "镇原县"}, {lable: "其他"}],
+                      label: "庆阳",
+                      children: [{label: "西峰区"}, {label: "庆城县"}, {label: "环县"}, {label: "华池县"}, {label: "合水县"}, {label: "正宁县"}, {label: "宁县"}, {label: "镇原县"}],
                       value: 0
                     },
                     {
-                      lable: "平凉",
-                      children: [{lable: "请选择"}, {lable: "崆峒区"}, {lable: "泾川县"}, {lable: "灵台县"}, {lable: "崇信县"}, {lable: "华亭县"}, {lable: "庄浪县"}, {lable: "静宁县"}, {lable: "其他"}],
+                      label: "平凉",
+                      children: [{label: "崆峒区"}, {label: "泾川县"}, {label: "灵台县"}, {label: "崇信县"}, {label: "华亭县"}, {label: "庄浪县"}, {label: "静宁县"}],
                       value: 0
                     },
                     {
-                      lable: "定西",
-                      children: [{lable: "请选择"}, {lable: "安定区"}, {lable: "通渭县"}, {lable: "临洮县"}, {lable: "漳县"}, {lable: "岷县"}, {lable: "渭源县"}, {lable: "陇西县"}, {lable: "其他"}],
+                      label: "定西",
+                      children: [ {label: "安定区"}, {label: "通渭县"}, {label: "临洮县"}, {label: "漳县"}, {label: "岷县"}, {label: "渭源县"}, {label: "陇西县"}],
                       value: 0
                     },
                     {
-                      lable: "陇南",
-                      children: [{lable: "请选择"}, {lable: "武都区"}, {lable: "成县"}, {lable: "宕昌县"}, {lable: "康县"}, {lable: "文县"}, {lable: "西和县"}, {lable: "礼县"}, {lable: "两当县"}, {lable: "徽县"}, {lable: "其他"}],
+                      label: "陇南",
+                      children: [{label: "武都区"}, {label: "成县"}, {label: "宕昌县"}, {label: "康县"}, {label: "文县"}, {label: "西和县"}, {label: "礼县"}, {label: "两当县"}, {label: "徽县"}],
                       value: 0
                     },
                     {
-                      lable: "临夏回族自治州",
-                      children: [{lable: "请选择"}, {lable: "临夏市"}, {lable: "临夏县"}, {lable: "康乐县"}, {lable: "永靖县"}, {lable: "广河县"}, {lable: "和政县"}, {lable: "东乡族自治县"}, {lable: "积石山保安族东乡族撒拉族自治县"}, {lable: "其他"}],
+                      label: "临夏回族自治州",
+                      children: [{label: "临夏市"}, {label: "临夏县"}, {label: "康乐县"}, {label: "永靖县"}, {label: "广河县"}, {label: "和政县"}, {label: "东乡族自治县"}, {label: "积石山保安族东乡族撒拉族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "甘南藏族自治州",
-                      children: [{lable: "请选择"}, {lable: "合作市"}, {lable: "临潭县"}, {lable: "卓尼县"}, {lable: "舟曲县"}, {lable: "迭部县"}, {lable: "玛曲县"}, {lable: "碌曲县"}, {lable: "夏河县"}, {lable: "其他"}],
+                      label: "甘南藏族自治州",
+                      children: [{label: "合作市"}, {label: "临潭县"}, {label: "卓尼县"}, {label: "舟曲县"}, {label: "迭部县"}, {label: "玛曲县"}, {label: "碌曲县"}, {label: "夏河县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                    ],
                 },
                 {
-                  lable: "宁夏",
+                  label: "宁夏",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "银川",
-                      children: [{lable: "请选择"}, {lable: "兴庆区"}, {lable: "西夏区"}, {lable: "金凤区"}, {lable: "灵武市"}, {lable: "永宁县"}, {lable: "贺兰县"}, {lable: "其他"}],
+                      label: "银川",
+                      children: [{label: "兴庆区"}, {label: "西夏区"}, {label: "金凤区"}, {label: "灵武市"}, {label: "永宁县"}, {label: "贺兰县"}],
                       value: 0
                     },
                     {
-                      lable: "石嘴山",
-                      children: [{lable: "请选择"}, {lable: "大武口区"}, {lable: "惠农区"}, {lable: "平罗县"}, {lable: "其他"}],
+                      label: "石嘴山",
+                      children: [{label: "大武口区"}, {label: "惠农区"}, {label: "平罗县"}],
                       value: 0
                     },
                     {
-                      lable: "吴忠",
-                      children: [{lable: "请选择"}, {lable: "利通区"}, {lable: "青铜峡市"}, {lable: "盐池县"}, {lable: "同心县"}, {lable: "其他"}],
+                      label: "吴忠",
+                      children: [{label: "利通区"}, {label: "青铜峡市"}, {label: "盐池县"}, {label: "同心县"}],
                       value: 0
                     },
                     {
-                      lable: "固原",
-                      children: [{lable: "请选择"}, {lable: "原州区"}, {lable: "西吉县"}, {lable: "隆德县"}, {lable: "泾源县"}, {lable: "彭阳县"}, {lable: "其他"}],
+                      label: "固原",
+                      children: [{label: "原州区"}, {label: "西吉县"}, {label: "隆德县"}, {label: "泾源县"}, {label: "彭阳县"}],
                       value: 0
                     },
                     {
-                      lable: "中卫",
-                      children: [{lable: "请选择"}, {lable: "沙坡头区"}, {lable: "中宁县"}, {lable: "海原县"}, {lable: "其他"}],
+                      label: "中卫",
+                      children: [ {label: "沙坡头区"}, {label: "中宁县"}, {label: "海原县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                    ],
                 },
                 {
-                  lable: "青海",
+                  label: "青海",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "西宁",
-                      children: [{lable: "请选择"}, {lable: "城中区"}, {lable: "城东区"}, {lable: "城西区"}, {lable: "城北区"}, {lable: "湟源县"}, {lable: "湟中县"}, {lable: "大通回族土族自治县"}, {lable: "其他"}],
+                      label: "西宁",
+                      children: [{label: "城中区"}, {label: "城东区"}, {label: "城西区"}, {label: "城北区"}, {label: "湟源县"}, {label: "湟中县"}, {label: "大通回族土族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "海东地区",
-                      children: [{lable: "请选择"}, {lable: "平安县"}, {lable: "乐都县"}, {lable: "民和回族土族自治县"}, {lable: "互助土族自治县"}, {lable: "化隆回族自治县"}, {lable: "循化撒拉族自治县"}, {lable: "其他"}],
+                      label: "海东地区",
+                      children: [{label: "平安县"}, {label: "乐都县"}, {label: "民和回族土族自治县"}, {label: "互助土族自治县"}, {label: "化隆回族自治县"}, {label: "循化撒拉族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "海北藏族自治州",
-                      children: [{lable: "请选择"}, {lable: "海晏县"}, {lable: "祁连县"}, {lable: "刚察县"}, {lable: "门源回族自治县"}, {lable: "其他"}],
+                      label: "海北藏族自治州",
+                      children: [{label: "海晏县"}, {label: "祁连县"}, {label: "刚察县"}, {label: "门源回族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "海南藏族自治州",
-                      children: [{lable: "请选择"}, {lable: "共和县"}, {lable: "同德县"}, {lable: "贵德县"}, {lable: "兴海县"}, {lable: "贵南县"}, {lable: "其他"}],
+                      label: "海南藏族自治州",
+                      children: [{label: "共和县"}, {label: "同德县"}, {label: "贵德县"}, {label: "兴海县"}, {label: "贵南县"}],
                       value: 0
                     },
                     {
-                      lable: "黄南藏族自治州",
-                      children: [{lable: "请选择"}, {lable: "同仁县"}, {lable: "尖扎县"}, {lable: "泽库县"}, {lable: "河南蒙古族自治县"}, {lable: "其他"}],
+                      label: "黄南藏族自治州",
+                      children: [{label: "同仁县"}, {label: "尖扎县"}, {label: "泽库县"}, {label: "河南蒙古族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "果洛藏族自治州",
-                      children: [{lable: "请选择"}, {lable: "玛沁县"}, {lable: "班玛县"}, {lable: "甘德县"}, {lable: "达日县"}, {lable: "久治县"}, {lable: "玛多县"}, {lable: "其他"}],
+                      label: "果洛藏族自治州",
+                      children: [{label: "玛沁县"}, {label: "班玛县"}, {label: "甘德县"}, {label: "达日县"}, {label: "久治县"}, {label: "玛多县"}],
                       value: 0
                     },
                     {
-                      lable: "玉树藏族自治州",
-                      children: [{lable: "请选择"}, {lable: "玉树县"}, {lable: "杂多县"}, {lable: "称多县"}, {lable: "治多县"}, {lable: "囊谦县"}, {lable: "曲麻莱县"}, {lable: "其他"}],
+                      label: "玉树藏族自治州",
+                      children: [{label: "玉树县"}, {label: "杂多县"}, {label: "称多县"}, {label: "治多县"}, {label: "囊谦县"}, {label: "曲麻莱县"}],
                       value: 0
                     },
                     {
-                      lable: "海西蒙古族藏族自治州",
-                      children: [{lable: "请选择"}, {lable: "德令哈市"}, {lable: "格尔木市"}, {lable: "乌兰县"}, {lable: "都兰县"}, {lable: "天峻县"}, {lable: "其他"}],
+                      label: "海西蒙古族藏族自治州",
+                      children: [{label: "德令哈市"}, {label: "格尔木市"}, {label: "乌兰县"}, {label: "都兰县"}, {label: "天峻县"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                    ],
                 },
                 {
-                  lable: "新疆",
+                  label: "新疆",
                   value:0,
-                  children: [{lable: "请选择", children: []},
+                  children: [
                     {
-                      lable: "乌鲁木齐",
-                      children: [{lable: "请选择"}, {lable: "天山区"}, {lable: "沙依巴克区"}, {lable: "新市区"}, {lable: "水磨沟区"}, {lable: "头屯河区"}, {lable: "达坂城区"}, {lable: "东山区"}, {lable: "乌鲁木齐县"}, {lable: "其他"}],
+                      label: "乌鲁木齐",
+                      children: [ {label: "天山区"}, {label: "沙依巴克区"}, {label: "新市区"}, {label: "水磨沟区"}, {label: "头屯河区"}, {label: "达坂城区"}, {label: "东山区"}, {label: "乌鲁木齐县"}],
                       value: 0
                     },
                     {
-                      lable: "克拉玛依",
-                      children: [{lable: "请选择"}, {lable: "克拉玛依区"}, {lable: "独山子区"}, {lable: "白碱滩区"}, {lable: "乌尔禾区"}, {lable: "其他"}],
+                      label: "克拉玛依",
+                      children: [{label: "克拉玛依区"}, {label: "独山子区"}, {label: "白碱滩区"}, {label: "乌尔禾区"}],
                       value: 0
                     },
                     {
-                      lable: "吐鲁番地区",
-                      children: [{lable: "请选择"}, {lable: "吐鲁番市"}, {lable: "托克逊县"}, {lable: "鄯善县"}, {lable: "其他"}],
+                      label: "吐鲁番地区",
+                      children: [ {label: "吐鲁番市"}, {label: "托克逊县"}, {label: "鄯善县"}],
                       value: 0
                     },
                     {
-                      lable: "哈密地区",
-                      children: [{lable: "请选择"}, {lable: "哈密市"}, {lable: "伊吾县"}, {lable: "巴里坤哈萨克自治县"}, {lable: "其他"}],
+                      label: "哈密地区",
+                      children: [{label: "哈密市"}, {label: "伊吾县"}, {label: "巴里坤哈萨克自治县"}],
                       value: 0
                     },
                     {
-                      lable: "和田地区",
-                      children: [{lable: "请选择"}, {lable: "和田市"}, {lable: "和田县"}, {lable: "洛浦县"}, {lable: "民丰县"}, {lable: "皮山县"}, {lable: "策勒县"}, {lable: "于田县"}, {lable: "墨玉县"}, {lable: "其他"}],
+                      label: "和田地区",
+                      children: [{label: "和田市"}, {label: "和田县"}, {label: "洛浦县"}, {label: "民丰县"}, {label: "皮山县"}, {label: "策勒县"}, {label: "于田县"}, {label: "墨玉县"}],
                       value: 0
                     },
                     {
-                      lable: "阿克苏地区",
-                      children: [{lable: "请选择"}, {lable: "阿克苏市"}, {lable: "温宿县"}, {lable: "沙雅县"}, {lable: "拜城县"}, {lable: "阿瓦提县"}, {lable: "库车县"}, {lable: "柯坪县"}, {lable: "新和县"}, {lable: "乌什县"}, {lable: "其他"}],
+                      label: "阿克苏地区",
+                      children: [{label: "阿克苏市"}, {label: "温宿县"}, {label: "沙雅县"}, {label: "拜城县"}, {label: "阿瓦提县"}, {label: "库车县"}, {label: "柯坪县"}, {label: "新和县"}, {label: "乌什县"}],
                       value: 0
                     },
                     {
-                      lable: "喀什地区",
-                      children: [{lable: "请选择"}, {lable: "喀什市"}, {lable: "巴楚县"}, {lable: "泽普县"}, {lable: "伽师县"}, {lable: "叶城县"}, {lable: "岳普湖县"}, {lable: "疏勒县"}, {lable: "麦盖提县"}, {lable: "英吉沙县"}, {lable: "莎车县"}, {lable: "疏附县"}, {lable: "塔什库尔干塔吉克自治县"}, {lable: "其他"}],
+                      label: "喀什地区",
+                      children: [{label: "喀什市"}, {label: "巴楚县"}, {label: "泽普县"}, {label: "伽师县"}, {label: "叶城县"}, {label: "岳普湖县"}, {label: "疏勒县"}, {label: "麦盖提县"}, {label: "英吉沙县"}, {label: "莎车县"}, {label: "疏附县"}, {label: "塔什库尔干塔吉克自治县"}],
                       value: 0
                     },
                     {
-                      lable: "克孜勒苏柯尔克孜自治州",
-                      children: [{lable: "请选择"}, {lable: "阿图什市"}, {lable: "阿合奇县"}, {lable: "乌恰县"}, {lable: "阿克陶县"}, {lable: "其他"}],
+                      label: "克孜勒苏柯尔克孜自治州",
+                      children: [{label: "阿图什市"}, {label: "阿合奇县"}, {label: "乌恰县"}, {label: "阿克陶县"}],
                       value: 0
                     },
                     {
-                      lable: "巴音郭楞蒙古自治州",
-                      children: [{lable: "请选择"}, {lable: "库尔勒市"}, {lable: "和静县"}, {lable: "尉犁县"}, {lable: "和硕县"}, {lable: "且末县"}, {lable: "博湖县"}, {lable: "轮台县"}, {lable: "若羌县"}, {lable: "焉耆回族自治县"}, {lable: "其他"}],
+                      label: "巴音郭楞蒙古自治州",
+                      children: [{label: "库尔勒市"}, {label: "和静县"}, {label: "尉犁县"}, {label: "和硕县"}, {label: "且末县"}, {label: "博湖县"}, {label: "轮台县"}, {label: "若羌县"}, {label: "焉耆回族自治县"}],
                       value: 0
                     },
                     {
-                      lable: "昌吉回族自治州",
-                      children: [{lable: "请选择"}, {lable: "昌吉市"}, {lable: "阜康市"}, {lable: "奇台县"}, {lable: "玛纳斯县"}, {lable: "吉木萨尔县"}, {lable: "呼图壁县"}, {lable: "木垒哈萨克自治县"}, {lable: "米泉市"}, {lable: "其他"}],
+                      label: "昌吉回族自治州",
+                      children: [{label: "昌吉市"}, {label: "阜康市"}, {label: "奇台县"}, {label: "玛纳斯县"}, {label: "吉木萨尔县"}, {label: "呼图壁县"}, {label: "木垒哈萨克自治县"}, {label: "米泉市"}],
                       value: 0
                     },
                     {
-                      lable: "博尔塔拉蒙古自治州",
-                      children: [{lable: "请选择"}, {lable: "博乐市"}, {lable: "精河县"}, {lable: "温泉县"}, {lable: "其他"}],
+                      label: "博尔塔拉蒙古自治州",
+                      children: [{label: "博乐市"}, {label: "精河县"}, {label: "温泉县"}],
                       value: 0
                     },
                     {
-                      lable: "石河子",
+                      label: "石河子",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "阿拉尔",
+                      label: "阿拉尔",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "图木舒克",
+                      label: "图木舒克",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "五家渠",
+                      label: "五家渠",
                       children: [],
                       value: 0
                     },
                     {
-                      lable: "伊犁哈萨克自治州",
-                      children: [{lable: "请选择"}, {lable: "伊宁市"}, {lable: "奎屯市"}, {lable: "伊宁县"}, {lable: "特克斯县"}, {lable: "尼勒克县"}, {lable: "昭苏县"}, {lable: "新源县"}, {lable: "霍城县"}, {lable: "巩留县"}, {lable: "察布查尔锡伯自治县"}, {lable: "塔城地区"}, {lable: "阿勒泰地区"}, {lable: "其他"}],
+                      label: "伊犁哈萨克自治州",
+                      children: [ {label: "伊宁市"}, {label: "奎屯市"}, {label: "伊宁县"}, {label: "特克斯县"}, {label: "尼勒克县"}, {label: "昭苏县"}, {label: "新源县"}, {label: "霍城县"}, {label: "巩留县"}, {label: "察布查尔锡伯自治县"}, {label: "塔城地区"}, {label: "阿勒泰地区"}],
                       value: 0
                     },
-                    {lable: "其他"}],
+                  ],
                 },
                 {
-                  lable: "香港",
+                  label: "香港",
                   value:0,
-                  children: [{lable: "请选择"}, {lable: "中西区"}, {lable: "湾仔区"}, {lable: "东区"}, {lable: "南区"}, {lable: "深水埗区"}, {lable: "油尖旺区"}, {lable: "九龙城区"}, {lable: "黄大仙区"}, {lable: "观塘区"}, {lable: "北区"}, {lable: "大埔区"}, {lable: "沙田区"}, {lable: "西贡区"}, {lable: "元朗区"}, {lable: "屯门区"}, {lable: "荃湾区"}, {lable: "葵青区"}, {lable: "离岛区"}, {lable: "其他"}],
+                  children: [{label: "中西区"}, {label: "湾仔区"}, {label: "东区"}, {label: "南区"}, {label: "深水埗区"}, {label: "油尖旺区"}, {label: "九龙城区"}, {label: "黄大仙区"}, {label: "观塘区"}, {label: "北区"}, {label: "大埔区"}, {label: "沙田区"}, {label: "西贡区"}, {label: "元朗区"}, {label: "屯门区"}, {label: "荃湾区"}, {label: "葵青区"}, {label: "离岛区"}],
                 },
                 {
-                  lable: "澳门",
+                  label: "澳门",
                   value:0,
-                  children: [{lable: "请选择"}, {lable: "花地玛堂区"}, {lable: "圣安多尼堂区"}, {lable: "大堂区"}, {lable: "望德堂区"}, {lable: "风顺堂区"}, {lable: "嘉模堂区"}, {lable: "圣方济各堂区"}, {lable: "路凼"}, {lable: "其他"}],
+                  children: [{label: "花地玛堂区"}, {label: "圣安多尼堂区"}, {label: "大堂区"}, {label: "望德堂区"}, {label: "风顺堂区"}, {label: "嘉模堂区"}, {label: "圣方济各堂区"}, {label: "路凼"}],
                 },
                 {
-                  lable: "台湾",
+                  label: "台湾",
                   value:0,
-                  children: [{lable: "请选择"}, {lable: "台北市"}, {lable: "高雄市"}, {lable: "台北县"}, {lable: "桃园县"}, {lable: "新竹县"}, {lable: "苗栗县"}, {lable: "台中县"}, {lable: "彰化县"}, {lable: "南投县"}, {lable: "云林县"}, {lable: "嘉义县"}, {lable: "台南县"}, {lable: "高雄县"}, {lable: "屏东县"}, {lable: "宜兰县"}, {lable: "花莲县"}, {lable: "台东县"}, {lable: "澎湖县"}, {lable: "基隆市"}, {lable: "新竹市"}, {lable: "台中市"}, {lable: "嘉义市"}, {lable: "台南市"}, {lable: "其他"}],
+                  children: [{label: "台北市"}, {label: "高雄市"}, {label: "台北县"}, {label: "桃园县"}, {label: "新竹县"}, {label: "苗栗县"}, {label: "台中县"}, {label: "彰化县"}, {label: "南投县"}, {label: "云林县"}, {label: "嘉义县"}, {label: "台南县"}, {label: "高雄县"}, {label: "屏东县"}, {label: "宜兰县"}, {label: "花莲县"}, {label: "台东县"}, {label: "澎湖县"}, {label: "基隆市"}, {label: "新竹市"}, {label: "台中市"}, {label: "嘉义市"}, {label: "台南市"}],
                 },
-                {
-                  lable: "海外",
-                  value:0,
-                  children: [{lable: "请选择"}, {lable: "其他"}],
-                },
+
               ],
-              mode:'multiSelector',
+              mode:'multiLinkageSelector',
               deepLength:3,
-//              pickerValueDefault: [1],
+              pickerValueDefault: [1,1,1],
               pickerValue: 0,
               pickerText:'',
               name:'',
@@ -2094,6 +2090,7 @@
               shop_logo:'',
               shop_phone:'',
               shop_address:'',
+              address:'',
               visible: false,
               message:'',
               isTrue:true
@@ -2107,8 +2104,7 @@
             console.log(e);
           },
           onConfirm(e){
-            this.pickerValue=e[0];
-            this.pickerText=this.pickerValueArray[e[0]]
+            this.pickerText = `${this.pickerValueArray[e[0]].label}${this.pickerValueArray[e[0]].children[e[1]].label}${this.pickerValueArray[e[0]].children[e[1]].children[e[2]].label}`;
           },
           submitData(){
             var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
@@ -2119,17 +2115,18 @@
               this.$mptoast('手机号输入错误');
               return;
             }
-            var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-            if(this.cardNum==''||this.cardNum==null){
-              this.$mptoast('请输入身份证');
+            if((this.pickerText).trim()==''){
+              this.$mptoast('请选择地区');
               return;
-            }else if(!reg.test(this.cardNum)){
-              this.$mptoast('身份证输入错误');
+            }
+            if((this.address).trim()==''){
+              this.$mptoast('请输入详细地址');
               return;
             }
             var data={
               phone:this.phone,
-              id_card:this.cardNum
+              address:this.address,
+              province:this.pickerText,
             }
             this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
               if(res.code == 200){
@@ -2213,7 +2210,8 @@
                 }
                 that.name=user.nickname;
                 that.phone=user.phone;
-                that.cardNum=user.id_card;
+                that.address=user.address;
+                that.pickerText=user.province;
                 that.shop_name=user.nickname;
                 that.shop_logo=user.shop_logo;
                 that.shop_phone=user.phone;
