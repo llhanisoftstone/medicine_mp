@@ -2096,7 +2096,7 @@
               this.$mptoast('请输入手机号');
               return;
             }else if(!myreg.test(this.phone)){
-              this.$mptoast('手机号输入错误');
+              this.$mptoast('您的手机号输入有误，请重新输入');
               return;
             }
             if(this.pickerText==''||this.pickerText==undefined||this.pickerText==null){
