@@ -11,7 +11,7 @@
       </div>
       <div class="myitemlist" v-if="isshow">
         <ul>
-          <li v-for="(w,i) in mypackage" :key="w.id"><img :src="w.picpath" alt=""><div class="bottomlist">x{{w.amount}}</div></li>
+          <li v-for="(w,i) in mypackage" :key="w.id"><img :src="w.picpath" alt=""><div class="centername">{{w.name}}</div><div class="bottomlist">x{{w.amount}}</div></li>
         </ul>
       </div>
       <div class="model" v-if="ishidden" @click="show1()">
@@ -323,14 +323,20 @@
         text-align:center;
         position:relative;
         image{
-          width:65px;
-          height:65px;
-          margin-top:20px;
+          width:50px;
+          height:50px;
+          margin-top:18px;
+        }
+        .centername{
+          text-align:center;
+          margin-top:5px;
+          font-size:13px;
+          color:#df5c3e;
         }
       }
       .bottomlist{
         position:absolute;
-        top:70px;
+        top:50px;
         right:5px;
         font-size:15px;
         color: #df5c3e;
