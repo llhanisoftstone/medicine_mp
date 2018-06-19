@@ -4,7 +4,7 @@
         <div></div>
       </div>
       <div class="aboutus_text">
-        <div class="ab_title">公共政策宣传平台</div>
+        <div class="ab_title">公共政策宣传共享平台</div>
         <div class="ab_content">V1.0.0</div>
       </div>
       <div class="foot">

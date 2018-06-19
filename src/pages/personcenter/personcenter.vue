@@ -31,19 +31,17 @@
       }
     },
     computed:{
-      points(){
-        return this.$store.state.sliver
-      }
     },
     components: {
         userinfo
     },
     methods: {
       async getuserperson(){
-        let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});debugger
+        let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
         if(aa.code==200){
           this.$store.commit('get_sliver',aa.rows[0].points);
           this.$store.commit('get_openid',aa.rows[0].open_id);
+          this.points=aa.rows[0].points;
             if(aa.rows[0].rank<"20"){
                 this.seen=false;
             }else{

@@ -24,8 +24,6 @@
         methods: {
           bindGetUserInfo: function(e) {
             let that = this
-            console.log(e)
-            console.log(e.target.userInfo)
             if(!e.target.userInfo){
                 return
             }
@@ -52,7 +50,6 @@
                   nickname: that.$store.state.userinfo.nickName,
                   picpath: that.$store.state.userinfo.avatarUrl
                 })
-//                console.log(res)
               }
             })
           }

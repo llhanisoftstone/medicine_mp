@@ -6,7 +6,7 @@
       </ul>
       <div class="itemlist" v-if="seen">
         <ul>
-          <li v-on:click="buyuse(v.id,v.picpath,v.category)" v-for="(v,i) in goods" :key="v.id"><img :src="v.picpath" alt=""><div class="bottomlist"><span class="sliverimg"></span><span>{{v.points}}</span></div></li>
+          <li v-on:click="buyuse(v.id,v.picpath,v.category)" v-for="(v,i) in goods" :key="v.id"><img :src="v.picpath" alt=""><div class="centername">{{v.name}}</div><div class="bottomlist"><span class="sliverimg"></span><span>{{v.points}}</span></div></li>
         </ul>
       </div>
       <div class="myitemlist" v-if="isshow">
@@ -271,13 +271,19 @@
         text-align:center;
         position:relative;
         image{
-          width:65px;
-          height:65px;
-          margin-top:20px;
+          width:50px;
+          height:50px;
+          margin-top:18px;
+        }
+        .centername{
+          text-align:center;
+          margin-top:5px;
+          font-size:13px;
+          color:#df5c3e;
         }
       }
       .bottomlist{
-        margin-top:20px;
+        margin-top:10px;
         width:100px;
         height:30px;
         border:2.5px solid #fff;

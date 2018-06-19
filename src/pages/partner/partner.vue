@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <toast :message="message" :visible.sync="visible"></toast>
     <div>
       <div class="item">
         <div class="title">商家名称</div>
@@ -18,13 +17,19 @@
         确&nbsp;&nbsp;&nbsp;认
       </div>
     </div>
-
+    <mptoast/>
   </div>
 </template>
 
 <script type="javascript">
   import toast from 'mpvue-toast'
+  import mptoast from '../../components/mptoast'
   export default {
+    name: 'partner',
+    props: [],
+    components: {
+      mptoast
+    },
     data(){
       return {
         name:'',
@@ -38,26 +43,20 @@
     },
     methods: {
       submitData(){
-        if(!this.isTrue){
+        if((this.name).trim()==''){
+          this.$mptoast('请输入商家名称');
           return;
         }
-        this.isTrue=false;
-        this.message='';
-        if((this.name).trim()==''){
-          this.message='请输入商家名称';
-        }
         if((this.people).trim()==''){
-          this.message='请输入联系人';
+          this.$mptoast('请输入联系人');
+          return;
         }
         var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
         if(this.phone==''){
-          this.message='请输入联系号码';
+          this.$mptoast('请输入联系号码');
+          return;
         }else if(!myreg.test(this.phone)){
-          this.message='联系号码输入错误';
-        }
-        if(this.message!=''){
-          this.visible = !this.visible;
-          this.isTrue=true;
+          this.$mptoast('联系号码输入错误');
           return;
         }
         var data={
@@ -70,61 +69,30 @@
         if(this.id){
           this.$put('/rs/cooperator/'+this.id,data).then(res=>{
             if(res.code == 200){
-              this.message='修改成功';
-              this.visible = !this.visible;
-              this.name="";
-              this.phone="";
-              this.people="";
+              this.$mptoast('修改成功');
               setTimeout(function() {
                 wx.navigateBack({     //返回上一页面或多级页面
                   delta: 1
                 })
               },1000);
             }else{
-              this.message='修改失败';
-              this.visible = !this.visible;
-              this.isTrue=true;
+              this.$mptoast('修改失败');
             }
           })
         }else{
           this.$post('/rs/cooperator',data).then(res=>{
             if(res.code == 200){
-              this.message='保存成功';
-              this.visible = !this.visible;
-              this.name="";
-              this.phone="";
-              this.people="";
+              this.$mptoast('保存成功');
               setTimeout(function() {
                 wx.navigateBack({     //返回上一页面或多级页面
                   delta: 1
                 })
               },1000);
             }else{
-              this.message='保存失败';
-              this.visible = !this.visible;
-              this.isTrue=true;
+              this.$mptoast('保存失败');
             }
           })
         }
-        this.$post('/rs/cooperator',data).then(res=>{
-          if(res.code == 200){
-            this.message='保存成功';
-            this.visible = !this.visible;
-            this.name="";
-            this.phone="";
-            this.people="";
-            setTimeout(function() {
-              wx.navigateBack({     //返回上一页面或多级页面
-                delta: 1
-              })
-            },1000);
-          }else{
-            this.message='保存失败';
-            this.visible = !this.visible;
-            this.isTrue=true;
-          }
-        })
-
       },
       getUserinfo(){
         var that=this;
@@ -141,9 +109,6 @@
         })
       }
 
-    },
-    components: {
-      toast
     },
     mounted(){
       this.getUserinfo();

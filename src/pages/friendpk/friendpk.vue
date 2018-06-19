@@ -39,6 +39,11 @@
               if(this.isFriends){
                 this.$get('/rs/member_relation',{u_id:this.$store.state.user.userid,order:'points desc,update_time'}).then(res=>{
                   if(res.code == 200){
+                    for(var i=0;i<res.rows.length;i++){
+                      if(res.rows[i].avatar_url==""||res.rows[i].avatar_url==null){
+                        res.rows[i].avatar_url='/static/img/people.png'
+                      }
+                    }
                     that.rankings=res.rows
                   }else if(res.code == 602){
                     that.rankings=[]
@@ -47,6 +52,11 @@
               }else{
                   this.$get('/rs/member',{order:'points desc,create_time',page:1,size:50,rank:'<,91'}).then(res=>{
                       if(res.code == 200){
+                          for(var i=0;i<res.rows.length;i++){
+                              if(res.rows[i].avatar_url==""||res.rows[i].avatar_url==null){
+                                res.rows[i].avatar_url='/static/img/people.png'
+                              }
+                          }
                           that.rankings=res.rows
                       }else if(res.code == 602){
                         that.rankings=[]
