@@ -4,10 +4,12 @@
         <div @click="useTools(answer,1)">
           <image src="/static/img/daojushangdian_11.png"></image>
           <p>{{answer}}</p>
+          <div class="toolname">答案眼</div>
         </div>
         <div v-if="istimes" @click="useTools(times,2)">
           <image src="/static/img/daojushangdian_13.png"></image>
           <p>{{times}}</p>
+          <div class="toolname">延时针</div>
         </div>
       </div>
       <mptoast/>
@@ -64,24 +66,28 @@
       align-items: center;
       box-sizing: border-box;
       height: 110px/2;
-      div{
+      >div{
         width: 88px/2;
         height: 88px/2;
         border-radius: 10px/2;
         margin-right: 18px/2;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        text-align:center;
         position: relative;
         background: #fff;
         image{
-          width: 74px/2;
-          height: 74px/2;
+          width: 52px/2;
+          height: 52px/2;
+          margin-top:7px/2;
+        }
+        .toolname{
+          font-size:8px;
+          color:#df5c3e;
+          line-height:100%;
         }
         p{
           position: absolute;
-          bottom:5px/2;
-          right:5px/2;
+          bottom:30px/2;
+          right:8px/2;
           background: #df5c3e;
           color: #fff;
           font-size: 20px/2;
