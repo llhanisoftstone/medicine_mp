@@ -2,17 +2,23 @@
     <div>
       <div class="bg">
         <div class="user_box">
-          <div class="img_box">
-            <image :src="userinfo.avatarUrl" v-if="userinfo.avatarUrl"></image>
+          <div class="gift_box">
+            <!--<div class="img_box" :style="'left:'+left+'px'">-->
+            <div class="img_box">
+              <image :src="userinfo.avatarUrl" v-if="userinfo.avatarUrl"></image>
+            </div>
+            <div class="gift_img">
+              <image src="/static/img/gift_img.png"></image>
+            </div>
           </div>
-          <p>{{userinfo.nickName}}</p>
           <div class="time_box">
             <counddown :time="times"></counddown>
           </div>
           <h2 v-if="isprop">您使用了延迟针，时间延长了20s</h2>
         </div>
         <div class="answer">
-          <answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="1">
+          <!--<answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="1">-->
+          <answer title="题库由西安市人社局失业保险处提供" :answer="answer.name" distance="1">
             <ul slot="list" class="answer_box_ul">
               <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}</li>
             </ul>
@@ -23,6 +29,7 @@
           <prop :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
         </div>
       </div>
+      <mptoast/>
     </div>
 </template>
 
@@ -30,6 +37,8 @@
   import counddown from '../../components/countdown.vue'
   import answer from '../../components/answer.vue'
   import prop from '../../components/prop.vue'
+  import mptoast from '../../components/mptoast'
+
 
 
 
@@ -48,7 +57,8 @@
               tool_id:[],              //使用的道具
               isreward:0,             //是否是首页直接进入的奖励关卡      0不是
               istime:false,             //是否使用过延时
-              timefn:null
+              atimefn:null,
+              left:0                     //用户头像偏移量
             }
         },
         methods: {
@@ -74,6 +84,7 @@
                   }
             }else if(Number(id) == 2){
                 if(this.istime){
+                    this.$mptoast('一道题目只能使用一次');
                     return
                 }
                 if(this.times==0){
@@ -101,16 +112,16 @@
           },
           countdownfn(){     //倒计时
             let that=this
-            clearInterval(that.timefn)
-            that.timefn = setInterval(function(){
-              if(that.gameover){
-                clearInterval(that.timefn)
-              }
-              if(that.times == 0){
+            if(that.gameover){
+              return
+            }
+            if(that.isclick){
                 return
-              }
-              that.times=that.times-1
-            },1000)
+            }
+            if(that.times == 0){
+              return
+            }
+            that.times=that.times-1
           },
           submit(index,right){
               if(this.isclick){
@@ -163,25 +174,23 @@
             that.isclick=false
             that.gameover=false
             that.tool_id=[]
-            clearInterval(that.timefn)
           }
         },
         components: {
           counddown,
           answer,
-          prop
+          prop,
+          mptoast
         },
         computed:{
           userinfo(){
             return this.$store.state.userinfo
           },
           answer(){
-            this.countdownfn()
             return this.$store.state.answer
           }
         },
         mounted(){
-          this.countdownfn()
         },
       watch:{
         times(val,oldval){
@@ -191,7 +200,14 @@
         }
       },
     onLoad(option){
-      this.cleardata()
+      let that =this
+      that.left=0
+      that.cleardata()
+      clearInterval(that.atimefn)
+      that.atimefn=null
+      that.atimefn=setInterval(()=>{
+        that.countdownfn()
+      },1000)
       if(option){
           if(option.id){
             this.isreward=option.id
@@ -200,7 +216,6 @@
       wx.setNavigationBarTitle({
         title:`第${this.$store.state.step}/${this.$store.state.max_nub}题`
       })
-      let that =this
       this.$socket.on('data_chain',d=>{
         console.log(d)
         if(d.content_type == 1){
@@ -208,6 +223,7 @@
             let til
             clearInterval(til)
             til=setTimeout(function(){
+              that.left = ((d.step - 1)/d.max_step)*175
               that.$store.commit('get_answer',d.details[0])
               that.$store.commit('get_step',d.step)
               wx.setNavigationBarTitle({
@@ -217,6 +233,7 @@
             },2000)
           }else if(d.cmd == 'answer'&&d.level!=that.$store.state.level){    //当前关卡挑战结束
             setTimeout(function(){
+              that.left=0
               let useri = that.$store.state.user
               if(Number(d.level)>Number(useri.game_level)){
                 useri.game_level = d.level
@@ -233,6 +250,8 @@
               }
               that.gameover=true
               that.$socket.removeAllListeners('data_chain')
+              clearInterval(that.atimefn)
+              that.atimefn=null
               wx.redirectTo({
                 url:'/pages/aloneresult/main?result=2'
               })
@@ -240,6 +259,7 @@
           }
         }else if(d.content_type == 2){    //全部挑战结束
           setTimeout(function(){
+            that.left=0
             if(d.details[0]){
               that.$store.commit('get_prize',d.details[0])
             }else{
@@ -247,6 +267,8 @@
             }
             that.gameover=true
             that.$socket.removeAllListeners('data_chain')
+            clearInterval(that.atimefn)
+            that.atimefn=null
             if(that.isreward!=0){
               wx.redirectTo({
                 url:`/pages/aloneresult/main?result=2&&id=${that.isreward}`
@@ -260,9 +282,12 @@
           },2000)
         }else if(d.content_type == 3){    //挑战失败
           setTimeout(function(){
+            that.left=0
             that.$store.commit('get_prize',{})
             that.gameover=true
             that.$socket.removeAllListeners('data_chain')
+            clearInterval(that.atimefn)
+            that.atimefn=null
             if(that.isreward!=0){
               wx.redirectTo({
                 url:`/pages/aloneresult/main?result=0&&id=${that.isreward}`
@@ -282,9 +307,12 @@
       let that = this
       that.gameover=true
       that.isreward=0
+      that.left=0
       that.$socket.removeAllListeners('data_chain')
       that.$store.commit('get_answer',{})
       that.cleardata()
+      clearInterval(that.atimefn)
+      that.atimefn=null
       this.$socket.emit('data_chain',{
             cmd:'left',
             u_id:that.$store.state.user.userid,
@@ -310,23 +338,47 @@
     width: 100%;
     height: auto;
     display: flex;
-    padding-top: 33px/2;
     flex-wrap: wrap;
     justify-content: center;
+  .gift_box{
+    width: 100%;
+    height: 180px/2;
+    box-sizing: border-box;
+    padding-top: 27px/2;
+    position: relative;
+  }
   .img_box{
-    width: 156px/2;
+    width: 138px/2;
+    position: absolute;
+    bottom:0;
+    left:0;   /*350px/2*/
+    z-index:2;
+    transition: all .3s ease;
+    margin-left: 61px/2;
     overflow: hidden;
-    height: 156px/2;
+    height: 138px/2;
     border-radius: 50%;
     image{
-      width: 156px/2;
-      height: 156px/2;
+      width: 138px/2;
+      height: 138px/2;
       border:3px solid #fff;
       box-sizing: border-box;
       border-radius: 50%;
       overflow: hidden;
     }
   }
+    .gift_img{
+      width: 246px/2;
+      position: absolute;
+      bottom:0;
+      right:0;
+      z-index:1;
+      height: 153px/2;
+      image{
+        width: 100%;
+        height: 100%;
+      }
+    }
     p{
       width: 100%;
       display: flex;

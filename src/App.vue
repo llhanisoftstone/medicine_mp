@@ -2,26 +2,36 @@
 export default {
   created () {
     let that = this
-    this.getLogin()
+//    this.getLogin()
     this.$socket.on('connect', () => {
       console.log('connect success')
-//      this.$socket.emit('data_chain', {
-//        cmd: 'login',
-//        u_id: this.$store.state.user.userid,
-//        nickname: this.$store.state.userinfo.nickName,
-//        picpath: this.$store.state.userinfo.avatarUrl
-//      })
+      if (!that.$store.state.user.userid) {
+        that.getLogin()
+      }
+//      if (!that.$store.state.issocket) {
+//        this.$socket.emit('data_chain', {
+//          cmd: 'login',
+//          u_id: this.$store.state.user.userid,
+//          nickname: this.$store.state.userinfo.nickName,
+//          picpath: this.$store.state.userinfo.avatarUrl
+//        })
+//      }
     })
     this.$socket.on('disconnect', d => {
       console.log(d)
+      that.$store.commit('getsocket', false)
     })
     this.$socket.on('reconnect', d => {
-      that.$socket.emit('data_chain', {
-        cmd: 'login',
-        u_id: that.$store.state.user.userid,
-        nickname: that.$store.state.userinfo.nickName,
-        picpath: that.$store.state.userinfo.avatarUrl
-      })
+      if (!that.$store.state.issocket) {
+        if (that.$store.state.user.userid) {
+          that.$socket.emit('data_chain', {
+            cmd: 'login',
+            u_id: that.$store.state.user.userid,
+            nickname: that.$store.state.userinfo.nickName,
+            picpath: that.$store.state.userinfo.avatarUrl
+          })
+        }
+      }
       console.log(d)
       let pagesArr = getCurrentPages()
       let currentPage = pagesArr[pagesArr.length - 1]
@@ -30,6 +40,7 @@ export default {
         console.log(`页面路径${url}`)
         if (that.$store.state.modalshow) {
           that.$store.commit('getmodal', false)
+          wx.hideLoading()
           wx.showModal({
             title: '提示',
             content: '游戏已结束',
@@ -86,6 +97,7 @@ export default {
               } else {
                 if (that.$store.state.modalshow) {
                   that.$store.commit('getmodal', false)
+                  wx.hideLoading()
                   wx.showModal({
                     title: '提示',
                     content: '未授权获取用户信息',
@@ -143,6 +155,7 @@ export default {
                     that.$store.commit('getsocket', false)
                     if (that.$store.state.modalshow) {
                       that.$store.commit('getmodal', false)
+                      wx.hideLoading()
                       wx.showModal({
                         title: '提示',
                         content: '无法获取好友信息,请重试',
@@ -166,41 +179,43 @@ export default {
                       })
                     }
                   } else if (d.errcode === 404) {
-                      if (that.$store.state.modalshow) {
-                        that.$store.commit('getmodal', false)
-                        wx.showModal({
-                          title: '提示',
-                          content: '房间不存在',
-                          showCancel: false,
-                          confirmText: '返回首页',
-                          confirmColor: '#df5c3e',
-                          mask: true,
-                          complete: res => {
-                            wx.switchTab({
-                              url: '/pages/index/main'
-                            })
-                            that.$store.commit('getmodal', true)
-                          }
-                        })
-                      }
+                    if (that.$store.state.modalshow) {
+                      that.$store.commit('getmodal', false)
+                      wx.hideLoading()
+                      wx.showModal({
+                        title: '提示',
+                        content: '房间不存在',
+                        showCancel: false,
+                        confirmText: '返回首页',
+                        confirmColor: '#df5c3e',
+                        mask: true,
+                        complete: res => {
+                          wx.switchTab({
+                            url: '/pages/index/main'
+                          })
+                          that.$store.commit('getmodal', true)
+                        }
+                      })
+                    }
                   } else if (d.errcode === 301) {
-                      if (that.$store.state.modalshow) {
-                        that.$store.commit('getmodal', false)
-                        wx.showModal({
-                          title: '提示',
-                          content: '不能旁观自己的游戏',
-                          showCancel: false,
-                          confirmText: '返回首页',
-                          confirmColor: '#df5c3e',
-                          mask: true,
-                          complete: res => {
-                            wx.switchTab({
-                              url: '/pages/index/main'
-                            })
-                            that.$store.commit('getmodal', true)
-                          }
-                        })
-                      }
+                    if (that.$store.state.modalshow) {
+                      that.$store.commit('getmodal', false)
+                      wx.hideLoading()
+                      wx.showModal({
+                        title: '提示',
+                        content: '连接已断开',
+                        showCancel: false,
+                        confirmText: '返回首页',
+                        confirmColor: '#df5c3e',
+                        mask: true,
+                        complete: res => {
+                          wx.switchTab({
+                            url: '/pages/index/main'
+                          })
+                          that.$store.commit('getmodal', true)
+                        }
+                      })
+                    }
                   }
                 }
               })

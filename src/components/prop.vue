@@ -10,11 +10,15 @@
           <p>{{times}}</p>
         </div>
       </div>
+      <mptoast/>
     </div>
 </template>
 
 <script type="javascript">
-    export default {
+  import mptoast from '../components/mptoast'
+
+
+  export default {
         name: 'prop',
 //        props: ['answer','times','istimes'],
       props:{
@@ -38,10 +42,14 @@
           useTools(number,id){
               if(number>0){
                 this.$emit('userTools',id)
+              }else{
+                  this.$mptoast('暂无该道具,请前往个人中心购买');
               }
           }
         },
-        components: {}
+        components: {
+          mptoast
+        }
 
     }
 </script>

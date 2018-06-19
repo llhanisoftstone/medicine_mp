@@ -95,6 +95,13 @@
       }
     },
     onShareAppMessage(res){
+        let that =this
+        let til = ''
+      if(that.isreward == 0){
+            til = '@你 答题赢礼品，千种礼券任你选'
+      }else{
+          til = '@你 20枚银两get，下一关等你哦~'
+      }
       if (res.from === 'menu') {
         // 来自页面内转发按钮
         console.log(res.target)
@@ -102,6 +109,7 @@
       return {
         title: '分享战绩',
         path: '/pages/index/main',
+        imageUrl: `${that.$store.state.url}/admin/img/success.jpg`,
         success: (r)=>{
           console.log(r)
         },

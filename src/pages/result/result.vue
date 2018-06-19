@@ -40,7 +40,8 @@
                 win:0,
                 iscard:false,
                 card:{},
-                from: 2
+                from: 2,
+
             }
         },
         methods: {
@@ -86,13 +87,21 @@
            }
       },
       onShareAppMessage(res){
+        let that = this
         if (res.from === 'menu') {
           // 来自页面内转发按钮
           console.log(res.target)
         }
+        let til='@你 真烦人，又赢了，无敌是多么的寂寞~'
+        if(that.from == 1){
+            til='@你 就你，单挑，敢不敢~'
+        }else{
+            til = '@你 真烦人，又赢了，无敌是多么的寂寞~'
+        }
         return {
-          title: '分享战绩',
+          title: til,
           path: '/pages/index/main',
+          imageUrl: `${that.$store.state.url}/admin/img/success.jpg`,
           success: (r)=>{
             console.log(r)
           },

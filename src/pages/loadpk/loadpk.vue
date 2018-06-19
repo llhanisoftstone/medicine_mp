@@ -45,6 +45,9 @@
               this.from=2
               this.other_uid=''
               this.$socket.emit('data_chain', {cmd:'fight',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
+              wx.setNavigationBarTitle({
+                title: '全网挑战'
+              })
           },
           cleardata(){    //清除数据
             this.vs=false
@@ -66,11 +69,11 @@
           sendnews(){
             if(this.from == 1){
               wx.setNavigationBarTitle({
-                title: '全网挑战'
+                title: '好友对战'
               })
             }else{
               wx.setNavigationBarTitle({
-                title: '好友对战'
+                title: '全网挑战'
               })
             }
             console.log(`是否发送${this.isend}`)

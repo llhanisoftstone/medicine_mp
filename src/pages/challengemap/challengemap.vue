@@ -10,10 +10,10 @@
           </div>
           <div class="gift gift_t" v-if="v==5">
             <i class="a_up"></i>
-            <p>小竹签50元代金券</p>
+            <p>她未来10元代金券</p>
           </div>
           <div class="gift gift_r" v-if="v==10">
-            <p>小竹签80元代金券</p>
+            <p>瑄府燕窝128元代金券</p>
             <i class="a_right"></i>
           </div>
         </li>
@@ -115,8 +115,9 @@
           console.log(res.target)
         }
         return {
-          title: '邀请好友助阵',
+          title: '@你 助力好友一起闯关吧~',
           path: `/pages/team/main?id=${that.$store.state.user.userid}&&ismy=1`,
+          imageUrl: `${that.$store.state.url}/admin/img/team.jpg`,
           success: (r)=>{
             that.team()
           },
@@ -225,10 +226,10 @@
         }
       }
       .gift_r{
-        width: 194px/2;
+        width: 215px/2;
         display: flex;
         top:-8px/2;
-        left:-231.6%;
+        left:-246.6%;
         align-items: center;
         padding-top: 0;
        }

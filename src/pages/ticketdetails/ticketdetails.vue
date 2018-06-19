@@ -4,7 +4,7 @@
         <div class="data-ii">
           <div class="upper-part">
             <div class="shade"></div>
-            <image src="/static/img/moren.jpg" class="background-img"></image>
+            <img :src="piclogo" class="background-img"/>
             <div class="ticket-info">
               <div class="ticket-name">{{ticket_name}}</div>
               <div class="ticket-count">{{ticket_amount}}张</div>
@@ -33,6 +33,7 @@
   export default {
     data () {
       return {
+        piclogo:'',
         ticket_name:'',
         ticket_amount:0,
         sendlist:[]
@@ -45,8 +46,16 @@
         let res = await that.$get('/rs/ticket_send_rule/'+pid);
         if (res.code == 200){
           if (res.rows.length > 0){
-            that.ticket_name = res.rows[0].title;
+            that.ticket_name = res.rows[0].name;
             that.ticket_amount = res.rows[0].total_amount;
+            if(res.rows[0].piclogo){
+              if(res.rows[0].piclogo.substring(0,4)!="http"){
+                res.rows[0].piclogo = 'https://policy.lifeonway.com'+res.rows[0].piclogo;
+              }
+              that.piclogo = res.rows[0].piclogo
+            }else{
+              that.piclogo = "/static/img/logo_moren.jpg";
+            }
             let rs = await  that.$get('/rs/member_ticket',{ticket_id:pid,order:'get_time desc'});
             if (rs.rows.length > 0){
               for (let i=0;i<rs.rows.length; i++){
@@ -77,7 +86,7 @@
         }else{
           days=day;
         }
-        return data.getFullYear()+"-"+months+"-"+days;
+        return data.getFullYear()+"/"+months+"/"+days;
       }
     },
     onLoad: function (option) {
@@ -163,6 +172,13 @@
         color: #666666;
         font-size: 28px/2;
         line-height: 80px/2;
+        display: -webkit-box;
+        overflow: hidden;
+        white-space: normal!important;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
       }
     }
   }
