@@ -158,7 +158,7 @@
   }
   .common-head .ui-link span{
     padding-right: 0.376665rem;
-    font-size: 0.256rem;
+    font-size: 26px/2;
     float: left;
     display: block;
     height: 0.35rem;
@@ -202,7 +202,7 @@
     margin: 0.213rem 0;
     color: #333333;
     font-size: 0.298667rem;
-    line-height: 0.373333rem;
+    line-height: 45px/2;
   }
   .hot-list li .item-details{
     background-color: inherit;

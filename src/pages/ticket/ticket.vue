@@ -80,7 +80,7 @@
               res.rows[i].piclogo = 'https://policy.lifeonway.com'+res.rows[i].piclogo;
               res.rows[i].surplus_count = res.rows[i].total_amount - res.rows[i].total_count;
             }
-            that.ticket_list = res.rows;
+            that.ticket_list = that.ticket_list.concat(res.rows);
           }
         }
       },
