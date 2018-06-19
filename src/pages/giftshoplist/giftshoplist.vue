@@ -92,8 +92,8 @@
               }else if(res.rows[i].status==2){
                 res.rows[i].statustext="已过期"
               }
-              that.policy_list.push(res.rows[i]);
             }
+            that.policy_list = that.policy_list.concat(res.rows);
           }
         }else if(res.code==602 && that.page == 1){
           this.iskong=true;
