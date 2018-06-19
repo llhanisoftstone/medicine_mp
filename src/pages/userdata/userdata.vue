@@ -34,9 +34,7 @@
         </div>
         <div class="item">
           <div class="title">性别</div>
-          <div class="mpvue-picer">
-            <input :value="pickerText" disabled="disabled" type="text"  placeholder="请选择性别"/>
-          </div>
+          <input disabled="disabled" :value='gender' type="text"  placeholder="请选择性别"/>
         </div>
         <div class="item">
           <div class="title">手机号</div>
@@ -44,6 +42,7 @@
         </div>
         <div class="item">
           <div class="title">选择地区</div>
+          <div class="mpvue-picer">
           <input type="text" placeholder="选择地区" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker" />
           <mpvue-picker
             ref="mpvuePicker"
@@ -51,6 +50,7 @@
             :pickerValueDefault='pickerValueDefault'
             @onConfirm="onConfirm" :deepLength="3">
           </mpvue-picker>
+          </div>
         </div>
         <div class="item">
           <div class="title">详细地址</div>
@@ -82,6 +82,7 @@
               pickerValue: 0,
               pickerText:'',
               name:'',
+              gender:'',
               phone:'',
               cardNum:'',
               shop_name:'',
@@ -195,15 +196,16 @@
           },
           getUserinfo(){
             var that=this;
-            this.isTrue=true;
-            this.visible=false;
-            this.message="";
             this.$get('/rs/member/'+this.$store.state.user.userid,{}).then(res=>{
               if(res.code==200){
                 var user=res.rows[0];
-                that.pickerValue=(user.gender-1);
-                that.pickerText=that.pickerValueArray[user.gender-1];
-                that.pickerValueDefault=[user.gender-1];
+                if(user.gender==1){
+                   this.gender='男';
+                }else if(user.gender==2){
+                  this.gender='女';
+                }else if(user.gender==3){
+                  this.gender='未知';
+                }
                 that.name=user.nickname;
                 that.phone=user.phone;
                 that.cardNum=user.id_card;

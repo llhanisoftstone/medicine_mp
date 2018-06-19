@@ -6,6 +6,7 @@ import {get} from './require/get.js'
 import {put} from './require/put.js'
 import {uploadImg} from './static/js/uploadImg.js'
 import {callWXPAY} from './static/js/CallWXPay.js'
+import {address} from './static/js/address.js'
 import io from '../static/js/weapp.socket.io.js'
 import mpvueToastRegistry from 'mptoast/registry'
 Vue.config.productionTip = false
