@@ -56,7 +56,7 @@
         </div>
         <div class="item">
           <div class="title">详细地址</div>
-          <input type="text"   placeholder="详细地址" maxlength="18" confirm-type="done" v-model='address' />
+          <input type="text"   placeholder="详细地址" maxlength="30" confirm-type="next" v-model='address' />
         </div>
         <div :class="{'btn':true}" @click="submitData">
           确&nbsp;&nbsp;&nbsp;认
@@ -472,7 +472,7 @@
                 {
                   label: "四川",
                   value:0,
-                  children: [{label: "请选择", children: []},
+                  children: [
                     {
                       label: "成都",
                       children: [{label: "青羊区"}, {label: "锦江区"}, {label: "金牛区"}, {label: "武侯区"}, {label: "成华区"}, {label: "龙泉驿区"}, {label: "青白江区"}, {label: "新都区"}, {label: "温江区"}, {label: "都江堰市"}, {label: "彭州市"}, {label: "邛崃市"}, {label: "崇州市"}, {label: "金堂县"}, {label: "郫县"}, {label: "新津县"}, {label: "双流县"}, {label: "蒲江县"}, {label: "大邑县"}],
@@ -2079,7 +2079,7 @@
               ],
               mode:'multiLinkageSelector',
               deepLength:3,
-              pickerValueDefault: [1,1,1],
+              pickerValueDefault: [0,0,0],
               pickerValue: 0,
               pickerText:'',
               name:'',
@@ -2115,18 +2115,18 @@
               this.$mptoast('手机号输入错误');
               return;
             }
-            if((this.pickerText).trim()==''){
+            if(this.pickerText==''||this.pickerText==undefined||this.pickerText==null){
               this.$mptoast('请选择地区');
               return;
             }
-            if((this.address).trim()==''){
+            if(this.address==null||(this.address).trim()==''){
               this.$mptoast('请输入详细地址');
               return;
             }
             var data={
               phone:this.phone,
               address:this.address,
-              province:this.pickerText,
+              shop_address:this.pickerText,
             }
             this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
               if(res.code == 200){
@@ -2211,7 +2211,7 @@
                 that.name=user.nickname;
                 that.phone=user.phone;
                 that.address=user.address;
-                that.pickerText=user.province;
+                that.pickerText=user.shop_address;
                 that.shop_name=user.nickname;
                 that.shop_logo=user.shop_logo;
                 that.shop_phone=user.phone;
