@@ -172,7 +172,7 @@
     border-bottom:1px solid #e2e2e2;
     .time{
       margin-right:18px;
-      width:auto;
+      min-width:38%;
       display:inline-block;
     }
     .center{
