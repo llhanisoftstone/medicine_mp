@@ -11,7 +11,7 @@
       </div>
       <div class="myitemlist" v-if="isshow">
         <ul>
-          <li v-for="(w,i) in mypackage" :key="w.id"><img :src="w.picpath" alt=""><div class="centername">{{w.name}}</div><div class="bottomlist">x{{w.amount}}</div></li>
+          <li v-for="(w,i) in mypackage" :key="w.id"><img :src="w.picpath" alt=""><div class="centername">{{w.name}}({{w.amount}})</div><div class="bottomlist"></div></li>
         </ul>
       </div>
       <div class="model" v-if="ishidden" @click="show1()">
@@ -29,7 +29,7 @@
           <div class="ispay" v-on:click="orderlist">确认支付</div>
         </div>
       </div>
-      <div class="nogetList" v-if="iskong">暂无记录</div>
+      <div class="nogetList" v-if="iskong">暂无道具</div>
       <mptoast/>
     </div>
 </template>
@@ -156,7 +156,7 @@
           },
           async getmybuy(){
             let that = this;
-            let res = await that.$get('/rs/member_package',{u_id:this.$store.state.user.userid});
+            let res = await that.$get('/rs/member_package',{u_id:this.$store.state.user.userid,amount:'>,0'});
             if(res.code==200){
               this.iskong=false;
               for(let i = 0;i<res.rows.length;i++){
