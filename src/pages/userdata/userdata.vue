@@ -30,7 +30,7 @@
       <div v-else>
         <div class="item">
           <div class="title">姓名</div>
-          <input type="text" :value='label' disabled maxlength="10" readonly onfocus="this.blur()" confirm-type="next" placeholder="请输入姓名"/>
+          <input type="text" :value='name' disabled maxlength="10" readonly onfocus="this.blur()" confirm-type="next" placeholder="请输入姓名"/>
         </div>
         <div class="item">
           <div class="title">性别</div>
@@ -2066,7 +2066,7 @@
               pickerValueDefault: [0,0,0],
               pickerValue: 0,
               pickerText:'',
-              label:'',
+              name:'',
               gender:'',
               phone:'',
               cardNum:'',
@@ -2192,7 +2192,7 @@
                 }else if(user.gender==3){
                   this.gender='未知';
                 }
-                that.label=user.nicklabel;
+                that.name=user.nickname;
                 that.phone=user.phone;
                 that.address=user.address;
                 that.pickerText=user.shop_address;
