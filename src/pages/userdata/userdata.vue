@@ -44,24 +44,10 @@
           <div class="title">手机号</div>
           <input type="number" v-model='phone' maxlength="11" confirm-type="next"  placeholder="手机号" />
         </div>
-        <!--<div class="item">-->
-          <!--<div class="title">选择地区</div>-->
-          <!--<div class="mpvue-picer">-->
-          <!--<input type="" placeholder="选择省" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker1" />-->
-            <!--<input type="" placeholder="选择市" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker2" />-->
-            <!--<input type="" placeholder="选择区/县" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker3" />-->
-          <!--<mpvue-picker-->
-            <!--ref="mpvuePicker"-->
-            <!--:pickerValueArray="pickerValueArray"-->
-            <!--:pickerValueDefault='pickerValueDefault'-->
-            <!--@onConfirm="onConfirm" >-->
-          <!--</mpvue-picker>-->
-          <!--</div>-->
-        <!--</div>-->
         <div class="item">
           <a href="/pages/address/main">
             <div class="title">详细地址</div>
-            <input type="text"   placeholder="详细地址" maxlength="30" confirm-type="next" v-model='address' />
+            <input type="text"  disabled placeholder="详细地址" maxlength="30" confirm-type="next" v-model='address' />
             <img src="/static/img/arrow.png"/>
           </a>
         </div>

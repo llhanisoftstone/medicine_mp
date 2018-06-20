@@ -1,74 +1,50 @@
 <template>
   <div class="container">
-    <div v-if="rank ==20">
       <div class="item">
-        <div class="title">商家名称</div>
-        <input type="text" confirm-type="next" maxlength="15" v-model='shop_label'  placeholder="请输入商家名称"/>
+      <div class="title">选择省</div>
+      <div class="mpvue-picer">
+      <input type="" placeholder="选择省" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker1" />
+      <mpvue-picker
+      ref="mpvuePicker"
+      :pickerValueArray="pickerValueArray"
+      :pickerValueDefault='pickerValueDefault'
+      @onConfirm="onConfirm" >
+      </mpvue-picker>
       </div>
-      <div class="item">
-        <div class="title">商家logo</div>
-        <input
-          @click="openImg"
-          v-model='shop_logo'
-          class="imgurl"
-          disabled="disabled"
-          type="text" placeholder="请上传"/>
-        <icon class="uploadLogo"></icon>
       </div>
-      <div class="item">
-        <div class="title">联系电话</div>
-        <input type="number" v-model='shop_phone' maxlength="11" confirm-type="next" placeholder="请输入联系电话" />
-      </div>
-      <div class="item">
-        <div class="title">联系地址</div>
-        <input type="text" placeholder="请输入联系地址" maxlength="30" confirm-type="done" v-model='shop_address' />
-      </div>
-      <div :class="{'btn':true}"  @click="childrenmitData1">
-        确认
+    <div class="item">
+      <div class="title">选择市</div>
+      <div class="mpvue-picer">
+        <input type="" placeholder="选择市" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker2" />
+        <mpvue-picker
+          ref="mpvuePicker"
+          :pickerValueArray="pickerValueArray"
+          :pickerValueDefault='pickerValueDefault'
+          @onConfirm="onConfirm" >
+        </mpvue-picker>
       </div>
     </div>
-    <div v-else>
-      <div class="item">
-        <div class="title">微信昵称</div>
-        <input type="text" :value='name' disabled maxlength="10" readonly onfocus="this.blur()" confirm-type="next" placeholder="请输入微信昵称"/>
+    <div class="item">
+      <div class="title">选择县/区</div>
+      <div class="mpvue-picer">
+        <input type="" placeholder="选择县/区" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker3" />
+        <mpvue-picker
+          ref="mpvuePicker"
+          :pickerValueArray="pickerValueArray"
+          :pickerValueDefault='pickerValueDefault'
+          @onConfirm="onConfirm" >
+        </mpvue-picker>
       </div>
-      <div class="item">
-        <div class="title">性别</div>
-        <input disabled="disabled" :value='gender' type="text"  placeholder="请选择性别"/>
-      </div>
-      <div class="item">
-        <div class="title">姓名</div>
-        <input type="text" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
-      </div>
-      <div class="item">
-        <div class="title">手机号</div>
-        <input type="number" v-model='phone' maxlength="11" confirm-type="next"  placeholder="手机号" />
-      </div>
-      <!--<div class="item">-->
-      <!--<div class="title">选择地区</div>-->
-      <!--<div class="mpvue-picer">-->
-      <!--<input type="" placeholder="选择省" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker1" />-->
-      <!--<input type="" placeholder="选择市" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker2" />-->
-      <!--<input type="" placeholder="选择区/县" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker3" />-->
-      <!--<mpvue-picker-->
-      <!--ref="mpvuePicker"-->
-      <!--:pickerValueArray="pickerValueArray"-->
-      <!--:pickerValueDefault='pickerValueDefault'-->
-      <!--@onConfirm="onConfirm" >-->
-      <!--</mpvue-picker>-->
-      <!--</div>-->
-      <!--</div>-->
+    </div>
       <div class="item">
         <div class="title">详细地址</div>
         <input type="text"   placeholder="详细地址" maxlength="30" confirm-type="next" v-model='address' />
-        <img src="/static/img/arrow.png"/>
       </div>
       <div :class="{'btn':true}" @click="childrenmitData">
         确&nbsp;&nbsp;&nbsp;认
       </div>
     </div>
     <mptoast/>
-  </div>
 </template>
 
 <script type="javascript">
@@ -157,61 +133,6 @@
           }else{
             this.$mptoast('保存失败');
           }
-        })
-      },
-      childrenmitData1(){
-        if((this.shop_label).trim()==''){
-          this.$mptoast('请输入商家名称');
-          return;
-        }else if(this.shop_label.length>15){
-          this.$mptoast('商家名称输入错误');
-          return;
-        }
-        if(this.shop_logo==''&&this.shop_logo==null){
-          this.$mptoast('请上传商家logo');
-          return;
-        }
-        var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-        if(this.shop_phone==''||this.shop_phone==null){
-          this.$mptoast('请输入联系电话');
-          return;
-        }else if(!myreg.test(this.shop_phone)){
-          this.$mptoast('联系电话输入错误');
-          return;
-        }
-        if(this.shop_address==''&&this.shop_address==null){
-          this.$mptoast('请输入联系地址');
-          return;
-        }
-        var data={
-          nicklabel:this.shop_label,
-          shop_logo:this.shop_logo,
-          phone:this.shop_phone,
-          address:this.shop_address
-        }
-        this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
-          if(res.code == 200){
-            this.$mptoast('保存成功');
-            setTimeout(function() {
-              wx.navigateBack({     //返回上一页面或多级页面
-                delta: 1
-              })
-            },1000);
-          }else{
-            this.$mptoast('保存失败');
-          }
-        })
-      },
-
-      openImg(){
-        var that=this;
-        this.$uploadImg({
-          count: 1,
-          sizeType: ['original', 'compressed'],
-          sourceType: ['album', 'camera'],
-        },function (rs) {
-          var obj = JSON.parse(rs);
-          that.shop_logo=obj[0].url;
         })
       },
       getUserinfo(){
