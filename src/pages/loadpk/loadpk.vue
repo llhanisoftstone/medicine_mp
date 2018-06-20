@@ -183,13 +183,15 @@
           }
       },
       onShareAppMessage(res){
+        let that =this
         if (res.from === 'menu') {
           // 来自页面内转发按钮
           console.log(res.target)
         }
         return {
-          title: '挑战好友',
+          title: '@你 向你发起挑战，点击应战~',
           path: `/pages/loadpk/main?from=1&&id=${this.$store.state.user.userid}`,
+          imageUrl: `${that.$store.state.url}/admin/img/friend.jpg`,
           success: (r)=>{
             console.log(r)
           },
