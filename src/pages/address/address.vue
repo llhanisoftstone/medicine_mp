@@ -1,49 +1,34 @@
 <template>
   <div class="container">
-      <div class="item">
-        <div class="title">选择省</div>
-        <div class="mpvue-picker">
-          <input type="default" placeholder="选择省" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker" />
-          <mpvue-picker
-          ref="mpvuePicker"
-          :pickerValueArray="pickerValueArray"
-          :pickerValueDefault='pickerValueDefault'
-          :mode="mode"
-          @onConfirm="onConfirm" >
-          </mpvue-picker>
-        </div>
-      </div>
-      <div class="item">
+    <div class="mpvue-picer">
+    <div class="item">
+      <div class="title">选择省</div>
+      <input type="default" placeholder="选择省" :value="pickerprovinceText" disabled="disabled" class="cityCont" @click="showprovincePicker" />
+    </div>
+    <div class="item">
       <div class="title">选择市</div>
-      <div class="mpvue-picker">
-        <input type="default" placeholder="选择市" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker2" />
-        <mpvue-picker
-          ref="mpvuePicker"
-          :pickerValueArray="pickerValueArray2"
-          :pickerValueDefault='pickerValueDefault2'
-          @onConfirm="onConfirm2" >
-        </mpvue-picker>
-      </div>
+      <input type="default" placeholder="选择市" :value="pickercityText" disabled="disabled" class="cityCont" @click="showcityPicker" />
     </div>
-      <div class="item">
+    <div class="item">
       <div class="title">选择县</div>
-      <div class="mpvue-picer">
-        <input type="" placeholder="选择县" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker3" />
-        <mpvue-picker
-          ref="mpvuePicker"
-          :pickerValueArray="pickerValueArray3"
-          :pickerValueDefault='pickerValueDefault3'
-          @onConfirm="onConfirm3" >
-        </mpvue-picker>
-      </div>
+      <input type="" placeholder="选择县" :value="pickerzoneText" disabled="disabled" class="cityCont" @click="showzonePicker" />
     </div>
-      <div class="item">
-        <div class="title">详细地址</div>
-        <input type="text"   placeholder="详细地址" maxlength="30" confirm-type="next" v-model='address' />
-      </div>
-      <div :class="{'btn':true}" @click="childrenmitData">
-        确&nbsp;&nbsp;&nbsp;认
-      </div>
+    <mpvue-picker
+      ref="mpvuePicker" @pickerCancel="pickerCancel"
+      :pickerValueArray="pickerValueArray"
+      :pickerValueDefault='pickerValueDefault'
+      :mode="mode"
+      :deepLength=deepLength
+      @onConfirm="onConfirm" >
+    </mpvue-picker>
+  </div>
+    <div class="item">
+      <div class="title">详细地址</div>
+      <input type="text"   placeholder="详细地址" maxlength="15" confirm-type="next" v-model='address' />
+    </div>
+    <div :class="{'btn':true}" @click="childrenmitData">
+      确&nbsp;&nbsp;&nbsp;认
+    </div>
     <mptoast/>
   </div>
 </template>
@@ -61,50 +46,134 @@
     data(){
       return {
         rank:1,
-        mode:'showMulPicker',
+        mode:'selector',
+        deepLength:0,
         pickerValueArray:[],
-        pickerValueDefault: [0],
-//        pickerValueArray2: [],
-//        pickerValueDefault2: [0],
-//        pickerValueArray3: [],
-//        pickerValueDefault3: [0],
-        pickerValue: 0,
-        pickerText:'',
+        pickerValueDefault:[0],
+        pickerprovinceText:'',
+        pickercityText:'',
+        pickerzoneText:'',
         province_id:'',
+        provinceidlist:'',
+        cityidlist:'',
+        zoneidlist:'',
         city_id:'',
         zone_id:'',
+        address:'',
+        select:'',
+        add_id:'',
       }
     },
     methods: {
-      showPicker() {
-        this.$refs.mpvuePicker.show();
+      showprovincePicker() {
+        var than=this;
+        this.$get('/rs/city_zone',{deep:1}).then(res=>{
+          if(res.code==200){
+            var obj = [];
+            var array=[];
+            for(var i=0;i<res.rows.length;i++){
+              var o = {};
+              array.push(res.rows[i].name)
+              o.id = res.rows[i].id;
+              o.name = res.rows[i].name;
+              obj.push(o);
+            }
+            than.pickerValueArray=array;
+            than.provinceidlist = obj;
+            this.select=1;
+            this.$refs.mpvuePicker.show();
+          }
+        })
+
       },
-      showPicker2() {
-        this.$refs.mpvuePicker.show();
+      showcityPicker() {
+        var than=this;
+        this.pickerValueArray=[];
+        if(this.province_id==null||this.province_id==""){
+          this.$mptoast("请先选择省");
+          return;
+        }
+        this.$get('/rs/city_zone',{deep:2,pid:this.province_id}).then(res=>{
+          if(res.code==200){
+            var obj2 = [];
+            var array2=[];
+            for(var i=0;i<res.rows.length;i++){
+              var o = {};
+              array2.push(res.rows[i].name)
+              o.id = res.rows[i].id;
+              o.name = res.rows[i].name;
+              obj2.push(o);
+            }
+            than.pickerValueArray=array2;
+            than.cityidlist = obj2;
+            this.select=2;
+            this.$refs.mpvuePicker.show();
+          }
+        })
       },
-      showPicker3() {
-        this.$refs.mpvuePicker.show();
+      showzonePicker() {
+        var than=this;
+        this.pickerValueArray=[];
+        if(this.city_id==null||this.city_id==""){
+          this.$mptoast("请先选择市");
+          return;
+        }
+        this.$get('/rs/city_zone',{deep:3,pid:this.city_id}).then(res=>{
+          if(res.code==200){
+            var obj3 = [];
+            var array3=[];
+            for(var i=0;i<res.rows.length;i++){
+              var o = {};
+              array3.push(res.rows[i].name)
+              o.id = res.rows[i].id;
+              o.name = res.rows[i].name;
+              obj3.push(o);
+            }
+            than.pickerValueArray=array3;
+            than.zoneidlist = obj3;
+            this.select=3;
+            this.$refs.mpvuePicker.show();
+          }
+        })
       },
       pickerConfirm(e) {
       },
       onConfirm(e){
+          if(this.select==1){
+            this.pickerprovinceText = this.pickerValueArray[e[0]];
+            for(var i=0;i<this.provinceidlist.length;i++){
+                if(this.pickerprovinceText==this.provinceidlist[i].name){
+                    this.province_id=this.provinceidlist[i].id;
+                }
+            }
+          }else if(this.select==2){
+            this.pickercityText = this.pickerValueArray[e[0]];
+            for(var i=0;i<this.cityidlist.length;i++){
+              if(this.pickercityText==this.cityidlist[i].name){
+                this.city_id=this.cityidlist[i].id;
+              }
+            }
+          }else if(this.select==3){
+            this.pickerzoneText = this.pickerValueArray[e[0]];
+            for(var i=0;i<this.zoneidlist.length;i++){
+              if(this.pickerzoneText==this.zoneidlist[i].name){
+                this.zone_id=this.zoneidlist[i].id;
+              }
+            }
+          }
 
       },
       childrenmitData(){
-        if(this.realname==null||(this.realname).trim()==''){
-          this.$mptoast('姓名不能为空，请输入');
+        if(this.province_id==null||this.province_id==""){
+          this.$mptoast('省不能为空，请选择');
           return;
         }
-        var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-        if(this.phone==''||this.phone==null){
-          this.$mptoast('手机号不能为空，请输入');
-          return;
-        }else if(!myreg.test(this.phone)){
-          this.$mptoast('您的手机号输入有误，请重新输入');
+        if(this.city_id==null||this.city_id==""){
+          this.$mptoast('市不能为空，请选择');
           return;
         }
-        if(this.pickerText==''||this.pickerText==undefined||this.pickerText==null){
-          this.$mptoast('地区不能为空，请选择');
+        if(this.zone_id==null||this.zone_id==""){
+          this.$mptoast('县不能为空，请选择');
           return;
         }
         if(this.address==null||(this.address).trim()==''){
@@ -112,29 +181,52 @@
           return;
         }
         var data={
-          phone:this.phone,
+          u_id:this.$store.state.user.userid,
           address:this.address,
-          realname:this.realname,
-          shop_address:this.pickerText,
+          province_id:this.province_id,
+          city_id:this.city_id,
+          zone_id:this.zone_id,
         }
-        this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
-          if(res.code == 200){
-            this.$mptoast('保存成功');
-            setTimeout(function() {
-              wx.navigateBack({     //返回上一页面或多级页面
-                delta: 1
-              })
-            },1000);
-          }else{
-            this.$mptoast('保存失败');
-          }
-        })
+        if(this.add_id){
+          this.$put('/rs/address/'+this.add_id,data).then(res=>{
+            if(res.code == 200){
+              this.$mptoast('修改成功');
+              setTimeout(function() {
+                wx.navigateBack({     //返回上一页面或多级页面
+                  delta: 1
+                })
+              },1000);
+            }else{
+              this.$mptoast('修改失败');
+            }
+          })
+        }else{
+          this.$post('/rs/address',data).then(res=>{
+            if(res.code == 200){
+              this.$mptoast('保存成功');
+              setTimeout(function() {
+                wx.navigateBack({     //返回上一页面或多级页面
+                  delta: 1
+                })
+              },1000);
+            }else{
+              this.$mptoast('保存失败');
+            }
+          })
+        }
       },
       getUserinfo(){
         var that=this;
         this.$get('/rs/v_address',{u_id:this.$store.state.user.userid}).then(res=>{
           if(res.code==200){
-
+            this.pickerprovinceText=res.rows[0].province_name;
+            this.pickercityText=res.rows[0].city_name;
+            this.pickerzoneText=res.rows[0].zone_name;
+            this.address=res.rows[0].address;
+            this.province_id=res.rows[0].province_id;
+            this.city_id=res.rows[0].city_id;
+            this.zone_id=res.rows[0].zone_id;
+            this.add_id=res.rows[0].id;
           }
 
         })
@@ -146,13 +238,7 @@
       this.rank=1;
     },
     onLoad: function (option) {
-      var than=this;
-      this.$get('/rs/city_zone',{deep:1}).then(res=>{
-        if(res.code==200){
-          than.pickerValueArray=res.rows;
-        }
 
-      })
     }
   }
 </script>
