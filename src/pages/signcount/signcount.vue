@@ -587,7 +587,7 @@
         .text{
           float:left;
           max-width:244px;
-          font-size:11px;
+          font-size:12px;
           color:#333;
           line-height:20px;
         }
