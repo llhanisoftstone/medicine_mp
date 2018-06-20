@@ -209,7 +209,7 @@ export default {
                       wx.hideLoading()
                       wx.showModal({
                         title: '提示',
-                        content: '房间不存在',
+                        content: '您已错过入场时间,请下次再来',
                         showCancel: false,
                         confirmText: '返回首页',
                         confirmColor: '#df5c3e',
