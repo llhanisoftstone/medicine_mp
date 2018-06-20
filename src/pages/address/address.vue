@@ -8,6 +8,7 @@
           ref="mpvuePicker"
           :pickerValueArray="pickerValueArray"
           :pickerValueDefault='pickerValueDefault'
+          :mode="mode"
           @onConfirm="onConfirm" >
           </mpvue-picker>
         </div>
@@ -60,7 +61,8 @@
     data(){
       return {
         rank:1,
-        pickerValueArray:['lala','xiao','daddsvf'],
+        mode:'showMulPicker',
+        pickerValueArray:[],
         pickerValueDefault: [0],
 //        pickerValueArray2: [],
 //        pickerValueDefault2: [0],
@@ -75,7 +77,6 @@
     },
     methods: {
       showPicker() {
-        console.log(this.pickerValueArray);
         this.$refs.mpvuePicker.show();
       },
       showPicker2() {
@@ -148,7 +149,7 @@
       var than=this;
       this.$get('/rs/city_zone',{deep:1}).then(res=>{
         if(res.code==200){
-//          than.pickerValueArray=res.rows;
+          than.pickerValueArray=res.rows;
         }
 
       })
