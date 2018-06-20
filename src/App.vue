@@ -2,6 +2,7 @@
 export default {
   created () {
     let that = this
+    let showmsg = null
 //    this.getLogin()
     this.$socket.on('connect', () => {
       console.log('connect success')
@@ -12,8 +13,28 @@ export default {
     this.$socket.on('disconnect', d => {
       console.log(d)
       that.$store.commit('getsocket', false)
+      showmsg = setTimeout(() => {
+        if (that.$store.state.modalshow) {
+          that.$store.commit('getmodal', false)
+          wx.showModal({
+            title: '提示',
+            content: '网络出现问题,请稍后重试',
+            showCancel: false,
+            confirmText: '返回首页',
+            confirmColor: '#df5c3e',
+            mask: true,
+            complete: res => {
+              wx.switchTab({
+                url: '/pages/index/main'
+              })
+              that.$store.commit('getmodal', true)
+            }
+          })
+        }
+      }, 5000)
     })
     this.$socket.on('reconnect', d => {
+      clearTimeout(showmsg)
       if (!that.$store.state.issocket) {
         if (that.$store.state.user.userid) {
           console.log('app login')
