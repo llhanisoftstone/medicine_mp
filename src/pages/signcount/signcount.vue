@@ -25,11 +25,11 @@
         <div class="month">
           <ul>
             <!--点击会触发pickpre函数，重新刷新当前日期 @click(vue v-on:click缩写) -->
-            <li class="arrow" @click="pickPre(currentYear,currentMonth)">❮</li>
+            <li class="arrow arrow_left" @click="pickPre(currentYear,currentMonth)">❮</li>
             <li class="year-month" @click="pickYear(currentYear,currentMonth)">
               <span class="choose-month">{{ currentMonth }}月</span>
             </li>
-            <li class="arrow" @click="pickNext(currentYear,currentMonth)">❯</li>
+            <li class="arrow arrow_right" @click="pickNext(currentYear,currentMonth)">❯</li>
           </ul>
         </div>
         <!-- 星期 -->
@@ -166,17 +166,17 @@
         pickPre: function(year, month) {
           var d = new Date(this.formatDate(year , month , 1));
           d.setDate(0);
-          this.initData(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
-          this.getsign(d.getFullYear(),d.getMonth() + 1);
+          var now=new Date();
+          if((year==now.getFullYear())&&(1<month)) {
+            this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
+            this.getsign(d.getFullYear(), d.getMonth() + 1);
+          }
         },
         pickNext: function(year, month) {
           var d = new Date(this.formatDate(year , month , 1));
           d.setDate(35);
           var now=new Date();
           if((year==now.getFullYear())&&(month<(now.getMonth() + 1))){
-            this.initData(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
-            this.getsign(d.getFullYear(),d.getMonth() + 1);
-          }else if(year<now.getFullYear()){
             this.initData(this.formatDate(d.getFullYear(),d.getMonth() + 1,1));
             this.getsign(d.getFullYear(),d.getMonth() + 1);
           }
@@ -443,8 +443,9 @@
     .month ul {
       padding: 0;
       display: flex;
-      margin:27px 59px 0;
+      margin:17px 39px 0;
       justify-content: space-between;
+      align-items: center;
     }
 
     .year-month {
@@ -472,12 +473,20 @@
       letter-spacing: 3px;
     }
     .arrow{
-      padding-top:3px;
+      width:50px;
       color:#df5c3e;
+      padding:10px;
+    }
+    .arrow_left{
+      padding:20px;
+      text-align:left;
+    }
+    .arrow_right{
+      text-align:right;
     }
     .weekdays {
       margin: 0;
-      padding: 10px 0;
+      padding:0 0 10px 0;
       display: flex;
       flex-wrap: wrap;
       color: #333;

@@ -10,7 +10,7 @@
     <div class="middle">
       <ul>
         <li class="money"><a href="/pages/sliver/main"><div class="title">银两</div><p class="messagealert">储备仓</p><span class="listimg moneyimg"></span></a></li>
-        <li class="store"><a href="/pages/giftshoplist/main"><div class="title">礼品店</div><p class="messagealert">精美礼品等你拿</p><span class="listimg storeimg"></span></a></li>
+        <li class="store"><a href="/pages/giftshoplist/main"><div class="title">礼物店</div><p class="messagealert">精美礼物等你拿</p><span class="listimg storeimg"></span></a></li>
         <li class="usermoot"><a href="/pages/itemshop/main"><div class="title">道具</div><p class="messagealert">优惠道具等你来购</p><span class="listimg userimg"></span></a></li>
         <li class="groupcard" v-if="seen"><a href="/pages/ticket/main"><div class="title">优惠券</div><p class="messagealert">优惠券发放</p><span class="listimg cardimg"></span></a></li>
         <li class="setting"><a href="/pages/setting/main"><div class="title">设置</div><p class="messagealert">设置</p><span class="listimg settingimg"></span></a></li>
@@ -27,12 +27,10 @@
       return {
         isnewuser: true,
         seen:false,
+        points:0
       }
     },
     computed:{
-      points(){
-        return this.$store.state.sliver
-      }
     },
     components: {
         userinfo
@@ -43,6 +41,7 @@
         if(aa.code==200){
           this.$store.commit('get_sliver',aa.rows[0].points);
           this.$store.commit('get_openid',aa.rows[0].open_id);
+          this.points=aa.rows[0].points;
             if(aa.rows[0].rank<"20"){
                 this.seen=false;
             }else{
@@ -51,15 +50,10 @@
         }
       }
     },
-    mounted(){
-      this.getuserperson()
-    },
-    created (){
-    },
     onShow(){
       this.getuserperson();
     }
-    }
+  }
 </script>
 
 <style scoped lang="css">

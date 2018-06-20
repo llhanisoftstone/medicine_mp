@@ -7,6 +7,6 @@ app.$mount()
 export default {
   // 这个字段走 app.json
   config: {
-    navigationBarTitleText: '道具商店'
+    navigationBarTitleText: '道具'
   }
 }

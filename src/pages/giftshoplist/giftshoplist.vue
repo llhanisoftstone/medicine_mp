@@ -71,7 +71,7 @@
         };
         let res = await that.$get('/rs/member_ticket',data);
         if (res.code == 200){
-          this.iskong=false;
+          that.iskong=false;
           if (res.rows.length > 0){
             for (let i=0; i<res.rows.length; i++){
               res.rows[i].get_time = that.conversionTime(res.rows[i].get_time,"/");
@@ -92,10 +92,10 @@
               }else if(res.rows[i].status==2){
                 res.rows[i].statustext="已过期"
               }
-              that.policy_list.push(res.rows[i]);
             }
+            that.policy_list = that.policy_list.concat(res.rows);
           }
-        }else if(res.code==602){
+        }else if(res.code==602 && that.page == 1){
           this.iskong=true;
         }
       },
@@ -135,8 +135,8 @@
         return price;
       }
     },
-    onShow: function onShow() {
-      this.policy_list=[];
+    onLoad: function (option) {
+      this.policy_list = [];
       this.getpolicyList()//获取数据
     }
   }

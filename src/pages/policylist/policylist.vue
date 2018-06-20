@@ -80,7 +80,11 @@
         };
         if (this._search){
             data.search = 1;
-            data.searchData = this._search
+            data.searchData = this._search;
+            if (this.page > 1){
+              data.page = 1;
+              data.size = this.page * this.size;
+            }
         }
         let res = await that.$get('/rs/infomation',data);
         if (res.code == 200){
@@ -90,7 +94,7 @@
             for (let i=0; i<res.rows.length; i++){
               res.rows[i].pic_abbr = 'https://policy.lifeonway.com'+res.rows[i].pic_abbr;
             }
-            that.policy_list = res.rows;
+            that.policy_list = that.policy_list.concat(res.rows);
           }
         }else if (res.code == 602 && that.page == 1){
           that.iskong=true;
@@ -98,6 +102,8 @@
         }
       },
       confirm(e){
+        this.page=1;
+        this.policy_list=[];
         this._search = e.target.value;
         this.getpolicyList();
       },
@@ -123,11 +129,7 @@
     },
     onLoad: function (option) {
       this._code = option.pid;
-      this.getpolicyList()//获取数据
-    },
-
-    onShow: function onShow() {
-      this._search = '';
+      this.policy_list=[];
       this.getpolicyList()//获取数据
     }
   }
@@ -150,12 +152,12 @@
     input{
       width: 100%;
       color: #666666;
-      font-size: 26px/2;
-      height: 55px/2;
+      font-size: 30px/2;
+      height: 70px/2;
       background-color: #ffffff;
     }
     .clear_icon{
-      background:url('../../../static/img/zc_6.png') center 14px/2 no-repeat;
+      background:url('../../../static/img/zc_6.png') center 20px/2 no-repeat;
       background-size: 30px/2 30px/2;
     }
     .clear{

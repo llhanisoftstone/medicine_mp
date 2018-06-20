@@ -5,7 +5,7 @@
           <li class="list-li" v-for="(item,i) in ticket_list" :key="item.id">
             <div class="upper-part">
               <div class="shade"></div>
-              <img :src="item.picurl" class="background-img"></img>
+              <img src="../../../static/img/back_icon.png" class="background-img" />
               <div class="ticket-info">
                 <div class="ticket-name">{{item.name}}</div>
                 <div class="ticket-count">{{item.total_amount}}张</div>
@@ -80,7 +80,7 @@
               res.rows[i].picurl = 'https://policy.lifeonway.com'+res.rows[i].picurl;
               res.rows[i].surplus_count = res.rows[i].total_amount - res.rows[i].total_count;
             }
-            that.ticket_list = res.rows;
+            that.ticket_list = that.ticket_list.concat(res.rows);
           }
         }
       },
@@ -91,9 +91,6 @@
       loadmore () {
         this.getticketList();
       }
-    },
-    onLoad: function () {
-      this.getticketList()//获取数据
     },
     onShow: function onShow() {
       this.getticketList()//获取数据
@@ -122,7 +119,7 @@
         .upper-part{
           width: 100%;
           height: 280px/2;
-          image{
+          img{
             width: 100%;
             height: 280px/2;
             border-radius: 10px/2;
