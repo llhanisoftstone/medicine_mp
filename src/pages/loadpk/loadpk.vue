@@ -178,6 +178,11 @@
       },
       onUnload(){
           if(this.router == 0){
+            clearTimeout(this.rout)
+            this.$store.commit('get_vsuser',{picpath: '/static/img/user.png', nickname: '', id: ''})
+            this.$store.commit('get_answer',{})
+            this.$store.commit('get_step',0)
+            this.$store.commit('get_room','')
             this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
             this.isend=false
           }

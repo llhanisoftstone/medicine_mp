@@ -12,7 +12,7 @@
           <!--<p>亲友团</p>-->
           <ul>
             <li v-if="challenger!=user.userid"><image :src="userinfo.avatarUrl"></image></li>
-            <li v-for="(v,i) in team" v-if="i!=0&&i<14"><image :src="v.picpath"></image></li>
+            <li v-for="(v,i) in team" v-if="((challenger!=user.userid)&&(i!=0&&i<14))||((challenger==user.userid)&&(i!=0&&i<15))"><image :src="v.picpath"></image></li>
           </ul>
         </div>
       </div>
@@ -302,6 +302,9 @@
             if(this.isclick){
                 return
             }
+            if(this.isshow){
+                return
+            }
             let that=this
             that.isclick=true
             that.index=index
@@ -331,7 +334,7 @@
                   u_id:that.$store.state.user.userid,
                   level:that.$store.state.f_level,
                   step:that.$store.state.step,
-                  data:JSON.stringify(that.index)
+                  data:`${that.index}`
                 })
             }
           },
@@ -415,8 +418,12 @@
         }
       }
     },
+    onShow(){
+        console.log('show page')
+    },
     onLoad(option){
       let that =this
+      that.$store.commit('getmodal', true)
       that.cleardata()
       that.$store.commit('get_f_level',0)
       clearInterval(that.timesfn)
@@ -431,18 +438,14 @@
           picpath:that.$store.state.userinfo.avatarUrl
         })
       }
-      if(!that.$store.state.issocket) {
-        that.$socket.emit('data_chain', {
-          cmd: 'login',
-          u_id: that.$store.state.user.userid,
-          nickname: that.$store.state.userinfo.nickName,
-          picpath: that.$store.state.userinfo.avatarUrl
-        })
-      }else{
+      console.log('load page')
+      console.log(that.$store.state.issocket)
+      if(that.$store.state.issocket) {
         if(option.ismy == 1&&that.challenger == that.$store.state.user.userid){
           that.join()
         }else{
           if(that.challenger != that.$store.state.user.userid){
+              console.log('已登录 加入')
             that.join()
           }
         }
@@ -450,10 +453,12 @@
       that.$socket.removeAllListeners('data_chain')
       that.$socket.on('data_chain',d=>{
         if(d.cmd=='login'){
-          if(option.ismy == 1){
+          if(option.ismy == 1&&that.challenger == that.$store.state.user.userid){
+              console.log('发起者未登录  发起登录之后加入')
             that.join()
           }else{
-            if(that.challenger != that.$store.state.user.userid){
+            if((that.challenger != that.$store.state.user.userid)&&!that.$store.state.issocket){
+              console.log('参与者未登录  发起登录之后加入')
               that.$store.commit('getsocket')
               that.join()
             }
@@ -625,30 +630,48 @@
                 })
               },2000)
             }else{    //当前关卡结束
-              let useri = that.$store.state.user
-              if(that.challenger == that.$store.state.user.userid){
-                if(Number(d.level)>Number(useri.game_level)){
-                  useri.game_level = d.level
-                  that.$store.commit('getm_user',useri)
+              that.isshow=true
+              setTimeout(()=>{
+                let useri = that.$store.state.user
+                if(that.challenger == that.$store.state.user.userid){
+                  if(Number(d.level)>Number(useri.game_level)){
+                    useri.game_level = d.level
+                    that.$store.commit('getm_user',useri)
+                  }
                 }
-              }
-              if(that.challenger != that.$store.state.user.userid){
-                that.$store.commit('get_f_level',d.level)
-              }else{
-                that.$store.commit('get_level',d.level)
-              }
-              that.$store.commit('get_step',d.step)
-              that.$store.commit('get_max_nub',d.max_step)
-              that.is_f_click=-1
+                if(that.challenger != that.$store.state.user.userid){
+                  that.$store.commit('get_f_level',d.level)
+                }else{
+                  that.$store.commit('get_level',d.level)
+                }
+                that.$store.commit('get_step',d.step)
+                that.$store.commit('get_max_nub',d.max_step)
+                that.is_f_click=-1
+                that.iswin = 2
+                that.gameover=true
+                that.index=-1
+                that.times=30
+                that.isclick=false
+                that.isshow=false
+                that.isstart=true
+                that.stat=[]
+                that.tool_id=[]
+                if(d.details[0]){
+                  that.$store.commit('get_prize',d.details[0])
+                }else{
+                  that.$store.commit('get_prize',{})
+                }
+                wx.setNavigationBarTitle({
+                  title:`挑战结果`
+                })
+              },2000)
+            }
+          }else if(d.content_type == 2){    //全部挑战结束
+            that.isshow=true
+            setTimeout(()=>{
+              that.isnext=false
               that.iswin = 2
               that.gameover=true
-              that.index=-1
-              that.times=30
-              that.isclick=false
-              that.isshow=false
-              that.isstart=true
-              that.stat=[]
-              that.tool_id=[]
               if(d.details[0]){
                 that.$store.commit('get_prize',d.details[0])
               }else{
@@ -657,19 +680,7 @@
               wx.setNavigationBarTitle({
                 title:`挑战结果`
               })
-            }
-          }else if(d.content_type == 2){    //全部挑战结束
-            that.isnext=false
-            that.iswin = 2
-            that.gameover=true
-            if(d.details[0]){
-              that.$store.commit('get_prize',d.details[0])
-            }else{
-              that.$store.commit('get_prize',{})
-            }
-            wx.setNavigationBarTitle({
-              title:`挑战结果`
-            })
+            },2000)
           }else if(d.content_type == 3){       //挑战失败
             that.isshow=true
             that.index = d.other_reply == null?-1:d.other_reply

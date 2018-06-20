@@ -121,7 +121,6 @@
       this.getpage()
     },
     onHide(){
-        console.log(22222222222222)
       this.$socket.removeAllListeners('data_chain')
     }
 }

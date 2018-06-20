@@ -8,9 +8,9 @@
       <div class="user">
         <div class="user_item" :class="{'success':win==2}">
           <div><i></i><image :src="userinfo.avatarUrl"></image></div>
-          <h4>{{userinfo.nickName}}</h4>
-          <p>{{myscore}}</p>
         </div>
+        <h4>{{userinfo.nickName}}</h4>
+        <p>{{myscore}}</p>
       </div>
       <div class="cap_box">
         <capture :win="win" :iscard="iscard" :card="card"></capture>
@@ -190,8 +190,31 @@
     width: 100%;
     height: auto;
     display: flex;
+    flex-wrap: wrap;
     box-sizing: border-box;
     justify-content: center;
+  h4{
+    width: 100%;
+    margin-top:15px/2;
+    font-size: 28px/2;
+    color: #333;
+    white-space: nowrap;
+    height: 28px/2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  p{
+    width: 100%;
+    white-space: nowrap;
+    margin-top:12px/2;
+    font-size: 28px/2;
+    color: #333;
+    height: 28px/2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .user_item{
     flex-wrap: wrap;
     width: 159px/2;
@@ -210,28 +233,6 @@
     border-radius: 50%;
     border:9px/4 solid #ffffff;
   }
-  }
-  h4{
-    margin-top:15px/2;
-    font-size: 28px/2;
-    color: #333;
-    width: 159px/2;
-    white-space: nowrap;
-    height: 28px/2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  p{
-    width: 159px/2;
-    white-space: nowrap;
-    margin-top:12px/2;
-    font-size: 28px/2;
-    color: #333;
-    height: 28px/2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
   }
   .success{
