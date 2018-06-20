@@ -47,7 +47,7 @@
       <div class="item">
         <a href="/pages/address/main">
           <div class="title">详细地址</div>
-          <input type="text"  disabled placeholder="详细地址" maxlength="30" confirm-type="next" v-model='address' />
+          <input type="text" style="max-width:90%"  disabled placeholder="详细地址" maxlength="30" confirm-type="next" v-model='address' />
           <img src="/static/img/arrow.png"/>
         </a>
       </div>
@@ -204,7 +204,7 @@
       },
       getUserinfo(){
         var that=this;
-        this.$get('/rs/member/'+this.$store.state.user.userid,{}).then(res=>{
+        this.$get('/rs/v_member/'+this.$store.state.user.userid,{}).then(res=>{
           if(res.code==200){
             var user=res.rows[0];
             if(user.gender==1){
@@ -217,7 +217,11 @@
             that.name=user.nickname;
             that.realname=user.realname;
             that.phone=user.phone;
-            that.address=user.address;
+            var address=user.province_name+user.city_name+user.zone_name+user.address;
+            if(address.length>15){
+                address=address.substring(1,15)+"...";
+            }
+            that.address=address;
             that.pickerText=user.shop_address;
             that.shop_label=user.nicklabel;
             that.shop_logo=user.shop_logo;
@@ -233,6 +237,9 @@
       this.getUserinfo();
       this.rank=1;
     },
+    onShow(){
+      this.getUserinfo();
+    }
   }
 </script>
 
