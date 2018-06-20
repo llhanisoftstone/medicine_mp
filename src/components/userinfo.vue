@@ -6,7 +6,7 @@
           <image :src='imgurl' v-if="isauth"></image>
           <button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo"></button>
         </div>
-        <p v-if="isauth">{{username}}</p>
+        <div class="username" v-if="isauth">{{username}}</div>
         <slot name="userRight" class="slot_box"></slot>
       </div>
     </div>
@@ -119,11 +119,16 @@
             background: transparent;
           }
         }
-        p{
+        .username{
           margin-left: 38px/2;
           font-size: 32px/2;
           color: #333;
-          width: 300px/2;
+          width: 250px/2;
+          display:inline-block;
+          word-break:break-all;
+          word-wrap:break-word;
+          -webkit-text-size-adjust:none;
+          height:auto;
           box-sizing: border-box;
         }
         .slot_box{
