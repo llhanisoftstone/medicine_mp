@@ -80,7 +80,11 @@
         };
         if (this._search){
             data.search = 1;
-            data.searchData = this._search
+            data.searchData = this._search;
+            if (this.page > 1){
+              data.page = 1;
+              data.size = this.page * this.size;
+            }
         }
         let res = await that.$get('/rs/infomation',data);
         if (res.code == 200){
@@ -98,6 +102,8 @@
         }
       },
       confirm(e){
+        this.page=1;
+        this.policy_list=[];
         this._search = e.target.value;
         this.getpolicyList();
       },
@@ -123,13 +129,7 @@
     },
     onLoad: function (option) {
       this._code = option.pid;
-      this.getpolicyList()//获取数据
-    },
-
-    onShow: function onShow() {
-      this.page=1;
       this.policy_list=[];
-      this._search = '';
       this.getpolicyList()//获取数据
     }
   }

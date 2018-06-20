@@ -50,7 +50,7 @@
                   }
                 })
               }else{
-                  this.$get('/rs/member',{order:'points desc,create_time',page:1,size:50,rank:'<,91'}).then(res=>{
+                  this.$get('/rs/member',{order:'points desc,create_time',page:1,size:50,rank:1}).then(res=>{
                       if(res.code == 200){
                           for(var i=0;i<res.rows.length;i++){
                               if(res.rows[i].avatar_url==""||res.rows[i].avatar_url==null){
