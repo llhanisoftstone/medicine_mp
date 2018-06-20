@@ -163,8 +163,21 @@
                 res.rows[i].picpath = that.$store.state.url+ res.rows[i].picpath
               }
               this.mypackage = res.rows;
+              let use = this.$store.state.user
+              for(let i=0;i<res.rows.length;i++){
+                if(res.rows[i].id == 1){
+                  use.tools[0].amount = Number(res.rows[i].amount)
+                }else if(res.rows[i].id == 2){
+                  use.tools[1].amount = Number(res.rows[i].amount)
+                }
+              }
+              this.$store.commit('getm_user',use)
             }else if(res.code==602){
                 this.iskong=true;
+                let use = this.$store.state.user
+                use.tools[0].amount = 0
+                use.tools[1].amount = 0
+                this.$store.commit('getm_user',use)
             }
           },
           async orderlist(){
