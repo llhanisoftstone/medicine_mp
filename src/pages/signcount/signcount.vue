@@ -6,7 +6,7 @@
           </div>
           <div class="mui-media-body">
             <p class="sign-success" v-if="nowflag">今日已签到</p>
-            <p class="sign-success" v-if="isoverflag">恭喜你签到成功，<span class="co_fe698a">+{{getpointer}}!</span></p>
+            <p class="sign-success" v-if="isoverflag">恭喜你签到成功，银两<span class="co_fe698a">+{{getpointer}}!</span></p>
             <p class="p-margin">当前银两<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
             </p>
           </div>
@@ -581,7 +581,7 @@
           text-align:center;
           line-height:12px;
           border-radius:50%;
-          background:#f08300;
+          background:#df5c3e;
           margin-right:8px;
         }
         .text{
@@ -597,7 +597,7 @@
       width:115px;
       height:37px;
       border-radius:25px;
-      background:#f08300;
+      background:#df5c3e;
       color:#fff;
       font-size:15px;
       margin:20px auto 0;

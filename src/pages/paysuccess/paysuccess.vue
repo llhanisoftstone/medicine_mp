@@ -11,7 +11,7 @@
           <div class="result_text">
             感谢您的支持,您的满意是我们最大的追求
           </div>
-          <navigator href="/pages/itemshop/main?ispay=true" open-type = "redirect"><div class="result_btn">查看我的背包</div></navigator>
+          <navigator hover-class="none" href="/pages/itemshop/main?ispay=true" open-type = "redirect"><div class="result_btn">查看我的背包</div></navigator>
         </div>
       </div>
       <div class="submitResult_error hide" v-if="isshow">
@@ -25,7 +25,7 @@
           <div class="result_text">
             对不起,您的操作失败!再去看看吧
           </div>
-          <navigator href="/pages/itemshop/main?ispay=true" open-type = "redirect"><div class="result_btn">查看我的背包</div></navigator>
+          <navigator hover-class="none" href="/pages/itemshop/main?ispay=true" open-type = "redirect"><div class="result_btn">查看我的背包</div></navigator>
         </div>
       </div>
     </div>

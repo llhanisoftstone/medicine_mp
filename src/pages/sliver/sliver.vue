@@ -105,6 +105,7 @@
   }
   .wallet{
     padding-left:31px;
+    margin-left:5px;
     height:19px;
     background:url(../../../static/img/my_06.png) no-repeat left center;
     background-size:26px 19px;
