@@ -5,6 +5,9 @@ export default {
     let showmsg = null
 //    this.getLogin()
     this.$socket.on('connect', () => {
+      wx.hideLoading()
+      clearTimeout(showmsg)
+      showmsg = null
       console.log('connect success')
       if (!that.$store.state.user.userid) {
         that.getLogin()
@@ -12,15 +15,19 @@ export default {
     })
     this.$socket.on('disconnect', d => {
       console.log(d)
+      wx.showLoading({
+        mask: true
+      })
       that.$store.commit('getsocket', false)
       showmsg = setTimeout(() => {
         if (that.$store.state.modalshow) {
           that.$store.commit('getmodal', false)
+          wx.hideLoading()
           wx.showModal({
             title: '提示',
             content: '网络出现问题,请稍后重试',
             showCancel: false,
-            confirmText: '返回首页',
+            confirmText: '确认',
             confirmColor: '#df5c3e',
             mask: true,
             complete: res => {
@@ -31,10 +38,9 @@ export default {
             }
           })
         }
-      }, 5000)
+      }, 15000)
     })
     this.$socket.on('reconnect', d => {
-      clearTimeout(showmsg)
       if (!that.$store.state.issocket) {
         if (that.$store.state.user.userid) {
           console.log('app login')
