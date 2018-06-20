@@ -2097,23 +2097,23 @@
           },
           childrenmitData(){
             if(this.realname==null||(this.realname).trim()==''){
-              this.$mptoast('请输入姓名');
+              this.$mptoast('姓名不能为空，请输入');
               return;
             }
             var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
             if(this.phone==''||this.phone==null){
-              this.$mptoast('请输入手机号');
+              this.$mptoast('手机号不能为空，请输入');
               return;
             }else if(!myreg.test(this.phone)){
               this.$mptoast('您的手机号输入有误，请重新输入');
               return;
             }
             if(this.pickerText==''||this.pickerText==undefined||this.pickerText==null){
-              this.$mptoast('请选择地区');
+              this.$mptoast('地区不能为空，请选择');
               return;
             }
             if(this.address==null||(this.address).trim()==''){
-              this.$mptoast('请输入详细地址');
+              this.$mptoast('详细地址不能为空，请输入');
               return;
             }
             var data={
