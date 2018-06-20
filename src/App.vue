@@ -8,14 +8,6 @@ export default {
       if (!that.$store.state.user.userid) {
         that.getLogin()
       }
-//      if (!that.$store.state.issocket) {
-//        this.$socket.emit('data_chain', {
-//          cmd: 'login',
-//          u_id: this.$store.state.user.userid,
-//          nickname: this.$store.state.userinfo.nickName,
-//          picpath: this.$store.state.userinfo.avatarUrl
-//        })
-//      }
     })
     this.$socket.on('disconnect', d => {
       console.log(d)
@@ -24,12 +16,14 @@ export default {
     this.$socket.on('reconnect', d => {
       if (!that.$store.state.issocket) {
         if (that.$store.state.user.userid) {
+          console.log('app login')
           that.$socket.emit('data_chain', {
             cmd: 'login',
             u_id: that.$store.state.user.userid,
             nickname: that.$store.state.userinfo.nickName,
             picpath: that.$store.state.userinfo.avatarUrl
           })
+          that.$store.commit('getsocket')
         }
       }
       console.log(d)
@@ -142,20 +136,24 @@ export default {
                   that.$store.commit('getsocket')
                 }
               })
-              that.$socket.emit('data_chain', {
-                cmd: 'login',
-                u_id: res.userid,
-                nickname: that.$store.state.userinfo.nickName,
-                picpath: that.$store.state.userinfo.avatarUrl
-              })
+              if (!that.$store.state.issocket) {
+                that.$socket.emit('data_chain', {
+                  cmd: 'login',
+                  u_id: res.userid,
+                  nickname: that.$store.state.userinfo.nickName,
+                  picpath: that.$store.state.userinfo.avatarUrl
+                })
+              }
               that.$socket.on('global_chain', d => {
                 console.log(d)
                 if (d.cmd === 'error') {
                   if (d.errcode === 601) {
-                    that.$store.commit('getsocket', false)
                     if (that.$store.state.modalshow) {
                       that.$store.commit('getmodal', false)
                       wx.hideLoading()
+//                      wx.showLoading({
+//                        mask:true
+//                      })
                       wx.showModal({
                         title: '提示',
                         content: '无法获取好友信息,请重试',

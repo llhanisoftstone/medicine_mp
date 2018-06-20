@@ -15,7 +15,7 @@
         <div class="vsuser">
           <image :src="vsuser.picpath"></image>
         </div>
-        <p class="username">{{vsuser.nickName}}</p>
+        <p class="username">{{vsuser.nickname}}</p>
       </div>
       <div class="btn_box" v-if="from==1">
         <button open-type="share">挑战其他好友</button>
@@ -178,6 +178,11 @@
       },
       onUnload(){
           if(this.router == 0){
+            clearTimeout(this.rout)
+            this.$store.commit('get_vsuser',{picpath: '/static/img/user.png', nickname: '', id: ''})
+            this.$store.commit('get_answer',{})
+            this.$store.commit('get_step',0)
+            this.$store.commit('get_room','')
             this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
             this.isend=false
           }
