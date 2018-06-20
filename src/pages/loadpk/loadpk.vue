@@ -15,7 +15,7 @@
         <div class="vsuser">
           <image :src="vsuser.picpath"></image>
         </div>
-        <p class="username">{{vsuser.nickName}}</p>
+        <p class="username">{{vsuser.nickname}}</p>
       </div>
       <div class="btn_box" v-if="from==1">
         <button open-type="share">挑战其他好友</button>

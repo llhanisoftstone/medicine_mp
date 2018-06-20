@@ -45,7 +45,7 @@
               if(number>0){
                 this.$emit('userTools',id)
               }else{
-                  this.$mptoast('暂无该道具,请前往个人中心购买');
+                  this.$mptoast('暂无该道具，请前往个人中心-道具商城购买');
               }
           }
         },

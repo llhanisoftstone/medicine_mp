@@ -149,7 +149,7 @@
                   return
               }
               if(this.times == 0){
-                this.$mptoast('暂无该道具,请前往个人中心购买');
+                this.$mptoast('暂无该道具，请前往个人中心-道具商城购买');
                 return
               }
             if(nub>0){
@@ -422,6 +422,30 @@
         console.log('show page')
     },
     onLoad(option){
+      wx.getSetting({
+        success: function (res) {
+          if (!res.authSetting['scope.userInfo']) {
+            if (that.$store.state.modalshow) {
+              that.$store.commit('getmodal', false)
+              wx.hideLoading()
+              wx.showModal({
+                title: '提示',
+                content: '未授权获取用户信息',
+                showCancel: false,
+                confirmText: '返回首页',
+                confirmColor: '#df5c3e',
+                mask: true,
+                complete: res => {
+                  wx.switchTab({
+                    url: '/pages/index/main'
+                  })
+                  that.$store.commit('getmodal', true)
+                }
+              })
+            }
+          }
+        }
+      })
       let that =this
       that.$store.commit('getmodal', true)
       that.cleardata()
