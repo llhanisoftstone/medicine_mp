@@ -286,6 +286,11 @@
     }
 </script>
 
+<style>
+  page{
+    height: 100%;
+  }
+</style>
 <style lang="less" scoped>
     @import '../../static/less/common.less';
     .bg{
@@ -293,7 +298,7 @@
       width: 100%;
       height: 100%;
       position: relative;
-      padding-bottom: 110px/2;
+      padding-bottom: 130px/2;
     }
   .user_box{
     width: 100%;

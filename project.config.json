@@ -50,7 +50,7 @@
 					"id": 2,
 					"name": "多人挑战",
 					"pathName": "pages/team/main",
-					"query": "id=4&&ismy=1",
+					"query": "id=5&&ismy=1",
 					"scene": "1007"
 				},
 				{

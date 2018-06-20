@@ -398,6 +398,7 @@
             }
         },
     onShareAppMessage(res){
+      let that = this
       if (res.from === 'menu') {
         // 来自页面内转发按钮
         console.log(res.target)
@@ -653,6 +654,9 @@
               }else{
                 that.$store.commit('get_prize',{})
               }
+              wx.setNavigationBarTitle({
+                title:`挑战结果`
+              })
             }
           }else if(d.content_type == 2){    //全部挑战结束
             that.isnext=false
@@ -663,10 +667,16 @@
             }else{
               that.$store.commit('get_prize',{})
             }
+            wx.setNavigationBarTitle({
+              title:`挑战结果`
+            })
           }else if(d.content_type == 3){       //挑战失败
             that.isshow=true
             that.index = d.other_reply == null?-1:d.other_reply
             setTimeout(()=>{
+              wx.setNavigationBarTitle({
+                title:`挑战结果`
+              })
               that.$store.commit('get_prize',{})
               that.gameover=true
               that.iswin=1
@@ -969,7 +979,9 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      padding: 4px/2 12px/2;
+      padding: 4px/2 4px/2;
+      min-width: 24px/2;
+      height: 24px/2;
     }
     }
     }
