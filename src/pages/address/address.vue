@@ -1,38 +1,38 @@
 <template>
   <div class="container">
       <div class="item">
-      <div class="title">选择省</div>
-      <div class="mpvue-picer">
-      <input type="" placeholder="选择省" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker1" />
-      <mpvue-picker
-      ref="mpvuePicker"
-      :pickerValueArray="pickerValueArray"
-      :pickerValueDefault='pickerValueDefault'
-      @onConfirm="onConfirm" >
-      </mpvue-picker>
-      </div>
-      </div>
-    <div class="item">
-      <div class="title">选择市</div>
-      <div class="mpvue-picer">
-        <input type="" placeholder="选择市" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker2" />
-        <mpvue-picker
+        <div class="title">选择省</div>
+        <div class="mpvue-picker">
+          <input type="default" placeholder="选择省" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker" />
+          <mpvue-picker
           ref="mpvuePicker"
           :pickerValueArray="pickerValueArray"
           :pickerValueDefault='pickerValueDefault'
           @onConfirm="onConfirm" >
+          </mpvue-picker>
+        </div>
+      </div>
+      <div class="item">
+      <div class="title">选择市</div>
+      <div class="mpvue-picker">
+        <input type="default" placeholder="选择市" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker2" />
+        <mpvue-picker
+          ref="mpvuePicker"
+          :pickerValueArray="pickerValueArray2"
+          :pickerValueDefault='pickerValueDefault2'
+          @onConfirm="onConfirm2" >
         </mpvue-picker>
       </div>
     </div>
-    <div class="item">
-      <div class="title">选择县/区</div>
+      <div class="item">
+      <div class="title">选择县</div>
       <div class="mpvue-picer">
-        <input type="" placeholder="选择县/区" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker3" />
+        <input type="" placeholder="选择县" :value="pickerText" disabled="disabled" class="cityCont" @click="showPicker3" />
         <mpvue-picker
           ref="mpvuePicker"
-          :pickerValueArray="pickerValueArray"
-          :pickerValueDefault='pickerValueDefault'
-          @onConfirm="onConfirm" >
+          :pickerValueArray="pickerValueArray3"
+          :pickerValueDefault='pickerValueDefault3'
+          @onConfirm="onConfirm3" >
         </mpvue-picker>
       </div>
     </div>
@@ -43,15 +43,15 @@
       <div :class="{'btn':true}" @click="childrenmitData">
         确&nbsp;&nbsp;&nbsp;认
       </div>
-    </div>
     <mptoast/>
+  </div>
 </template>
 
 <script type="javascript">
   import mpvuePicker from 'mpvue-picker';
   import mptoast from '../../components/mptoast';
   export default {
-    label: 'userdata',
+    label: 'address',
     props: [],
     components: {
       mptoast,
@@ -60,27 +60,22 @@
     data(){
       return {
         rank:1,
-        pickerValueArray: [],
-        pickerValueDefault: [0,0,0],
+        pickerValueArray:['lala','xiao','daddsvf'],
+        pickerValueDefault: [0],
+//        pickerValueArray2: [],
+//        pickerValueDefault2: [0],
+//        pickerValueArray3: [],
+//        pickerValueDefault3: [0],
         pickerValue: 0,
         pickerText:'',
-        name:'',
-        gender:'',
-        realname:'',
-        phone:'',
-        cardNum:'',
-        shop_label:'',
-        shop_logo:'',
-        shop_phone:'',
-        shop_address:'',
-        address:'',
-        visible: false,
-        message:'',
-        isTrue:true,
+        province_id:'',
+        city_id:'',
+        zone_id:'',
       }
     },
     methods: {
-      showPicker1() {
+      showPicker() {
+        console.log(this.pickerValueArray);
         this.$refs.mpvuePicker.show();
       },
       showPicker2() {
@@ -90,10 +85,9 @@
         this.$refs.mpvuePicker.show();
       },
       pickerConfirm(e) {
-        console.log(e);
       },
       onConfirm(e){
-        this.pickerText = `${this.pickerValueArray[e[0]].label}${this.pickerValueArray[e[0]].children[e[1]].label}${this.pickerValueArray[e[0]].children[e[1]].children[e[2]].label}`;
+
       },
       childrenmitData(){
         if(this.realname==null||(this.realname).trim()==''){
@@ -137,25 +131,9 @@
       },
       getUserinfo(){
         var that=this;
-        this.$get('/rs/member/'+this.$store.state.user.userid,{}).then(res=>{
+        this.$get('/rs/v_address',{u_id:this.$store.state.user.userid}).then(res=>{
           if(res.code==200){
-            var user=res.rows[0];
-            if(user.gender==1){
-              this.gender='男';
-            }else if(user.gender==2){
-              this.gender='女';
-            }else if(user.gender==3){
-              this.gender='未知';
-            }
-            that.name=user.nickname;
-            that.realname=user.realname;
-            that.phone=user.phone;
-            that.address=user.address;
-            that.pickerText=user.shop_address;
-            that.shop_label=user.nicklabel;
-            that.shop_logo=user.shop_logo;
-            that.shop_phone=user.phone;
-            that.shop_address=user.address;
+
           }
 
         })
@@ -166,6 +144,15 @@
       this.getUserinfo();
       this.rank=1;
     },
+    onLoad: function (option) {
+      var than=this;
+      this.$get('/rs/city_zone',{deep:1}).then(res=>{
+        if(res.code==200){
+//          than.pickerValueArray=res.rows;
+        }
+
+      })
+    }
   }
 </script>
 
@@ -239,7 +226,6 @@
   }
   .cityCont{
     display:inline-block;
-    width:30%;
   }
 
 </style>
