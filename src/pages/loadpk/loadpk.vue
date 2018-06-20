@@ -171,7 +171,7 @@
                   url:`/pages/pkanswer/main?from=${that.from}`
                 })
                 that.isend=false
-              },500)
+              },2500)
             }
           }
         })
