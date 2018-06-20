@@ -29,12 +29,16 @@
       </div>
       <div v-else>
         <div class="item">
-          <div class="title">姓名</div>
-          <input type="text" :value='name' disabled maxlength="10" readonly onfocus="this.blur()" confirm-type="next" placeholder="请输入姓名"/>
+          <div class="title">微信昵称</div>
+          <input type="text" :value='name' disabled maxlength="10" readonly onfocus="this.blur()" confirm-type="next" placeholder="请输入微信昵称"/>
         </div>
         <div class="item">
           <div class="title">性别</div>
           <input disabled="disabled" :value='gender' type="text"  placeholder="请选择性别"/>
+        </div>
+        <div class="item">
+          <div class="title">姓名</div>
+          <input type="text" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
         </div>
         <div class="item">
           <div class="title">手机号</div>
@@ -2068,6 +2072,7 @@
               pickerText:'',
               name:'',
               gender:'',
+              realname:'',
               phone:'',
               cardNum:'',
               shop_label:'',
@@ -2091,6 +2096,10 @@
             this.pickerText = `${this.pickerValueArray[e[0]].label}${this.pickerValueArray[e[0]].children[e[1]].label}${this.pickerValueArray[e[0]].children[e[1]].children[e[2]].label}`;
           },
           childrenmitData(){
+            if(this.realname==null||(this.realname).trim()==''){
+              this.$mptoast('请输入姓名');
+              return;
+            }
             var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
             if(this.phone==''||this.phone==null){
               this.$mptoast('请输入手机号');
@@ -2110,6 +2119,7 @@
             var data={
               phone:this.phone,
               address:this.address,
+              realname:this.realname,
               shop_address:this.pickerText,
             }
             this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
@@ -2193,6 +2203,7 @@
                   this.gender='未知';
                 }
                 that.name=user.nickname;
+                that.realname=user.realname;
                 that.phone=user.phone;
                 that.address=user.address;
                 that.pickerText=user.shop_address;
