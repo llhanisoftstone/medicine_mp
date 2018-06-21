@@ -120,19 +120,9 @@
           this.$mptoast('您的手机号输入有误，请重新输入');
           return;
         }
-        if(this.pickerText==''||this.pickerText==undefined||this.pickerText==null){
-          this.$mptoast('地区不能为空，请选择');
-          return;
-        }
-        if(this.address==null||(this.address).trim()==''){
-          this.$mptoast('详细地址不能为空，请输入');
-          return;
-        }
         var data={
           phone:this.phone,
-          address:this.address,
           realname:this.realname,
-          shop_address:this.pickerText,
         }
         this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
           if(res.code == 200){
@@ -218,8 +208,10 @@
             that.realname=user.realname;
             that.phone=user.phone;
             var address=user.province_name+user.city_name+user.zone_name+user.address;
-            if(address.length>15){
+            if(address&&address.length>15){
                 address=address.substring(1,15)+"...";
+            }else if(address==null||address==""){
+                address='无';
             }
             that.address=address;
             that.pickerText=user.shop_address;
