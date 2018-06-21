@@ -2,8 +2,12 @@
 export default {
   created () {
     let that = this
+    let showmsg = null
 //    this.getLogin()
     this.$socket.on('connect', () => {
+      wx.hideLoading()
+      clearTimeout(showmsg)
+      showmsg = null
       console.log('connect success')
       if (!that.$store.state.user.userid) {
         that.getLogin()
@@ -11,7 +15,30 @@ export default {
     })
     this.$socket.on('disconnect', d => {
       console.log(d)
+      wx.showLoading({
+        mask: true
+      })
       that.$store.commit('getsocket', false)
+      showmsg = setTimeout(() => {
+        if (that.$store.state.modalshow) {
+          that.$store.commit('getmodal', false)
+          wx.hideLoading()
+          wx.showModal({
+            title: '提示',
+            content: '网络出现问题,请稍后重试',
+            showCancel: false,
+            confirmText: '确认',
+            confirmColor: '#df5c3e',
+            mask: true,
+            complete: res => {
+              wx.switchTab({
+                url: '/pages/index/main'
+              })
+              that.$store.commit('getmodal', true)
+            }
+          })
+        }
+      }, 15000)
     })
     this.$socket.on('reconnect', d => {
       if (!that.$store.state.issocket) {
@@ -182,7 +209,7 @@ export default {
                       wx.hideLoading()
                       wx.showModal({
                         title: '提示',
-                        content: '房间不存在',
+                        content: '您已错过入场时间,请下次再来',
                         showCancel: false,
                         confirmText: '返回首页',
                         confirmColor: '#df5c3e',
