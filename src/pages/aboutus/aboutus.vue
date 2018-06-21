@@ -14,7 +14,7 @@
         <p>TEL：029-81101859</p>
       </div>
       <div class="model" v-if="seen" @click="show1()">
-        <div class="aboutcompany" @click.stop="show()" ><image v-on:longpress="previewImage" src="/static/img/company_img.png"></image></div>
+        <div class="aboutcompany" @click.stop="show()" ><div class="close"><div v-on:click="companyclickover" class="closebtn"></div></div><image v-on:longpress="previewImage" src="/static/img/company_img.png"></image></div>
       </div>
     </div>
 </template>
@@ -33,6 +33,9 @@
         methods: {
           companyclick(){
             this.seen = true;
+          },
+          companyclickover(){
+            this.seen = false;
           },
           show1(){
             this.seen = false;
@@ -123,6 +126,25 @@
         -webkit-transform:translateX(-50%);
         width:222px;
         height:289px;
+        .close{
+          position:absolute;
+          right:20px;
+          top:-18px;
+          height:20px;
+          z-index:30;
+          border-left:1px solid #fff;
+          .closebtn{
+            position:absolute;
+            top:-20px;
+            right:-10px;
+            width:22px;
+            z-index:40;
+            border-radius:50%;
+            height:22px;
+            background:url(../../../static/img/close.png) no-repeat center center;
+            background-size:22px 22px;
+          }
+        }
         image{
           width:100%;
           height:100%;

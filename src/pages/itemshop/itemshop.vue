@@ -20,7 +20,7 @@
             <div class="toolmessage">{{toolmessage}}</div>
             <ul>
               <li>
-                <div class="toolname">{{toolname}}</div>
+                <div class="toolname">{{toolname}}(<span class="number_right">{{name_type}}<span class="show" v-if="istotalpoint">{{amount*20}}</span><span class="show" v-if="istotalprice">{{(amount*2)/10}}</span></span>)</div>
                 <div class="toolright"><span class="minusbtn" @click="minusbtnnum"></span> <input class="amountcount" id="price" type="number"  v-model="amount" ref="type1" placeholder="个数"  maxlength="3"  onkeyup="value=value.replace(/[^\d]/g,'')"/><span class="addbtn" @click="addbtnnum"></span></div>
               </li>
               <li v-on:click="slelecttype(2)"  _pay_type="2"><span class="icon icon_pointer"></span><span class="content_title">可用银两<span class="isusepointer"></span>{{points}}</span><span class="pay_type" v-bind:class="{active:paytype2}"></span></li>
@@ -69,7 +69,7 @@
               ispay:false,
             }
         },
-        methods: {
+      methods: {
           leftclick(){
               this.seen=true;
               this.isshow=false;
@@ -163,8 +163,21 @@
                 res.rows[i].picpath = that.$store.state.url+ res.rows[i].picpath
               }
               this.mypackage = res.rows;
+              let use = this.$store.state.user
+              for(let i=0;i<res.rows.length;i++){
+                if(res.rows[i].id == 1){
+                  use.tools[0].amount = Number(res.rows[i].amount)
+                }else if(res.rows[i].id == 2){
+                  use.tools[1].amount = Number(res.rows[i].amount)
+                }
+              }
+              this.$store.commit('getm_user',use)
             }else if(res.code==602){
                 this.iskong=true;
+                let use = this.$store.state.user
+                use.tools[0].amount = 0
+                use.tools[1].amount = 0
+                this.$store.commit('getm_user',use)
             }
           },
           async orderlist(){
@@ -473,7 +486,6 @@
           border-left:1px solid #e2e2e2;
         }
         .number_right{
-          float:right;
           font-size:10px;
           color:#df5c3e;
           max-width:40%;

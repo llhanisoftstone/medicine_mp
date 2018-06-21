@@ -93,15 +93,25 @@
           console.log(res.target)
         }
         let til='@你 真烦人，又赢了，无敌是多么的寂寞~'
-        if(that.from == 1){
+        let img = `${that.$store.state.url}/admin/img/success.jpg`
+        if(that.myscore>that.vsscore){
+          if(that.from == 1){
             til='@你 就你，单挑，敢不敢~'
-        }else{
+          }else{
             til = '@你 真烦人，又赢了，无敌是多么的寂寞~'
+          }
+        }else if(that.myscore == that.vsscore){
+            til = '@你 千金易得，对手难得，棋逢对手下次再战'
+            img = `${that.$store.state.url}/admin/img/mean.jpg`
+        }else{
+            til = '@你 愈挫愈勇，我还会再回来的'
+            img = `${that.$store.state.url}/admin/img/loss.jpg`
         }
+
         return {
           title: til,
           path: '/pages/index/main',
-          imageUrl: `${that.$store.state.url}/admin/img/success.jpg`,
+          imageUrl: img,
           success: (r)=>{
             console.log(r)
           },

@@ -98,6 +98,9 @@
           team(){
               let that =this
             this.game_type=2
+            if(that.select == 0){
+                  that.select = that.level
+            }
             that.$socket.emit('data_chain',{
                 cmd:'fight',
                 u_id: that.$store.state.user.userid,
@@ -147,11 +150,17 @@
     }
 </script>
 
+<style>
+  page{
+    height:100%;
+  }
+</style>
 <style lang="less" scoped>
     @import '../../static/less/common.less';
     .c_map{
       width: 100%;
-      height: auto;
+      height: 100%;
+      overflow: hidden;
       position: relative;
     }
     .bg{

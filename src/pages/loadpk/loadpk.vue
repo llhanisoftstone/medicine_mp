@@ -15,7 +15,7 @@
         <div class="vsuser">
           <image :src="vsuser.picpath"></image>
         </div>
-        <p class="username">{{vsuser.nickName}}</p>
+        <p class="username">{{vsuser.nickname}}</p>
       </div>
       <div class="btn_box" v-if="from==1">
         <button open-type="share">挑战其他好友</button>
@@ -171,25 +171,32 @@
                   url:`/pages/pkanswer/main?from=${that.from}`
                 })
                 that.isend=false
-              },500)
+              },2500)
             }
           }
         })
       },
       onUnload(){
           if(this.router == 0){
+            clearTimeout(this.rout)
+            this.$store.commit('get_vsuser',{picpath: '/static/img/user.png', nickname: '', id: ''})
+            this.$store.commit('get_answer',{})
+            this.$store.commit('get_step',0)
+            this.$store.commit('get_room','')
             this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
             this.isend=false
           }
       },
       onShareAppMessage(res){
+        let that =this
         if (res.from === 'menu') {
           // 来自页面内转发按钮
           console.log(res.target)
         }
         return {
-          title: '挑战好友',
+          title: '@你 向你发起挑战，点击应战~',
           path: `/pages/loadpk/main?from=1&&id=${this.$store.state.user.userid}`,
+          imageUrl: `${that.$store.state.url}/admin/img/friend.jpg`,
           success: (r)=>{
             console.log(r)
           },

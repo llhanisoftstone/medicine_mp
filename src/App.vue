@@ -2,34 +2,55 @@
 export default {
   created () {
     let that = this
+    let showmsg = null
 //    this.getLogin()
     this.$socket.on('connect', () => {
+      wx.hideLoading()
+      clearTimeout(showmsg)
+      showmsg = null
       console.log('connect success')
       if (!that.$store.state.user.userid) {
         that.getLogin()
       }
-//      if (!that.$store.state.issocket) {
-//        this.$socket.emit('data_chain', {
-//          cmd: 'login',
-//          u_id: this.$store.state.user.userid,
-//          nickname: this.$store.state.userinfo.nickName,
-//          picpath: this.$store.state.userinfo.avatarUrl
-//        })
-//      }
     })
     this.$socket.on('disconnect', d => {
       console.log(d)
+      wx.showLoading({
+        mask: true
+      })
       that.$store.commit('getsocket', false)
+      showmsg = setTimeout(() => {
+        if (that.$store.state.modalshow) {
+          that.$store.commit('getmodal', false)
+          wx.hideLoading()
+          wx.showModal({
+            title: '提示',
+            content: '网络出现问题,请稍后重试',
+            showCancel: false,
+            confirmText: '确认',
+            confirmColor: '#df5c3e',
+            mask: true,
+            complete: res => {
+              wx.switchTab({
+                url: '/pages/index/main'
+              })
+              that.$store.commit('getmodal', true)
+            }
+          })
+        }
+      }, 15000)
     })
     this.$socket.on('reconnect', d => {
       if (!that.$store.state.issocket) {
         if (that.$store.state.user.userid) {
+          console.log('app login')
           that.$socket.emit('data_chain', {
             cmd: 'login',
             u_id: that.$store.state.user.userid,
             nickname: that.$store.state.userinfo.nickName,
             picpath: that.$store.state.userinfo.avatarUrl
           })
+          that.$store.commit('getsocket')
         }
       }
       console.log(d)
@@ -142,20 +163,24 @@ export default {
                   that.$store.commit('getsocket')
                 }
               })
-              that.$socket.emit('data_chain', {
-                cmd: 'login',
-                u_id: res.userid,
-                nickname: that.$store.state.userinfo.nickName,
-                picpath: that.$store.state.userinfo.avatarUrl
-              })
+              if (!that.$store.state.issocket) {
+                that.$socket.emit('data_chain', {
+                  cmd: 'login',
+                  u_id: res.userid,
+                  nickname: that.$store.state.userinfo.nickName,
+                  picpath: that.$store.state.userinfo.avatarUrl
+                })
+              }
               that.$socket.on('global_chain', d => {
                 console.log(d)
                 if (d.cmd === 'error') {
                   if (d.errcode === 601) {
-                    that.$store.commit('getsocket', false)
                     if (that.$store.state.modalshow) {
                       that.$store.commit('getmodal', false)
                       wx.hideLoading()
+//                      wx.showLoading({
+//                        mask:true
+//                      })
                       wx.showModal({
                         title: '提示',
                         content: '无法获取好友信息,请重试',
@@ -184,7 +209,7 @@ export default {
                       wx.hideLoading()
                       wx.showModal({
                         title: '提示',
-                        content: '房间不存在',
+                        content: '您已错过入场时间,请下次再来',
                         showCancel: false,
                         confirmText: '返回首页',
                         confirmColor: '#df5c3e',

@@ -55,7 +55,8 @@
               isreward:0,             //是否是首页直接进入的奖励关卡      0不是
               istime:false,             //是否使用过延时
               atimefn:null,
-              left:0                     //用户头像偏移量
+              left:0,                     //用户头像偏移量
+              hreftime:null              //跳转页面时间函数
             }
         },
         methods: {
@@ -229,7 +230,8 @@
               that.cleardata()
             },2000)
           }else if(d.cmd == 'answer'&&d.level!=that.$store.state.level){    //当前关卡挑战结束
-            setTimeout(function(){
+            clearTimeout(that.hreftime)
+            that.hreftime=setTimeout(function(){
               that.left=0
               let useri = that.$store.state.user
               if(Number(d.level)>Number(useri.game_level)){
@@ -255,7 +257,8 @@
             },2000)
           }
         }else if(d.content_type == 2){    //全部挑战结束
-          setTimeout(function(){
+          clearTimeout(that.hreftime)
+          that.hreftime=setTimeout(function(){
             that.left=0
             if(d.details[0]){
               that.$store.commit('get_prize',d.details[0])
@@ -278,7 +281,8 @@
             }
           },2000)
         }else if(d.content_type == 3){    //挑战失败
-          setTimeout(function(){
+          clearTimeout(that.hreftime)
+          that.hreftime=setTimeout(function(){
             that.left=0
             that.$store.commit('get_prize',{})
             that.gameover=true
@@ -309,7 +313,9 @@
       that.$store.commit('get_answer',{})
       that.cleardata()
       clearInterval(that.atimefn)
+      clearTimeout(that.hreftime)
       that.atimefn=null
+      that.hreftime=null
       this.$socket.emit('data_chain',{
             cmd:'left',
             u_id:that.$store.state.user.userid,
@@ -322,6 +328,11 @@
     }
 </script>
 
+<style>
+  page{
+    height: 100%;
+  }
+</style>
 <style lang="less" scoped>
     @import '../../static/less/common.less';
     .bg{
