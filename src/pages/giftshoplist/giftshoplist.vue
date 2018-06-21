@@ -1,21 +1,23 @@
 <template>
   <div class="main">
     <ul class="mainlist">
-      <li class="mainlist_item" v-for="(item,i) in policy_list" :key="item.id">
+      <li class="mainlist_item"  v-for="(item,i) in policy_list" :key="item.id">
         <a v-if="item.type==1">
-          <img class="item_img1" :src="item.picurl" alt="">
+          <image class="item_img2" src="/static/img/beijing-1.png" v-if="item.status==1 || item.status==2" alt=""></image>
+          <image class="item_img2" src="/static/img/back_icon-1.png" alt="" v-if="item.status==0"></image>
           <div class="item_info1">
             <p class="item_rmb"><span class="rmbsign">￥{{item.price}}</span><span class="djqsign">代金券</span></p>
             <p class="item_type">线上红包</p>
             <p class="item_time">有效期至 : {{item.end_time}}</p>
             <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
             <p class="item_name">{{item.name}}</p>
-            <img class="item_sign" src="/static/img/giftshop_ysy.png" v-if="item.status==1" alt="">
-            <img class="item_sign" src="/static/img/giftshop_ygq.png" v-if="item.status==2" alt="">
+            <img class="item_sign" src="/static/img/shiyong_03.png" v-if="item.status==1" alt="">
+            <img class="item_sign" src="/static/img/guoqi_06.png" v-if="item.status==2" alt="">
           </div>
         </a>
         <a v-if="item.type==2" :href="'/pages/giftshopdetail/main?pid='+item.id">
-          <img class="item_img2" :src="item.picurl" alt="">
+          <image class="item_img2" src="/static/img/beijing-2.png" v-if="item.status==1 || item.status==2" alt=""></image>
+          <image class="item_img2" src="/static/img/back_icon-2.png" alt="" v-if="item.status==0"></image>
           <div class="item_info2">
             <p class="item_rmb"><span class="rmbsign">￥{{item.price}}</span><span class="djqsign">代金券</span></p>
             <p class="item_type">实体店红包</p>
@@ -26,8 +28,8 @@
               <span class="item_phone">{{item.phone}}</span>
               <span class="item_address">{{item.address}}</span>
             </div>
-            <img class="item_sign" src="/static/img/giftshop_ysy.png" v-if="item.status==1" alt="">
-            <img class="item_sign" src="/static/img/giftshop_ygq.png" v-if="item.status==2" alt="">
+            <img class="item_sign" src="/static/img/shiyong_03.png" v-if="item.status==1" alt="">
+            <img class="item_sign" src="/static/img/guoqi_06.png" v-if="item.status==2" alt="">
           </div>
         </a>
       </li>
@@ -81,7 +83,6 @@
               }
               if(res.rows[i].picurl){
                   if(res.rows[i].picurl.substring(0,4)!="http"){
-                    res.rows[i].picurl = 'https://policy.lifeonway.com'+res.rows[i].picurl;
                     res.rows[i].piclogo = 'https://policy.lifeonway.com'+res.rows[i].piclogo;
                   }
               }
@@ -145,7 +146,7 @@
 <style scoped lang="less">
   @import "../../static/less/common.less";
   .mainlist{
-    padding: 21px/2 16px/2 21px/2 26px/2;
+    padding: 21px/2 26px/2 21px/2 26px/2;
   }
   .nogetList{
     padding-top: 290px;
@@ -193,9 +194,10 @@
       }
     }
     .item_img2{
-      width: 704px/2;
-      height:305px/2;
+      width: 100%;
+      height:306px/2;
       box-shadow: 5px/2 10px/2 10px/2 rgba(101, 101, 101, 0.3);
+      margin-top: 1px/2;
     }
     .item_img1{
       width: 698px/2;
@@ -236,7 +238,7 @@
     .item_name{
       position: absolute;
       top: 184px/2;
-      width: 200px/2;
+      width: 210px/2;
       text-align: center;
       right: 0;
       font-size: 23px/2;
@@ -246,6 +248,9 @@
       position: absolute;
       top: 66px/2;
       left: 56px/2;
+    }
+    .rmbsign{
+      font-size: 45px/2;
     }
     .djqsign{
       font-size: 26px/2;
@@ -265,10 +270,10 @@
     }
     .item_sign{
       position: absolute;
-      top:0;
-      right:0;
-      width:170px/2;
-      height:162px/2;
+      top:-1px/2;
+      right:-1px/2;
+      width:106px/2;
+      height:106px/2;
       z-index: 20;
     }
   }

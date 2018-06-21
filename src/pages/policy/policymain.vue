@@ -137,7 +137,7 @@
       this.getpolicyMain()//获取政策百科主页数据
     },
 
-    onShow: function onShow() {
+    onShow: function() {
       this.getpolicyMain()//获取政策百科主页数据
     }
   }
@@ -157,7 +157,7 @@
     top: 0;
   }
   .common-head .ui-link span{
-    padding-right: 0.376665rem;
+    padding-right: 0.288rem;
     font-size: 26px/2;
     float: left;
     display: block;
