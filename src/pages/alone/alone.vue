@@ -332,7 +332,7 @@
 <style>
   page{
     height: 100%;
-    background: #f3f3f3;
+    background: #fff3f3;
   }
 </style>
 <style lang="less" scoped>
