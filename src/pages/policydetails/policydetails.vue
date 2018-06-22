@@ -78,9 +78,9 @@
     margin: 30px/2 30px/2 0 30px/2;
     width: 100%;
     height: auto;
-    img{
-      width: 650px;
-      height: auto;
-    }
+  }
+  .imgSty{
+    width: 650px;
+    height: auto;
   }
 </style>

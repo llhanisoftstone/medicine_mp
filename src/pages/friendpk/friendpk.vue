@@ -12,7 +12,7 @@
             <span class="order" :class="{'front':i<3}">{{i+1}}</span>
             <image :src="v.avatar_url"></image>
             <span class="nickname">{{v.nickname}}</span>
-            <span class="integral"><image src="/static/img/paihangbang.png"></image>{{v.points}}</span>
+            <span class="integral"><image src="/static/img/paihangbang.png"></image>{{v.total_points}}</span>
           </li>
         </ul>
       </div>

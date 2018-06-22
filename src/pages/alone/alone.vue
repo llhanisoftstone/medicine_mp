@@ -267,6 +267,7 @@
             }
             that.gameover=true
             that.$socket.removeAllListeners('data_chain')
+            that.$store.commit('get_level',11)
             clearInterval(that.atimefn)
             that.atimefn=null
             if(that.isreward!=0){
@@ -331,6 +332,7 @@
 <style>
   page{
     height: 100%;
+    background: #f3f3f3;
   }
 </style>
 <style lang="less" scoped>

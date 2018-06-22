@@ -200,6 +200,7 @@
   .info-content{
     width: 5.41865rem;
     padding-left: 0.21335rem;
+    overflow: hidden;
   }
   .info-content .message{
     line-height: 0.32rem;
