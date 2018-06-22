@@ -82,6 +82,7 @@
             this.isshow=true;
             this.isActive=false;
             this.isclcik=true;
+            this.mypackage=[];
             this.getmybuy();
           },
           buyuse(id,picpath,category){
@@ -283,6 +284,7 @@
         background:#ffe7e8;
         margin-right:17px;
         text-align:center;
+        box-sizing:border-box;
         position:relative;
         image{
           width:50px;
@@ -291,7 +293,7 @@
         }
         .centername{
           text-align:center;
-          margin-top:5px;
+          margin-top:8px;
           font-size:13px;
           color:#df5c3e;
         }
@@ -300,8 +302,8 @@
         margin-top:10px;
         width:100px;
         height:30px;
-        border:2.5px solid #fff;
-        border-radius:100px;
+        border:3px solid #fff;
+        border-radius:150px;
         background:#df5c3e;
         font-size:14px;
         color:#fff;

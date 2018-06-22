@@ -289,6 +289,7 @@
 <style>
   page{
     height: 100%;
+    background: #fff3f3;
   }
 </style>
 <style lang="less" scoped>

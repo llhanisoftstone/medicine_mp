@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="btn_box">
-      <a href="" v-if="(win==2)&&isreward==0&&level<10" @click="toalone">挑战下一关</a>
+      <a href="" v-if="(win==2)&&isreward==0&&level<11" @click="toalone">挑战下一关</a>
       <a href="" v-if="win==0" @click="repeat">重新开始</a>
       <button open-type="share" v-if="win==2">分享战绩</button>
     </div>
