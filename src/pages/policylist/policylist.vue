@@ -5,37 +5,40 @@
       <input confirm-type="search" class="search-input" v-model="searchVal" placeholder="请输入标题或内容" @confirm="confirm($event)"/>
       <div class="clear" :class="{'clear_icon':clearhide}" v-on:click="clearInput"></div>
     </div>
-    <div class="handbook-info">
-      <div class="common-head headbook-head">
-        <ul class="headbook-list">
-          <li v-if="ishide" v-for="(item,i) in policy_list" :key="item.id">
-            <a :href="'/pages/policydetails/main?pid='+item.id" class="item-details">
-              <div class="msg-box">
-                <div class="message-img">
-                  <img :src="item.pic_abbr" alt="">
-                </div>
-                <div class="info-content">
-                  <div class="message">
+    <scroll-view scroll-y="true" :scroll-top="scrollTop">
+      <div class="handbook-info">
+        <div class="common-head headbook-head">
+          <ul class="headbook-list">
+            <li v-if="ishide" v-for="(item,i) in policy_list" :key="item.id">
+              <a :href="'/pages/policydetails/main?pid='+item.id" class="item-details">
+                <div class="msg-box">
+                  <div class="message-img">
+                    <img :src="item.pic_abbr" alt="">
+                  </div>
+                  <div class="info-content">
+                    <div class="message">
                     <span class="pub-name">
                         <span>{{item.title}}</span>
                     </span>
-                  </div>
-                  <p class="message-info mui-ellipsis-2">
-                    {{item.remark}}
-                  </p>
-                  <div class="label-info clearfix">
-                    <div class="info-right rt icon-reading">
-                      <span>{{item.view_count}}</span>
+                    </div>
+                    <p class="message-info mui-ellipsis-2">
+                      {{item.remark}}
+                    </p>
+                    <div class="label-info clearfix">
+                      <div class="info-right rt icon-reading">
+                        <span>{{item.view_count}}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </a>
-          </li>
-        </ul>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="nogetList" v-if="iskong">暂无记录</div>
-    </div>
+    </scroll-view>
+    <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
+    <div class="nogetList" v-if="iskong">暂无记录</div>
   </div>
 </template>
 
@@ -47,6 +50,8 @@
         _code:'',
         _search:'',
         searchVal:'',
+        scrollIcon:false,
+        scrollTop:0,
         iskong:false,
         clearhide:false,
         ishide:false,
@@ -117,6 +122,10 @@
       },
       loadmore () {
         this.getpolicyList();
+      },
+      scrolltoTop(){
+        console.log("123")
+        this.scrollTop = 0;
       }
     },
     watch:{
@@ -137,6 +146,14 @@
       this._code = option.pid;
       this.policy_list = [];
       this.getpolicyList()//获取数据
+    },
+    onPageScroll:function(res){
+      let top = res.scrollTop;
+      if (top > 400) {
+        this.scrollIcon = true;
+      } else {
+        this.scrollIcon = false;
+      }
     }
   }
 </script>
@@ -262,5 +279,15 @@
     font-size: 14px;
     text-align: center;
     margin-bottom: 50px;
+  }
+  .footcgotop{
+    position: fixed;
+    z-index: 100;
+    bottom: 100px/2;
+    right: 30px/2;
+    width: 80px/2;
+    height: 80px/2;
+    background:url('../../../static/img/scrollTop.png') center no-repeat;
+    background-size: 80px/2 80px/2;
   }
 </style>
