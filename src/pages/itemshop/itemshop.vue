@@ -293,17 +293,17 @@
         }
         .centername{
           text-align:center;
-          margin-top:5px;
+          margin-top:8px;
           font-size:13px;
           color:#df5c3e;
         }
       }
       .bottomlist{
-        margin-top:11.5px;
+        margin-top:10px;
         width:100px;
         height:30px;
         border:3px solid #fff;
-        border-radius:100px;
+        border-radius:150px;
         background:#df5c3e;
         font-size:14px;
         color:#fff;
