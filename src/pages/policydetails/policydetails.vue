@@ -28,7 +28,7 @@
             var aimurl = 'https://policy.lifeonway.com'+"/upload/ueeditor/";
             details=details.replace(/\/upload\/ueeditor/g, aimurl);
           }
-          that.details = details;
+          that.details =  details;
         }
       },
       conversionTime(time,sign){
@@ -57,6 +57,7 @@
     margin: 0 50px/2;
     text-align: justify;
   }
+
   .title{
     word-wrap:break-word;
     margin: 0.512rem 0 0.234667rem;
@@ -73,14 +74,11 @@
     font-size: 0.277333rem;
     line-height: 0.426667rem;
     color: #666666;
-    text-indent: 2em;
     word-wrap:break-word;
     margin: 30px/2 30px/2 0 30px/2;
     width: 100%;
     height: auto;
+
   }
-  .imgSty{
-    width: 650px;
-    height: auto;
-  }
+
 </style>

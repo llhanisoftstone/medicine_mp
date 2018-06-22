@@ -272,4 +272,16 @@ export default {
    background: transparent;
    opacity: 1;
  }
+ .details{
+   width: 100%;
+   height: auto;
+ }
+.imgSty{
+  width: 100%;
+  height: auto;
+}
+.rich_div{
+  margin: 0;
+  padding:0;
+}
 </style>
