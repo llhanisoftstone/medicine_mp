@@ -44,12 +44,10 @@
         <div class="title">手机号</div>
         <input type="number" v-model='phone' maxlength="11" confirm-type="next"  placeholder="手机号" />
       </div>
-      <div class="item">
-        <a href="/pages/address/main">
+      <div class="item" @click="addresslist">
           <div class="title">详细地址</div>
           <input type="text" style="max-width:90%"  disabled placeholder="详细地址" maxlength="30" confirm-type="next" v-model='address' />
           <img src="/static/img/arrow.png"/>
-        </a>
       </div>
       <div :class="{'btn':true}" @click="childrenmitData">
         确&nbsp;&nbsp;&nbsp;认
@@ -89,6 +87,7 @@
         visible: false,
         message:'',
         isTrue:true,
+        member_id:'',
       }
     },
     methods: {
@@ -109,12 +108,12 @@
       },
       childrenmitData(){
         if(this.realname==null||(this.realname).trim()==''){
-          this.$mptoast('姓名不能为空，请输入');
+          this.$mptoast('请输入姓名');
           return;
         }
         var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
         if(this.phone==''||this.phone==null){
-          this.$mptoast('手机号不能为空，请输入');
+          this.$mptoast('请输入手机号');
           return;
         }else if(!myreg.test(this.phone)){
           this.$mptoast('您的手机号输入有误，请重新输入');
@@ -180,7 +179,11 @@
           }
         })
       },
-
+      addresslist(){
+        wx.navigateTo({
+          url:"/pages/address/main?realname="+this.realname+"&phone="+this.phone
+        })
+      },
       openImg(){
         var that=this;
         this.$uploadImg({
@@ -204,6 +207,7 @@
             }else if(user.gender==3){
               this.gender='未知';
             }
+            that.member_id=user.id;
             that.name=user.nickname;
             that.realname=user.realname;
             that.phone=user.phone;

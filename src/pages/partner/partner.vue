@@ -44,16 +44,16 @@
     methods: {
       submitData(){
         if((this.name).trim()==''){
-          this.$mptoast('商家名称不能为空，请输入');
+          this.$mptoast('请输入商家名称');
           return;
         }
         if((this.people).trim()==''){
-          this.$mptoast('联系人不能为空，请输入');
+          this.$mptoast('请输入联系人');
           return;
         }
         var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
         if(this.phone==''){
-          this.$mptoast('联系号码不能为空，请输入');
+          this.$mptoast('请输入联系号码');
           return;
         }else if(!myreg.test(this.phone)){
           this.$mptoast('联系号码输入有误，请重新输入');
