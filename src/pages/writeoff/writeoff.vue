@@ -31,9 +31,8 @@
         })
       },
       async writeoff(pid){
-        console.log(pid)
         let that = this;
-        let res = await that.$get('/rs/member_ticket',{ticket_code:pid, status:0});
+        let res = await that.$get('/rs/member_ticket',{ticket_code:pid, send_id:this.$store.state.user.userid, status:0});
         if (res.code == 200){
           let time = new Date();
           let use_time = that.getformatDate(time,'yyyy-MM-dd hh:mm:ss');

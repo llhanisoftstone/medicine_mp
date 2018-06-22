@@ -37,7 +37,7 @@
           getdata(){
               let that=this
               if(this.isFriends){
-                this.$get('/rs/member_relation',{u_id:this.$store.state.user.userid,order:'points desc,update_time'}).then(res=>{
+                this.$get('/rs/member_relation',{u_id:this.$store.state.user.userid,order:'total_points desc,update_time'}).then(res=>{
                   if(res.code == 200){
                     for(var i=0;i<res.rows.length;i++){
                       if(res.rows[i].avatar_url==""||res.rows[i].avatar_url==null){
@@ -50,7 +50,7 @@
                   }
                 })
               }else{
-                  this.$get('/rs/member',{order:'points desc,create_time',page:1,size:50,rank:1}).then(res=>{
+                  this.$get('/rs/member',{order:'total_points desc,create_time',page:1,size:50,rank:1}).then(res=>{
                       if(res.code == 200){
                           for(var i=0;i<res.rows.length;i++){
                               if(res.rows[i].avatar_url==""||res.rows[i].avatar_url==null){
