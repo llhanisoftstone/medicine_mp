@@ -82,6 +82,7 @@
             this.isshow=true;
             this.isActive=false;
             this.isclcik=true;
+            this.mypackage=[];
             this.getmybuy();
           },
           buyuse(id,picpath,category){
@@ -283,6 +284,7 @@
         background:#ffe7e8;
         margin-right:17px;
         text-align:center;
+        box-sizing:border-box;
         position:relative;
         image{
           width:50px;
@@ -297,10 +299,10 @@
         }
       }
       .bottomlist{
-        margin-top:10px;
+        margin-top:11.5px;
         width:100px;
         height:30px;
-        border:2.5px solid #fff;
+        border:3px solid #fff;
         border-radius:100px;
         background:#df5c3e;
         font-size:14px;
