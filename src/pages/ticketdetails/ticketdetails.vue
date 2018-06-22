@@ -4,7 +4,9 @@
         <div class="data-ii">
           <div class="upper-part">
             <div class="shade"></div>
-            <img :src="piclogo" class="background-img"/>
+            <image class="background-img" src="/static/img/back_icon-1.png" alt=""></image>
+            <div class="item_margin"><img class="item_logo" :src="piclogo" alt=""></div>
+            <p class="item_name">{{ticket_name}}</p>
             <div class="ticket-info">
               <div class="ticket-name">{{ticket_name}}</div>
               <div class="ticket-count">{{ticket_amount}}张</div>
@@ -109,9 +111,7 @@
           height: 280px/2;
           top: 0;
           left: 0;
-          background: #000000;
           border-radius: 10px/2;
-          opacity: 0.5;
         }
         .upper-part{
           width: 100%;
@@ -121,18 +121,47 @@
             height: 280px/2;
             border-radius: 10px/2;
           }
+          .item_margin{
+            background-color: #ffffff;
+            border-radius: 50%;
+            position: absolute;
+            top: 40px/2;
+            right: 40px/2;
+            width: 131px/2;
+            height: 131px/2;
+          }
+          .item_logo{
+            width: 127px/2;
+            height: 127px/2;
+            border-radius: 50%;
+            margin-top: 2px/2;
+            margin-left: 2px/2;
+          }
+          .item_name{
+            position: absolute;
+            top: 190px/2;
+            width: 210px/2;
+            text-align: center;
+            right: 0;
+            font-size: 23px/2;
+            color: #543202;
+          }
+          .item_rmb{
+            position: absolute;
+            top: 66px/2;
+            left: 56px/2;
+          }
           .ticket-info{
             position: absolute;
-            width: 698px/2;
-            text-align: center;
-            top: 94px/2;
+            top: 67px/2;
+            left: 47px/2;
             .ticket-name{
               font-size: 40px/2;
               color: #ffffff;
             }
             .ticket-count{
-              margin-top: 25px/2;
-              font-size: 26px/2;
+              margin-top: 32px/2;
+              font-size: 30px/2;
               color: #ffffff;
             }
           }

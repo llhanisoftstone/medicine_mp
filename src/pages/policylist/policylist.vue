@@ -76,6 +76,7 @@
         let data = {
           page:this.page,
           size:this.size,
+          order:'create_time desc',
           unique_code:this._code
         };
         if (this._search){
@@ -127,9 +128,14 @@
         }
       }
     },
+    onUnload: function () {
+        this.searchVal = '';
+    },
     onLoad: function (option) {
+      this.page = 1;
+      this._search = '';
       this._code = option.pid;
-      this.policy_list=[];
+      this.policy_list = [];
       this.getpolicyList()//获取数据
     }
   }

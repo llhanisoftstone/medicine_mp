@@ -5,10 +5,11 @@
           <li class="list-li" v-for="(item,i) in ticket_list" :key="item.id">
             <div class="upper-part">
               <div class="shade"></div>
-              <img src="../../../static/img/back_icon.png" class="background-img" />
+              <image src="/static/img/back_icon-1.png" class="background-img"></image>
               <div class="ticket-info">
-                <div class="ticket-name">{{item.name}}</div>
-                <div class="ticket-count">{{item.total_amount}}张</div>
+                <p class="item_rmb"><span class="rmbsign">￥{{item.price}}</span><span class="djqsign">代金券({{item.total_amount}}张)</span></p>
+                <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
+                <p class="item_name">{{item.name}}</p>
                 <div class="count-list">
                   <ul class="clear ">
                     <li>
@@ -46,6 +47,7 @@
   export default {
     data () {
       return {
+        piclogo:'',
         ticket_list:[],
         page:1,
         size:6
@@ -54,7 +56,7 @@
     onPullDownRefresh () {
       wx.showNavigationBarLoading() //在标题栏中显示加载
       this.page=1;
-      this.policy_list=[];
+      this.ticket_list=[];
       this.refresh();
       // 下拉刷新
       wx.hideNavigationBarLoading() //完成停止加载
@@ -77,7 +79,11 @@
         if (res.code == 200){
           if (res.rows.length > 0){
             for (var i=0; i<res.rows.length; i++){
+              if (res.rows[i].price){
+                res.rows[i].price=that.pricetab(res.rows[i].price);
+              }
               res.rows[i].picurl = 'https://policy.lifeonway.com'+res.rows[i].picurl;
+              res.rows[i].piclogo = 'https://policy.lifeonway.com'+res.rows[i].piclogo;
               res.rows[i].surplus_count = res.rows[i].total_amount - res.rows[i].total_count;
             }
             that.ticket_list = that.ticket_list.concat(res.rows);
@@ -90,9 +96,15 @@
       },
       loadmore () {
         this.getticketList();
+      },
+      pricetab(price){
+        price=(parseFloat(price)/100).toFixed(0);
+        return price;
       }
     },
-    onShow: function onShow() {
+    onLoad: function() {
+      this.page=1;
+      this.ticket_list=[];
       this.getticketList()//获取数据
     }
   }
@@ -102,48 +114,69 @@
     @import '../../static/less/common.less';
     .data-list ul.list-ul{
       margin: 0 26px/2;
+      .item_margin{
+        background-color: #ffffff;
+        border-radius: 50%;
+        position: absolute;
+        top: 40px/2;
+        right: 40px/2;
+        width: 131px/2;
+        height: 131px/2;
+      }
       li.list-li{
         position: relative;
         margin-top: 20px/2;
         height: 342px/2;
+        .item_rmb{
+          color: #ffffff;
+          position: absolute;
+          top: 66px/2;
+          left: 40px/2;
+        }
         .shade{
           position: absolute;
           width: 100%;
           height: 280px/2;
           top: 0;
           left: 0;
-          background: #000000;
           border-radius: 10px/2;
-          opacity: 0.5;
         }
         .upper-part{
           width: 100%;
           height: 280px/2;
-          img{
-            width: 100%;
-            height: 280px/2;
-            border-radius: 10px/2;
-          }
-          .ticket-info{
-            position: absolute;
+          .background-img{
             width: 698px/2;
+            height:280px/2;
+          }
+          .item_logo{
+            width: 127px/2;
+            height: 127px/2;
+            border-radius: 50%;
+            margin-top: 2px/2;
+            margin-left: 2px/2;
+          }
+          .item_name{
+            position: absolute;
+            top: 200px/2;
+            width: 210px/2;
             text-align: center;
-            top: 56px/2;
-            .ticket-name{
-              font-size: 40px/2;
-              color: #ffffff;
-            }
-            .ticket-count{
-              margin-top: 20px/2;
-              font-size: 26px/2;
-              color: #ffffff;
-            }
+            right: 0;
+            font-size: 23px/2;
+            color: #543202;
+          }
+          .rmbsign{
+            font-size: 45px/2;
+          }
+          .djqsign{
+            font-size: 26px/2;
           }
           .count-list{
-            margin-top: 10px/2;
+            position: absolute;
+            top: 150px/2;
+            width: 487px/2;
             box-sizing: border-box;
             height: 80px/2;
-            padding: 6px/2 84px/2;
+            padding: 6px/2 32px/2;
             ul li{
               width: 25%;
               float: left;
@@ -178,11 +211,11 @@
             float: left;
             width: 33%;
             line-height: 45px/2;
-            color: #df5c3e;
+            color: #999999;
             font-size: 28px/2;
             text-align: center;
             margin: 20px/2 0 14px/2 0;
-            border-right: 1px solid #df5c3e;
+            border-right: 1px solid #999999;
           }
         }
         .lower-part span.bor-rig:last-child{
