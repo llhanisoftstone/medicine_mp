@@ -248,6 +248,7 @@
       margin-right: 5px/2;
     }
     span{
+      flex:1;
       width: 150px/2;
       height: 1px;
       background: #333;
