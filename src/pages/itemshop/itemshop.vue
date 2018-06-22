@@ -174,6 +174,7 @@
               this.$store.commit('getm_user',use)
             }else if(res.code==602){
                 this.iskong=true;
+                this.mypackage=[];
                 let use = this.$store.state.user
                 use.tools[0].amount = 0
                 use.tools[1].amount = 0

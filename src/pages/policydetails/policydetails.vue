@@ -23,7 +23,12 @@
         if (res.code == 200){
           that.title = res.rows[0].title;
           that.create_time = this.conversionTime(res.rows[0].create_time,'/');
-          that.details = res.rows[0].details;
+          var details=res.rows[0].details;
+          if (details){
+            var aimurl = 'https://policy.lifeonway.com'+"/upload/ueeditor/";
+            details=details.replace(/\/upload\/ueeditor/g, aimurl);
+          }
+          that.details = details;
         }
       },
       conversionTime(time,sign){
@@ -72,6 +77,10 @@
     word-wrap:break-word;
     margin: 30px/2 30px/2 0 30px/2;
     width: 100%;
+    height: auto;
+  }
+  .imgSty{
+    width: 650px;
     height: auto;
   }
 </style>
