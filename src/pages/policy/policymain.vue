@@ -6,7 +6,7 @@
           <ul class="hot-list">
             <li v-for="(v,_index) in hot_list" :key="v._index">
               <a :href="'/pages/policydetails/main?pid='+v.id" class="item-details">
-                {{v._index}}.{{v.title}}
+                {{v._index}}、{{v.title}}
               </a>
             </li>
           </ul>
@@ -208,6 +208,8 @@
     background-color: inherit;
     opacity: 1;
     position: inherit;
+    white-space: normal;
+    word-break: break-all;
   }
   .headbook-list li .item-details{
     background-color: inherit;
