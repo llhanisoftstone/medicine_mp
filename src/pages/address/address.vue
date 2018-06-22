@@ -165,19 +165,19 @@
       },
       childrenmitData(){
         if(this.province_id==null||this.province_id==""){
-          this.$mptoast('省不能为空，请选择');
+          this.$mptoast('请选择省');
           return;
         }
         if(this.city_id==null||this.city_id==""){
-          this.$mptoast('市不能为空，请选择');
+          this.$mptoast('请选择市');
           return;
         }
         if(this.zone_id==null||this.zone_id==""){
-          this.$mptoast('县不能为空，请选择');
+          this.$mptoast('请选择县');
           return;
         }
         if(this.address==null||(this.address).trim()==''){
-          this.$mptoast('详细地址不能为空，请输入');
+          this.$mptoast('请输入详细地址');
           return;
         }
         var data={
@@ -238,7 +238,11 @@
       this.rank=1;
     },
     onLoad: function (option) {
-
+    var data={
+      phone:option.phone,
+      realname:option.realname,
+    }
+    this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{})
     }
   }
 </script>
