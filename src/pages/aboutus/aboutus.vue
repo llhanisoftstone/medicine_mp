@@ -27,7 +27,7 @@
             return {
               seen:false,
               timestart:'',
-              scene:'https://policy.lifeonway.com/upload/community/2018-06-06_60ba9c6ed23bd84167425d48507d3589.png',
+              scene:'https://policy.lifeonway.com/upload/community/2018-06-25_5082e93d3bf068a7fa7f256df217eba9.png',
             }
         },
         methods: {
