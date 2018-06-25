@@ -1,33 +1,5 @@
 <template>
   <div class="container">
-    <div v-if="rank ==20">
-      <div class="item">
-        <div class="title">商家名称</div>
-        <input type="text" confirm-type="next" maxlength="15" v-model='shop_label'  placeholder="请输入商家名称"/>
-      </div>
-      <div class="item">
-        <div class="title">商家logo</div>
-        <input
-          @click="openImg"
-          v-model='shop_logo'
-          class="imgurl"
-          disabled="disabled"
-          type="text" placeholder="请上传"/>
-        <icon class="uploadLogo"></icon>
-      </div>
-      <div class="item">
-        <div class="title">联系电话</div>
-        <input type="number" v-model='shop_phone' maxlength="11" confirm-type="next" placeholder="请输入联系电话" />
-      </div>
-      <div class="item">
-        <div class="title">联系地址</div>
-        <input type="text" placeholder="请输入联系地址" maxlength="30" confirm-type="done" v-model='shop_address' />
-      </div>
-      <div :class="{'btn':true}"  @click="childrenmitData1">
-        确认
-      </div>
-    </div>
-    <div v-else>
       <div class="item">
         <div class="title">微信昵称</div>
         <input type="text" :value='name' disabled maxlength="10" readonly onfocus="this.blur()" confirm-type="next" placeholder="请输入微信昵称"/>
@@ -52,7 +24,6 @@
       <div :class="{'btn':true}" @click="childrenmitData">
         确&nbsp;&nbsp;&nbsp;认
       </div>
-    </div>
     <mptoast/>
   </div>
 </template>
@@ -135,49 +106,6 @@
                 })
               },1000);
             }
-          }else{
-            this.$mptoast('保存失败');
-          }
-        })
-      },
-      childrenmitData1(){
-        if((this.shop_label).trim()==''){
-          this.$mptoast('请输入商家名称');
-          return;
-        }else if(this.shop_label.length>15){
-          this.$mptoast('商家名称输入错误');
-          return;
-        }
-        if(this.shop_logo==''&&this.shop_logo==null){
-          this.$mptoast('请上传商家logo');
-          return;
-        }
-        var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-        if(this.shop_phone==''||this.shop_phone==null){
-          this.$mptoast('请输入联系电话');
-          return;
-        }else if(!myreg.test(this.shop_phone)){
-          this.$mptoast('联系电话输入错误');
-          return;
-        }
-        if(this.shop_address==''&&this.shop_address==null){
-          this.$mptoast('请输入联系地址');
-          return;
-        }
-        var data={
-          nicklabel:this.shop_label,
-          shop_logo:this.shop_logo,
-          phone:this.shop_phone,
-          address:this.shop_address
-        }
-        this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
-          if(res.code == 200){
-            this.$mptoast('保存成功');
-            setTimeout(function() {
-              wx.navigateBack({     //返回上一页面或多级页面
-                delta: 1
-              })
-            },1000);
           }else{
             this.$mptoast('保存失败');
           }
