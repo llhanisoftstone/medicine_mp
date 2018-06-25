@@ -119,6 +119,7 @@
       }
     },
     onLoad(option){
+      wx.hideShareMenu()
       this.cleardata()
       this.win=option.result
       if(option.id){

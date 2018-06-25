@@ -147,7 +147,7 @@
 <style scoped lang="less">
   @import "../../static/less/common.less";
   .mainlist{
-    padding: 21px/2 26px/2 21px/2 26px/2;
+    padding: 21px/2 5px/2 21px/2 26px/2;
   }
   .nogetList{
     padding-top: 290px;
@@ -162,10 +162,10 @@
     margin-bottom: 50px;
   }
   .mainlist_item{
-    margin-bottom: 21px/2;
     border-radius: 10px/2;
     overflow: hidden;
     position: relative;
+    padding-right: 20px/2;
     .item_contact{
       display: flex;
       .item_phone{
@@ -182,7 +182,7 @@
       }
       .item_address{
         position: absolute;
-        right: 21px/2;
+        right: 30px/2;
         bottom: 12px/2;
         display: block;
         line-height: 0.4rem;
@@ -197,15 +197,21 @@
     .item_img2{
       width: 100%;
       height:298px/2;
-      box-shadow: 5px/2 10px/2 10px/2 rgba(101, 101, 101, 0.3);
+      box-shadow: #acacac 4px/2 6px/2 15px/2;
+      border-radius: 10px/2;
       margin-top: 1px/2;
+      margin-right: 1px/2;
+      margin-bottom: 21px/2;
     }
     .item_img1{
       width: 100%;
       height:256px/2;
+      margin-top: 1px/2;
+      margin-right: 1px/2;
+      margin-bottom: 21px/2;
     }
     .item_info1{
-      width: 698px/2;
+      width: 100%;
       height:256px/2;
       position: absolute;
       color: #ffffff;
@@ -213,7 +219,7 @@
       left:0;
     }
     .item_info2{
-      width: 704px/2;
+      width: 100%;
       height:297px/2;
       position: absolute;
       color: #ffffff;
@@ -225,7 +231,7 @@
       border-radius: 50%;
       position: absolute;
       top: 40px/2;
-      right: 40px/2;
+      right: 60px/2;
       width: 131px/2;
       height: 131px/2;
     }
@@ -241,7 +247,7 @@
       top: 184px/2;
       width: 210px/2;
       text-align: center;
-      right: 0;
+      right: 21px/2;
       font-size: 23px/2;
       color: #543202;
     }

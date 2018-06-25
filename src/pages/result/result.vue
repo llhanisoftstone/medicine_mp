@@ -121,6 +121,7 @@
         }
       },
       onLoad(option){
+        wx.hideShareMenu()
           this.cleardata()
           this.from = option.from
       }

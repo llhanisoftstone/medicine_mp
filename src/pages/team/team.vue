@@ -100,6 +100,10 @@
         <a @click="userTools(user.tools[1].amount,2)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount}}</span></a>
       </div>
       <mptoast/>
+      <button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">
+        <image src="/static/img/role.png"></image>
+        <span>暂未授权,请点击授权</span>
+      </button>
     </div>
 </template>
 
@@ -132,6 +136,7 @@
               timesfn:null,                     //定时器
               isjoin:false,                     // 是否发送加入房间请求
               is_f_click:-1,                        //亲友团选择答案
+              til:null                            //延时函数
             }
         },
         methods: {
@@ -367,6 +372,113 @@
                   to_u_id:that.challenger,
                   game_style:2
               })
+          },
+          bindGetUserInfo: function(e) {
+            let that = this
+            if(!e.target.userInfo){
+              return
+            }
+            that.$store.commit('getuser', e.target.userInfo)
+            that.$store.commit('getauth')
+            that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:e.target.encryptedData,iv:e.target.iv}).then(res=>{
+              console.log(res)
+              if (res.code === 200) {
+                for (let i = 0; i < res.tools.length; i++) {
+                  if (!res.tools[i].amount) {
+                    res.tools[i].amount = 0
+                  }
+                }
+                that.$store.commit('getm_user', res)
+                that.$socket.on('data_chain', d => {
+                  if (d.cmd === 'login') {
+                    that.$store.commit('getsocket')
+                  }
+                  console.log(d)
+                })
+                that.$socket.emit('data_chain', {
+                  cmd: 'login',
+                  u_id: res.userid,
+                  nickname: that.$store.state.userinfo.nickName,
+                  picpath: that.$store.state.userinfo.avatarUrl
+                })
+                wx.switchTab({
+                  url: '/pages/index/main'
+                })
+                that.$socket.on('global_chain', d => {
+                  console.log(d)
+                  if (d.cmd === 'error') {
+                    if (d.errcode === 601) {
+                      if (that.$store.state.modalshow) {
+                        that.$store.commit('getmodal', false)
+                        wx.hideLoading()
+//                      wx.showLoading({
+//                        mask:true
+//                      })
+                        wx.showModal({
+                          title: '提示',
+                          content: '无法获取好友信息,请重试',
+                          showCancel: false,
+                          confirmText: '确定',
+                          confirmColor: '#df5c3e',
+                          mask: true,
+                          complete: res => {
+                            console.log(`重新登录${that.$store.state.user.userid}`)
+                            that.$socket.emit('data_chain', {
+                              cmd: 'login',
+                              u_id: that.$store.state.user.userid,
+                              nickname: that.$store.state.userinfo.nickName,
+                              picpath: that.$store.state.userinfo.avatarUrl
+                            })
+                            that.$store.commit('getmodal', true)
+                            wx.switchTab({
+                              url: '/pages/index/main'
+                            })
+                          }
+                        })
+                      }
+                    } else if (d.errcode === 404) {
+                      if (that.$store.state.modalshow) {
+                        that.$store.commit('getmodal', false)
+                        wx.hideLoading()
+                        wx.showModal({
+                          title: '提示',
+                          content: '房间不存在',
+                          showCancel: false,
+                          confirmText: '返回首页',
+                          confirmColor: '#df5c3e',
+                          mask: true,
+                          complete: res => {
+                            wx.switchTab({
+                              url: '/pages/index/main'
+                            })
+                            that.$store.commit('getmodal', true)
+                          }
+                        })
+                      }
+                    } else if (d.errcode === 301) {
+                      if (that.$store.state.modalshow) {
+                        that.$store.commit('getmodal', false)
+                        wx.hideLoading()
+                        wx.showModal({
+                          title: '提示',
+                          content: '连接已断开',
+                          showCancel: false,
+                          confirmText: '返回首页',
+                          confirmColor: '#df5c3e',
+                          mask: true,
+                          complete: res => {
+                            wx.switchTab({
+                              url: '/pages/index/main'
+                            })
+                            that.$store.commit('getmodal', true)
+                          }
+                        })
+                      }
+                    }
+                  }
+                })
+              }
+            })
           }
         },
         watch:{
@@ -398,6 +510,9 @@
             },
             url(){
                 return this.$store.state.url
+            },
+            isauth(){
+              return this.$store.state.isauth
             }
         },
     onShareAppMessage(res){
@@ -422,33 +537,35 @@
         console.log('show page')
     },
     onLoad(option){
-      wx.getSetting({
-        success: function (res) {
-          if (!res.authSetting['scope.userInfo']) {
-            if (that.$store.state.modalshow) {
-              that.$store.commit('getmodal', false)
-              wx.hideLoading()
-              wx.showModal({
-                title: '提示',
-                content: '未授权获取用户信息',
-                showCancel: false,
-                confirmText: '返回首页',
-                confirmColor: '#df5c3e',
-                mask: true,
-                complete: res => {
-                  wx.switchTab({
-                    url: '/pages/index/main'
-                  })
-                  that.$store.commit('getmodal', true)
-                }
-              })
-            }
-          }
-        }
-      })
+//      wx.getSetting({
+//        success: function (res) {
+//          if (!res.authSetting['scope.userInfo']) {
+//            if (that.$store.state.modalshow) {
+//              that.$store.commit('getmodal', false)
+//              wx.hideLoading()
+//              wx.showModal({
+//                title: '提示',
+//                content: '未授权获取用户信息',
+//                showCancel: false,
+//                confirmText: '返回首页',
+//                confirmColor: '#df5c3e',
+//                mask: true,
+//                complete: res => {
+//                  wx.switchTab({
+//                    url: '/pages/index/main'
+//                  })
+//                  that.$store.commit('getmodal', true)
+//                }
+//              })
+//            }
+//          }
+//        }
+//      })
       let that =this
       that.$store.commit('getmodal', true)
       that.cleardata()
+      clearInterval(that.til)
+      that.til=null
       that.$store.commit('get_f_level',0)
       clearInterval(that.timesfn)
       that.timesfn=setInterval(()=>{
@@ -621,11 +738,11 @@
           if(d.content_type == 1){
                 let level = (that.challenger == that.$store.state.user.userid)?that.$store.state.level:that.$store.state.f_level
             if(d.level == level){
-              let til
-              clearInterval(til)
+              clearInterval(that.til)
+              that.til=null
               that.isshow=true
               that.index = d.other_reply == null?-1:d.other_reply
-              til=setTimeout(function(){
+              that.til=setTimeout(function(){
                   wx.hideLoading()
                 that.$store.commit('get_answer',d.details[0])
                 that.is_f_click=-1
@@ -655,7 +772,9 @@
               },2000)
             }else{    //当前关卡结束
               that.isshow=true
-              setTimeout(()=>{
+              clearInterval(that.til)
+              that.til=null
+              that.til=setTimeout(()=>{
                 let useri = that.$store.state.user
                 if(that.challenger == that.$store.state.user.userid){
                   if(Number(d.level)>Number(useri.game_level)){
@@ -692,7 +811,9 @@
             }
           }else if(d.content_type == 2){    //全部挑战结束
             that.isshow=true
-            setTimeout(()=>{
+            clearInterval(that.til)
+            that.til=null
+            that.til=setTimeout(()=>{
               that.isnext=false
               that.iswin = 2
               that.gameover=true
@@ -708,7 +829,9 @@
           }else if(d.content_type == 3){       //挑战失败
             that.isshow=true
             that.index = d.other_reply == null?-1:d.other_reply
-            setTimeout(()=>{
+            clearInterval(that.til)
+            that.til=null
+            that.til=setTimeout(()=>{
               wx.setNavigationBarTitle({
                 title:`挑战结果`
               })
@@ -736,6 +859,8 @@
         })
       that.$socket.removeAllListeners('data_chain')
       that.cleardata()
+      clearInterval(that.til)
+      that.til=null
       that.$store.commit('get_room','')
 
     },
@@ -1187,6 +1312,39 @@
       }
       .disabled{
         background: #e2e2e2;
+      }
+    }
+    .btn_auth{
+      width: 750px/2;
+      height: 100%;
+      position: fixed;
+      top:0;
+      left:0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index:99;
+      /*background: transparent;*/
+      background: rgba(0,0,0,0.7);
+      image{
+        width: 377px/2;
+        height: 360px/2;
+        position: absolute;
+        top:205px/2;
+        left:0;
+        right:0;
+        margin:auto;
+      }
+      span{
+        width: 100%;
+        height: 30px/2;
+        font-size: 30px/2;
+        color: #fff;
+        position: absolute;
+        top:611px/2;
+        left:0;
+        right:0;
+        text-align: center;
       }
     }
 </style>

@@ -115,25 +115,6 @@ export default {
               if (res.authSetting['scope.userInfo']) {
                 // 已经授权，可以直接调用 getUserInfo 获取头像昵称  weapp/login
                 that.getUserinfo(code)
-              } else {
-                if (that.$store.state.modalshow) {
-                  that.$store.commit('getmodal', false)
-                  wx.hideLoading()
-                  wx.showModal({
-                    title: '提示',
-                    content: '未授权获取用户信息',
-                    showCancel: false,
-                    confirmText: '返回首页',
-                    confirmColor: '#df5c3e',
-                    mask: true,
-                    complete: res => {
-                      wx.switchTab({
-                        url: '/pages/index/main'
-                      })
-                      that.$store.commit('getmodal', true)
-                    }
-                  })
-                }
               }
             }
           })
