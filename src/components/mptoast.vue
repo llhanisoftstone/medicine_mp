@@ -18,7 +18,6 @@
         this.animateShow = show
         if (show) {
           setTimeout(() => {
-//            this.animateShow = false
             setTimeout(() => { this.$toastStore.commit('hideToast') }, 350)
           }, delay - 350)
         }

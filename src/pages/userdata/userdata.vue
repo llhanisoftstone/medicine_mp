@@ -88,6 +88,7 @@
         message:'',
         isTrue:true,
         member_id:'',
+        isBtnClicked:false,
       }
     },
     methods: {
@@ -126,11 +127,14 @@
         this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
           if(res.code == 200){
             this.$mptoast('保存成功');
-            setTimeout(function() {
-              wx.navigateBack({     //返回上一页面或多级页面
-                delta: 1
-              })
-            },1000);
+            if(this.isBtnClicked){
+              this.isBtnClicked=false;
+              setTimeout(function() {
+                wx.navigateBack({     //返回上一页面或多级页面
+                  delta: 1
+                })
+              },1000);
+            }
           }else{
             this.$mptoast('保存失败');
           }
@@ -215,7 +219,7 @@
             if(address&&address.length>15){
                 address=address.substring(1,15)+"...";
             }else if(address==null||address==""){
-                address='无';
+                address='';
             }
             that.address=address;
             that.pickerText=user.shop_address;
@@ -235,6 +239,7 @@
     },
     onShow(){
       this.getUserinfo();
+      this.isBtnClicked=true;
     }
   }
 </script>

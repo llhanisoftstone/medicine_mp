@@ -62,6 +62,7 @@
         address:'',
         select:'',
         add_id:'',
+        isBtnClicked:false,
       }
     },
     methods: {
@@ -190,27 +191,33 @@
         if(this.add_id){
           this.$put('/rs/address/'+this.add_id,data).then(res=>{
             if(res.code == 200){
-              this.$mptoast('修改成功');
-              setTimeout(function() {
-                wx.navigateBack({     //返回上一页面或多级页面
-                  delta: 1
-                })
-              },1000);
+              this.$mptoast('修改成功',100);
+              if(this.isBtnClicked) {
+                this.isBtnClicked = false;
+                setTimeout(function () {
+                  wx.navigateBack({     //返回上一页面或多级页面
+                    delta: 1
+                  })
+                }, 1500);
+              }
             }else{
-              this.$mptoast('修改失败');
+              this.$mptoast('修改失败',100);
             }
           })
         }else{
           this.$post('/rs/address',data).then(res=>{
             if(res.code == 200){
-              this.$mptoast('保存成功');
-              setTimeout(function() {
-                wx.navigateBack({     //返回上一页面或多级页面
-                  delta: 1
-                })
-              },1000);
+              this.$mptoast('保存成功',100);
+              if(this.isBtnClicked) {
+                this.isBtnClicked = false;
+                setTimeout(function () {
+                  wx.navigateBack({     //返回上一页面或多级页面
+                    delta: 1
+                  })
+                }, 1500);
+              }
             }else{
-              this.$mptoast('保存失败');
+              this.$mptoast('保存失败',100);
             }
           })
         }
@@ -236,6 +243,9 @@
     mounted(){
       this.getUserinfo();
       this.rank=1;
+    },
+    onShow(){
+      this.isBtnClicked=true;
     },
     onLoad: function (option) {
     var data={
