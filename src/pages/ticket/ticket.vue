@@ -33,9 +33,9 @@
               </div>
             </div>
             <div class="lower-part">
-              <a :href="'/pages/ticketdetails/main?pid='+item.id"><span>领取记录</span></a>
+              <a :href="'/pages/ticketdetails/main?pid='+item.ticket_id"><span>领取记录</span></a>
               <a :href="'/pages/writeoff/main'"><span>核销</span></a>
-              <a :href="'/pages/ticketdetails/main?pid='+item.id"><span class="bor-rig">核销记录</span></a>
+              <a :href="'/pages/ticketdetails/main?pid='+item.ticket_id"><span class="bor-rig">核销记录</span></a>
             </div>
           </li>
         </ul>
@@ -75,7 +75,7 @@
           size:this.size,
           u_id:this.$store.state.user.userid
         };
-        let res = await that.$get('/rs/v_ticket_send_rule',data);
+        let res = await that.$get('/rs/v_ticket_send_rule_list',data);
         if (res.code == 200){
           if (res.rows.length > 0){
             for (var i=0; i<res.rows.length; i++){
