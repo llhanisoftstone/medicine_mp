@@ -125,7 +125,7 @@
         transform:translateX(-50%);
         -webkit-transform:translateX(-50%);
         width:222px;
-        height:289px;
+        height:292px;
         .close{
           position:absolute;
           right:20px;
