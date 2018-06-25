@@ -139,6 +139,7 @@
             }
         },
       onLoad(){
+        wx.hideShareMenu()
            this.watchsocket()
       },
       onShow(){

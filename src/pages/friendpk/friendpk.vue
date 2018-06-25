@@ -72,6 +72,7 @@
       },
         mounted(){
             this.getdata()
+          wx.hideShareMenu()
         },
         components: {},
         computed:{

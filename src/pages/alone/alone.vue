@@ -202,7 +202,9 @@
       that.left=0
       that.cleardata()
       clearInterval(that.atimefn)
+      clearTimeout(that.hreftime)
       that.atimefn=null
+      that.hreftime=null
       that.atimefn=setInterval(()=>{
         that.countdownfn()
       },1000)
@@ -218,9 +220,9 @@
         console.log(d)
         if(d.content_type == 1){
           if(d.cmd == 'answer'&&d.level==that.$store.state.level){
-            let til
-            clearInterval(til)
-            til=setTimeout(function(){
+            clearTimeout(that.hreftime)
+            that.hreftime=null
+            that.hreftime=setTimeout(function(){
               that.left = ((d.step - 1)/d.max_step)*175
               that.$store.commit('get_answer',d.details[0])
               that.$store.commit('get_step',d.step)
@@ -231,6 +233,7 @@
             },2000)
           }else if(d.cmd == 'answer'&&d.level!=that.$store.state.level){    //当前关卡挑战结束
             clearTimeout(that.hreftime)
+            that.hreftime=null
             that.hreftime=setTimeout(function(){
               that.left=0
               let useri = that.$store.state.user
@@ -258,6 +261,7 @@
           }
         }else if(d.content_type == 2){    //全部挑战结束
           clearTimeout(that.hreftime)
+          that.hreftime=null
           that.hreftime=setTimeout(function(){
             that.left=0
             if(d.details[0]){
@@ -283,6 +287,7 @@
           },2000)
         }else if(d.content_type == 3){    //挑战失败
           clearTimeout(that.hreftime)
+          that.hreftime=null
           that.hreftime=setTimeout(function(){
             that.left=0
             that.$store.commit('get_prize',{})

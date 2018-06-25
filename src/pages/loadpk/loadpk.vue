@@ -21,6 +21,10 @@
         <button open-type="share">挑战其他好友</button>
         <button class="swiper" @click="swiper">全网挑战</button>
       </div>
+      <button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">
+        <image src="/static/img/role.png"></image>
+        <span>暂未授权,请点击授权</span>
+      </button>
     </div>
 </template>
 
@@ -110,6 +114,113 @@
                 })
             }
 
+          },
+          bindGetUserInfo: function(e) {
+            let that = this
+            if(!e.target.userInfo){
+              return
+            }
+            that.$store.commit('getuser', e.target.userInfo)
+            that.$store.commit('getauth')
+            that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:e.target.encryptedData,iv:e.target.iv}).then(res=>{
+              console.log(res)
+              if (res.code === 200) {
+                for (let i = 0; i < res.tools.length; i++) {
+                  if (!res.tools[i].amount) {
+                    res.tools[i].amount = 0
+                  }
+                }
+                that.$store.commit('getm_user', res)
+                that.$socket.on('data_chain', d => {
+                  if (d.cmd === 'login') {
+                    that.$store.commit('getsocket')
+                  }
+                  console.log(d)
+                })
+                that.$socket.emit('data_chain', {
+                  cmd: 'login',
+                  u_id: res.userid,
+                  nickname: that.$store.state.userinfo.nickName,
+                  picpath: that.$store.state.userinfo.avatarUrl
+                })
+                wx.switchTab({
+                  url: '/pages/index/main'
+                })
+                that.$socket.on('global_chain', d => {
+                  console.log(d)
+                  if (d.cmd === 'error') {
+                    if (d.errcode === 601) {
+                      if (that.$store.state.modalshow) {
+                        that.$store.commit('getmodal', false)
+                        wx.hideLoading()
+//                      wx.showLoading({
+//                        mask:true
+//                      })
+                        wx.showModal({
+                          title: '提示',
+                          content: '无法获取好友信息,请重试',
+                          showCancel: false,
+                          confirmText: '确定',
+                          confirmColor: '#df5c3e',
+                          mask: true,
+                          complete: res => {
+                            console.log(`重新登录${that.$store.state.user.userid}`)
+                            that.$socket.emit('data_chain', {
+                              cmd: 'login',
+                              u_id: that.$store.state.user.userid,
+                              nickname: that.$store.state.userinfo.nickName,
+                              picpath: that.$store.state.userinfo.avatarUrl
+                            })
+                            that.$store.commit('getmodal', true)
+                            wx.switchTab({
+                              url: '/pages/index/main'
+                            })
+                          }
+                        })
+                      }
+                    } else if (d.errcode === 404) {
+                      if (that.$store.state.modalshow) {
+                        that.$store.commit('getmodal', false)
+                        wx.hideLoading()
+                        wx.showModal({
+                          title: '提示',
+                          content: '房间不存在',
+                          showCancel: false,
+                          confirmText: '返回首页',
+                          confirmColor: '#df5c3e',
+                          mask: true,
+                          complete: res => {
+                            wx.switchTab({
+                              url: '/pages/index/main'
+                            })
+                            that.$store.commit('getmodal', true)
+                          }
+                        })
+                      }
+                    } else if (d.errcode === 301) {
+                      if (that.$store.state.modalshow) {
+                        that.$store.commit('getmodal', false)
+                        wx.hideLoading()
+                        wx.showModal({
+                          title: '提示',
+                          content: '连接已断开',
+                          showCancel: false,
+                          confirmText: '返回首页',
+                          confirmColor: '#df5c3e',
+                          mask: true,
+                          complete: res => {
+                            wx.switchTab({
+                              url: '/pages/index/main'
+                            })
+                            that.$store.commit('getmodal', true)
+                          }
+                        })
+                      }
+                    }
+                  }
+                })
+              }
+            })
           }
         },
         components: {},
@@ -119,12 +230,16 @@
             },
             vsuser(){
                 return this.$store.state.vsuser
+            },
+            isauth(){
+              return this.$store.state.isauth
             }
         },
         mounted(){
           this.sendnews()
         },
       onLoad: function(option){
+        wx.hideShareMenu()
         if(option){
           if(option.again){
             this.again=1
@@ -342,5 +457,38 @@
       font-size:32px/2;
       margin:0;
     }
+    }
+    .btn_auth{
+      width: 750px/2;
+      height: 100%;
+      position: fixed;
+      top:0;
+      left:0;
+      display: flex;
+      align-items: center;
+      z-index:99;
+      justify-content: center;
+      /*background: transparent;*/
+      background: rgba(0,0,0,0.7);
+      image{
+        width: 377px/2;
+        height: 360px/2;
+        position: absolute;
+        top:205px/2;
+        left:0;
+        right:0;
+        margin:auto;
+      }
+      span{
+        width: 100%;
+        height: 30px/2;
+        font-size: 30px/2;
+        color: #fff;
+        position: absolute;
+        top:611px/2;
+        left:0;
+        right:0;
+        text-align: center;
+      }
     }
 </style>

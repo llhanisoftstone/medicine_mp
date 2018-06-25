@@ -4,7 +4,10 @@
       <div class="user_info">
         <div class="img_box" >
           <image :src='imgurl' v-if="isauth"></image>
-          <button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo"></button>
+          <button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">
+            <image src="/static/img/role.png"></image>
+            <span>暂未授权,请点击授权</span>
+          </button>
         </div>
         <div class="username" v-if="isauth">{{username}}</div>
         <slot name="userRight" class="slot_box"></slot>
@@ -189,7 +192,28 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: transparent;
+            /*background: transparent;*/
+            background: rgba(0,0,0,0.7);
+            image{
+              width: 377px/2;
+              height: 360px/2;
+              position: absolute;
+              top:205px/2;
+              left:0;
+              right:0;
+              margin:auto;
+            }
+            span{
+              width: 100%;
+              height: 30px/2;
+              font-size: 30px/2;
+              color: #fff;
+              position: absolute;
+              top:611px/2;
+              left:0;
+              right:0;
+              text-align: center;
+            }
           }
         }
         .username{
