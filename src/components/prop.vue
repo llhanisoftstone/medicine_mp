@@ -3,12 +3,12 @@
       <div class="bg_prop">
         <div @click="useTools(answer,1)">
           <image src="/static/img/daojushangdian_11.png"></image>
-          <p>{{answer}}</p>
+          <p>{{answer>99?'99+':answer}}</p>
           <div class="toolname">答案眼</div>
         </div>
         <div v-if="istimes" @click="useTools(times,2)">
           <image src="/static/img/daojushangdian_13.png"></image>
-          <p>{{times}}</p>
+          <p>{{times>99?'99+':times}}</p>
           <div class="toolname">延时针</div>
         </div>
       </div>

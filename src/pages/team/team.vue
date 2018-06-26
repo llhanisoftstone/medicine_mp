@@ -96,8 +96,8 @@
             <input type="text" v-model="content" cursor-spacing='15' @confirm="send">
         </div>
         <a class="send_btn" @click="send">发表</a>
-        <a @click="userTools(user.tools[0].amount,1)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount}}</span></a>
-        <a @click="userTools(user.tools[1].amount,2)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount}}</span></a>
+        <a @click="userTools(user.tools[0].amount,1)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span></a>
+        <a @click="userTools(user.tools[1].amount,2)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span></a>
       </div>
       <mptoast/>
       <button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">
