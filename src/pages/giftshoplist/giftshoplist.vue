@@ -6,7 +6,7 @@
           <image class="item_img1" src="/static/img/beijing-1.png" v-if="item.status==1 || item.status==2" alt=""></image>
           <image class="item_img1" src="/static/img/back_icon-1.png" alt="" v-if="item.status==0"></image>
           <div class="item_info1">
-            <p class="item_rmb"><span class="rmbsign">￥{{item.price}}</span><span class="djqsign">代金券</span></p>
+            <p class="item_rmb"><span class="rmbsign">{{item.price}}</span><span class="djqsign">元代金券</span></p>
             <p class="item_type">线上红包</p>
             <p class="item_time">有效期至 : {{item.end_time}}</p>
             <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
@@ -19,13 +19,13 @@
           <image class="item_img2" src="/static/img/beijing-2.png" v-if="item.status==1 || item.status==2" alt=""></image>
           <image class="item_img2" src="/static/img/back_icon-2.png" alt="" v-if="item.status==0"></image>
           <div class="item_info2">
-            <p class="item_rmb"><span class="rmbsign">￥{{item.price}}</span><span class="djqsign">代金券</span></p>
+            <p class="item_rmb"><span class="rmbsign">{{item.price}}</span><span class="djqsign">元代金券</span></p>
             <p class="item_type">实体店红包</p>
             <p class="item_time">有效期至 : {{item.end_time}}</p>
             <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
             <p class="item_name">{{item.name}}</p>
             <div class="item_contact">
-              <span class="item_phone">{{item.phone}}</span>
+              <span class="item_phone" @click.stop="dialing(item.phone)">{{item.phone}}</span>
               <span class="item_address">{{item.address}}</span>
             </div>
             <img class="item_sign" src="/static/img/shiyong_03.png" v-if="item.status==1" alt="">
@@ -134,6 +134,17 @@
       pricetab(price){
         price=(parseFloat(price)/100).toFixed(0);
         return price;
+      },
+      dialing(e){
+        wx.makePhoneCall({
+          phoneNumber: e, //此号码并非真实电话号码，仅用于测试
+          success:function(){
+            console.log("拨打电话成功！")
+          },
+          fail:function(){
+            console.log("拨打电话失败！")
+          }
+        })
       }
     },
     onLoad: function (option) {

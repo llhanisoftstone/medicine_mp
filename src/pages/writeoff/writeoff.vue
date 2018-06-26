@@ -27,6 +27,12 @@
                 that.$mptoast('该二维码无效');
               }
             }
+          },
+          fail: () => {
+            console.log("333")
+            wx.redirectTo({
+              url:`/pages/ticket/main`
+            })
           }
         })
       },
@@ -74,7 +80,6 @@
         return ('00' + str).substr(str.length)
       }
     },
-
     onLoad: function () {
       this.getverifyingCode();
     }

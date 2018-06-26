@@ -7,7 +7,7 @@
               <div class="shade"></div>
               <image src="/static/img/back_icon-1.png" class="background-img"></image>
               <div class="ticket-info">
-                <p class="item_rmb"><span class="rmbsign">￥{{item.price}}</span><span class="djqsign">代金券({{item.total_amount}}张)</span></p>
+                <p class="item_rmb"><span class="rmbsign">{{item.price}}</span><span class="djqsign">元代金券({{item.total_amount}}张)</span></p>
                 <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
                 <p class="item_name">{{item.name}}</p>
                 <div class="count-list">
@@ -34,7 +34,7 @@
             </div>
             <div class="lower-part">
               <a :href="'/pages/ticketdetails/main?pid='+item.ticket_id"><span>领取记录</span></a>
-              <a :href="'/pages/writeoff/main'"><span>核销</span></a>
+              <a @click="towriteOff()"><span>核销</span></a>
               <a :href="'/pages/ticketdetails/main?pid='+item.ticket_id"><span class="bor-rig">核销记录</span></a>
             </div>
           </li>
@@ -76,6 +76,7 @@
           u_id:this.$store.state.user.userid
         };
         let res = await that.$get('/rs/v_ticket_send_rule_list',data);
+        console.log(res.rows.length)
         if (res.code == 200){
           if (res.rows.length > 0){
             for (var i=0; i<res.rows.length; i++){
@@ -87,6 +88,7 @@
               res.rows[i].surplus_count = res.rows[i].total_amount - res.rows[i].total_count;
             }
             that.ticket_list = that.ticket_list.concat(res.rows);
+            console.log(that.ticket_list.length);
           }
         }
       },
@@ -100,9 +102,15 @@
       pricetab(price){
         price=(parseFloat(price)/100).toFixed(0);
         return price;
+      },
+      towriteOff(){
+        wx.redirectTo({
+          url:`/pages/writeoff/main`
+        })
       }
     },
     onLoad: function() {
+      console.log("121")
       this.page=1;
       this.ticket_list=[];
       this.getticketList()//获取数据

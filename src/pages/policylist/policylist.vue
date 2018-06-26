@@ -5,38 +5,36 @@
       <input confirm-type="search" class="search-input" v-model="searchVal" placeholder="请输入标题或内容" @confirm="confirm($event)"/>
       <div class="clear" :class="{'clear_icon':clearhide}" v-on:click="clearInput"></div>
     </div>
-    <scroll-view scroll-y="true" :scroll-top="scrollTop">
-      <div class="handbook-info">
-        <div class="common-head headbook-head">
-          <ul class="headbook-list">
-            <li v-if="ishide" v-for="(item,i) in policy_list" :key="item.id">
-              <a :href="'/pages/policydetails/main?pid='+item.id" class="item-details">
-                <div class="msg-box">
-                  <div class="message-img">
-                    <img :src="item.pic_abbr" alt="">
+    <div class="handbook-info">
+      <div class="common-head headbook-head">
+        <ul class="headbook-list">
+          <li v-if="ishide" v-for="(item,i) in policy_list" :key="item.id">
+            <a :href="'/pages/policydetails/main?pid='+item.id" class="item-details">
+              <div class="msg-box">
+                <div class="message-img">
+                  <img :src="item.pic_abbr" alt="">
+                </div>
+                <div class="info-content">
+                  <div class="message">
+                  <span class="pub-name">
+                      <span>{{item.title}}</span>
+                  </span>
                   </div>
-                  <div class="info-content">
-                    <div class="message">
-                    <span class="pub-name">
-                        <span>{{item.title}}</span>
-                    </span>
-                    </div>
-                    <p class="message-info mui-ellipsis-2">
-                      {{item.remark}}
-                    </p>
-                    <div class="label-info clearfix">
-                      <div class="info-right rt icon-reading">
-                        <span>{{item.view_count}}</span>
-                      </div>
+                  <p class="message-info mui-ellipsis-2">
+                    {{item.remark}}
+                  </p>
+                  <div class="label-info clearfix">
+                    <div class="info-right rt icon-reading">
+                      <span>{{item.view_count}}</span>
                     </div>
                   </div>
                 </div>
-              </a>
-            </li>
-          </ul>
-        </div>
+              </div>
+            </a>
+          </li>
+        </ul>
       </div>
-    </scroll-view>
+    </div>
     <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
     <div class="nogetList" v-if="iskong">暂无记录</div>
   </div>
@@ -124,8 +122,16 @@
         this.getpolicyList();
       },
       scrolltoTop(){
-        console.log("123")
-        this.scrollTop = 0;
+        if (wx.pageScrollTo) {
+          wx.pageScrollTo({
+            scrollTop: 0
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+          })
+        }
       }
     },
     watch:{
@@ -138,7 +144,8 @@
       }
     },
     onUnload: function () {
-        this.searchVal = '';
+      this.searchVal = '';
+      this.iskong = false;
     },
     onLoad: function (option) {
       this.page = 1;

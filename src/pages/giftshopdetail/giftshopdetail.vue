@@ -2,7 +2,7 @@
   <div class="main">
     <div class="imgk"><img :src="piclogo" alt=""></div>
     <p class="title">{{name}}</p>
-    <p class="phone">{{phone}}</p>
+    <p class="phone" @click="dialing(phone)"><image src="/static/img/tel_icon.png" class="tel_icon"></image>{{phone}}</p>
     <p class="address">{{address}}</p>
     <div class="codek">
       <div class="imgkqrcode">
@@ -69,6 +69,17 @@
             console.log(res);
           }
         });
+      },
+      dialing(e){
+        wx.makePhoneCall({
+          phoneNumber: e, //此号码并非真实电话号码，仅用于测试
+          success:function(){
+            console.log("拨打电话成功！")
+          },
+          fail:function(){
+            console.log("拨打电话失败！")
+          }
+        })
       }
     },
 
@@ -104,6 +115,16 @@
     font-size: 30px/2;
     color:#333;
     padding-top: 29px/2;
+    position: relative;
+    margin-left: 45px/2;
+    .tel_icon{
+      width: 40px/2;
+      height: 40px/2;
+      background-size: 40px/2 40px/2;
+      position: absolute;
+      top: 30px/2;
+      left: 190px/2;
+    }
   }
   .address{
     font-size: 30px/2;

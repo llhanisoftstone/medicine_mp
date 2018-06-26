@@ -10,7 +10,7 @@
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
 	"appid": "wx3602e7abe716d1bd",
-	"projectname": "policy_answer",
+	"projectname": "%E6%94%BF%E7%AD%96%E5%A4%A7%E5%92%96",
 	"libVersion": "1.9.9",
 	"condition": {
 		"search": {
