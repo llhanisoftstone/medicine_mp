@@ -24,9 +24,12 @@
       <div class="answer" v-if="isstart&&iswin==0">
         <!--<answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="1">-->
         <answer title="题库由西安市人社局失业保险处提供" :answer="answer.name" distance="1">
-          <ul slot="list" class="answer_box_ul">
-            <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right,'friend_c':is_f_click==i}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}<span>{{stat[i]}}人</span></li>
-          </ul>
+          <div slot="list">
+            <ul :class="{'bottom_an':isanimation,'answer_box_ul':true}">
+              <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right,'friend_c':is_f_click==i}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}<span>{{stat[i]}}人</span></li>
+            </ul>
+          </div>
+
         </answer>
       </div>
       <!--<p class="provide" v-if="isstart&&iswin==0">本题由{{answer.organiz_name}}提供</p>-->
@@ -136,7 +139,9 @@
               timesfn:null,                     //定时器
               isjoin:false,                     // 是否发送加入房间请求
               is_f_click:-1,                        //亲友团选择答案
-              til:null                            //延时函数
+              til:null,                            //延时函数
+              isanimation:false,           //是否显示动画
+              tanswer:''
             }
         },
         methods: {
@@ -213,6 +218,9 @@
                   }
               }
               if(that.times == 0){
+                return
+              }
+              if(that.isanimation){
                 return
               }
               that.times=that.times-1
@@ -488,6 +496,12 @@
                   this.overtime()
                 }
             }
+          },
+          tanswer(val,oldval){
+            this.isanimation=true
+            setTimeout(()=>{
+              this.isanimation=false
+            },2000)
           }
         },
         components: {
@@ -500,6 +514,7 @@
                 return this.$store.state.userinfo
             },
             answer(){
+                  this.tanswer=this.$store.state.answer.name
                   return this.$store.state.answer
             },
             user(){
@@ -874,6 +889,24 @@
 
 <style lang="less" scoped>
     @import '../../static/less/common.less';
+    @keyframes showbottom {
+      0%{
+        transform: translateY(0px) scale(1);
+        opacity: 1;
+      }
+      25%{
+        transform: translateY(100px) scale(0);
+        opacity: 0;
+      }
+      50%{
+        transform: translateY(100px) scale(0);
+        opacity: 0;
+      }
+      100%{
+        transform: translateY(0px) scale(1);
+        opacity: 1;
+      }
+    }
     .bg_color{
       background: #fff3f3;
       padding-top: 18px/2;
@@ -1346,5 +1379,9 @@
         right:0;
         text-align: center;
       }
+    }
+    .bottom_an{
+      transform-origin: 50% 50% 0;
+      animation: showbottom 2s ease;
     }
 </style>
