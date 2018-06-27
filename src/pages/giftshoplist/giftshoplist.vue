@@ -15,7 +15,7 @@
             <img class="item_sign" src="/static/img/guoqi_06.png" v-if="item.status==2" alt="">
           </div>
         </a>
-        <a v-if="item.type==2" :href="'/pages/giftshopdetail/main?pid='+item.id">
+        <a v-if="item.type==2" :href="'/pages/giftshopdetail/main?pid='+item.id" :class="{'touch-item':true,'touch-move-active':item.isTouchMove }" :key="item.id" @longpress.stop="deleteItem" :data-index="item.id">
           <image class="item_img2" src="/static/img/beijing-2.png" v-if="item.status==1 || item.status==2" alt=""></image>
           <image class="item_img2" src="/static/img/back_icon-2.png" alt="" v-if="item.status==0"></image>
           <div class="item_info2">
@@ -31,6 +31,7 @@
             <img class="item_sign" src="/static/img/shiyong_03.png" v-if="item.status==1" alt="">
             <img class="item_sign" src="/static/img/guoqi_06.png" v-if="item.status==2" alt="">
           </div>
+          <div class="del2" catchtap="del" :key="item.id">删除</div>
         </a>
       </li>
     </ul>
@@ -39,13 +40,14 @@
 </template>
 
 <script type="javascript">
+  import mptoast from '../../components/mptoast'
   export default {
     data () {
       return {
         policy_list:[],
         iskong:false,
         page:1,
-        size:6
+        size:6,
       }
     },
     onPullDownRefresh () {
@@ -69,6 +71,7 @@
           page:this.page,
           size:this.size,
           u_id:that.$store.state.user.userid,
+          is_delete:0,
           order:'status asc'
         };
         let res = await that.$get('/rs/member_ticket',data);
@@ -78,13 +81,14 @@
             for (let i=0; i<res.rows.length; i++){
               res.rows[i].get_time = that.conversionTime(res.rows[i].get_time,"/");
               res.rows[i].end_time = that.conversionTimelist(res.rows[i].get_time,res.rows[i].effect_hour,"/");
+              res.rows[i].isTouchMove = false;
               if (res.rows[i].price){
                 res.rows[i].price=that.pricetab(res.rows[i].price);
               }
               if(res.rows[i].picurl){
-                  if(res.rows[i].picurl.substring(0,4)!="http"){
-                    res.rows[i].piclogo = 'https://policy.lifeonway.com'+res.rows[i].piclogo;
-                  }
+                if(res.rows[i].picurl.substring(0,4)!="http"){
+                  res.rows[i].piclogo = 'https://policy.lifeonway.com'+res.rows[i].piclogo;
+                }
               }
               if(res.rows[i].status == 0){
                 res.rows[i].statustext="未领取"
@@ -145,8 +149,33 @@
             console.log("拨打电话失败！")
           }
         })
+      },
+      deleteItem:function (e) {
+        let index = e.currentTarget.dataset.index;
+        let that = this;
+        wx.showModal({
+          title: '提示',
+          content: '确定要删除该优惠券吗？',
+          success: function (res) {
+            if (res.confirm) {
+              that.$put('/rs/member_ticket/'+index,{is_delete:1}).then(res=>{
+                if(res.code == 200){
+                  that.$mptoast('删除成功');
+                  setTimeout(function() {
+                    that.page = 1;
+                    that.policy_list = [];
+                    that.getpolicyList();
+                  },500);
+                }else{
+                  that.$mptoast('删除失败');
+                }
+              })
+            }
+          }
+        })
       }
     },
+
     onLoad: function (option) {
       this.page = 1;
       this.policy_list = [];
@@ -293,6 +322,41 @@
       width:106px/2;
       height:106px/2;
       z-index: 20;
+    }
+    .touch-item{
+      /*display: flex;*/
+    }
+    .del1{
+      position: absolute;
+      background-color: orangered;
+      width: 90px/2;
+      height:256px/2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      -webkit-transform: translateX(90px);
+      transform: translateX(90px);
+      -webkit-transition: all 0.4s;
+      transition: all 0.4s;
+    }
+    .del2{
+      position: absolute;
+      top: 1px/2;
+      right: 21px/2;
+      background-color: orangered;
+      width: 160px/2;
+      height:298px/2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      -webkit-transform: translateX(90px);
+      transform: translateX(90px);
+      -webkit-transition: all 0.4s;
+      transition: all 0.4s;
     }
   }
 </style>

@@ -5,7 +5,7 @@ const app = new Vue(App)
 app.$mount()
 export default {
   config: {
-    'enablePullDownRefresh': true,
+    'enablePullDownRefresh': false,
     pages: ['pages/giftshoplist/main'],
     navigationBarTitleText: '礼物店'
   }
