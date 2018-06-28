@@ -41,6 +41,16 @@
       </div>
       <div class="edit_now" @click="editnow">立即修改</div>
     </div>
+    <div class="rejectover" v-if="overseenbtn">
+      <div class="show_imgover">
+        <image src="/static/img/shenheshibai_03.jpg"></image>
+      </div>
+      <div class="approve_info">
+        <p>
+          您的合作商功能被禁用了，请联系管理员。
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -62,10 +72,11 @@
         message:'',
         isTrue:true,
         id:"",
-        seen:true,
+        seen:false,
         isseen:false,
         overseen:false,
-        remark:''
+        remark:'',
+        overseenbtn:false,
       }
     },
     methods: {
@@ -132,24 +143,32 @@
         this.$get('/rs/cooperator',{u_id:this.$store.state.user.userid}).then(res=>{
           if(res.code==200){
             var user=res.rows[0];
-            that.name=user.name;
-            that.phone=user.phone;
-            that.people=user.contacts;
-            that.id=user.id;
             if(user.status==0){
-               that.seen=false;
-               that.isseen=true;
-               that.overseen=false;
+              that.seen=false;
+              that.isseen=true;
+              that.overseen=false;
+              that.overseenbtn=false
             }else if(user.status==1){
               that.seen=true;
               that.isseen=false;
               that.overseen=false;
+              that.overseenbtn=false
             }else if(user.status==2){
               that.seen=false;
               that.isseen=false;
               that.overseen=true;
               that.remark=user.remark;
+              that.overseenbtn=false
+            }else if(user.status==3){
+              that.seen=false;
+              that.isseen=false;
+              that.overseen=false;
+              that.overseenbtn=true
             }
+            that.name=user.name;
+            that.phone=user.phone;
+            that.people=user.contacts;
+            that.id=user.id;
           }
 
         })
@@ -165,6 +184,10 @@
       this.name="";
       this.phone="";
       this.people="";
+      this.seen=false;
+      this.isseen=false;
+      this.overseen=false;
+      this.overseenbtn=false
     }
   }
 </script>
@@ -246,7 +269,7 @@
     text-align:center;
     border-radius:5px;
     color:#fff;
-    line-height:36px;
+    line-height:35px;
     margin:49px auto 0;
   }
   .show_imgover{
