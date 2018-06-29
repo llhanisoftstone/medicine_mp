@@ -1,5 +1,10 @@
 <template>
     <div class="bg_color">
+      <div class="doommview">
+        <p v-for="(v,i) in doommData" v-if="v.display" class="aon" :style="{'animation':'first '+v.time+'s linear forwards','top':v.top+'%','color':v.color}">
+          {{v.text}}
+        </p>
+      </div>
       <div class="userurl_box">
         <div class="my_box">
           <!--<p>挑战者</p>-->
@@ -19,13 +24,13 @@
       <h2 v-if="isprop">挑战者使用了延迟针，时间延长了20s</h2>
       <!--答题模块-->
       <div class="time_box" v-if="isstart&&iswin==0">
-        <counddown :time="times"></counddown>
+        <counddown :time="times" v-if="istimes"></counddown>
       </div>
       <div class="answer" v-if="isstart&&iswin==0">
         <!--<answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="1">-->
         <answer title="题库由西安市人社局失业保险处提供" :answer="answer.name" distance="1">
           <div slot="list">
-            <ul :class="{'bottom_an':isanimation,'answer_box_ul':true}">
+            <ul :class="{'bottom1_an':isanimation&&(step!=1),'bottom_an':isanimation&&(step==1),'answer_box_ul':true}">
               <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right,'friend_c':is_f_click==i}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}<span>{{stat[i]}}人</span></li>
             </ul>
           </div>
@@ -96,7 +101,7 @@
       </div>
       <div class="publish_box">
         <div>
-            <input type="text" v-model="content" cursor-spacing='15' @confirm="send">
+            <input type="text" v-model="content" cursor-spacing='15' @confirm="send" maxlength="50">
         </div>
         <a class="send_btn" @click="send">发表</a>
         <a @click="userTools(user.tools[0].amount,1)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span></a>
@@ -119,8 +124,11 @@
         name: 'team',
         data(){
             return {
+              doommData:[],          //弹幕
+              do_i:0,
               challenger:'',          //挑战者id
               isprop:false,      //使用道具之后的提示
+              istimes:false,     //是否显示倒计时
               times:30,
               isshow:false,          //是否显示答案
               isstart:false,           //是否开始游戏
@@ -141,10 +149,34 @@
               is_f_click:-1,                        //亲友团选择答案
               til:null,                            //延时函数
               isanimation:false,           //是否显示动画
-              tanswer:''
+              tanswer:'',
+              setfn:null
             }
         },
         methods: {
+          constructor(text,top,time,color){
+            let that=this
+            let item={}
+            item.text = text;
+            item.top = top;
+            item.time = time;
+            item.color = color;
+            item.display = true;
+            item.id = that.do_i++;
+//            setTimeout(function(){
+//              that.doommData.splice(that.doommData.indexOf(item),1);//动画完成，从列表中移除这项
+//            },item.time*1000)//定时器动画完成后执行。
+            return item
+          },
+          getRandomColor() {
+            let rgb = []
+            for (let i = 0; i < 3; ++i) {
+              let color = Math.floor(Math.random() * 256).toString(16)
+              color = color.length == 1 ? '0' + color : color
+              rgb.push(color)
+            }
+            return '#' + rgb.join('')
+          },
           userTools(nub,id){
               if(!this.isstart){
                   return
@@ -162,6 +194,9 @@
                 this.$mptoast('暂无该道具，请前往个人中心-道具商城购买');
                 return
               }
+            if(this.isanimation){
+              return
+            }
             if(nub>0){
               if(Number(id) == 1){
                 for(let i=0;i<this.$store.state.answer.answer_json.length;i++){
@@ -499,9 +534,14 @@
           },
           tanswer(val,oldval){
             this.isanimation=true
-            setTimeout(()=>{
+            this.istimes=false
+            clearTimeout(this.setfn)
+            this.setfn=null
+            this.setfn=setTimeout(()=>{
+              this.times=30
               this.isanimation=false
-            },2000)
+              this.istimes=true
+            },2500)
           }
         },
         components: {
@@ -528,6 +568,9 @@
             },
             isauth(){
               return this.$store.state.isauth
+            },
+            step(){
+              return this.$store.state.step
             }
         },
     onShareAppMessage(res){
@@ -695,6 +738,9 @@
                 nickname: that.$store.state.userinfo.nickName,
                 msg: d.data
               })
+
+
+              that.doommData.push(that.constructor(d.data,Math.ceil(Math.random()*100),5+Math.ceil(Math.random()*5),that.getRandomColor()));
             } else {
               for (let i = 0; i < that.team.length; i++) {
                 if (that.team[i].id == d.u_id) {
@@ -887,23 +933,74 @@
   }
 </script>
 
+<style>
+  /**定义从右边向左边的移动的动画**/
+  @keyframes first{
+    from{left: 100%; }
+    to{left: -200%;}
+  }
+</style>
 <style lang="less" scoped>
     @import '../../static/less/common.less';
-    @keyframes showbottom {
+    .aon{
+      position: absolute;
+      white-space:nowrap;/* 防止向下换行*/
+    }
+    .doommview{
+      z-index: 3;
+      height: 30%;
+      width: 100%;
+      position: absolute;
+    }
+    @keyframes showbottom1 {
       0%{
-        transform: translateY(0px) scale(1);
+        transform: translateY(0px) scale(1,1);
         opacity: 1;
       }
-      25%{
-        transform: translateY(100px) scale(0);
+      24%{
+        transform: translateY(200px) scale(1,1);
         opacity: 0;
       }
-      50%{
-        transform: translateY(100px) scale(0);
+      48%{
+        transform: translateY(200px) scale(1,1);
         opacity: 0;
+      }
+      70%{
+        transform: translateY(200px) scale(1,1);
+        opacity: 0;
+      }
+      85%{
+        transform: translateY(0px) scale(1,1);
+        opacity: 1;
+      }
+      88%{
+        transform: translateY(-8px) scale(1,0.93);
+        opacity: 1;
       }
       100%{
-        transform: translateY(0px) scale(1);
+        transform: translateY(0px) scale(1,1);
+        opacity: 1;
+      }
+    }
+    @keyframes showbottom {
+      0%{
+        transform: translateY(200px) scale(0,0);
+        opacity: 0;
+      }
+      60%{
+        transform: translateY(200px) scale(1,1);
+        opacity: 0;
+      }
+      77%{
+        transform: translateY(0px) scale(1,1);
+        opacity: 1;
+      }
+      90%{
+        transform: translateY(-8px) scale(1,0.93);
+        opacity: 1;
+      }
+      100%{
+        transform: translateY(0px) scale(1,1);
         opacity: 1;
       }
     }
@@ -1383,5 +1480,9 @@
     .bottom_an{
       transform-origin: 50% 50% 0;
       animation: showbottom 2s ease;
+    }
+    .bottom1_an{
+      transform-origin: 50% 50% 0;
+      animation: showbottom1 2.5s ease-out;
     }
 </style>

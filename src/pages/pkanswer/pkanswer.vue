@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="time_box">
-        <counddown :time="times"></counddown>
+        <counddown :time="times" v-if="istimes"></counddown>
       </div>
       <h3>第 {{nub}} 题</h3>
       <div class="answer_box">
@@ -27,7 +27,7 @@
           <answer title="题库由西安市人社局失业保险处提供" :answer="answer.name" distance="0">
           <!--<answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="0">-->
             <div slot="list">
-              <ul :class="{'bottom_an':isanimation,'answer_box':true}">
+              <ul :class="{'bottom1_an':isanimation&&(step!=1),'bottom_an':isanimation&&(step==1),'answer_box':true}">
                 <li :class="{'my':index==i,'opponent':other==i,'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right,'n_correct':other==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)"><span class="ismy"></span>{{v.answer}}<span class="nomy"></span></li>
               </ul>
             </div>
@@ -60,6 +60,7 @@
         data(){
             return {
                 from: 2,    //  1 好友  2全网
+                istimes:false,     //是否显示倒计时
                 times:30,   //倒计时
                 answernub:0,   //查看答案道具
                 timenub:0,   //延时道具
@@ -72,7 +73,8 @@
                 tool_id:[],               //使用过的道具id
                 timesfn:null,           //定时器
                 isanimation:false,         //是否显示动画
-                tanswer:''
+                tanswer:'',
+                setfn:null
             }
         },
         methods: {
@@ -82,6 +84,9 @@
               }
               if(this.gameover){
                   return
+              }
+              if(this.isanimation){
+                return
               }
             console.log(`使用道具${id}`)
             if(Number(id) == 1){
@@ -147,7 +152,12 @@
                     reply=40
                   }
             }
-            this.$store.commit('get_myscore',reply)
+            for(let i=0;i<reply/10;i++){
+//              this.$store.commit('get_myscore',reply)
+              setTimeout(()=>{
+                this.$store.commit('get_myscore',10)
+              },30*i)
+            }
             this.$socket.emit('data_chain', {
               cmd:'answer',
               room_id:this.$store.state.room_id,
@@ -208,6 +218,9 @@
           },
           nub(){
               return this.$store.state.step
+          },
+          step(){
+            return this.$store.state.step
           }
         },
         mounted(){
@@ -223,9 +236,14 @@
             },
           tanswer(val,oldval){
             this.isanimation=true
-            setTimeout(()=>{
+            this.istimes=false
+            clearTimeout(this.setfn)
+            this.setfn=null
+            this.setfn=setTimeout(()=>{
+              this.times=30
+              this.istimes=true
               this.isanimation=false
-            },2000)
+            },2500)
           }
         },
       onLoad(option){
@@ -252,7 +270,11 @@
               that.vs=true
               if(d.other_reply.use_time!=-1&&d.other_reply.use_time!=-2){
                 that.other = d.other_reply.reply
-                that.$store.commit('get_vsscore',d.other_reply.score)
+                for(let i=0;i<d.other_reply.score/10;i++){
+                    setTimeout(()=>{
+                      that.$store.commit('get_vsscore',10)
+                    },30*i)
+                }
               }
               if(d.content_type == 1){
                 if(d.step>1){
@@ -312,21 +334,55 @@
 </style>
 <style lang="less" scoped>
     @import '../../static/less/common.less';
-    @keyframes showbottom {
+    @keyframes showbottom1 {
       0%{
-        transform: translateY(0px) scale(1);
+        transform: translateY(0px) scale(1,1);
         opacity: 1;
       }
-      25%{
-        transform: translateY(100px) scale(0);
+      24%{
+        transform: translateY(200px) scale(1,1);
         opacity: 0;
       }
-      50%{
-        transform: translateY(100px) scale(0);
+      48%{
+        transform: translateY(200px) scale(1,1);
         opacity: 0;
+      }
+      70%{
+        transform: translateY(200px) scale(1,1);
+        opacity: 0;
+      }
+      85%{
+        transform: translateY(0px) scale(1,1);
+        opacity: 1;
+      }
+      88%{
+        transform: translateY(-8px) scale(1,0.93);
+        opacity: 1;
       }
       100%{
-        transform: translateY(0px) scale(1);
+        transform: translateY(0px) scale(1,1);
+        opacity: 1;
+      }
+    }
+    @keyframes showbottom {
+      0%{
+        transform: translateY(200px) scale(0,0);
+        opacity: 0;
+      }
+      60%{
+        transform: translateY(200px) scale(1,1);
+        opacity: 0;
+      }
+      77%{
+        transform: translateY(0px) scale(1,1);
+        opacity: 1;
+      }
+      90%{
+        transform: translateY(-8px) scale(1,0.93);
+        opacity: 1;
+      }
+      100%{
+        transform: translateY(0px) scale(1,1);
         opacity: 1;
       }
     }
@@ -486,6 +542,10 @@
     .bottom_an{
       transform-origin: 50% 50% 0;
       animation: showbottom 2s ease;
+    }
+    .bottom1_an{
+      transform-origin: 50% 50% 0;
+      animation: showbottom1 2.5s ease;
     }
 
     .provide{

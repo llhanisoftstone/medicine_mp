@@ -1,7 +1,7 @@
 <template>
     <div>
-      <h2 :class="{'topan':isanimation}">#{{title}}</h2>
-      <h4 :class="{'top':distance==1,'topan':isanimation}">{{answer}}</h4>
+      <h2 :class="{'topan':isanimation&&(step==1),'topan1':isanimation&&(step!=1)}">#{{title}}</h2>
+      <h4 :class="{'top':distance==1,'topan':isanimation&&(step==1),'topan1':isanimation&&(step!=1)}">{{a_answer}}</h4>
       <slot name="list"></slot>
     </div>
 </template>
@@ -12,25 +12,43 @@
         props: ['title','answer','distance'],
         data(){
             return {
-              isanimation:false
+              isanimation:false,
+              a_answer:'',
+              setfn:null
             }
         },
         methods: {},
         components: {},
         watch:{
           answer(val,oldval){
-            this.isanimation=true
-            setTimeout(()=>{
-              this.isanimation=false
+            let that =this
+            that.isanimation=true
+            clearTimeout(that.setfn)
+            that.setfn=null
+            that.setfn=setTimeout(()=>{
+              that.isanimation=false
             },2000)
+            if(this.step == 1){
+              that.a_answer = val
+            }else{
+              setTimeout(()=>{
+                that.a_answer = val
+              },750)
+            }
           }
         },
         mounted(){
           this.isanimation=true
+          this.a_answer=this.answer
           setTimeout(()=>{
             this.isanimation=false
           },2000)
-        }
+        },
+      computed:{
+            step(){
+                return this.$store.state.step
+            }
+      }
 
     }
 </script>
@@ -39,19 +57,57 @@
     @import '../static/less/common.less';
     @keyframes showtop {
       0%{
-        transform: translateY(0px) scale(1);
-        opacity: 1;
-      }
-      25%{
-        transform: translateY(-20px) scale(0);
+        transform: scale(0);
         opacity: 0;
       }
       50%{
-        transform: translateY(-20px) scale(0);
+        transform: scale(0.7);
         opacity: 0;
       }
+      75%{
+        transform: scale(1);
+        opacity: 1;
+      }
+      80%{
+        transform: scale(1.08);
+        opacity: 1;
+      }
       100%{
-        transform: translateY(0px) scale(1);
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    @keyframes showtop1 {
+      0%{
+        transform: scale(1);
+        opacity: 1;
+      }
+      25%{
+        transform: scale(1);
+        opacity: 1;
+      }
+      37.5%{
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      50%{
+        transform: scale(0);
+        opacity: 0;
+      }
+      75%{
+        transform: scale(0.7);
+        opacity: 0;
+      }
+      87.5%{
+        transform: scale(1);
+        opacity: 1;
+      }
+      90%{
+        transform: scale(1.08);
+        opacity: 1;
+      }
+      100%{
+        transform: scale(1);
         opacity: 1;
       }
     }
@@ -76,7 +132,11 @@
     }
     .topan{
       transform-origin: 50% 50% 0;
-      animation: showtop 2s ease;
+      animation: showtop 1s ease-out;
+    }
+    .topan1{
+      transform-origin: 50% 50% 0;
+      animation: showtop1 1.5s ease-out;
     }
 
 </style>

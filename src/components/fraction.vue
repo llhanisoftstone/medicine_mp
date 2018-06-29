@@ -34,7 +34,7 @@
       position: relative;
       border-radius: 10px/2;
       .fraction_item{
-        transition: all .3s ease;
+        transition: all 1s ease;
         width: 13px/2;
         position: absolute;
         bottom:0;

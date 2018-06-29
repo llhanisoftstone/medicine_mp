@@ -12,7 +12,7 @@
             </div>
           </div>
           <div class="time_box">
-            <counddown :time="times"></counddown>
+            <counddown :time="times" v-if="istimes"></counddown>
           </div>
           <h2 v-if="isprop">您使用了延迟针，时间延长了20s</h2>
         </div>
@@ -20,7 +20,7 @@
           <!--<answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="1">-->
           <answer title="题库由西安市人社局失业保险处提供" :answer="answer.name" distance="1">
             <div slot="list">
-              <ul :class="{'bottom_an':isanimation,'answer_box_ul':true}">
+              <ul :class="{'bottom1_an':isanimation&&(step!=1),'bottom_an':isanimation&&(step==1),'answer_box_ul':true}">
                 <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}</li>
               </ul>
             </div>
@@ -45,6 +45,7 @@
         name: 'alone',
         data(){
             return {
+              istimes:false,     //是否显示倒计时
               times:30,         //倒计时
               isprop:false,    //道具提示
               isshow:false,    //显示答案
@@ -60,7 +61,8 @@
               left:0,                     //用户头像偏移量
               hreftime:null,              //跳转页面时间函数
               isanimation:false,           //是否显示动画
-              tanswer:''
+              tanswer:'',
+              setfn:null
             }
         },
         methods: {
@@ -69,6 +71,9 @@
                   return
               }
               if(this.gameover){
+                  return
+              }
+              if(this.isanimation){
                   return
               }
             console.log(`使用道具${id}`)
@@ -194,6 +199,9 @@
           answer(){
             this.tanswer=this.$store.state.answer.name
             return this.$store.state.answer
+          },
+          step(){
+              return this.$store.state.step
           }
         },
         mounted(){
@@ -205,19 +213,24 @@
           }
         },
         tanswer(val,oldval){
+          this.istimes=false
           this.isanimation=true
-          setTimeout(()=>{
+          clearTimeout(this.setfn)
+          this.setfn=null
+          this.setfn=setTimeout(()=>{
+            this.times=30
             this.isanimation=false
-          },2000)
+            this.istimes=true
+          },2500)
         }
       },
     onLoad(option){
       let that =this
       that.left=0
-      that.isanimation=true
-      setTimeout(()=>{
-        that.isanimation=false
-      },2000)
+//      that.isanimation=true
+//      setTimeout(()=>{
+//        that.isanimation=false
+//      },2000)
       that.cleardata()
       clearInterval(that.atimefn)
       clearTimeout(that.hreftime)
@@ -360,22 +373,64 @@
 </style>
 <style lang="less" scoped>
     @import '../../static/less/common.less';
-    @keyframes showbottom {
+    @keyframes showbottom1 {
       0%{
-        transform: translateY(0px) scale(1);
+        transform: translateY(0px) scale(1,1);
         opacity: 1;
       }
-      25%{
-        transform: translateY(100px) scale(0);
+      24%{
+        transform: translateY(200px) scale(1,1);
         opacity: 0;
       }
-      50%{
-        transform: translateY(100px) scale(0);
+      48%{
+        transform: translateY(200px) scale(1,1);
         opacity: 0;
+      }
+      70%{
+        transform: translateY(200px) scale(1,1);
+        opacity: 0;
+      }
+      85%{
+        transform: translateY(0px) scale(1,1);
+        opacity: 1;
+      }
+      88%{
+        transform: translateY(-8px) scale(1,0.93);
+        opacity: 1;
       }
       100%{
-        transform: translateY(0px) scale(1);
+        transform: translateY(0px) scale(1,1);
         opacity: 1;
+      }
+    }
+    @keyframes showbottom {
+      0%{
+        transform: translateY(200px) scale(0,0);
+        opacity: 0;
+      }
+      60%{
+        transform: translateY(200px) scale(1,1);
+        opacity: 0;
+      }
+      77%{
+        transform: translateY(0px) scale(1,1);
+        opacity: 1;
+      }
+      90%{
+        transform: translateY(-8px) scale(1,0.93);
+        opacity: 1;
+      }
+      100%{
+        transform: translateY(0px) scale(1,1);
+        opacity: 1;
+      }
+    }
+    @keyframes user {
+      0%{
+        transform: translateY(-200px);
+      }
+      100%{
+        transform: translateY(0px);
       }
     }
     .bg{
@@ -397,6 +452,7 @@
     box-sizing: border-box;
     padding-top: 27px/2;
     position: relative;
+    animation: user 1s linear;
   }
   .img_box{
     width: 138px/2;
@@ -441,9 +497,13 @@
       margin-top:8px/2;
     }
     .time_box{
-      width: 120px/2;
+      /*<!--width: 120px/2;-->*/
+      width: 100%;
       height: 120px/2;
       margin-top:33px/2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     h2{
       width: 100%;
@@ -489,7 +549,11 @@
     }
     .bottom_an{
       transform-origin: 50% 50% 0;
-      animation: showbottom 2s ease;
+      animation: showbottom 2s ease-out;
+    }
+    .bottom1_an{
+      transform-origin: 50% 50% 0;
+      animation: showbottom1 2.5s ease-out;
     }
     .provide{
       margin-bottom: 16px/2;
