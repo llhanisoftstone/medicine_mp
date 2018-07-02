@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h2 :class="{'topan':isanimation&&(step==1),'topan1':isanimation&&(step!=1)}">#{{title}}</h2>
+      <h2 :class="{'topan':isanimation&&(step==1),'topan1':isanimation&&(step!=1)}">{{t_title}}</h2>
       <h4 :class="{'top':distance==1,'topan':isanimation&&(step==1),'topan1':isanimation&&(step!=1)}">{{a_answer}}</h4>
       <slot name="list"></slot>
     </div>
@@ -14,6 +14,7 @@
             return {
               isanimation:false,
               a_answer:'',
+              t_title:'',
               setfn:null
             }
         },
@@ -28,11 +29,29 @@
             that.setfn=setTimeout(()=>{
               that.isanimation=false
             },2000)
+            let pagesArr = getCurrentPages()
+            let currentPage = pagesArr[pagesArr.length - 1]
+            let url = currentPage.route
             if(this.step == 1){
-              that.a_answer = val
+                if(url == 'pages/pkanswer/main'||url == 'pages/alone/main'){
+                  that.a_answer = val
+                  that.t_title = `#${that.title}`
+                }else{
+                  setTimeout(()=>{
+                    that.a_answer = val
+                    that.t_title = `#${that.title}`
+                    that.isanimation=true
+                    clearTimeout(that.setfn)
+                    that.setfn=null
+                    that.setfn=setTimeout(()=>{
+                      that.isanimation=false
+                    },2000)
+                  },750)
+                }
             }else{
               setTimeout(()=>{
                 that.a_answer = val
+                that.t_title = `#${that.title}`
               },750)
             }
           }
@@ -40,6 +59,7 @@
         mounted(){
           this.isanimation=true
           this.a_answer=this.answer
+          this.t_title = `#${this.title}`
           setTimeout(()=>{
             this.isanimation=false
           },2000)

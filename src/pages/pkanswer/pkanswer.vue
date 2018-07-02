@@ -19,7 +19,7 @@
       </div>
       <h3>第 {{nub}} 题</h3>
       <div class="answer_box">
-        <div class="fraction_box">
+        <div class="fraction_box fraction_my">
           <p>{{mynumber}}</p>
           <fraction :number="mynumber" color="#ffc02a"></fraction>
         </div>
@@ -33,7 +33,7 @@
             </div>
           </answer>
         </div>
-        <div class="fraction_box">
+        <div class="fraction_box fraction_vs">
           <p>{{usernumber}}</p>
           <fraction :number="usernumber" color="#df5c3e"></fraction>
         </div>
@@ -235,15 +235,28 @@
                 }
             },
           tanswer(val,oldval){
-            this.isanimation=true
-            this.istimes=false
-            clearTimeout(this.setfn)
-            this.setfn=null
-            this.setfn=setTimeout(()=>{
-              this.times=30
-              this.istimes=true
-              this.isanimation=false
-            },2500)
+            let pagesArr = getCurrentPages()
+            let currentPage = pagesArr[pagesArr.length - 1]
+            let url = currentPage.route
+            if(url == 'pages/pkanswer/main'){
+              this.isanimation=true
+              this.istimes=false
+              clearTimeout(this.setfn)
+              this.setfn=null
+//              if(this.$store.state.step == 1){
+                this.setfn=setTimeout(()=>{
+                  this.times=30
+                  this.istimes=true
+                  this.isanimation=false
+                },2500)
+//              }else{
+//                this.setfn=setTimeout(()=>{
+//                  this.times=30
+//                  this.istimes=true
+//                  this.isanimation=false
+//                },2500)
+//              }
+            }
           }
         },
       onLoad(option){
@@ -261,9 +274,12 @@
 
         let that=this
         that.isanimation=true
+        that.istimes=false
         setTimeout(()=>{
+          that.times=30
+          that.istimes=true
           that.isanimation=false
-        },2000)
+        },2500)
         this.$socket.on('data_chain', d=>{    //接收题目
           if(d.step != 1){
             if(d.cmd == 'answer'){
@@ -313,6 +329,8 @@
           let that=this
         that.$store.commit('get_answer',{})
         that.gameover=true
+        clearTimeout(that.setfn)
+        that.setfn=null
           that.$socket.emit('data_chain',{
               cmd:'left',
               room_id:this.$store.state.room_id,
@@ -395,6 +413,34 @@
         width: 100%;
         margin-left: 0;
       }
+    }
+    @keyframes fraction_my {
+      0%{
+        transform: translateX(-100px);
+      }
+      75%{
+        transform: translateX(-100px);
+      }
+      100%{
+        transform: translateX(0px);
+      }
+    }
+    @keyframes fraction_vs {
+      0%{
+        transform: translateX(100px);
+      }
+      75%{
+        transform: translateX(100px);
+      }
+      100%{
+        transform: translateX(0px);
+      }
+    }
+    .fraction_my{
+      animation: fraction_my 2s linear;
+    }
+    .fraction_vs{
+      animation: fraction_vs 2s linear;
     }
     .bg{
       background: #fff3f3;

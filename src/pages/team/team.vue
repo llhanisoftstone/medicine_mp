@@ -77,33 +77,39 @@
           <image src="/static/img/team_fail.png"></image>
         </div>
       </div>
-      <div :class="{'result_btn':true,'btn_win':iswin==2,'btn_loss':iswin!=2}">
+      <div :class="{'result_btn':true,'btn_win':iswin==2,'btn_loss':iswin==1}" v-if="gameover">
         <a href="" v-if="iswin==2&&isnext" @click="next" :class="{'disabled':challenger!=user.userid}">挑战下一关</a>
         <button open-type="share" v-if="iswin==2">分享战绩</button>
         <a href="" v-if="iswin==1" @click="repeat" :class="{'disabled':challenger!=user.userid}">重新开始</a>
       </div>
       <!--聊天模块-->
-      <div class="chat_box">
-        <div class="chat_t">
-          <i></i>
-          <image src="/static/img/chat.png"></image>
-          <span>讨论区</span>
-          <i></i>
-        </div>
-        <scroll-view style="height:147px;" scroll-y="true" :scroll-top="scrollTop">
-          <ul class="chat_list">
-            <li v-for="(v,i) in chat">
-              <span>{{v.nickname}}</span>：
-              <span>{{v.msg}}</span>
-            </li>
-          </ul>
-        </scroll-view>
-      </div>
+      <!--<div class="chat_box">-->
+        <!--<div class="chat_t">-->
+          <!--<i></i>-->
+          <!--<image src="/static/img/chat.png"></image>-->
+          <!--<span>讨论区</span>-->
+          <!--<i></i>-->
+        <!--</div>-->
+        <!--<scroll-view style="height:147px;" scroll-y="true" :scroll-top="scrollTop">-->
+          <!--<ul class="chat_list">-->
+            <!--<li v-for="(v,i) in chat">-->
+              <!--<span>{{v.nickname}}</span>：-->
+              <!--<span>{{v.msg}}</span>-->
+            <!--</li>-->
+          <!--</ul>-->
+        <!--</scroll-view>-->
+      <!--</div>-->
       <div class="publish_box">
-        <div>
-            <input type="text" v-model="content" cursor-spacing='15' @confirm="send" maxlength="50">
+        <div class="btn_box_send">
+          <p @click="send('陈独秀同学请坐下')">1</p>
+          <p @click="send('请给李时珍同学一个发言的机会')">2</p>
+          <p @click="send('你看后面的鲁迅同学脸色很难看')">3</p>
+          <p @click="send('还有，李云龙同学麻烦你让二营长把意大利面收起来，不要让陈皮同学在课堂上吃面。')">4</p>
         </div>
-        <a class="send_btn" @click="send">发表</a>
+        <!--<div>-->
+            <!--<input type="text" v-model="content" cursor-spacing='15' @confirm="send" maxlength="50">-->
+        <!--</div>-->
+        <!--<a class="send_btn" @click="send">发表</a>-->
         <a @click="userTools(user.tools[0].amount,1)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span></a>
         <a @click="userTools(user.tools[1].amount,2)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span></a>
       </div>
@@ -326,25 +332,23 @@
               this.team=[]
               this.chat=[]
               this.tool_id=[]
+              this.doommData=[]
               this.content=''
               clearInterval(this.timesfn)
               this.timesfn=null
               this.isjoin=false
               this.is_f_click=-1
             },
-          send(){       //发送聊天
+          send(msg){       //发送聊天
             let that =this
-            if(that.content.replace(/(^\s*)|(\s*$)/g, "")!=''){
                   //发送聊天内容
               that.$socket.emit('data_chain',{
                   cmd:'chat',
                   u_id:that.$store.state.user.userid,
                   room_id:that.$store.state.room_id,
-                  data:that.content.replace(/(^\s*)|(\s*$)/g, ""),
+                  data:msg,
                   type:1
               })
-              that.content=''
-            }
           },
           submit(index,right){    //提交答案
             if(this.isclick){
@@ -1084,12 +1088,21 @@
         opacity: 1;
       }
     }
+    @keyframes userurl {
+      0%{
+        transform: translateY(-200px);
+      }
+      100%{
+        transform: translateY(0px);
+      }
+    }
     .bg_color{
       background: #fff3f3;
       padding-top: 18px/2;
       height: 100%;
     }
     .userurl_box{
+      animation: userurl .5s linear;
       width: 100%;
       height: auto;
       display: flex;
@@ -1115,7 +1128,6 @@
         align-items: center;
         height: 140px/2;
         li{
-          animation: li2 2s ease;
           height: 140px/2;
           display: flex;
           align-items: center;
@@ -1127,9 +1139,6 @@
             border:5px/2 solid #fff;
             border-radius: 50%;
           }
-        }
-        li:nth-of-type(1){
-          animation: li1 1.5s ease;
         }
       }
     }
@@ -1308,16 +1317,22 @@
       justify-content: center;
       div{
         flex:1;
-        padding-right: 15px/2;
+        padding: 0 20px/2;
+        padding-right: 180px/2;
         height: 100%;
-        input{
-          border:none;
-          border-radius: 0;
-          border-bottom: 2px/2 solid @bg_color;
-          color: #333;
-          font-size: 28px/2;
-          width: 100%;
-          height: 58px/2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p{
+          width: 50px/2;
+          height: 50px/2;
+          border-radius: 50%;
+          border:1px solid #df5c3e;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #df5c3e;
+          color: #fff;
         }
       }
     .send_btn{
@@ -1453,6 +1468,7 @@
       align-items: center;
       justify-content: space-around;
       li{
+        animation: li2 2s ease;
         width: 131px/2;
         height: 100%;
         div{
@@ -1479,6 +1495,9 @@
       font-size: 24px/2;
       height: 24px/2;
     }
+      }
+      li:nth-of-type(1){
+        animation: li1 1.5s ease;
       }
     }
     .fail{

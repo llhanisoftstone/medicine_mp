@@ -360,7 +360,7 @@
     left:0;
     right:0;
     margin:auto;
-    animation: showan .5s ease;
+    animation: showan .3s ease;
   }
   .pick_t{
     position: absolute;

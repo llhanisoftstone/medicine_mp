@@ -9,7 +9,8 @@
         <p :class="{'myname':true,'my_img':vs}">{{userinfo.nickName}}</p>
         <!--  load  or  vs -->
         <div class="load" :class="{'vs':vs}">
-          <image src="/static/img/02.gif" v-if="!vs"></image>
+          <p v-if="!vs">{{loadcon}}</p>
+          <!--<image src="/static/img/02.gif" v-if="!vs"></image>-->
           <image src="/static/img/vs.png" v-if="vs"></image>
         </div>
         <div :class="{'vsuser':true,'vs_img':vs}">
@@ -34,6 +35,8 @@
         data(){
             return {
                 test:'',
+                loadcon:'正在为您匹配对手......',
+                loadfn:null,
                 vs:false,
                 other_uid:'',
                 from: 2,                //  1 好友  2全网    好友添加按钮
@@ -44,6 +47,13 @@
             }
         },
         methods: {
+          loadconfn(){
+              if(this.loadcon.length == 14){
+                  this.loadcon=this.loadcon.slice(0,8)
+              }else{
+                this.loadcon=`${this.loadcon}.`
+              }
+          },
           swiper(){     //切换模式
               this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
               this.from=2
@@ -236,6 +246,11 @@
             }
         },
         mounted(){
+          clearInterval(this.loadfn)
+          this.loadfn = null
+          this.loadfn=setInterval(()=>{
+              this.loadconfn()
+          },800)
           this.sendnews()
         },
       onLoad: function(option){
@@ -387,7 +402,7 @@
       }
     .vsuser{
       position: absolute;
-      top:500px/2;
+      top:540px/2;
       right:30px/2;
       width: 255px/2;
       height: 255px/2;
@@ -408,18 +423,28 @@
     height: 217px/2;
     /*animation: rotate .8s linear infinite;*/
     position: absolute;
-    top:348px/2;
+    top:368px/2;
     left:275px/2;
     image{
       width: 100%;
       height: 100%;
+    }
+    p{
+      width: 100%;
+      font-size: 35px/2;
+      color: #333;
+      text-align: center;
+      white-space: nowrap;
+      margin-top:110px/2;
+      margin-left:-40px/2;
+      font-weight: bold;
     }
   }
     .vs{
       animation: scale .7s ease 1;
       width: 347px/2;
       height: 275px/2;
-      top:336px/2;
+      top:356px/2;
       left: 203px/2;
       z-index:3;
       image{
@@ -444,10 +469,11 @@
     }
   .username{
     position: absolute;
-    top:775px/2;
+    top:815px/2;
     width: 255px/2;
     right:30px/2;
     font-size: 36px/2;
+    text-align: center;
     color: #333;
     height: 40px/2;
     white-space: nowrap;

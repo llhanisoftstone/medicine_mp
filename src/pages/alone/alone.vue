@@ -434,20 +434,87 @@
       }
     }
     @keyframes gift {
-      0%{
-        transform: scale(1);
+      1% {
+        transform: translate(0, 0) rotate(6.5deg)
       }
-      45%{
-        transform: scale(1);
+
+      2% {
+        transform: translate(0, 0) rotate(3.5deg)
       }
-      50%{
-        transform: scale(1.08);
+
+      3% {
+        transform: translate(0, 0) rotate(-3.5deg)
       }
-      55%{
-        transform: scale(1);
+
+      4% {
+        transform: translate(0, 0) rotate(5.5deg)
       }
-      100%{
-        transform: scale(1);
+
+      5% {
+        transform: translate(0, 0) rotate(-4.5deg)
+      }
+
+      6% {
+        transform: translate(0, 0) rotate(-4.5deg)
+      }
+
+      7% {
+        transform: translate(0, 0) rotate(-6.5deg)
+      }
+
+      8% {
+        transform: translate(0, 0) rotate(2.5deg)
+      }
+
+      9% {
+        transform: translate(0, 0) rotate(-5.5deg)
+      }
+
+      10% {
+        transform: translate(0, 0) rotate(.5deg)
+      }
+
+      11% {
+        transform: translate(0, 0) rotate(-3.5deg)
+      }
+
+      12% {
+        transform: translate(0, 0) rotate(-6.5deg)
+      }
+
+      13% {
+        transform: translate(0, 0) rotate(6.5deg)
+      }
+
+      14% {
+        transform: translate(0, 0) rotate(1.5deg)
+      }
+
+      15% {
+        transform: translate(0, 0) rotate(-5.5deg)
+      }
+
+      16% {
+        transform: translate(0, 0) rotate(7.5deg)
+      }
+
+      17% {
+        transform: translate(0, 0) rotate(-3.5deg)
+      }
+
+      18% {
+        transform: translate(0, 0) rotate(7.5deg)
+      }
+
+      19% {
+        transform: translate(0, 0) rotate(-5.5deg)
+      }
+
+      20% {
+        transform: translate(0, 0) rotate(3.5deg)
+      }
+      0%,21%,50%,100% {
+        transform: translate(0, 0) rotate(0)
       }
     }
     .bg{
@@ -492,8 +559,9 @@
     }
   }
     .gift_img{
-      animation: gift 2s linear infinite;
-      animation-delay:1s;
+      animation: gift 3s ease-in-out infinite;
+      animation-delay:2s;
+      transform-origin: center center;
       width: 246px/2;
       position: absolute;
       bottom:0;
@@ -525,8 +593,10 @@
       align-items: center;
     }
     h2{
+      position: absolute;
+      top:180px/2;
+      left:0;
       width: 100%;
-      margin-top:30px/2;
       color: @bg_color;
       font-size: 30px/2;
       height: 30px/2;
