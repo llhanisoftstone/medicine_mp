@@ -386,6 +386,16 @@
         opacity: 1;
       }
     }
+    @keyframes info_box {
+      0%{
+        width: 200%;
+        margin-left: -50%;
+      }
+      100%{
+        width: 100%;
+        margin-left: 0;
+      }
+    }
     .bg{
       background: #fff3f3;
       width: 100%;
@@ -394,6 +404,7 @@
       padding-bottom: 130px/2;
     }
   .user_box{
+    animation: info_box 1s linear;
     width: 100%;
     padding-top:70px/2;
     justify-content: space-between;
@@ -403,7 +414,7 @@
       width:160px/2;
 
     div{
-      width: 160px/2;
+      width: 100%;
       height: 108px/2;
       padding: 5px/2;
       box-sizing: border-box;
@@ -430,7 +441,7 @@
       }
     }
     .user_box_item:nth-last-child(1) {
-    div{
+      div{
       background: @bg_color;
       border-top-left-radius: 50px;
       border-bottom-left-radius: 50px;

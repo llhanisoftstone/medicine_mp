@@ -55,6 +55,53 @@
 
 <style lang="less" scoped>
     @import '../static/less/common.less';
+    @keyframes success_t {
+      0%{
+        opacity: 0;
+      }
+      67%{
+        opacity: 0;
+      }
+      100%{
+        opacity: 1;
+      }
+    }
+    @keyframes li1 {
+      0%{
+        opacity: 0;
+        transform: scale(0);
+      }
+      75%{
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      90%{
+        opacity: 1;
+        transform: scale(1.05);
+      }
+      100%{
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    @keyframes li2 {
+      0%{
+        opacity: 0;
+        transform: scale(0);
+      }
+      80%{
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      92%{
+        opacity: 1;
+        transform: scale(1.05);
+      }
+      100%{
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
   .gift_box{
     border-top:1px dashed #fff;
     height: 325px/2;
@@ -65,6 +112,7 @@
     margin:0 auto;
     margin-top:21px/2;
     display: block;
+    animation: success_t 1.5s ease;
   }
   .gift_list{
     width: 100%;
@@ -72,6 +120,7 @@
     justify-content: space-around;
     display: flex;
     li{
+      animation: li2 2.5s ease;
       flex-wrap: wrap;
       width: 152px/2;
       justify-content: center;
@@ -101,6 +150,7 @@
     }
     }
     li:nth-of-type(1){
+      animation: li1 2s ease;
       image{
         width: 140px/2;
         height: 140px/2;

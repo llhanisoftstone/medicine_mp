@@ -433,6 +433,23 @@
         transform: translateY(0px);
       }
     }
+    @keyframes gift {
+      0%{
+        transform: scale(1);
+      }
+      45%{
+        transform: scale(1);
+      }
+      50%{
+        transform: scale(1.08);
+      }
+      55%{
+        transform: scale(1);
+      }
+      100%{
+        transform: scale(1);
+      }
+    }
     .bg{
       background: #fff3f3;
       width: 100%;
@@ -475,6 +492,8 @@
     }
   }
     .gift_img{
+      animation: gift 2s linear infinite;
+      animation-delay:1s;
       width: 246px/2;
       position: absolute;
       bottom:0;

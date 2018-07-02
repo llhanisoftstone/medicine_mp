@@ -158,6 +158,20 @@
 </style>
 <style lang="less" scoped>
     @import '../../static/less/common.less';
+    @keyframes showan {
+      0%{
+        opacity: 0;
+        transform: scale(0);
+      }
+      75%{
+        opacity: 1;
+        transform: scale(1.05);
+      }
+      100%{
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
     .c_map{
       width: 100%;
       height: 100%;
@@ -346,6 +360,7 @@
     left:0;
     right:0;
     margin:auto;
+    animation: showan .5s ease;
   }
   .pick_t{
     position: absolute;

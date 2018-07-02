@@ -77,7 +77,7 @@
           <image src="/static/img/team_fail.png"></image>
         </div>
       </div>
-      <div class="result_btn">
+      <div :class="{'result_btn':true,'btn_win':iswin==2,'btn_loss':iswin!=2}">
         <a href="" v-if="iswin==2&&isnext" @click="next" :class="{'disabled':challenger!=user.userid}">挑战下一关</a>
         <button open-type="share" v-if="iswin==2">分享战绩</button>
         <a href="" v-if="iswin==1" @click="repeat" :class="{'disabled':challenger!=user.userid}">重新开始</a>
@@ -1004,6 +1004,86 @@
         opacity: 1;
       }
     }
+    @keyframes title {
+      0%{
+        opacity: 0;
+        transform: scale(1.5);
+      }
+      49%{
+        opacity: 0;
+        transform: scale(1.5);
+      }
+      50%{
+        opacity: 1;
+        transform: scale(2);
+      }
+      95%{
+        opacity: 1;
+        transform: scale(0.9);
+      }
+      100%{
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    @keyframes li1 {
+      0%{
+        opacity: 0;
+        transform: scale(0);
+      }
+      67%{
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      90%{
+        opacity: 1;
+        transform: scale(1.05);
+      }
+      100%{
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    @keyframes li2 {
+      0%{
+        opacity: 0;
+        transform: scale(0);
+      }
+      75%{
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      92%{
+        opacity: 1;
+        transform: scale(1.05);
+      }
+      100%{
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    @keyframes btn_win {
+      0%{
+        opacity: 0;
+      }
+      80%{
+        opacity: 0;
+      }
+      100%{
+        opacity: 1;
+      }
+    }
+    @keyframes btn {
+      0%{
+        opacity: 0;
+      }
+      67%{
+        opacity: 0;
+      }
+      100%{
+        opacity: 1;
+      }
+    }
     .bg_color{
       background: #fff3f3;
       padding-top: 18px/2;
@@ -1035,6 +1115,7 @@
         align-items: center;
         height: 140px/2;
         li{
+          animation: li2 2s ease;
           height: 140px/2;
           display: flex;
           align-items: center;
@@ -1046,6 +1127,9 @@
             border:5px/2 solid #fff;
             border-radius: 50%;
           }
+        }
+        li:nth-of-type(1){
+          animation: li1 1.5s ease;
         }
       }
     }
@@ -1315,6 +1399,7 @@
       position: relative;
       border-radius: 10px/2;
       h1{
+        animation: title .8s ease;
         position: absolute;
         top:-55px/2;
         left:0;
@@ -1484,5 +1569,11 @@
     .bottom1_an{
       transform-origin: 50% 50% 0;
       animation: showbottom1 2.5s ease-out;
+    }
+    .btn_win{
+      animation: btn_win 2.5s ease;
+    }
+    .btn_loss{
+      animation: btn 1.5s ease;
     }
 </style>

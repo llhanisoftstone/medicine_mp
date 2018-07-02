@@ -16,7 +16,7 @@
         <capture :win="win" :iscard="iscard" :card="card"></capture>
       </div>
     </div>
-    <div class="btn_box">
+    <div :class="{'btn_box':true,'btn_win':win==2,'btn_loss':win!=2}">
       <a href="" v-if="(win==2)&&isreward==0&&level<11" @click="toalone">挑战下一关</a>
       <a href="" v-if="win==0" @click="repeat">重新开始</a>
       <button open-type="share" v-if="win==2">分享战绩</button>
@@ -163,6 +163,50 @@
 
 <style lang="less" scoped>
   @import '../../static/less/common.less';
+  @keyframes title {
+    0%{
+      opacity: 0;
+      transform: scale(1.5);
+    }
+    49%{
+      opacity: 0;
+      transform: scale(1.5);
+    }
+    50%{
+      opacity: 1;
+      transform: scale(2);
+    }
+    95%{
+      opacity: 1;
+      transform: scale(0.9);
+    }
+    100%{
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes btn_win {
+    0%{
+      opacity: 0;
+    }
+    80%{
+      opacity: 0;
+    }
+    100%{
+      opacity: 1;
+    }
+  }
+  @keyframes btn {
+    0%{
+      opacity: 0;
+    }
+    67%{
+      opacity: 0;
+    }
+    100%{
+      opacity: 1;
+    }
+  }
   .user_box{
     width: 592px/2;
     height: 702px/2;
@@ -174,6 +218,7 @@
     right:0;
     margin:auto;
   h1{
+    animation: title .8s ease;
     position: absolute;
     top:-71px/2;
     left:0;
@@ -318,5 +363,11 @@
     font-size:32px/2;
     margin:0;
   }
+  }
+  .btn_win{
+    animation: btn_win 3s ease;
+  }
+  .btn_loss{
+    animation: btn 1.5s ease;
   }
 </style>

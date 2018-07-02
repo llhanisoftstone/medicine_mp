@@ -3,19 +3,19 @@
       <image src="/static/img/pipei.jpg" class="bg_img"></image>
       <div class="bg_box">
         {{test}}
-        <div class="my">
+        <div :class="{'my':true,'my_img':vs}">
           <image :src="userinfo.avatarUrl"></image>
         </div>
-        <p class="myname">{{userinfo.nickName}}</p>
+        <p :class="{'myname':true,'my_img':vs}">{{userinfo.nickName}}</p>
         <!--  load  or  vs -->
         <div class="load" :class="{'vs':vs}">
           <image src="/static/img/02.gif" v-if="!vs"></image>
           <image src="/static/img/vs.png" v-if="vs"></image>
         </div>
-        <div class="vsuser">
+        <div :class="{'vsuser':true,'vs_img':vs}">
           <image :src="vsuser.picpath"></image>
         </div>
-        <p class="username">{{vsuser.nickname}}</p>
+        <p :class="{'username':true,'vs_img':vs}">{{vsuser.nickname}}</p>
       </div>
       <div class="btn_box" v-if="from==1">
         <button open-type="share">挑战其他好友</button>
@@ -286,7 +286,7 @@
                   url:`/pages/pkanswer/main?from=${that.from}`
                 })
                 that.isend=false
-              },2500)
+              },1500)
             }
           }
         })
@@ -326,9 +326,31 @@
 <style lang="less" scoped>
     @import '../../static/less/common.less';
     @keyframes scale {
-      1% {transform:scale(1.5);opacity: 0}
-      50% {transform:scale(.7);opacity: .8}
+      0% {transform:scale(2);opacity: 0}
+      70% {transform:scale(.6);opacity: .8}
       100%{transform: scale(1);opacity: 1}
+    }
+    @keyframes my_img {
+      0%{
+        transform: translateX(0px);
+      }
+      67%{
+        transform: translateX(0px)
+      }
+      100%{
+        transform: translateX(-200px);
+      }
+    }
+    @keyframes vs_img {
+      0%{
+        transform: translateX(0px);
+      }
+      67%{
+        transform: translateX(0px)
+      }
+      100%{
+        transform: translateX(200px);
+      }
     }
   .bg{
     width: 100%;
@@ -394,7 +416,7 @@
     }
   }
     .vs{
-      animation: scale 1s ease 1;
+      animation: scale .7s ease 1;
       width: 347px/2;
       height: 275px/2;
       top:336px/2;
@@ -491,4 +513,10 @@
         text-align: center;
       }
     }
+  .my_img{
+    animation: my_img 1.5s ease forwards;
+  }
+  .vs_img{
+    animation: vs_img 1.5s ease forwards;
+  }
 </style>
