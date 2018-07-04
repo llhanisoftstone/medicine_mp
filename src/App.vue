@@ -3,12 +3,10 @@ export default {
   created () {
     let that = this
     let showmsg = null
-//    this.getLogin()
     this.$socket.on('connect', () => {
       wx.hideLoading()
       clearTimeout(showmsg)
       showmsg = null
-      console.log('connect success')
       if (!that.$store.state.user.userid) {
         that.getLogin()
       }
