@@ -20,10 +20,26 @@
       </ul>
       <div class="bg_shade" v-if="isshow" @click="hidepick">
         <div class="pick_box" @click.stop="prevent">
-          <div class="pick_t"><image src="/static/img/yaoqing_2.png"></image></div>
+          <h2>闯关人数</h2>
           <div class="pick_item_box">
-            <div class="pick_item" @click="alone"><a href=""><image src="/static/img/yaoqing_3.png"></image><p>闯关侠</p></a></div>
-            <div  class="pick_item"><button open-type="share"><image src="/static/img/yaoqing_1.png"></image><p>邀请好友助阵</p></button></div>
+            <div class="pick_item" @click="alone">
+              <!--<a href="">-->
+                <image src="/static/img/yaoqing_3.png"></image>
+                <div>
+                  <p>美貌与智慧并存的你</p>
+                  <p>一个人去攻城拔寨吧</p>
+                  <a>单人闯关</a>
+                </div>
+              <!--</a>-->
+            </div>
+            <div class="pick_item">
+                <image src="/static/img/yaoqing_1.png"></image>
+                <div>
+                  <p>喊上小伙伴，</p>
+                  <p>一起组团闯关更靠谱！</p>
+                  <button open-type="share">组团闯关</button>
+                </div>
+            </div>
           </div>
         </div>
       </div>
@@ -352,67 +368,91 @@
     }
   .pick_box{
     width: 560px/2;
-    height: 416px/2;
+    height: 508px/2;
     border-radius: 30px/2;
-    background: #ffb3a2;
+    background: #ffffff;
     position: absolute;
-    top:316px/2;
+    top:224px/2;
     left:0;
     right:0;
     margin:auto;
     animation: showan .3s ease;
-  }
-  .pick_t{
-    position: absolute;
-    top:-61px/2;
-    left:0;
-    right:0;
-    margin: auto;
-    width: 493px/2;
-    z-index:2;
-    height: 110px/2;
-    image{
-      width: 100%;
-      height: 100%;
-    }
-  }
-    .pick_item_box{
-      width: 100%;
-      height: 100%;
-      padding: 88px/2 51px/2 0;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: space-between;
-    }
-  .pick_item{
-    width: 210px/2;
-    padding: 0;
-    margin:0;
-    background: transparent;
-    border:none;
-    position: inherit;
-    height: 100%;
-  button{
-    background: transparent;
-    padding:0;
-    margin:0;
-    display: inline;
-  }
-    image{
-      width: 210px/2;
-      height: 209px/2;
-      box-shadow: #acacac 0 6px/2 7px/2;
-      border-radius: 25px/2;
-      display: block;
-      margin-bottom:21px/2;
-    }
-    p{
-      font-size: 30px/2;
+    padding-top: 36px/2;
+    padding-bottom: 6px/2;
+    box-sizing: border-box;
+    h2{
+      font-size: 41px/2;
       color: #fff;
-      line-height: 30px/2;
+      width: 100%;
+      height: 69px/2;
       display: flex;
       align-items: center;
       justify-content: center;
+      background: #df5c3e;
     }
+  }
+
+    .pick_item_box{
+      width: 100%;
+      height: 100%;
+      padding: 0 54px/2;
+      box-sizing: border-box;
+    }
+  .pick_item{
+    width: 100%;
+    background: transparent;
+    border:none;
+    position: inherit;
+    height: 198px/2;
+    padding: 35px/2 43px/2;
+    box-sizing: border-box;
+    border-bottom:1px/2 solid #e2e2e2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    image{
+      width: 127px/2;
+      height: 127px/2;
+      box-shadow: #acacac 0 6px/2 7px/2;
+      border-radius: 25px/2;
+      display: block;
+    }
+    div{
+      p{
+        font-size: 20px/2;
+        color: #666;
+        line-height: 20px/2;
+        padding-bottom: 4px/2;
+        text-align: center;
+      }
+      a{
+        margin-top:20px/2;
+        font-size: 30px/2;
+        color: #fff;
+        width: 191px/2;
+        height: 48px/2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50px/2;
+        background: #df5c3e;
+      }
+      button{
+        border:none;
+        margin-top:20px/2;
+        font-size: 30px/2;
+        color: #fff;
+        width: 191px/2;
+        height: 48px/2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50px/2;
+        background: #df5c3e;
+      }
+    }
+  }
+  .pick_item:nth-last-child(1){
+    border:none;
   }
 </style>
