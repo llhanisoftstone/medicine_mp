@@ -30,12 +30,12 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
-					"name": "test",
-					"pathName": "pages/result/main",
+					"name": "chuangguan",
+					"pathName": "pages/challengemap/main",
 					"query": "",
 					"scene": "1007"
 				},

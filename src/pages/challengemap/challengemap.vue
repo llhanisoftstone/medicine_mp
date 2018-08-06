@@ -28,7 +28,7 @@
                 <div>
                   <p>美貌与智慧并存的你</p>
                   <p>一个人去攻城拔寨吧</p>
-                  <a>单人闯关</a>
+                  <a><i>单人闯关</i></a>
                 </div>
               <!--</a>-->
             </div>
@@ -37,7 +37,9 @@
                 <div>
                   <p>喊上小伙伴，</p>
                   <p>一起组团闯关更靠谱！</p>
-                  <button open-type="share">组团闯关</button>
+                  <i class="btn_box">
+                    <button open-type="share">组团闯关</button>
+                  </i>
                 </div>
             </div>
           </div>
@@ -436,9 +438,22 @@
         justify-content: center;
         border-radius: 50px/2;
         background: #df5c3e;
+        background: linear-gradient(135deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
+        box-shadow: 1px 1.5px 1px 1px rgba(0,0,0,.2);
+        i{
+          width: 183px/2;
+          height: 40px/2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 30px/2;
+          color: #fff;
+          background: #df5c3e;
+          border-radius: 50px/2;
+
+        }
       }
-      button{
-        border:none;
+      .btn_box{
         margin-top:20px/2;
         font-size: 30px/2;
         color: #fff;
@@ -449,6 +464,26 @@
         justify-content: center;
         border-radius: 50px/2;
         background: #df5c3e;
+        background: linear-gradient(135deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
+        box-shadow: 1px 1.5px 1px 1px rgba(0,0,0,.2);
+        button{
+          width: 183px/2;
+          height: 40px/2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 30px/2;
+          color: #fff;
+          background: #df5c3e;
+          border-radius: 50px/2;
+          box-shadow: none;
+          border:none;
+          &:after {
+
+            border: none;
+
+          }
+        }
       }
     }
   }
