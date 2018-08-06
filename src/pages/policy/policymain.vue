@@ -94,6 +94,7 @@
           </ul>
         </div>
       </div>
+      <div class="zc_btn"><div class="zcbtn_top">我要了解</div></div>
   </div>
 </template>
 
@@ -166,6 +167,36 @@
 <style scoped lang="less">
   @import "../../static/less/common.less";
 
+  .zc_btn{
+    position: fixed;
+    z-index: 999;
+    bottom:300/2px;
+    right:30/2px;
+    width: 85/2px;
+    height:85/2px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
+    box-shadow: 1px 1.5px 1px 1px rgba(0,0,0,.2);
+    .zcbtn_top{
+      position: absolute;
+      top:0;
+      bottom:0;
+      left:0;
+      right:0;
+      margin:auto;
+      border-radius: 50%;
+      background: #df5c3e;
+      width: 75/2px;
+      height:75/2px;
+      padding: 13/2px;
+      box-sizing: border-box;
+      font-size: 23/2px;
+      line-height: 25/2px;
+      color: #fff;
+      text-align: center;
+    }
+  }
   .searchk{
     width: 100%;
     padding: 10px/2 12px/2;
