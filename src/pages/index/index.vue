@@ -11,26 +11,38 @@
       <a href="/pages/challengemap/main" class="challenge_b">
         <div class="challenge">
           <h2>闯关赛</h2>
-          <h4>成功闯关拿礼物</h4>
           <h4>已有{{p_number}}人获得礼物</h4>
+          <h4>就算闯关没有礼物</h4>
+          <h4>我也势必要去挑战的！</h4>
         </div>
       </a>
       <div class="challenge_box">
         <a href="/pages/loadpk/main?from=2">
           <div class="item_1">
             <h2>全网挑战</h2>
-            <h4>冲顶排位赛一战即发</h4>
+            <h4>世界那么大</h4>
+            <h4>我就想看看我排第几</h4>
           </div>
         </a>
         <a href="/pages/friendpk/main">
           <div class="item_2">
             <h2>好友PK</h2>
-            <h4>看看好友的排名吧</h4>
+            <h4>真正的友谊经得起挑战</h4>
+            <h4>看看谁跟我志同道合</h4>
           </div>
         </a>
       </div>
     </div>
-    <div class="gift_title"><span></span><i></i><image src="/static/img/liwu.png"></image>为礼物而挑战<i></i><span></span></div>
+    <div class="gitf_box">
+      <div class="gift">
+        <div class="gift_text">
+          <h2>为礼物而战</h2>
+          <p>礼物有诱惑，政策福利更吸引我</p>
+        </div>
+        <i class="gift_img"></i>
+      </div>
+    </div>
+    <!--<div class="gift_title"><span></span><i></i><image src="/static/img/liwu.png"></image>为礼物而挑战<i></i><span></span></div>-->
     <ul class="gift_list">
       <li v-for="(v,i) in win_treasure" @click="reward(v.id)">
         <div>
@@ -162,11 +174,11 @@
     display: flex;
   .challenge_b{
     width: 46.333%;
-    height: 380px/2;
+    height: 412px/2;
   }
     .challenge{
       width: 100%;
-      height: 380px/2;
+      height: 412px/2;
       border-radius: 10px/2;
       background: #ff862d url(../../../static/img/paiming.png) no-repeat;
       background-position: 113px/2 195px/2;
@@ -210,9 +222,10 @@
           margin:0;
           font-weight: bold;
           line-height: 33px/2;
+          padding-bottom: 30px/2;
         }
         h4{
-          padding-top: 36px/2;
+          padding-bottom: 5px/2;
           font-size: 26px/2;
           color: #fff;
           line-height: 26px/2;
@@ -224,37 +237,51 @@
         background-size: 59px/2 59px/2;
       }
       .item_2{
+        height: 215px/2;
         background: #76caff url(../../../static/img/huangguan.png) no-repeat;
         background-size: 77px/2 49px/2;
         background-position: 96.21% 24px/2;
+        h2{
+          padding-bottom: 62px/2;
+        }
       }
     }
   }
-  .gift_title{
-    margin-top:35px/2;
-    margin-bottom: 35px/2;
-    height: 30px/2;
-    padding: 0 143px/2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px/2;
-    color: #333;
-    white-space: nowrap;
+  .gitf_box{
+    width: 100%;
+    height: 182px/2;
+    padding: 0 26px/2;
     box-sizing: border-box;
-    image{
-      width: 44px/2;
-      height: 41px/2;
-      margin-right: 5px/2;
-    }
-    span{
-      flex:1;
-      width: 150px/2;
-      height: 1px;
-      background: #333;
-     }
-    i{
-      width: 14px/2;
+    .gift{
+      width: 100%;
+      padding-left: 25px/2;
+      padding-right: 50px/2;
+      height: 100%;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .gift_text{
+        h2{
+          padding-top: 60px/2;
+          padding-bottom: 11px/2;
+          font-size: 40px/2;
+          color: #df5c3e;
+          line-height: 40px/2;
+        }
+        p{
+          padding-top: 11px/2;
+          padding-bottom: 36px/2;
+          font-size: 26px/2;
+          color: #df5c3e;
+          line-height: 26px/2;
+        }
+      }
+      i{
+        width: 98px/2;
+        height: 123px/2;
+        background: red;
+      }
     }
   }
   .gift_list{
