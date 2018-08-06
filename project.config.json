@@ -78,6 +78,23 @@
 					"name": "道具",
 					"pathName": "pages/itemshop/main",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "百科",
+					"pathName": "pages/policy/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "了解",
+					"pathName": "pages/questions/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "了解详情",
+					"pathName": "pages/questionsmain/main"
 				}
 			]
 		}
