@@ -113,7 +113,10 @@ export default {
               if (res.authSetting['scope.userInfo']) {
                 // 已经授权，可以直接调用 getUserInfo 获取头像昵称  weapp/login
                 that.getUserinfo(code)
+              }else{
+                that.$store.commit("getauthreturn")
               }
+
             }
           })
         }
@@ -129,6 +132,7 @@ export default {
           }
           that.$store.commit('getuser', res.userInfo)
           that.$store.commit('getauth')
+          that.$store.commit("getauthreturn")
           that.$get('/weapp/login', {code: that.$store.state.code, encryptedData: res.encryptedData, iv: res.iv}).then(res => {
             if (res.code === 200) {
               for (let i = 0; i < res.tools.length; i++) {

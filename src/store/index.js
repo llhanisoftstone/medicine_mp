@@ -13,6 +13,7 @@ const store = new Vuex.Store({
     userinfo: {},    //  微信返回用户信息
     code: '',
     isauth: false,      // 是否授权
+    authreturn:false,    //授权返回
     issocket: false,     // socket是否登录
     sid: '',
     user: {},            //  用户id
@@ -50,6 +51,10 @@ const store = new Vuex.Store({
     getauth: (state) => {
       const obj = state
       obj.isauth = true
+    },
+    getauthreturn: (state) => {
+      const obj = state
+      obj.authreturn = true
     },
     getsid: (state, sids) => {
       const obj = state

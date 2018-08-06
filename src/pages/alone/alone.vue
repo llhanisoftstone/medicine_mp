@@ -365,12 +365,6 @@
     }
 </script>
 
-<style>
-  page{
-    height: 100%;
-    background: #fff3f3;
-  }
-</style>
 <style lang="less" scoped>
     @import '../../static/less/common.less';
     @keyframes showbottom1 {
@@ -518,7 +512,7 @@
       }
     }
     .bg{
-      background: #fff3f3;
+      background: #fff;
       width: 100%;
       height: 100%;
       position: relative;
@@ -559,7 +553,7 @@
     }
   }
     .gift_img{
-      animation: gift 3s ease-in-out infinite;
+      animation: gift 3s ease-in-out;
       animation-delay:2s;
       transform-origin: center center;
       width: 246px/2;

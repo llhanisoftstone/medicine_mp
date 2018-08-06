@@ -11,6 +11,7 @@
           <p>{{times>99?'99+':times}}</p>
           <div class="toolname">延时针</div>
         </div>
+        <p class="tips">111111</p>
       </div>
       <mptoast/>
     </div>
@@ -59,7 +60,7 @@
 <style lang="less" scoped>
     @import '../static/less/common.less';
     .bg_prop{
-      background: #2c2c2c;
+      background: #fff;
       width: 100%;
       display: flex;
       padding: 0 26px/2;
@@ -101,4 +102,15 @@
         }
       }
     }
+  .tips{
+    flex:1;
+    height: 60px/2;
+    background: #f1f1f1;
+    color: #df5c3e;
+    font-size: 28px/2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px/2;
+  }
 </style>
