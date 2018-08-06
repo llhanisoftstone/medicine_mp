@@ -96,6 +96,7 @@
           that.ishide=true;
           if (res.rows.length > 0){
             for (let i=0; i<res.rows.length; i++){
+              res.rows[i].view_count = that.commons.zcount(res.rows[i].view_count)
               res.rows[i].pic_abbr = 'https://policy.lifeonway.com'+res.rows[i].pic_abbr;
             }
             that.policy_list = that.policy_list.concat(res.rows);
@@ -150,7 +151,7 @@
     onLoad: function (option) {
       this.page = 1;
       this._search = '';
-      this._code = option.pid;
+      this._code = option.pid||"";
       this.policy_list = [];
       this.getpolicyList()//获取数据
     },

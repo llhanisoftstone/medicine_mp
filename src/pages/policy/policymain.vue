@@ -1,12 +1,28 @@
 <template>
   <div>
+      <div class="searchk">
+        <a class="ui-link" :href="'/pages/policylist/main'">
+          <div class="searchinput">请输入标题或内容</div>
+        </a>
+      </div>
       <div class="hot-info" v-if="is_hot_hide">
         <div class="common-head hot-head">
           <span class="hot-icon">热门关注</span>
           <ul class="hot-list">
             <li v-for="(v,_index) in hot_list" :key="v._index">
               <a :href="'/pages/policydetails/main?pid='+v.id" class="item-details">
-                {{v._index}}、{{v.title}}
+                <div class="hot_item">
+                  <div class="imgk">
+                    <img :src="v.pic_abbr" alt="">
+                    <div class="imgkinfok">
+                      <div class="imgkinfo">
+                        <span class="imgkinfo_name">陕西人社厅</span>
+                        <span class="imgkinfo_count">{{v.view_count}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item_title">{{v.title}}</div>
+                </div>
               </a>
             </li>
           </ul>
@@ -102,6 +118,8 @@
           if (res.hots.length > 0){
             for (var i=0;i<res.hots.length; i++){
               res.hots[i]._index = i+1;
+              res.hots[i].pic_abbr = 'https://policy.lifeonway.com'+res.hots[i].pic_abbr;
+              res.hots[i].view_count = that.commons.zcount(res.hots[i].view_count)
             }
             that.hot_list = res.hots;
             that.is_hot_hide = true;
@@ -111,6 +129,7 @@
           }
           if (res.zcbl.length > 0){
             for (var i=0; i<res.zcbl.length; i++){
+              res.zcbl[i].view_count = that.commons.zcount(res.zcbl[i].view_count)
               res.zcbl[i].pic_abbr = 'https://policy.lifeonway.com'+res.zcbl[i].pic_abbr;
             }
             that.headbook_list = res.zcbl;
@@ -121,6 +140,7 @@
           }
           if (res.zcbk.length > 0){
             for (var i=0; i<res.zcbk.length; i++){
+              res.zcbk[i].view_count = that.commons.zcount(res.zcbk[i].view_count)
               res.zcbk[i].pic_abbr = 'https://policy.lifeonway.com'+res.zcbk[i].pic_abbr;
             }
             that.policy_list = res.zcbk;
@@ -145,6 +165,25 @@
 
 <style scoped lang="less">
   @import "../../static/less/common.less";
+
+  .searchk{
+    width: 100%;
+    padding: 10px/2 12px/2;
+    background: #f6f6f6;
+    box-sizing: border-box;
+  }
+  .searchinput{
+    width: 100%;
+    box-sizing: border-box;
+    height: 70px/2;
+    border-radius: 10/2px;
+    background: #fff url("../../../static/img/zc_5.png") 14px/2 center no-repeat;
+    background-size: 40px/2 40px/2;
+    color: #888;
+    font-size: 30px/2;
+    line-height: 70/2px;
+    padding-left: 62/2px;
+  }
   .common-head{
     line-height: 0.36rem;
     margin: 0.126rem 0 0 0;
@@ -195,14 +234,88 @@
     background-size: 0.352rem 0.32rem;
   }
   .hot-list{
-    margin: 0.29867rem 0.448rem;
+    padding:22/2px 0 0 27/2px;
+    &:after{
+      display: table;
+      content: '';
+      clear: both;
+    }
   }
   .hot-list li{
+    float: left;
     word-wrap:break-word;
-    margin: 0.213rem 0;
     color: #333333;
-    font-size: 0.298667rem;
-    line-height: 45px/2;
+    font-size: 0.298667*46.875/2px;
+    margin-right:10/2px;
+    width: 343/2px;
+    height:350/2px;
+    .hot_item{
+      position: relative;
+      width: 343/2px;
+      height:350/2px;
+      .imgk{
+        position: relative;
+        width: 343/2px;
+        height:280/2px;
+        border-radius: 10/2px;
+        overflow: hidden;
+        img{
+          width: 343/2px;
+          height:280/2px;
+        }
+      }
+      .imgkinfok{
+        position: absolute;
+        top:0;
+        left:0;
+        width: 100%;
+        height:100%;
+        z-index: 10;
+        box-shadow: 0 0 100px 1px rgba(0,0,0,.5) inset;
+      }
+      .imgkinfo{
+        position: absolute;
+        bottom:18/2px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        .imgkinfo_name{
+          font-size: 26/2px;
+          padding-left: 39/2px;
+          overflow: hidden;
+          white-space: nowrap;
+          width:165/2px ;
+          text-overflow: ellipsis;
+          color: #fff;
+          line-height: 33/2px;
+          height: 33/2px;
+          background: url("../../../static/img/zcbm.png")no-repeat 0 0;
+          background-size: 36/2px 33/2px;
+        }
+        .imgkinfo_count{
+          padding-right: 13/2px;
+          padding-left:39/2px;
+          font-size: 25/2px;
+          color: #fff;
+          background: url("../../../static/img/zcview.png")no-repeat 0 0;
+          line-height: 25/2px;
+          height: 25/2px;
+          background-size: 35/2px 25/2px;
+        }
+      }
+      .item_title{
+        width: 100%;
+        padding: 0 13/2px;
+        color: #666;
+        font-size: 26/2px;
+        height:70/2px;
+        line-height: 70/2px;
+        box-sizing: border-box;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
   }
   .hot-list li .item-details{
     background-color: inherit;

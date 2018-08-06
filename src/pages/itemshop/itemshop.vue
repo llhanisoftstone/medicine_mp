@@ -6,7 +6,17 @@
       </ul>
       <div class="itemlist" v-if="seen">
         <ul>
-          <li v-on:click="buyuse(v.id,v.picpath,v.category)" v-for="(v,i) in goods" :key="v.id"><img :src="v.picpath" alt=""><div class="centername">{{v.name}}</div><div class="bottomlist"><span class="sliverimg"></span><span>{{v.points}}</span></div></li>
+          <li @click="toreverse(i)" :class="{active:v.isreverse}" v-for="(v,i) in goods" :key="v.id">
+            <div class="item_z">
+              <img :src="v.picpath" alt=""><div class="centername">查看详情</div><div class="bottomlist" v-on:click.stop="buyuse(v.id,v.picpath,v.category)" ><span class="sliverimg"></span><span>{{v.points}}</span></div>
+            </div>
+            <div class="item_reverse" @click.stop="toreverse(i)" :style="{'z-index':v.isreverse_z}">
+              <div class="item_reverse_sign"></div>
+              <div class="item_reverse_title">{{v.name}}</div>
+              <div class="item_reverse_main">{{category[v.category]}}</div>
+              <div class="bottomlist" v-on:click.stop="buyuse(v.id,v.picpath,v.category)" ><span class="sliverimg"></span><span>{{v.points}}</span></div>
+            </div>
+          </li>
         </ul>
       </div>
       <div class="myitemlist" v-if="isshow">
@@ -67,9 +77,32 @@
               name_type:'银两',
               value:'',
               ispay:false,
+              category:[
+                  "",
+                "答题时，可看到当前题答案，一道题可使用一张。",
+                "答题时，答题时间增加20s，一道题可使用一次。"
+              ]
             }
         },
       methods: {
+          toreverse(i){
+              if(this.goods[i].isreverse_run){
+                return;
+              }
+              this.goods[i].isreverse_run=true;
+              let thiz=this;
+              this.goods[i].isreverse=!this.goods[i].isreverse;
+              let t=setTimeout(function(){
+                  if(thiz.goods[i].isreverse){
+                    thiz.goods[i].isreverse_z="1"
+                  }else{
+                    thiz.goods[i].isreverse_z="-1"
+                  }
+              },250);
+              let t2=setTimeout(function(){
+                thiz.goods[i].isreverse_run=false;
+              },500)
+          },
           leftclick(){
               this.seen=true;
               this.isshow=false;
@@ -144,6 +177,9 @@
             if(res.code == 200){
               for(let i = 0;i<res.rows.length;i++){
                 res.rows[i].picpath = that.$store.state.url+ res.rows[i].picpath;
+                res.rows[i].isreverse = false;
+                res.rows[i].isreverse_z = "-1";
+                res.rows[i].isreverse_run = false;
               }
               that.goods = res.rows;
             }
@@ -277,11 +313,60 @@
     margin:13px;
     ul{
       li{
+        transition: all .5s linear;
+        transform: rotateY(0deg);
+        &.active{
+          transform: rotateY(180deg);
+        }
+        .item_z{
+          background:#ffe7e8;
+          width: 100%;
+          height:100%;
+          transform: rotateY(0deg);
+          position: absolute;
+          border-radius:5px;
+          z-index: 0;
+          top:0;
+          left:0;
+        }
+        .item_reverse{
+          transition: all .5s linear;
+          transform: rotateY(180deg);
+          position: absolute;
+          top:0;
+          left:0;
+          z-index: -1;
+          border-radius:5px;
+          width: 100%;
+          height:240/2px;
+          background: #707070;
+          .item_reverse_sign{
+            width: 45/2px;
+            height:45/2px;
+            position: absolute;
+            background: url("../../../static/img/reverse.png")no-repeat 0 0 ;
+            background-size: 45/2px 45/2px;
+            top:0;
+            right:0;
+          }
+          .item_reverse_title{
+            padding: 25/2px 0 20/2px;
+            font-size: 26/2px;
+            line-height: 26/2px;
+            color: #fff;
+          }
+          .item_reverse_main{
+            padding:0 25/2px;
+            font-size: 22/2px;
+            text-align: justify;
+            line-height: 30/2px;
+            color: #fff;
+          }
+        }
         float:left;
         width:106px;
         height:120px;
-        border-radius:5px;
-        background:#ffe7e8;
+        /*border-radius:5px;*/
         margin-right:17px;
         text-align:center;
         box-sizing:border-box;
@@ -292,14 +377,21 @@
           margin-top:18px;
         }
         .centername{
+          border:1px solid #df5c3e;
+          width: 107/2px;
+          height:25/2px;
+          line-height: 25/2px;
           text-align:center;
-          margin-top:8px;
-          font-size:13px;
+          margin:10px auto 0;
+          border-radius: 25/2px;
+          font-size:20/2px;
           color:#df5c3e;
         }
       }
       .bottomlist{
-        margin-top:10px;
+        position: absolute;
+        top:100%;
+        transform: translateY(-50%);
         width:100px;
         height:30px;
         border:3px solid #fff;
@@ -308,7 +400,7 @@
         font-size:14px;
         color:#fff;
         text-align:center;
-        z-index:50;
+        z-index:1;
         display:flex;
         justify-content: center;
         align-items: center;
