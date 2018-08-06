@@ -4,12 +4,12 @@
       <div class="user_info">
         <div class="img_box" >
           <image :src='imgurl' v-if="isauth"></image>
-          <button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">
+          <button open-type="getUserInfo" v-if="!isauth&&authreturn" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">
             <image src="/static/img/role.png"></image>
             <span>暂未授权,请点击授权</span>
           </button>
         </div>
-        <div class="username" v-if="isauth">
+        <div class="username" v-if="isauth&&authreturn">
           {{username}}
           <div class="userlevel">游学四方<span class="levelsign">235</span></div>
         </div>
@@ -24,7 +24,6 @@
         props: ['imgurl','username'],
         data(){
             return {
-
             }
         },
         methods: {
@@ -136,8 +135,13 @@
         computed:{
           isauth(){
               return this.$store.state.isauth
+          },
+          authreturn(){
+            return this.$store.state.authreturn
           }
         },
+      onLoad:function(){
+      }
 
     }
 </script>

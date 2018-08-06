@@ -68,9 +68,9 @@
 				},
 				{
 					"id": 5,
-					"name": "load",
-					"pathName": "pages/loadpk/main",
-					"query": "id=2&&from=1",
+					"name": "排行榜",
+					"pathName": "pages/alone/main",
+					"query": "",
 					"scene": "1007"
 				},
 				{

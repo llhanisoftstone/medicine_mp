@@ -3,9 +3,11 @@
       <h2><image src="/static/img/paihangbang_1.png"></image>排行榜</h2>
       <div class="pk_box">
         <div class="tab">
-          <span :class="{'active':isFriends}" @click="switchtab(true)">好友排行</span>
+          <span :class="{'active':isFriends==1}" @click="switchtab(1)">好友排行</span>
           <span class="border"></span>
-          <span :class="{'active':!isFriends}" @click="switchtab(false)">全国排行</span>
+          <span :class="{'active':isFriends==2}" @click="switchtab(2)">全国排行</span>
+          <span class="border"></span>
+          <span :class="{'active':isFriends==3}" @click="switchtab(3)">企业排行</span>
         </div>
         <ul class="list">
           <li v-for="(v,i) in rankings">
@@ -16,8 +18,8 @@
           </li>
         </ul>
       </div>
-      <button open-type="share" class="pk_btn" v-if="isFriends">挑战好友</button>
-      <a :href="'/pages/loadpk/main?from=2&&id='+user.userid" class="pk_btn" v-if="!isFriends">全网挑战</a>
+      <button open-type="share" class="pk_btn" v-if="isFriends==1">挑战好友</button>
+      <a :href="'/pages/loadpk/main?from=2&&id='+user.userid" class="pk_btn" v-if="isFriends!=1">全网挑战</a>
     </div>
 </template>
 
@@ -26,7 +28,7 @@
         name: 'friendpk',
         data(){
             return {
-                isFriends:true,     //true 好友排行    false 全国排行
+                isFriends:1,     //1 好友排行    2 全国排行   3企业排行
                 rankings:[]
             }
         },
@@ -36,7 +38,7 @@
           },
           getdata(){
               let that=this
-              if(this.isFriends){
+              if(this.isFriends==1){
                 this.$get('/rs/member_relation',{u_id:this.$store.state.user.userid,order:'total_points desc,update_time'}).then(res=>{
                   if(res.code == 200){
                     for(var i=0;i<res.rows.length;i++){
@@ -49,7 +51,7 @@
                     that.rankings=[]
                   }
                 })
-              }else{
+              }else if(this.isFriends==2){
                   this.$get('/rs/member',{order:'total_points desc,create_time',page:1,size:50,rank:1}).then(res=>{
                       if(res.code == 200){
                           for(var i=0;i<res.rows.length;i++){
@@ -62,6 +64,8 @@
                         that.rankings=[]
                       }
                   })
+              }else if(this.isFriends==3){
+                that.rankings=[]
               }
           }
         },
@@ -149,13 +153,13 @@
           justify-content: center;
           font-size:28px/2;
         }
-        span:nth-child(1), span:nth-child(3){
+        span:nth-child(1), span:nth-child(3),span:nth-child(5){
           flex:1;
         }
         .active{
           color: @bg_color;
         }
-        span:nth-child(2){
+        span:nth-child(2), span:nth-child(4){
           width: 4px/2;
           height: 60px/2;
           background: @bg_color;
