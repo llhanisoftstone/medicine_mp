@@ -72,6 +72,12 @@
 					"pathName": "pages/alone/main",
 					"query": "",
 					"scene": "1007"
+				},
+				{
+					"id": -1,
+					"name": "道具",
+					"pathName": "pages/itemshop/main",
+					"query": ""
 				}
 			]
 		}

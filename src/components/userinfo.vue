@@ -9,7 +9,10 @@
             <span>暂未授权,请点击授权</span>
           </button>
         </div>
-        <div class="username" v-if="isauth&&authreturn">{{username}}</div>
+        <div class="username" v-if="isauth&&authreturn">
+          {{username}}
+          <div class="userlevel">游学四方<span class="levelsign">235</span></div>
+        </div>
         <slot name="userRight" class="slot_box"></slot>
       </div>
     </div>
@@ -232,6 +235,15 @@
           -webkit-text-size-adjust:none;
           height:auto;
           box-sizing: border-box;
+        }
+        .userlevel{
+          font-size: 26/2px;
+          .levelsign{
+            padding-left: 38/2px;
+            background: url("../../static/img/levelsign.png")no-repeat 0 center;
+            background-size: 36/2px 25/2px;
+            font-size: 28/2px;
+          }
         }
         .slot_box{
           flex: 1;

@@ -7,11 +7,11 @@
       </userinfo>
     <div class="middle">
       <ul>
-        <li class="money"><a href="/pages/sliver/main"><div class="title">银两</div><p class="messagealert">储备仓</p><span class="listimg moneyimg"></span></a></li>
-        <li class="store"><a href="/pages/giftshoplist/main"><div class="title">礼物店</div><p class="messagealert">精美礼物等你拿</p><span class="listimg storeimg"></span></a></li>
-        <li class="usermoot"><a href="/pages/itemshop/main"><div class="title">道具</div><p class="messagealert">优惠道具等你来购</p><span class="listimg userimg"></span></a></li>
-        <li class="groupcard" v-if="seen"><a href="/pages/ticket/main"><div class="title">优惠券</div><p class="messagealert">优惠券发放</p><span class="listimg cardimg"></span></a></li>
-        <li class="setting"><a href="/pages/setting/main"><div class="title">设置</div><p class="messagealert">设置</p><span class="listimg settingimg"></span></a></li>
+        <li class="money"><a href="/pages/sliver/main"><div class="title">银两</div><p class="messagealert">闯关/签到得银两<br/>各类道具任你换</p><span class="listimg moneyimg"></span></a></li>
+        <li class="store"><a href="/pages/giftshoplist/main"><div class="title">战利品</div><p class="messagealert">身经百战得奖品<br/>快意人生伴我行！</p><span class="listimg storeimg"></span></a></li>
+        <li class="usermoot"><a href="/pages/itemshop/main"><div class="title">道具</div><p class="messagealert">工欲善其事必先利其器<br/>你懂得！</p><span class="listimg userimg"></span></a></li>
+        <li class="groupcard" v-if="seen"><a href="/pages/ticket/main"><div class="title">优惠券</div><p class="messagealert">优惠券发放入口</p><span class="listimg cardimg"></span></a></li>
+        <li class="setting"><a href="/pages/setting/main"><div class="title">设置</div><p class="messagealert">进入有惊喜，等你来完善<br/>游戏银两两不误</p><span class="listimg settingimg"></span></a></li>
       </ul>
     </div>
   </div>
@@ -57,7 +57,7 @@
   }
 </script>
 
-<style scoped lang="css">
+<style scoped lang="less">
   .container{
     margin-top:10px;
   }
@@ -82,8 +82,8 @@
    margin-left:15px;
  }
  .middle>ul>li p{
-   margin-top:20px;
-   font-size:14px;
+   margin-top:32/2px;
+   font-size:26/2px;
    margin-left:15px;
  }
  .middle>ul>li:nth-child(2n){
