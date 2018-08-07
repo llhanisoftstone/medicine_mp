@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 13,
 			"list": [
 				{
 					"id": 0,
@@ -94,7 +94,36 @@
 				{
 					"id": -1,
 					"name": "了解详情",
-					"pathName": "pages/questionsmain/main"
+					"pathName": "pages/questionsmain/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "成绩单",
+					"pathName": "pages/report/main",
+					"query": "",
+					"scene": "1007"
+				},
+				{
+					"id": -1,
+					"name": "成绩单",
+					"pathName": "pages/report/main",
+					"query": "",
+					"scene": "1007"
+				},
+				{
+					"id": -1,
+					"name": "成绩单",
+					"pathName": "pages/report/main",
+					"query": "",
+					"scene": "1007"
+				},
+				{
+					"id": -1,
+					"name": "成绩单",
+					"pathName": "pages/report/main",
+					"query": "",
+					"scene": "1007"
 				}
 			]
 		}
