@@ -41,14 +41,19 @@
       <!--邀请模块-->
       <div class="invite_box" v-if="iswin==0&&!isstart">
         <image src="/static/img/yaoqing.png"></image>
+        <p>
+          邀请好友答题，挑战成功后，<br>
+          挑战者和亲友均可获得120经验+20银两，<br>
+          银两可用于购买道具
+        </p>
         <div :class="{'disabled':challenger!=user.userid}" @click="startgame">开始游戏</div>
       </div>
       <!--答题结果-->
+
+
       <div class="result" v-if="gameover">
-        <h1>
-          <image src="/static/img/t_suc.png" v-if="iswin==2"></image>
-          <image src="/static/img/t_fail.png" v-if="iswin==1"></image>
-        </h1>
+        <image src="/static/img/suc.jpg" v-if="iswin==2" class="re_bg"></image>
+        <image src="/static/img/faild.jpg" v-if="iswin!=2" class="re_bg"></image>
         <div class="prize" v-if="iswin==2">
           <div class="team_prize">
             <image src="/static/img/pri.png"></image>
@@ -75,43 +80,34 @@
         </div>
         <div class="fail" v-if="iswin==1">
           <image src="/static/img/team_fail.png"></image>
+          <p>留得青山在,不怕没柴烧</p>
         </div>
       </div>
+
+
+
       <div :class="{'result_btn':true,'btn_win':iswin==2,'btn_loss':iswin==1}" v-if="gameover">
         <a href="" v-if="iswin==2&&isnext" @click="next" :class="{'disabled':challenger!=user.userid}">挑战下一关</a>
         <button open-type="share" v-if="iswin==2">分享战绩</button>
+        <button open-type="share" v-if="iswin==1">考考好友</button>
         <a href="" v-if="iswin==1" @click="repeat" :class="{'disabled':challenger!=user.userid}">重新开始</a>
       </div>
-      <!--聊天模块-->
-      <!--<div class="chat_box">-->
-        <!--<div class="chat_t">-->
-          <!--<i></i>-->
-          <!--<image src="/static/img/chat.png"></image>-->
-          <!--<span>讨论区</span>-->
-          <!--<i></i>-->
-        <!--</div>-->
-        <!--<scroll-view style="height:147px;" scroll-y="true" :scroll-top="scrollTop">-->
-          <!--<ul class="chat_list">-->
-            <!--<li v-for="(v,i) in chat">-->
-              <!--<span>{{v.nickname}}</span>：-->
-              <!--<span>{{v.msg}}</span>-->
-            <!--</li>-->
-          <!--</ul>-->
-        <!--</scroll-view>-->
-      <!--</div>-->
       <div class="publish_box">
         <div class="btn_box_send">
-          <p @click="send('陈独秀同学请坐下')">1</p>
-          <p @click="send('请给李时珍同学一个发言的机会')">2</p>
-          <p @click="send('你看后面的鲁迅同学脸色很难看')">3</p>
-          <p @click="send('还有，李云龙同学麻烦你让二营长把意大利面收起来，不要让陈皮同学在课堂上吃面。')">4</p>
+          <p @click="send('陈独秀同学请坐下')">选1</p>
+          <p @click="send('请给李时珍同学一个发言的机会')">选2</p>
+          <p @click="send('你看后面的鲁迅同学脸色很难看')">选3</p>
+          <p @click="send('还有，李云龙同学麻烦你让二营长把意大利面收起来，不要让陈皮同学在课堂上吃面。')">选4</p>
         </div>
-        <!--<div>-->
-            <!--<input type="text" v-model="content" cursor-spacing='15' @confirm="send" maxlength="50">-->
-        <!--</div>-->
-        <!--<a class="send_btn" @click="send">发表</a>-->
+        <i class="quick" @click="selectQuick">常用语</i>
         <a @click="userTools(user.tools[0].amount,1)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span></a>
         <a @click="userTools(user.tools[1].amount,2)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span></a>
+      </div>
+      <div class="news_box" v-if="isquick">
+        <ul>
+          <li v-for="(v,i) in quick" @click="send(v.details)">{{v.details}}</li>
+        </ul>
+        <i></i>
       </div>
       <mptoast/>
       <button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">
@@ -156,10 +152,15 @@
               til:null,                            //延时函数
               isanimation:false,           //是否显示动画
               tanswer:'',
-              setfn:null
+              setfn:null,
+              isquick:false,          //是否显示快捷语
+              sendTime:0             //发送消息时间
             }
         },
         methods: {
+          selectQuick(){
+              this.isquick = !this.isquick
+          },
           constructor(text,top,time,color){
             let that=this
             let item={}
@@ -340,7 +341,13 @@
               this.is_f_click=-1
             },
           send(msg){       //发送聊天
+            this.isquick = false
             let that =this
+            if(new Date().getTime() - that.sendTime<1000){
+              this.$mptoast('休息一下吧');
+              return
+            }
+            that.sendTime = new Date().getTime()
                   //发送聊天内容
               that.$socket.emit('data_chain',{
                   cmd:'chat',
@@ -575,6 +582,9 @@
             },
             step(){
               return this.$store.state.step
+            },
+            quick(){
+                return this.$store.state.quick
             }
         },
     onShareAppMessage(res){
@@ -1097,7 +1107,7 @@
       }
     }
     .bg_color{
-      background: #fff3f3;
+      background: #fff;
       padding-top: 18px/2;
       height: 100%;
     }
@@ -1108,6 +1118,8 @@
       display: flex;
       box-sizing: border-box;
       padding: 0 41px/2;
+      position: relative;
+      z-index: 1;
     }
     .my_box{
       width: 140px/2;
@@ -1179,10 +1191,6 @@
       border:2px/2 solid #fff;
       border-radius: 50%;
     }
-    }
-    .add{
-      background: url(../../../static/img/add.png) center no-repeat;
-      background-size: 89px/2 89px/2;
     }
     }
     }
@@ -1314,26 +1322,37 @@
       padding: 17px/2 14px/2;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       div{
-        flex:1;
-        padding: 0 20px/2;
-        padding-right: 180px/2;
-        height: 100%;
         display: flex;
+        height: 100%;
         justify-content: space-between;
         align-items: center;
+        width: (100px * 4 - 10px)/2;
         p{
-          width: 50px/2;
-          height: 50px/2;
-          border-radius: 50%;
+          width: 90px/2;
+          height: 48px/2;
+          border-radius: 50px/2;
           border:1px solid #df5c3e;
           display: flex;
+          font-size: 25px/2;
           align-items: center;
           justify-content: center;
           background: #df5c3e;
           color: #fff;
         }
+      }
+      .quick{
+        width: 105px/2;
+        height: 48px/2;
+        color: #fff;
+        font-size: 25px/2;
+        border-radius: 50px/2;
+        background: #df5c3e;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 30px/2;
       }
     .send_btn{
       width: 70px/2;
@@ -1378,10 +1397,17 @@
       margin-top:65px/2;
       margin-bottom:86px/2;
       image{
-        width: 253px/2;
-        height: 217px/2;
+        width: 117px/2;
+        height: 100px/2;
         display: block;
         margin:0 auto;
+        margin-bottom:19px/2;
+      }
+      p{
+        font-size: 28px/2;
+        color: #999;
+        line-height: 40px/2;
+        text-align: center;
       }
       div{
         width: 300px/2;
@@ -1404,15 +1430,18 @@
     }
     .result{
       margin:0 auto;
-      margin-top:94px/2;
+      margin-top:-157px/2;
       margin-bottom: 51px/2;
-      width: 510px/2;
-      height: 463px/2;
-      background: #ffb3a2;
-      padding: 0 36px/2;
+      width: 100%;
+      height: auto;
       box-sizing: border-box;
       position: relative;
+      z-index:0;
       border-radius: 10px/2;
+      .re_bg{
+        width: 100%;
+        height: 688px/2;
+      }
       h1{
         animation: title .8s ease;
         position: absolute;
@@ -1503,12 +1532,20 @@
     .fail{
       width: 100%;
       height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      margin-top: -160px/2;
+      position: relative;
+      z-index:1;
       image{
         width: 233px/2;
         height: 271px/2;
+        display: block;
+        margin:0 auto;
+      }
+      p{
+        font-size: 28px/2;
+        color: #567dff;
+        margin-top:43px/2;
+        text-align: center;
       }
     }
     .result_btn{
@@ -1595,4 +1632,47 @@
     .btn_loss{
       animation: btn 1.5s ease;
     }
+  .news_box{
+    width: 588px/2;
+    position: fixed;
+    bottom:80px/2;
+    right:7px/2;
+    height: auto;
+    overflow: hidden;
+    padding-bottom: 18px/2;
+    z-index:10;
+    i{
+      position: absolute;
+      bottom:0;
+      right:231px/2;
+      width: 33px/2;
+      height: 23px/2;
+      background: url(../../../static/img/cg.png) center no-repeat;
+      background-size: 33px/2 23px/2;
+    }
+    ul{
+      width: 100%;
+      height: auto;
+      border:5px/2 solid #df5c3e;
+      border-radius: 20px/2;
+      overflow: hidden;
+      box-sizing: border-box;
+      li{
+        width: 100%;
+        height: 61px/2;
+        border-bottom:1px solid #df5c3e;
+        background: #e2e2e2;
+        font-size: 28px/2;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+      }
+      li:nth-last-child(1){
+        border:none;
+      }
+    }
+  }
+
 </style>
