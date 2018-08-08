@@ -1,11 +1,9 @@
 <template>
     <div>
       <div class="user_box">
-        <h1>
-          <image src="/static/img/suc.png" v-if="myscore>vsscore"></image>
-          <image src="/static/img/pjt.png" v-if="myscore==vsscore"></image>
-          <image src="/static/img/failt.png" v-if="myscore<vsscore"></image>
-        </h1>
+        <div class="cap_box">
+          <capture :win="win" :iscard="iscard" :card="card"></capture>
+        </div>
         <div class="user">
           <div class="user_item" :class="{'success':myscore>vsscore}">
             <div><i></i><image :src="userinfo.avatarUrl"></image></div>
@@ -19,14 +17,12 @@
             <p>{{vsscore}}</p>
           </div>
         </div>
-        <div class="cap_box">
-          <capture :win="win" :iscard="iscard" :card="card"></capture>
-        </div>
       </div>
       <div :class="{'btn_box':true,'btn_win':myscore>vsscore,'btn_loss':!(myscore>vsscore)}">
         <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from" v-if="(from==2)">再来一局</navigator>
         <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from+'&&again=1'" v-if="(from==1)">再来一局</navigator>
-        <button open-type="share">分享战绩</button>
+        <button open-type="share" v-if="win==2">分享战绩</button>
+        <button open-type="share" v-if="win!=2">考考好友</button>
       </div>
     </div>
 </template>
@@ -176,15 +172,9 @@
       }
     }
     .user_box{
-      width: 592px/2;
-      height: 702px/2;
-      background: #ffb3a2;
-      border-radius: 30px/2;
-      position: fixed;
-      top:166px/2;
-      left:0;
-      right:0;
-      margin:auto;
+      width: 100%px/2;
+      height: auto;
+      position: relative;
       h1{
         animation: title .8s ease;
         position: absolute;
@@ -200,7 +190,12 @@
         }
       }
     .user{
-      padding: 113px/2 61px/2 29px/2;
+      position: absolute;
+      top:0;
+      left:0;
+      right:0;
+      margin:auto;
+      padding: 113px/2 91px/2 29px/2;
       width: 100%;
       height: auto;
       display: flex;
@@ -209,14 +204,14 @@
       .user_item{
         max-width:257px/2;
         div{
-          width: 159px/2;
-          height: 159px/2;
+          width: 195px/2;
+          height: 195px/2;
           border-radius: 50%;
           position: relative;
           box-sizing: border-box;
           image{
-            width: 150px/2;
-            height: 150px/2;
+            width: 186px/2;
+            height: 186px/2;
             border-radius: 50%;
             border:9px/4 solid #ffffff;
           }
@@ -232,11 +227,11 @@
       display: block;
       text-align: center;
       white-space: nowrap;
-      width:159px/2;
+      width:195px/2;
     }
     p{
-      margin-top:12px/2;
-      max-width:159px/2;
+      margin-top:6px/2;
+      max-width:195px/2;
       font-size: 28px/2;
       color: #333;
       height: 28px/2;
@@ -257,8 +252,8 @@
           width: 100px/2;
           height: 78px/2;
           position: absolute;
-          top:-41px/2;
-          left:-25px/2;
+          top:-42px/2;
+          left:-13px/2;
         }
       }
     }
@@ -280,30 +275,27 @@
       }
     }
     .vs_icon{
-      width: 78px/2;
+      width: 90px/2;
       image{
-        width: 78px/2;
-        height: 60px/2;
-        margin-top:49px/2;
+        width: 90px/2;
+        height: 72px/2;
+        margin-top:60px/2;
       }
     }
     }
     }
     .cap_box{
-      width: 500px/2;
+      width: 100%;
       margin:0 auto;
     }
   .btn_box{
-    margin-top:906px/2;
-    height: 70px/2;
-    padding: 0 8%;
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: space-between;
-    display: flex;
+    width: 414px/2;
+    margin:0 auto;
+    margin-top:96px/2;
+    height: auto;
     navigator{
-      width: 300px/2;
-      height: 70px/2;
+      width: 100%;
+      height: 68px/2;
       border-radius: 50px;
       background: @bg_color;
       display: flex;
@@ -311,10 +303,12 @@
       justify-content: center;
       color: #fff;
       font-size:32px/2;
+      margin-bottom: 23px/2;
+      box-shadow: #ffffff 4px/2 -3rpx 0px, #df5c3e 7px/2 -8px/2px 0px;
     }
     button{
-      width: 300px/2;
-      height: 70px/2;
+      width: 100%;
+      height: 68px/2;
       border-radius: 50px;
       background: @bg_color;
       display: flex;
@@ -323,6 +317,10 @@
       color: #fff;
       font-size:32px/2;
       margin:0;
+      box-shadow: #ffffff 4px/2 -3rpx 0px, #df5c3e 7px/2 -8px/2px 0px;
+      &:after{
+        border:none;
+      }
     }
   }
     .btn_win{

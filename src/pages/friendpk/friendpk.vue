@@ -85,17 +85,21 @@
             }
         },
       onShareAppMessage(res){
-        let that = this
+        let that = this;
+        let title='@你 有人向你发起挑战，点击应战~';
+        let img=`${that.$store.state.url}/admin/img/7.jpg`;
         if (res.from === 'menu') {
           // 来自页面内转发按钮
+          title='边玩边学，游戏学习两不误！';
+          img=`${that.$store.state.url}/admin/img/1.jpg`;
           console.log(res.target)
         }
         return {
-          title: '@你 向你发起挑战，点击应战~',
+          title: title,
           path: `/pages/loadpk/main?from=1&&id=${this.$store.state.user.userid}`,
-          imageUrl: `${that.$store.state.url}/admin/img/friend.jpg`,
+          imageUrl: img,
           success: (r)=>{
-              console.log(r)
+              console.log(r);
             wx.navigateTo({
               url:"/pages/loadpk/main?from=1"
             })

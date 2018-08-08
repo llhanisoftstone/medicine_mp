@@ -1,25 +1,18 @@
 <template>
   <div>
     <div class="list">
-      <a class="ui-link" :href="'/pages/questionsmain/main'">
+      <a class="ui-link" :href="'/pages/questionsmain/main?pid='+item.id" v-for="item in policy_list">
         <div class="item">
-          <div class="itemsign th"></div>
-          <div class="item_list mui-ellipsis">咨询部门：陕西人社厅</div>
-          <div class="item_list mui-ellipsis">问题类型：养老保险类</div>
-          <div class="item_list mui-ellipsis">问题描述：麻烦问一下，养老保险需要交多少年。</div>
-          <div class="item_list mui-ellipsis">咨询时间：2018-01-01 18:02:02</div>
-        </div>
-      </a>
-      <a class="ui-link" :href="'/pages/questionsmain/main'">
-        <div class="item">
-          <div class="itemsign dh"></div>
-          <div class="item_list mui-ellipsis">咨询部门：陕西人社厅</div>
-          <div class="item_list mui-ellipsis">问题类型：养老保险类</div>
-          <div class="item_list mui-ellipsis">问题描述：麻烦问一下，养老保险需要交多少年。</div>
-          <div class="item_list mui-ellipsis">平台回复：养老保险，一般企事业单位要交15年。</div>
+          <div class="item_list mui-ellipsis"><span>联系人</span>：{{item.username}}</div>
+          <div class="item_list mui-ellipsis"><span>联系电话</span>：{{item.phone}}</div>
+          <div class="item_list mui-ellipsis"><span>政策类型</span>：{{item.c_name}}</div>
+          <div class="item_list mui-ellipsis"><span>详细描述</span>：{{item.details}}</div>
+          <div class="item_list mui-ellipsis"><span>咨询时间</span>：{{item.create_time}}</div>
         </div>
       </a>
     </div>
+    <div class="zc_btn"><div class="zcbtn_top">我要提问</div></div>
+    <div class="nogetList" v-if="iskong">暂无记录</div>
     <a class="ui-link" :href="'/pages/toknow/main'">
       <div class="zc_btn"><div class="zcbtn_top">我要提问</div></div>
     </a>
@@ -27,7 +20,91 @@
 </template>
 
 <script type="javascript">
+  export default {
+    data () {
+      return {
+        policy_list:[],
+        scrollIcon:false,
+        scrollTop:0,
+        iskong:false,
+        page:1,
+        size:6
+      }
+    },
 
+    onPullDownRefresh () {
+      wx.showNavigationBarLoading() //在标题栏中显示加载
+      this.page=1;
+      this.policy_list=[];
+      this.refresh();
+      // 下拉刷新
+      wx.hideNavigationBarLoading() //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
+    },
+    onReachBottom () {
+      this.page++;
+      this.loadmore()
+      // 上拉加载
+    },
+
+    methods: {
+      async getpolicyList() {
+        let that = this;
+        let data = {
+          page:this.page,
+          size:this.size,
+          u_id:that.$store.state.user.userid,
+          order:'create_time desc'
+        };
+        let res = await that.$get('/rs/wish_to_known',data);
+        if (res.code == 200){
+          that.iskong=false;
+          if (res.rows.length > 0){
+            that.policy_list = that.policy_list.concat(res.rows);
+          }
+        }else if (res.code == 602 && that.page == 1){
+          that.iskong=true;
+        }
+      },
+      refresh(){
+        this.page = 1;
+        this.getpolicyList();
+      },
+      loadmore () {
+        this.getpolicyList();
+      },
+      scrolltoTop(){
+        if (wx.pageScrollTo) {
+          wx.pageScrollTo({
+            scrollTop: 0
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+          })
+        }
+      }
+    },
+    onLoad: function (option) {
+      this.page = 1;
+      this.policy_list = [];
+      this.getpolicyList()//获取数据
+    },
+    onUnload: function () {
+      this.page = 1;
+      this.policy_list = [];
+      this.iskong = false;
+    },
+    onPageScroll:function(res){
+      let top = res.scrollTop;
+      if (top > 400) {
+        this.scrollIcon = true;
+      } else {
+        this.scrollIcon = false;
+      }
+    }
+  }
 </script>
 
 <style scoped lang="less">
@@ -42,7 +119,18 @@
   div,p,ul,li,input{
     box-sizing:border-box;
   }
-
+  .nogetList{
+    padding-top: 290px;
+    box-sizing:border-box;
+    background: url(../../../static/img/konhyemain.jpg) center 100px no-repeat;
+    background-size:145px 148px;
+    width: 100%;
+    height: 297px;
+    color: #999999;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 50px;
+  }
   .zc_btn{
     position: fixed;
     z-index: 999;
@@ -86,6 +174,10 @@
         font-size: 28/2px;
         color: #333;
         line-height: 48/2px;
+        span{
+          width: 110/2px;
+          display: inline-block;
+        }
       }
       .itemsign{
         position: absolute;

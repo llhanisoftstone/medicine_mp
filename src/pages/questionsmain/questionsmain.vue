@@ -2,63 +2,82 @@
   <div>
     <div class="infok">
       <div class="list_item">
-        <div>咨询部门</div>
-        <div>陕西人社厅</div>
+        <div>联系人</div>
+        <div>{{main.username}}&nbsp;</div>
       </div>
       <div class="list_item">
-        <div>咨询分类</div>
-        <div>养老保险</div>
+        <div>联系电话</div>
+        <div>{{main.phone}}&nbsp;</div>
       </div>
     </div>
     <div class="infok">
       <div class="list_item">
-        <div>问题描述</div>
-        <div>麻烦问一下，养老保险交多少年？</div>
+        <div>政策类型</div>
+        <div>{{main.c_name}}&nbsp;</div>
       </div>
       <div class="list_item">
-        <div>咨询时间</div>
-        <div>2018-01-18 20:20:12</div>
-      </div>
-      <div class="list_item item_photo">
-        <div>照片</div>
-        <div class="imglist">
-          <div class="imgk">
-            <img src="/static/img/people.png" alt="">
-          </div>
-          <div class="imgk">
-            <img src="/static/img/people.png" alt="">
-          </div>
-          <div class="imgk">
-            <img src="/static/img/people.png" alt="">
-          </div>
-          <div class="imgk">
-            <img src="/static/img/people.png" alt="">
-          </div>
-          <div class="imgk">
-            <img src="/static/img/people.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="infok">
-      <div class="list_item">
-        <div>平台回复</div>
-        <div>养老保险要交15年</div>
+        <div>详细描述</div>
+        <div>{{main.details}}&nbsp;</div>
       </div>
       <div class="list_item bt">
-        <div>回复时间</div>
-        <div>2018-01-18 20:20:12</div>
+        <div>咨询时间</div>
+        <div>{{main.create_time}}&nbsp;</div>
       </div>
-      <div class="statusk">
-        <div class="statustext">您反馈的问题正在协调中~</div>
-        <div class="statusimg"></div>
-      </div>
+      <!--<div class="list_item item_photo">-->
+        <!--<div>照片</div>-->
+        <!--<div class="imglist">-->
+          <!--<div class="imgk">-->
+            <!--<img src="/static/img/people.png" alt="">-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
+    <!--<div class="infok">-->
+      <!--<div class="list_item">-->
+        <!--<div>平台回复</div>-->
+        <!--<div>养老保险要交15年</div>-->
+      <!--</div>-->
+      <!--<div class="list_item bt">-->
+        <!--<div>回复时间</div>-->
+        <!--<div>2018-01-18 20:20:12</div>-->
+      <!--</div>-->
+      <!--<div class="statusk">-->
+        <!--<div class="statustext">您反馈的问题正在协调中~</div>-->
+        <!--<div class="statusimg"></div>-->
+      <!--</div>-->
+    <!--</div>-->
   </div>
 </template>
 
 <script type="javascript">
-
+  export default {
+    data () {
+      return {
+        main:[],
+        pid:""
+      }
+    },
+    methods: {
+      async getpolicyList() {
+        let that = this;
+        let data = {
+          id:that.pid
+        };
+        let res = await that.$get('/rs/wish_to_known',data);
+        if (res.code == 200){
+          that.main=res.rows[0];
+        }
+      }
+    },
+    onLoad: function (option) {
+      this.pid=option.pid;
+      this.main = {};
+      this.getpolicyList()//获取数据
+    },
+    onUnload: function () {
+      this.main = {};
+    }
+  }
 </script>
 
 <style scoped lang="less">

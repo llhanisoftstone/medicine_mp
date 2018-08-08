@@ -33,9 +33,14 @@ const store = new Vuex.Store({
     level: 0,                 // 当前进行的关卡
     f_level: 0,                 // 亲友团进行的关卡
     max_nub: 0,                    // 关卡题目数量
-    modalshow: true               // 是否显示弹窗
+    modalshow: true,               // 是否显示弹窗
+    quick: []                        //快捷语
   },
   mutations: {
+    quick: (state, arr) => {
+      const obj = state
+      obj.quick = arr
+    },
     getsocket: (state, islogin = true) => {
       const obj = state
       obj.issocket = islogin

@@ -130,15 +130,19 @@
           }
         },
       onShareAppMessage(res){
-        let that=this
+        let that=this;
+        let title='@你 助力好友一起闯关吧~';
+        let img=`${that.$store.state.url}/admin/img/team.jpg`;
         if (res.from === 'menu') {
           // 来自页面内转发按钮
+          title='边玩边学，游戏学习两不误！';
+          img=`${that.$store.state.url}/admin/img/1.jpg`;
           console.log(res.target)
         }
         return {
-          title: '@你 助力好友一起闯关吧~',
+          title:title,
           path: `/pages/team/main?id=${that.$store.state.user.userid}&&ismy=1`,
-          imageUrl: `${that.$store.state.url}/admin/img/team.jpg`,
+          imageUrl: img,
           success: (r)=>{
             that.team()
           },
@@ -437,8 +441,7 @@
         align-items: center;
         justify-content: center;
         border-radius: 50px/2;
-        background: #df5c3e;
-        background: linear-gradient(135deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
+        background: linear-gradient(150deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
         box-shadow: 1px 1.5px 1px 1px rgba(0,0,0,.2);
         i{
           width: 183px/2;
@@ -463,8 +466,7 @@
         align-items: center;
         justify-content: center;
         border-radius: 50px/2;
-        background: #df5c3e;
-        background: linear-gradient(135deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
+        background: linear-gradient(150deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
         box-shadow: 1px 1.5px 1px 1px rgba(0,0,0,.2);
         button{
           width: 183px/2;

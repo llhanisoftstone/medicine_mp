@@ -3,6 +3,7 @@ export default {
   created () {
     let that = this
     let showmsg = null
+    that.getquick()
     this.$socket.on('connect', () => {
       wx.hideLoading()
       clearTimeout(showmsg)
@@ -230,6 +231,14 @@ export default {
 //                console.log(res)
             }
           })
+        }
+      })
+    },
+    getquick () {
+      let that = this
+      that.$get('/rs/phrase_set', {order: 'order_code desc', page: 1, size: 6}).then(res=>{
+        if (res.code == 200) {
+          that.$store.commit('quick', res.rows)
         }
       })
     }
