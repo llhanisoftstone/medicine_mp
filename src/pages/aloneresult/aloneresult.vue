@@ -1,25 +1,45 @@
 <template>
+  <!--<div>-->
+    <!--<div class="user_box">-->
+      <!--<h1>-->
+        <!--<image src="/static/img/suc.png" v-if="win==2"></image>-->
+        <!--<image src="/static/img/failt.png" v-if="win==0"></image>-->
+      <!--</h1>-->
+      <!--<div class="user">-->
+        <!--<div class="user_item" :class="{'success':win==2}">-->
+          <!--<div><i></i><image :src="userinfo.avatarUrl"></image></div>-->
+        <!--</div>-->
+        <!--<h4>{{userinfo.nickName}}</h4>-->
+        <!--<p>{{myscore}}</p>-->
+      <!--</div>-->
+      <!--<div class="cap_box">-->
+        <!--<capture :win="win" :iscard="iscard" :card="card"></capture>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div :class="{'btn_box':true,'btn_win':win==2,'btn_loss':win!=2}">-->
+      <!--<a href="" v-if="(win==2)&&isreward==0&&level<11" @click="toalone">挑战下一关</a>-->
+      <!--<a href="" v-if="win==0" @click="repeat">重新开始</a>-->
+      <!--<button open-type="share" v-if="win==2">分享战绩</button>-->
+    <!--</div>-->
+  <!--</div>-->
   <div>
     <div class="user_box">
-      <h1>
-        <image src="/static/img/suc.png" v-if="win==2"></image>
-        <image src="/static/img/failt.png" v-if="win==0"></image>
-      </h1>
-      <div class="user">
-        <div class="user_item" :class="{'success':win==2}">
-          <div><i></i><image :src="userinfo.avatarUrl"></image></div>
-        </div>
-        <h4>{{userinfo.nickName}}</h4>
-        <p>{{myscore}}</p>
-      </div>
       <div class="cap_box">
         <capture :win="win" :iscard="iscard" :card="card"></capture>
       </div>
+      <div class="user">
+        <div class="user_item" :class="{'success':win==2}">
+          <div><i></i><image :src="userinfo.avatarUrl"></image></div>
+          <!--<h4>{{userinfo.nickName}}</h4>-->
+          <p>{{myscore}}</p>
+        </div>
+      </div>
     </div>
-    <div :class="{'btn_box':true,'btn_win':win==2,'btn_loss':win!=2}">
-      <a href="" v-if="(win==2)&&isreward==0&&level<11" @click="toalone">挑战下一关</a>
-      <a href="" v-if="win==0" @click="repeat">重新开始</a>
+    <div :class="{'btn_box':true,'btn_win':myscore>vsscore,'btn_loss':!(myscore>vsscore)}">
+      <navigator href="" v-if="(win==2)&&isreward==0&&level<11" @click="toalone">下一关</navigator>
+      <navigator :href="'/pages/report/main?roomid=0'" v-if="win==2">炫耀成绩单</navigator>
       <button open-type="share" v-if="win==2">分享战绩</button>
+      <button open-type="share" v-if="win!=2">考考好友</button>
     </div>
   </div>
 </template>
@@ -95,21 +115,41 @@
       }
     },
     onShareAppMessage(res){
-        let that =this
-        let til = ''
-      if(that.isreward == 0){
-            til = '@你 答题赢礼物，千种礼券任你选'
+      let that =this
+      let title='边玩边学，游戏学习两不误！';
+      let img=`${that.$store.state.url}/admin/img/1.jpg`;
+      let url='/pages/index/main';
+      if(that.isreward == 0){//礼物挑战
+        if(that.win==2){
+          title="@你 答题赢礼品，千种礼券任你选"
+          img=`${that.$store.state.url}/admin/img/2.jpg`;
+          url='/pages/report/main?roomid=0';
+        }else{
+          title="@你 为礼物而战，我还会再回来的"
+          img=`${that.$store.state.url}/admin/img/3.jpg`;
+        }
       }else{
-          til = '@你 20枚银两get，下一关等你哦~'
+        if(that.win==2){
+          title="@你 答题赢好礼，千种礼券任你选"
+          img=`${that.$store.state.url}/admin/img/2.jpg`;
+          url='/pages/report/main?roomid=0';
+        }else{
+          title="@你 这道题有点难哦，快来帮帮我吧！"
+          img=`${that.$store.state.url}/admin/img/3.jpg`;
+        }
       }
+
       if (res.from === 'menu') {
         // 来自页面内转发按钮
+        title='边玩边学，游戏学习两不误！';
+        img=`${that.$store.state.url}/admin/img/1.jpg`;
+        url='/pages/index/main'
         console.log(res.target)
       }
       return {
-        title: '分享战绩',
-        path: '/pages/index/main',
-        imageUrl: `${that.$store.state.url}/admin/img/success.jpg`,
+        title: title,
+        path: url,
+        imageUrl: img,
         success: (r)=>{
           console.log(r)
         },
@@ -122,6 +162,7 @@
       wx.hideShareMenu()
       this.cleardata()
       this.win=option.result
+      this.win=2
       if(option.id){
         this.isreward=option.id
         wx.setNavigationBarTitle({
@@ -189,7 +230,7 @@
     0%{
       opacity: 0;
     }
-    80%{
+    83%{
       opacity: 0;
     }
     100%{
@@ -208,161 +249,157 @@
     }
   }
   .user_box{
-    width: 592px/2;
-    height: 702px/2;
-    background: #ffb3a2;
-    border-radius: 30px/2;
-    position: fixed;
-    top:166px/2;
-    left:0;
-    right:0;
-    margin:auto;
-  h1{
-    animation: title .8s ease;
-    position: absolute;
-    top:-71px/2;
-    left:0;
-    right:0;
-    width: 493px/2;
-    height: 110px/2;
-    margin:auto;
-  image{
-    width: 100%;
-    height: 100%;
-  }
-  }
-  .user{
-    padding: 113px/2 61px/2 29px/2;
-    width: 100%;
+    width: 100%px/2;
     height: auto;
-    display: flex;
-    flex-wrap: wrap;
-    box-sizing: border-box;
-    justify-content: center;
-  h4{
-    width: 100%;
-    margin-top:15px/2;
-    font-size: 28px/2;
-    color: #333;
-    white-space: nowrap;
-    height: 28px/2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  p{
-    width: 100%;
-    white-space: nowrap;
-    margin-top:12px/2;
-    font-size: 28px/2;
-    color: #333;
-    height: 28px/2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .user_item{
-    flex-wrap: wrap;
-    width: 159px/2;
-    align-content: center;
-    align-items: center;
-    display:flex;
-  div{
-    width: 159px/2;
-    height: 159px/2;
-    border-radius: 50%;
     position: relative;
-    box-sizing: border-box;
-  image{
-    width: 150px/2;
-    height: 150px/2;
-    border-radius: 50%;
-    border:9px/4 solid #ffffff;
-  }
-  }
-  }
-  .success{
-  div{
-  image{
-    border:9px/4 solid @bg_color;
-  }
-  i{
-    background: url(../../../static/img/sucu.png) center no-repeat;
-    background-size: 100px/2 78px/2;
-    display: block;
-    width: 100px/2;
-    height: 78px/2;
-    position: absolute;
-    top:-41px/2;
-    left:-25px/2;
-  }
-  }
-  }
-  .fail{
-  div{
-  image{
-    border:9px/4 solid @bg_color;
-  }
-  i{
-    background: url(../../../static/img/sucv.png) center no-repeat;
-    background-size: 96px/2 87px/2;
-    display: block;
-    width: 96px/2;
-    height: 87px/2;
-    position: absolute;
-    top:-39px/2;
-    right:-31px/2;
-  }
-  }
-  }
-  .vs_icon{
-    width: 78px/2;
-  image{
-    width: 78px/2;
-    height: 60px/2;
-    margin-top:49px/2;
-  }
-  }
-  }
+    h1{
+      animation: title .8s ease;
+      position: absolute;
+      top:-71px/2;
+      left:0;
+      right:0;
+      width: 493px/2;
+      height: 110px/2;
+      margin:auto;
+      image{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .user{
+      position: absolute;
+      top:0;
+      left:0;
+      right:0;
+      margin:auto;
+      padding: 113px/2 91px/2 29px/2;
+      width: 100%;
+      height: auto;
+      display: flex;
+      box-sizing: border-box;
+      justify-content: space-between;
+      .user_item{
+        max-width:257px/2;
+        margin:20/2px auto;
+        div{
+          width: 195px/2;
+          height: 195px/2;
+          border-radius: 50%;
+          position: relative;
+          box-sizing: border-box;
+          image{
+            width: 186px/2;
+            height: 186px/2;
+            border-radius: 50%;
+            border:9px/4 solid #ffffff;
+          }
+        }
+        h4{
+          margin-top:15px/2;
+          font-size: 28px/2;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: #333;
+          height: 32px/2;
+          line-height: 32px/2;
+          display: block;
+          text-align: center;
+          white-space: nowrap;
+          width:195px/2;
+        }
+        p{
+          margin-top:6px/2;
+          max-width:195px/2;
+          font-size: 28px/2;
+          color: #333;
+          height: 28px/2;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+      .success{
+        div{
+          image{
+            border:9px/4 solid @bg_color;
+          }
+          i{
+            background: url(../../../static/img/sucu.png) center no-repeat;
+            background-size: 100px/2 78px/2;
+            display: block;
+            width: 100px/2;
+            height: 78px/2;
+            position: absolute;
+            top:-42px/2;
+            left:-13px/2;
+          }
+        }
+      }
+      .fail{
+        div{
+          image{
+            border:9px/4 solid @bg_color;
+          }
+          i{
+            background: url(../../../static/img/sucv.png) center no-repeat;
+            background-size: 96px/2 87px/2;
+            display: block;
+            width: 96px/2;
+            height: 87px/2;
+            position: absolute;
+            top:-39px/2;
+            right:-31px/2;
+          }
+        }
+      }
+      .vs_icon{
+        width: 90px/2;
+        image{
+          width: 90px/2;
+          height: 72px/2;
+          margin-top:60px/2;
+        }
+      }
+    }
   }
   .cap_box{
-    width: 500px/2;
+    width: 100%;
     margin:0 auto;
   }
   .btn_box{
-    position: fixed;
-    top:906px/2;
-    width: 100%;
-    left:0;
-    height: 70px/2;
-    padding: 0 66px/2;
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: space-around;
-    display: flex;
-  a{
-    width: 300px/2;
-    height: 70px/2;
-    border-radius: 50px;
-    background: @bg_color;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size:32px/2;
-  }
-  button{
-    width: 300px/2;
-    height: 70px/2;
-    border-radius: 50px;
-    background: @bg_color;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size:32px/2;
-    margin:0;
-  }
+    width: 414px/2;
+    margin:0 auto;
+    margin-top:96px/2;
+    height: auto;
+    navigator{
+      width: 100%;
+      height: 68px/2;
+      border-radius: 50px;
+      background: @bg_color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size:32px/2;
+      margin-bottom: 23px/2;
+      box-shadow: #ffffff 4px/2 -3rpx 0px, #df5c3e 7px/2 -8px/2px 0px;
+    }
+    button{
+      width: 100%;
+      height: 68px/2;
+      border-radius: 50px;
+      background: @bg_color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size:32px/2;
+      margin:0;
+      box-shadow: #ffffff 4px/2 -3rpx 0px, #df5c3e 7px/2 -8px/2px 0px;
+      &:after{
+        border:none;
+      }
+    }
   }
   .btn_win{
     animation: btn_win 3s ease;
