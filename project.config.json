@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 17,
+			"current": 18,
 			"list": [
 				{
 					"id": 0,
@@ -146,7 +146,13 @@
 				{
 					"id": -1,
 					"name": "对战授权",
-					"pathName": "pages/authfight/main"
+					"pathName": "pages/authfight/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "我要了解",
+					"pathName": "pages/toknow/main"
 				}
 			]
 		}

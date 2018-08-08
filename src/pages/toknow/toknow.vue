@@ -3,18 +3,22 @@
       <form id="complaintsfrom">
         <ul class="complaintslist">
           <li data-type="1" >
-            <span>咨询部门</span>
-            <span id="refund_type" class="select-item ">请选择</span>
+            <span>咨询分类</span>
+            <span class="select-item ">请选择咨询分类</span>
           </li>
           <li data-type="2" >
-            <span>咨询分类</span>
-            <span id="reason" class="select-item ">请选择</span>
+            <span>姓名</span>
+            <input class="select-item" type="text" placeholder="请输入姓名" maxlength="10">
+          </li>
+          <li data-type="3" >
+            <span>手机号</span>
+            <input class="select-item " placeholder="请输入手机号" type="text">
           </li>
         </ul>
         <textarea id="complaintstext" placeholder="请简单描述您想要了解的内容（200字以内）" maxlength="200"></textarea>
-        <div class="up" id="imgUpload" >
-          <span class="upimg"><p>上传照片</p></span>
-        </div>
+        <!--<div class="up" id="imgUpload" >-->
+          <!--<span class="upimg"><p>上传照片</p></span>-->
+        <!--</div>-->
       </form>
       <button type="button" class="sumbutton" id="submit_button">提交</button>
     </div>
@@ -59,7 +63,7 @@
           text-align: right;
           border-right: 1px solid @color_e2;
         }
-        span:last-child{
+        .select-item{
           width:100%;
           font-size: 26px/2;
           line-height: 75px/2;
@@ -75,7 +79,7 @@
       border: none;
       font-size: 26px/2;
       color: @color_666;
-      padding:0 51px/2;
+      padding:0 42px/2;
       line-height: 32px/2;
       box-sizing: border-box;
       width:750px/2;
@@ -100,45 +104,5 @@
         opacity: 1;
       }
     }
-    .up{
-      margin-top: 24px/2;
-      padding-left:51px/2 ;
-      span{
-        display: inline-block;
-        width: 141px/2;
-        height: 141px/2;
-        border: 1px dashed @color_99;
-        border-radius: 20px/2;
-        margin-right: 14px/2;
-        margin-bottom: 14px/2;
-        float: left;
-        position: relative;
-        p{
-          display: inline-block;
-          width: 100%;
-          text-align: center;
-          font-size: 20px/2;
-          line-height: 20px/2;
-          color: @color_666;
-          margin: 0;
-          position: absolute;
-          top:84px/2;
-        }
-      }
-      img{
-        font-size: 0;
-        display: inline-block;
-        width: 141px/2;
-        height: 141px/2;
-        border: 1px dashed @color_99;
-        border-radius: 20px/2;
-        margin-right: 14px/2;
-        margin-bottom: 14px/2;
-        float: left;
-      }
-      .upimg{
-        background: #f6f6f6 url(../../../static/img/uploadimg.png) no-repeat  center 37px/2;
-        background-size:46px/2 37px/2;
-      }
-    }
+
 </style>
