@@ -52,31 +52,33 @@
 
 
       <div class="result" v-if="gameover">
-        <image src="/static/img/suc.jpg" v-if="iswin==2" class="re_bg"></image>
+        <image src="/static/img/succ.jpg" v-if="iswin==2" class="re_bg"></image>
         <image src="/static/img/faild.jpg" v-if="iswin!=2" class="re_bg"></image>
         <div class="prize" v-if="iswin==2">
-          <div class="team_prize">
-            <image src="/static/img/pri.png"></image>
-          </div>
-          <div class="challenger">
-            <image class="user" v-if="challenger==user.userid" :src="userinfo.avatarUrl"></image>
-            <image class="user" v-if="(challenger!=user.userid)&&i==0" v-for="(v,i) in team" :src="v.picpath"></image>
-            <image class="tz" src="/static/img/tz.png"></image>
-          </div>
+          <ul class="rank_list">
+            <li>
+              <i class="rank"></i>
+              <span class="rank_nub">+100</span>
+              <span class="rank_name">{{user.rank_name}}</span>
+            </li>
+            <li>
+              <i class="yl"></i>
+              <span>+20</span>
+            </li>
+          </ul>
           <ul class="c_prize">
             <li v-if="card.id">
               <div>
                 <image :src="url+card.ticket_pic"></image>
               </div>
-              <p>{{card.title}}</p>
-            </li>
-            <li>
-              <div>
-                <image src="/static/img/sucm.png"></image>
-              </div>
-              <p>银两+20</p>
+              <p>战利品: <span>{{card.title}}</span></p>
             </li>
           </ul>
+          <div class="team_prize_n">
+            <span>亲友团: </span>
+            <i></i>
+            <span>+20</span>
+          </div>
         </div>
         <div class="fail" v-if="iswin==1">
           <image src="/static/img/team_fail.png"></image>
@@ -1491,15 +1493,18 @@
       }
     }
     .c_prize{
-      width: 100%;
-      height: 171px/2;
+      width: 319px/2;
+      margin:0 auto;
+      margin-top: -80px/2;
       display: flex;
       align-items: center;
       justify-content: space-around;
+      border-bottom: 1px solid #df5c3e;
       li{
         animation: li2 2s ease;
         width: 131px/2;
-        height: 100%;
+        height: 171px/2;
+        padding-bottom: 18px/2;
         div{
           width: 131px/2;
           height: 131px/2;
@@ -1520,9 +1525,12 @@
       white-space: nowrap;
       justify-content: center;
       margin-top:16px/2;
-      color: #fff;
-      font-size: 24px/2;
+      color: #df5c3e;
+      font-size: 28px/2;
       height: 24px/2;
+      span{
+        color: #333;
+      }
     }
       }
       li:nth-of-type(1){
@@ -1674,5 +1682,67 @@
       }
     }
   }
-
+    .rank_list{
+      width: 319px/2;
+      height: auto;
+      position: absolute;
+      top:430px/2;
+      left:0;
+      right: 0;
+      margin:auto;
+      li{
+        height: 82px/2;
+        border-bottom: 1px solid #df5c3e;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        .rank{
+          width: 39px/2;
+          height: 39px/2;
+          background: url(../../../static/img/jy.png) center no-repeat;
+          background-size: 39px/2 39px/2;
+        }
+        span{
+          font-size: 28px/2;
+          color: #333;
+        }
+        .yl{
+          width: 39px/2;
+          height: 39px/2;
+          background: url(../../../static/img/yl.png) center no-repeat;
+          background-size: 39px/2 39px/2;
+          margin-right: 28px/2;
+        }
+      }
+      li:nth-of-type(1){
+        justify-content: space-between;
+        padding: 0 30px/2;
+      }
+    }
+  .team_prize_n{
+    width: 319px/2;
+    margin:0 auto;
+    height: 82px/2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    margin-top:-10px/2;
+    i{
+      width: 39px/2;
+      height: 39px/2;
+      background: url(../../../static/img/yl.png) center no-repeat;
+      background-size: 39px/2 39px/2;
+      margin-right: 28px/2;
+    }
+    span{
+      font-size: 28px/2;
+      color: #333;
+    }
+    span:nth-of-type(1){
+      color: #df5c3e;
+    }
+  }
 </style>
