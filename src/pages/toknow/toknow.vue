@@ -4,41 +4,149 @@
         <ul class="complaintslist">
           <li data-type="1" >
             <span>咨询分类</span>
-            <span class="select-item ">请选择咨询分类</span>
+            <input class="select-item" @click="showwishPicker" :value="pickerwishText" disabled="disabled" placeholder="请选择咨询分类" confirm-type="next">
           </li>
           <li data-type="2" >
             <span>姓名</span>
-            <input class="select-item" type="text" placeholder="请输入姓名" maxlength="10">
+            <input type="text" class="select-item" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
           </li>
           <li data-type="3" >
             <span>手机号</span>
-            <input class="select-item " placeholder="请输入手机号" type="text">
+            <input class="select-item" type="number" v-model='userphone' maxlength="11" confirm-type="next"  placeholder="请输入手机号" />
           </li>
         </ul>
-        <textarea id="complaintstext" placeholder="请简单描述您想要了解的内容（200字以内）" maxlength="200"></textarea>
+        <textarea id="complaintstext" v-model="detail" placeholder="请简单描述您想要了解的内容（200字以内）" maxlength="200"></textarea>
         <!--<div class="up" id="imgUpload" >-->
           <!--<span class="upimg"><p>上传照片</p></span>-->
         <!--</div>-->
       </form>
-      <button type="button" class="sumbutton" id="submit_button">提交</button>
+      <mpvue-picker
+        ref="mpvuePicker" @pickerCancel="pickerCancel"
+        :pickerValueArray="pickerValueArray"
+        :pickerValueDefault='pickerValueDefault'
+        :mode="mode"
+        @onConfirm="onConfirm" >
+      </mpvue-picker>
+      <button type="button" class="sumbutton" id="submit_button" @click="submitData">提交</button>
+      <mptoast/>
     </div>
 </template>
 
 <script type="javascript">
+  import mpvuePicker from 'mpvue-picker';
+  import mptoast from '../../components/mptoast';
     export default {
         name: 'toknow',
         props: [],
+        components: {
+          mptoast,
+          mpvuePicker
+        },
         data(){
             return {
-
+              realname:'',
+              userphone:'',
+              detail:'',
+              pickerValueArray:[],
+              pickerValueDefault:[0],
+              wishidlist:'',
+              pickerwishText:'',
+              wish_id:'',
+              select:'',
+              isBtnClicked:false,
             }
         },
         methods: {
+            async getWishCate(){
+              let that = this;
+              //let res = await this.$get('/rs/wish_category');
+//              if (res.code == 200){
+//
+//              }
+            },
+          showwishPicker() {
+            var than=this;
+            this.$get('/rs/wish_category').then(res=>{
+              if (res.code == 200){
+                var obj = [];
+                var array=[];
+                for(var i=0;i<res.rows.length;i++){
+                  var o = {};
+                  array.push(res.rows[i].c_name)
+                  o.id = res.rows[i].id;
+                  o.name = res.rows[i].c_name;
+                  obj.push(o);
+                }
+                than.pickerValueArray=array;
+                than.wishidlist = obj;
+                this.select=1;
+                this.$refs.mpvuePicker.show();
+              }
+            });
+          },
+          onConfirm(e){
+            if(this.select==1){
+              this.pickerwishText = this.pickerValueArray[e[0]];
+              for(var i=0;i<this.wishidlist.length;i++){
+                if(this.pickerwishText==this.wishidlist[i].name){
+                  this.wish_id=this.wishidlist[i].id;
+                }
+              }
+            }
+          },
+          submitData(){
+            if(this.wish_id=="" || this.wish_id==null){
+              this.$mptoast('请选择咨询分类');
+              return;
+            }
+            if(this.realname=="" || this.realname==null){
+              this.$mptoast('请输入姓名');
+              return;
+            }
+            if(this.userphone=="" || this.userphone==null){
+              this.$mptoast('请输入手机号');
+              return;
+            }
+            if(this.detail=="" || this.detail==null){
+              this.$mptoast('请输入内容');
+              return;
+            }
+            var data={
+              //u_id:this.$store.state.user.userid,
+              category:this.wish_id,
+              username:this.realname,
+              phone:this.userphone,
+              details:this.detail,
+            };
+            this.$post('/rs/wish_to_known',data).then(res=>{
+              if(res.code == 200){
+                this.$mptoast('保存成功',100);
+                if(this.isBtnClicked) {
+                  this.isBtnClicked = false;
+                  setTimeout(function () {
+                    wx.navigateBack({     //返回上一页面或多级页面
+                      delta: 1
+                    })
+                  }, 1500);
+                }
+              }else{
+                this.$mptoast('保存失败',100);
+              }
+            })
+          },
 
         },
       onLoad: function (option) {
 
-      }
+      },
+      onShow(){
+        this.isBtnClicked=true;
+        this.realname='',
+          this.userphone='',
+          this.detail='',
+          this.pickerwishText='',
+          this.wish_id=''
+      },
 
     }
 </script>
@@ -69,7 +177,7 @@
           line-height: 75px/2;
           height: 72px/2;
           padding-left: 23px/2 ;
-          color: @color_99;
+          color: @color_666;
           border: none;
         }
       }
@@ -85,8 +193,14 @@
       width:750px/2;
       height: 240px/2;
     }
-    textarea::-webkit-input-placeholder{ color:@color_99;}
-    textarea::-moz-placeholder{ color:@color_99;}
+    textarea::-webkit-input-placeholder,
+    input::-webkit-input-placeholder{
+      color:@color_99;
+    }
+    textarea::-moz-placeholder,
+    input::-moz-placeholder{
+      color:@color_99;
+    }
     .sumbutton{
       width: 100%;
       height: 84px/2;
@@ -104,5 +218,7 @@
         opacity: 1;
       }
     }
-
+    .mpvue-picker__action:last-child{
+      color:@bg_color !important;
+    }
 </style>
