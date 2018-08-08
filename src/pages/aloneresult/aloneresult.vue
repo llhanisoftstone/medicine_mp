@@ -279,7 +279,7 @@
       justify-content: space-between;
       .user_item{
         max-width:257px/2;
-        margin:20/2px auto;
+        margin:15/2px auto;
         div{
           width: 195px/2;
           height: 195px/2;

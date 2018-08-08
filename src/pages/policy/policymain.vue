@@ -16,7 +16,7 @@
                     <img :src="v.pic_abbr" alt="">
                     <div class="imgkinfok">
                       <div class="imgkinfo">
-                        <span class="imgkinfo_name">{{v.organiz_name}}</span>
+                        <span class="imgkinfo_name">{{v.organiz_name||" "}}</span>
                         <span class="imgkinfo_count">{{v.view_count}}</span>
                       </div>
                     </div>
@@ -50,7 +50,7 @@
                       {{item.remark}}
                     </p>
                     <div class="label-info clearfix">
-                      <div class="info-left">{{item.organiz_name}}</div>
+                      <div class="info-left">{{item.organiz_name||" "}}</div>
                       <div class="info-right rt icon-reading">
                         <span>{{item.view_count}}</span>
                       </div>
@@ -84,7 +84,7 @@
                       {{item1.remark}}
                     </p>
                     <div class="label-info clearfix">
-                      <div class="info-left">{{item1.organiz_name}}</div>
+                      <div class="info-left">{{item1.organiz_name||" "}}</div>
                       <div class="info-right rt icon-reading">
                         <span>{{item1.view_count}}</span>
                       </div>
