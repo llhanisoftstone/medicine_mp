@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": -1,
 			"list": [
 				{
 					"id": 0,
@@ -135,6 +135,12 @@
 					"id": -1,
 					"name": "对战结果",
 					"pathName": "pages/result/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "了解详情",
+					"pathName": "pages/questionsmain/main",
 					"query": ""
 				}
 			]

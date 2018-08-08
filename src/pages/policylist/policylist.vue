@@ -24,6 +24,7 @@
                     {{item.remark}}
                   </p>
                   <div class="label-info clearfix">
+                    <div class="info-left">{{item.organiz_name}}</div>
                     <div class="info-right rt icon-reading">
                       <span>{{item.view_count}}</span>
                     </div>
@@ -261,6 +262,20 @@
   }
   .info-content .label-info {
     padding: 0;
+  }
+  .info-left{
+    float: left;
+    font-size: 26/2px;
+    padding-left: 39/2px;
+    overflow: hidden;
+    white-space: nowrap;
+    width:165/2px ;
+    text-overflow: ellipsis;
+    color: #666;
+    line-height: 50/2px;
+    height: 50/2px;
+    background: url("../../../static/img/zcbmh.png")no-repeat 0 9/2px;
+    background-size: 36/2px 33/2px;
   }
   .info-right {
     padding-left: 0.416rem;

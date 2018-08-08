@@ -11,7 +11,7 @@
         </div>
         <div class="username" v-if="isauth&&authreturn">
           {{username}}
-          <div class="userlevel">{{user.rank_name}}<span class="levelsign">235</span></div>
+          <div class="userlevel">{{user.rank_name}}<span class="levelsign">{{user.experience}}</span></div>
         </div>
         <slot name="userRight" class="slot_box"></slot>
       </div>
