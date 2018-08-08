@@ -162,7 +162,6 @@
       wx.hideShareMenu()
       this.cleardata()
       this.win=option.result
-      this.win=2
       if(option.id){
         this.isreward=option.id
         wx.setNavigationBarTitle({

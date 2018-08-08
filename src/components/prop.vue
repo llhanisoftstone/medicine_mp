@@ -11,7 +11,7 @@
           <p>{{times>99?'99+':times}}</p>
           <div class="toolname">延时针</div>
         </div>
-        <p class="tips">111111</p>
+        <p class="tips" v-if="tips">{{tips}}</p>
       </div>
       <mptoast/>
     </div>
@@ -36,6 +36,10 @@
             istimes:{
                 type:Boolean,
                 default:true
+            },
+            tips:{
+                type:String,
+                default:''
             }
       },
         data(){
@@ -52,6 +56,11 @@
         },
         components: {
           mptoast
+        },
+        watch:{
+            tips(v,o){
+                console.log(v,o)
+            }
         }
 
     }
