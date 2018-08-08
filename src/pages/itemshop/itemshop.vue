@@ -283,8 +283,12 @@
         this.name_type="银两";
         this.istotalprice=false;
         this.istotalpoint=true;
+      },
+      onUnload:function(){
+          for(let key in this.goods){
+            this.goods[key].isreverse=false;
+          }
       }
-
     }
 </script>
 
