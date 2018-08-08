@@ -142,6 +142,90 @@
 
 <style scoped lang="less">
   @import "../../static/less/common.less";
+  @keyframes gift {
+    1% {
+      transform: translate(0, 0) rotate(6.5deg)
+    }
+
+    2% {
+      transform: translate(0, 0) rotate(3.5deg)
+    }
+
+    3% {
+      transform: translate(0, 0) rotate(-3.5deg)
+    }
+
+    4% {
+      transform: translate(0, 0) rotate(5.5deg)
+    }
+
+    5% {
+      transform: translate(0, 0) rotate(-4.5deg)
+    }
+
+    6% {
+      transform: translate(0, 0) rotate(-4.5deg)
+    }
+
+    7% {
+      transform: translate(0, 0) rotate(-6.5deg)
+    }
+
+    8% {
+      transform: translate(0, 0) rotate(2.5deg)
+    }
+
+    9% {
+      transform: translate(0, 0) rotate(-5.5deg)
+    }
+
+    10% {
+      transform: translate(0, 0) rotate(.5deg)
+    }
+
+    11% {
+      transform: translate(0, 0) rotate(-3.5deg)
+    }
+
+    12% {
+      transform: translate(0, 0) rotate(-6.5deg)
+    }
+
+    13% {
+      transform: translate(0, 0) rotate(6.5deg)
+    }
+
+    14% {
+      transform: translate(0, 0) rotate(1.5deg)
+    }
+
+    15% {
+      transform: translate(0, 0) rotate(-5.5deg)
+    }
+
+    16% {
+      transform: translate(0, 0) rotate(7.5deg)
+    }
+
+    17% {
+      transform: translate(0, 0) rotate(-3.5deg)
+    }
+
+    18% {
+      transform: translate(0, 0) rotate(7.5deg)
+    }
+
+    19% {
+      transform: translate(0, 0) rotate(-5.5deg)
+    }
+
+    20% {
+      transform: translate(0, 0) rotate(3.5deg)
+    }
+    0%,21%,50%,100% {
+      transform: translate(0, 0) rotate(0)
+    }
+  }
   a{
     background: transparent;
     opacity: 1;
@@ -282,6 +366,7 @@
         }
       }
       i{
+        animation: gift 3s infinite;
         width: 98px/2;
         height: 123px/2;
         image{

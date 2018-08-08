@@ -84,7 +84,6 @@
       },
       onShareAppMessage(res){
         let that = this
-
         let url='/pages/index/main';
         let til='边玩边学，游戏学习两不误！'
         let img = `${that.$store.state.url}/admin/img/1.jpg`
