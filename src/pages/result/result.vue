@@ -2,8 +2,7 @@
     <div>
       <div class="user_box">
         <div class="cap_box">
-          <!--<capture :win="win" :iscard="iscard" :card="card"></capture>-->
-          <capture :win="2" :iscard="iscard" :card="card"></capture>
+          <capture :win="win" :iscard="iscard" :card="card"></capture>
         </div>
         <div class="user">
           <div class="user_item" :class="{'success':myscore>vsscore}">
@@ -22,7 +21,8 @@
       <div :class="{'btn_box':true,'btn_win':myscore>vsscore,'btn_loss':!(myscore>vsscore)}">
         <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from" v-if="(from==2)">再来一局</navigator>
         <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from+'&&again=1'" v-if="(from==1)">再来一局</navigator>
-        <button open-type="share">分享战绩</button>
+        <button open-type="share" v-if="win==2">分享战绩</button>
+        <button open-type="share" v-if="win!=2">考考好友</button>
       </div>
     </div>
 </template>
@@ -173,7 +173,7 @@
     }
     .user_box{
       width: 100%px/2;
-      height: 702px/2;
+      height: auto;
       position: relative;
       h1{
         animation: title .8s ease;
@@ -252,8 +252,8 @@
           width: 100px/2;
           height: 78px/2;
           position: absolute;
-          top:-41px/2;
-          left:-25px/2;
+          top:-42px/2;
+          left:-13px/2;
         }
       }
     }

@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="gift_box" v-if="win==2">
-        <image src="/static/img/succ.jpg"></image>
+        <image src="/static/img/succ1.jpg"></image>
         <ul class="rank_list">
           <li>
             <i class="rank"></i>
@@ -23,11 +23,21 @@
         </ul>
       </div>
       <div class="gift_box draw_box" v-if="win==1">
-        <image src="/static/img/pj.png"></image>
-        <p>平局，什么奖品都没有</p>
+        <image src="/static/img/609_02.jpg"></image>
+        <image src="/static/img/pj.png" class="tips"></image>
+        <p>海内存知己,天涯若比邻</p>
       </div>
       <div class="gift_box fail" v-if="win==0">
-        <image src="/static/img/fail.png"></image>
+        <image src="/static/img/fail1.jpg"></image>
+        <ul class="rank_list">
+          <li>
+            <i class="rank"></i>
+            <span class="rank_nub">+100</span>
+            <span class="rank_name">{{user.rank_name}}</span>
+          </li>
+        </ul>
+        <image src="/static/img/fail.png" class="tips"></image>
+        <p>留得青山在,不怕没柴烧</p>
       </div>
     </div>
 </template>
@@ -119,7 +129,7 @@
     position: relative;
     image{
       width: 100%;
-      height: 688px/2;
+      height: 609px/2;
     }
   }
   .success_t{
@@ -217,20 +227,33 @@
     }
   }
     .fail{
-      align-items: center;
-      justify-content: center;
-      display:flex;
-    image{
-      width: 178px/2;
-      height: 206px/2;
-    }}
+      /*align-items: center;*/
+      /*justify-content: center;*/
+      /*display:flex;*/
+      .tips{
+        width: 178px/2;
+        height: 206px/2;
+        margin:0 auto;
+        display: block;
+        position: relative;
+        z-index:5;
+        margin-top:-90px/2;
+      }
+      p{
+        color: #567dff;
+        font-size: 28px/2;
+        width: 100%;
+        text-align: center;
+        margin-top:43px/2;
+      }
+    }
     .draw_box{
       display: flex;
       justify-content: center;
       align-items: center;
       align-content: center;
       flex-wrap: wrap;
-      image{
+      .tips{
         width: 161px/2;
         height: 139px/2;
       }
