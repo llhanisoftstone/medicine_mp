@@ -30,13 +30,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 13,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
-					"name": "chuangguan",
-					"pathName": "pages/challengemap/main",
-					"query": "",
+					"name": "对战结果",
+					"pathName": "pages/result/main",
+					"query": "from=1",
 					"scene": "1007"
 				},
 				{
@@ -124,6 +124,18 @@
 					"pathName": "pages/report/main",
 					"query": "",
 					"scene": "1007"
+				},
+				{
+					"id": -1,
+					"name": "成绩单",
+					"pathName": "pages/report/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "对战结果",
+					"pathName": "pages/result/main",
+					"query": ""
 				}
 			]
 		}

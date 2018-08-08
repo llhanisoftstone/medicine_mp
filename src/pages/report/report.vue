@@ -1,11 +1,11 @@
 <template>
     <div>
-      <div class="box">
+      <div class="box" v-if="!isshow">
         <image src="/static/img/bgchengjidan.jpg" class="img_bg"></image>
         <div class="user_box">
           <image :src="userinfo.avatarUrl" class="user_img"></image>
           <h2 class="username">{{userinfo.nickName}}</h2>
-          <h4 class="grade">游学四方</h4>
+          <h4 class="grade">{{user.rank_name}}</h4>
           <div class="subject">
             <p>8/12</p>
             <p>12</p>
@@ -17,7 +17,7 @@
           </div>
         </div>
       </div>
-      <canvas canvas-id="report"></canvas>
+      <canvas canvas-id="report" v-if="isshow"></canvas>
     </div>
 </template>
 
@@ -25,20 +25,16 @@
     export default {
         data(){
             return {
-                width:0
+                width:0,
+                isshow:false
             }
         },
         methods: {
-            saveImg(){},
             canvas(){
               let that = this
+              that.isshow=true
               const ctx = wx.createCanvasContext('report')
               ctx.drawImage('../../static/img/bgchengjidan.jpg', 0, 0, that.width, 1247*that.width/750)
-              ctx.arc((282*that.width/750)+(186*that.width/1500), (92*that.width/750)+(186*that.width/1500), 186*that.width/1500, 0, 2*Math.PI)
-              ctx.save()
-              ctx.clip()
-              ctx.drawImage(that.$store.state.userinfo.avatarUrl, 282*that.width/750, 92*that.width/750, 186*that.width/750, 186*that.width/750)
-              ctx.restore()
               ctx.setFontSize(35*that.width/750)
               ctx.setFillStyle('#333333')
               ctx.setTextAlign('center')
@@ -48,7 +44,7 @@
               ctx.setFillStyle('#666666')
               ctx.setTextAlign('center')
               ctx.setTextBaseline('top')
-              ctx.fillText('游学四方', 375*that.width/750, 450*this.width/750)
+              ctx.fillText(that.user.rank_name, 375*that.width/750, 450*this.width/750)
               ctx.setFontSize(37*that.width/750)
               ctx.setFillStyle('#ffffff')
               ctx.setTextAlign('center')
@@ -56,7 +52,40 @@
               ctx.fillText('8/12', 180*that.width/750, 571*this.width/750)
               ctx.fillText('12', 375*that.width/750, 571*this.width/750)
               ctx.fillText('80%', 570*that.width/750, 571*this.width/750)
-              ctx.draw()
+
+
+              wx.downloadFile({
+                url: that.$store.state.userinfo.avatarUrl, //仅为示例，并非真实的资源
+                success: function(res) {
+                  // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
+                  if (res.statusCode === 200) {
+                    ctx.arc((282*that.width/750)+(186*that.width/1500), (92*that.width/750)+(186*that.width/1500), 186*that.width/1500, 0, 2*Math.PI)
+                    ctx.save()
+                    ctx.clip()
+                    ctx.drawImage(res.tempFilePath, 282*that.width/750, 92*that.width/750, 186*that.width/750, 186*that.width/750)
+                    ctx.restore()
+                    ctx.draw(false,function(){
+                      wx.canvasToTempFilePath({
+                        x: 0,
+                        y: 0,
+                        canvasId: 'report',
+                        success: function(res) {
+                          console.log(res.tempFilePath)
+                          wx.saveImageToPhotosAlbum({
+                            filePath:res.tempFilePath,
+                            success(result){
+                              console.log(result)
+                              that.isshow=false
+                            }
+                          })
+                        }
+                      })
+                    })
+                  }
+                }
+              })
+
+
 
             }
         },
@@ -64,6 +93,9 @@
         computed:{
           userinfo(){
               return this.$store.state.userinfo
+          },
+          user(){
+              return this.$store.state.user
           }
         },
       onLoad:function(){

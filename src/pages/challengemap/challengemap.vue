@@ -416,7 +416,7 @@
       width: 127px/2;
       height: 127px/2;
       box-shadow: #acacac 0 6px/2 7px/2;
-      border-radius: 25px/2;
+      border-radius: 10px/2;
       display: block;
     }
     div{
