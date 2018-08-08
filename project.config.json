@@ -136,6 +136,12 @@
 					"name": "对战结果",
 					"pathName": "pages/result/main",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "了解详情",
+					"pathName": "pages/questionsmain/main",
+					"query": ""
 				}
 			]
 		}
