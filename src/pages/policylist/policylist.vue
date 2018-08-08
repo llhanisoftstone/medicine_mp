@@ -24,7 +24,7 @@
                     {{item.remark}}
                   </p>
                   <div class="label-info clearfix">
-                    <div class="info-left">{{item.organiz_name}}</div>
+                    <div class="info-left">{{item.organiz_name||" "}}</div>
                     <div class="info-right rt icon-reading">
                       <span>{{item.view_count}}</span>
                     </div>
