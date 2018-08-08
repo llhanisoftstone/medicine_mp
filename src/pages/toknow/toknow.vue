@@ -8,11 +8,11 @@
           </li>
           <li data-type="2" >
             <span>姓名</span>
-            <input type="text" class="select-item" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
+            <input type="text" class="select-item" v-model='realname' maxlength="10"  placeholder="请输入姓名"/>
           </li>
           <li data-type="3" >
             <span>手机号</span>
-            <input class="select-item" type="number" v-model='userphone' maxlength="11" confirm-type="next"  placeholder="请输入手机号" />
+            <input class="select-item" type="number" v-model='userphone' maxlength="11"  placeholder="请输入手机号" />
           </li>
         </ul>
         <textarea id="complaintstext" v-model="detail" placeholder="请简单描述您想要了解的内容（200字以内）" maxlength="200"></textarea>
@@ -95,6 +95,10 @@
             }
           },
           submitData(){
+            if(!this.isBtnClicked){
+                  return;
+            }
+            this.isBtnClicked = false;
             if(this.wish_id=="" || this.wish_id==null){
               this.$mptoast('请选择咨询分类');
               return;
@@ -121,14 +125,11 @@
             this.$post('/rs/wish_to_known',data).then(res=>{
               if(res.code == 200){
                 this.$mptoast('保存成功',100);
-                if(this.isBtnClicked) {
-                  this.isBtnClicked = false;
-                  setTimeout(function () {
+                setTimeout(function () {
                     wx.navigateBack({     //返回上一页面或多级页面
                       delta: 1
                     })
-                  }, 1500);
-                }
+                }, 1500);
               }else{
                 this.$mptoast('保存失败',100);
               }
