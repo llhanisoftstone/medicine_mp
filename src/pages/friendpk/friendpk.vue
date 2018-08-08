@@ -96,7 +96,7 @@
         }
         return {
           title: title,
-          path: `/pages/loadpk/main?from=1&&id=${this.$store.state.user.userid}`,
+          path: `/pages/index/main`,
           imageUrl: img,
           success: (r)=>{
               console.log(r);

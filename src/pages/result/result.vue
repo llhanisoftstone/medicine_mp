@@ -36,7 +36,7 @@
                 win:0,
                 iscard:false,
                 card:{},
-                from: 2,
+                from: 2,//2全网 1好友
 
             }
         },
@@ -84,29 +84,34 @@
       },
       onShareAppMessage(res){
         let that = this
-        if (res.from === 'menu') {
-          // 来自页面内转发按钮
-          console.log(res.target)
-        }
-        let til='@你 真烦人，又赢了，无敌是多么的寂寞~'
-        let img = `${that.$store.state.url}/admin/img/success.jpg`
+
+        let url='/pages/index/main';
+        let til='边玩边学，游戏学习两不误！'
+        let img = `${that.$store.state.url}/admin/img/1.jpg`
         if(that.myscore>that.vsscore){
-          if(that.from == 1){
-            til='@你 就你，单挑，敢不敢~'
-          }else{
-            til = '@你 真烦人，又赢了，无敌是多么的寂寞~'
-          }
+          img = `${that.$store.state.url}/admin/img/2.jpg`
+          url='/pages/report/main?roomid=0';
+//          if(that.from == 1){
+          til='@你 真烦人，又赢了，无敌是多么的寂寞~'
         }else if(that.myscore == that.vsscore){
             til = '@你 千金易得，对手难得，棋逢对手下次再战'
             img = `${that.$store.state.url}/admin/img/mean.jpg`
+            url='/pages/index/main';
         }else{
-            til = '@你 愈挫愈勇，我还会再回来的'
-            img = `${that.$store.state.url}/admin/img/loss.jpg`
+            url='/pages/index/main';
+            til = '@你 呀！被虐了！快来助我一臂之力吧！'
+            img = `${that.$store.state.url}/admin/img/6.jpg`
         }
-
+        if (res.from === 'menu') {
+          // 来自页面内转发按钮
+          url='/pages/index/main';
+          til='边玩边学，游戏学习两不误！'
+          img = `${that.$store.state.url}/admin/img/1.jpg`
+          console.log(res.target)
+        }
         return {
           title: til,
-          path: '/pages/index/main',
+          path:url ,
           imageUrl: img,
           success: (r)=>{
             console.log(r)
