@@ -11,11 +11,10 @@
         </div>
       </a>
     </div>
-    <div class="zc_btn"><div class="zcbtn_top">我要提问</div></div>
-    <div class="nogetList" v-if="iskong">暂无记录</div>
     <a class="ui-link" :href="'/pages/toknow/main'">
       <div class="zc_btn"><div class="zcbtn_top">我要提问</div></div>
     </a>
+    <div class="nogetList" v-if="iskong">暂无记录</div>
   </div>
 </template>
 
