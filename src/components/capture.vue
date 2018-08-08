@@ -1,19 +1,24 @@
 <template>
     <div>
       <div class="gift_box" v-if="win==2">
-        <image src="/static/img/sucg.png" class="success_t"></image>
+        <image src="/static/img/succ.jpg"></image>
+        <ul class="rank_list">
+          <li>
+            <i class="rank"></i>
+            <span class="rank_nub">+100</span>
+            <span class="rank_name">{{user.rank_name}}</span>
+          </li>
+          <li>
+            <i class="yl"></i>
+            <span>+20</span>
+          </li>
+        </ul>
         <ul class="gift_list">
           <li v-if="iscard">
             <div>
               <image :src="card.ticket_pic"></image>
             </div>
-            <p>{{card.ticket_price}}元代金券</p>
-          </li>
-          <li>
-            <div>
-              <image src="/static/img/sucm.png"></image>
-            </div>
-            <p>银两+20</p>
+            <p>战利品:<span>{{card.ticket_price}}元代金券</span></p>
           </li>
         </ul>
       </div>
@@ -48,7 +53,12 @@
             return {}
         },
         methods: {},
-        components: {}
+        components: {},
+        computed:{
+            user(){
+                return this.$store.state.user
+            }
+        }
 
     }
 </script>
@@ -104,7 +114,13 @@
     }
   .gift_box{
     border-top:1px dashed #fff;
-    height: 325px/2;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    image{
+      width: 100%;
+      height: 688px/2;
+    }
   }
   .success_t{
     width: 310px/2;
@@ -113,6 +129,45 @@
     margin-top:21px/2;
     display: block;
     animation: success_t 1.5s ease;
+  }
+  .rank_list{
+    width: 319px/2;
+    height: auto;
+    position: absolute;
+    top:430px/2;
+    left:0;
+    right: 0;
+    margin:auto;
+    li{
+      height: 82px/2;
+      border-bottom: 1px solid #df5c3e;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      .rank{
+        width: 39px/2;
+        height: 39px/2;
+        background: url(../../static/img/jy.png) center no-repeat;
+        background-size: 39px/2 39px/2;
+      }
+      span{
+        font-size: 28px/2;
+        color: #333;
+      }
+      .yl{
+        width: 39px/2;
+        height: 39px/2;
+        background: url(../../static/img/yl.png) center no-repeat;
+        background-size: 39px/2 39px/2;
+        margin-right: 28px/2;
+      }
+    }
+    li:nth-of-type(1){
+      justify-content: space-between;
+      padding: 0 30px/2;
+    }
   }
   .gift_list{
     width: 100%;
@@ -141,12 +196,15 @@
     p{
       margin-top:20px/2;
       font-size:28px/2;
-      color: #fff;
+      color: #df5c3e;
       height: 28px/2;
       display: flex;
       white-space: nowrap;
       justify-content: center;
       align-items: center;
+      span{
+        color: #333;
+      }
     }
     }
     li:nth-of-type(1){
