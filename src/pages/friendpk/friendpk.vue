@@ -12,9 +12,10 @@
         <ul class="list">
           <li v-for="(v,i) in rankings">
             <span class="order" :class="{'front':i<3}">{{i+1}}</span>
-            <image :src="v.avatar_url"></image>
-            <span class="nickname">{{v.nickname}}</span>
-            <span class="integral"><image src="/static/img/paihangbang.png"></image>{{v.total_points}}</span>
+            <image :src="v.avatar_url" v-if="isFriends!=3"></image>
+            <span class="nickname" v-if="isFriends==3">{{v.name}}</span>
+            <span class="nickname" v-if="isFriends!=3">{{v.nickname}}</span>
+            <span class="integral"><image src="/static/img/paihangbang.png"></image>{{v.experience}}</span>
           </li>
         </ul>
       </div>
@@ -39,7 +40,7 @@
           getdata(){
               let that=this
               if(this.isFriends==1){
-                this.$get('/rs/member_relation',{u_id:this.$store.state.user.userid,order:'total_points desc,update_time'}).then(res=>{
+                this.$get('/rs/member_relation',{u_id:this.$store.state.user.userid,order:'experience desc,update_time'}).then(res=>{
                   if(res.code == 200){
                     for(var i=0;i<res.rows.length;i++){
                       if(res.rows[i].avatar_url==""||res.rows[i].avatar_url==null){
@@ -52,7 +53,7 @@
                   }
                 })
               }else if(this.isFriends==2){
-                  this.$get('/rs/member',{order:'total_points desc,create_time',page:1,size:50,rank:1}).then(res=>{
+                  this.$get('/rs/member',{order:'experience desc,create_time',page:1,size:50,rank:1}).then(res=>{
                       if(res.code == 200){
                           for(var i=0;i<res.rows.length;i++){
                               if(res.rows[i].avatar_url==""||res.rows[i].avatar_url==null){
@@ -65,7 +66,18 @@
                       }
                   })
               }else if(this.isFriends==3){
-                that.rankings=[]
+                this.$get('/rs/company_experience',{order:'experience desc',page:1,size:50}).then(res=>{
+                  if(res.code == 200){
+                    for(var i=0;i<res.rows.length;i++){
+                      if(res.rows[i].avatar_url==""||res.rows[i].avatar_url==null){
+                        res.rows[i].avatar_url='/static/img/people.png'
+                      }
+                    }
+                    that.rankings=res.rows
+                  }else if(res.code == 602){
+                    that.rankings=[]
+                  }
+                });
               }
           }
         },
