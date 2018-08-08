@@ -20,7 +20,9 @@
         </div>
       </a>
     </div>
-    <div class="zc_btn"><div class="zcbtn_top">我要提问</div></div>
+    <a class="ui-link" :href="'/pages/toknow/main'">
+      <div class="zc_btn"><div class="zcbtn_top">我要提问</div></div>
+    </a>
   </div>
 </template>
 
