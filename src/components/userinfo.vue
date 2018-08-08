@@ -11,7 +11,7 @@
         </div>
         <div class="username" v-if="isauth&&authreturn">
           {{username}}
-          <div class="userlevel">游学四方<span class="levelsign">235</span></div>
+          <div class="userlevel">{{user.rank_name}}<span class="levelsign">235</span></div>
         </div>
         <slot name="userRight" class="slot_box"></slot>
       </div>
@@ -138,6 +138,9 @@
           },
           authreturn(){
             return this.$store.state.authreturn
+          },
+          user(){
+              return this.$store.state.user
           }
         },
       onLoad:function(){

@@ -39,7 +39,9 @@
           <h2>为礼物而战</h2>
           <p>礼物有诱惑，政策福利更吸引我</p>
         </div>
-        <i class="gift_img"></i>
+        <i class="gift_img">
+          <image src="/static/img/lw.png"></image>
+        </i>
       </div>
     </div>
     <!--<div class="gift_title"><span></span><i></i><image src="/static/img/liwu.png"></image>为礼物而挑战<i></i><span></span></div>-->
@@ -163,7 +165,7 @@
     box-shadow: #923c3c 2px/2 5px/2 15px/2;
   }
   .container{
-    background: #fff3f3 url(../../../static/img/yetou.png) center top no-repeat;
+    background: #fff url(../../../static/img/yetou.png) center top no-repeat;
     background-size: 100% auto;
   }
   .match_box{
@@ -181,8 +183,8 @@
       height: 412px/2;
       border-radius: 10px/2;
       background: #ff862d url(../../../static/img/paiming.png) no-repeat;
-      background-position: 113px/2 195px/2;
-      background-size: 183px/2 162px/2;
+      background-position: 155px/2 245px/2;
+      background-size: 146px/2 148px/2;
       box-sizing: border-box;
       padding: 0 28px/2;
       padding-top: 53px/2;
@@ -191,9 +193,10 @@
         font-size: 33px/2;
         margin:0;
         font-weight: bold;
+        padding-bottom: 7px/2;
       }
       h4{
-        padding-top: 15px/2;
+        padding-top: 8px/2;
         font-size: 26px/2;
         color: #fff;
         line-height: 26px/2;
@@ -233,14 +236,14 @@
       }
       .item_1{
         background: #ffc02a url(../../../static/img/jiangbei.png) no-repeat;
-        background-position: 94.21% 24px/2;
-        background-size: 59px/2 59px/2;
+        background-position: 94.21% 10px/2;
+        background-size: 99px/2 99px/2;
       }
       .item_2{
         height: 215px/2;
         background: #76caff url(../../../static/img/huangguan.png) no-repeat;
-        background-size: 77px/2 49px/2;
-        background-position: 96.21% 24px/2;
+        background-size: 99px/2 111px/2;
+        background-position: 93.21% 16px/2;
         h2{
           padding-bottom: 62px/2;
         }
@@ -268,6 +271,7 @@
           font-size: 40px/2;
           color: #df5c3e;
           line-height: 40px/2;
+          font-weight: bold;
         }
         p{
           padding-top: 11px/2;
@@ -280,7 +284,10 @@
       i{
         width: 98px/2;
         height: 123px/2;
-        background: red;
+        image{
+          width: 98px/2;
+          height: 123px/2;
+        }
       }
     }
   }
