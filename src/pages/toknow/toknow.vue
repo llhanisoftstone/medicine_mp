@@ -4,11 +4,11 @@
         <ul class="complaintslist">
           <li data-type="1" >
             <span>咨询部门</span>
-            <span id="refund_type" class="select-item mui-ellipsis">请选择</span>
+            <span id="refund_type" class="select-item ">请选择</span>
           </li>
           <li data-type="2" >
             <span>咨询分类</span>
-            <span id="reason" class="select-item mui-ellipsis">请选择</span>
+            <span id="reason" class="select-item ">请选择</span>
           </li>
         </ul>
         <textarea id="complaintstext" placeholder="请简单描述您想要了解的内容（200字以内）" maxlength="200"></textarea>
@@ -52,7 +52,7 @@
         span:first-child{
           width:170px/2;
           font-size: 28px/2;
-          padding:5px/2 16px/2 0 42px/2;
+          padding:0 16px/2 0 42px/2;
           height: 100%;
           display: flex;
           align-items: center;
@@ -61,8 +61,6 @@
         }
         span:last-child{
           width:100%;
-          position:relative;
-          top:1px;
           font-size: 26px/2;
           line-height: 75px/2;
           height: 72px/2;
@@ -75,10 +73,12 @@
     #complaintstext{
       margin: 24px/2 0 0 0;
       border: none;
-      font-size: 24px/2;
+      font-size: 26px/2;
       color: @color_666;
       padding:0 51px/2;
       line-height: 32px/2;
+      box-sizing: border-box;
+      width:750px/2;
       height: 240px/2;
     }
     textarea::-webkit-input-placeholder{ color:@color_99;}
@@ -119,7 +119,6 @@
           text-align: center;
           font-size: 20px/2;
           line-height: 20px/2;
-          //padding-bottom: @p5;
           color: @color_666;
           margin: 0;
           position: absolute;
