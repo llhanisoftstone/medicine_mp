@@ -156,6 +156,9 @@
             }else{
               this.tips = this.$store.state.errorTips[Math.floor(Math.random()*this.$store.state.errorTips.length)].details
             }
+            setTimeout(()=>{
+              this.tips=''
+            },2000)
             for(let i=0;i<reply/10;i++){
 //              this.$store.commit('get_myscore',reply)
               setTimeout(()=>{
