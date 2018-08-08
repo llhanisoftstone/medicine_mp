@@ -441,8 +441,7 @@
         align-items: center;
         justify-content: center;
         border-radius: 50px/2;
-        background: #df5c3e;
-        background: linear-gradient(135deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
+        background: linear-gradient(150deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
         box-shadow: 1px 1.5px 1px 1px rgba(0,0,0,.2);
         i{
           width: 183px/2;
@@ -467,8 +466,7 @@
         align-items: center;
         justify-content: center;
         border-radius: 50px/2;
-        background: #df5c3e;
-        background: linear-gradient(135deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
+        background: linear-gradient(150deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
         box-shadow: 1px 1.5px 1px 1px rgba(0,0,0,.2);
         button{
           width: 183px/2;
