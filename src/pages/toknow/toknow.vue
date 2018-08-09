@@ -15,7 +15,7 @@
             <input class="select-item" type="number" v-model='userphone' maxlength="11"  placeholder="请输入手机号" />
           </li>
         </ul>
-        <textarea id="complaintstext" v-model="detail" placeholder="请简单描述您想要了解的内容（200字以内）" maxlength="200"></textarea>
+        <textarea id="complaintstext" v-model="detail" :show-confirm-bar="false" placeholder="请简单描述您想要了解的内容（200字以内）" maxlength="200"></textarea>
         <!--<div class="up" id="imgUpload" >-->
           <!--<span class="upimg"><p>上传照片</p></span>-->
         <!--</div>-->
