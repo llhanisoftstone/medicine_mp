@@ -531,6 +531,12 @@
                         })
                       }
                     }
+                  }else if(d.cmd === 'upgrade') {
+                    let user = that.$store.state.user
+                    user.rank_code = d.rank_code
+                    user.rank_name = d.rank_name
+                    user.experience = d.experience
+                    that.$store.commit('getm_user', user)
                   }
                 })
               }
