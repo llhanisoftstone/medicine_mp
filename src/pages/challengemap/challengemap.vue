@@ -8,11 +8,11 @@
           <div class="user" v-if="v==level">
             <image :src='imgurl'></image>
           </div>
-          <div class="gift gift_t" v-if="v==5">
+          <div class="gift gift_t" v-if="v==5" @click="showTips(v)">
             <i class="a_up"></i>
             <p>她未来10元代金券</p>
           </div>
-          <div class="gift gift_r" v-if="v==10">
+          <div class="gift gift_r" v-if="v==10" @click="showTips(v)">
             <p>瑄府燕窝128元代金券</p>
             <i class="a_right"></i>
           </div>
@@ -45,10 +45,12 @@
           </div>
         </div>
       </div>
+      <mptoast/>
     </div>
 </template>
 
 <script type="javascript">
+  import mptoast from '../../components/mptoast';
     export default {
         name: 'challengemap',
         data(){
@@ -96,6 +98,14 @@
             }
             this.isshow=true
             this.select=v
+          },
+          showTips(gift_v){
+            let gaplevel=gift_v-this.level;
+            if(gaplevel>0){
+              if(this.level!=5 || this.level!=10){
+                this.$mptoast('还差 '+gaplevel+' 关才能拿到哦！加油！加油！');
+              }
+            }
           },
           hidepick(){
             this.isshow=false
@@ -153,7 +163,9 @@
           }
         }
       },
-        components: {},
+        components: {
+          mptoast
+        },
         computed:{
             imgurl(){
                 return this.$store.state.userinfo.avatarUrl
