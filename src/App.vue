@@ -4,6 +4,7 @@ export default {
     let that = this
     let showmsg = null
     that.getquick()
+    that.getTips()
     this.$socket.on('connect', () => {
       wx.hideLoading()
       clearTimeout(showmsg)
@@ -226,6 +227,12 @@ export default {
                       })
                     }
                   }
+                }else if(d.cmd === 'upgrade') {
+                  let user = that.$store.state.user
+                  user.rank_code = d.rank_code
+                  user.rank_name = d.rank_name
+                  user.experience = d.experience
+                  that.$store.commit('getm_user', user)
                 }
               })
 //                console.log(res)
@@ -239,6 +246,19 @@ export default {
       that.$get('/rs/phrase_set', {order: 'order_code desc', page: 1, size: 6}).then(res=>{
         if (res.code == 200) {
           that.$store.commit('quick', res.rows)
+        }
+      })
+    },
+    getTips () {
+      let that = this
+      this.$get('/rs/hint_set', {category: 1, page: 1, size: 20}).then(res => {
+        if (res.code === 200) {
+          that.$store.commit('successTips', res.rows)
+        }
+      })
+      this.$get('/rs/hint_set', {category: 2, page: 1, size: 20}).then(res => {
+        if (res.code === 200) {
+          that.$store.commit('errorTips', res.rows)
         }
       })
     }

@@ -16,6 +16,10 @@
         <div class="title">手机号</div>
         <input type="number" v-model='phone' maxlength="11" confirm-type="next"  placeholder="手机号" />
       </div>
+    <div class="item">
+      <div class="title">企业</div>
+      <input type="text" v-model='comp_name' maxlength="20" confirm-type="next" placeholder="企业名称"/>
+    </div>
       <div class="item" @click="addresslist">
           <div class="title">详细地址</div>
           <input type="text" style="max-width:90%"  disabled placeholder="详细地址" maxlength="30" confirm-type="next" v-model='address' />
@@ -48,6 +52,7 @@
         name:'',
         gender:'',
         realname:'',
+        comp_name:'',
         phone:'',
         cardNum:'',
         shop_label:'',

@@ -8,13 +8,27 @@
           <div class="user" v-if="v==level">
             <image :src='imgurl'></image>
           </div>
-          <div class="gift gift_t" v-if="v==5">
+          <div class="prizebox1" v-if="v==5">
+            <image src="/static/img/5guan.png"></image>
+          </div>
+          <div class="prizebox2" v-if="v==10">
+            <image src="/static/img/10guan.png"></image>
+          </div>
+          <div class="gift gift_t" v-if="v==5" @click="showpick(v)">
             <i class="a_up"></i>
             <p>她未来10元代金券</p>
           </div>
-          <div class="gift gift_r" v-if="v==10">
+          <div class="gift gift_r" v-if="v==10" @click="showpick(v)">
             <p>瑄府燕窝128元代金券</p>
             <i class="a_right"></i>
+          </div>
+          <div class="tips1 tips" v-if="tips!=-1&&tips!=5&&tips!=10&&v==tips">
+            <image src="/static/img/guanqia.png" ></image>
+            <p>到达该关<br>再来玩吧!</p>
+          </div>
+          <div class="tips2 tips" v-if="(tips==5||tips==10)&&v==tips">
+            <image src="/static/img/cliwu.png" ></image>
+            <p>还差{{tipsprize}}关才能<br>拿到哦!加油!加油</p>
           </div>
         </li>
       </ul>
@@ -45,10 +59,12 @@
           </div>
         </div>
       </div>
+      <mptoast/>
     </div>
 </template>
 
 <script type="javascript">
+  import mptoast from '../../components/mptoast';
     export default {
         name: 'challengemap',
         data(){
@@ -57,7 +73,9 @@
               levelarr:[1,2,3,4,5,6,7,8,9,10],   //全部关卡
 //              level:3,       //自己的关卡
               select:0,    //选择的关卡
-              game_type:-1     //单人 1   多人 2
+              game_type:-1,     //单人 1   多人 2
+              tips:-1,           //显示提示信息
+              tipsprize:0        //提示关卡
             }
         },
         methods: {
@@ -92,7 +110,16 @@
           },
           showpick(v){
             if(this.level<v){
-                return
+              let gaplevel=v-this.level;
+              this.tips=v
+              if(v==5 || v==10){
+                this.tipsprize = gaplevel
+              }
+              setTimeout(()=>{
+                this.tips=-1
+                this.tipsprize=0
+              },1000)
+              return
             }
             this.isshow=true
             this.select=v
@@ -153,7 +180,9 @@
           }
         }
       },
-        components: {},
+        components: {
+          mptoast
+        },
         computed:{
             imgurl(){
                 return this.$store.state.userinfo.avatarUrl
@@ -194,6 +223,148 @@
       100%{
         opacity: 1;
         transform: scale(1);
+      }
+    }
+    @keyframes gift {
+      1% {
+        transform: translate(0, 0) rotate(6.5deg)
+      }
+
+      2% {
+        transform: translate(0, 0) rotate(3.5deg)
+      }
+
+      3% {
+        transform: translate(0, 0) rotate(-3.5deg)
+      }
+
+      4% {
+        transform: translate(0, 0) rotate(5.5deg)
+      }
+
+      5% {
+        transform: translate(0, 0) rotate(-4.5deg)
+      }
+
+      6% {
+        transform: translate(0, 0) rotate(-4.5deg)
+      }
+
+      7% {
+        transform: translate(0, 0) rotate(-6.5deg)
+      }
+
+      8% {
+        transform: translate(0, 0) rotate(2.5deg)
+      }
+
+      9% {
+        transform: translate(0, 0) rotate(-5.5deg)
+      }
+
+      10% {
+        transform: translate(0, 0) rotate(.5deg)
+      }
+
+      11% {
+        transform: translate(0, 0) rotate(-3.5deg)
+      }
+
+      12% {
+        transform: translate(0, 0) rotate(-6.5deg)
+      }
+
+      13% {
+        transform: translate(0, 0) rotate(6.5deg)
+      }
+
+      14% {
+        transform: translate(0, 0) rotate(1.5deg)
+      }
+
+      15% {
+        transform: translate(0, 0) rotate(-5.5deg)
+      }
+
+      16% {
+        transform: translate(0, 0) rotate(7.5deg)
+      }
+
+      17% {
+        transform: translate(0, 0) rotate(-3.5deg)
+      }
+
+      18% {
+        transform: translate(0, 0) rotate(7.5deg)
+      }
+
+      19% {
+        transform: translate(0, 0) rotate(-5.5deg)
+      }
+
+      20% {
+        transform: translate(0, 0) rotate(3.5deg)
+      }
+      0%,21%,50%,100% {
+        transform: translate(0, 0) rotate(0)
+      }
+    }
+    .prizebox1{
+      width: 96px/2;
+      height: 105px/2;
+      position: absolute;
+      top:-93px/2;
+      left:14px/2;
+      animation: gift 3s infinite;
+      image{
+        width: 96px/2;
+        height: 105px/2;
+      }
+    }
+    .prizebox2{
+      width: 133px/2;
+      height: 145px/2;
+      position: absolute;
+      top:-54px/2;
+      left:36px/2;
+      animation: gift 3.4s infinite;
+      image{
+        width: 133px/2;
+        height: 145px/2;
+      }
+    }
+    .tips1{
+      width: 147px/2;
+      height: 115px/2;
+      position: relative;
+      transform: rotate(20deg);
+      image{
+        width: 147px/2;
+        height: 115px/2;
+      }
+      p{
+        font-size: 20px/2;
+        position: absolute;
+        top:30px/2;
+        left:28px/2;
+        line-height: 24px/2;
+        width: 120px/2;
+      }
+    }
+    .tips2{
+      width: 255px/2;
+      height: 202px/2;
+      image{
+        width: 255px/2;
+        height: 202px/2;
+      }
+      p{
+        text-align: center;
+        font-size: 28px/2;
+        position: absolute;
+        top:60px/2;
+        left:28px/2;
+        line-height: 36px/2;
       }
     }
     .c_map{
@@ -284,23 +455,49 @@
       &:nth-of-type(1){
          left:70px/2;
          top: 180px/2;
+        .tips{
+          position: absolute;
+          top:-120px/2;
+          left:-20px/2;
+        }
        }
       &:nth-of-type(2){
          left:330px/2;
          top: 122px/2;
+        .tips{
+          position: absolute;
+          top:-80px/2;
+          left:0px/2;
+        }
        }
       &:nth-of-type(3){
          left:573px/2;
          top: 145px/2;
+        .tips{
+          position: absolute;
+          top:-100px/2;
+          left:0px/2;
+        }
        }
       &:nth-of-type(4){
          left:89.06%;
          top: 287px/2;
+        .tips{
+          position: absolute;
+          top:-100px/2;
+          left:-30px/2;
+        }
        }
     &:nth-of-type(5){
        left:432px/2;
        top: 459px/2;
       background: transparent;
+      .tips{
+        position: absolute;
+        top:-290px/2;
+        left:-70px/2;
+        transform: rotate(15deg);
+      }
       .nub{
         background: transparent;
         border-color:transparent;
@@ -313,23 +510,49 @@
       &:nth-of-type(6){
          left:205px/2;
          top: 498px/2;
+        .tips{
+          position: absolute;
+          top:-110px/2;
+          left:-40px/2;
+        }
        }
       &:nth-of-type(7){
          left:114px/2;
          top: 674px/2;
+        .tips{
+          position: absolute;
+          top:-110px/2;
+          left:-40px/2;
+        }
        }
       &:nth-of-type(8){
          left:356px/2;
          top: 743px/2;
+        .tips{
+          position: absolute;
+          top:-110px/2;
+          left:-40px/2;
+        }
        }
       &:nth-of-type(9){
          left:614px/2;
          top: 781px/2;
+        .tips{
+          position: absolute;
+          top:-110px/2;
+          left:-40px/2;
+        }
        }
       &:nth-of-type(10){
          left:308px/2;
          top: 952px/2;
          background: transparent;
+        .tips{
+          position: absolute;
+          top:-210px/2;
+          left:80px/2;
+          transform: rotate(35deg);
+        }
         .nub{
           background: transparent;
           border-color:transparent;

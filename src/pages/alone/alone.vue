@@ -28,7 +28,7 @@
         </div>
         <!--<p class="provide">本题由{{answer.organiz_name}}提供</p>-->
         <div class="prop_box">
-          <prop :surplus="surplus" :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
+          <prop :tips="tips" :surplus="surplus" :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
         </div>
       </div>
       <mptoast/>
@@ -63,7 +63,8 @@
               hreftime:null,              //跳转页面时间函数
               isanimation:false,           //是否显示动画
               tanswer:'',
-              setfn:null
+              setfn:null,
+              tips:''                   //答题提示语
             }
         },
         methods: {
@@ -148,7 +149,13 @@
               let reply=0
               if(right){
                   reply=1
+                that.tips = that.$store.state.successTips[Math.floor(Math.random()*that.$store.state.successTips.length)].details
+              }else{
+                that.tips = that.$store.state.errorTips[Math.floor(Math.random()*that.$store.state.errorTips.length)].details
               }
+              setTimeout(()=>{
+                that.tips=''
+              },2000)
               that.$socket.emit('data_chain', {
                 cmd:'answer',
                 room_id:that.$store.state.room_id,

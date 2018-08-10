@@ -40,7 +40,7 @@
       </div>
       <!--<p class="provide">本题由{{answer.organiz_name}}提供</p>-->
       <div class="prop_box">
-        <prop :istimes="false" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
+        <prop :tips="tips" :istimes="false" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
       </div>
       <mptoast/>
     </div>
@@ -74,7 +74,8 @@
                 timesfn:null,           //定时器
                 isanimation:false,         //是否显示动画
                 tanswer:'',
-                setfn:null
+                setfn:null,
+                tips:''                   //答题提示语
             }
         },
         methods: {
@@ -151,7 +152,13 @@
                   }else{
                     reply=40
                   }
+              this.tips = this.$store.state.successTips[Math.floor(Math.random()*this.$store.state.successTips.length)].details
+            }else{
+              this.tips = this.$store.state.errorTips[Math.floor(Math.random()*this.$store.state.errorTips.length)].details
             }
+            setTimeout(()=>{
+              this.tips=''
+            },2000)
             for(let i=0;i<reply/10;i++){
 //              this.$store.commit('get_myscore',reply)
               setTimeout(()=>{

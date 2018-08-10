@@ -6,7 +6,6 @@
           <image :src='imgurl' v-if="isauth"></image>
           <button open-type="getUserInfo" v-if="!isauth&&authreturn" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">
             <image src="/static/img/role.png"></image>
-            <span>暂未授权,请点击授权</span>
           </button>
         </div>
         <div class="username" v-if="isauth&&authreturn">
@@ -126,6 +125,12 @@
                         })
                       }
                     }
+                  }else if(d.cmd === 'upgrade') {
+                    let user = that.$store.state.user
+                    user.rank_code = d.rank_code
+                    user.rank_name = d.rank_name
+                    user.experience = d.experience
+                    that.$store.commit('getm_user', user)
                   }
                 })
               }
@@ -206,13 +211,14 @@
             /*background: transparent;*/
             background: rgba(0,0,0,0.7);
             image{
-              width: 377px/2;
-              height: 360px/2;
+              width: 641px/2;
+              height: 891px/2;
+              margin:auto;
               position: absolute;
-              top:205px/2;
+              top:0;
               left:0;
               right:0;
-              margin:auto;
+              border-radius: 0 !important;
             }
             span{
               width: 100%;

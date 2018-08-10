@@ -34,12 +34,22 @@ const store = new Vuex.Store({
     f_level: 0,                 // 亲友团进行的关卡
     max_nub: 0,                    // 关卡题目数量
     modalshow: true,               // 是否显示弹窗
-    quick: []                        //快捷语
+    quick: [],                        //快捷语
+    successTips:[],                 //正确提示
+    errorTips:[]                    //错误提示
   },
   mutations: {
     quick: (state, arr) => {
       const obj = state
       obj.quick = arr
+    },
+    successTips: (state, arr) => {
+      const obj = state
+      obj.successTips = arr
+    },
+    errorTips: (state, arr) => {
+      const obj = state
+      obj.errorTips = arr
     },
     getsocket: (state, islogin = true) => {
       const obj = state
