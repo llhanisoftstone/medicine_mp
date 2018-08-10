@@ -4,8 +4,8 @@
         <div class="pick_box" @click.stop="prevent">
           <img class="bg_box" src="../../../static/img/authmulti_bg.png">
           <div class="btn_box">
-              <div class="btn">走，助攻去</div>
-              <div class="btn">新开一局</div>
+              <div class="btn" @click="tozhan()">走，助攻去</div>
+              <div class="btn" @click="toindex()">新开一局</div>
           </div>
         </div>
       </div>
@@ -15,6 +15,7 @@
     export default {
         name: 'authmulti',
         props: [],
+        topage:"",
         data(){
             return {
               isshow:true,    //弹窗状态
@@ -25,10 +26,21 @@
           hidepick(){
             this.isshow=false
           },
+          tozhan(){
+            let thiz=this;
+            wx.navigateTo({
+              url: thiz.topage
+            })
+          },
+          toindex(){
+            wx.switchTab({
+              url:"/pages/index/main"
+            })
+          },
           prevent(){},       //阻止冒泡
         },
       onLoad: function (option) {
-
+        this.topage="/pages/"+option.pages+"/main?"+`ismy=${option.ismy}&&id=${option.id}`
       },
       onUnload(){
         this.isshow=true;

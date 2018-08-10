@@ -9,10 +9,10 @@
           <div class="subject">
             <p>8/12</p>
             <p>12</p>
-            <p>100%</p>
+            <p>{{percentage}}</p>
           </div>
           <div class="btn_box">
-            <button>分享给好友</button>
+            <button open-type="share">分享给好友</button>
             <a @click="canvas">保存到相册</a>
           </div>
         </div>
@@ -26,7 +26,8 @@
         data(){
             return {
                 width:0,
-                isshow:false
+                isshow:false,
+                percentage:"0%"
             }
         },
         methods: {
@@ -84,9 +85,6 @@
                   }
                 }
               })
-
-
-
             }
         },
         components: {},
@@ -99,7 +97,8 @@
           }
         },
       onLoad:function(){
-        let that = this
+        let that = this;
+        this.percentage=Math.floor(95+Math.random()*5)+"%";
         wx.getSystemInfo({
           success: function(res) {
 //            console.log(res.model)
@@ -111,8 +110,31 @@
 //            console.log(res.platform)
           }
         })
+      },
+      onShareAppMessage(res){
+        let that = this;
+        let title='@你 记录在此，谁来挑战！！！';
+        let url=`/pages/authfight/main?`+`pages=loadpk&&from=1&&id=${this.$store.state.user.userid}`;
+        if (res.from === 'menu') {
+          // 来自页面内转发按钮
+          title='边玩边学，游戏学习两不误！';
+//        img=`${that.$store.state.url}/admin/img/1.jpg`;
+          url="/pages/index/main";
+        }
+        return {
+          title: title,
+          path: url,
+          success: (r)=>{
+            console.log(r);
+            wx.navigateTo({
+              url:"/pages/loadpk/main?from=1"
+            })
+          },
+          fail: (err)=>{
+            console.log(err)
+          }
+        }
       }
-
     }
 </script>
 
