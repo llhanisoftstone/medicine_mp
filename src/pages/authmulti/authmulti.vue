@@ -10,9 +10,6 @@
             <p class="btn_box">
               <button class="btn" open-type="getUserInfo"  @getuserinfo="bindGetUserInfo" @click="jumptype=2">新开一局</button>
             </p>
-          <div class="btn_box">
-              <div class="btn" @click="tozhan()">走，助攻去</div>
-              <div class="btn" @click="toindex()">新开一局</div>
           </div>
         </div>
       </div>
@@ -152,14 +149,10 @@
                   }
                 })
                 if(that.jumptype==1){
-                  wx.redirectTo({
-                    url:`/pages/team/main`
-                  })
+                  that.tozhan();
                 }
                 if(that.jumptype==2){
-                  wx.switchTab({
-                    url: '/pages/index/main'
-                  })
+                  that.toindex();
                 }
               }
             })
