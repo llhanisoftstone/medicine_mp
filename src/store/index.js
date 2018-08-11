@@ -38,6 +38,7 @@ const store = new Vuex.Store({
     successTips:[],                 //正确提示
     errorTips:[],                    //错误提示
     rightTitle:0,                    //正确题目数量
+    allTitle:0,                      //所有题目
     useTime:0                        //答题所用时间
   },
   mutations: {
@@ -47,6 +48,14 @@ const store = new Vuex.Store({
         obj.rightTitle = 0
       } else {
         obj.rightTitle += 1
+      }
+    },
+    allTitle: (state, nub) => {
+      const obj = state
+      if (nub === 0) {
+        obj.allTitle = 0
+      } else {
+        obj.allTitle += 1
       }
     },
     useTime: (state, nub) => {

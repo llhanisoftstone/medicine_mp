@@ -5,7 +5,7 @@
           <li class="list-li" v-for="(item,i) in ticket_list" :key="item.id">
             <div class="upper-part">
               <div class="shade"></div>
-              <image src="/static/img/back_icon-1.png" class="background-img"></image>
+              <image src="/static/img/back_icon-1.jpg" class="background-img"></image>
               <div class="ticket-info">
                 <p class="item_rmb"><span class="rmbsign">{{item.price}}</span><span class="djqsign">元代金券({{item.total_amount}}张)</span></p>
                 <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
@@ -213,7 +213,7 @@
           width: 700px/2;
           height: 79px/2;
           bottom: 0;
-          background: url('../../../static/img/yhj_1.png') no-repeat left center;
+          background: url('../../../static/img/yhj_1.jpg') no-repeat left center;
           background-size: 699px/2 79px/2;
           span{
             float: left;

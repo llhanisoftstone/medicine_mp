@@ -175,6 +175,13 @@
               use_time:30-this.times,   //使用时间   -1 自己延时   -2  对方延时
               step:this.$store.state.step
             })
+            if(reply!=0){
+              this.$store.commit('rightTitle',1)
+            }
+            if((30-this.times)>0){
+              this.$store.commit('useTime',30-this.times)
+            }
+            this.$store.commit('allTitle',1)
           },
           overtime(){   //超时自动提交一次
             let that=this
@@ -187,6 +194,8 @@
                 use_time:-1,   //使用时间   -1 自己延时   -2  对方延时
                 step:that.$store.state.step
               })
+              this.$store.commit('useTime',30)
+              that.$store.commit('allTitle',1)
             }
             if(!that.vsisclick){
               that.$socket.emit('data_chain', {
@@ -282,6 +291,9 @@
         let that=this
         that.isanimation=true
         that.istimes=false
+        that.$store.commit('rightTitle',0)
+        that.$store.commit('useTime',0)
+        that.$store.commit('allTitle',0)
         setTimeout(()=>{
           that.times=30
           that.istimes=true

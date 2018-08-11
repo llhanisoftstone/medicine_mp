@@ -1,6 +1,6 @@
 <template>
     <div class="c_map">
-      <image src="/static/img/bg.png" class="bg"></image>
+      <image src="/static/img/bg.jpg" class="bg"></image>
       <ul class="c_box">
         <li :class="{'pass':v<level,'on':v==level}" v-for="(v,i) in levelarr" @click="showpick(v)">
           <div class="nub" v-if="v!=5&&v!=10">{{v}}</div>

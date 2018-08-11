@@ -12,7 +12,7 @@
           {{username}}
           <div class="userlevel">{{user.rank_name}}<span class="levelsign">{{user.experience}}</span></div>
         </div>
-        <slot name="userRight" class="slot_box"></slot>
+        <slot name="userRight"></slot>
       </div>
     </div>
 </template>

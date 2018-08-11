@@ -167,6 +167,13 @@
                 use_time:(30-this.times)>0?30-this.times:0,   //使用时间   -1 自己延时
                 step:that.$store.state.step
               })
+            if(reply==1){
+              that.$store.commit('rightTitle',1)
+            }
+            if((30-this.times)>0){
+              that.$store.commit('useTime',30-this.times)
+            }
+            that.$store.commit('allTitle',1)
           },
           overtime(){
             let that=this
@@ -181,6 +188,8 @@
                   use_time:-1,   //使用时间   -1 自己延时
                   step:that.$store.state.step
                 })
+                that.$store.commit('useTime',30)
+                that.$store.commit('allTitle',1)
               }
             }
           },
@@ -243,6 +252,9 @@
 //        that.isanimation=false
 //      },2000)
       that.cleardata()
+      that.$store.commit('rightTitle',0)
+      that.$store.commit('useTime',0)
+      that.$store.commit('allTitle',0)
       clearInterval(that.atimefn)
       clearTimeout(that.hreftime)
       that.atimefn=null

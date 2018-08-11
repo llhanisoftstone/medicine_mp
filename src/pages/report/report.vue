@@ -7,8 +7,8 @@
           <h2 class="username">{{userinfo.nickName}}</h2>
           <h4 class="grade">{{user.rank_name}}</h4>
           <div class="subject">
-            <p>8/12</p>
-            <p>12</p>
+            <p>{{rightTitle}}/{{max_nub}}</p>
+            <p>{{useTime}}</p>
             <p>{{percentage}}</p>
           </div>
           <div class="btn_box">
@@ -50,9 +50,9 @@
               ctx.setFillStyle('#ffffff')
               ctx.setTextAlign('center')
               ctx.setTextBaseline('top')
-              ctx.fillText('8/12', 180*that.width/750, 571*this.width/750)
-              ctx.fillText('12', 375*that.width/750, 571*this.width/750)
-              ctx.fillText('80%', 570*that.width/750, 571*this.width/750)
+              ctx.fillText(`${that.rightTitle}/${that.max_nub}`, 180*that.width/750, 571*this.width/750)
+              ctx.fillText(that.useTime, 375*that.width/750, 571*this.width/750)
+              ctx.fillText(that.percentage, 570*that.width/750, 571*this.width/750)
 
 
               wx.downloadFile({
@@ -94,6 +94,15 @@
           },
           user(){
               return this.$store.state.user
+          },
+          max_nub(){
+              return this.$store.state.allTitle
+          },
+          rightTitle(){
+              return this.$store.state.rightTitle
+          },
+          useTime(){
+              return Math.ceil(this.$store.state.useTime/60)
           }
         },
       onLoad:function(){

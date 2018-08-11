@@ -4,7 +4,7 @@
         <div class="data-ii">
           <div class="upper-part">
             <div class="shade"></div>
-            <image class="background-img" src="/static/img/back_icon-1.png" alt=""></image>
+            <image class="background-img" src="/static/img/back_icon-1.jpg" alt=""></image>
             <div class="item_margin"><img class="item_logo" :src="piclogo" alt=""></div>
             <p class="item_name">{{ticket_name}}</p>
             <div class="ticket-info">
@@ -171,7 +171,7 @@
           width: 700px/2;
           height: 79px/2;
           bottom: 0;
-          background: url('../../../static/img/yhj_1.png') no-repeat left center;
+          background: url('../../../static/img/yhj_1.jpg') no-repeat left center;
           background-size: 699px/2 79px/2;
           span{
             float: left;

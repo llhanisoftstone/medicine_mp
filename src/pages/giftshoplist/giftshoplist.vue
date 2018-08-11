@@ -4,7 +4,7 @@
       <li class="mainlist_item"  v-for="(item,i) in policy_list" :key="item.id">
         <a v-if="item.type==1">
           <image class="item_img1" src="/static/img/beijing-1.png" v-if="item.status==1 || item.status==2" alt=""></image>
-          <image class="item_img1" src="/static/img/back_icon-1.png" alt="" v-if="item.status==0"></image>
+          <image class="item_img1" src="/static/img/back_icon-1.jpg" alt="" v-if="item.status==0"></image>
           <div class="item_info1">
             <p class="item_rmb"><span class="rmbsign">{{item.price}}</span><span class="djqsign">元代金券</span></p>
             <p class="item_type">线上红包</p>
@@ -17,7 +17,7 @@
         </a>
         <a v-if="item.type==2" :href="'/pages/giftshopdetail/main?pid='+item.id" :class="{'touch-item':true,'touch-move-active':item.isTouchMove }" :key="item.id" @longpress.stop="deleteItem" :data-index="item.id">
           <image class="item_img2" src="/static/img/beijing-2.png" v-if="item.status==1 || item.status==2" alt=""></image>
-          <image class="item_img2" src="/static/img/back_icon-2.png" alt="" v-if="item.status==0"></image>
+          <image class="item_img2" src="/static/img/back_icon-2.jpg" alt="" v-if="item.status==0"></image>
           <div class="item_info2">
             <p class="item_rmb"><span class="rmbsign">{{item.price}}</span><span class="djqsign">元代金券</span></p>
             <p class="item_type">实体店红包</p>
