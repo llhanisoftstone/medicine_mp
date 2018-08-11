@@ -160,7 +160,7 @@
         let that=this;
         let title='@你 助力好友一起闯关吧~';
         let img=`${that.$store.state.url}/admin/img/team.jpg`;
-        let url=`/pages/team/main?id=${that.$store.state.user.userid}&&ismy=1`;
+        let url=`/pages/authmulti/main?`+`pages=team&&ismy=1&&id=${that.$store.state.user.userid}`
         if (res.from === 'menu') {
           // 来自页面内转发按钮
           title='边玩边学，游戏学习两不误！';

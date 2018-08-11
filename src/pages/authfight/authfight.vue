@@ -17,8 +17,8 @@
 </template>
 <script type="javascript">
     export default {
-      name: 'authfight',
-      props: ['imgurl','username'],
+        name: 'authfight',
+        topage:"",
         data(){
             return {
               isshow:true,    //弹窗状态
@@ -28,6 +28,17 @@
         methods: {
           hidepick(){
             this.isshow=false
+          },
+          tozhan(){
+              let thiz=this;
+              wx.navigateTo({
+                url: thiz.topage
+              })
+          },
+          toindex(){
+            wx.switchTab({
+              url:"/pages/index/main"
+            })
           },
           prevent(){},       //阻止冒泡
           bindGetUserInfo: function(e) {
@@ -137,21 +148,17 @@
                   }
                 })
                 if(that.jumptype==1){
-                  wx.redirectTo({
-                    url:`/pages/loadpk/main`
-                  })
+                  that.tozhan()
                 }
                 if(that.jumptype==2){
-                  wx.switchTab({
-                    url: '/pages/index/main'
-                  })
+                  that.toindex()
                 }
               }
             })
           }
         },
       onLoad: function (option) {
-
+        this.topage="/pages/"+option.pages+"/main?"+`from=${option.from}&&id=${option.id}`
       },
       onUnload(){
         this.isshow=true;

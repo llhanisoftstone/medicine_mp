@@ -28,7 +28,7 @@
         </div>
         <!--<p class="provide">本题由{{answer.organiz_name}}提供</p>-->
         <div class="prop_box">
-          <prop :tips="tips" :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
+          <prop :tips="tips" :surplus="surplus" :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
         </div>
       </div>
       <mptoast/>
@@ -47,6 +47,7 @@
             return {
               istimes:false,     //是否显示倒计时
               times:30,         //倒计时
+              surplus:false,   //剩余十秒
               isprop:false,    //道具提示
               isshow:false,    //显示答案
               isclick:false,   //是否选择
@@ -133,6 +134,9 @@
               return
             }
             that.times=that.times-1
+            if(that.times<10){
+              that.surplus=true;
+            }
           },
           submit(index,right){
               if(this.isclick){

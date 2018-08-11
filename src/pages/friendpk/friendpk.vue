@@ -100,15 +100,17 @@
         let that = this;
         let title='@你 有人向你发起挑战，点击应战~';
         let img=`${that.$store.state.url}/admin/img/7.jpg`;
+        let url=`/pages/authfight/main?`+`pages=loadpk&&from=1&&id=${this.$store.state.user.userid}`
         if (res.from === 'menu') {
           // 来自页面内转发按钮
           title='边玩边学，游戏学习两不误！';
           img=`${that.$store.state.url}/admin/img/1.jpg`;
+          url="/pages/index/main"
           console.log(res.target)
         }
         return {
           title: title,
-          path: `/pages/index/main`,
+          path: url,
           imageUrl: img,
           success: (r)=>{
               console.log(r);

@@ -18,6 +18,7 @@
 <script type="javascript">
     export default {
         name: 'authmulti',
+        topage:"",
         props: ['imgurl','username'],
         data(){
             return {
@@ -28,6 +29,17 @@
         methods: {
           hidepick(){
             this.isshow=false
+          },
+          tozhan(){
+            let thiz=this;
+            wx.navigateTo({
+              url: thiz.topage
+            })
+          },
+          toindex(){
+            wx.switchTab({
+              url:"/pages/index/main"
+            })
           },
           prevent(){},       //阻止冒泡
           bindGetUserInfo: function(e) {
@@ -137,21 +149,17 @@
                   }
                 })
                 if(that.jumptype==1){
-                  wx.redirectTo({
-                    url:`/pages/team/main`
-                  })
+                  that.tozhan();
                 }
                 if(that.jumptype==2){
-                  wx.switchTab({
-                    url: '/pages/index/main'
-                  })
+                  that.toindex();
                 }
               }
             })
           }
         },
       onLoad: function (option) {
-
+        this.topage="/pages/"+option.pages+"/main?"+`ismy=${option.ismy}&&id=${option.id}`
       },
       onUnload(){
         this.isshow=true;

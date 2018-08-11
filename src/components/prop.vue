@@ -1,12 +1,12 @@
 <template>
     <div>
       <div class="bg_prop">
-        <div @click="useTools(answer,1)">
+        <div @click="useTools(answer,1)" :class="{surplus:surplus}">
           <image src="/static/img/daojushangdian_11.png"></image>
           <p>{{answer>99?'99+':answer}}</p>
           <div class="toolname">答案眼</div>
         </div>
-        <div v-if="istimes" @click="useTools(times,2)">
+        <div v-if="istimes" @click="useTools(times,2)" :class="{surplus:surplus}">
           <image src="/static/img/daojushangdian_13.png"></image>
           <p>{{times>99?'99+':times}}</p>
           <div class="toolname">延时针</div>
@@ -40,6 +40,10 @@
             tips:{
                 type:String,
                 default:''
+            },
+            surplus:{
+              type:Boolean,
+              default:false
             }
       },
         data(){
@@ -68,7 +72,25 @@
 
 <style lang="less" scoped>
     @import '../static/less/common.less';
-    .bg_prop{
+
+    @keyframes swing {
+      10% {
+        transform: rotate(15deg);
+      }
+      20% {
+        transform: rotate(-10deg);
+      }
+      30% {
+        transform: rotate(5deg);
+      }
+      40% {
+        transform: rotate(-5deg);
+      }
+      50%, 100% {
+        transform: rotate(0deg);
+      }
+    }
+      .bg_prop{
       background: #fff;
       width: 100%;
       display: flex;
@@ -77,6 +99,10 @@
       box-sizing: border-box;
       height: 110px/2;
       >div{
+        &.surplus{
+          transform-origin: bottom center;
+          animation: swing 2s .1s linear infinite;
+        }
         width: 88px/2;
         height: 88px/2;
         border-radius: 10px/2;
