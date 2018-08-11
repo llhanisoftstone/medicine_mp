@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-      <div class="item">
-        <div class="title">微信昵称</div>
-        <input type="text" :value='name' disabled maxlength="10" readonly onfocus="this.blur()" confirm-type="next" placeholder="请输入微信昵称"/>
-      </div>
-      <div class="item">
-        <div class="title">性别</div>
-        <input disabled="disabled" :value='gender' type="text"  placeholder="请选择性别"/>
-      </div>
+      <!--<div class="item">-->
+        <!--<div class="title">微信昵称</div>-->
+        <!--<input type="text" :value='name' disabled maxlength="10" readonly onfocus="this.blur()" confirm-type="next" placeholder="请输入微信昵称"/>-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<div class="title">性别</div>-->
+        <!--<input disabled="disabled" :value='gender' type="text"  placeholder="请选择性别"/>-->
+      <!--</div>-->
       <div class="item">
         <div class="title">姓名</div>
         <input type="text" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
@@ -19,6 +19,9 @@
     <div class="item">
       <div class="title">企业</div>
       <input type="text" v-model='comp_name' maxlength="20" confirm-type="next" placeholder="企业名称"/>
+      <ul class="company">
+        <li v-for="(v,i) in company" @click="choice(v.name)">{{v.name}}</li>
+      </ul>
     </div>
       <div class="item" @click="addresslist">
           <div class="title">详细地址</div>
@@ -65,9 +68,16 @@
         isTrue:true,
         member_id:'',
         isBtnClicked:false,
+        company:[],
+        isclick:false
       }
     },
     methods: {
+      choice(name){
+          this.isclick=true
+          this.comp_name=name
+          this.company=[]
+      },
       showPicker1() {
         this.$refs.mpvuePicker.show();
       },
@@ -99,8 +109,9 @@
         var data={
           phone:this.phone,
           realname:this.realname,
+          company:this.comp_name
         }
-        this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{
+        this.$post('/rs/complete_user_info',data).then(res=>{
           if(res.code == 200){
             this.$mptoast('保存成功');
             if(this.isBtnClicked){
@@ -173,6 +184,25 @@
     onShow(){
       this.getUserinfo();
       this.isBtnClicked=true;
+    },
+    watch:{
+      async comp_name(val, oldval){
+        if(val==''){
+          this.company = []
+          return
+        }
+        if(this.isclick){
+          this.company = []
+          this.isclick=false
+          return
+        }
+        let com = await this.$get('/rs/company',{name:val,search:1,page:1,size:4})
+        if(com.code==200){
+            this.company = com.rows
+        }else{
+          this.company = []
+        }
+      }
     }
   }
 </script>
@@ -189,6 +219,28 @@
     border-bottom: 1px solid #ccc;
     padding-left: 80px;
     position: relative;
+  }
+  .company{
+    position: relative;
+    z-index:10;
+    background: #fff;
+    margin-top:1px/2;
+    overflow: hidden;
+    li{
+      font-size: 30px/2;
+      height: 80px/2;
+      padding: 0 10px/2;
+      border-left:1px solid #e2e2e2;
+      border-right:1px solid #e2e2e2;
+      line-height: 80px/2;
+      width: 100%;
+      box-sizing: border-box;
+      &:nth-last-child(1){
+        border-bottom-left-radius: 15px/2;
+        border-bottom-right-radius: 15px/2;
+        border-bottom:1px solid #e2e2e2;
+      }
+    }
   }
   .item .title{
     position: absolute;
