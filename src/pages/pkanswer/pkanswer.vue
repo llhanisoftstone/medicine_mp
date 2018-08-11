@@ -40,7 +40,7 @@
       </div>
       <!--<p class="provide">本题由{{answer.organiz_name}}提供</p>-->
       <div class="prop_box">
-        <prop :tips="tips" :istimes="false" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
+        <prop :tips="tips" :surplus="surplus"  :istimes="false" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
       </div>
       <mptoast/>
     </div>
@@ -61,6 +61,7 @@
             return {
                 from: 2,    //  1 好友  2全网
                 istimes:false,     //是否显示倒计时
+                surplus:false,   //剩余十秒
                 times:30,   //倒计时
                 answernub:0,   //查看答案道具
                 timenub:0,   //延时道具
@@ -117,7 +118,10 @@
                 if(that.isanimation){
                   return
                 }
-                that.times=that.times-1
+                that.times=that.times-1;
+                if(that.times<10){
+                  that.surplus=true;
+                }
               },1000)
           },
           cleardata(){

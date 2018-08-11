@@ -316,6 +316,7 @@
   .itemlist{
     margin:13px;
     ul{
+      transform-style:preserve-3d;
       li{
         transition: all .5s linear;
         transform: rotateY(0deg);

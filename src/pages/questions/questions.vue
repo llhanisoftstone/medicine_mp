@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="list">
-      <a class="ui-link" :href="'/pages/questionsmain/main?pid='+item.id" v-for="item in policy_list">
+      <a v-if="!isjy" class="ui-link" :href="'/pages/questionsmain/main?pid='+item.id" v-for="item in policy_list">
         <div class="item">
           <div class="item_list mui-ellipsis"><span>联系人</span>：{{item.username}}</div>
           <div class="item_list mui-ellipsis"><span>联系电话</span>：{{item.phone}}</div>
@@ -10,9 +10,17 @@
           <div class="item_list mui-ellipsis"><span>咨询时间</span>：{{item.create_time}}</div>
         </div>
       </a>
+      <a v-if="isjy" class="ui-link" :href="'/pages/questionsmain/main?pid='+item.id+'&&isjy=true'" v-for="item in policy_list">
+        <div class="item">
+          <div class="item_list mui-ellipsis"><span>联系人</span>：{{item.username||'无'}}</div>
+          <div class="item_list mui-ellipsis"><span>联系电话</span>：{{item.phone||'无'}}</div>
+          <div class="item_list mui-ellipsis"><span>详细描述</span>：{{item.details}}</div>
+          <div class="item_list mui-ellipsis"><span>创建时间</span>：{{item.create_time}}</div>
+        </div>
+      </a>
     </div>
-    <a class="ui-link" :href="'/pages/toknow/main'">
-      <div class="zc_btn"><div class="zcbtn_top">我要提问</div></div>
+    <a class="ui-link" :href="'/pages/toknow/main?isjy='+isjy">
+      <div class="zc_btn"><div class="zcbtn_top">{{btnmain}}</div></div>
     </a>
     <div class="nogetList" v-if="iskong">暂无记录</div>
   </div>
@@ -22,6 +30,8 @@
   export default {
     data () {
       return {
+        btnmain:"我要提问",
+        isjy:false,
         policy_list:[],
         scrollIcon:false,
         scrollTop:0,
@@ -30,14 +40,13 @@
         size:6
       }
     },
-
     onPullDownRefresh () {
-      wx.showNavigationBarLoading() //在标题栏中显示加载
+      wx.showNavigationBarLoading();//在标题栏中显示加载
       this.page=1;
       this.policy_list=[];
       this.refresh();
       // 下拉刷新
-      wx.hideNavigationBarLoading() //完成停止加载
+      wx.hideNavigationBarLoading(); //完成停止加载
       wx.stopPullDownRefresh() //停止下拉刷新
     },
     onReachBottom () {
@@ -45,17 +54,22 @@
       this.loadmore()
       // 上拉加载
     },
-
     methods: {
       async getpolicyList() {
         let that = this;
+        let url="";
         let data = {
           page:this.page,
           size:this.size,
           u_id:that.$store.state.user.userid,
           order:'create_time desc'
         };
-        let res = await that.$get('/rs/wish_to_known',data);
+        if(this.isjy){
+          url='/rs/suggest';
+        }else{
+          url='/rs/wish_to_known';
+        }
+        let res = await that.$get(url,data);
         if (res.code == 200){
           that.iskong=false;
           if (res.rows.length > 0){
@@ -86,6 +100,15 @@
       }
     },
     onLoad: function (option) {
+      this.isjy = option.isjy||false;
+      if(this.isjy){
+          this.btnmain="我要建议";
+          wx.setNavigationBarTitle({
+            title: '我要建议'
+          })
+      }
+    },
+    onShow:function(){
       this.page = 1;
       this.policy_list = [];
       this.getpolicyList()//获取数据
@@ -160,7 +183,6 @@
       text-align: center;
     }
   }
-
   .list{
     padding: 24/2px 29/2px;
     .item{

@@ -9,6 +9,10 @@
         <p :class="{'myname':true,'my_img':vs}">{{userinfo.nickName}}</p>
         <!--  load  or  vs -->
         <div class="load" :class="{'vs':vs}">
+          <div class="circlek" v-if="!vs">
+            <div class="circle"></div>
+            <div class="circle1"></div>
+          </div>
           <p v-if="!vs">{{loadcon}}</p>
           <!--<image src="/static/img/02.gif" v-if="!vs"></image>-->
           <image src="/static/img/vs.png" v-if="vs"></image>
@@ -35,7 +39,7 @@
         data(){
             return {
                 test:'',
-                loadcon:'正在为您匹配对手......',
+                loadcon:'正在为您匹配对手...',
                 loadfn:null,
                 vs:false,
                 other_uid:'',
@@ -48,7 +52,7 @@
         },
         methods: {
           loadconfn(){
-              if(this.loadcon.length == 14){
+              if(this.loadcon.length == 11){
                   this.loadcon=this.loadcon.slice(0,8)
               }else{
                 this.loadcon=`${this.loadcon}.`
@@ -346,6 +350,36 @@
 
 <style lang="less" scoped>
     @import '../../static/less/common.less';
+    @keyframes my_img_jinru {
+      0%{
+        transform: translateX(-200px);
+      }
+      33%{
+        transform: translateX(0px)
+      }
+      100%{
+        transform: translateX(0px);
+      }
+    }
+    @keyframes vs_img_jinru {
+      0%{
+        transform: translateX(200px);
+      }
+      33%{
+        transform: translateX(0px)
+      }
+      100%{
+        transform: translateX(0px);
+      }
+    }
+    .my_img_jinru{
+      transform: translateX(-200px);
+      animation: my_img_jinru 1.5s .5s ease forwards;
+    }
+    .vs_img_jinru{
+      transform: translateX(200px);
+      animation: vs_img_jinru 1.5s .5s ease forwards;
+    }
     @keyframes scale {
       0% {transform:scale(2);opacity: 0}
       70% {transform:scale(.6);opacity: .8}
@@ -373,6 +407,55 @@
         transform: translateX(200px);
       }
     }
+    .circlek{
+      position: absolute;
+      top:-35px;
+      left:-120/2px;
+      right:0;
+      margin:auto;
+      z-index: -1;
+    }
+    .circle {
+      /*background-color: rgba(0,0,0,0);*/
+      background-color: transparent;
+      border:10px solid rgba(233,92,62,.9);
+      opacity:.9;
+      border-right:10px solid transparent;
+      border-left:10px solid transparent;
+      border-radius:50%;
+      box-shadow: 0 0 40px rgba(233,92,62,.6);
+      width:360/2px;
+      height:360/2px;
+      margin:0 auto;
+      animation:spinPulse 1.3s infinite ease-in-out;
+    }
+    .circle1 {
+      /*background-color: rgba(0,0,0,0);*/
+      background-color: transparent;
+      border:10px solid rgba(233,92,62,.9);
+      opacity:.9;
+      border-left:10px solid transparent;
+      border-right:10px solid transparent;
+      border-radius:50%;
+      box-shadow: 0 0 30px rgba(233,92,62,.6);
+      width:230/2px;
+      height:230/2px;
+      margin:0 auto;
+      position:relative;
+      top:-330/2px;
+      left: 15px;
+      animation:spinoffPulse 1.3s infinite linear;
+    }
+    @keyframes spinPulse {
+      0% { transform:rotate(160deg); opacity:0; box-shadow:0 0 1px rgba(233,92,62,.5); }
+      50% { transform:rotate(145deg); opacity:1;}
+      100% { transform:rotate(-320deg); opacity:0; }
+    }
+    @keyframes spinoffPulse {
+      0% { transform:rotate(0deg); }
+      100% { transform:rotate(360deg); }
+    }
+
   .bg{
     width: 100%;
     position: relative;
@@ -400,6 +483,7 @@
         background: #fff;
         box-sizing: border-box;
         padding: 10px/2;
+        .my_img_jinru();
         image{
           width: 237px/2;
           height: 237px/2;
@@ -416,6 +500,7 @@
       background: #fff;
       box-sizing: border-box;
       padding: 10px/2;
+      .vs_img_jinru();
       image{
         width: 237px/2;
         height: 237px/2;
@@ -437,12 +522,12 @@
     }
     p{
       width: 100%;
-      font-size: 35px/2;
+      font-size: 25px/2;
       color: #333;
       text-align: center;
       white-space: nowrap;
       margin-top:110px/2;
-      margin-left:-40px/2;
+      margin-left:-31px/2;
       font-weight: bold;
     }
   }
@@ -471,7 +556,7 @@
       line-height: 40px/2;
       overflow: hidden;
       text-overflow: ellipsis;
-
+      .my_img_jinru();
     }
   .username{
     position: absolute;
@@ -486,6 +571,7 @@
     line-height: 40px/2;
     overflow: hidden;
     text-overflow: ellipsis;
+    .vs_img_jinru();
   }
     .btn_box{
       position: absolute;

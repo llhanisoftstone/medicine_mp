@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 17,
 			"list": [
 				{
 					"id": 0,
@@ -69,7 +69,7 @@
 				{
 					"id": 5,
 					"name": "排行榜",
-					"pathName": "pages/alone/main",
+					"pathName": "pages/friendpk/main",
 					"query": "",
 					"scene": "1007"
 				},
@@ -144,10 +144,11 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 17,
 					"name": "对战",
-					"pathName": "pages/aloneresult/main",
-					"query": ""
+					"pathName": "pages/loadpk/main",
+					"query": "",
+					"scene": "1007"
 				}
 			]
 		}

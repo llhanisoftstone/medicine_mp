@@ -19,6 +19,12 @@
             <img src="/static/img/arrow.png"/>
           </a>
         </li>
+        <li>
+          <a  href="/pages/questions/main?isjy=true">
+            <span class="jianyi">我要建议</span>
+            <img src="/static/img/arrow.png"/>
+          </a>
+        </li>
       </ul>
     </div>
 </template>
@@ -64,6 +70,10 @@
         }
         .aboutus{
           background:url(../../../static/img/guanyu@2x.png) no-repeat left center;
+          background-size:15px 15px;
+        }
+        .jianyi{
+          background:url(../../../static/img/jianyi.png) no-repeat left center;
           background-size:15px 15px;
         }
         image{

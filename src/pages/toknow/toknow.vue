@@ -2,7 +2,7 @@
     <div class="container">
       <form id="complaintsfrom">
         <ul class="complaintslist">
-          <li data-type="1" >
+          <li data-type="1" v-if="!isjy">
             <span>咨询分类</span>
             <input class="select-item" @click="showwishPicker" :value="pickerwishText" disabled="disabled" placeholder="请选择咨询分类" confirm-type="next">
           </li>
@@ -15,7 +15,7 @@
             <input class="select-item" type="number" v-model='userphone' maxlength="11"  placeholder="请输入手机号" />
           </li>
         </ul>
-        <textarea id="complaintstext" v-model="detail" :show-confirm-bar="false" placeholder="请简单描述您想要了解的内容（200字以内）" maxlength="200"></textarea>
+        <textarea id="complaintstext" v-model="detail" :show-confirm-bar="false" :placeholder="text" maxlength="200"></textarea>
         <!--<div class="up" id="imgUpload" >-->
           <!--<span class="upimg"><p>上传照片</p></span>-->
         <!--</div>-->
@@ -44,6 +44,8 @@
         },
         data(){
             return {
+              text:'请简单描述您想要了解的内容（200字以内）',
+              isjy:false,
               realname:'',
               userphone:'',
               detail:'',
@@ -99,15 +101,15 @@
                   return;
             }
             this.isBtnClicked = false;
-            if(this.wish_id=="" || this.wish_id==null){
+            if((this.wish_id=="" || this.wish_id==null)&&!this.isjy){
               this.$mptoast('请选择咨询分类');
               return;
             }
-            if(this.realname=="" || this.realname==null){
+            if((this.realname=="" || this.realname==null)&&!this.isjy){
               this.$mptoast('请输入姓名');
               return;
             }
-            if(this.userphone=="" || this.userphone==null){
+            if((this.userphone=="" || this.userphone==null)&&!this.isjy){
               this.$mptoast('请输入手机号');
               return;
             }
@@ -117,12 +119,17 @@
             }
             var data={
               //u_id:this.$store.state.user.userid,
-              category:this.wish_id,
               username:this.realname,
               phone:this.userphone,
               details:this.detail,
             };
-            this.$post('/rs/wish_to_known',data).then(res=>{
+            let url='/rs/wish_to_known';
+            if (!this.isjy){
+                data.category=this.wish_id;
+            }else{
+              url='/rs/suggest';
+            }
+            this.$post(url,data).then(res=>{
               if(res.code == 200){
                 this.$mptoast('保存成功',100);
                 setTimeout(function () {
@@ -138,7 +145,13 @@
 
         },
       onLoad: function (option) {
-
+        this.isjy = option.isjy||false;
+        if(this.isjy){
+          this.text='请简单描述您想要建议的内容（200字以内）';
+          wx.setNavigationBarTitle({
+            title: '我要建议'
+          })
+        }
       },
       onShow(){
         this.isBtnClicked=true;
