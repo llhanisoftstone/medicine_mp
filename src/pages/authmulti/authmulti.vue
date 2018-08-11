@@ -2,7 +2,7 @@
     <div class="container">
       <div class="bg_shade" v-if="isshow" @click="hidepick">
         <div class="pick_box" @click.stop="prevent">
-          <img class="bg_box" src="../../../static/img/authmulti_bg.png">
+          <image class="bg_box" src="/static/img/authmulti_bg.png"></image>
           <div class="button_container">
             <p class="btn_box">
               <button class="btn" open-type="getUserInfo"  @getuserinfo="bindGetUserInfo" @click="jumptype=1">走，助攻去</button>
@@ -45,6 +45,15 @@
           bindGetUserInfo: function(e) {
             let that = this;
             if(!e.target.userInfo){
+              return
+            }
+            if(that.$store.state.isauth){
+              if(that.jumptype==1){
+                that.tozhan();
+              }
+              if(that.jumptype==2){
+                that.toindex();
+              }
               return
             }
             that.$store.commit('getuser', e.target.userInfo)
@@ -159,7 +168,7 @@
           }
         },
       onLoad: function (option) {
-        this.topage="/pages/"+option.pages+"/main?"+`ismy=${option.ismy}&&id=${option.id}`
+        this.topage=`/pages/${option.pages}/main?ismy=${option.ismy}&&id=${option.id}`
       },
       onUnload(){
         this.isshow=true;

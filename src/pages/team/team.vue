@@ -58,7 +58,7 @@
           <ul class="rank_list">
             <li>
               <i class="rank"></i>
-              <span class="rank_nub">+100</span>
+              <span class="rank_nub">+{{rank*10}}</span>
               <span class="rank_name">{{user.rank_name}}</span>
             </li>
             <li>
@@ -322,6 +322,10 @@
                 game_type:2,
                 game_style:4
               })
+              this.$store.commit('rightTitle',0)
+              this.$store.commit('useTime',0)
+              this.$store.commit('allTitle',0)
+
             },
             cleardata(){
               this.istime=false
@@ -390,6 +394,13 @@
                 use_time:(30-this.times)>0?30-this.times:0,   //使用时间   -1 自己延时
                 step:that.$store.state.step
               })
+              if(reply==1){
+                that.$store.commit('rightTitle',1)
+              }
+              if((30-this.times)>0){
+                that.$store.commit('useTime',30-this.times)
+              }
+              that.$store.commit('allTitle',1)
             }else{
                 that.is_f_click = index
                 that.$socket.emit('data_chain',{
@@ -415,6 +426,8 @@
                 use_time:-1,   //使用时间   -1 自己延时
                 step:that.$store.state.step
               })
+              that.$store.commit('useTime',30)
+              that.$store.commit('allTitle',1)
             }
           },
           join(){    //加入房间
@@ -597,6 +610,9 @@
             },
             quick(){
                 return this.$store.state.quick
+            },
+            rank(){
+                return this.$store.state.rightTitle
             }
         },
     onShareAppMessage(res){
@@ -646,6 +662,9 @@
 //        }
 //      })
       let that =this
+      that.$store.commit('rightTitle',0)
+      that.$store.commit('useTime',0)
+      that.$store.commit('allTitle',0)
       that.$store.commit('getmodal', true)
       that.cleardata()
       clearInterval(that.til)

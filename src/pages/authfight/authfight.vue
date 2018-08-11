@@ -46,6 +46,16 @@
             if(!e.target.userInfo){
               return
             }
+            console.log(that.$store.state.isauth)
+            if(that.$store.state.isauth){
+              if(that.jumptype==1){
+                that.tozhan()
+              }
+              if(that.jumptype==2){
+                that.toindex()
+              }
+              return
+            }
             that.$store.commit('getuser', e.target.userInfo)
             that.$store.commit('getauth')
             that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:e.target.encryptedData,iv:e.target.iv}).then(res=>{
@@ -158,7 +168,7 @@
           }
         },
       onLoad: function (option) {
-        this.topage="/pages/"+option.pages+"/main?"+`from=${option.from}&&id=${option.id}`
+        this.topage=`/pages/${option.pages}/main?from=${option.from}&&id=${option.id}`
       },
       onUnload(){
         this.isshow=true;

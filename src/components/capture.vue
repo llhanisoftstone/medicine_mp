@@ -5,7 +5,7 @@
         <ul class="rank_list">
           <li>
             <i class="rank"></i>
-            <span class="rank_nub">+100</span>
+            <span class="rank_nub">+{{rank*10}}</span>
             <span class="rank_name">{{user.rank_name}}</span>
           </li>
           <li>
@@ -32,7 +32,7 @@
         <ul class="rank_list">
           <li>
             <i class="rank"></i>
-            <span class="rank_nub">+100</span>
+            <span class="rank_nub">+{{rank*10}}</span>
             <span class="rank_name">{{user.rank_name}}</span>
           </li>
         </ul>
@@ -67,6 +67,9 @@
         computed:{
             user(){
                 return this.$store.state.user
+            },
+            rank(){
+                return this.$store.state.rightTitle
             }
         }
 

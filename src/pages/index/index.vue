@@ -58,7 +58,7 @@
 </template>
 
 <script type="javascript">
-  import userinfo from '@/components/userinfo'
+  import userinfo from '../../components/userinfo'
 
 
   export default {
@@ -249,7 +249,7 @@
     box-shadow: #923c3c 2px/2 5px/2 15px/2;
   }
   .container{
-    background: #fff url(../../../static/img/yetou.png) center top no-repeat;
+    background: #fff url(../../../static/img/yetou.jpg) center top no-repeat;
     background-size: 100% auto;
   }
   .match_box{
