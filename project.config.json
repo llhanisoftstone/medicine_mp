@@ -1,7 +1,7 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -98,17 +98,17 @@
 					"query": ""
 				},
 				{
-					"id": 10,
-					"name": "授权",
-					"pathName": "pages/authmulti/main",
-					"query": "pages=team&ismy=1&id=1007",
+					"id": -1,
+					"name": "成绩单",
+					"pathName": "pages/report/main",
+					"query": "",
 					"scene": "1007"
 				},
 				{
-					"id": 11,
-					"name": "对战授权",
-					"pathName": "pages/authfight/main",
-					"query": "pages=loadpk&from=1&id=1007",
+					"id": -1,
+					"name": "成绩单",
+					"pathName": "pages/report/main",
+					"query": "",
 					"scene": "1007"
 				},
 				{

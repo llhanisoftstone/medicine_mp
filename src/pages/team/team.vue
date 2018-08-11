@@ -102,8 +102,8 @@
           <p @click="send('还有，李云龙同学麻烦你让二营长把意大利面收起来，不要让陈皮同学在课堂上吃面。')">选4</p>
         </div>
         <i class="quick" @click="selectQuick">常用语</i>
-        <a @click="userTools(user.tools[0].amount,1)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span></a>
-        <a @click="userTools(user.tools[1].amount,2)" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span></a>
+        <a @click="userTools(user.tools[0].amount,1)" :class="{surplus:surplus}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span></a>
+        <a @click="userTools(user.tools[1].amount,2)" :class="{surplus:surplus}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span></a>
       </div>
       <div class="news_box" v-if="isquick">
         <ul>
@@ -133,6 +133,7 @@
               challenger:'',          //挑战者id
               isprop:false,      //使用道具之后的提示
               istimes:false,     //是否显示倒计时
+              surplus:false,   //剩余十秒
               times:30,
               isshow:false,          //是否显示答案
               isstart:false,           //是否开始游戏
@@ -268,6 +269,9 @@
                 return
               }
               that.times=that.times-1
+              if(that.times<10){
+                that.surplus=true;
+              }
             },
             startgame(){    //开始游戏
               let that = this
@@ -993,6 +997,23 @@
       width: 100%;
       position: absolute;
     }
+    @keyframes swing {
+      10% {
+        transform: rotate(15deg);
+      }
+      20% {
+        transform: rotate(-10deg);
+      }
+      30% {
+        transform: rotate(5deg);
+      }
+      40% {
+        transform: rotate(-5deg);
+      }
+      50%, 100% {
+        transform: rotate(0deg);
+      }
+    }
     @keyframes showbottom1 {
       0%{
         transform: translateY(0px) scale(1,1);
@@ -1399,25 +1420,29 @@
       width: 81px/2;
       position: relative;
       margin-left: 18px/2;
-    image{
-      width: 61px/2;
-      height: 61px/2;
-    }
-    span{
-      position: absolute;
-      right:-1px/2;
-      top:41px/2;
-      background: @bg_color;
-      color: #fff;
-      font-size: 20px/2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      padding: 4px/2 4px/2;
-      min-width: 24px/2;
-      height: 24px/2;
-    }
+      &.surplus{
+        transform-origin: bottom center;
+        animation: swing 2s .1s linear infinite;
+      }
+      image{
+        width: 61px/2;
+        height: 61px/2;
+      }
+      span{
+        position: absolute;
+        right:-1px/2;
+        top:41px/2;
+        background: @bg_color;
+        color: #fff;
+        font-size: 20px/2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        padding: 4px/2 4px/2;
+        min-width: 24px/2;
+        height: 24px/2;
+      }
     }
     }
     .invite_box{

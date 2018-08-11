@@ -1,6 +1,6 @@
 <template>
     <div class="pad">
-      <h2><image src="/static/img/paihangbang_1.png"></image>排行榜</h2>
+      <h2><div class="guang"></div><image src="/static/img/paihangbang_1.png"></image>排行榜</h2>
       <div class="pk_box">
         <div class="tab">
           <span :class="{'active':isFriends==1}" @click="switchtab(1)">好友排行</span>
@@ -129,6 +129,14 @@
 
 <style lang="less" scoped>
     @import '../../static/less/common.less';
+    @keyframes guang {
+      0%{
+        box-shadow:0 0 40/2px 15/2px #F1E870;
+      }
+      100%{
+        box-shadow:0 0 50/2px 35/2px #F1E870;
+      }
+    }
     .pad{
       padding-bottom: 1px/2;
     }
@@ -140,6 +148,17 @@
       color: @bg_color;
       align-items: center;
       justify-content: center;
+      position: relative;
+      .guang{
+        position: absolute;
+        bottom:50%;
+        transform: translate(-41px,0);
+        left:50%;
+        width: 2px;
+        height:2px;
+        z-index: -1;
+        animation: guang .5s ease infinite alternate;
+      }
       image{
         width: 59px/2;
         height: 54px/2;
@@ -248,6 +267,35 @@
          }
       }
     }
+    @keyframes pk_btn {
+      0%{
+        margin-top:50px/2;
+      }
+      40%{
+        margin-top:50px/2;
+      }
+      42%{
+        margin-top:40px/2;
+      }
+      48%{
+        margin-top:40px/2;
+      }
+      50%{
+        margin-top:50px/2;
+      }
+      52%{
+        margin-top:40px/2;
+      }
+      58%{
+        margin-top:40px/2;
+      }
+      60%{
+        margin-top:50px/2;
+      }
+      100%{
+        margin-top:50px/2;
+      }
+    }
     .pk_btn{
       background: @bg_color;
       width: 538px/2;
@@ -262,5 +310,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow:#ffffff 4rpx -3rpx 0, #df5c3e 7rpx -8rpx 0;
+      animation: pk_btn 3s linear infinite alternate;
     }
 </style>

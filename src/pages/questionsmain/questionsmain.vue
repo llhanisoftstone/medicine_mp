@@ -3,15 +3,15 @@
     <div class="infok">
       <div class="list_item">
         <div>联系人</div>
-        <div>{{main.username}}&nbsp;</div>
+        <div>{{main.username||'无'}}&nbsp;</div>
       </div>
       <div class="list_item">
         <div>联系电话</div>
-        <div>{{main.phone}}&nbsp;</div>
+        <div>{{main.phone||'无'}}&nbsp;</div>
       </div>
     </div>
     <div class="infok">
-      <div class="list_item">
+      <div class="list_item" v-if="!isjy">
         <div>政策类型</div>
         <div>{{main.c_name}}&nbsp;</div>
       </div>
@@ -20,7 +20,8 @@
         <div>{{main.details}}&nbsp;</div>
       </div>
       <div class="list_item bt">
-        <div>咨询时间</div>
+        <div v-if="!isjy">咨询时间</div>
+        <div v-if="isjy">创建时间</div>
         <div>{{main.create_time}}&nbsp;</div>
       </div>
       <!--<div class="list_item item_photo">-->
@@ -54,6 +55,7 @@
     data () {
       return {
         main:[],
+        isjy:false,
         pid:""
       }
     },
@@ -63,7 +65,11 @@
         let data = {
           id:that.pid
         };
-        let res = await that.$get('/rs/wish_to_known',data);
+        let url='/rs/wish_to_known';
+        if(that.isjy){
+          url="/rs/suggest"
+        }
+        let res = await that.$get(url,data);
         if (res.code == 200){
           that.main=res.rows[0];
         }
@@ -71,6 +77,12 @@
     },
     onLoad: function (option) {
       this.pid=option.pid;
+      this.isjy=option.isjy||false;
+      if(this.isjy){
+        wx.setNavigationBarTitle({
+          title: '建议详情'
+        })
+      }
       this.main = {};
       this.getpolicyList()//获取数据
     },
