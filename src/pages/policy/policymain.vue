@@ -281,12 +281,12 @@
     word-wrap:break-word;
     color: #333333;
     font-size: 0.298667*46.875/2px;
-    margin-right:10/2px;
-    width: 343/2px;
+    margin-right:30/2px;
+    width: 333/2px;
     height:350/2px;
     .hot_item{
       position: relative;
-      width: 343/2px;
+      width: 333/2px;
       height:350/2px;
       .imgk{
         position: relative;
@@ -295,7 +295,7 @@
         border-radius: 10/2px;
         overflow: hidden;
         img{
-          width: 343/2px;
+          width: 333/2px;
           height:280/2px;
         }
       }

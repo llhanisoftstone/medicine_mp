@@ -7,6 +7,6 @@ export default {
   config: {
     'enablePullDownRefresh': false,
     pages: ['pages/giftshoplist/main'],
-    navigationBarTitleText: '礼物店'
+    navigationBarTitleText: '战利品'
   }
 }
