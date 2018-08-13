@@ -89,7 +89,8 @@
         let img = `${that.$store.state.url}/admin/img/1.jpg`
         if(that.myscore>that.vsscore){
           img = `${that.$store.state.url}/admin/img/2.jpg`
-          url='/pages/report/main?roomid=0';
+//          url='/pages/report/main?roomid=0';
+          url='/pages/index/main';
 //          if(that.from == 1){
           til='@你 真烦人，又赢了，无敌是多么的寂寞~'
         }else if(that.myscore == that.vsscore){

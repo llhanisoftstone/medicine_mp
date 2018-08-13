@@ -155,6 +155,13 @@
 					"pathName": "pages/userdata/main",
 					"query": "",
 					"scene": "1007"
+				},
+				{
+					"id": -1,
+					"name": "个人资料",
+					"pathName": "pages/loadpk/main",
+					"query": "",
+					"scene": "1007"
 				}
 			]
 		}

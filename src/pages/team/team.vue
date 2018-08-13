@@ -793,6 +793,7 @@
                     nickname: that.team[i].nickname,
                     msg: d.data
                   })
+                  that.doommData.push(that.constructor(d.data,Math.ceil(Math.random()*100),5+Math.ceil(Math.random()*5),that.getRandomColor()));
                 }
               }
             }
@@ -1446,7 +1447,7 @@
     }
     }
     .invite_box{
-      margin-top:65px/2;
+      margin-top:170px/2;
       margin-bottom:86px/2;
       image{
         width: 117px/2;
