@@ -145,7 +145,11 @@
 
         },
       onLoad: function (option) {
-        this.isjy = option.isjy||false;
+        if(option.isjy&&option.isjy!="false"){
+          this.isjy = option.isjy;
+        }else{
+          this.isjy=false;
+        }
         if(this.isjy){
           this.text='请简单描述您想要建议的内容（200字以内）';
           wx.setNavigationBarTitle({
