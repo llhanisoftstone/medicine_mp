@@ -71,18 +71,18 @@
               <div>
                 <image :src="url+card.ticket_pic"></image>
               </div>
-              <p>战利品: <span>{{card.title}}</span></p>
+              <p>战利品：<span>{{card.title}}</span></p>
             </li>
           </ul>
           <div class="team_prize_n">
-            <span>亲友团: </span>
+            <span>亲友团：</span>
             <i></i>
             <span>+20</span>
           </div>
         </div>
         <div class="fail" v-if="iswin==1">
           <image src="/static/img/team_fail.png"></image>
-          <p>留得青山在,不怕没柴烧</p>
+          <p>留得青山在，不怕没柴烧</p>
         </div>
       </div>
 
