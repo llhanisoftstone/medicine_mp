@@ -377,7 +377,6 @@
   }
     .recommend {
       padding: 12px 0 12px 13px;
-      border-top: 1px solid #e2e2e2;
       font-size:15px;
       box-sizing:border-box;
       border-bottom: 1px solid #e2e2e2;
