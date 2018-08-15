@@ -132,7 +132,7 @@
     position: relative;
     image{
       width: 100%;
-      height: 609px/2;
+      height: 710px/2;
     }
   }
   .success_t{

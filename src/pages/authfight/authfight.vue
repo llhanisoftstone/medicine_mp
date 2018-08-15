@@ -13,6 +13,9 @@
           </div>
         </div>
       </div>
+      <div class="bjk">
+        <img :src="bgurl" class="bjimg" alt="">
+      </div>
     </div>
 </template>
 <script type="javascript">
@@ -22,7 +25,8 @@
         data(){
             return {
               isshow:true,    //弹窗状态
-              jumptype:0
+              jumptype:0,
+              bgurl:`${this.$store.state.url}/admin/img/sqbj.jpg`
             }
         },
         methods: {
@@ -180,6 +184,23 @@
 <style lang="less" scoped>
     @import '../../static/less/common.less';
 
+    .bjk{
+      position: fixed;
+      z-index: -1;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      width:100%;
+      height:100%;
+      overflow: hidden;
+      .bjimg{
+        display: block;
+        width: 100%;
+        margin:-87/2px 0;
+        height:1663/2px;
+      }
+    }
     .bg_shade{
       width: 100%;
       height: 100%;

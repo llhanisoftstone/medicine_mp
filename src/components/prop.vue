@@ -91,6 +91,7 @@
       }
     }
       .bg_prop{
+      border-top:1px solid #e2e2e2;
       background: #fff;
       width: 100%;
       display: flex;

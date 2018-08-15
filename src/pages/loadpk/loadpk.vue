@@ -13,7 +13,7 @@
             <div class="circle"></div>
             <div class="circle1"></div>
           </div>
-          <p v-if="!vs">{{loadcon}}</p>
+          <!--<p v-if="!vs">{{loadcon}}</p>-->
           <!--<image src="/static/img/02.gif" v-if="!vs"></image>-->
           <image src="/static/img/vs.png" v-if="vs"></image>
         </div>
@@ -21,15 +21,16 @@
           <image :src="vsuser.picpath"></image>
         </div>
         <p :class="{'username':true,'vs_img':vs}">{{vsuser.nickname}}</p>
+        <p class="username" v-if="!vs">{{loadcon}}</p>
       </div>
       <div class="btn_box" v-if="from==1">
         <button open-type="share">挑战其他好友</button>
         <button class="swiper" @click="swiper">全网挑战</button>
       </div>
-      <button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">
-        <image src="/static/img/role.png"></image>
-        <span>暂未授权,请点击授权</span>
-      </button>
+      <!--<button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">-->
+        <!--<image src="/static/img/role.png"></image>-->
+        <!--<span>暂未授权,请点击授权</span>-->
+      <!--</button>-->
     </div>
 </template>
 
@@ -39,7 +40,7 @@
         data(){
             return {
                 test:'',
-                loadcon:'正在为您匹配对手...',
+                loadcon:'正在匹配...',
                 loadfn:null,
                 vs:false,
                 other_uid:'',
@@ -52,8 +53,8 @@
         },
         methods: {
           loadconfn(){
-              if(this.loadcon.length == 11){
-                  this.loadcon=this.loadcon.slice(0,8)
+              if(this.loadcon.length == 7){
+                this.loadcon=this.loadcon.slice(0,4)
               }else{
                 this.loadcon=`${this.loadcon}.`
               }
@@ -128,120 +129,120 @@
                 })
             }
 
-          },
-          bindGetUserInfo: function(e) {
-            let that = this
-            if(!e.target.userInfo){
-              return
-            }
-            that.$store.commit('getuser', e.target.userInfo)
-            that.$store.commit('getauth')
-            that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:e.target.encryptedData,iv:e.target.iv}).then(res=>{
-              console.log(res)
-              if (res.code === 200) {
-                for (let i = 0; i < res.tools.length; i++) {
-                  if (!res.tools[i].amount) {
-                    res.tools[i].amount = 0
-                  }
-                }
-                that.$store.commit('getm_user', res)
-                that.$socket.on('data_chain', d => {
-                  if (d.cmd === 'login') {
-                    that.$store.commit('getsocket')
-                  }
-                  console.log(d)
-                })
-                that.$socket.emit('data_chain', {
-                  cmd: 'login',
-                  u_id: res.userid,
-                  nickname: that.$store.state.userinfo.nickName,
-                  picpath: that.$store.state.userinfo.avatarUrl
-                })
-                wx.switchTab({
-                  url: '/pages/index/main'
-                })
-                that.$socket.on('global_chain', d => {
-                  console.log(d)
-                  if (d.cmd === 'error') {
-                    if (d.errcode === 601) {
-                      if (that.$store.state.modalshow) {
-                        that.$store.commit('getmodal', false)
-                        wx.hideLoading()
-//                      wx.showLoading({
-//                        mask:true
-//                      })
-                        wx.showModal({
-                          title: '提示',
-                          content: '无法获取好友信息,请重试',
-                          showCancel: false,
-                          confirmText: '确定',
-                          confirmColor: '#df5c3e',
-                          mask: true,
-                          complete: res => {
-                            console.log(`重新登录${that.$store.state.user.userid}`)
-                            that.$socket.emit('data_chain', {
-                              cmd: 'login',
-                              u_id: that.$store.state.user.userid,
-                              nickname: that.$store.state.userinfo.nickName,
-                              picpath: that.$store.state.userinfo.avatarUrl
-                            })
-                            that.$store.commit('getmodal', true)
-                            wx.switchTab({
-                              url: '/pages/index/main'
-                            })
-                          }
-                        })
-                      }
-                    } else if (d.errcode === 404) {
-                      if (that.$store.state.modalshow) {
-                        that.$store.commit('getmodal', false)
-                        wx.hideLoading()
-                        wx.showModal({
-                          title: '提示',
-                          content: '房间不存在',
-                          showCancel: false,
-                          confirmText: '返回首页',
-                          confirmColor: '#df5c3e',
-                          mask: true,
-                          complete: res => {
-                            wx.switchTab({
-                              url: '/pages/index/main'
-                            })
-                            that.$store.commit('getmodal', true)
-                          }
-                        })
-                      }
-                    } else if (d.errcode === 301) {
-                      if (that.$store.state.modalshow) {
-                        that.$store.commit('getmodal', false)
-                        wx.hideLoading()
-                        wx.showModal({
-                          title: '提示',
-                          content: '连接已断开',
-                          showCancel: false,
-                          confirmText: '返回首页',
-                          confirmColor: '#df5c3e',
-                          mask: true,
-                          complete: res => {
-                            wx.switchTab({
-                              url: '/pages/index/main'
-                            })
-                            that.$store.commit('getmodal', true)
-                          }
-                        })
-                      }
-                    }
-                  }else if(d.cmd === 'upgrade') {
-                    let user = that.$store.state.user
-                    user.rank_code = d.rank_code
-                    user.rank_name = d.rank_name
-                    user.experience = d.experience
-                    that.$store.commit('getm_user', user)
-                  }
-                })
-              }
-            })
           }
+//          bindGetUserInfo: function(e) {
+//            let that = this
+//            if(!e.target.userInfo){
+//              return
+//            }
+//            that.$store.commit('getuser', e.target.userInfo)
+//            that.$store.commit('getauth')
+//            that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:e.target.encryptedData,iv:e.target.iv}).then(res=>{
+//              console.log(res)
+//              if (res.code === 200) {
+//                for (let i = 0; i < res.tools.length; i++) {
+//                  if (!res.tools[i].amount) {
+//                    res.tools[i].amount = 0
+//                  }
+//                }
+//                that.$store.commit('getm_user', res)
+//                that.$socket.on('data_chain', d => {
+//                  if (d.cmd === 'login') {
+//                    that.$store.commit('getsocket')
+//                  }
+//                  console.log(d)
+//                })
+//                that.$socket.emit('data_chain', {
+//                  cmd: 'login',
+//                  u_id: res.userid,
+//                  nickname: that.$store.state.userinfo.nickName,
+//                  picpath: that.$store.state.userinfo.avatarUrl
+//                })
+//                wx.switchTab({
+//                  url: '/pages/index/main'
+//                })
+//                that.$socket.on('global_chain', d => {
+//                  console.log(d)
+//                  if (d.cmd === 'error') {
+//                    if (d.errcode === 601) {
+//                      if (that.$store.state.modalshow) {
+//                        that.$store.commit('getmodal', false)
+//                        wx.hideLoading()
+////                      wx.showLoading({
+////                        mask:true
+////                      })
+//                        wx.showModal({
+//                          title: '提示',
+//                          content: '无法获取好友信息,请重试',
+//                          showCancel: false,
+//                          confirmText: '确定',
+//                          confirmColor: '#df5c3e',
+//                          mask: true,
+//                          complete: res => {
+//                            console.log(`重新登录${that.$store.state.user.userid}`)
+//                            that.$socket.emit('data_chain', {
+//                              cmd: 'login',
+//                              u_id: that.$store.state.user.userid,
+//                              nickname: that.$store.state.userinfo.nickName,
+//                              picpath: that.$store.state.userinfo.avatarUrl
+//                            })
+//                            that.$store.commit('getmodal', true)
+//                            wx.switchTab({
+//                              url: '/pages/index/main'
+//                            })
+//                          }
+//                        })
+//                      }
+//                    } else if (d.errcode === 404) {
+//                      if (that.$store.state.modalshow) {
+//                        that.$store.commit('getmodal', false)
+//                        wx.hideLoading()
+//                        wx.showModal({
+//                          title: '提示',
+//                          content: '房间不存在',
+//                          showCancel: false,
+//                          confirmText: '返回首页',
+//                          confirmColor: '#df5c3e',
+//                          mask: true,
+//                          complete: res => {
+//                            wx.switchTab({
+//                              url: '/pages/index/main'
+//                            })
+//                            that.$store.commit('getmodal', true)
+//                          }
+//                        })
+//                      }
+//                    } else if (d.errcode === 301) {
+//                      if (that.$store.state.modalshow) {
+//                        that.$store.commit('getmodal', false)
+//                        wx.hideLoading()
+//                        wx.showModal({
+//                          title: '提示',
+//                          content: '连接已断开',
+//                          showCancel: false,
+//                          confirmText: '返回首页',
+//                          confirmColor: '#df5c3e',
+//                          mask: true,
+//                          complete: res => {
+//                            wx.switchTab({
+//                              url: '/pages/index/main'
+//                            })
+//                            that.$store.commit('getmodal', true)
+//                          }
+//                        })
+//                      }
+//                    }
+//                  }else if(d.cmd === 'upgrade') {
+//                    let user = that.$store.state.user
+//                    user.rank_code = d.rank_code
+//                    user.rank_name = d.rank_name
+//                    user.experience = d.experience
+//                    that.$store.commit('getm_user', user)
+//                  }
+//                })
+//              }
+//            })
+//          }
         },
         components: {},
         computed:{
@@ -409,8 +410,8 @@
     }
     .circlek{
       position: absolute;
-      top:-35px;
-      left:-120/2px;
+      top:-15px;
+      left:-55/2px;
       right:0;
       margin:auto;
       z-index: -1;
@@ -424,8 +425,8 @@
       border-left:10px solid transparent;
       border-radius:50%;
       box-shadow: 0 0 40px rgba(233,92,62,.6);
-      width:360/2px;
-      height:360/2px;
+      width:252/2px;
+      height:252/2px;
       margin:0 auto;
       animation:spinPulse 1.3s infinite ease-in-out;
     }
@@ -438,12 +439,12 @@
       border-right:10px solid transparent;
       border-radius:50%;
       box-shadow: 0 0 30px rgba(233,92,62,.6);
-      width:230/2px;
-      height:230/2px;
+      width:190/2px;
+      height:190/2px;
       margin:0 auto;
       position:relative;
-      top:-330/2px;
-      left: 15px;
+      top:-259/2px;
+      left: 10/2px;
       animation:spinoffPulse 1.3s infinite linear;
     }
     @keyframes spinPulse {

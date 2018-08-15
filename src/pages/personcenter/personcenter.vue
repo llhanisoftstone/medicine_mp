@@ -2,7 +2,7 @@
   <div class="container">
       <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
             <div slot="userRight">
-              <a href="/pages/userdata/main" class="wallet">{{points}}</a>
+              <a href="/pages/userdata/main" class="wallet"><span class="pointk">{{points}}</span></a>
             </div>
       </userinfo>
     <div class="middle">
@@ -85,6 +85,7 @@
    margin-top:32/2px;
    font-size:26/2px;
    margin-left:15px;
+   line-height: 35/2px;
  }
  .middle>ul>li:nth-child(2n){
    margin-right:0;
@@ -132,17 +133,22 @@
    background-size:cover;
  }
   .wallet{
-    padding-left:31px;
-    margin-left:5px;
-    height:19px;
-    background:url(../../../static/img/my_06.png) no-repeat left center;
-    background-size:26px 19px;
+    .pointk{
+      background:url(../../../static/img/my_06.png) no-repeat left center;
+      background-size:26px 19px;
+      padding-left:31px;
+      padding-right: 10/2px;
+      margin-left:5px;
+      height:19px;
+      color: #df5c3e;
+      font-size: 14px;
+    }
+    width: 200/2px;
+    float: right;
     display: flex;
     align-content: center;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    color: #df5c3e;
-    font-size: 14px;
   }
   .middle>ul>li a:hover{
     background:inherit;

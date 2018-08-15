@@ -50,7 +50,6 @@
       </div>
       <!--答题结果-->
 
-
       <div class="result" v-if="gameover">
         <image src="/static/img/succ.jpg" v-if="iswin==2" class="re_bg"></image>
         <image src="/static/img/faild.jpg" v-if="iswin!=2" class="re_bg"></image>
@@ -86,8 +85,6 @@
         </div>
       </div>
 
-
-
       <div :class="{'result_btn':true,'btn_win':iswin==2,'btn_loss':iswin==1}" v-if="gameover">
         <a href="" v-if="iswin==2&&isnext" @click="next" :class="{'disabled':challenger!=user.userid}">挑战下一关</a>
         <button open-type="share" v-if="iswin==2">分享战绩</button>
@@ -102,8 +99,8 @@
           <p @click="send('还有，李云龙同学麻烦你让二营长把意大利面收起来，不要让陈皮同学在课堂上吃面。')">选4</p>
         </div>
         <i class="quick" @click="selectQuick">常用语</i>
-        <a @click="userTools(user.tools[0].amount,1)" :class="{surplus:surplus}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span></a>
-        <a @click="userTools(user.tools[1].amount,2)" :class="{surplus:surplus}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span></a>
+        <a @click="userTools(user.tools[0].amount,1)" :class="{surplus:times<10}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span></a>
+        <a @click="userTools(user.tools[1].amount,2)" :class="{surplus:times<10}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span></a>
       </div>
       <div class="news_box" v-if="isquick">
         <ul>
@@ -616,15 +613,30 @@
             }
         },
     onShareAppMessage(res){
-      let that = this
+      let that = this;
+      let title='边玩边学，游戏学习两不误！';
+      let img=`${that.$store.state.url}/admin/img/1.jpg`;
+      let url='/pages/index/main';
+      if(that.iswin==1){//失败
+        title='@你 这道题有点难哦，快来帮帮我吧！';
+        img=`${that.$store.state.url}/admin/img/3.jpg`;
+        url='/pages/index/main';
+      }else if(that.iswin==2){
+        title='@你 挑战成功，快来加入我们的战队吧！带你一起闯关赢大奖~';
+        img=`${that.$store.state.url}/admin/img/2.jpg`;
+        url='/pages/index/main';
+      }
       if (res.from === 'menu') {
         // 来自页面内转发按钮
+        title='边玩边学，游戏学习两不误！';
+        img=`${that.$store.state.url}/admin/img/1.jpg`;
+        url='/pages/index/main';
         console.log(res.target)
       }
       return {
-        title: '@你 20枚银两get，下一关等你哦~',
-        path: '/pages/index/main',
-        imageUrl: `${that.$store.state.url}/admin/img/success.jpg`,
+        title: title,
+        path: url,
+        imageUrl:img,
         success: (r)=>{
           console.log(r)
         },
@@ -955,6 +967,7 @@
     },
     onUnload(){
       let that =this
+      that.surplus=false
       that.$store.commit('get_f_level',0)
       that.$store.commit('get_answer',{})
       that.$socket.emit('data_chain',{
@@ -1493,7 +1506,7 @@
       border-radius: 10px/2;
       .re_bg{
         width: 100%;
-        height: 688px/2;
+        height: 790px/2;
       }
       h1{
         animation: title .8s ease;

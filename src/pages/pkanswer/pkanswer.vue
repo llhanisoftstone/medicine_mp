@@ -40,7 +40,7 @@
       </div>
       <!--<p class="provide">本题由{{answer.organiz_name}}提供</p>-->
       <div class="prop_box">
-        <prop :tips="tips" :surplus="surplus"  :istimes="false" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
+        <prop :tips="tips" :surplus="times<10"  :istimes="false" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
       </div>
       <mptoast/>
     </div>
@@ -349,7 +349,8 @@
         })
       },
       onUnload(){
-          let that=this
+        let that=this
+        that.surplus=false
         that.$store.commit('get_answer',{})
         that.gameover=true
         clearTimeout(that.setfn)
