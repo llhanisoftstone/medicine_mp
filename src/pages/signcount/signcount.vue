@@ -551,7 +551,7 @@
     .zhezhao_zi {
       background:#fff;
       width:292px;
-      height:243px;
+      height:auto;
       position: absolute;
       top:150px;
       left:50%;
@@ -559,7 +559,7 @@
       -webkit-transform:translateX(-50%);
       border-radius:10px;
       margin:0 auto;
-      padding:0 13px;
+      padding:0 13px 13px 13px;
       .zhezhao_div3 {
         width: 100%;
         font-size: 14px;
