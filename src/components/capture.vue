@@ -18,14 +18,14 @@
             <div>
               <image :src="card.ticket_pic"></image>
             </div>
-            <p>战利品:<span>{{card.ticket_price}}元代金券</span></p>
+            <p>战利品：<span>{{card.ticket_price}}元代金券</span></p>
           </li>
         </ul>
       </div>
       <div class="gift_box draw_box" v-if="win==1">
         <image src="/static/img/609_02.jpg"></image>
         <image src="/static/img/pj.png" class="tips"></image>
-        <p>海内存知己,天涯若比邻</p>
+        <p>海内存知己，天涯若比邻</p>
       </div>
       <div class="gift_box fail" v-if="win==0">
         <image src="/static/img/fail1.jpg"></image>
@@ -37,7 +37,7 @@
           </li>
         </ul>
         <image src="/static/img/fail.png" class="tips"></image>
-        <p>留得青山在,不怕没柴烧</p>
+        <p>留得青山在，不怕没柴烧</p>
       </div>
     </div>
 </template>

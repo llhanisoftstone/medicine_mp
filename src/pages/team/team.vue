@@ -70,18 +70,18 @@
               <div>
                 <image :src="url+card.ticket_pic"></image>
               </div>
-              <p>战利品: <span>{{card.title}}</span></p>
+              <p>战利品：<span>{{card.title}}</span></p>
             </li>
           </ul>
           <div class="team_prize_n">
-            <span>亲友团: </span>
+            <span>亲友团：</span>
             <i></i>
             <span>+20</span>
           </div>
         </div>
         <div class="fail" v-if="iswin==1">
           <image src="/static/img/team_fail.png"></image>
-          <p>留得青山在,不怕没柴烧</p>
+          <p>留得青山在，不怕没柴烧</p>
         </div>
       </div>
 
@@ -93,10 +93,10 @@
       </div>
       <div class="publish_box">
         <div class="btn_box_send">
-          <p @click="send('陈独秀同学请坐下')">选1</p>
-          <p @click="send('请给李时珍同学一个发言的机会')">选2</p>
-          <p @click="send('你看后面的鲁迅同学脸色很难看')">选3</p>
-          <p @click="send('还有，李云龙同学麻烦你让二营长把意大利面收起来，不要让陈皮同学在课堂上吃面。')">选4</p>
+          <p @click="send('陈独秀同学请坐下',0)">选1</p>
+          <p @click="send('请给李时珍同学一个发言的机会',1)">选2</p>
+          <p @click="send('你看后面的鲁迅同学脸色很难看',2)">选3</p>
+          <p @click="send('还有，李云龙同学麻烦你让二营长把意大利面收起来，不要让陈皮同学在课堂上吃面。',3)">选4</p>
         </div>
         <i class="quick" @click="selectQuick">常用语</i>
         <a @click="userTools(user.tools[0].amount,1)" :class="{surplus:times<10}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span></a>
@@ -347,7 +347,7 @@
               this.isjoin=false
               this.is_f_click=-1
             },
-          send(msg){       //发送聊天
+          send(msg,index){       //发送聊天
             this.isquick = false
             let that =this
             if(new Date().getTime() - that.sendTime<1000){
@@ -363,6 +363,9 @@
                   data:msg,
                   type:1
               })
+            if(that.challenger != that.$store.state.user.userid){
+              that.submit(index)
+            }
           },
           submit(index,right){    //提交答案
             if(this.isclick){

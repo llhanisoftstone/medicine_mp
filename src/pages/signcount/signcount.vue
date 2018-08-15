@@ -377,7 +377,6 @@
   }
     .recommend {
       padding: 12px 0 12px 13px;
-      border-top: 1px solid #e2e2e2;
       font-size:15px;
       box-sizing:border-box;
       border-bottom: 1px solid #e2e2e2;
@@ -552,7 +551,7 @@
     .zhezhao_zi {
       background:#fff;
       width:292px;
-      height:243px;
+      height:auto;
       position: absolute;
       top:150px;
       left:50%;
@@ -560,7 +559,7 @@
       -webkit-transform:translateX(-50%);
       border-radius:10px;
       margin:0 auto;
-      padding:0 13px;
+      padding:0 13px 13px 13px;
       .zhezhao_div3 {
         width: 100%;
         font-size: 14px;

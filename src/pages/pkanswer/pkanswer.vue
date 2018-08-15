@@ -371,7 +371,7 @@
 <style>
   page{
     height: 100%;
-    background: #fff3f3;
+    background: #ffffff;
   }
 </style>
 <style lang="less" scoped>
@@ -467,7 +467,7 @@
       animation: fraction_vs 2s linear;
     }
     .bg{
-      background: #fff3f3;
+      background: #ffffff;
       width: 100%;
       height: 100%;
       position: relative;

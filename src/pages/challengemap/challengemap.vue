@@ -118,7 +118,7 @@
               setTimeout(()=>{
                 this.tips=-1
                 this.tipsprize=0
-              },1000)
+              },2000)
               return
             }
             this.isshow=true
