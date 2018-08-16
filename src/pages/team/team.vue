@@ -1736,7 +1736,7 @@
         width: 100%;
         height: 61px/2;
         border-bottom:1px solid #df5c3e;
-        background: #e2e2e2;
+        background: #f3f3f3;
         font-size: 28px/2;
         color: #333;
         display: flex;
