@@ -1,6 +1,7 @@
 <template>
     <div class="c_map">
       <image src="/static/img/bg.jpg" class="bg"></image>
+      <div class="gzbtn" @click.stop="showgz()">游戏规则</div>
       <ul class="c_box">
         <li :class="{'pass':v<level,'on':v==level}" v-for="(v,i) in levelarr" @click="showpick(v)">
           <div class="nub" v-if="v!=5&&v!=10">{{v}}</div>
@@ -59,6 +60,18 @@
           </div>
         </div>
       </div>
+      <div class="bg_shade gzk" v-if="gzshow" @click="hidegz">
+        <div class="pick_box" @click.stop="">
+          <h2>游戏规则</h2>
+          <div class="pick_item_box">
+            <p><i>1</i>闯关分为单人闯关和多人闯关，多人闯关可邀请好友一起参加；</p>
+            <p><i>2</i>每答对一题可增加10经验值；</p>
+            <p><i>3</i>每过一关过关可获得20银两；</p>
+            <p><i>4</i>第5和第10关为礼物关，过关可获得神秘大礼，可在个人中心-战利品中查看。</p>
+            <div class="closebtn" @click="hidegz">我知道了</div>
+          </div>
+        </div>
+      </div>
       <mptoast/>
     </div>
 </template>
@@ -70,6 +83,7 @@
         data(){
             return {
               isshow:false,    //弹窗状态
+              gzshow:false,
               levelarr:[1,2,3,4,5,6,7,8,9,10],   //全部关卡
 //              level:3,       //自己的关卡
               select:0,    //选择的关卡
@@ -79,6 +93,12 @@
             }
         },
         methods: {
+          showgz(){
+            this.gzshow=true;
+          },
+          hidegz(){
+            this.gzshow=false;
+          },
           watchsocket(){
             let that=this
             that.$socket.removeAllListeners('data_chain')
@@ -478,7 +498,7 @@
           top:-100px/2;
           left:0px/2;
         }
-       }
+      }
       &:nth-of-type(4){
          left:89.06%;
          top: 287px/2;
@@ -596,6 +616,45 @@
       left:0;
       background: rgba(0,0,0,.7);
       z-index:10;
+      &.gzk{
+        .pick_item_box{
+          padding: 31/2px 34/2px
+        }
+        p{
+          position: relative;
+          padding: 0 0 10/2px 52/2px;
+          line-height: 35/2px;
+          color: #333;
+          font-size: 26/2px;
+          i{
+            position: absolute;
+            top:3/2px;
+            left:0;
+            width: 31/2px;
+            height:31/2px;
+            border-radius: 50%;
+            color: #fff;
+            text-align: center;
+            line-height: 31/2px;
+            background: #df5c3e;
+          }
+        }
+        .closebtn{
+          position: absolute;
+          left:0;
+          right:0;
+          bottom:37/2px;
+          width: 227/2px;
+          height: 67/2px;
+          border-radius: 67/4px;
+          margin:0 auto;
+          font-size: 30/2px;
+          line-height: 67/2px;
+          text-align: center;
+          background: #df5c3e;
+          color: #fff;
+        }
+      }
     }
   .pick_box{
     width: 560px/2;
@@ -716,5 +775,14 @@
   }
   .pick_item:nth-last-child(1){
     border:none;
+  }
+  .gzbtn{
+    position: absolute;
+    right:0;
+    top:0;
+    padding: 29/2px;
+    font-size: 26/2px;
+    color: #fff;
+    z-index: 10;
   }
 </style>

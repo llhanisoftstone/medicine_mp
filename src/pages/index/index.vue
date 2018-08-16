@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" :class="{fixed:!isauth&&authreturn}">
     <div class="user_box">
       <userinfo :username="userinfo.nickName" :imgurl="userinfo.avatarUrl">
         <div slot="userRight">
@@ -119,6 +119,12 @@
     }
   },
   computed:{
+    isauth(){
+      return this.$store.state.isauth
+    },
+    authreturn(){
+      return this.$store.state.authreturn
+    },
     userinfo(){
         return this.$store.state.userinfo
     }
@@ -251,6 +257,14 @@
   .container{
     background: #fff url(../../../static/img/yetou.jpg) center top no-repeat;
     background-size: 100% auto;
+    &.fixed{
+      display: block;
+      position: fixed;
+      top:0;
+      left:0;
+      overflow: hidden;
+      height:100%;
+    }
   }
   .match_box{
     padding: 0 26px/2;
