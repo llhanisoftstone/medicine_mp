@@ -9,15 +9,24 @@
           <span class="border"></span>
           <span :class="{'active':isFriends==3}" @click="switchtab(3)">企业排行</span>
         </div>
-        <ul class="list">
+        <ul class="list" v-if="rankings.length>0">
           <li v-for="(v,i) in rankings">
             <span class="order" :class="{'front':i<3}">{{i+1}}</span>
             <image :src="v.avatar_url" v-if="isFriends!=3"></image>
             <span class="nickname" v-if="isFriends==3">{{v.name}}</span>
             <span class="nickname" v-if="isFriends!=3">{{v.nickname}}</span>
-            <span class="integral"><image src="/static/img/paihangbang.png"></image>{{v.experience}}</span>
+            <span class="integral"><image src="/static/img/paihangbang.png"></image>{{v.experience||0}}</span>
           </li>
         </ul>
+        <div class="phb_notdata" v-if="rankings.length==0&&isFriends==1">
+          矮油，还没有好友来玩~<br>赶快去邀请吧！
+        </div>
+        <div class="phb_notdata" v-if="rankings.length==0&&isFriends==2">
+          哇塞，还没有人玩呢！<br>赶快去上榜~
+        </div>
+        <div class="phb_notdata" v-if="rankings.length==0&&isFriends==3">
+          哇哦！还没有企业上榜~<br>赶快去上榜吧~
+        </div>
       </div>
       <button open-type="share" class="pk_btn" v-if="isFriends==1">挑战好友</button>
       <a :href="'/pages/loadpk/main?from=2&&id='+user.userid" class="pk_btn" v-if="isFriends!=1">全网挑战</a>
@@ -50,6 +59,7 @@
                     that.rankings=res.rows
                   }else if(res.code == 602){
                     that.rankings=[]
+
                   }
                 })
               }else if(this.isFriends==2){
@@ -87,7 +97,7 @@
         }
       },
         mounted(){
-            this.getdata()
+          this.getdata()
           wx.hideShareMenu()
         },
         components: {},
@@ -170,7 +180,7 @@
       margin:0 auto;
       height: auto;
       background: #ffb3a3;
-      padding-bottom: 50px/2;
+      padding-bottom: 40px/2;
       border-radius: 20px/2;
       .tab{
         width: 100%;
@@ -205,9 +215,8 @@
     }
     .list{
       width: 100%;
-      max-height: 780px/2;
+      height: 790px/2 !important;
       overflow: auto;
-      height: auto;
       li{
         width: 100%;
         height:86px/2;
@@ -303,7 +312,7 @@
       margin:0 auto;
       margin-top:50px/2;
       border:none;
-      margin-bottom:64px/2;
+      margin-bottom:50px/2;
       color: #fff;
       font-size: 32px/2;
       border-radius: 50px/2;
@@ -312,5 +321,16 @@
       justify-content: center;
       box-shadow:#ffffff 4rpx -3rpx 0, #df5c3e 7rpx -8rpx 0;
       animation: pk_btn 3s linear infinite alternate;
+    }
+    .phb_notdata{
+      width: 100%;
+      padding-top:432/2px;
+      background: url("../../../static/img/phbj.jpg")no-repeat center 201/2px;
+      background-size: 258/2px 215/2px;
+      font-size: 22/2px;
+      color: #c1272d;
+      text-align: center;
+      height: 790/2px;
+      box-sizing: border-box;
     }
 </style>

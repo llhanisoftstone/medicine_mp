@@ -169,8 +169,12 @@
             that.phone=user.phone;
             that.people=user.contacts;
             that.id=user.id;
+          }else{
+            that.seen=true;
+            that.isseen=false;
+            that.overseen=false;
+            that.overseenbtn=false
           }
-
         })
       }
 

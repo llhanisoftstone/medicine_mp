@@ -8,24 +8,49 @@
       <div class="hot-info" v-if="is_hot_hide">
         <div class="common-head hot-head">
           <span class="hot-icon">热门关注</span>
-          <ul class="hot-list">
-            <li v-for="(v,_index) in hot_list" :key="v._index">
-              <a :href="'/pages/policydetails/main?pid='+v.id" class="item-details">
-                <div class="hot_item">
-                  <div class="imgk">
-                    <img :src="v.pic_abbr" alt="">
-                    <div class="imgkinfok">
-                      <div class="imgkinfo">
-                        <span class="imgkinfo_name">{{v.organiz_name||" "}}</span>
-                        <span class="imgkinfo_count">{{v.view_count}}</span>
+          <div class="hot-list">
+            <swiper :display-multiple-items="buylimitlistcount" next-margin="100px"
+                    :autoplay="false" :circular="true">
+              <block  v-for="(v,_index) in hot_list" :key="v._index">
+                <swiper-item>
+                  <div class="item">
+                    <a :href="'/pages/policydetails/main?pid='+v.id" class="item-details">
+                      <div class="hot_item">
+                        <div class="imgk">
+                          <img :src="v.pic_abbr" alt="">
+                          <div class="imgkinfok">
+                            <div class="imgkinfo">
+                              <span class="imgkinfo_name">{{v.organiz_name||" "}}</span>
+                              <span class="imgkinfo_count">{{v.view_count}}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="item_title">{{v.title}}</div>
                       </div>
-                    </div>
+                    </a>
                   </div>
-                  <div class="item_title">{{v.title}}</div>
-                </div>
-              </a>
-            </li>
-          </ul>
+                </swiper-item>
+              </block>
+            </swiper>
+          </div>
+          <!--<ul class="hot-list">-->
+            <!--<li v-for="(v,_index) in hot_list" :key="v._index">-->
+              <!--<a :href="'/pages/policydetails/main?pid='+v.id" class="item-details">-->
+                <!--<div class="hot_item">-->
+                  <!--<div class="imgk">-->
+                    <!--<img :src="v.pic_abbr" alt="">-->
+                    <!--<div class="imgkinfok">-->
+                      <!--<div class="imgkinfo">-->
+                        <!--<span class="imgkinfo_name">{{v.organiz_name||" "}}</span>-->
+                        <!--<span class="imgkinfo_count">{{v.view_count}}</span>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="item_title">{{v.title}}</div>-->
+                <!--</div>-->
+              <!--</a>-->
+            <!--</li>-->
+          <!--</ul>-->
         </div>
       </div>
       <div class="handbook-info" v-if="is_bl_hide">
@@ -106,6 +131,7 @@
   export default {
     data () {
       return {
+        buylimitlistcount:3,
         is_hot_hide: false,
         is_bl_hide: false,
         is_bk_hide: false,
@@ -127,6 +153,11 @@
               res.hots[i].view_count = that.commons.zcount(res.hots[i].view_count)
             }
             that.hot_list = res.hots;
+            if(that.hot_list.length>2){
+              that.buylimitlistcount=2
+            }else{
+              that.buylimitlistcount=that.hot_list.length
+            }
             that.is_hot_hide = true;
           }else{
             that.hot_list = [];
@@ -275,28 +306,33 @@
       content: '';
       clear: both;
     }
+    /*<!--swiper-item{-->*/
+      /*<!--width: 257/2px!important;-->*/
+    /*<!--}-->*/
   }
-  .hot-list li{
-    float: left;
+  .hot-list .item{
+    /*float: left;*/
     word-wrap:break-word;
     color: #333333;
     font-size: 0.298667*46.875/2px;
-    margin-right:30/2px;
-    width: 333/2px;
-    height:350/2px;
+    margin-right:17/2px;
+    width: 257/2px;
+    //269
+    height:281/2px;
     .hot_item{
       position: relative;
-      width: 333/2px;
-      height:350/2px;
+      width: 257/2px;
+      //269
+      height:281/2px;
       .imgk{
         position: relative;
-        width: 343/2px;
-        height:280/2px;
+        width: 257/2px;
+        height:210/2px;
         border-radius: 10/2px;
         overflow: hidden;
-        img{
-          width: 333/2px;
-          height:280/2px;
+        image{
+          width: 257/2px;
+          height:210/2px;
         }
       }
       .imgkinfok{
@@ -310,41 +346,41 @@
       }
       .imgkinfo{
         position: absolute;
-        bottom:18/2px;
+        bottom:6/2px;
         width: 100%;
         display: flex;
         justify-content: space-between;
         .imgkinfo_name{
-          font-size: 26/2px;
-          padding-left: 39/2px;
+          font-size: 20/2px;
+          padding-left: 31/2px;
           overflow: hidden;
           white-space: nowrap;
           width:165/2px ;
           text-overflow: ellipsis;
           color: #fff;
-          line-height: 33/2px;
-          height: 33/2px;
-          background: url("../../../static/img/zcbm.png")no-repeat 0 0;
-          background-size: 36/2px 33/2px;
+          line-height: 24/2px;
+          height: 24/2px;
+          background: url("../../../static/img/bumenimg.png")no-repeat 6/2px center;
+          background-size: 17/2px 16/2px;
         }
         .imgkinfo_count{
-          padding-right: 13/2px;
-          padding-left:39/2px;
-          font-size: 25/2px;
+          padding-right: 8/2px;
+          padding-left:32/2px;
+          font-size: 20/2px;
           color: #fff;
-          background: url("../../../static/img/zcview.png")no-repeat 0 0;
-          line-height: 25/2px;
-          height: 25/2px;
-          background-size: 35/2px 25/2px;
+          background: url("../../../static/img/viewimg.png")no-repeat 0 center;
+          line-height: 24/2px;
+          height: 24/2px;
+          background-size: 27/2px 17/2px;
         }
       }
       .item_title{
         width: 100%;
-        padding: 0 13/2px;
+        padding: 0 7/2px;
         color: #666;
-        font-size: 26/2px;
-        height:70/2px;
-        line-height: 70/2px;
+        font-size: 25/2px;
+        height:59/2px;
+        line-height: 59/2px;
         box-sizing: border-box;
         overflow: hidden;
         white-space: nowrap;
@@ -352,14 +388,14 @@
       }
     }
   }
-  .hot-list li .item-details{
+  .hot-list .item .item-details{
     background-color: inherit;
     opacity: 1;
     position: inherit;
     white-space: normal;
     word-break: break-all;
   }
-  .headbook-list li .item-details{
+  .headbook-list .item .item-details{
     background-color: inherit;
     opacity: 1;
     position: inherit;

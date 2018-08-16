@@ -4,25 +4,33 @@
         <li>
           <a href="/pages/userdata/main">
             <span class="personfile">个人资料</span>
-            <img src="/static/img/arrow.png"/>
+            <div>
+              完善个人资料奖励50银两
+            </div>
           </a>
         </li>
         <li>
           <a href="/pages/partner/main">
-            <span class="companycomp">合作商</span>
-            <img src="/static/img/arrow.png"/>
+            <span class="companycomp">合作商招募</span>
+            <div>
+              提交申请，共同创富
+            </div>
           </a>
         </li>
         <li>
           <a  href="/pages/aboutus/main">
             <span class="aboutus">关于我们</span>
-            <img src="/static/img/arrow.png"/>
+            <div>
+              让我们了解一下吧
+            </div>
           </a>
         </li>
         <li>
           <a  href="/pages/questions/main?isjy=true">
             <span class="jianyi">我要建议</span>
-            <img src="/static/img/arrow.png"/>
+            <div>
+              提交建议，采纳后送100银两
+            </div>
           </a>
         </li>
       </ul>
@@ -55,6 +63,14 @@
         justify-content: space-between;
         align-items: center;
         border-bottom:1px solid #e2e2e2;
+        >div{
+          color: #999;
+          font-size: 22/2px;
+          line-height: 24/2px;
+          background: url("../../../static/img/arrow.png")no-repeat right center;;
+          background-size: 12/2px 24/2px;
+          padding-right: 20/2px;
+        }
         >span{
           margin-left:12px;
           padding-left:28px;

@@ -6,6 +6,10 @@
             <!--<div class="img_box" :style="'left:'+left+'px'">-->
             <div class="img_box">
               <image :src="userinfo.avatarUrl" v-if="userinfo.avatarUrl"></image>
+              <div class="user_info">
+                <div class="username">{{userinfo.nickName}}</div>
+                <div class="userlevel">{{user.rank_name}}</div>
+              </div>
             </div>
             <div class="gift_img">
               <image src="/static/img/gift_img.png"></image>
@@ -28,7 +32,7 @@
         </div>
         <!--<p class="provide">本题由{{answer.organiz_name}}提供</p>-->
         <div class="prop_box">
-          <prop :tips="tips" :surplus="surplus" :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
+          <prop :tips="tips" :surplus="times<10" :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
         </div>
       </div>
       <mptoast/>
@@ -216,6 +220,9 @@
           userinfo(){
             return this.$store.state.userinfo
           },
+          user(){
+            return this.$store.state.user
+          },
           answer(){
             this.tanswer=this.$store.state.answer.name
             return this.$store.state.answer
@@ -246,7 +253,7 @@
       },
     onLoad(option){
       let that =this
-      that.left=0
+      that.left=0;
 //      that.isanimation=true
 //      setTimeout(()=>{
 //        that.isanimation=false
@@ -366,6 +373,7 @@
     },
     onUnload(){
       let that = this
+      that.surplus=false
       that.gameover=true
       that.isreward=0
       that.left=0
@@ -556,16 +564,16 @@
     animation: user 1s linear;
   }
   .img_box{
-    width: 138px/2;
+    width: 438px/2;
     position: absolute;
     bottom:0;
     left:0;   /*350px/2*/
     z-index:2;
     transition: all .3s ease;
     margin-left: 61px/2;
-    overflow: hidden;
+    /*overflow: hidden;*/
     height: 138px/2;
-    border-radius: 50%;
+    /*border-radius: 50%;*/
     image{
       width: 138px/2;
       height: 138px/2;
@@ -573,6 +581,32 @@
       box-sizing: border-box;
       border-radius: 50%;
       overflow: hidden;
+    }
+    .user_info{
+      float: right;
+      width: 300/2px;
+      padding-left: 18/2px;
+      box-sizing: border-box;
+      .username{
+        padding: 30/2px 0 8/2px;
+        height: 30/2px;
+        line-height: 30/2px;
+        font-size: 30/2px;
+        color: #333;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .userlevel{
+        padding: 8/2px 0 8/2px;
+        height: 30/2px;
+        line-height: 30/2px;
+        font-size: 26/2px;
+        color: #999;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
     }
   }
     .gift_img{

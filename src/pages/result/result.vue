@@ -200,7 +200,7 @@
       left:0;
       right:0;
       margin:auto;
-      padding: 113px/2 91px/2 29px/2;
+      padding: 120px/2 141px/2 29px/2;
       width: 100%;
       height: auto;
       display: flex;
@@ -209,14 +209,14 @@
       .user_item{
         max-width:257px/2;
         div{
-          width: 195px/2;
-          height: 195px/2;
+          width: 150px/2;
+          height: 150px/2;
           border-radius: 50%;
           position: relative;
           box-sizing: border-box;
           image{
-            width: 186px/2;
-            height: 186px/2;
+            width: 143px/2;
+            height: 143px/2;
             border-radius: 50%;
             border:9px/4 solid #ffffff;
           }
@@ -232,11 +232,11 @@
       display: block;
       text-align: center;
       white-space: nowrap;
-      width:195px/2;
+      width:151px/2;
     }
     p{
       margin-top:6px/2;
-      max-width:195px/2;
+      max-width:151px/2;
       font-size: 28px/2;
       color: #333;
       height: 28px/2;
@@ -258,7 +258,7 @@
           height: 78px/2;
           position: absolute;
           top:-42px/2;
-          left:-13px/2;
+          left:-25px/2;
         }
       }
     }

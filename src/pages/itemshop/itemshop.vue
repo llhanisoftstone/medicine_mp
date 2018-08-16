@@ -506,8 +506,8 @@
         box-sizing:border-box;
         overflow:hidden;
           .icon{
-            width:16px;
-            height:15px;
+            width:32/2px;
+            height:30/2px;
             float:left;
             padding-right:4px;
           }
@@ -535,18 +535,22 @@
             text-align:center;
           }
           .minusbtn{
-            width:16px;
-            height:15px;
+            /*<!--width:32/2px;-->*/
+            /*<!--height:30/2px;-->*/
+            width:42/2px;
+            height:40/2px;
             display:inline-block;
-            background:url(../../../static/img/minusbtn.png) no-repeat left center;
+            background:url(../../../static/img/minusbtn.png) no-repeat right center;
             background-size:16px 15px;
             margin-right:5px;
           }
           .addbtn{
-            width:16px;
-            height:15px;
+            /*<!--width:32/2px;-->*/
+            /*<!--height:30/2px;-->*/
+            width:42/2px;
+            height:40/2px;
             display:inline-block;
-            background:url(../../../static/img/addbtn.png) no-repeat center center;
+            background:url(../../../static/img/addbtn.png) no-repeat right center;
             background-size:16px 15px;
             margin-left:5px;
           }
@@ -592,13 +596,13 @@
         }
         .pay_type{
           float:right;
-          width:16px;
-          height:15px;
-          background:url(../../../static/img/buy_3.png) no-repeat center center;
+          width:42/2px;
+          height:40/2px;
+          background:url(../../../static/img/buy_3.png) no-repeat right top;
           background-size:16px 15px;
         }
         .pay_type.active{
-          background:url(../../../static/img/buy_5.png) no-repeat center center;
+          background:url(../../../static/img/buy_5.png) no-repeat right top;
           background-size:16px 15px;
         }
       }
