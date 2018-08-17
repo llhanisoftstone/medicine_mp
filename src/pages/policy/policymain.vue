@@ -434,11 +434,12 @@
     height: 1.632rem;
   }
   .info-content{
-    width: 5.41865rem;
+    position: relative;
+    width: 479/2px;
     padding-left: 0.21335rem;
   }
   .info-content .message{
-    margin-bottom: 0.192rem;
+    /*margin-bottom: 0.192rem;*/
   }
   .message .pub-name{
     font-size: 0.32rem;
@@ -472,6 +473,9 @@
   }
   .info-content .label-info {
     padding: 0;
+    position: absolute;
+    bottom:0;
+    width: 479/2px;
   }
   .info-left{
     float: left;

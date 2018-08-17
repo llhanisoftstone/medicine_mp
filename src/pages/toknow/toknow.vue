@@ -15,7 +15,7 @@
             <input class="select-item" type="number" v-model='userphone' maxlength="11"  placeholder="请输入手机号" />
           </li>
         </ul>
-        <textarea id="complaintstext" v-model="detail" :show-confirm-bar="false" :placeholder="text" maxlength="200"></textarea>
+        <textarea id="complaintstext" v-model="details" :show-confirm-bar="false" :placeholder="text" maxlength="200"></textarea>
         <!--<div class="up" id="imgUpload" >-->
           <!--<span class="upimg"><p>上传照片</p></span>-->
         <!--</div>-->
@@ -48,14 +48,14 @@
               isjy:false,
               realname:'',
               userphone:'',
-              detail:'',
+              details:'',
               pickerValueArray:[],
               pickerValueDefault:[0],
               wishidlist:'',
               pickerwishText:'',
               wish_id:'',
               select:'',
-              isBtnClicked:false,
+              isBtnClicked:true,
             }
         },
         methods: {
@@ -98,30 +98,35 @@
           },
           submitData(){
             if(!this.isBtnClicked){
-                  return;
+              return;
             }
             this.isBtnClicked = false;
-            if((this.wish_id=="" || this.wish_id==null)&&!this.isjy){
+            console.log(this.userphone)
+            if((!this.wish_id)&&!this.isjy){
               this.$mptoast('请选择咨询分类');
+              this.isBtnClicked = true;
               return;
             }
-            if((this.realname=="" || this.realname==null)&&!this.isjy){
+            if((!this.realname.trim())&&!this.isjy){
               this.$mptoast('请输入姓名');
+              this.isBtnClicked = true;
               return;
             }
-            if((this.userphone=="" || this.userphone==null)&&!this.isjy){
+            if((!this.userphone.trim())&&!this.isjy){
               this.$mptoast('请输入手机号');
+              this.isBtnClicked = true;
               return;
             }
-            if(this.detail=="" || this.detail==null){
+            if(!this.details.trim()){
               this.$mptoast('请输入内容');
+              this.isBtnClicked = true;
               return;
             }
             var data={
               //u_id:this.$store.state.user.userid,
               username:this.realname,
               phone:this.userphone,
-              details:this.detail,
+              details:this.details,
             };
             let url='/rs/wish_to_known';
             if (!this.isjy){
@@ -148,7 +153,7 @@
         if(option.isjy&&option.isjy!="false"){
           this.isjy = option.isjy;
         }else{
-          this.isjy=false;
+          this.isjy = false;
         }
         if(this.isjy){
           this.text='请简单描述您想要建议的内容（200字以内）';
@@ -159,11 +164,11 @@
       },
       onShow(){
         this.isBtnClicked=true;
-        this.realname='',
-          this.userphone='',
-          this.detail='',
-          this.pickerwishText='',
-          this.wish_id=''
+        this.realname='';
+        this.userphone='';
+        this.details='';
+        this.pickerwishText='';
+        this.wish_id='';
       },
 
     }
@@ -171,6 +176,10 @@
 
 <style lang="less" scoped>
     @import '../../static/less/common.less';
+    .container{
+      width: 100%;
+      overflow: hidden;
+    }
     .complaintslist{
       li{
         height: 72px/2;
