@@ -355,7 +355,7 @@
           padding-left: 31/2px;
           overflow: hidden;
           white-space: nowrap;
-          width:165/2px ;
+          width:100/2px ;
           text-overflow: ellipsis;
           color: #fff;
           line-height: 24/2px;

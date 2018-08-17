@@ -2,7 +2,7 @@
     <div class="container">
       <div class="bg_shade" v-if="isshow" @click="hidepick">
         <div class="pick_box" @click.stop="prevent">
-          <img class="bg_box" src="../../../static/img/authfight_bg.png">
+          <img class="bg_box" src="/static/img/authfight_bg.png">
           <div class="button_container">
             <p class="btn_box">
               <button class="btn" open-type="getUserInfo"  @getuserinfo="bindGetUserInfo" @click="jumptype=1">我去应战</button>

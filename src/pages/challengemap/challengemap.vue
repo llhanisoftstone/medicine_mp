@@ -33,7 +33,7 @@
           </div>
         </li>
       </ul>
-      <div class="bg_shade" v-if="isshow" @click="hidepick">
+      <div class="bg_shade" v-if="isshow" @click="hidepick" catchtouchmove='true'>
         <div class="pick_box" @click.stop="prevent">
           <h2>闯关人数</h2>
           <div class="pick_item_box">
@@ -60,7 +60,7 @@
           </div>
         </div>
       </div>
-      <div class="bg_shade gzk" v-if="gzshow" @click="hidegz">
+      <div class="bg_shade gzk" v-if="gzshow" @click="hidegz" catchtouchmove='true'>
         <div class="pick_box" @click.stop="">
           <h2>游戏规则</h2>
           <div class="pick_item_box">
