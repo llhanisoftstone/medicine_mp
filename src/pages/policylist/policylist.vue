@@ -227,6 +227,7 @@
     width: 5.41865rem;
     padding-left: 0.21335rem;
     overflow: hidden;
+    position: relative;
   }
   .info-content .message{
     line-height: 0.32rem;
@@ -262,6 +263,9 @@
   }
   .info-content .label-info {
     padding: 0;
+    position: absolute;
+    bottom:-3/2px;
+    width: 479/2px;
   }
   .info-left{
     float: left;

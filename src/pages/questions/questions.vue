@@ -106,6 +106,8 @@
           wx.setNavigationBarTitle({
             title: '我要建议'
           })
+      }else{
+        this.btnmain="我要提问";
       }
     },
     onShow:function(){
@@ -117,6 +119,9 @@
       this.page = 1;
       this.policy_list = [];
       this.iskong = false;
+      this.scrollIcon=false;
+      this.scrollTop=0;
+      this.iskong=false;
     },
     onPageScroll:function(res){
       let top = res.scrollTop;
