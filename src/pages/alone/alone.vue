@@ -143,6 +143,9 @@
             }
           },
           submit(index,right){
+              if(this.isanimation){
+                return
+              }
               if(this.isclick){
                   return
               }
