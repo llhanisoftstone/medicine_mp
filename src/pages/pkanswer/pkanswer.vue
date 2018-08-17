@@ -138,6 +138,9 @@
             this.timesfn=null
           },
           submit(index,right){     //提交答案
+            if(this.isanimation){
+                return
+            }
             if(this.times<=0){
                 return
             }

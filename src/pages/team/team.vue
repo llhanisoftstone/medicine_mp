@@ -1,7 +1,7 @@
 <template>
     <div class="bg_color">
       <div class="doommview">
-        <p v-for="(v,i) in doommData" v-if="v.display" class="aon" :style="{'animation':'first '+v.time+'s linear forwards','top':v.top+'%','color':v.color}">
+        <p v-for="(v,i) in doommData" v-if="v.display" class="aon" :style="{'animation':'first '+v.time+'s linear forwards','top':v.top+'%','color':v.color,'font-size':15+(v.top/v.time)+'px'}">
           {{v.text}}
         </p>
       </div>
@@ -368,6 +368,15 @@
             }
           },
           submit(index,right){    //提交答案
+            if(!this.isstart){
+                return
+            }
+            if(this.gameover){
+                return
+            }
+            if(this.isanimation){
+                return
+            }
             if(this.isclick){
                 return
             }
@@ -800,7 +809,7 @@
               })
 
 
-              that.doommData.push(that.constructor(d.data,Math.ceil(Math.random()*100),5+Math.ceil(Math.random()*5),that.getRandomColor()));
+              that.doommData.push(that.constructor(d.data,Math.ceil(Math.random()*100),9+Math.ceil(Math.random()*5),that.getRandomColor()));
             } else {
               for (let i = 0; i < that.team.length; i++) {
                 if (that.team[i].id == d.u_id) {
@@ -808,7 +817,7 @@
                     nickname: that.team[i].nickname,
                     msg: d.data
                   })
-                  that.doommData.push(that.constructor(d.data,Math.ceil(Math.random()*100),5+Math.ceil(Math.random()*5),that.getRandomColor()));
+                  that.doommData.push(that.constructor(d.data,Math.ceil(Math.random()*100),9+Math.ceil(Math.random()*5),that.getRandomColor()));
                 }
               }
             }
@@ -999,7 +1008,7 @@
   /**定义从右边向左边的移动的动画**/
   @keyframes first{
     from{left: 100%; }
-    to{left: -200%;}
+    to{left: -400%;}
   }
 </style>
 <style lang="less" scoped>
