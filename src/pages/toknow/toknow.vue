@@ -56,6 +56,7 @@
               wish_id:'',
               select:'',
               isBtnClicked:true,
+              isModalShow:false
             }
         },
         methods: {
@@ -68,6 +69,7 @@
             },
           showwishPicker() {
             var than=this;
+            than.isModalShow=true;
             this.$get('/rs/wish_category').then(res=>{
               if (res.code == 200){
                 var obj = [];
@@ -95,6 +97,10 @@
                 }
               }
             }
+            this.isModalShow=false
+          },
+          pickerCancel(e){
+            this.isModalShow=false
           },
           submitData(){
             if(!this.isBtnClicked){
