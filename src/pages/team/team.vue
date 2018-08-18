@@ -91,7 +91,7 @@
         <button open-type="share" v-if="iswin==1">考考好友</button>
         <a href="" v-if="iswin==1" @click="repeat" :class="{'disabled':challenger!=user.userid}">重新开始</a>
       </div>
-      <div class="publish_box">
+      <div class="publish_box" v-if="!gameover">
         <div class="btn_box_send">
           <p @click="send('陈独秀同学请坐下',0)">选1</p>
           <p @click="send('请给李时珍同学一个发言的机会',1)">选2</p>
@@ -161,6 +161,13 @@
             let that=this
             let item={}
             item.text = text;
+            if(28<top<56){
+                if(Math.random()>0.5){
+                  top =  Math.random()*28
+                }else{
+                  top =  58+Math.random()*44
+                }
+            }
             item.top = top;
             item.time = time;
             item.color = color;
