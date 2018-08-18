@@ -19,26 +19,31 @@ export default {
         mask: true
       })
       that.$store.commit('getsocket', false)
-      showmsg = setTimeout(() => {
-        if (that.$store.state.modalshow) {
-          that.$store.commit('getmodal', false)
-          wx.hideLoading()
-          wx.showModal({
-            title: '提示',
-            content: '网络出现问题,请稍后重试',
-            showCancel: false,
-            confirmText: '确认',
-            confirmColor: '#df5c3e',
-            mask: true,
-            complete: res => {
-              wx.switchTab({
-                url: '/pages/index/main'
-              })
-              that.$store.commit('getmodal', true)
-            }
-          })
-        }
-      }, 15000)
+      let pagesArr = getCurrentPages()
+      let currentPage = pagesArr[pagesArr.length - 1]
+      let url = currentPage.route
+      if ((url === 'pages/alone/main') || (url === 'pages/pkanswer/main') || (url === 'pages/team/main') ){
+        showmsg = setTimeout(() => {
+          if (that.$store.state.modalshow) {
+            that.$store.commit('getmodal', false)
+            wx.hideLoading()
+            wx.showModal({
+              title: '提示',
+              content: '网络出现问题,请稍后重试',
+              showCancel: false,
+              confirmText: '确认',
+              confirmColor: '#df5c3e',
+              mask: true,
+              complete: res => {
+                wx.switchTab({
+                  url: '/pages/index/main'
+                })
+                that.$store.commit('getmodal', true)
+              }
+            })
+          }
+        }, 15000)
+      }
     })
     this.$socket.on('reconnect', d => {
       if (!that.$store.state.issocket) {

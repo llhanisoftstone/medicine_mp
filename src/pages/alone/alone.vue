@@ -257,10 +257,10 @@
     onLoad(option){
       let that =this
       that.left=0;
-//      that.isanimation=true
-//      setTimeout(()=>{
-//        that.isanimation=false
-//      },2000)
+      that.isanimation=true
+      setTimeout(()=>{
+        that.isanimation=false
+      },2500)
       that.cleardata()
       that.$store.commit('rightTitle',0)
       that.$store.commit('useTime',0)

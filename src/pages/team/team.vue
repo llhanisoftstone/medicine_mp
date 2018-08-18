@@ -1516,7 +1516,7 @@
       }
     }
     .result_btn{
-      margin-bottom:60px/2;
+      margin-bottom:160px/2;
       width: 100%;
       padding: 0 108px/2;
       box-sizing: border-box;
