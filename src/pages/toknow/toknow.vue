@@ -15,7 +15,12 @@
             <input class="select-item" type="number" v-model='userphone' maxlength="11"  placeholder="请输入手机号" />
           </li>
         </ul>
-        <textarea id="complaintstext" v-model="details" :show-confirm-bar="false" :placeholder="text" maxlength="200"></textarea>
+        <div class="textareak">
+          <!--<div class="placeholder">-->
+            <!--{{text}}-->
+          <!--</div>-->
+          <textarea id="complaintstext" :placeholder="text" v-model="details" :show-confirm-bar="false" maxlength="200"></textarea>
+        </div>
         <!--<div class="up" id="imgUpload" >-->
           <!--<span class="upimg"><p>上传照片</p></span>-->
         <!--</div>-->
@@ -27,7 +32,7 @@
         :mode="mode"
         @onConfirm="onConfirm" >
       </mpvue-picker>
-      <button type="button" class="sumbutton" id="submit_button" @click="submitData">提交</button>
+      <button type="button" class="sumbutton" id="submit_button" :style="{'bottom':isiphonex?'68rpx':0}" @click="submitData">提交</button>
       <mptoast/>
     </div>
 </template>
@@ -46,6 +51,7 @@
             return {
               text:'请简单描述您想要了解的内容（200字以内）',
               isjy:false,
+              isiphonex:false,
               realname:'',
               userphone:'',
               details:'',
@@ -173,6 +179,18 @@
             title: '我要建议'
           })
         }
+        var that=this;
+        try {
+          var res = wx.getSystemInfoSync();
+          console.log(res)
+          if(res.model.match(/iPhone X/ig)){
+            that.isiphonex=true;
+          }else{
+            that.isiphonex=false;
+          }
+        } catch (e) {
+          // Do something when catch error
+        }
       },
       onShow(){
         this.isBtnClicked=true;
@@ -191,6 +209,33 @@
     .container{
       width: 100%;
       overflow: hidden;
+      position: absolute;
+      top:0;
+      bottom:0;
+      left:0;
+      right:0;
+      height: 100%;
+    }
+    .textareak{
+      &:before{
+        content:"";
+        display:table;
+      }
+      position: relative;
+    }
+    .placeholder{
+      margin: 24px/2 0 0 0;
+      border: none;
+      font-size: 26px/2;
+      color: @color_99;
+      padding:0 42px/2;
+      line-height: 32px/2;
+      box-sizing: border-box;
+      width:750px/2;
+      height: 240px/2;
+      position: absolute;
+      z-index: -1;
+      top:0;
     }
     .complaintslist{
       li{

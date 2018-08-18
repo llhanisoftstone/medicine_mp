@@ -149,6 +149,7 @@
     }
     .pad{
       padding-bottom: 1px/2;
+      min-height: 1230/2px;
     }
     h2{
       display: flex;

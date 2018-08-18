@@ -18,7 +18,7 @@
       </div>
     <div class="item">
       <div class="title">企业</div>
-      <input type="text" v-model='comp_name' maxlength="20" confirm-type="next" placeholder="企业名称"/>
+      <input type="text" v-model='comp_name' @blur="compblur()" maxlength="20" confirm-type="next" placeholder="企业名称"/>
       <ul class="company">
         <li v-for="(v,i) in company" @click="choice(v.name)">{{v.name}}</li>
       </ul>
@@ -73,6 +73,9 @@
       }
     },
     methods: {
+      compblur(){
+        this.company=[]
+      },
       choice(name){
           this.isclick=true
           this.comp_name=name
@@ -184,6 +187,9 @@
     onShow(){
       this.getUserinfo();
       this.isBtnClicked=true;
+    },
+    onUnload(){
+      this.company=[];
     },
     watch:{
       async comp_name(val, oldval){

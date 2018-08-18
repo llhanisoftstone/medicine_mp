@@ -9,7 +9,7 @@
         <div class="common-head hot-head">
           <span class="hot-icon">热门关注</span>
           <div class="hot-list">
-            <swiper :display-multiple-items="buylimitlistcount" next-margin="100px"
+            <swiper :display-multiple-items="buylimitlistcount" :next-margin="marginright"
                     :autoplay="false" :circular="true">
               <block  v-for="(v,_index) in hot_list" :key="v._index">
                 <swiper-item>
@@ -132,6 +132,7 @@
     data () {
       return {
         buylimitlistcount:3,
+        marginright:"180rpx",
         is_hot_hide: false,
         is_bl_hide: false,
         is_bk_hide: false,
@@ -190,6 +191,7 @@
     },
 
     created () {
+      console.log(wx.getSystemInfoSync().windowWidth)
       this.getpolicyMain()//获取政策百科主页数据
     },
 

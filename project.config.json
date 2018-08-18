@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 7,
+			"current": 5,
 			"list": [
 				{
 					"id": 0,
@@ -112,9 +112,9 @@
 					"scene": "1007"
 				},
 				{
-					"id": -1,
-					"name": "成绩单",
-					"pathName": "pages/report/main",
+					"id": 12,
+					"name": "授权",
+					"pathName": "pages/authfight/main",
 					"query": "",
 					"scene": "1007"
 				},

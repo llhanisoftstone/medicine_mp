@@ -10,7 +10,7 @@
             <div class="item_z">
               <img :src="v.picpath" alt=""><div class="centername">查看详情</div><div class="bottomlist" v-on:click.stop="buyuse(v.id,v.picpath,v.category)" ><span class="sliverimg"></span><span>{{v.points}}</span></div>
             </div>
-            <div class="item_reverse" @click.stop="toreverse(i)" :style="{'z-index':v.isreverse_z}">
+            <div class="item_reverse" @click.stop="toreverse(i)" :style="{'z-index':10,'display':v.isreverse_z==1?'block':'none'}">
               <div class="item_reverse_sign"></div>
               <div class="item_reverse_title">{{v.name}}</div>
               <div class="item_reverse_main">{{category[v.category]}}</div>
@@ -93,11 +93,11 @@
               let thiz=this;
               this.goods[i].isreverse=!this.goods[i].isreverse;
               let t=setTimeout(function(){
-                  if(thiz.goods[i].isreverse){
-                    thiz.goods[i].isreverse_z="1"
-                  }else{
-                    thiz.goods[i].isreverse_z="-1"
-                  }
+                if(thiz.goods[i].isreverse){
+                  thiz.goods[i].isreverse_z="1"
+                }else{
+                  thiz.goods[i].isreverse_z="-1"
+                }
               },250);
               let t2=setTimeout(function(){
                 thiz.goods[i].isreverse_run=false;
@@ -231,7 +231,6 @@
              }
             }
             let res = await that.$post('/rs/order_build',{pay_type:this.pay_type,amount:this.amount,goods_id:this.goods_id});
-            console.log(res)
             if(res.code == 200){
                 if(this.pay_type==1){
                   this.ishidden=false;
@@ -316,10 +315,18 @@
   .itemlist{
     margin:13px;
     ul{
-      transform-style:preserve-3d;
+      /*transform-style:preserve-3d;*/
       li{
         transition: all .5s linear;
         transform: rotateY(0deg);
+        float:left;
+        width:106px;
+        height:120px;
+        /*border-radius:5px;*/
+        margin-right:17px;
+        text-align:center;
+        box-sizing:border-box;
+        position:relative;
         &.active{
           transform: rotateY(180deg);
         }
@@ -327,7 +334,7 @@
           background:#ffe7e8;
           width: 100%;
           height:100%;
-          transform: rotateY(0deg);
+          /*transform: rotateY(0deg);*/
           position: absolute;
           border-radius:5px;
           z-index: 0;
@@ -368,14 +375,6 @@
             color: #fff;
           }
         }
-        float:left;
-        width:106px;
-        height:120px;
-        /*border-radius:5px;*/
-        margin-right:17px;
-        text-align:center;
-        box-sizing:border-box;
-        position:relative;
         image{
           width:50px;
           height:50px;
