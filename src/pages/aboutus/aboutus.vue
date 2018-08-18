@@ -8,7 +8,7 @@
         <div class="ab_content">V1.0.0</div>
       </div>
       <div class="foot">
-        <p>Copyright&copy;2018</p>
+        <p>Copyright©2018</p>
         <p>西安市人社局失业保险处指导</p>
         <p><span v-on:click="companyclick">西安藤罗网络科技有限公司</span>设计开发</p>
         <p>TEL：029-81101859</p>

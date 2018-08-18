@@ -130,6 +130,9 @@
           },
           showpick(v){
             if(this.level<v){
+                if(this.tips!=-1){
+                    return
+                }
               let gaplevel=v-this.level;
               this.tips=v
               if(v==5 || v==10){
@@ -365,9 +368,9 @@
       p{
         font-size: 20px/2;
         position: absolute;
-        top:30px/2;
-        left:28px/2;
-        line-height: 24px/2;
+        top:34px/2;
+        left:32px/2;
+        line-height: 23px/2;
         width: 120px/2;
       }
     }
@@ -383,8 +386,8 @@
         font-size: 28px/2;
         position: absolute;
         top:60px/2;
-        left:28px/2;
-        line-height: 36px/2;
+        left:24px/2;
+        line-height: 31px/2;
       }
     }
     .c_map{
