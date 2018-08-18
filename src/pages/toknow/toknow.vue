@@ -25,7 +25,9 @@
         :pickerValueArray="pickerValueArray"
         :pickerValueDefault='pickerValueDefault'
         :mode="mode"
-        @onConfirm="onConfirm" >
+        @onConfirm="onConfirm"
+        @maskClick="maskClick"
+      >
       </mpvue-picker>
       <button type="button" class="sumbutton" id="submit_button" @click="submitData">提交</button>
       <mptoast/>
@@ -56,6 +58,7 @@
               wish_id:'',
               select:'',
               isBtnClicked:true,
+              isModalShow:false
             }
         },
         methods: {
@@ -83,6 +86,7 @@
                 than.wishidlist = obj;
                 this.select=1;
                 this.$refs.mpvuePicker.show();
+                than.isModalShow=true;
               }
             });
           },
@@ -95,6 +99,13 @@
                 }
               }
             }
+            this.isModalShow=false
+          },
+          pickerCancel(){
+            this.isModalShow=false
+          },
+          maskClick() {
+            this.isModalShow=false
           },
           submitData(){
             if(!this.isBtnClicked){
@@ -112,8 +123,13 @@
               this.isBtnClicked = true;
               return;
             }
-            if((!this.userphone.trim())&&!this.isjy){
-              this.$mptoast('请输入手机号');
+            if(this.userphone.trim()&&this.isjy&&!this.isPoneAvailable(this.userphone.trim())){
+              this.$mptoast('请输入正确的11位手机号');
+              this.isBtnClicked = true;
+              return;
+            }
+            if(!this.isPoneAvailable(this.userphone.trim())&&!this.isjy){
+              this.$mptoast('请输入正确的11位手机号');
               this.isBtnClicked = true;
               return;
             }
@@ -147,7 +163,14 @@
               }
             })
           },
-
+          isPoneAvailable(str) {
+            var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+            if (!myreg.test(str)) {
+              return false;
+            } else {
+              return true;
+            }
+          }
         },
       onLoad: function (option) {
         if(option.isjy&&option.isjy!="false"){
