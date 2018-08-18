@@ -1,6 +1,6 @@
 <template>
     <div class="bg">
-      <image src="/static/img/pipei.jpg" class="bg_img"></image>
+      <image src="/static/img/pipei.jpg" class="bg_img" mode=”widthFix”></image>
       <div class="bg_box">
         {{test}}
         <div :class="{'my':true,'my_img':vs}">
@@ -27,10 +27,6 @@
         <button open-type="share">挑战其他好友</button>
         <button class="swiper" @click="swiper">全网挑战</button>
       </div>
-      <!--<button open-type="getUserInfo" v-if="!isauth" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">-->
-        <!--<image src="/static/img/role.png"></image>-->
-        <!--<span>暂未授权,请点击授权</span>-->
-      <!--</button>-->
     </div>
 </template>
 
@@ -130,119 +126,6 @@
             }
 
           }
-//          bindGetUserInfo: function(e) {
-//            let that = this
-//            if(!e.target.userInfo){
-//              return
-//            }
-//            that.$store.commit('getuser', e.target.userInfo)
-//            that.$store.commit('getauth')
-//            that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:e.target.encryptedData,iv:e.target.iv}).then(res=>{
-//              console.log(res)
-//              if (res.code === 200) {
-//                for (let i = 0; i < res.tools.length; i++) {
-//                  if (!res.tools[i].amount) {
-//                    res.tools[i].amount = 0
-//                  }
-//                }
-//                that.$store.commit('getm_user', res)
-//                that.$socket.on('data_chain', d => {
-//                  if (d.cmd === 'login') {
-//                    that.$store.commit('getsocket')
-//                  }
-//                  console.log(d)
-//                })
-//                that.$socket.emit('data_chain', {
-//                  cmd: 'login',
-//                  u_id: res.userid,
-//                  nickname: that.$store.state.userinfo.nickName,
-//                  picpath: that.$store.state.userinfo.avatarUrl
-//                })
-//                wx.switchTab({
-//                  url: '/pages/index/main'
-//                })
-//                that.$socket.on('global_chain', d => {
-//                  console.log(d)
-//                  if (d.cmd === 'error') {
-//                    if (d.errcode === 601) {
-//                      if (that.$store.state.modalshow) {
-//                        that.$store.commit('getmodal', false)
-//                        wx.hideLoading()
-////                      wx.showLoading({
-////                        mask:true
-////                      })
-//                        wx.showModal({
-//                          title: '提示',
-//                          content: '无法获取好友信息,请重试',
-//                          showCancel: false,
-//                          confirmText: '确定',
-//                          confirmColor: '#df5c3e',
-//                          mask: true,
-//                          complete: res => {
-//                            console.log(`重新登录${that.$store.state.user.userid}`)
-//                            that.$socket.emit('data_chain', {
-//                              cmd: 'login',
-//                              u_id: that.$store.state.user.userid,
-//                              nickname: that.$store.state.userinfo.nickName,
-//                              picpath: that.$store.state.userinfo.avatarUrl
-//                            })
-//                            that.$store.commit('getmodal', true)
-//                            wx.switchTab({
-//                              url: '/pages/index/main'
-//                            })
-//                          }
-//                        })
-//                      }
-//                    } else if (d.errcode === 404) {
-//                      if (that.$store.state.modalshow) {
-//                        that.$store.commit('getmodal', false)
-//                        wx.hideLoading()
-//                        wx.showModal({
-//                          title: '提示',
-//                          content: '房间不存在',
-//                          showCancel: false,
-//                          confirmText: '返回首页',
-//                          confirmColor: '#df5c3e',
-//                          mask: true,
-//                          complete: res => {
-//                            wx.switchTab({
-//                              url: '/pages/index/main'
-//                            })
-//                            that.$store.commit('getmodal', true)
-//                          }
-//                        })
-//                      }
-//                    } else if (d.errcode === 301) {
-//                      if (that.$store.state.modalshow) {
-//                        that.$store.commit('getmodal', false)
-//                        wx.hideLoading()
-//                        wx.showModal({
-//                          title: '提示',
-//                          content: '连接已断开',
-//                          showCancel: false,
-//                          confirmText: '返回首页',
-//                          confirmColor: '#df5c3e',
-//                          mask: true,
-//                          complete: res => {
-//                            wx.switchTab({
-//                              url: '/pages/index/main'
-//                            })
-//                            that.$store.commit('getmodal', true)
-//                          }
-//                        })
-//                      }
-//                    }
-//                  }else if(d.cmd === 'upgrade') {
-//                    let user = that.$store.state.user
-//                    user.rank_code = d.rank_code
-//                    user.rank_name = d.rank_name
-//                    user.experience = d.experience
-//                    that.$store.commit('getm_user', user)
-//                  }
-//                })
-//              }
-//            })
-//          }
         },
         components: {},
         computed:{
@@ -348,7 +231,11 @@
       }
     }
 </script>
-
+<style>
+  page{
+    height: 100%;
+  }
+</style>
 <style lang="less" scoped>
     @import '../../static/less/common.less';
     @keyframes my_img_jinru {
@@ -464,7 +351,8 @@
     height: 100%;
     .bg_img{
       width: 100%;
-      height: 1246px/2;
+      min-height: 1246px/2;
+      height: 100%;
       display: block;
     }
     .bg_box{

@@ -30,7 +30,9 @@
         :pickerValueArray="pickerValueArray"
         :pickerValueDefault='pickerValueDefault'
         :mode="mode"
-        @onConfirm="onConfirm" >
+        @onConfirm="onConfirm"
+        @maskClick="maskClick"
+      >
       </mpvue-picker>
       <button type="button" class="sumbutton" id="submit_button" :style="{'bottom':isiphonex?'68rpx':0}" @click="submitData">提交</button>
       <mptoast/>
@@ -62,6 +64,7 @@
               wish_id:'',
               select:'',
               isBtnClicked:true,
+              isModalShow:false
             }
         },
         methods: {
@@ -89,6 +92,7 @@
                 than.wishidlist = obj;
                 this.select=1;
                 this.$refs.mpvuePicker.show();
+                than.isModalShow=true;
               }
             });
           },
@@ -101,6 +105,13 @@
                 }
               }
             }
+            this.isModalShow=false
+          },
+          pickerCancel(){
+            this.isModalShow=false
+          },
+          maskClick() {
+            this.isModalShow=false
           },
           submitData(){
             if(!this.isBtnClicked){

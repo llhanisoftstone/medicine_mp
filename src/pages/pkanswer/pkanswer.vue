@@ -511,6 +511,7 @@
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         text-align: center;
+        padding-bottom: 5px/2;
       }
     }
     .user_box_item:nth-last-child(1) {
