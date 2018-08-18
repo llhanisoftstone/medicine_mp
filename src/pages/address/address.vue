@@ -142,6 +142,8 @@
       onConfirm(e){
           if(this.select==1){
             this.pickerprovinceText = this.pickerValueArray[e[0]];
+            this.pickercityText = "";
+            this.pickerzoneText = "";
             for(var i=0;i<this.provinceidlist.length;i++){
                 if(this.pickerprovinceText==this.provinceidlist[i].name){
                     this.province_id=this.provinceidlist[i].id;
@@ -149,6 +151,7 @@
             }
           }else if(this.select==2){
             this.pickercityText = this.pickerValueArray[e[0]];
+            this.pickerzoneText = "";
             for(var i=0;i<this.cityidlist.length;i++){
               if(this.pickercityText==this.cityidlist[i].name){
                 this.city_id=this.cityidlist[i].id;

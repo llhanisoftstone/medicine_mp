@@ -229,10 +229,10 @@
   .company{
     position: relative;
     z-index:10;
-    background: #fff;
     margin-top:1px/2;
     overflow: hidden;
     li{
+      background: #fff;
       font-size: 30px/2;
       height: 80px/2;
       padding: 0 10px/2;
