@@ -7,12 +7,12 @@
             <input class="select-item" @click="showwishPicker" :value="pickerwishText" disabled="disabled" placeholder="请选择咨询分类" confirm-type="next">
           </li>
           <li data-type="2" >
-            <span>姓名</span>
-            <input type="text" class="select-item" v-model='realname' maxlength="10"  placeholder="请输入姓名"/>
+            <span>联系人</span>
+            <input type="text" class="select-item" v-model='realname' maxlength="10"  placeholder="请输入联系人"/>
           </li>
           <li data-type="3" >
-            <span>手机号</span>
-            <input class="select-item" type="number" v-model='userphone' maxlength="11"  placeholder="请输入手机号" />
+            <span>联系电话</span>
+            <input class="select-item" type="number" v-model='userphone' maxlength="11"  placeholder="请输入联系电话" />
           </li>
         </ul>
         <div class="textareak">
@@ -118,7 +118,7 @@
               return;
             }
             if((!this.realname.trim())&&!this.isjy){
-              this.$mptoast('请输入姓名');
+              this.$mptoast('请输入联系人');
               this.isBtnClicked = true;
               return;
             }
