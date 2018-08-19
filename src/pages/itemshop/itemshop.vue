@@ -79,7 +79,7 @@
               ispay:false,
               category:[
                   "",
-                "答题时，可看到当前题答案，一道题可使用一张。",
+                "答题时，可看到当前题答案，一道题可使用一次。",
                 "答题时，答题时间增加20s，一道题可使用一次。"
               ]
             }
@@ -124,7 +124,7 @@
             this.amount=1;
             this.picpath=picpath;
             if(category==1){
-                this.toolmessage="答题时，可看到当前题答案，一道题可使用一张。";
+                this.toolmessage="答题时，可看到当前题答案，一道题可使用一次。";
                 this.toolname="答案眼";
             }else if(category==2){
               this.toolmessage="答题时，答题时间增加20s，一道题可使用一次。";
