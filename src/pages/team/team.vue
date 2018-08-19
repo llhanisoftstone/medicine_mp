@@ -100,7 +100,7 @@
         </div>
         <i class="quick" @click="selectQuick">常用语</i>
         <a @click="userTools(user.tools[0].amount,1)" :class="{surplus:times<10}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span></a>
-        <a @click="userTools(user.tools[1].amount,2)" :class="{surplus:times<10}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span></a>
+        <a @click="userTools(user.tools[1].amount,2)" :class="{surplus:(times<10 && !istime)}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span></a>
       </div>
       <div class="news_box" v-if="isquick">
         <ul>
