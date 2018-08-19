@@ -109,6 +109,7 @@
               this.isActive=true;
               this.isclcik=false;
               this.iskong=false;
+
           },
           rightclick(){
             this.seen=false;
@@ -285,7 +286,7 @@
       },
       onUnload:function(){
           for(let key in this.goods){
-            this.goods[key].isreverse=false;
+            this.goods[key].isreverse=true;
           }
       }
     }
