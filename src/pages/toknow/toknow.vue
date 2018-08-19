@@ -151,14 +151,14 @@
             }
             this.$post(url,data).then(res=>{
               if(res.code == 200){
-                this.$mptoast('保存成功',100);
+                this.$mptoast('提交成功',100);
                 setTimeout(function () {
                     wx.navigateBack({     //返回上一页面或多级页面
                       delta: 1
                     })
                 }, 1500);
               }else{
-                this.$mptoast('保存失败',100);
+                this.$mptoast('提交失败',100);
               }
             })
           },
