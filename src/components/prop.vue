@@ -6,7 +6,7 @@
           <p>{{answer>99?'99+':answer}}</p>
           <div class="toolname">答案眼</div>
         </div>
-        <div v-if="istimes" @click="useTools(times,2)" :class="{surplus:surplus}">
+        <div v-if="istimes" @click="useTools(times,2)" :class="{surplus:surplus && !istimeused}">
           <image src="/static/img/daojushangdian_13.png"></image>
           <p>{{times>99?'99+':times}}</p>
           <div class="toolname">延时针</div>
@@ -42,6 +42,10 @@
                 default:''
             },
             surplus:{
+              type:Boolean,
+              default:false
+            },
+            istimeused:{
               type:Boolean,
               default:false
             }

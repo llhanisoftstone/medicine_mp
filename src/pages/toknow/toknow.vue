@@ -31,7 +31,6 @@
         :pickerValueDefault='pickerValueDefault'
         :mode="mode"
         @onConfirm="onConfirm"
-        @maskClick="maskClick"
       >
       </mpvue-picker>
       <button type="button" class="sumbutton" id="submit_button" :style="{'bottom':isiphonex?'68rpx':0}" @click="submitData">提交</button>
@@ -105,12 +104,6 @@
                 }
               }
             }
-            this.isModalShow=false
-          },
-          pickerCancel(){
-            this.isModalShow=false
-          },
-          maskClick() {
             this.isModalShow=false
           },
           submitData(){
