@@ -910,8 +910,9 @@
     .doommview{
       z-index: 3;
       height: 30%;
-      width: 100%;
+      width: 750px/2;
       position: absolute;
+      box-sizing: border-box;
     }
     @keyframes swing {
       10% {
@@ -1286,7 +1287,7 @@
       padding: 17px/2 14px/2;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       div{
         display: flex;
         height: 100%;
