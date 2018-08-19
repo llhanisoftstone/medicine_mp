@@ -76,7 +76,10 @@
                             filePath:res.tempFilePath,
                             success(result){
                               console.log(result)
-                              that.isshow=false
+                              setTimeout(()=>{
+                                wx.navigateBack();
+                                that.isshow=false
+                              },1000)
                             }
                           })
                         }
