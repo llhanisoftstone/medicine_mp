@@ -135,13 +135,13 @@
           border-left:1px solid #fff;
           .closebtn{
             position:absolute;
-            top:-20px;
+            top:-21px;
             right:-10px;
             width:22px;
             z-index:40;
             border-radius:50%;
             height:22px;
-            background:url(../../../static/img/close.png) no-repeat center center;
+            background:url(../../../static/img/close.png) no-repeat 0 center;
             background-size:22px 22px;
           }
         }
