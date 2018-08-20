@@ -4,7 +4,13 @@
         <ul class="complaintslist">
           <li data-type="1" v-if="!isjy">
             <span>咨询分类</span>
-            <input class="select-item" @click="showwishPicker" :value="pickerwishText" disabled="disabled" placeholder="请选择咨询分类" confirm-type="next">
+            <picker
+              mode="selector"
+              :value="pickerIndex"
+              :range="pickerValueArray"
+              @change="bindPickerChange">
+              <input class="picker-input" :value="pickerValueArray[pickerIndex]" disabled="disabled" placeholder="请选择咨询分类" confirm-type="next">
+            </picker>
           </li>
           <li data-type="2" >
             <span>联系人</span>
@@ -16,14 +22,8 @@
           </li>
         </ul>
         <div class="textareak">
-          <!--<div class="placeholder">-->
-            <!--{{text}}-->
-          <!--</div>-->
           <textarea id="complaintstext" :placeholder="text" v-model="details" :show-confirm-bar="false" maxlength="200"></textarea>
         </div>
-        <!--<div class="up" id="imgUpload" >-->
-          <!--<span class="upimg"><p>上传照片</p></span>-->
-        <!--</div>-->
       </form>
       <mpvue-picker
         ref="mpvuePicker" @pickerCancel="pickerCancel"
@@ -63,20 +63,15 @@
               wish_id:'',
               select:'',
               isBtnClicked:true,
-              isModalShow:false
+              isModalShow:false,
+              pickerIndex:-1,
+              pikerShow:false
             }
         },
         methods: {
             async getWishCate(){
-              let that = this;
-              //let res = await this.$get('/rs/wish_category');
-//              if (res.code == 200){
-//
-//              }
-            },
-          showwishPicker() {
-            var than=this;
-            this.$get('/rs/wish_category').then(res=>{
+              let than = this;
+              let res = await this.$get('/rs/wish_category');
               if (res.code == 200){
                 var obj = [];
                 var array=[];
@@ -90,21 +85,18 @@
                 than.pickerValueArray=array;
                 than.wishidlist = obj;
                 this.select=1;
-                this.$refs.mpvuePicker.show();
-                than.isModalShow=true;
               }
-            });
-          },
-          onConfirm(e){
-            if(this.select==1){
-              this.pickerwishText = this.pickerValueArray[e[0]];
-              for(var i=0;i<this.wishidlist.length;i++){
-                if(this.pickerwishText==this.wishidlist[i].name){
-                  this.wish_id=this.wishidlist[i].id;
+            },
+          bindPickerChange(e){
+              let that=this;
+              let ival=e.mp.detail.value;
+              that.pickerIndex=ival;
+              that.pickerwishText=that.pickerValueArray[ival];
+              for(let wishVal of that.wishidlist ){
+                if(that.pickerwishText==wishVal.name){
+                  that.wish_id=wishVal.id;
                 }
               }
-            }
-            this.isModalShow=false
           },
           submitData(){
             if(!this.isBtnClicked){
@@ -172,6 +164,7 @@
           }
         },
       onLoad: function (option) {
+        this.getWishCate()//获取咨询分类
         if(option.isjy&&option.isjy!="false"){
           this.isjy = option.isjy;
         }else{
@@ -195,6 +188,7 @@
         } catch (e) {
           // Do something when catch error
         }
+
       },
       onShow(){
         this.isBtnClicked=true;
@@ -203,6 +197,7 @@
         this.details='';
         this.pickerwishText='';
         this.wish_id='';
+        this.pickerIndex=-1;
       },
 
     }
@@ -246,11 +241,10 @@
         height: 72px/2;
         padding: 14px/2 14px/2 14px/2 0;
         border-bottom: 1px solid @color_e2;
-        position: relative;
         display: flex;
-        align-items: center;
+        justify-content: flex-start;
         span:first-child{
-          width:170px/2;
+          width:140px/2;
           font-size: 28px/2;
           padding:0 16px/2 0 42px/2;
           height: 100%;
@@ -258,6 +252,7 @@
           align-items: center;
           text-align: right;
           border-right: 1px solid @color_e2;
+          flex-shrink:0
         }
         .select-item{
           width:100%;
@@ -267,6 +262,18 @@
           padding-left: 23px/2 ;
           color: @color_666;
           border: none;
+        }
+        .picker-input{
+          font-size: 26px/2;
+          line-height: 75px/2;
+          height: 72px/2;
+          padding-left: 23px/2 ;
+          color: @color_666;
+          border: none;
+          box-sizing: border-box;
+        }
+        picker{
+          width:100%;
         }
       }
     }

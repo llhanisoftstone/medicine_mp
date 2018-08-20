@@ -123,7 +123,8 @@
       onShareAppMessage(res){
         let that = this;
         let title='@你 记录在此，谁来挑战！！！';
-        let url=`/pages/authfight/main?`+`pages=loadpk&&from=1&&id=${this.$store.state.user.userid}`;
+//        let url=`/pages/authfight/main?`+`pages=loadpk&&from=1&&id=${this.$store.state.user.userid}`;
+        let url="/pages/index/main";
         if (res.from === 'menu') {
           // 来自页面内转发按钮
           title='边玩边学，游戏学习两不误！';
@@ -135,6 +136,9 @@
           path: url,
           success: (r)=>{
             console.log(r);
+//            wx.navigateTo({
+//              url:"/pages/loadpk/main?from=1"
+//            })
           },
           fail: (err)=>{
             console.log(err)
