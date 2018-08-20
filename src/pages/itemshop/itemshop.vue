@@ -156,7 +156,11 @@
               }
           },
           addbtnnum(){
-            this.amount=++this.amount;
+              if(this.amount>=999){
+                this.amount=999;
+              }else{
+                this.amount=++this.amount;
+              }
           },
           show1(){
             this.ishidden=false;
