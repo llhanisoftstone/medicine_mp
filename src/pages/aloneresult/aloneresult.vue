@@ -143,7 +143,7 @@
         // 来自页面内转发按钮
         title='边玩边学，游戏学习两不误！';
         img=`${that.$store.state.url}/admin/img/1.jpg`;
-        url='/pages/index/main'
+        url='/pages/index/main';
         console.log(res.target)
       }
       return {
@@ -162,6 +162,8 @@
       wx.hideShareMenu()
       this.cleardata()
       this.win=option.result
+
+      this.win=2
       if(option.id){
         this.isreward=option.id
         wx.setNavigationBarTitle({
