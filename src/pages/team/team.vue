@@ -913,6 +913,7 @@
       width: 750px/2;
       position: absolute;
       box-sizing: border-box;
+      overflow: hidden;
     }
     @keyframes swing {
       10% {

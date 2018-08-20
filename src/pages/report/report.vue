@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div class="box" v-if="!isshow">
+      <div class="box">
         <image src="/static/img/bgchengjidan.jpg" class="img_bg"></image>
         <div class="user_box">
           <image :src="userinfo.avatarUrl" class="user_img"></image>
@@ -247,5 +247,9 @@
     canvas{
       width: 750px/2;
       height: 1247px/2;
+      z-index: -1;
+      position: fixed;
+      top:0;
+      left:0;
     }
 </style>
