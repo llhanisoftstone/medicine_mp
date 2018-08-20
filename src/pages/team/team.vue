@@ -100,7 +100,7 @@
         </div>
         <i class="quick" @click="selectQuick">常用语</i>
         <a @click="userTools(user.tools[0].amount,1)" :class="{surplus:times<10}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span></a>
-        <a @click="userTools(user.tools[1].amount,2)" :class="{surplus:times<10}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span></a>
+        <a @click="userTools(user.tools[1].amount,2)" :class="{surplus:(times<10 && !istime)}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span></a>
       </div>
       <div class="news_box" v-if="isquick">
         <ul>
@@ -910,8 +910,9 @@
     .doommview{
       z-index: 3;
       height: 30%;
-      width: 100%;
+      width: 750px/2;
       position: absolute;
+      box-sizing: border-box;
     }
     @keyframes swing {
       10% {
@@ -1286,7 +1287,7 @@
       padding: 17px/2 14px/2;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       div{
         display: flex;
         height: 100%;

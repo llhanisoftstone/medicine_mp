@@ -32,7 +32,7 @@
         </div>
         <!--<p class="provide">本题由{{answer.organiz_name}}提供</p>-->
         <div class="prop_box">
-          <prop :tips="tips" :surplus="times<10" :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
+          <prop :tips="tips" :surplus="times<10" :istimeused="istime" :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
         </div>
       </div>
       <mptoast/>

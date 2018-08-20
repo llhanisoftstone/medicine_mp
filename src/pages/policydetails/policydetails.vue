@@ -2,7 +2,7 @@
   <div class="content">
     <div class="title">{{title}}</div>
     <div class="release-time">发布时间 : {{create_time}}</div>
-    <div class="details" v-html="details"></div>
+    <div class="details"><div  v-html="details"></div></div>
   </div>
 </template>
 
@@ -27,6 +27,7 @@
           if (details){
             var aimurl = 'https://policy.lifeonway.com'+"/upload/ueeditor/";
             details=details.replace(/\/upload\/ueeditor/g, aimurl);
+            details=details.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
           }
           that.details =  details;
         }
@@ -75,10 +76,17 @@
     line-height: 0.426667rem;
     color: #666666;
     word-wrap:break-word;
-    margin: 30px/2 30px/2 0 30px/2;
     width: 100%;
     height: auto;
-
+    box-sizing:border-box;
+    >div{
+      width:345px;
+      word-wrap:break-word;
+      *{
+        word-break: break-all;
+        word-wrap: break-word;
+      }
+    }
   }
 
 </style>

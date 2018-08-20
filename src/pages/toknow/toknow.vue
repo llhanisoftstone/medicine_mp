@@ -7,12 +7,12 @@
             <input class="select-item" @click="showwishPicker" :value="pickerwishText" disabled="disabled" placeholder="请选择咨询分类" confirm-type="next">
           </li>
           <li data-type="2" >
-            <span>姓名</span>
-            <input type="text" class="select-item" v-model='realname' maxlength="10"  placeholder="请输入姓名"/>
+            <span>联系人</span>
+            <input type="text" class="select-item" v-model='realname' maxlength="10"  placeholder="请输入联系人"/>
           </li>
           <li data-type="3" >
-            <span>手机号</span>
-            <input class="select-item" type="number" v-model='userphone' maxlength="11"  placeholder="请输入手机号" />
+            <span>联系电话</span>
+            <input class="select-item" type="number" v-model='userphone' maxlength="11"  placeholder="请输入联系电话" />
           </li>
         </ul>
         <div class="textareak">
@@ -31,7 +31,6 @@
         :pickerValueDefault='pickerValueDefault'
         :mode="mode"
         @onConfirm="onConfirm"
-        @maskClick="maskClick"
       >
       </mpvue-picker>
       <button type="button" class="sumbutton" id="submit_button" :style="{'bottom':isiphonex?'68rpx':0}" @click="submitData">提交</button>
@@ -107,12 +106,6 @@
             }
             this.isModalShow=false
           },
-          pickerCancel(){
-            this.isModalShow=false
-          },
-          maskClick() {
-            this.isModalShow=false
-          },
           submitData(){
             if(!this.isBtnClicked){
               return;
@@ -125,7 +118,7 @@
               return;
             }
             if((!this.realname.trim())&&!this.isjy){
-              this.$mptoast('请输入姓名');
+              this.$mptoast('请输入联系人');
               this.isBtnClicked = true;
               return;
             }
@@ -158,14 +151,14 @@
             }
             this.$post(url,data).then(res=>{
               if(res.code == 200){
-                this.$mptoast('保存成功',100);
+                this.$mptoast('提交成功',100);
                 setTimeout(function () {
                     wx.navigateBack({     //返回上一页面或多级页面
                       delta: 1
                     })
                 }, 1500);
               }else{
-                this.$mptoast('保存失败',100);
+                this.$mptoast('提交失败',100);
               }
             })
           },

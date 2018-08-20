@@ -120,14 +120,14 @@
         }else{
           this.$post('/rs/cooperator',data).then(res=>{
             if(res.code == 200){
-              this.$mptoast('保存成功');
+              this.$mptoast('提交成功');
               setTimeout(function() {
                 wx.navigateBack({     //返回上一页面或多级页面
                   delta: 1
                 })
               },1000);
             }else{
-              this.$mptoast('保存失败');
+              this.$mptoast('提交失败');
             }
           })
         }

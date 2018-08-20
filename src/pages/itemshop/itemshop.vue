@@ -31,7 +31,7 @@
             <ul>
               <li>
                 <div class="toolname">{{toolname}}(<span class="number_right">{{name_type}}<span class="show" v-if="istotalpoint">{{amount*20}}</span><span class="show" v-if="istotalprice">{{(amount*2)/10}}</span></span>)</div>
-                <div class="toolright"><span :class="{minusbtn:true,hui:amount==1}" @click="minusbtnnum"></span> <input class="amountcount" id="price" type="number"  v-model="amount" ref="type1" placeholder="个数"  maxlength="3"  onkeyup="value=value.replace(/[^\d]/g,'')"/><span :class="{addbtn:true,hui:amount==999}" @click="addbtnnum"></span></div>
+                <div class="toolright"><span :class="{minusbtn:true,hui:amount==1}" @click="minusbtnnum"></span> <input class="amountcount" id="price" type="number"  v-model="amount" ref="type1" maxlength="3"  onkeyup="value=value.replace(/[^\d]/g,'')"/><span :class="{addbtn:true,hui:amount==999}" @click="addbtnnum"></span></div>
               </li>
               <li v-on:click="slelecttype(2)"  _pay_type="2"><span class="icon icon_pointer"></span><span class="content_title">可用银两<span class="isusepointer"></span>{{points}}</span><span class="pay_type" v-bind:class="{active:paytype2}"></span></li>
               <li v-on:click="slelecttype(1)"  _pay_type="1"><span class="icon icon_money"></span><span class="content_title">微信支付(0.2元=20银两)</span><span class="pay_type" v-bind:class="{active:paytype1}"></span></li>
@@ -79,7 +79,7 @@
               ispay:false,
               category:[
                   "",
-                "答题时，可看到当前题答案，一道题可使用一张。",
+                "答题时，可看到当前题答案，一道题可使用一次。",
                 "答题时，答题时间增加20s，一道题可使用一次。"
               ]
             }
@@ -124,7 +124,7 @@
             this.amount=1;
             this.picpath=picpath;
             if(category==1){
-                this.toolmessage="答题时，可看到当前题答案，一道题可使用一张。";
+                this.toolmessage="答题时，可看到当前题答案，一道题可使用一次。";
                 this.toolname="答案眼";
             }else if(category==2){
               this.toolmessage="答题时，答题时间增加20s，一道题可使用一次。";
