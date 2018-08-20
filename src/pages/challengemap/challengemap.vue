@@ -231,6 +231,7 @@
 <style>
   page{
     height:100%;
+    background: #c09046;
   }
 </style>
 <style lang="less" scoped>
@@ -399,7 +400,7 @@
     }
     .bg{
       width: 100%;
-      height: 1246px/2;
+      height: 1277px/2;
       display: block;
     }
   .c_box{

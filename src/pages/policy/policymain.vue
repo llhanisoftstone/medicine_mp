@@ -1,5 +1,8 @@
 <template>
   <div>
+      <div class="widthk">
+        <div class="width"></div>
+      </div>
       <div class="searchk">
         <a class="ui-link" :href="'/pages/policylist/main'">
           <div class="searchinput">请输入标题或内容</div>
@@ -194,7 +197,20 @@
       console.log(wx.getSystemInfoSync().windowWidth)
       this.getpolicyMain()//获取政策百科主页数据
     },
+    onLoad:function(){
+      let that=this;
+      let width750="";
+      let width="";
+      wx.createSelectorQuery().select('.width').boundingClientRect(function (rect) {
+        width750=rect.width;
+        wx.createSelectorQuery().select('.searchk').boundingClientRect(function (rect) {
+          width=rect.width;
+          that.marginright=parseInt(that.marginright)-(parseInt(width750)-parseInt(width))+"rpx";
+        }).exec();
+      }).exec();
 
+
+    },
     onShow: function() {
       this.getpolicyMain()//获取政策百科主页数据
     }
@@ -203,7 +219,18 @@
 
 <style scoped lang="less">
   @import "../../static/less/common.less";
-
+  .widthk{
+    width: 1px;
+    overflow: hidden;
+    opacity: 0;
+    position: absolute;
+    top:0;
+    left:0;
+  }
+  .width{
+    width: 750/2px;
+    height: 1px;
+  }
   .zc_btn{
     position: fixed;
     z-index: 999;
@@ -253,6 +280,8 @@
     padding-left: 62/2px;
   }
   .common-head{
+    width: 100%;
+    overflow: hidden;
     line-height: 0.36rem;
     margin: 0.126rem 0 0 0;
     position: relative;
@@ -439,6 +468,7 @@
     position: relative;
     width: 479/2px;
     padding-left: 0.21335rem;
+    flex:auto;
   }
   .info-content .message{
     /*margin-bottom: 0.192rem;*/
@@ -477,7 +507,10 @@
     padding: 0;
     position: absolute;
     bottom:0;
-    width: 479/2px;
+    width: 100%;
+    left:0;
+    padding-left: 0.21335rem;
+    box-sizing: border-box;
   }
   .info-left{
     float: left;

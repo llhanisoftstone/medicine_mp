@@ -320,7 +320,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow:#ffffff 4rpx -3rpx 0, #df5c3e 7rpx -8rpx 0;
+      box-shadow:#ffffff 4rpx -3rpx 0, #df5c3e 6rpx -7rpx 0;
       animation: pk_btn 3s linear infinite alternate;
     }
     .phb_notdata{
