@@ -37,7 +37,7 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "对战结果1",
+					"name": "对战结果",
 					"pathName": "pages/result/main",
 					"query": "from=1",
 					"scene": "1007"
