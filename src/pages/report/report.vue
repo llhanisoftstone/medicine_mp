@@ -135,9 +135,6 @@
           path: url,
           success: (r)=>{
             console.log(r);
-            wx.navigateTo({
-              url:"/pages/loadpk/main?from=1"
-            })
           },
           fail: (err)=>{
             console.log(err)
