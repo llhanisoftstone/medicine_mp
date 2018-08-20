@@ -36,7 +36,7 @@
           },
           tozhan(){
             let thiz=this;
-            wx.navigateTo({
+            wx.redirectTo({
               url: thiz.topage
             })
           },

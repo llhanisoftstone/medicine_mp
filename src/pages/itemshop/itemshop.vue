@@ -156,7 +156,11 @@
               }
           },
           addbtnnum(){
-            this.amount=++this.amount;
+              if(this.amount>=999){
+                this.amount=999;
+              }else{
+                this.amount=++this.amount;
+              }
           },
           show1(){
             this.ishidden=false;
@@ -286,6 +290,7 @@
       onUnload:function(){
           for(let key in this.goods){
             this.goods[key].isreverse=false;
+            this.goods[key].isreverse_z="-1";
           }
       }
     }
