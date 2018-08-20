@@ -162,6 +162,7 @@
       wx.hideShareMenu()
       this.cleardata()
       this.win=option.result
+      this.win=2
       if(option.id){
         this.isreward=option.id
         wx.setNavigationBarTitle({
@@ -383,6 +384,9 @@
       font-size:32px/2;
       margin-bottom: 23px/2;
       box-shadow: #ffffff 4px/2 -3rpx 0px, #df5c3e 7px/2 -8px/2px 0px;
+      &:hover{
+        opacity: 1;
+      }
     }
     button{
       width: 100%;

@@ -265,7 +265,10 @@
     padding: 0;
     position: absolute;
     bottom:-3/2px;
-    width: 479/2px;
+    width: 100%;
+    left:0;
+    padding-left: 0.21335rem;
+    box-sizing: border-box;
   }
   .info-left{
     float: left;
