@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 13,
+			"current": 21,
 			"list": [
 				{
 					"id": 0,
@@ -123,8 +123,8 @@
 				},
 				{
 					"id": 13,
-					"name": "闯关结果",
-					"pathName": "pages/aloneresult/main",
+					"name": "闯关",
+					"pathName": "pages/alone/main",
 					"query": "",
 					"scene": "1007"
 				},
