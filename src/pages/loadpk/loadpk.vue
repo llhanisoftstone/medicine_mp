@@ -23,7 +23,7 @@
         <p :class="{'username':true,'vs_img':vs}">{{vsuser.nickname}}</p>
         <p class="username" v-if="!vs">{{loadcon}}</p>
       </div>
-      <div class="btn_box" v-if="from==1">
+      <div class="btn_box" v-if="from==1&&!vs">
         <button open-type="share">挑战其他好友</button>
         <button class="swiper" @click="swiper">全网挑战</button>
       </div>
