@@ -71,11 +71,17 @@
                         y: 0,
                         canvasId: 'report',
                         success: function(res) {
-                          console.log(res.tempFilePath)
+//                          console.log(res.tempFilePath)
                           wx.saveImageToPhotosAlbum({
                             filePath:res.tempFilePath,
                             success(result){
-                              console.log(result)
+//                              console.log(result)
+                              wx.showToast({
+                                title: '保存成功',
+                                icon: 'succes',
+                                duration: 1000,
+                                mask:true
+                              })
                               that.isshow=false
                             }
                           })
