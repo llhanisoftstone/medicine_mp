@@ -123,7 +123,8 @@
         if(that.win==2){
           title="@你 答题赢礼品，千种礼券任你选"
           img=`${that.$store.state.url}/admin/img/2.jpg`;
-          url='/pages/report/main?roomid=0';
+//          url='/pages/report/main?roomid=0';
+          url='/pages/index/main';
         }else{
           title="@你 为礼物而战，我还会再回来的"
           img=`${that.$store.state.url}/admin/img/3.jpg`;
@@ -132,7 +133,8 @@
         if(that.win==2){
           title="@你 答题赢好礼，千种礼券任你选"
           img=`${that.$store.state.url}/admin/img/2.jpg`;
-          url='/pages/report/main?roomid=0';
+//          url='/pages/report/main?roomid=0';
+          url='/pages/index/main';
         }else{
           title="@你 这道题有点难哦，快来帮帮我吧！"
           img=`${that.$store.state.url}/admin/img/3.jpg`;
