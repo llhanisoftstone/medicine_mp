@@ -102,7 +102,15 @@
               return this.$store.state.rightTitle
           },
           useTime(){
-              return Math.ceil(this.$store.state.useTime/60)
+              if(this.$store.state.useTime<60){
+                return `${this.$store.state.useTime%60}`
+              }else{
+                  if(this.$store.state.useTime%60<10){
+                    return `${Math.floor(this.$store.state.useTime/60)}:0${this.$store.state.useTime%60}`
+                  }else{
+                    return `${Math.floor(this.$store.state.useTime/60)}:${this.$store.state.useTime%60}`
+                  }
+              }
           }
         },
       onLoad:function(){

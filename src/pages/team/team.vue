@@ -165,7 +165,7 @@
                 if(Math.random()>0.5){
                   top =  Math.random()*28
                 }else{
-                  top =  58+Math.random()*44
+                  top =  58+Math.random()*38
                 }
             }
             item.top = top;
@@ -353,7 +353,7 @@
           send(msg,index){       //发送聊天
             this.isquick = false
             let that =this
-            if(new Date().getTime() - that.sendTime<1000){
+            if(new Date().getTime() - that.sendTime<3000){
               this.$mptoast('休息一下吧');
               return
             }
