@@ -207,7 +207,7 @@
           width: 100%;
           height: 37px/2;
           box-sizing: border-box;
-          padding: 0 120px/2;
+          padding: 0 16%;
           margin-top: 96px/2;
           display: flex;
           align-items: center;
@@ -216,7 +216,7 @@
             font-size: 37px/2;
             color: #fff;
             line-height: 37px/2;
-            width: 121px/2;
+            width: 23.7%;
             text-align: center;
           }
         }
@@ -224,13 +224,13 @@
           margin-top:466px/2;
           width: 100%;
           box-sizing: border-box;
-          padding: 0 65px/2;
+          padding: 0 8%;
           height: 70px/2;
           display: flex;
           align-items: center;
           justify-content: space-between;
           button{
-            width: 300px/2;
+            width: 48%;
             height: 70px/2;
             border-radius: 50px/2;
             background: #df5c3e;
@@ -239,12 +239,14 @@
             font-size: 32px/2;
             align-items: center;
             justify-content: center;
+            margin:0;
+            padding: 0;
             &:after{
               border:none;
             }
           }
           a{
-            width: 300px/2;
+            width: 48%;
             height: 70px/2;
             border-radius: 50px/2;
             background: #df5c3e;

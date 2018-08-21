@@ -21,7 +21,8 @@
       <div :class="{'btn_box':true,'btn_win':myscore>vsscore,'btn_loss':!(myscore>vsscore)}">
         <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from" v-if="(from==2)">再来一局</navigator>
         <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from+'&&again=1'" v-if="(from==1)">再来一局</navigator>
-        <button open-type="share" v-if="win==2">分享战绩</button>
+        <navigator open-type = "redirect" url="/pages/report/main" v-if="win==2">分享战绩</navigator>
+        <!--<button open-type="share" v-if="win==2">分享战绩</button>-->
         <button open-type="share" v-if="win!=2">考考好友</button>
       </div>
     </div>
