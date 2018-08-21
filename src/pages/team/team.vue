@@ -165,7 +165,7 @@
                 if(Math.random()>0.5){
                   top =  Math.random()*28
                 }else{
-                  top =  58+Math.random()*38
+                  top =  58+Math.random()*30
                 }
             }
             item.top = top;
