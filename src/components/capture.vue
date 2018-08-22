@@ -18,7 +18,7 @@
             <div>
               <image :src="card.ticket_pic"></image>
             </div>
-            <p>战利品：<span>{{card.ticket_price}}元代金券</span></p>
+            <p>战利品：<span v-if="card.ticket_price">{{card.ticket_price}}元代金券</span><span v-else>{{card.title}}</span></p>
           </li>
         </ul>
       </div>

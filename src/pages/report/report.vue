@@ -3,17 +3,18 @@
       <div class="box">
         <image src="/static/img/bgchengjidan.jpg" class="img_bg"></image>
         <div class="user_box">
-          <image :src="userinfo.avatarUrl" class="user_img"></image>
-          <h2 class="username">{{userinfo.nickName}}</h2>
-          <h4 class="grade">{{user.rank_name}}</h4>
+          <image :src="records.avatar_url" class="user_img"></image>
+          <h2 class="username">{{records.nickname}}</h2>
+          <h4 class="grade">{{records.rank_name}}</h4>
           <div class="subject">
-            <p>{{rightTitle}}/{{max_nub}}</p>
-            <p>{{useTime}}</p>
-            <p>{{percentage}}</p>
+            <p>{{records.right_step}}/{{records.max_step}}</p>
+            <p>{{records.times}}</p>
+            <p>{{records.percentage}}</p>
           </div>
           <div class="btn_box">
-            <button open-type="share">分享给好友</button>
-            <a @click="canvas">保存到相册</a>
+            <button open-type="share" v-if="isuser">分享给好友</button>
+            <a @click="canvas" v-if="isuser">保存到相册</a>
+            <a @click="back" v-if="!isuser">返回首页</a>
           </div>
         </div>
       </div>
@@ -27,7 +28,10 @@
             return {
                 width:0,
                 isshow:false,
-                percentage:"0%"
+                room_id:'',
+                u_id:'',
+                records:{},
+                isuser:true
             }
         },
         methods: {
@@ -40,23 +44,23 @@
               ctx.setFillStyle('#333333')
               ctx.setTextAlign('center')
               ctx.setTextBaseline('top')
-              ctx.fillText(that.$store.state.userinfo.nickName, 375*that.width/750, 399*this.width/750)
+              ctx.fillText(that.records.nickname, 375*that.width/750, 399*this.width/750)
               ctx.setFontSize(28*that.width/750)
               ctx.setFillStyle('#666666')
               ctx.setTextAlign('center')
               ctx.setTextBaseline('top')
-              ctx.fillText(that.user.rank_name, 375*that.width/750, 450*this.width/750)
+              ctx.fillText(that.records.rank_name, 375*that.width/750, 450*this.width/750)
               ctx.setFontSize(37*that.width/750)
               ctx.setFillStyle('#ffffff')
               ctx.setTextAlign('center')
               ctx.setTextBaseline('top')
-              ctx.fillText(`${that.rightTitle}/${that.max_nub}`, 180*that.width/750, 571*this.width/750)
-              ctx.fillText(that.useTime, 375*that.width/750, 571*this.width/750)
-              ctx.fillText(that.percentage, 570*that.width/750, 571*this.width/750)
+              ctx.fillText(`${that.records.right_step}/${that.records.max_step}`, 180*that.width/750, 571*this.width/750)
+              ctx.fillText(that.records.times, 375*that.width/750, 571*this.width/750)
+              ctx.fillText(that.records.percentage, 570*that.width/750, 571*this.width/750)
 
 
               wx.downloadFile({
-                url: that.$store.state.userinfo.avatarUrl, //仅为示例，并非真实的资源
+                url: that.records.avatarUrl,
                 success: function(res) {
                   // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
                   if (res.statusCode === 200) {
@@ -91,46 +95,44 @@
                   }
                 }
               })
+            },
+            getrecord(){
+              let that = this
+              that.$get('/rs/game_record',{room_id:that.room_id,u_id:that.u_id}).then((record)=>{
+                if(record.code == 200){
+                  if(that.$store.state.user.userid == that.u_id){
+                    that.isuser=true
+                  }else{
+                    that.isuser=false
+                  }
+                  if(record.records.times<60){
+                    record.records.times =  `${record.records.times%60}`
+                  }else{
+                    if(record.records.times%60<10){
+                      record.records.times = `${Math.floor(record.records.times/60)}:0${record.records.times%60}`
+                    }else{
+                      record.records.times = `${Math.floor(record.records.times/60)}:${record.records.times%60}`
+                    }
+                  }
+                  that.records=record.records
+                }
+              })
+            },
+            back(){
+              wx.switchTab({
+                url: '/pages/index/main'
+              })
             }
         },
         components: {},
-        computed:{
-          userinfo(){
-              return this.$store.state.userinfo
-          },
-          user(){
-              return this.$store.state.user
-          },
-          max_nub(){
-              return this.$store.state.allTitle
-          },
-          rightTitle(){
-              return this.$store.state.rightTitle
-          },
-          useTime(){
-              if(this.$store.state.useTime<60){
-                return `${this.$store.state.useTime%60}`
-              }else{
-                  if(this.$store.state.useTime%60<10){
-                    return `${Math.floor(this.$store.state.useTime/60)}:0${this.$store.state.useTime%60}`
-                  }else{
-                    return `${Math.floor(this.$store.state.useTime/60)}:${this.$store.state.useTime%60}`
-                  }
-              }
-          }
-        },
-      onLoad:function(){
+      onLoad:function(option){
         let that = this;
-        this.percentage=Math.floor(95+Math.random()*5)+"%";
+        that.room_id=option.room_id
+        that.u_id=option.u_id
+        that.getrecord()
         wx.getSystemInfo({
           success: function(res) {
-//            console.log(res.model)
-//            console.log(res.pixelRatio)
             that.width = res.windowWidth
-//            console.log(res.windowHeight)
-//            console.log(res.language)
-//            console.log(res.version)
-//            console.log(res.platform)
           }
         })
       },
@@ -138,12 +140,12 @@
         let that = this;
         let title='@你 记录在此，谁来挑战！！！';
 //        let url=`/pages/authfight/main?`+`pages=loadpk&&from=1&&id=${this.$store.state.user.userid}`;
-        let url="/pages/index/main";
+        let url=`/pages/report/main?room_id=${that.room_id}&u_id=${that.u_id}`;
         if (res.from === 'menu') {
           // 来自页面内转发按钮
           title='边玩边学，游戏学习两不误！';
 //        img=`${that.$store.state.url}/admin/img/1.jpg`;
-          url="/pages/index/main";
+          url=`/pages/report/main?room_id=${that.room_id}&u_id=${that.u_id}`;
         }
         return {
           title: title,
@@ -228,7 +230,7 @@
           height: 70px/2;
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: space-around;
           button{
             width: 48%;
             height: 70px/2;

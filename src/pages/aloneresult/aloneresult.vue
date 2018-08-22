@@ -37,7 +37,7 @@
     </div>
     <div :class="{'btn_box':true,'btn_win':myscore>vsscore,'btn_loss':!(myscore>vsscore)}">
       <navigator href="" v-if="(win==2)&&isreward==0&&level<11" @click="toalone">下一关</navigator>
-      <navigator :href="'/pages/report/main?roomid=0'" v-if="win==2">炫耀成绩单</navigator>
+      <navigator :href="'/pages/report/main?room_id='+room_id+'&u_id='+user.userid" v-if="win==2">炫耀成绩单</navigator>
       <button open-type="share" v-if="win==2">分享战绩</button>
       <button open-type="share" v-if="win!=2">考考好友</button>
     </div>
@@ -105,6 +105,12 @@
       },
       level(){
         return this.$store.state.level
+      },
+      room_id(){
+          return this.$store.state.room_id
+      },
+      user(){
+          return this.$store.state.user
       }
     },
     mounted(){

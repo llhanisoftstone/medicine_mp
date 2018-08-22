@@ -1,7 +1,7 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -108,10 +108,10 @@
 					"scene": "1007"
 				},
 				{
-					"id": -1,
+					"id": 11,
 					"name": "成绩单",
 					"pathName": "pages/report/main",
-					"query": "",
+					"query": "room_id=1017-ac9a7930&u_id=1017",
 					"scene": "1007"
 				},
 				{
