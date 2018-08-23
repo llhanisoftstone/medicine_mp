@@ -435,11 +435,11 @@
     .myname{
       position: absolute;
       top:435px/2;
-      width: 255px/2;
-      left:26px/2;
+      width: 150px/2;
+      left:62px/2;
       font-size: 36px/2;
       color: #333;
-      height: 40px/2;
+      height: 44px/2;
       white-space: nowrap;
       text-align: center;
       line-height: 40px/2;

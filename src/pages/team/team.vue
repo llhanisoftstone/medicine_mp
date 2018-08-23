@@ -247,6 +247,9 @@
                   this.isprop=false
                 },2000)
               }
+            }else{
+              this.$mptoast('暂无该道具，请前往个人中心-道具商城购买');
+              return
             }
           },
             countdownfn(){         //倒计时
@@ -367,7 +370,9 @@
                   type:1
               })
             if(that.challenger != that.$store.state.user.userid){
-              that.submit(index)
+                if(index){
+                  that.submit(index)
+                }
             }
           },
           submit(index,right){    //提交答案
@@ -579,6 +584,7 @@
 //        }
 //      })
       let that =this
+      that.isquick=false
       that.$store.commit('rightTitle',0)
       that.$store.commit('useTime',0)
       that.$store.commit('allTitle',0)
