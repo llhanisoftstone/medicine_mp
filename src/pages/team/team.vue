@@ -1610,6 +1610,9 @@
     .bottom1_an{
       transform-origin: 50% 50% 0;
       animation: showbottom1 2.5s ease-out;
+      li{
+        color: #d6d6d6;
+      }
     }
     .btn_win{
       animation: btn_win 2.5s ease;

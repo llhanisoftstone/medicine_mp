@@ -634,6 +634,9 @@
     .bottom1_an{
       transform-origin: 50% 50% 0;
       animation: showbottom1 2.5s ease;
+      li{
+        color: #d6d6d6;
+      }
     }
 
     .provide{

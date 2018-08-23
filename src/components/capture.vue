@@ -184,7 +184,7 @@
   }
   .gift_list{
     width: 100%;
-    margin-top:20px/2;
+    margin-top:-100px/2;
     justify-content: space-around;
     display: flex;
     li{

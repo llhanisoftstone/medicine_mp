@@ -3,9 +3,12 @@ export default {
   created () {
     let that = this
     let showmsg = null
+    let loadTime=null
     that.getquick()
     that.getTips()
     this.$socket.on('connect', () => {
+      clearTimeout(loadTime)
+      loadTime = null
       wx.hideLoading()
       clearTimeout(showmsg)
       showmsg = null
@@ -18,6 +21,14 @@ export default {
       wx.showLoading({
         mask: true
       })
+      clearTimeout(loadTime)
+      loadTime = null
+      loadTime = setTimeout(() => {
+        wx.hideLoading()
+        wx.showLoading({
+          mask: true
+        })
+      }, 3000)
       that.$store.commit('getsocket', false)
       let pagesArr = getCurrentPages()
       let currentPage = pagesArr[pagesArr.length - 1]
