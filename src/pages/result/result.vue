@@ -231,7 +231,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       color: #333;
-      height: 32px/2;
+      height: 35px/2;
       line-height: 32px/2;
       display: block;
       text-align: center;

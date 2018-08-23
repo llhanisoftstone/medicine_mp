@@ -518,7 +518,7 @@
     padding-left: 39/2px;
     overflow: hidden;
     white-space: nowrap;
-    width:165/2px ;
+    width:200/2px ;
     text-overflow: ellipsis;
     color: #666;
     line-height: 50/2px;

@@ -39,6 +39,7 @@
       <navigator href="" v-if="(win==2)&&isreward==0&&level<11" @click="toalone">下一关</navigator>
       <navigator :href="'/pages/report/main?room_id='+room_id+'&u_id='+user.userid" v-if="win==2">炫耀成绩单</navigator>
       <button open-type="share" v-if="win==2">分享战绩</button>
+      <navigator v-if="win!=2" @click="repeat">再来一次</navigator>
       <button open-type="share" v-if="win!=2">考考好友</button>
     </div>
   </div>
@@ -169,7 +170,12 @@
     onLoad(option){
       wx.hideShareMenu()
       this.cleardata()
-      this.win=option.result
+      this.win=option.result;
+      var that=this;
+      setTimeout(function(){
+        that.win=3;
+        that.win=option.result;
+      },500);
       if(option.id){
         this.isreward=option.id
         wx.setNavigationBarTitle({

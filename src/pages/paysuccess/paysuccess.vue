@@ -18,12 +18,12 @@
         <div class="submitResult_icon">
           <div class="icon_error"></div>
           <div class="title error">
-            哎呀!支付失败啦
+            哎呀！支付失败啦
           </div>
         </div>
         <div class="submitResult_btn">
           <div class="result_text">
-            对不起,您的操作失败!再去看看吧
+            对不起，您的操作失败！再去看看吧
           </div>
           <navigator hover-class="none" href="/pages/itemshop/main?ispay=true" open-type = "redirect"><div class="result_btn">查看我的背包</div></navigator>
         </div>

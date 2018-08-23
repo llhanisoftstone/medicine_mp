@@ -164,7 +164,7 @@
             that.phone=user.phone;
             var address=user.province_name+user.city_name+user.zone_name+user.address;
             if(address&&address.length>15){
-                address=address.substring(1,15)+"...";
+                address=address.substring(0,15)+"...";
             }else if(address==null||address==""){
                 address='';
             }

@@ -223,6 +223,7 @@
       z-index:10;
     }
     .pick_box{
+      height:100%;
       text-align: center;
       .bg_box{
         width:634px/2;

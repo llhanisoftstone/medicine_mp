@@ -66,7 +66,7 @@
           <div class="pick_item_box">
             <p><i>1</i>闯关分为单人闯关和多人闯关，多人闯关可邀请好友一起参加；</p>
             <p><i>2</i>每答对一题可增加10经验值；</p>
-            <p><i>3</i>每过一关过关可获得20银两；</p>
+            <p><i>3</i>每过一关可获得20银两；</p>
             <p><i>4</i>第5和第10关为礼物关，过关可获得神秘大礼，可在个人中心-战利品中查看。</p>
             <div class="closebtn" @click="hidegz">我知道了</div>
           </div>
@@ -783,7 +783,7 @@
   }
   .gzbtn{
     position: absolute;
-    right:0;
+    left:0;
     top:0;
     padding: 29/2px;
     font-size: 26/2px;

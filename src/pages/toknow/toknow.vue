@@ -190,7 +190,7 @@
         }
 
       },
-      onShow(){
+      onUnload(){
         this.isBtnClicked=true;
         this.realname='';
         this.userphone='';
@@ -231,7 +231,7 @@
       line-height: 32px/2;
       box-sizing: border-box;
       width:750px/2;
-      height: 240px/2;
+      height: 400px/2;
       position: absolute;
       z-index: -1;
       top:0;
@@ -286,7 +286,7 @@
       line-height: 32px/2;
       box-sizing: border-box;
       width:750px/2;
-      height: 240px/2;
+      height: 400px/2;
     }
     textarea::-webkit-input-placeholder,
     input::-webkit-input-placeholder{
