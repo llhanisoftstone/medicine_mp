@@ -247,6 +247,9 @@
                   this.isprop=false
                 },2000)
               }
+            }else{
+              this.$mptoast('暂无该道具，请前往个人中心-道具商城购买');
+              return
             }
           },
             countdownfn(){         //倒计时
@@ -367,7 +370,9 @@
                   type:1
               })
             if(that.challenger != that.$store.state.user.userid){
-              that.submit(index)
+                if(index){
+                  that.submit(index)
+                }
             }
           },
           submit(index,right){    //提交答案
@@ -408,6 +413,9 @@
               })
               if(reply==1){
                 that.$store.commit('rightTitle',1)
+                let user = that.$store.state.user
+                user.experience +=10
+                that.$store.commit('getm_user', user)
               }
               if((30-this.times)>0){
                 that.$store.commit('useTime',30-this.times)
@@ -576,6 +584,7 @@
 //        }
 //      })
       let that =this
+      that.isquick=false
       that.$store.commit('rightTitle',0)
       that.$store.commit('useTime',0)
       that.$store.commit('allTitle',0)
@@ -1348,7 +1357,7 @@
       }
       span{
         position: absolute;
-        right:-1px/2;
+        right:10px/2;
         top:41px/2;
         background: @bg_color;
         color: #fff;
@@ -1601,6 +1610,9 @@
     .bottom1_an{
       transform-origin: 50% 50% 0;
       animation: showbottom1 2.5s ease-out;
+      li{
+        color: #d6d6d6;
+      }
     }
     .btn_win{
       animation: btn_win 2.5s ease;

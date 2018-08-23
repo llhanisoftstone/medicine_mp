@@ -11,10 +11,12 @@
             <p>{{records.times}}</p>
             <p>{{records.percentage}}</p>
           </div>
-          <div class="btn_box">
-            <button open-type="share" v-if="isuser">分享给好友</button>
-            <a @click="canvas" v-if="isuser">保存到相册</a>
-            <a @click="back" v-if="!isuser">返回首页</a>
+          <div class="btn_box" v-if="isusershow">
+            <button open-type="share">分享给好友</button>
+            <a @click="canvase">保存到相册</a>
+          </div>
+          <div class="btn_box" v-if="!isusershow">
+            <a @click="backindex">返回首页</a>
           </div>
         </div>
       </div>
@@ -31,43 +33,41 @@
                 room_id:'',
                 u_id:'',
                 records:{},
-                isuser:true
+                isusershow:true
             }
         },
         methods: {
-            canvas(){
-              let that = this
-              that.isshow=true
+            canvase(){
+              let thiz = this
+              thiz.isshow=true
               const ctx = wx.createCanvasContext('report')
-              ctx.drawImage('../../static/img/bgchengjidan.jpg', 0, 0, that.width, 1247*that.width/750)
-              ctx.setFontSize(35*that.width/750)
+              ctx.drawImage('../../static/img/bgchengjidan.jpg', 0, 0, thiz.width, 1247*thiz.width/750)
+              ctx.setFontSize(35*thiz.width/750)
               ctx.setFillStyle('#333333')
               ctx.setTextAlign('center')
               ctx.setTextBaseline('top')
-              ctx.fillText(that.records.nickname, 375*that.width/750, 399*this.width/750)
-              ctx.setFontSize(28*that.width/750)
+              ctx.fillText(thiz.records.nickname, 375*thiz.width/750, 399*thiz.width/750)
+              ctx.setFontSize(28*thiz.width/750)
               ctx.setFillStyle('#666666')
               ctx.setTextAlign('center')
               ctx.setTextBaseline('top')
-              ctx.fillText(that.records.rank_name, 375*that.width/750, 450*this.width/750)
-              ctx.setFontSize(37*that.width/750)
+              ctx.fillText(thiz.records.rank_name, 375*thiz.width/750, 450*thiz.width/750)
+              ctx.setFontSize(37*thiz.width/750)
               ctx.setFillStyle('#ffffff')
               ctx.setTextAlign('center')
               ctx.setTextBaseline('top')
-              ctx.fillText(`${that.records.right_step}/${that.records.max_step}`, 180*that.width/750, 571*this.width/750)
-              ctx.fillText(that.records.times, 375*that.width/750, 571*this.width/750)
-              ctx.fillText(that.records.percentage, 570*that.width/750, 571*this.width/750)
-
-
+              ctx.fillText(`${thiz.records.right_step}/${thiz.records.max_step}`, 180*thiz.width/750, 571*thiz.width/750)
+              ctx.fillText(thiz.records.times, 375*thiz.width/750, 571*thiz.width/750)
+              ctx.fillText(thiz.records.percentage, 570*thiz.width/750, 571*thiz.width/750)
               wx.downloadFile({
-                url: that.records.avatarUrl,
+                url: thiz.records.avatar_url,
                 success: function(res) {
                   // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
                   if (res.statusCode === 200) {
-                    ctx.arc((282*that.width/750)+(186*that.width/1500), (92*that.width/750)+(186*that.width/1500), 186*that.width/1500, 0, 2*Math.PI)
+                    ctx.arc((282*thiz.width/750)+(186*thiz.width/1500), (92*thiz.width/750)+(186*thiz.width/1500), 186*thiz.width/1500, 0, 2*Math.PI)
                     ctx.save()
                     ctx.clip()
-                    ctx.drawImage(res.tempFilePath, 282*that.width/750, 92*that.width/750, 186*that.width/750, 186*that.width/750)
+                    ctx.drawImage(res.tempFilePath, 282*thiz.width/750, 92*thiz.width/750, 186*thiz.width/750, 186*thiz.width/750)
                     ctx.restore()
                     ctx.draw(false,function(){
                       wx.canvasToTempFilePath({
@@ -86,7 +86,7 @@
                                 duration: 1000,
                                 mask:true
                               })
-                              that.isshow=false
+                              thiz.isshow=false
                             }
                           })
                         }
@@ -96,15 +96,16 @@
                 }
               })
             },
-            getrecord(){
-              let that = this
-              that.$get('/rs/game_record',{room_id:that.room_id,u_id:that.u_id}).then((record)=>{
+            async getrecord(){
+              let thiz = this
+              let record = await thiz.$get('/rs/game_record',{room_id:thiz.room_id,u_id:thiz.u_id})
+//                if(thiz.$store.state.user.userid == thiz.u_id){
+                if(thiz.$store.state.user.userid == thiz.u_id){
+                  thiz.isusershow=true
+                }else{
+                  thiz.isusershow=false
+                }
                 if(record.code == 200){
-                  if(that.$store.state.user.userid == that.u_id){
-                    that.isuser=true
-                  }else{
-                    that.isuser=false
-                  }
                   if(record.records.times<60){
                     record.records.times =  `${record.records.times%60}`
                   }else{
@@ -114,38 +115,36 @@
                       record.records.times = `${Math.floor(record.records.times/60)}:${record.records.times%60}`
                     }
                   }
-                  that.records=record.records
+                  thiz.records=record.records
                 }
-              })
             },
-            back(){
+            backindex(){
               wx.switchTab({
                 url: '/pages/index/main'
               })
             }
         },
-        components: {},
       onLoad:function(option){
-        let that = this;
-        that.room_id=option.room_id
-        that.u_id=option.u_id
-        that.getrecord()
+        let thiz = this;
+        thiz.room_id=option.room_id
+        thiz.u_id=option.u_id
+        thiz.getrecord()
         wx.getSystemInfo({
           success: function(res) {
-            that.width = res.windowWidth
+            thiz.width = res.windowWidth
           }
         })
       },
       onShareAppMessage(res){
-        let that = this;
+        let thiz = this;
         let title='@你 记录在此，谁来挑战！！！';
 //        let url=`/pages/authfight/main?`+`pages=loadpk&&from=1&&id=${this.$store.state.user.userid}`;
-        let url=`/pages/report/main?room_id=${that.room_id}&u_id=${that.u_id}`;
+        let url=`/pages/report/main?room_id=${thiz.room_id}&u_id=${thiz.u_id}`;
         if (res.from === 'menu') {
           // 来自页面内转发按钮
           title='边玩边学，游戏学习两不误！';
 //        img=`${that.$store.state.url}/admin/img/1.jpg`;
-          url=`/pages/report/main?room_id=${that.room_id}&u_id=${that.u_id}`;
+          url=`/pages/report/main?room_id=${thiz.room_id}&u_id=${thiz.u_id}`;
         }
         return {
           title: title,

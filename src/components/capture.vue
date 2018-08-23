@@ -18,7 +18,7 @@
             <div>
               <image :src="card.ticket_pic"></image>
             </div>
-            <p>战利品：<span v-if="card.ticket_price">{{card.ticket_price}}元代金券</span><span v-else>{{card.title}}</span></p>
+            <p>战利品：<span v-if="card.ticket_price">{{card.ticket_price}}元代金券</span><span v-if="!card.ticket_price">{{card.title}}</span></p>
           </li>
         </ul>
       </div>
@@ -184,7 +184,7 @@
   }
   .gift_list{
     width: 100%;
-    margin-top:20px/2;
+    margin-top:-100px/2;
     justify-content: space-around;
     display: flex;
     li{

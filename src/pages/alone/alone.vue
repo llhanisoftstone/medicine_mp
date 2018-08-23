@@ -176,6 +176,9 @@
               })
             if(reply==1){
               that.$store.commit('rightTitle',1)
+              let user = that.$store.state.user
+              user.experience +=10
+              that.$store.commit('getm_user', user)
             }
             if((30-this.times)>0){
               that.$store.commit('useTime',30-this.times)
@@ -590,6 +593,8 @@
       width: 300/2px;
       padding-left: 18/2px;
       box-sizing: border-box;
+      height:138px/2;
+      padding-top: 5px/2;
       .username{
         padding: 30/2px 0 8/2px;
         height: 30/2px;
@@ -697,6 +702,9 @@
     .bottom1_an{
       transform-origin: 50% 50% 0;
       animation: showbottom1 2.5s ease-out;
+      li{
+        color: #d6d6d6;
+      }
     }
     .provide{
       margin-bottom: 16px/2;
