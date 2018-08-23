@@ -408,6 +408,9 @@
               })
               if(reply==1){
                 that.$store.commit('rightTitle',1)
+                let user = that.$store.state.user
+                user.experience +=10
+                that.$store.commit('getm_user', user)
               }
               if((30-this.times)>0){
                 that.$store.commit('useTime',30-this.times)
@@ -1348,7 +1351,7 @@
       }
       span{
         position: absolute;
-        right:-1px/2;
+        right:10px/2;
         top:41px/2;
         background: @bg_color;
         color: #fff;

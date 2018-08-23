@@ -184,6 +184,9 @@
             })
             if(reply!=0){
               this.$store.commit('rightTitle',1)
+              let user = this.$store.state.user
+              user.experience +=10
+              this.$store.commit('getm_user', user)
             }
             if((30-this.times)>0){
               this.$store.commit('useTime',30-this.times)

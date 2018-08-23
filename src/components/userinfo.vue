@@ -151,6 +151,13 @@
         },
         computed:{
           isauth(){
+              if(this.$store.state.isauth){
+                wx.showTabBar({animation:true})
+              }else{
+                  if(this.$store.state.authreturn){
+                    wx.hideTabBar({animation:true})
+                  }
+              }
               return this.$store.state.isauth
           },
           authreturn(){
