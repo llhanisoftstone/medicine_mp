@@ -1084,6 +1084,7 @@
       background: #fff;
       padding-top: 18px/2;
       height: 100%;
+      padding-bottom: 130px/2;
     }
     .userurl_box{
       animation: userurl .5s linear;
