@@ -68,6 +68,7 @@
         paytype2:true,
         goods_id:null,
         goods: [],
+        isreverse_run:false,
         istotalpoint:true,
         istotalprice:false,
         mypackage:[],
@@ -86,10 +87,24 @@
     },
     methods: {
       toreverse(i){
-        if(this.goods[i].isreverse_run){
+        //        if(this.goods[i].isreverse_run){
+        if(this.isreverse_run){
           return;
         }
-        this.goods[i].isreverse_run=true;
+        this.isreverse_run=true;
+//        this.goods[i].isreverse_run=true;
+        this.reverse(i);
+        let thiz=this;
+        for(var n=0;n<thiz.goods.length;n++){
+          if(i!=n&&thiz.goods[n].isreverse){
+            thiz.reverse(n)
+          }
+        }
+        let t2=setTimeout(function(){
+          thiz.isreverse_run=false;
+        },500)
+      },
+      reverse(i){
         let thiz=this;
         this.goods[i].isreverse=!this.goods[i].isreverse;
         let t=setTimeout(function(){
@@ -99,9 +114,9 @@
             thiz.goods[i].isreverse_z="-1"
           }
         },250);
-        let t2=setTimeout(function(){
-          thiz.goods[i].isreverse_run=false;
-        },500)
+//        let t2=setTimeout(function(){
+//          thiz.goods[i].isreverse_run=false;
+//        },500)
       },
       leftclick(){
         this.seen=true;

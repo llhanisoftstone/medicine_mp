@@ -171,7 +171,7 @@
       wx.hideShareMenu()
       this.cleardata()
       this.win=option.result;
-      var that=this;
+      let that=this
       setTimeout(function(){
         that.win=3;
         that.win=option.result;
@@ -187,7 +187,6 @@
           title:`闯关结果`
         })
       }
-      let that=this
       that.$socket.on('data_chain',d=>{
         if(d.cmd == 'answer'){
           if(d.step==1&&d.level==that.$store.state.level){
