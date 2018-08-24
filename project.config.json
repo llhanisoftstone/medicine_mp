@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 21,
 			"list": [
 				{
 					"id": 0,
@@ -172,6 +172,13 @@
 					"name": "设置",
 					"pathName": "pages/setting/main",
 					"query": ""
+				},
+				{
+					"id": 21,
+					"name": "闯关结果",
+					"pathName": "pages/aloneresult/main",
+					"query": "result=0",
+					"scene": "1007"
 				}
 			]
 		}
