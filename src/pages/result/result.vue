@@ -301,6 +301,7 @@
     width: 414px/2;
     margin:0 auto;
     margin-top:96px/2;
+    margin-bottom: 50px/2;
     height: auto;
     navigator{
       width: 100%;
