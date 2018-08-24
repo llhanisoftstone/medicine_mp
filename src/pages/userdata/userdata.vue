@@ -113,17 +113,21 @@
           phone:this.phone,
           realname:this.realname,
           company:this.comp_name
-        }
+        };
         this.$post('/rs/complete_user_info',data).then(res=>{
           if(res.code == 200){
-            this.$mptoast('保存成功');
+            if(res.iscreate==1){
+              this.$mptoast('您的资料已完善，请在个人中心-银两查看您的奖励');
+            }else{
+              this.$mptoast('保存成功');
+            }
             if(this.isBtnClicked){
               this.isBtnClicked=false;
               setTimeout(function() {
                 wx.navigateBack({     //返回上一页面或多级页面
                   delta: 1
                 })
-              },1000);
+              },2000);
             }
           }else{
             this.$mptoast('保存失败');
