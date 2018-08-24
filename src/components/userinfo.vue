@@ -234,7 +234,7 @@
               height: 891px/2;
               margin:auto;
               position: absolute;
-              top:0;
+              top:20px/2;
               left:0;
               right:0;
               border-radius: 0 !important;

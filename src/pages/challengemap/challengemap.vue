@@ -41,8 +41,8 @@
               <!--<a href="">-->
                 <image src="/static/img/yaoqing_3.png"></image>
                 <div>
-                  <p>美貌与智慧并存的你</p>
-                  <p>一个人去攻城拔寨吧</p>
+                  <p>美貌与智慧并存的你，</p>
+                  <p>一个人去攻城拔寨吧！</p>
                   <a><i>单人闯关</i></a>
                 </div>
               <!--</a>-->
@@ -713,12 +713,14 @@
       display: block;
     }
     div{
+      width: 216px/2;
       p{
         font-size: 20px/2;
         color: #666;
         line-height: 20px/2;
         padding-bottom: 4px/2;
         text-align: center;
+        white-space: nowrap;
       }
       a{
         margin-top:20px/2;

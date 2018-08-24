@@ -43,8 +43,7 @@
         <image src="/static/img/yaoqing.png"></image>
         <p>
           邀请好友答题，挑战成功后，<br>
-          挑战者和亲友均可获得120经验+20银两，<br>
-          银两可用于购买道具
+          挑战者和亲友均可获得+20银两，<br>另挑战者对一题+10经验值
         </p>
         <div :class="{'disabled':challenger!=user.userid}" @click="startgame">开始游戏</div>
       </div>
