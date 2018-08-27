@@ -26,7 +26,8 @@
         qrcode:'',
         maskHidden:true,
         imagePath:'',
-        placeholder:''//默认二维码生成文本
+        placeholder:'',//默认二维码生成文本
+        bili:1,
       }
     },
     methods: {
@@ -46,7 +47,12 @@
           that.phone = res.rows[0].phone
           that.address = res.rows[0].address
           that.code = res.rows[0].ticket_code
-          that.createQrCode(res.rows[0].ticket_code, "mycanvas", 170, 170)
+          wx.createSelectorQuery().select('.main').boundingClientRect(function (rect) {
+            if(rect){
+              that.bili=rect.width/(750/2)
+              that.createQrCode(res.rows[0].ticket_code, "mycanvas", 170*that.bili, 170*that.bili)
+            }
+          }).exec();
         }
       },
       createQrCode:function(url,canvasId,cavW,cavH){

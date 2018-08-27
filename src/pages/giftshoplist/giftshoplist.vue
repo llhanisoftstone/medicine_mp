@@ -82,6 +82,9 @@
               res.rows[i].get_time = that.conversionTime(res.rows[i].get_time,"/");
               res.rows[i].end_time = that.conversionTimelist(res.rows[i].get_time,res.rows[i].effect_hour,"/");
               res.rows[i].isTouchMove = false;
+              if(new Date(res.rows[i].end_time).getTime() < new Date().getTime()){
+                res.rows[i].status=2;
+              }
               if (res.rows[i].price){
                 res.rows[i].price=that.pricetab(res.rows[i].price);
               }
@@ -94,7 +97,7 @@
                 res.rows[i].statustext="未领取"
               }else if(res.rows[i].status == 1){
                 res.rows[i].statustext="已领取"
-              }else if(res.rows[i].status==2){
+              }else if(res.rows[i].status == 2){
                 res.rows[i].statustext="已过期"
               }
             }
@@ -232,6 +235,10 @@
         padding-left: 40px/2;
         background: url('../../../static/img/address_icon.png') no-repeat left center;
         background-size: 25px/2 29px/2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 395/2px;
       }
     }
     .item_img2{
@@ -318,7 +325,7 @@
     .item_sign{
       position: absolute;
       top:-1px/2;
-      right:-1px/2;
+      right:2.6%;
       width:106px/2;
       height:106px/2;
       z-index: 20;
