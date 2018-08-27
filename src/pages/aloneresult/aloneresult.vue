@@ -169,22 +169,29 @@
         }
       }
     },
+    onUnload(){
+      this.win = 0
+      this.iscard=false
+      this.card={}
+      this.isreward=0
+    },
     onLoad(option){
       wx.hideShareMenu()
-      this.cleardata()
+//      this.cleardata()
       this.win=option.result;
-      let that=this
-      setTimeout(function(){
-        that.win=3;
-        that.win=option.result;
-      },500);
+      let that=this;
+//      setTimeout(function(){
+////        let win=that.win;
+//        that.win=2;
+//        that.win=option.result;
+//      },1500);
       if(option.id){
-        this.isreward=option.id
+        this.isreward=option.id;
         wx.setNavigationBarTitle({
           title:`挑战结果`
         })
       }else{
-        this.isreward=0
+        this.isreward=0;
         wx.setNavigationBarTitle({
           title:`闯关结果`
         })
