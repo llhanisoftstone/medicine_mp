@@ -28,7 +28,9 @@
         哇哦！还没有企业上榜~<br>赶快去上榜吧~
       </div>
     </div>
-    <button open-type="share" class="pk_btn" v-if="isFriends==1">挑战好友</button>
+    <button open-type="share" class="pk_btn" v-if="isFriends==1">挑战好友
+      <div class="pk_btn_box"></div>
+    </button>
     <a :href="'/pages/loadpk/main?from=2&&id='+user.userid" class="pk_btn" v-if="isFriends!=1">全网挑战</a>
   </div>
 </template>
@@ -306,7 +308,22 @@
       margin-top:50px/2;
     }
   }
+  .pk_btn_box{
+    background: #fff;
+    border:4px/2 solid @bg_color;
+    width: 538px/2;
+    height: 70px/2;
+    margin:0 auto;
+    position: absolute;
+    left:4px/2;
+    top:-8px/2;
+    z-index:-1;
+    border-radius: 50px/2;
+    box-sizing: border-box;
+  }
   .pk_btn{
+    position: relative;
+    overflow: inherit;
     background: @bg_color;
     width: 538px/2;
     height: 70px/2;
@@ -320,8 +337,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow:#ffffff 4rpx -3rpx 0, #df5c3e 6rpx -7rpx 0;
+    /*<!--box-shadow:#ffffff 4rpx -3rpx 0, #df5c3e 6rpx -7rpx 0;-->*/
     animation: pk_btn 3s linear infinite alternate;
+    &:after{
+      border:none;
+    }
   }
   .phb_notdata{
     width: 100%;

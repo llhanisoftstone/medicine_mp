@@ -62,7 +62,7 @@
                         let pagesArr = getCurrentPages()
                         let currentPage = pagesArr[pagesArr.length - 1]
                         let url = currentPage.route
-                        if ((url !== 'pages/authfight/main') && (url === 'pages/authmulti/main')) {
+                        if ((url !== 'pages/authfight/main') && (url !== 'pages/authmulti/main')) {
                           that.$store.commit('getmodal', false)
                           wx.hideLoading()
 //                      wx.showLoading({

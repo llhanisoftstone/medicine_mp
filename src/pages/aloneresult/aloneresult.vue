@@ -36,11 +36,11 @@
       </div>
     </div>
     <div :class="{'btn_box':true,'btn_win':myscore>vsscore,'btn_loss':!(myscore>vsscore)}">
-      <navigator href="" v-if="(win==2)&&isreward==0&&level<11" @click="toalone">下一关</navigator>
-      <navigator :href="'/pages/report/main?room_id='+room_id+'&u_id='+user.userid" v-if="win==2">炫耀成绩单</navigator>
-      <button open-type="share" v-if="win==2">分享战绩</button>
-      <navigator v-if="win!=2" @click="repeat">再来一次</navigator>
-      <button open-type="share" v-if="win!=2">考考好友</button>
+      <navigator href="" v-if="(win==2)&&isreward==0&&level<11" @click="toalone">下一关<div class ='pk_btn_box'></div></navigator>
+      <navigator :href="'/pages/report/main?room_id='+room_id+'&u_id='+user.userid" v-if="win==2">炫耀成绩单<div class ='pk_btn_box'></div></navigator>
+      <button open-type="share" v-if="win==2">分享战绩<div class ='pk_btn_box'></div></button>
+      <navigator v-if="win!=2" @click="repeat">再来一次<div class ='pk_btn_box'></div></navigator>
+      <button open-type="share" v-if="win!=2">考考好友<div class ='pk_btn_box'></div></button>
     </div>
   </div>
 </template>
@@ -393,7 +393,21 @@
     margin-top:96px/2;
     margin-bottom: 30px/2;
     height: auto;
+    .pk_btn_box{
+      background: #fff;
+      border:4px/2 solid @bg_color;
+      width: 100%;
+      height: 68px/2;
+      margin:0 auto;
+      position: absolute;
+      left:4px/2;
+      top:-8px/2;
+      z-index:-1;
+      border-radius: 50px/2;
+      box-sizing: border-box;
+    }
     navigator{
+      position: relative;
       width: 100%;
       height: 68px/2;
       border-radius: 50px;
@@ -404,12 +418,13 @@
       color: #fff;
       font-size:32px/2;
       margin-bottom: 23px/2;
-      box-shadow: #ffffff 4px/2 -3rpx 0px, #df5c3e 7px/2 -8px/2px 0px;
+      /*<!--box-shadow: #ffffff 4px/2 -3rpx 0px, #df5c3e 7px/2 -8px/2px 0px;-->*/
       &:hover{
         opacity: 1;
       }
     }
     button{
+      overflow: inherit;
       width: 100%;
       height: 68px/2;
       border-radius: 50px;
@@ -420,7 +435,7 @@
       color: #fff;
       font-size:32px/2;
       margin:0;
-      box-shadow: #ffffff 4px/2 -3rpx 0px, #df5c3e 7px/2 -8px/2px 0px;
+      /*<!--box-shadow: #ffffff 4px/2 -3rpx 0px, #df5c3e 7px/2 -8px/2px 0px;-->*/
       &:after{
         border:none;
       }
