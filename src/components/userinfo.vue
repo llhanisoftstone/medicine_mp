@@ -168,7 +168,8 @@
           }
         },
       onLoad:function(){
-      }
+      },
+      onShow:function(){}
 
     }
 </script>
