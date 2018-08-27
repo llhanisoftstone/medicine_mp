@@ -21,8 +21,8 @@
       <div :class="{'btn_box':true,'btn_win':myscore>vsscore,'btn_loss':!(myscore>vsscore)}">
         <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from" v-if="(from==2)">再来一局</navigator>
         <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from+'&&again=1'" v-if="(from==1)">再来一局</navigator>
-        <navigator open-type = "redirect" :url="'/pages/report/main?room_id='+roomid+'&u_id='+user.userid" v-if="win==2">分享战绩</navigator>
-        <!--<button open-type="share" v-if="win==2">分享战绩</button>-->
+        <!--<navigator open-type = "redirect" :url="'/pages/report/main?room_id='+roomid+'&u_id='+user.userid" v-if="win==2">分享战绩</navigator>-->
+        <button open-type="share" v-if="win==2">分享战绩</button>
         <button open-type="share" v-if="win!=2">考考好友</button>
       </div>
     </div>
@@ -93,9 +93,7 @@
         let img = `${that.$store.state.url}/admin/img/1.jpg`
         if(that.myscore>that.vsscore){
           img = `${that.$store.state.url}/admin/img/2.jpg`
-//          url='/pages/report/main?roomid=0';
-          url='/pages/index/main';
-//          if(that.from == 1){
+          url=`/pages/report/main?room_id=${that.$store.state.room_id}&u_id=${that.$store.state.user.userid}`;
           til='@你 真烦人，又赢了，无敌是多么的寂寞~'
         }else if(that.myscore == that.vsscore){
             til = '@你 千金易得，对手难得，棋逢对手下次再战'
@@ -108,7 +106,7 @@
         }
         if (res.from === 'menu') {
           // 来自页面内转发按钮
-          url='/pages/index/main';
+          url='/pages/report/main';
           til='边玩边学，游戏学习两不误！'
           img = `${that.$store.state.url}/admin/img/1.jpg`
           console.log(res.target)

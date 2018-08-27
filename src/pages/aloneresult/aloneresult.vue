@@ -131,7 +131,8 @@
           title="@你 答题赢礼品，千种礼券任你选"
           img=`${that.$store.state.url}/admin/img/2.jpg`;
 //          url='/pages/report/main?roomid=0';
-          url='/pages/index/main';
+//          url='/pages/index/main';
+          url=`/pages/report/main?room_id=${that.$store.state.room_id}&u_id=${that.$store.state.user.userid}`;
         }else{
           title="@你 为礼物而战，我还会再回来的"
           img=`${that.$store.state.url}/admin/img/3.jpg`;
@@ -141,7 +142,8 @@
           title="@你 答题赢好礼，千种礼券任你选"
           img=`${that.$store.state.url}/admin/img/2.jpg`;
 //          url='/pages/report/main?roomid=0';
-          url='/pages/index/main';
+//          url='/pages/index/main';
+          url=`/pages/report/main?room_id=${that.$store.state.room_id}&u_id=${that.$store.state.user.userid}`;
         }else{
           title="@你 这道题有点难哦，快来帮帮我吧！"
           img=`${that.$store.state.url}/admin/img/3.jpg`;

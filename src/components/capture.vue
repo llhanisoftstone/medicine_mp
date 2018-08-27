@@ -127,6 +127,7 @@
     }
   .gift_box{
     border-top:1px dashed #fff;
+    min-height: 710px/2;
     height: auto;
     overflow: hidden;
     position: relative;
