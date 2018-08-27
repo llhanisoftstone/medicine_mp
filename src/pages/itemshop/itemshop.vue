@@ -420,7 +420,8 @@
           border:1px solid #df5c3e;
           width: 107/2px;
           height:25/2px;
-          line-height: 27/2px;
+          /*<!--line-height: 27/2px;-->*/
+          line-height: 28/2px;
           text-align:center;
           margin:10px auto 0;
           border-radius: 25/2px;
@@ -446,13 +447,14 @@
         align-items: center;
         span{
           display:inline-block;
+          line-height: 27/2px;
         }
         .sliverimg{
           display:inline-block;
-          width:20px;
-          height:15px;
-          background:url(../../../static/img/daojushangdian_18.png) no-repeat center center;
-          background-size:cover;
+          width:40/2px;
+          height:40/2px;
+          background:url(../../../static/img/daojushangdian_18.png) no-repeat center 4/2px;
+          background-size:40/2px 30/2px;
           margin-right:4px;
         }
       }
