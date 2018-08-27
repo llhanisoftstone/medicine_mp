@@ -60,6 +60,7 @@
               <span class="rank_name">{{user.rank_name}}</span>
             </li>
             <li>
+              <span>挑战者：</span>
               <i class="yl"></i>
               <span>+20</span>
             </li>
@@ -821,6 +822,7 @@
                 that.is_f_click=-1
                 that.iswin = 2
                 that.gameover=true
+                that.isquick=false
                 that.index=-1
                 that.times=30
                 that.isclick=false
@@ -846,6 +848,7 @@
               that.isnext=false
               that.iswin = 2
               that.gameover=true
+              that.isquick=false
               if(d.details[0]){
                 that.$store.commit('get_prize',d.details[0])
               }else{
@@ -866,6 +869,7 @@
               })
               that.$store.commit('get_prize',{})
               that.gameover=true
+              that.isquick=false
               that.iswin=1
               that.isshow=false
               that.index = -1
