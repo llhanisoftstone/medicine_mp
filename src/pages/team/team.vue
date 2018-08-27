@@ -1631,12 +1631,11 @@
     right:7px/2;
     height: auto;
     overflow: hidden;
-    padding-bottom: 18px/2;
+    padding-bottom: 19rpx;
     z-index:10;
     i{
       position: absolute;
       bottom:0;
-      z-index:11;
       right:231px/2;
       width: 33px/2;
       height: 23px/2;
@@ -1650,8 +1649,6 @@
       border-radius: 20px/2;
       overflow: hidden;
       box-sizing: border-box;
-      position: relative;
-      z-index:12;
       li{
         width: 100%;
         height: 61px/2;
