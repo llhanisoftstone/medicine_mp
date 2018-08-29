@@ -2,24 +2,23 @@
     <div >
       <div class="giftcontent">
         <!--<img class="headimg" :src="messageData.banner_pic">-->
-        <img class="headimg" src="/static/img/giftshop_moren2.jpg">
+        <img class="headimg" :src="messageData.picurl">
         <div class="giftname">
-          <!--{{messageData.name}}-->
-          <div class="name">50元代金券代金券代金券代金券代金券代金券代金券代金券</div>
-          <div class="count">135人已获得</div>
+          <div class="name">{{messageData.name}}</div>
+          <div class="count">{{messageData.count}}人已获得</div>
         </div>
         <div class="shop-info">
             <div class="icon-box">
-              <img src="/static/img/zhengce.png" alt="">
+              <img :src="messageData.store_picpath" alt="">
             </div>
             <div class="info-box">
               <div class="company-box">
-                <div class="cname">她未来母婴商城她未来母婴商城她未来母婴商城</div>
-                <div class="site" @click.stop="tonewpage('','')" >公司主页</div>
+                <div class="cname">{{messageData.store_name}}</div>
+                <div class="site" @click.stop="tonewpage('shop','pid='+messageData.store_id)" >公司主页</div>
               </div>
-              <div class="location">陕西省西安市雁塔区凤城三路25号陕西省西安市雁塔区凤城三路25号</div>
+              <div class="location">{{messageData.province_name}}{{messageData.city_name}}{{messageData.area_name}}{{messageData.store_address}}</div>
               <div class="intro">
-                简介：她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城
+                简介：{{messageData.store_details}}
               </div>
             </div>
         </div>
@@ -28,12 +27,13 @@
                 <div class="title">产品详情</div>
                 <div class="line"></div>
             </div>
-            <div class="content" >
+            <div class="content" v-html="messageData.details">
 
             </div>
         </div>
       </div>
       <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
+      <div class="nogetList" v-if="nogetshow">暂无内容</div>
       <div class="buybutton">
         <a @click.stop="tonewpage('','')" >立即挑战</a>
       </div>
@@ -52,29 +52,23 @@
               messageData:{},
               imgdetail:[],
               pid:'',
-              tabli:1,
+              shopid:'',
               page:1,
               size:6,
               scrollIcon:false,
               scrollTop:0,
-              soldout:false
             }
         },
       onPullDownRefresh () {
-        if(this.tabli==2) {
           wx.showNavigationBarLoading() //在标题栏中显示加载
           this.page = 1;
           this.refresh();
           // 下拉刷新
           wx.hideNavigationBarLoading() //完成停止加载
           wx.stopPullDownRefresh() //停止下拉刷新
-        }
       },
       onReachBottom () {
-        if(this.tabli==2) {
-          this.page++;
-          this.loadmore()
-        }
+
       },
       methods: {
           showimg(img,imglist){
@@ -91,43 +85,51 @@
           async getmessage (pid){
             let thiz = this;
             let data = {
-              status:3
+              status:'<>,99'
             };
             let res = await thiz.$get('/rs/v_ticket_details/' + pid, data);
             if (res.code == 200){
               thiz.nogetshow=false;
-              if(!res.rows[0].banner_pics){
-                res.rows[0].banner_pic= '/static/img/default_img/moren750x366.jpg';
+              if(!res.rows[0].picurl){
+                res.rows[0].picurl= '/static/img/giftshop_moren2.jpg';
               } else {
-                  let pics=res.rows[0].banner_pics.split(",").reverse()[0];
-                if (res.rows[0].banner_pics.substr(0,4).toLowerCase()!="http"){
-                  res.rows[0].banner_pic=thiz.$store.state.url + pics.split('|')[0];
-                } else {
-                  res.rows[0].banner_pic=pics.split('|')[0];
+                let picUrl=res.rows[0].picurl;
+                if (picUrl.substr(0,4).toLowerCase()!="http" || picUrl.substr(0,5).toLowerCase()!="https"){
+                  res.rows[0].picurl=thiz.$store.state.url + picUrl;
                 }
               }
-              res.rows[0].price = thiz.commons.formatPrice(res.rows[0].price);
-              res.rows[0].sale_price = thiz.commons.formatPrice(res.rows[0].sale_price);
-              res.rows[0].delivery_price = thiz.commons.formatPrice(res.rows[0].delivery_price);
-              res.rows[0].sale_count = thiz.commons.zcount(res.rows[0].sale_count);
-              let imgarr = [];
-              imgarr= res.rows[0].details_pics.split(',');
-              for (let b = 0;b < imgarr.length;b++){
-                res.rows[0].rule_detail=thiz.$store.state.url+imgarr[b].split('|')[0];
-                thiz.imgdetail.push(thiz.$store.state.url+imgarr[b].split('|')[0]);
+              if(!res.rows[0].store_picpath){
+                res.rows[0].store_picpath= '/static/img/logo_moren.jpg';
+              } else {
+                let storeUrl=res.rows[0].store_picpath;
+                if (storeUrl.substr(0,4).toLowerCase()!="http" || storeUrl.substr(0,5).toLowerCase()!="https"){
+                  res.rows[0].store_picpath=thiz.$store.state.url + storeUrl;
+                }
               }
+              res.rows[0].count = thiz.commons.zcount(res.rows[0].count);
+              let details=res.rows[0].details;
+              if (details){
+                //let aimurl = this.$store.state.url+"/upload/pics";
+                //details=details.replace(/\/upload\/pics/g, aimurl);
+                //details=details.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
+              }else{
+                  this.nogetshow=true;
+              }
+              thiz.shopid=res.rows[0].store_id;
               thiz.messageData=res.rows[0];
               wx.setNavigationBarTitle({
                 title: res.rows[0].name ?res.rows[0].name : '礼物详情'
               })
-
             }else if(res.code==602){
                 thiz.nogetshow=true;
             }
 
           },
           loadmore () {
-            this.getevalatescrolllist(this.pid);
+
+          },
+          refresh(){
+
           },
           topic(pic,moren){
             let thiz=this;
@@ -162,7 +164,8 @@
       onLoad: function (option) {
         this.messageData=[];
         this.imgdetail=[];
-        this.pid=option.goods_id;
+//        this.pid=option.pid;
+        this.pid='1';
         this.nogetshow=false;
         this.soldout=false;
         this.page=1;
@@ -241,6 +244,7 @@
         .info-box{
           box-sizing: border-box;
           padding-left:19px/2;
+          width:100%;
         }
         .company-box{
           box-sizing: border-box;
@@ -313,12 +317,20 @@
 
           }
         }
+        .content{
+          background-color: #fff;
+          img{
+            width:100%!important;
+            height:auto!important;
+            vertical-align: bottom;
+          }
+          p{
+            color:#333;
+            margin-bottom: 0;
+          }
+        }
       }
-
     }
-
-
-
     .buybutton{
       width:100%;
       height:88px/2;
@@ -343,10 +355,10 @@
       z-index: 100;
       bottom: 100px/2;
       right: 30px/2;
-      width: 82px/2;
-      height: 82px/2;
-      /*background:url('../../../static/img/top.png') center no-repeat;*/
-      background-size: 82px/2 82px/2;
+      width: 80px/2;
+      height: 80px/2;
+      background:url('../../../static/img/scrollTop.png') center no-repeat;
+      background-size: 80px/2 80px/2;
     }
     .nogetList{
       padding-top: 197px;

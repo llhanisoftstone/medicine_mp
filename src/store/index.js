@@ -8,8 +8,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     // url: 'https://policy.lifeonway.com',
-    // url: 'http://pol.lifeonway.com',
-    url: 'http://192.168.1.114:5000',
+    url: 'http://pol.lifeonway.com',
+    // url: 'http://192.168.1.114:5000',
     ws_server: 'http://pol.lifeonway.com',
     // ws_server: 'https://policy.lifeonway.com',
     // ws_server: 'http://192.168.1.105:5000',
