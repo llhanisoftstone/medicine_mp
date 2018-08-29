@@ -1,7 +1,6 @@
 <template>
     <div >
-      <div class="giftcontent">
-        <!--<img class="headimg" :src="messageData.banner_pic">-->
+      <div class="giftcontent" v-if="exist">
         <img class="headimg" :src="messageData.picurl">
         <div class="giftname">
           <div class="name">{{messageData.name}}</div>
@@ -38,7 +37,6 @@
         <a @click.stop="tonewpage('','')" >立即挑战</a>
       </div>
     </div>
-
 </template>
 
 <script type="javascript">
@@ -53,15 +51,13 @@
               imgdetail:[],
               pid:'',
               shopid:'',
-              page:1,
-              size:6,
               scrollIcon:false,
               scrollTop:0,
+              exist:true, //优惠券信息是否存在
             }
         },
       onPullDownRefresh () {
           wx.showNavigationBarLoading() //在标题栏中显示加载
-          this.page = 1;
           this.refresh();
           // 下拉刷新
           wx.hideNavigationBarLoading() //完成停止加载
@@ -107,11 +103,12 @@
                 }
               }
               res.rows[0].count = thiz.commons.zcount(res.rows[0].count);
-              let details=res.rows[0].details;
-              if (details){
-                //let aimurl = this.$store.state.url+"/upload/pics";
-                //details=details.replace(/\/upload\/pics/g, aimurl);
-                //details=details.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
+              let Details=res.rows[0].details;
+              if (Details){
+                let aimurl = this.$store.state.url+"/upload/ueeditor";
+                Details=Details.replace(/\/upload\/ueeditor/g, aimurl);
+                Details=Details.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
+                res.rows[0].details=Details;
               }else{
                   this.nogetshow=true;
               }
@@ -121,15 +118,15 @@
                 title: res.rows[0].name ?res.rows[0].name : '礼物详情'
               })
             }else if(res.code==602){
+                thiz.exist=false;
                 thiz.nogetshow=true;
             }
-
           },
           loadmore () {
 
           },
           refresh(){
-
+            this.getmessage(this.pid);
           },
           topic(pic,moren){
             let thiz=this;
@@ -143,7 +140,6 @@
               }
             }
           },
-
           scrolltoTop(){
             if (wx.pageScrollTo) {
               wx.pageScrollTo({
@@ -159,15 +155,14 @@
         },
       mounted(){
         this.getmessage(this.pid);
-
       },
       onLoad: function (option) {
         this.messageData=[];
         this.imgdetail=[];
 //        this.pid=option.pid;
-        this.pid='1';
+        this.pid='2';
         this.nogetshow=false;
-        this.soldout=false;
+        this.exist=true;
         this.page=1;
       },
       onPageScroll:function(res){
@@ -318,6 +313,8 @@
           }
         }
         .content{
+          box-sizing: border-box;
+          width:100%;
           background-color: #fff;
           img{
             width:100%!important;
