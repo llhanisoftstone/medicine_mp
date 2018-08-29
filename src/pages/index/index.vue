@@ -96,6 +96,7 @@
         }
     },
     reward(r_id){
+        this.r_id=r_id
         this.$socket.emit('data_chain',{
             cmd:'fight',
             u_id: this.$store.state.user.userid,

@@ -41,6 +41,7 @@
 
 <script type="javascript">
   import common from '../../static/js/common'
+  import userinfo from '../../components/userinfo'
     export default {
       name: 'giftsdetail',
       props: [],
@@ -54,7 +55,8 @@
               scrollIcon:false,
               scrollTop:0,
               exist:true, //优惠券信息是否存在
-              game_cfg_id:''
+              game_cfg_id:'',
+              r_id:0,
             }
         },
       onPullDownRefresh () {
@@ -80,6 +82,7 @@
             })
           },
           reward(r_id){
+            r_id=parseInt(r_id)
             this.r_id=r_id
             this.$socket.emit('data_chain',{
               cmd:'fight',
@@ -87,6 +90,23 @@
               game_cfg_id: r_id,
               game_type:1,
               level:1
+            })
+          },
+          watchsocket(){
+            let that=this
+            that.$socket.removeAllListeners('data_chain')
+            that.$socket.on('data_chain',d=>{
+              if(d.cmd == 'answer'&&d.step == 1){
+                that.$socket.removeAllListeners('data_chain')
+                that.$store.commit('get_answer',d.details[0])
+                that.$store.commit('get_step',d.step)
+                that.$store.commit('get_level',1)
+                that.$store.commit('get_room',d.room_id)
+                that.$store.commit('get_max_nub',d.max_step)
+                wx.navigateTo({
+                  url:`/pages/alone/main?id=${that.r_id}`
+                })
+              }
             })
           },
           async getmessage (pid){
@@ -169,12 +189,17 @@
       },
       onLoad: function (option) {
         this.messageData=[];
-        this.imgdetail=[];
         this.pid=option.tid;//优惠券id
         this.game_cfg_id=option.vid;//挑战id
         this.nogetshow=false;
         this.exist=true;
-        this.page=1;
+        this.watchsocket()
+      },
+      onShow(){
+        this.watchsocket()
+      },
+      onHide(){
+        this.$socket.removeAllListeners('data_chain')
       },
       onPageScroll:function(res){
         let top = res.scrollTop;
