@@ -46,12 +46,12 @@
       }
     },
     onPullDownRefresh () {
-      wx.showNavigationBarLoading() //在标题栏中显示加载
+      wx.showNavigationBarLoading(); //在标题栏中显示加载
       this.page=1;
       this.shop_list=[];
       this.refresh();
       // 下拉刷新
-      wx.hideNavigationBarLoading() //完成停止加载
+      wx.hideNavigationBarLoading(); //完成停止加载
       wx.stopPullDownRefresh() //停止下拉刷新
     },
     onReachBottom () {
@@ -85,7 +85,6 @@
             }
             that.movies=pics;
             that.main = res.rows[0];
-
             for (let i=0; i<res.classify.length; i++){
               if(res.classify[i].picpath){
                 if(res.classify[i].picpath.substring(0,4)!="http"){
