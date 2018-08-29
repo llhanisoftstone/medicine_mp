@@ -46,12 +46,14 @@
     </div>
     <!--<div class="gift_title"><span></span><i></i><image src="/static/img/liwu.png"></image>为礼物而挑战<i></i><span></span></div>-->
     <ul class="gift_list">
-      <li v-for="(v,i) in win_treasure" @click="reward(v.id)">
-        <div>
-          <image :src="v.picpath"></image>
-        </div>
-        <h3>{{v.price}}元代金券</h3>
-        <a href="">挑战</a>
+      <li v-for="(v,i) in win_treasure" >
+        <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)">
+          <div>
+            <image :src="v.picpath"></image>
+          </div>
+          <h3>{{v.price}}元代金券</h3>
+        </main>
+        <a @click="reward(v.id)">挑战</a>
       </li>
     </ul>
   </div>
@@ -67,7 +69,8 @@
     return {
       p_number:0,
       win_treasure: [],
-      r_id:0
+      r_id:0,
+      tickt_id:''
     }
   },
 
@@ -83,15 +86,16 @@
             that.p_number = res.present_count
           for(let i = 0;i<res.win_treasure.length;i++){
             res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
+            res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
           }
             that.win_treasure = res.win_treasure
+
         }else{
           that.p_number=0
           that.win_treasure=[]
         }
     },
     reward(r_id){
-        this.r_id=r_id
         this.$socket.emit('data_chain',{
             cmd:'fight',
             u_id: this.$store.state.user.userid,
@@ -116,7 +120,12 @@
           })
         }
       })
-    }
+    },
+    tonewpage(urlname,data){
+      wx.navigateTo({
+        url:`/pages/${urlname}/main?${data}`
+      })
+    },
   },
   computed:{
     isauth(){

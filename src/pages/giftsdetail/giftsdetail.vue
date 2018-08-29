@@ -31,10 +31,10 @@
             </div>
         </div>
       </div>
-      <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
+      <div v-if="scrollIcon" @click.stop="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
       <div class="nogetList" v-if="nogetshow">暂无内容</div>
       <div class="buybutton">
-        <a @click.stop="tonewpage('','')" >立即挑战</a>
+        <a @click="reward(game_cfg_id)" >立即挑战</a>
       </div>
     </div>
 </template>
@@ -54,6 +54,7 @@
               scrollIcon:false,
               scrollTop:0,
               exist:true, //优惠券信息是否存在
+              game_cfg_id:''
             }
         },
       onPullDownRefresh () {
@@ -76,6 +77,16 @@
           tonewpage(urlname,data){
             wx.navigateTo({
               url:`/pages/${urlname}/main?${data}`
+            })
+          },
+          reward(r_id){
+            this.r_id=r_id
+            this.$socket.emit('data_chain',{
+              cmd:'fight',
+              u_id: this.$store.state.user.userid,
+              game_cfg_id: r_id,
+              game_type:1,
+              level:1
             })
           },
           async getmessage (pid){
@@ -159,8 +170,8 @@
       onLoad: function (option) {
         this.messageData=[];
         this.imgdetail=[];
-//        this.pid=option.pid;
-        this.pid='2';
+        this.pid=option.tid;//优惠券id
+        this.game_cfg_id=option.vid;//挑战id
         this.nogetshow=false;
         this.exist=true;
         this.page=1;
