@@ -182,8 +182,8 @@
 				},
 				{
 					"id": -1,
-					"name": "礼物详情",
-					"pathName": "pages/giftsdetail/main"
+					"name": "公司主页",
+					"pathName": "pages/shop/main"
 				}
 			]
 		}
