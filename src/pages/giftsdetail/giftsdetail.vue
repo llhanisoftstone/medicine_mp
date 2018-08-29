@@ -15,12 +15,21 @@
             <div class="info-box">
               <div class="company-box">
                 <div class="cname">她未来母婴商城她未来母婴商城她未来母婴商城</div>
-                <div class="site">公司主页</div>
+                <div class="site" @click.stop="tonewpage('','')" >公司主页</div>
               </div>
               <div class="location">陕西省西安市雁塔区凤城三路25号陕西省西安市雁塔区凤城三路25号</div>
               <div class="intro">
                 简介：她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城她未来母婴商城
               </div>
+            </div>
+        </div>
+        <div class="product-detail">
+            <div class="pdt-title">
+                <div class="title">产品详情</div>
+                <div class="line"></div>
+            </div>
+            <div class="content" >
+
             </div>
         </div>
       </div>
@@ -218,6 +227,7 @@
         display:flex;
         color:#666;
         font-size: 24px/2;
+        background-color: #fff;
         .icon-box{
           font-size: 0;
           box-sizing: border-box;
@@ -266,7 +276,44 @@
           .ellipsis(3);
         }
       }
+      .product-detail{
+        .pdt-title{
+          height:80px/2;
+          width:100%;
+          box-sizing: border-box;
+          background-color: #F2F2F2;
+          .title{
+            width:152px/2;
+            height:80px/2;
+            line-height:80px/2;
+            text-align: center;
+            margin:0 auto;
+            font-weight: bold;
+            font-size: 35px/2;
+            background-color: #F2F2F2;
+            position:relative;
+            color:#666;
+            z-index: 10;
+          }
+         .line{
+           position:relative;
+           top:0;
+           width:366px/2;
+           margin:0 auto;
+           &:after{
+             content:'';
+             display:block;
+             height:1px;
+             width:100%;
+             border:0;
+             background-color: #666;
+             position:absolute;
+             top:-40px/2;
+           }
 
+          }
+        }
+      }
 
     }
 
