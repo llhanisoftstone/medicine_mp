@@ -68,7 +68,7 @@
       async getshop(pid) {
         let that = this;
         let data = {
-          id:pid,
+          id:this.pid,
           status:1
         };
         let res = await that.$get('/rs/store_details',data);
@@ -92,7 +92,7 @@
                 }
               }
             }
-            that.top_list = res.classify;
+            that.top_list = res.classify.slice(0,4);
           }
         }
       },
@@ -143,8 +143,8 @@
       }
     },
     onLoad: function (option) {
-      this.store_id=option.pid;
-      this.getshop(this.store_id);
+      this.pid=option.pid;
+      this.getshop(this.pid);
       this.page = 1;
       this.shop_list = [];
       this.getpolicyList()//获取数据
