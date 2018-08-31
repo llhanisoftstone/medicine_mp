@@ -153,7 +153,7 @@
           if (res.hots.length > 0){
             for (var i=0;i<res.hots.length; i++){
               res.hots[i]._index = i+1;
-              res.hots[i].pic_abbr = 'https://policy.lifeonway.com'+res.hots[i].pic_abbr;
+              res.hots[i].pic_abbr = that.$store.state.url+res.hots[i].pic_abbr;
               res.hots[i].view_count = that.commons.zcount(res.hots[i].view_count)
             }
             that.hot_list = res.hots;
@@ -170,7 +170,7 @@
           if (res.zcbl.length > 0){
             for (var i=0; i<res.zcbl.length; i++){
               res.zcbl[i].view_count = that.commons.zcount(res.zcbl[i].view_count)
-              res.zcbl[i].pic_abbr = 'https://policy.lifeonway.com'+res.zcbl[i].pic_abbr;
+              res.zcbl[i].pic_abbr = that.$store.state.url+res.zcbl[i].pic_abbr;
             }
             that.headbook_list = res.zcbl;
             that.is_bl_hide = true;
@@ -181,7 +181,7 @@
           if (res.zcbk.length > 0){
             for (var i=0; i<res.zcbk.length; i++){
               res.zcbk[i].view_count = that.commons.zcount(res.zcbk[i].view_count)
-              res.zcbk[i].pic_abbr = 'https://policy.lifeonway.com'+res.zcbk[i].pic_abbr;
+              res.zcbk[i].pic_abbr = that.$store.state.url+res.zcbk[i].pic_abbr;
             }
             that.policy_list = res.zcbk;
             that.is_bk_hide = true;

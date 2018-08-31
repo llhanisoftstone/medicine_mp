@@ -90,7 +90,7 @@
               }
               if(res.rows[i].picurl){
                 if(res.rows[i].picurl.substring(0,4)!="http"){
-                  res.rows[i].piclogo = 'https://policy.lifeonway.com'+res.rows[i].piclogo;
+                  res.rows[i].piclogo = that.$store.state.url+res.rows[i].piclogo;
                 }
               }
               if(res.rows[i].status == 0){

@@ -98,7 +98,7 @@
           if (res.rows.length > 0){
             for (let i=0; i<res.rows.length; i++){
               res.rows[i].view_count = that.commons.zcount(res.rows[i].view_count)
-              res.rows[i].pic_abbr = 'https://policy.lifeonway.com'+res.rows[i].pic_abbr;
+              res.rows[i].pic_abbr = that.$store.state.url+res.rows[i].pic_abbr;
             }
             that.policy_list = that.policy_list.concat(res.rows);
           }

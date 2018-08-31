@@ -25,7 +25,7 @@
           that.create_time = this.conversionTime(res.rows[0].create_time,'/');
           var details=res.rows[0].details;
           if (details){
-            var aimurl = 'https://policy.lifeonway.com'+"/upload/ueeditor/";
+            var aimurl = that.$store.state.url+"/upload/ueeditor/";
             details=details.replace(/\/upload\/ueeditor/g, aimurl);
             details=details.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
           }
