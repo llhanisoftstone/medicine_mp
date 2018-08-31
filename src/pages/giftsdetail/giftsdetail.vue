@@ -34,7 +34,7 @@
       <div v-if="scrollIcon" @click.stop="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
       <div class="nogetList" v-if="nogetshow">暂无内容</div>
       <div class="buybutton">
-        <a @click="reward(game_cfg_id)" >立即挑战</a>
+        <a v-if="exist" @click="reward(game_cfg_id)" >立即挑战</a>
       </div>
     </div>
 </template>
