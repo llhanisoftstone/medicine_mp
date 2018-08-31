@@ -104,6 +104,7 @@
           size:this.size,
           store_id:this.pid,
           category:2,
+          status:1,
           order:'create_time desc'
         };
         let res = await that.$get('/rs/store_classify',data);
