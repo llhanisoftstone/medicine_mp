@@ -352,6 +352,7 @@
           box-sizing: border-box;
           width:100%;
           background-color: #fff;
+          word-break:break-all;
           img{
             width:100%!important;
             height:auto!important;
@@ -360,6 +361,7 @@
           p{
             color:#333;
             margin-bottom: 0;
+            word-break:break-all;
           }
         }
       }
