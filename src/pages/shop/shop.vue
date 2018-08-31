@@ -21,7 +21,7 @@
       <li class="item" @click.stop="tonewpage('shopdetail','pid='+items.id)" v-for="(items,i_s) in shop_list"><img :src="items.picpath" alt=""></li>
     </ul>
     <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
-    <div class="nogetList" v-if="iskong">暂无记录</div>
+    <div class="nogetList" v-if="iskong">暂无信息</div>
   </div>
 </template>
 
@@ -69,6 +69,7 @@
         let that = this;
         let data = {
           id:this.pid,
+//          store_id:this.pid,
           status:1
         };
         let res = await that.$get('/rs/store_details',data);
