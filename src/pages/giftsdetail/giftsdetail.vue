@@ -138,7 +138,7 @@
               if (Details){
                 let aimurl = this.$store.state.url+"/upload/ueeditor";
                 Details=Details.replace(/\/upload\/ueeditor/g, aimurl);
-                Details=Details.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
+                Details=Details.replace(/\<img/gi, '<img style="width:100%;max-width:100%;height:auto" ');
                 res.rows[0].details=Details;
               }else{
                   this.nogetshow=true;
@@ -352,6 +352,7 @@
           box-sizing: border-box;
           width:100%;
           background-color: #fff;
+          word-break:break-all;
           img{
             width:100%!important;
             height:auto!important;
@@ -360,6 +361,7 @@
           p{
             color:#333;
             margin-bottom: 0;
+            word-break:break-all;
           }
         }
       }
