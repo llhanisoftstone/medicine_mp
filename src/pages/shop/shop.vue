@@ -21,7 +21,7 @@
       <li class="item" @click.stop="tonewpage('shopdetail','pid='+items.id)" v-for="(items,i_s) in shop_list"><img :src="items.picpath" alt=""></li>
     </ul>
     <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
-    <div class="nogetList" v-if="iskong">暂无记录</div>
+    <div class="nogetList" v-if="iskong">暂无信息</div>
   </div>
 </template>
 
@@ -68,7 +68,8 @@
       async getshop(pid) {
         let that = this;
         let data = {
-          id:pid,
+          id:this.pid,
+//          store_id:this.pid,
           status:1
         };
         let res = await that.$get('/rs/store_details',data);
@@ -80,7 +81,7 @@
             let pics=res.rows[0].bannerpath.split(",");
             for(var j=0;j<pics.length;j++){
               if(pics[j].substring(0,4)!="http"){
-                pics[j] = 'https://policy.lifeonway.com'+pics[j];
+                pics[j] = that.$store.state.url+pics[j];
               }
             }
             that.movies=pics;
@@ -88,11 +89,11 @@
             for (let i=0; i<res.classify.length; i++){
               if(res.classify[i].picpath){
                 if(res.classify[i].picpath.substring(0,4)!="http"){
-                  res.classify[i].picpath = 'https://policy.lifeonway.com'+res.classify[i].picpath;
+                  res.classify[i].picpath = that.$store.state.url+res.classify[i].picpath;
                 }
               }
             }
-            that.top_list = res.classify;
+            that.top_list = res.classify.slice(0,4);
           }
         }
       },
@@ -103,6 +104,7 @@
           size:this.size,
           store_id:this.pid,
           category:2,
+          status:1,
           order:'create_time desc'
         };
         let res = await that.$get('/rs/store_classify',data);
@@ -112,7 +114,7 @@
             for (let i=0; i<res.rows.length; i++){
               if(res.rows[i].picpath){
                 if(res.rows[i].picpath.substring(0,4)!="http"){
-                  res.rows[i].picpath = 'https://policy.lifeonway.com'+res.rows[i].picpath;
+                  res.rows[i].picpath = this.$store.state.url+res.rows[i].picpath;
                 }
               }
             }
@@ -143,8 +145,8 @@
       }
     },
     onLoad: function (option) {
-      this.store_id=option.pid;
-      this.getshop(this.store_id);
+      this.pid=option.pid;
+      this.getshop(this.pid);
       this.page = 1;
       this.shop_list = [];
       this.getpolicyList()//获取数据

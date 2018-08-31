@@ -52,7 +52,7 @@
             that.ticket_amount = res.rows[0].total_amount;
             if(res.rows[0].piclogo){
               if(res.rows[0].piclogo.substring(0,4)!="http"){
-                res.rows[0].piclogo = 'https://policy.lifeonway.com'+res.rows[0].piclogo;
+                res.rows[0].piclogo = that.$store.state.url+res.rows[0].piclogo;
               }
               that.piclogo = res.rows[0].piclogo
             }else{

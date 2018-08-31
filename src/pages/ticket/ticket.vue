@@ -83,8 +83,8 @@
               if (res.rows[i].price){
                 res.rows[i].price=that.pricetab(res.rows[i].price);
               }
-              res.rows[i].picurl = 'https://policy.lifeonway.com'+res.rows[i].picurl;
-              res.rows[i].piclogo = 'https://policy.lifeonway.com'+res.rows[i].piclogo;
+              res.rows[i].picurl = that.$store.state.url+res.rows[i].picurl;
+              res.rows[i].piclogo = that.$store.state.url+res.rows[i].piclogo;
               res.rows[i].surplus_count = res.rows[i].total_amount - res.rows[i].total_count;
             }
             that.ticket_list = that.ticket_list.concat(res.rows);
