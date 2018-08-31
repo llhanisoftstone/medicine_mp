@@ -244,6 +244,7 @@
           height:100px/2;
           line-height:100px/2;
           max-width: 70%;
+          word-break:break-all;
           .ellipsis();
         }
         .count{
@@ -290,6 +291,7 @@
             color:#333;
             font-weight: bold;
             width:70%;
+            word-break:break-all;
             .ellipsis();
           }
           .site{
@@ -304,10 +306,12 @@
         }
         .location{
           margin:12px/2 0 22px/2;
-          .ellipsis();
+          word-break:break-all;
+          .ellipsis(2);
         }
         .intro{
           color:#999;
+          word-break:break-all;
           .ellipsis(3);
         }
       }
