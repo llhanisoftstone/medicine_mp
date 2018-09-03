@@ -135,8 +135,17 @@
         })
       },
       addresslist(){
+          var data={
+            realname:this.realname,
+            phone:this.phone,
+            comp_name:this.comp_name
+          }
+        wx.setStorage({
+          key:"keyuser",
+          data:data
+        })
         wx.navigateTo({
-          url:"/pages/address/main?realname="+this.realname+"&phone="+this.phone
+          url:"/pages/address/main?realname="+this.realname+"&phone="+this.phone+"&comp_name="+this.comp_name
         })
       },
       openImg(){
@@ -166,7 +175,6 @@
             that.name=user.nickname;
             that.realname=user.realname;
             that.phone=user.phone;
-
             that.isclick=true;
             that.comp_name=user.comp_name;
             that.company=[];
@@ -183,6 +191,26 @@
             that.shop_logo=user.shop_logo;
             that.shop_phone=user.phone;
             that.shop_address=user.address;
+            wx.getStorage({
+              key: 'keyuser',
+              success: function(res) {
+                if(res.data.realname){
+                  that.realname=res.data.realname;
+                }
+                if(res.data.phone){
+                  that.phone=res.data.phone;
+                }
+                if(res.data.comp_name){
+                  that.comp_name=res.data.comp_name;
+                }
+              }
+            })
+            wx.removeStorage({
+              key: 'keyuser',
+              success: function(res) {
+                console.log(res.data)
+              }
+            })
           }
 
         })
@@ -199,6 +227,12 @@
     },
     onUnload(){
       this.company=[];
+      wx.removeStorage({
+        key: 'keyuser',
+        success: function(res) {
+          console.log(res.data)
+        }
+      })
     },
     watch:{
       async comp_name(val, oldval){
