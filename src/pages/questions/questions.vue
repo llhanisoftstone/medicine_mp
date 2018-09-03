@@ -16,6 +16,10 @@
           <div class="item_list mui-ellipsis"><span>联系电话</span>：{{item.phone||'无'}}</div>
           <div class="item_list mui-ellipsis"><span>详细描述</span>：{{item.details}}</div>
           <div class="item_list mui-ellipsis"><span>创建时间</span>：{{item.create_time}}</div>
+          <div v-if="item.status==2" class="icon-img" >
+            <img src="../../../static/img/yicaina.png" alt="">
+          </div>
+
         </div>
       </a>
     </div>
@@ -37,7 +41,7 @@
         scrollTop:0,
         iskong:false,
         page:1,
-        size:6
+        size:6,
       }
     },
     onPullDownRefresh () {
@@ -196,6 +200,18 @@
       padding: 15/2px 20/2px;
       border-radius: 10/2px;
       margin-bottom:20/2px;
+      .icon-img{
+        display:inline-block;
+        width:79px;
+        height:76px;
+        position:absolute;
+        top:14px;
+        right:18px;
+        img{
+          width:79px;
+          height:76px;
+        }
+      }
       .item_list{
         font-size: 28/2px;
         color: #333;
