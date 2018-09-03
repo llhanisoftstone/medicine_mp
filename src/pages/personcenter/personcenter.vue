@@ -4,7 +4,7 @@
       <image src="/static/img/touxiang.png" class="user_bg"></image>
       <div class="user_info">
         <a href="/pages/userdata/main">
-          <div class="img_box" >
+          <div class="img_box">
             <image :src='avatar_url'></image>
           </div>
         </a>

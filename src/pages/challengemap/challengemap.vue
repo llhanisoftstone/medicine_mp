@@ -340,6 +340,7 @@
       position: absolute;
       top:-93px/2;
       left:14px/2;
+      z-index:50;
       animation: gift 3s infinite;
       image{
         width: 96px/2;
@@ -352,6 +353,7 @@
       position: absolute;
       top:-54px/2;
       left:36px/2;
+      z-index:50;
       animation: gift 3.4s infinite;
       image{
         width: 133px/2;
@@ -604,6 +606,8 @@
         border-radius: 50%;
         margin-top:-7px/2;
         margin-left: -7px/2;
+        z-index:100;
+        position:absolute;
         image{
           width: 82px/2;
           height: 82px/2;

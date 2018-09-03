@@ -7,7 +7,7 @@
           <div class="mui-media-body">
             <p class="sign-success" v-if="nowflag">今日已签到</p>
             <p class="sign-success" v-if="isoverflag">恭喜你签到成功，银两<span class="co_fe698a">+{{getpointer}}!</span></p>
-            <p class="p-margin">今日奖励<span class="co_fe698a"></span>银两，当前总银两<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
+            <p class="p-margin">今日奖励<span class="co_fe698a">{{oldpoints}} </span>银两，当前总银两<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
             </p>
           </div>
           <a href="/pages/itemshop/main" class="btn_sign">兑换</a>
@@ -115,6 +115,7 @@
               arrDate: [],
               nowdate:"",
               nowpointer:0,
+              oldpoints:0,
               getpointer:5,
               isshowsign:false,
               r_id:0
@@ -254,6 +255,7 @@
             this.nowflag=true;
             this.isoverflag=false;
             this.nowpointer=aa.total_points;
+            this.oldpoints=aa.points;
             var daystotal=this.days;
            for (var j = 0; j < aa.days.length; j++) {
             for(var i=0;i<daystotal.length;i++){
@@ -376,9 +378,8 @@
       }
     }
   .time-top{
-    margin-top:20px;
+    margin-top:10px;
     padding-left:13px;
-    padding-right:22px;
     font-size:12px ;
     color:#333;
     display:flex;
@@ -386,6 +387,7 @@
     align-items:center;
     #time-list{
       color:#df5c3e;
+     padding:10px 22px;
     }
   }
   .back_line{
@@ -460,7 +462,7 @@
     .month ul {
       padding: 0;
       display: flex;
-      margin:17px 39px 0;
+      margin:0 39px 0;
       justify-content: space-between;
       align-items: center;
     }
