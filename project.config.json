@@ -204,6 +204,12 @@
 					"name": "关于我们",
 					"pathName": "pages/aboutus/main",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "炫耀成绩单",
+					"pathName": "pages/report/main",
+					"query": ""
 				}
 			]
 		}

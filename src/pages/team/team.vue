@@ -301,7 +301,6 @@
             repeat(){   //重新开始
               let that = this
               if(this.challenger == that.$store.state.user.userid){
-
                 that.$socket.emit('data_chain',{
                   cmd:'fight',
                   u_id:Number(that.challenger),
@@ -426,7 +425,7 @@
               }
               that.$store.commit('allTitle',1)
             }else{
-                that.is_f_click = index
+                that.is_f_click = index;
                 that.$socket.emit('data_chain',{
                   cmd:'chat',
                   type:5,

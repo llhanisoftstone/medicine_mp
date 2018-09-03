@@ -8,14 +8,14 @@
       </userinfo>
     </div>
     <div class="match_box">
-      <a href="/pages/challengemap/main" class="challenge_b">
-        <div class="challenge">
+      <!--<a href="/pages/challengemap/main" class="challenge_b">-->
+        <div class="challenge" @click="challengemap">
           <h2>闯关赛</h2>
           <h4 style="padding-bottom: 3px">已有<span style="font-weight: bold;">{{p_number}}</span>人获得礼物</h4>
           <h4>就算闯关没有礼物</h4>
           <h4>我也势必要去挑战的！</h4>
         </div>
-      </a>
+      <!--</a>-->
       <div class="challenge_box">
         <a href="/pages/loadpk/main?from=2">
           <div class="item_1">
@@ -81,6 +81,11 @@
   },
 
   methods: {
+    challengemap(){
+      wx.navigateTo({
+        url:`/pages/challengemap/main`
+      })
+    },
     async getuserperson(){
       let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
       if(aa.code==200){

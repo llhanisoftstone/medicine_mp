@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     userinfo: {},    //  微信返回用户信息
     code: '',
     isauth: false,      // 是否授权
-    authreturn:false,    //授权返回
+    authreturn: false,    // 授权返回
     issocket: false,     // socket是否登录
     sid: '',
     user: {},            //  用户id
@@ -37,12 +37,12 @@ const store = new Vuex.Store({
     f_level: 0,                 // 亲友团进行的关卡
     max_nub: 0,                    // 关卡题目数量
     modalshow: true,               // 是否显示弹窗
-    quick: [],                        //快捷语
-    successTips:[],                 //正确提示
-    errorTips:[],                    //错误提示
-    rightTitle:0,                    //正确题目数量
-    allTitle:0,                      //所有题目
-    useTime:0                        //答题所用时间
+    quick: [],                        // 快捷语
+    successTips: [],                 // 正确提示
+    errorTips: [],                    // 错误提示
+    rightTitle: 0,                    // 正确题目数量
+    allTitle: 0,                      // 所有题目
+    useTime: 0                        // 答题所用时间
   },
   mutations: {
     rightTitle: (state, nub) => {
