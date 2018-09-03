@@ -18,17 +18,17 @@ export default {
     })
     this.$socket.on('disconnect', d => {
       console.log(d)
-      wx.showLoading({
-        mask: true
-      })
+      // wx.showLoading({
+      //   mask: true
+      // })
       clearTimeout(loadTime)
       loadTime = null
       loadTime = setTimeout(() => {
         if ((url !== 'pages/alone/main') && (url !== 'pages/pkanswer/main') && (url !== 'pages/team/main') ){
           wx.hideLoading()
-          wx.showLoading({
-            mask: true
-          })
+          // wx.showLoading({
+          //   mask: true
+          // })
         }
       }, 3000)
       that.$store.commit('getsocket', false)
@@ -119,6 +119,19 @@ export default {
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
 
+    wx.onNetworkStatusChange(function(network) {
+      if(!network.isConnected){
+        wx.hideLoading()
+        wx.showModal({
+          title: '提示',
+          content: '网络异常,请检查您的网络！',
+          showCancel: false,
+          confirmText: '确定',
+          confirmColor: '#df5c3e',
+          mask: true
+        })
+      }
+    })
     console.log('app created and cache logs by setStorageSync')
   },
   methods: {
