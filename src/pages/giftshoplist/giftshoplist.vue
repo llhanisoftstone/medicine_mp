@@ -72,7 +72,7 @@
           size:this.size,
           u_id:that.$store.state.user.userid,
           is_delete:0,
-          order:'status asc'
+          order:'case `status`when 0 then 0 when 1 then 2 when 2 then 1 end asc,get_time desc'
         };
         let res = await that.$get('/rs/member_ticket',data);
         if (res.code == 200){
@@ -139,7 +139,11 @@
         return data.getFullYear()+sign+months+sign+day;
       },
       pricetab(price){
-        price=(parseFloat(price)/100).toFixed(0);
+        if(parseFloat(price)>=100){
+          price=(parseFloat(price)/100).toFixed(0);
+        }else{
+          price=(parseFloat(price)/100).toFixed(2);
+        }
         return price;
       },
       dialing(e){

@@ -202,7 +202,7 @@
       left:0;
       right:0;
       margin:auto;
-      padding: 120px/2 141px/2 29px/2;
+      padding: 80px/2 141px/2 29px/2;
       width: 100%;
       height: auto;
       display: flex;

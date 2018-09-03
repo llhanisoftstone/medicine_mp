@@ -61,7 +61,7 @@
 
       <div class="back_line"></div>
       <div class="recommend">
-        礼物店
+        精品推荐，快快挑战吧!
       </div>
       <ul class="gift_list">
         <li v-for="(v,i) in win_treasure" @click="reward(v.id)">
