@@ -1,5 +1,5 @@
 <template>
-    <div class="user_box">
+    <div class="user_box" @click="tonewpage('userdata','')">
       <image src="/static/img/touxiang.png" class="user_bg"></image>
       <div class="user_info">
         <div class="img_box" >
@@ -26,6 +26,11 @@
             }
         },
         methods: {
+          tonewpage(urlname,data){
+            wx.navigateTo({
+              url:`/pages/${urlname}/main?${data}`
+            })
+          },
           bindGetUserInfo: function(e) {
             let that = this
             if(!e.target.userInfo){
