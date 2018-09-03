@@ -135,6 +135,9 @@
                   res.rows[0].store_picpath=thiz.$store.state.url + storeUrl;
                 }
               }
+              if(!res.rows[0].count||res.rows[0].count==null||res.rows[0].count==''){
+                res.rows[0].count=0;
+              }
               res.rows[0].count = thiz.commons.zcount(res.rows[0].count);
               let Details=res.rows[0].details;
               if (Details){
