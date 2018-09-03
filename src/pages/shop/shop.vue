@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div id="index_gallerySlider" class="index_gallerySlider">
+    <div id="index_gallerySlider" class="index_gallerySlider" v-if="bannerpath">
       <swiper :indicator-dots="indicatorDots"
               :autoplay="true" :circular="true" :interval="3000"
               :duration="duration" indicator-color="rgba(226,226,226,1)" indicator-active-color="#ffffff">
@@ -238,7 +238,7 @@
     }
   }
   .mainlist{
-    padding: 0 30/2px;
+    padding: 0 30/2px 30/2px;
     .item{
       border-radius: 20/2px;
       overflow: hidden;

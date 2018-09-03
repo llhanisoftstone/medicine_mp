@@ -7,6 +7,6 @@ export default {
   config: {
     'enablePullDownRefresh': true,
     pages: ['pages/questions/main'],
-    navigationBarTitleText: '我要了解'
+    navigationBarTitleText: '我要咨询'
   }
 }
