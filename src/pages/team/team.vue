@@ -99,8 +99,14 @@
           <p @click="send('还有，李云龙同学麻烦你让二营长把意大利面收起来，不要让陈皮同学在课堂上吃面。',3)">选4</p>
         </div>
         <i class="quick" @click="selectQuick">常用语</i>
-        <a @click="userTools(user.tools[0].amount,1)" :class="{surplus:times<10}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_11.png"></image><span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span></a>
-        <a @click="userTools(user.tools[1].amount,2)" :class="{surplus:(times<10 && !istime)}" href="" v-if="challenger==user.userid"><image src="/static/img/daojushangdian_13.png"></image><span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span></a>
+        <a @click="userTools(user.tools[0].amount,1)" :class="{surplus:times<10}" href="" v-if="challenger==user.userid">
+          <image src="/static/img/daojushangdian_11.png"></image>
+          <span>{{user.tools[0].amount>99?'99+':user.tools[0].amount}}</span>
+        </a>
+        <a @click="userTools(user.tools[1].amount,2)" :class="{surplus:(times<10 && !istime)}" href="" v-if="challenger==user.userid">
+          <image src="/static/img/daojushangdian_13.png"></image>
+          <span>{{user.tools[1].amount>99?'99+':user.tools[1].amount}}</span>
+        </a>
       </div>
       <div class="news_box" v-if="isquick">
         <ul>
@@ -295,7 +301,6 @@
             repeat(){   //重新开始
               let that = this
               if(this.challenger == that.$store.state.user.userid){
-
                 that.$socket.emit('data_chain',{
                   cmd:'fight',
                   u_id:Number(that.challenger),
@@ -420,7 +425,7 @@
               }
               that.$store.commit('allTitle',1)
             }else{
-                that.is_f_click = index
+                that.is_f_click = index;
                 that.$socket.emit('data_chain',{
                   cmd:'chat',
                   type:5,

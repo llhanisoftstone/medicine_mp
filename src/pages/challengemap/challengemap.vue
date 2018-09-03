@@ -141,7 +141,7 @@
               setTimeout(()=>{
                 this.tips=-1
                 this.tipsprize=0
-              },2000)
+              },3500)
               return
             }
             this.isshow=true
@@ -612,7 +612,7 @@
           width: 82px/2;
           height: 82px/2;
           border-radius: 50%;
-          border:4px/2 solid #fff;
+          border:4px/2 solid #df5c3e;
         }
       }
     }
