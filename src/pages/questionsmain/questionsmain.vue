@@ -134,6 +134,7 @@
         padding-left:21/2px;
         width:540/2px ;
         border-left:1px solid #e2e2e2;
+        word-break: break-all;
       }
       &>div:first-child{
         padding-left:0;

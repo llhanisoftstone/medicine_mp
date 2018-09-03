@@ -166,6 +166,11 @@
             that.name=user.nickname;
             that.realname=user.realname;
             that.phone=user.phone;
+
+            that.isclick=true;
+            that.comp_name=user.comp_name;
+            that.company=[];
+
             var address=user.province_name+user.city_name+user.zone_name+user.address;
             if(address&&address.length>15){
                 address=address.substring(0,15)+"...";

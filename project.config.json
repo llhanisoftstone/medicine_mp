@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 24,
+			"current": 25,
 			"list": [
 				{
 					"id": 0,
@@ -198,6 +198,12 @@
 					"pathName": "pages/writeoff/main",
 					"query": "",
 					"scene": "1007"
+				},
+				{
+					"id": -1,
+					"name": "关于我们",
+					"pathName": "pages/aboutus/main",
+					"query": ""
 				}
 			]
 		}

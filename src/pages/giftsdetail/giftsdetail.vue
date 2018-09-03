@@ -114,7 +114,8 @@
             let data = {
               status:'<>,99'
             };
-            let res = await thiz.$get('/rs/v_ticket_details/' + pid, data);
+//            let res = await thiz.$get('/rs/v_ticket_details/' + pid, data);
+            let res = await thiz.$get('/rs/v_ticket_details');
             if (res.code == 200){
               thiz.nogetshow=false;
               if(!res.rows[0].picurl){
@@ -400,14 +401,16 @@
       background-size: 80px/2 80px/2;
     }
     .nogetList{
-      padding-top: 197px;
-      background: url("../../../static/img/konhyemain.jpg") center 29px no-repeat;
+      padding-top: 630/2px;
+      background: url("../../../static/img/konhyemain.jpg") center 250/2px no-repeat;
       background-size:144.5px 148px;
       width: 100%;
-      height: 97px;
       color:#999;
       font-size:14px;
       text-align: center;
       margin-bottom:30px;
+      box-sizing:border-box;
+      height:594/2px;
+
     }
 </style>
