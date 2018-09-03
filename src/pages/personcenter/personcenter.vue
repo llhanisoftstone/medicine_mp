@@ -76,6 +76,12 @@
       this.nickname=this.$store.state.user.nickname;
        this.rank_name=this.$store.state.user.rank_name;
        this.experience=this.$store.state.user.experience;
+      wx.removeStorage({
+        key: 'keyuser',
+        success: function(res) {
+          console.log(res.data)
+        }
+      })
     }
   }
 </script>

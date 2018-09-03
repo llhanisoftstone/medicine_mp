@@ -369,11 +369,9 @@
                   data:msg,
                   type:1
               })
-            if(that.challenger != that.$store.state.user.userid){
-                if(index){
+                if(index>=0){
                   that.submit(index)
                 }
-            }
           },
           submit(index,right){    //提交答案
             if(!this.isstart){
@@ -476,7 +474,7 @@
             }
           },
           tanswer(val,oldval){
-            this.isanimation=true
+            this.isanimation=false
             this.istimes=false
             clearTimeout(this.setfn)
             this.setfn=null
