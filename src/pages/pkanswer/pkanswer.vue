@@ -233,8 +233,8 @@
               return this.$store.state.vsuser
           },
           answer(){
-                this.tanswer=this.$store.state.answer.name
-                return this.$store.state.answer
+            this.tanswer=this.$store.state.answer.name
+              return this.$store.state.answer
           },
           mynumber(){
               return this.$store.state.myscore
@@ -325,6 +325,7 @@
                 if(d.step>1){
                   that.isshow = true
                   setTimeout(function(){
+                    that.$store.commit('get_answer',d.details[0])
                     that.$store.commit('get_step',d.step)
                     that.times = 30
                     that.isshow = false
@@ -332,7 +333,6 @@
                     that.isclick=false
                     that.other= -1
                     that.tool_id=[]
-                    that.$store.commit('get_answer',d.details[0])
                   },2000)
                 }
               }else if(d.content_type == 2){
@@ -633,7 +633,7 @@
     }
     .bottom1_an{
       transform-origin: 50% 50% 0;
-      animation: showbottom1 2s ease;
+      animation: showbottom1 2.5s ease;
       li{
         color: #d6d6d6;
       }
