@@ -1,7 +1,7 @@
 <template>
   <div class="container" :class="{fixed:!isauth&&authreturn}">
     <div class="user_box">
-      <userinfo :username="userinfo.nickName" :imgurl="userinfo.avatarUrl">
+      <userinfo :username="userinfo.nickName" :imgurl="userinfo.avatarUrl" :points="points">
         <div slot="userRight">
           <a href="/pages/signcount/main" class="btn_sign">签到</a>
         </div>
@@ -48,8 +48,11 @@
     <ul class="gift_list">
       <li v-for="(v,i) in win_treasure" >
         <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)">
-          <div>
-            <image :src="v.picpath"></image>
+          <div class="itemheadk">
+            <div>
+              <image :src="v.picpath"></image>
+              <div class="itemmodel">查看详情&gt;</div>
+            </div>
           </div>
           <h3>{{v.price}}元代金券</h3>
         </main>
@@ -61,8 +64,6 @@
 
 <script type="javascript">
   import userinfo from '../../components/userinfo'
-
-
   export default {
 
   data () {
@@ -70,6 +71,7 @@
       p_number:0,
       win_treasure: [],
       r_id:0,
+      points:0,
       tickt_id:''
     }
   },
@@ -79,6 +81,14 @@
   },
 
   methods: {
+    async getuserperson(){
+      let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
+      if(aa.code==200){
+        this.$store.commit('get_sliver',aa.rows[0].points);
+        this.$store.commit('get_openid',aa.rows[0].open_id);
+        this.points=aa.rows[0].points;
+      }
+    },
     async getpage(){
         let that = this
         let res = await that.$get('/rs/first_page')
@@ -163,6 +173,7 @@
       }
       this.watchsocket()
       this.getpage()
+      this.getuserperson()
     },
     onHide(){
       this.$socket.removeAllListeners('data_chain')
@@ -428,14 +439,34 @@
       margin-bottom:20px/2;
       border-radius: 10px/2;
       background: #fff;
-      div{
+      div.itemheadk{
         width: 219px/2;
         height: 220px/2;
         box-sizing: border-box;
         padding: 20px/2;
-        image{
+        div{
+          position: relative;
           width: 100%;
           height: 100%;
+          .itemmodel{
+            position: absolute;
+            bottom:0;
+            left:0;
+            width:100%;
+            font-size: 16/2px;
+            padding:6/2px;
+            padding-top: 20/2px;
+            line-height: 16/2px;
+            height: 22/2+20/2px;
+            text-align: right;
+            color: #fff;
+            box-sizing: border-box;
+            background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.4));
+          }
+          image{
+            width: 100%;
+            height: 100%;
+          }
         }
       }
       h3{

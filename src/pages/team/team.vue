@@ -163,9 +163,9 @@
             item.text = text;
             if(28<top<56){
                 if(Math.random()>0.5){
-                  top =  Math.random()*28
+                  top =  Math.random()*20
                 }else{
-                  top =  58+Math.random()*30
+                  top =  50+Math.random()*25
                 }
             }
             item.top = top;
@@ -369,11 +369,9 @@
                   data:msg,
                   type:1
               })
-            if(that.challenger != that.$store.state.user.userid){
-                if(index){
+                if(index>=0){
                   that.submit(index)
                 }
-            }
           },
           submit(index,right){    //提交答案
             if(!this.isstart){
@@ -476,7 +474,7 @@
             }
           },
           tanswer(val,oldval){
-            this.isanimation=true
+            this.isanimation=false
             this.istimes=false
             clearTimeout(this.setfn)
             this.setfn=null
@@ -926,6 +924,7 @@
       position: absolute;
       box-sizing: border-box;
       overflow-x: hidden;
+      overflow-y:visible;
     }
     @keyframes swing {
       10% {

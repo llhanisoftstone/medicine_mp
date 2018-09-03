@@ -40,6 +40,7 @@
           </li>
         </ul>
       </div>
+      <div class="nogetList" v-if="iskong">暂无优惠券</div>
     </div>
 </template>
 
@@ -50,7 +51,8 @@
         piclogo:'',
         ticket_list:[],
         page:1,
-        size:6
+        size:6,
+        iskong:false,
       }
     },
     onPullDownRefresh () {
@@ -78,6 +80,7 @@
         let res = await that.$get('/rs/v_ticket_send_rule_list',data);
         console.log(res.rows.length)
         if (res.code == 200){
+          that.iskong=false;
           if (res.rows.length > 0){
             for (var i=0; i<res.rows.length; i++){
               if (res.rows[i].price){
@@ -90,6 +93,9 @@
             that.ticket_list = that.ticket_list.concat(res.rows);
             console.log(that.ticket_list.length);
           }
+        }else if(res.code==602){
+          that.ticket_list=[];
+          that.iskong=true;
         }
       },
       refresh(){
@@ -113,6 +119,7 @@
       console.log("121")
       this.page=1;
       this.ticket_list=[];
+      this.iskong=false;
       this.getticketList()//获取数据
     }
   }
@@ -120,6 +127,18 @@
 
 <style lang="less" scoped>
     @import '../../static/less/common.less';
+    .nogetList{
+      padding-top: 290px;
+      box-sizing:border-box;
+      background: url(../../../static/img/konhyemain.jpg) center 100px no-repeat;
+      background-size:145px 148px;
+      width: 100%;
+      height: 297px;
+      color: #999999;
+      font-size: 14px;
+      text-align: center;
+      margin-bottom: 50px;
+    }
     .data-list ul.list-ul{
       margin: 0 26px/2;
       .item_margin{

@@ -250,13 +250,6 @@
     onShow(){
       this.isBtnClicked=true;
     },
-    onLoad: function (option) {
-    var data={
-      phone:option.phone,
-      realname:option.realname,
-    }
-    this.$put('/rs/member/'+this.$store.state.user.userid,data).then(res=>{})
-    }
   }
 </script>
 

@@ -2,7 +2,7 @@
   <div class="container">
     <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
       <div slot="userRight">
-        <a href="" class="wallet">{{points}}</a>
+        <a class="wallet">{{pointssliver}}</a>
       </div>
     </userinfo>
     <ul class="tablist">
@@ -22,7 +22,6 @@
 <script type="javascript">
   import userinfo from '@/components/userinfo'
   export default {
-
     data () {
       return {
         isnewuser: true,
@@ -31,6 +30,7 @@
         iskong:false,
         isSelect:false,
         userlist: [],
+        pointssliver:this.$store.state.sliver,
       }
     },
     methods: {
@@ -77,14 +77,12 @@
       },
     },
     computed:{
-      points(){
-        return this.$store.state.sliver
-      }
     },
     components: {
       userinfo
     },
     onLoad: function () {
+      this.pointssliver=this.$store.state.sliver;
       this.isActive=true;
       this.isclcik=false;
       this.isSelect=false;

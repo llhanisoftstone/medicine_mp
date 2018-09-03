@@ -25,14 +25,14 @@
             </div>
           </a>
         </li>
-        <li>
-          <a  href="/pages/questions/main?isjy=true">
-            <span class="jianyi">我要建议</span>
-            <div>
-              提交建议，采纳后送100银两
-            </div>
-          </a>
-        </li>
+        <!--<li>-->
+          <!--<a  href="/pages/questions/main?isjy=true">-->
+            <!--<span class="jianyi">我要建议</span>-->
+            <!--<div>-->
+              <!--提交建议，采纳后送100银两-->
+            <!--</div>-->
+          <!--</a>-->
+        <!--</li>-->
       </ul>
     </div>
 </template>

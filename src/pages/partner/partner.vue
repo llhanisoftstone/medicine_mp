@@ -49,6 +49,9 @@
         <p>
           您的合作商功能被禁用了，请联系管理员。
         </p>
+        <p>
+          联系电话：029-81101859
+        </p>
       </div>
     </div>
   </div>
@@ -195,7 +198,11 @@
     }
   }
 </script>
-
+<style lang="less">
+  .textClass{
+    top:75%!important;
+  }
+</style>
 <style lang="less" scoped>
   @import '../../static/less/common.less';
   .container{
