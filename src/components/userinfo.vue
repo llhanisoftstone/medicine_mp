@@ -285,7 +285,7 @@
           background-size: 99/2px 28/2px;
         }
         .userlevel{
-          color: #df5c3e;
+          color:#df5c3e;
           font-size: 22/2px;
           line-height: 22/2px;
           height: 22/2px;
@@ -295,6 +295,7 @@
             background: url("../../static/img/levelsign.png")no-repeat 0 center;
             background-size: 36/2px 25/2px;
             font-size: 28/2px;
+            color:#333;
           }
         }
         .slot_box{

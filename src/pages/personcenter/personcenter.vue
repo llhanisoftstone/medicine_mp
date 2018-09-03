@@ -1,10 +1,24 @@
 <template>
   <div class="container">
-      <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
-            <div slot="userRight">
-              <a href="/pages/userdata/main" class="wallet"><span class="pointk">{{points}}</span></a>
-            </div>
-      </userinfo>
+    <div class="user_box">
+      <image src="/static/img/touxiang.png" class="user_bg"></image>
+      <div class="user_info">
+        <a href="/pages/userdata/main">
+          <div class="img_box">
+            <image :src='avatar_url'></image>
+          </div>
+        </a>
+        <a href="/pages/userdata/main">
+          <div class="username">
+            {{nickname}}
+            <div class="userlevel">{{rank_name}}<span class="levelsign">{{experience}}</span></div>
+          </div>
+        </a>
+        <div slot="userRight">
+          <a href="/pages/sliver/main" class="wallet"><span class="pointk">{{points}}</span></a>
+        </div>
+      </div>
+    </div>
     <div class="middle">
       <ul>
         <li class="money"><a href="/pages/sliver/main"><div class="title">银两</div><p class="messagealert">闯关/签到得银两<br/>各类道具任你换</p><span class="listimg moneyimg"></span></a></li>
@@ -21,32 +35,36 @@
 </template>
 
 <script type="javascript">
-  import userinfo from '@/components/userinfo'
   export default {
-
     data () {
       return {
         isnewuser: true,
         seen:false,
-        points:0
+        points:0,
+        avatar_url:"",
+        nickname:'',
+        rank_name:'',
+        experience:''
       }
     },
     computed:{
     },
     components: {
-        userinfo
     },
     methods: {
       async getuserperson(){
+          var that=this;
         let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
         if(aa.code==200){
-          this.$store.commit('get_sliver',aa.rows[0].points);
-          this.$store.commit('get_openid',aa.rows[0].open_id);
-          this.points=aa.rows[0].points;
+          that.$store.commit('get_sliver',aa.rows[0].points);
+          that.$store.commit('get_openid',aa.rows[0].open_id);
+          that.points=aa.rows[0].points;
+          that.avatar_url=aa.rows[0].avatar_url;
+          that.nickname=aa.rows[0].nickname;
             if(aa.rows[0].rank<"20"){
-                this.seen=false;
+              that.seen=false;
             }else{
-                this.seen=true;
+              that.seen=true;
             }
         }
       }
@@ -56,11 +74,122 @@
     },
     onShow(){
       this.getuserperson();
+    },
+    onLoad:function(){
+      this.nickname=this.$store.state.user.nickname;
+       this.rank_name=this.$store.state.user.rank_name;
+       this.experience=this.$store.state.user.experience;
     }
   }
 </script>
 
 <style scoped lang="less">
+  @import '../../static/less/common.less';
+  .user_box{
+    width: 100%;
+    box-sizing: border-box;
+    height: 194px/2;
+    padding: 0 26px/2;
+    position:relative;
+    .user_bg{
+      width: 93.066%;
+      height: 194px/2;
+      position: absolute;
+      top:0;
+      left:26px/2;
+      z-index:0;
+    }
+    .user_info{
+      position: absolute;
+      left:26px/2;
+      width: 93.066%;
+      height: 194px/2;
+      z-index:2;
+      align-items: center;
+      justify-content: flex-start;
+      box-sizing: border-box;
+      padding-right: 31px/2;
+      display: flex;
+      .img_box{
+        width: 135px/2;
+        height: 135px/2;
+        border-radius: 50%;
+        background: #fff;
+        border:5px/2 solid #fff;
+        display: flex;
+        box-sizing: border-box;
+        margin-left:50px/2;
+        image{
+          width: 127px/2;
+          height: 127px/2;
+          border-radius: 50%;
+          align-content: center;
+          align-items: center;
+          justify-content: center;
+        }
+        .btn_auth{
+          width: 750px/2;
+          height: 100%;
+          position: fixed;
+          top:0;
+          left:0;
+          z-index:50;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          /*background: transparent;*/
+          background: rgba(0,0,0,0.7);
+          image{
+            width: 641px/2;
+            height: 891px/2;
+            margin:auto;
+            position: absolute;
+            top:20px/2;
+            left:0;
+            right:0;
+            border-radius: 0 !important;
+          }
+          span{
+            width: 100%;
+            height: 30px/2;
+            font-size: 30px/2;
+            color: #fff;
+            position: absolute;
+            top:611px/2;
+            left:0;
+            right:0;
+            text-align: center;
+          }
+        }
+      }
+      .username{
+        margin-left: 38px/2;
+        font-size: 32px/2;
+        color: #333;
+        width: 250px/2;
+        display:inline-block;
+        word-break:break-all;
+        word-wrap:break-word;
+        -webkit-text-size-adjust:none;
+        height:auto;
+        box-sizing: border-box;
+      }
+      .userlevel{
+        font-size: 26/2px;
+        color:#df5c3e;
+        .levelsign{
+          padding-left: 38/2px;
+          background: url("../../../static/img/levelsign.png")no-repeat 0 center;
+          background-size: 36/2px 25/2px;
+          font-size: 28/2px;
+          color:#333;
+        }
+      }
+      .slot_box{
+        flex: 1;
+      }
+    }
+  }
   .container{
     margin-top:10px;
   }

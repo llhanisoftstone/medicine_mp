@@ -64,8 +64,6 @@
 
 <script type="javascript">
   import userinfo from '../../components/userinfo'
-
-
   export default {
 
   data () {
