@@ -11,7 +11,7 @@
                 <div class="userlevel">{{user.rank_name}}</div>
               </div>
             </div>
-            <div class="gift_img">
+            <div class="gift_img" @click.stop="showgz()">
               <image src="/static/img/gift_img.png"></image>
             </div>
           </div>
@@ -35,6 +35,18 @@
           <prop :tips="tips" :surplus="times<10" :istimeused="istime" :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
         </div>
       </div>
+      <div class="bg_shade gzk" v-if="gzshow" @click="hidegz" catchtouchmove='true'>
+        <div class="pick_box" @click.stop="">
+          <h2>游戏规则</h2>
+          <div class="pick_item_box">
+            <p><i>1</i>闯关分为单人闯关和多人闯关，多人闯关可邀请好友一起参加；</p>
+            <p><i>2</i>每答对一题可增加10经验值；</p>
+            <p><i>3</i>每过一关可获得20银两；</p>
+            <p><i>4</i>第5和第10关为礼物关，过关可获得神秘大礼，可在个人中心-战利品中查看。</p>
+            <div class="closebtn" @click="hidegz">我知道了</div>
+          </div>
+        </div>
+      </div>
       <mptoast/>
     </div>
 </template>
@@ -49,6 +61,7 @@
         name: 'alone',
         data(){
             return {
+              gzshow:false,
               istimes:false,     //是否显示倒计时
               times:30,         //倒计时
               surplus:false,   //剩余十秒
@@ -72,6 +85,12 @@
             }
         },
         methods: {
+          showgz(){
+            this.gzshow=true;
+          },
+          hidegz(){
+            this.gzshow=false;
+          },
           userTools(id){
               if(this.isclick){
                   return
@@ -554,6 +573,79 @@
       height: 100%;
       position: relative;
       padding-bottom: 110px/2;
+    }
+    .bg_shade{
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top:0;
+      left:0;
+      background: rgba(0,0,0,.7);
+      z-index:10;
+      &.gzk{
+        .pick_item_box{
+          padding: 31/2px 34/2px
+        }
+        p{
+          position: relative;
+          padding: 0 0 10/2px 52/2px;
+          line-height: 35/2px;
+          color: #333;
+          font-size: 26/2px;
+          i{
+            position: absolute;
+            top:3/2px;
+            left:0;
+            width: 31/2px;
+            height:31/2px;
+            border-radius: 50%;
+            color: #fff;
+            text-align: center;
+            line-height: 31/2px;
+            background: #df5c3e;
+          }
+        }
+        .closebtn{
+          position: absolute;
+          left:0;
+          right:0;
+          bottom:37/2px;
+          width: 227/2px;
+          height: 67/2px;
+          border-radius: 67/4px;
+          margin:0 auto;
+          font-size: 30/2px;
+          line-height: 67/2px;
+          text-align: center;
+          background: #df5c3e;
+          color: #fff;
+        }
+      }
+    }
+    .pick_box{
+      width: 560px/2;
+      height: 508px/2;
+      border-radius: 30px/2;
+      background: #ffffff;
+      position: absolute;
+      top:224px/2;
+      left:0;
+      right:0;
+      margin:auto;
+      animation: showan .3s ease;
+      padding-top: 36px/2;
+      padding-bottom: 6px/2;
+      box-sizing: border-box;
+      h2{
+        font-size: 41px/2;
+        color: #fff;
+        width: 100%;
+        height: 69px/2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #df5c3e;
+      }
     }
   .user_box{
     width: 100%;

@@ -1158,6 +1158,12 @@ camelcase@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-4.1.0.tgz#d545635be1e33c542649c69173e5de6acfae34dd"
 
+can-promise@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/can-promise/-/can-promise-0.0.1.tgz#7a7597ad801fb14c8b22341dfec314b6bd6ad8d3"
+  dependencies:
+    window-or-global "^1.0.1"
+
 caniuse-api@^1.5.2:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/caniuse-api/-/caniuse-api-1.6.1.tgz#b534e7c734c4f81ec5fbe8aca2ad24354b962c6c"
@@ -1813,6 +1819,10 @@ diffie-hellman@^5.0.0:
     bn.js "^4.1.0"
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
+
+dijkstrajs@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/dijkstrajs/-/dijkstrajs-1.0.1.tgz#d3cd81221e3ea40742cfcde556d4e99e98ddc71b"
 
 dir-glob@^2.0.0:
   version "2.0.0"
@@ -3280,6 +3290,10 @@ isarray@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-2.0.1.tgz#a37d94ed9cda2d59865c9f76fe596ee1f338741e"
 
+isarray@^2.0.1:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/isarray/-/isarray-2.0.4.tgz#38e7bcbb0f3ba1b7933c86ba1894ddfc3781bbb7"
+
 isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
@@ -3754,6 +3768,14 @@ move-concurrently@^1.0.1:
     rimraf "^2.5.4"
     run-queue "^1.0.3"
 
+mptoast@*, mptoast@^1.1.1:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/mptoast/-/mptoast-1.1.3.tgz#946e62ac1182edc18ab9957eaedc26c921cf9e21"
+  dependencies:
+    mptoast "*"
+    mpvue "^1.0.6"
+    vuex "^2.3.1"
+
 mpvue-loader@^1.0.13:
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/mpvue-loader/-/mpvue-loader-1.0.13.tgz#2b759e5e9be266f49db55a14e2f5b5424805c2eb"
@@ -3774,6 +3796,12 @@ mpvue-loader@^1.0.13:
     vue-style-loader "^3.0.0"
     vue-template-es2015-compiler "^1.5.3"
 
+mpvue-picker@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/mpvue-picker/-/mpvue-picker-1.1.0.tgz#c988289efe9e508352298fd14b54f606ac64ee79"
+  dependencies:
+    mpvue "^1.0.11"
+
 mpvue-template-compiler@^1.0.10:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/mpvue-template-compiler/-/mpvue-template-compiler-1.0.11.tgz#aab4f89c07b98030b8be3009002f8b953a2b4f68"
@@ -3781,11 +3809,21 @@ mpvue-template-compiler@^1.0.10:
     de-indent "^1.0.2"
     he "^1.1.0"
 
+mpvue-toast@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/mpvue-toast/-/mpvue-toast-0.1.3.tgz#580329a318e7529f8b2e85589cece1f3b458563f"
+  dependencies:
+    mpvue "^1.0.1"
+
 mpvue-webpack-target@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/mpvue-webpack-target/-/mpvue-webpack-target-1.0.0.tgz#5117eeecafc29f35c3e3dfd5bcb7e5a1b8e82b68"
   dependencies:
     webpack "^3.4.0"
+
+mpvue@^1.0.1, mpvue@^1.0.11, mpvue@^1.0.6:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/mpvue/-/mpvue-1.0.13.tgz#9d128d91f2a89bdd7507493fbeef409fe302fbd7"
 
 mpvue@^1.0.10:
   version "1.0.11"
@@ -4296,6 +4334,10 @@ pluralize@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-1.2.1.tgz#d1a21483fd22bb41e58a12fa3421823140897c45"
 
+pngjs@^3.3.0:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-3.3.3.tgz#85173703bde3edac8998757b96e5821d0966a21b"
+
 portfinder@^1.0.13:
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.13.tgz#bb32ecd87c27104ae6ee44b5a3ccbf0ebb1aede9"
@@ -4718,6 +4760,20 @@ px2rpx@~0.5.3:
 q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
+
+qrcode@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/qrcode/-/qrcode-1.2.2.tgz#f3c97f5a4c32cf5c2ec75b63c1b66a38df122693"
+  dependencies:
+    can-promise "^0.0.1"
+    dijkstrajs "^1.0.1"
+    isarray "^2.0.1"
+    pngjs "^3.3.0"
+    yargs "^8.0.2"
+
+qrcodejs2@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/qrcodejs2/-/qrcodejs2-0.0.2.tgz#465afe5e39f19facecb932c11f7a186109146ae1"
 
 qs@6.5.1:
   version "6.5.1"
@@ -5908,6 +5964,12 @@ vue-loader@^13.0.4:
     vue-style-loader "^3.0.0"
     vue-template-es2015-compiler "^1.6.0"
 
+vue-slip-delete@^1.0.15:
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/vue-slip-delete/-/vue-slip-delete-1.0.16.tgz#5919dd5471baa605c8852c8ad664b4850a91c23a"
+  dependencies:
+    vue "^2.5.2"
+
 vue-socket.io@^2.1.1-b:
   version "2.1.1-b"
   resolved "https://registry.yarnpkg.com/vue-socket.io/-/vue-socket.io-2.1.1-b.tgz#bcffcdeb1647a979e6533d63d1f29c0f55411c8c"
@@ -5925,7 +5987,11 @@ vue-template-es2015-compiler@^1.5.3, vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
 
-vuex@^2.3.1:
+vue@^2.5.2:
+  version "2.5.17"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
+
+vuex@^2.3.1, vuex@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-2.5.0.tgz#20f0265ade6c9a5ac6724a405d3ffdb4726c9741"
 
@@ -6098,6 +6164,10 @@ wide-align@^1.1.0:
   resolved "https://registry.yarnpkg.com/wide-align/-/wide-align-1.1.2.tgz#571e0f1b0604636ebc0dfc21b0339bbe31341710"
   dependencies:
     string-width "^1.0.2"
+
+window-or-global@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/window-or-global/-/window-or-global-1.0.1.tgz#dbe45ba2a291aabc56d62cf66c45b7fa322946de"
 
 window-size@0.1.0:
   version "0.1.0"

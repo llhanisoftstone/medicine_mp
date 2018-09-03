@@ -163,9 +163,9 @@
             item.text = text;
             if(28<top<56){
                 if(Math.random()>0.5){
-                  top =  Math.random()*28
+                  top =  Math.random()*20
                 }else{
-                  top =  58+Math.random()*30
+                  top =  50+Math.random()*25
                 }
             }
             item.top = top;
@@ -926,6 +926,7 @@
       position: absolute;
       box-sizing: border-box;
       overflow-x: hidden;
+      overflow-y:visible;
     }
     @keyframes swing {
       10% {
