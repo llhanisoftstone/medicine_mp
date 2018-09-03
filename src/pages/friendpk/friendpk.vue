@@ -31,7 +31,7 @@
     <button open-type="share" class="pk_btn" v-if="isFriends==1">挑战好友
       <div class="pk_btn_box"></div>
     </button>
-    <a :href="'/pages/loadpk/main?from=2&&id='+user.userid" class="pk_btn" v-if="isFriends!=1">全网挑战</a>
+    <a :href="'/pages/loadpk/main?from=2&&id='+user.userid" class="pk_btn" v-if="isFriends!=1">全网挑战 <div class="pk_btn_box"></div></a>
   </div>
 </template>
 

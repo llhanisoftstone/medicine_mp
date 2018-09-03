@@ -7,9 +7,10 @@
           <div class="mui-media-body">
             <p class="sign-success" v-if="nowflag">今日已签到</p>
             <p class="sign-success" v-if="isoverflag">恭喜你签到成功，银两<span class="co_fe698a">+{{getpointer}}!</span></p>
-            <p class="p-margin">当前银两<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
+            <p class="p-margin">今日奖励<span class="co_fe698a"></span>银两，当前总银两<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
             </p>
           </div>
+          <a href="/pages/itemshop/main" class="btn_sign">兑换</a>
       </div>
       <div class="time-top">
         <div class="mui-pull-left" id="time">{{nowdate}}</div>
@@ -327,6 +328,22 @@
 
 <style lang="less" scoped>
     @import '../../static/less/common.less';
+    .btn_sign{
+      position:absolute;
+      right:10px;
+      width: 120px/2;
+      height: 50px/2;
+      border-radius: 50px/2;
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 26px/2;
+      background: @bg_color;
+      margin-left: 50px/2;
+      box-shadow: #923c3c 2px/2 5px/2 15px/2;
+    }
     .container .mui-media {
       padding:13px;
       height:64px;
@@ -338,6 +355,7 @@
       align-items: center;
       font-size:14px;
       color:#333;
+      position:relative;
       .logo-top{
         width:38px;
         height:38px;

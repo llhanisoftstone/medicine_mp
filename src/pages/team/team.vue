@@ -162,6 +162,7 @@
             let item={}
             item.text = text;
             if(28<top<56){
+                debugger
                 if(Math.random()>0.5){
                   top =  Math.random()*28
                 }else{
@@ -926,6 +927,7 @@
       position: absolute;
       box-sizing: border-box;
       overflow-x: hidden;
+      overflow-y:visible;
     }
     @keyframes swing {
       10% {
