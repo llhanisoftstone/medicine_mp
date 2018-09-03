@@ -204,11 +204,6 @@
 					"name": "关于我们",
 					"pathName": "pages/aboutus/main",
 					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "chengji",
-					"pathName": "pages/report/main"
 				}
 			]
 		}
