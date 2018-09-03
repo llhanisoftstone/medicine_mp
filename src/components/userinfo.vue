@@ -158,10 +158,10 @@
         computed:{
           isauth(){
               if(this.$store.state.isauth){
-                wx.showTabBar({animation:true})
+                wx.showTabBar()
               }else{
                   if(this.$store.state.authreturn){
-                    wx.hideTabBar({animation:true})
+                    wx.hideTabBar()
                   }
               }
               return this.$store.state.isauth

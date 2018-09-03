@@ -114,8 +114,8 @@
             let data = {
               status:'<>,99'
             };
-            let res = await thiz.$get('/rs/v_ticket_details/' + pid, data);
-//            let res = await thiz.$get('/rs/v_ticket_details');
+            let res = await thiz.$get('/rs/ticket_details/' + pid, data);
+//            let res = await thiz.$get('/rs/ticket_details');
             if (res.code == 200){
               thiz.exist=true;
               thiz.nogetshow=false;
