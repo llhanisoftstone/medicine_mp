@@ -93,9 +93,11 @@
             that.ticket_list = that.ticket_list.concat(res.rows);
             console.log(that.ticket_list.length);
           }
-        }else if(res.code==602){
-          that.ticket_list=[];
-          that.iskong=true;
+        }else{
+            if(that.page==1){
+              that.ticket_list=[];
+              that.iskong=true;
+            }
         }
       },
       refresh(){
