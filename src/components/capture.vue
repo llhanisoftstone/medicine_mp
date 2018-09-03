@@ -191,7 +191,7 @@
     li{
       animation: li2 2.5s ease;
       flex-wrap: wrap;
-      width: 152px/2;
+      width: 100%;
       justify-content: center;
     display:flex;
       div{
@@ -211,6 +211,7 @@
       margin-top:20px/2;
       font-size:28px/2;
       color: #df5c3e;
+      width: 100%;
       height: 28px/2;
       display: flex;
       white-space: nowrap;

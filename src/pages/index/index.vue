@@ -11,7 +11,7 @@
       <a href="/pages/challengemap/main" class="challenge_b">
         <div class="challenge">
           <h2>闯关赛</h2>
-          <h4>已有{{p_number}}人获得礼物</h4>
+          <h4 style="padding-bottom: 3px">已有<span style="font-weight: bold;">{{p_number}}</span>人获得礼物</h4>
           <h4>就算闯关没有礼物</h4>
           <h4>我也势必要去挑战的！</h4>
         </div>

@@ -65,7 +65,7 @@
             }
           })
         }else if(this.isFriends==2){
-          this.$get('/rs/member',{order:'experience desc,create_time',page:1,size:50,rank:1}).then(res=>{
+          this.$get('/rs/member',{order:'experience desc,create_time',page:1,size:50,rank:"<,30"}).then(res=>{
             if(res.code == 200){
               for(var i=0;i<res.rows.length;i++){
                 if(res.rows[i].avatar_url==""||res.rows[i].avatar_url==null){

@@ -7,6 +7,9 @@
         <div class="ab_title">公共政策宣传共享平台</div>
         <div class="ab_content">V1.0.0</div>
       </div>
+      <div class="ab_text">
+        “政策大咖”是一款能够满足不同公共政策制定部门参与的公共政策互联网宣传平台；是一款能够满足人民群众在游戏娱乐中逐步了解和掌握公共政策的互联网游戏平台；是一款能够帮助企业快速拓展产品市场、提升企业形象的互联网广告平台。该平台由西安市人力资源和社会保障局发起，由西安藤罗网络科技有限公司进行设计开发运营，可满足不同公共政策制定部门和广大人民群众的广泛参与。该平台通过闯关、对战和挑战答题等形式，在满足人民群众参与游戏娱乐兴趣的同时，“病毒式”地实现了公共政策的推广和宣传。
+      </div>
       <div class="foot">
         <p>Copyright©2018</p>
         <p>西安市人社局失业保险处指导</p>
@@ -92,6 +95,15 @@
         border-radius:12px;
         border:1px solid #df5c3e;
       }
+    }
+    .ab_text{
+      text-align: justify;
+      word-break: break-all;
+      padding: 0.576*46.875/2px 1.4933*46.875/2px 2.1333*46.875/2px;
+      font-size: 0.5973*46.875/2px;
+      color: #666666;
+      line-height: 0.896*46.875/2px;
+      min-height: 12.1173*46.875/2px;
     }
     .foot{
       position:absolute;
