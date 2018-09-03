@@ -124,8 +124,8 @@
           </ul>
         </div>
       </div>
-      <a class="ui-link" :href="'/pages/questions/main'">
-        <div class="zc_btn"><div class="zcbtn_top">我要了解</div></div>
+      <a class="ui-link" :href="'/pages/toknow/main?isjy=false'">
+        <div class="zc_btn"><div class="zcbtn_top">我要咨询</div></div>
       </a>
   </div>
 </template>

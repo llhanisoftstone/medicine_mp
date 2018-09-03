@@ -82,9 +82,9 @@
               res.rows[i].get_time = that.conversionTime(res.rows[i].get_time,"/");
               res.rows[i].end_time = that.conversionTimelist(res.rows[i].get_time,res.rows[i].effect_hour,"/");
               res.rows[i].isTouchMove = false;
-              if(new Date(res.rows[i].end_time).getTime() < new Date().getTime()){
-                res.rows[i].status=2;
-              }
+//              if(new Date(res.rows[i].end_time).getTime() < new Date().getTime()){
+//                res.rows[i].status=2;
+//              }
               if (res.rows[i].price){
                 res.rows[i].price=that.pricetab(res.rows[i].price);
               }

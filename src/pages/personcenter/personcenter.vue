@@ -26,6 +26,9 @@
         <li class="usermoot"><a href="/pages/itemshop/main"><div class="title">道具</div><p class="messagealert">工欲善其事必先利其器<br/>你懂得！</p><span class="listimg userimg"></span></a></li>
         <li class="groupcard" v-if="seen"><a href="/pages/ticket/main"><div class="title">优惠券</div><p class="messagealert">优惠券发放入口</p><span class="listimg cardimg"></span></a></li>
         <li class="setting"><a href="/pages/setting/main"><div class="title">设置</div><p class="messagealert">进入有惊喜，等你来完善<br/>游戏银两两不误</p><span class="listimg settingimg"></span></a></li>
+        <li class="jyk"><a href="/pages/questions/main?isjy=true"><div class="title">我要建议</div><p class="messagealert">建议采纳后<br/>100银两免费拿</p><span class="listimg jyimg"></span></a></li>
+        <li class="zxk"><a href="/pages/questions/main"><div class="title">我要咨询</div><p class="messagealert">找不到你想要的政策<br/>来这里咨询吧！
+        </p><span class="listimg zximg"></span></a></li>
       </ul>
     </div>
   </div>
@@ -199,6 +202,7 @@
  .middle>ul{
    overflow:hidden;
    padding:0 3.33333%;
+   padding-bottom: 20/2px;
  }
   .middle>ul>li{
     float:left;
@@ -240,6 +244,12 @@
   .setting{
     background:#76caff;
   }
+  .jyk{
+    background:#8996e7;
+  }
+  .zxk{
+    background:#54beb6;
+  }
   .listimg{
     position:absolute;
     top:13px;
@@ -267,6 +277,14 @@
    background:url(../../../static/img/my_21.png) no-repeat center center;
    background-size:cover;
  }
+  .jyimg{
+    background:url(../../../static/img/jyimg.png) no-repeat center center;
+    background-size:contain;
+  }
+  .zximg{
+    background:url(../../../static/img/zx.png) no-repeat center center;
+    background-size:contain;
+  }
   .wallet{
     .pointk{
       background:url(../../../static/img/my_06.png) no-repeat left center;

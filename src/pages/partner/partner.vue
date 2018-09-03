@@ -198,7 +198,11 @@
     }
   }
 </script>
-
+<style lang="less">
+  .textClass{
+    top:75%!important;
+  }
+</style>
 <style lang="less" scoped>
   @import '../../static/less/common.less';
   .container{

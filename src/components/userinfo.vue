@@ -9,8 +9,9 @@
           </button>
         </div>
         <div class="username" v-if="isauth&&authreturn">
-          {{username}}
-          <div class="userlevel">{{user.rank_name}}<span class="levelsign">{{user.experience}}</span></div>
+          {{username}}&nbsp;<span class="levelname">{{user.rank_name}}</span>
+          <!--<div class="userlevel">{{user.rank_name}}<span class="levelsign">{{user.experience}}</span></div>-->
+          <div class="userlevel"><span v-if="points>=0">银两 : {{points}}&nbsp;&nbsp;</span>经验 : {{user.experience}}</div>
         </div>
         <slot name="userRight"></slot>
       </div>
@@ -20,7 +21,7 @@
 <script type="javascript">
     export default {
         name: 'userinfo',
-        props: ['imgurl','username'],
+        props: ['imgurl','username','points'],
         data(){
             return {
             }
@@ -270,9 +271,25 @@
           height:auto;
           box-sizing: border-box;
         }
+        .levelname{
+          padding-left: 35/2px;
+          display: inline-block;
+          vertical-align: middle;
+          transform: translateY(-4/2px);
+          line-height: 32/2px;
+          font-size: 16/2px;
+          color: #df5c3e;
+          width: 110/2px;
+          height:30/2px;
+          background: url("../../static/img/levelback.png")no-repeat left center;
+          background-size: 99/2px 28/2px;
+        }
         .userlevel{
-          font-size: 26/2px;
           color:#df5c3e;
+          font-size: 22/2px;
+          line-height: 22/2px;
+          height: 22/2px;
+          padding-top: 15/2px;
           .levelsign{
             padding-left: 38/2px;
             background: url("../../static/img/levelsign.png")no-repeat 0 center;

@@ -30,7 +30,7 @@
   export default {
     data () {
       return {
-        btnmain:"我要提问",
+        btnmain:"我要咨询",
         isjy:false,
         policy_list:[],
         scrollIcon:false,
@@ -107,7 +107,7 @@
             title: '我要建议'
           })
       }else{
-        this.btnmain="我要提问";
+        this.btnmain="我要咨询";
       }
     },
     onShow:function(){

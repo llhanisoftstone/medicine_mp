@@ -15,7 +15,7 @@
                 <div class="cname">{{messageData.store_name}}</div>
                 <div class="site" @click.stop="tonewpage('shop','pid='+messageData.store_id)" >公司主页</div>
               </div>
-              <div class="location">{{messageData.province_name}}{{messageData.city_name}}{{messageData.area_name}}{{messageData.store_address}}</div>
+              <div class="location">{{messageData.province_name||""}}{{messageData.city_name||""}}{{messageData.area_name||""}}{{messageData.store_address||""}}&nbsp;</div>
               <div class="intro">
                 简介：{{messageData.store_details}}
               </div>
@@ -54,7 +54,7 @@
               shopid:'',
               scrollIcon:false,
               scrollTop:0,
-              exist:true, //优惠券信息是否存在
+              exist:false, //优惠券信息是否存在
               game_cfg_id:'',
               r_id:0,
             }
@@ -114,9 +114,10 @@
             let data = {
               status:'<>,99'
             };
-//            let res = await thiz.$get('/rs/v_ticket_details/' + pid, data);
-            let res = await thiz.$get('/rs/v_ticket_details');
+            let res = await thiz.$get('/rs/v_ticket_details/' + pid, data);
+//            let res = await thiz.$get('/rs/v_ticket_details');
             if (res.code == 200){
+              thiz.exist=true;
               thiz.nogetshow=false;
               if(!res.rows[0].picurl){
                 res.rows[0].picurl= '/static/img/giftshop_moren2.jpg';
@@ -193,7 +194,7 @@
         this.pid=option.tid;//优惠券id
         this.game_cfg_id=option.vid;//挑战id
         this.nogetshow=false;
-        this.exist=true;
+        this.exist=false;
         this.watchsocket()
       },
       onShow(){
@@ -226,6 +227,7 @@
       overflow: hidden;
     }
     .giftcontent{
+      padding-bottom: 88/2px;
       .headimg{
         width:100%;
         height:366px/2;
