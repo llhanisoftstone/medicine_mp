@@ -16,7 +16,8 @@
             <a @click="canvase">保存到相册</a>
           </div>
           <div class="btn_box" v-if="!isusershow">
-            <a @click="backindex">返回首页</a>
+            <!--<a @click="backindex">返回首页</a>-->
+            <a @click="backindex">我来挑战</a>
           </div>
         </div>
       </div>
@@ -41,7 +42,7 @@
               let thiz = this
               thiz.isshow=true
               const ctx = wx.createCanvasContext('report')
-              ctx.drawImage('../../static/img/bgchengjidan.jpg', 0, 0, thiz.width, 1247*thiz.width/750)
+              ctx.drawImage('../../static/img/bgchengjidanbc.jpg', 0, 0, thiz.width, 1247*thiz.width/750)
               ctx.setFontSize(35*thiz.width/750)
               ctx.setFillStyle('#333333')
               ctx.setTextAlign('center')
@@ -56,9 +57,9 @@
               ctx.setFillStyle('#ffffff')
               ctx.setTextAlign('center')
               ctx.setTextBaseline('top')
-              ctx.fillText(`${thiz.records.right_step}/${thiz.records.max_step}`, 180*thiz.width/750, 571*thiz.width/750)
-              ctx.fillText(thiz.records.times, 375*thiz.width/750, 571*thiz.width/750)
-              ctx.fillText(thiz.records.percentage, 570*thiz.width/750, 571*thiz.width/750)
+              ctx.fillText(`${thiz.records.right_step}/${thiz.records.max_step}`, 180*thiz.width/750, 585*thiz.width/750)//571=>585
+              ctx.fillText(thiz.records.times, 375*thiz.width/750, 585*thiz.width/750)
+              ctx.fillText(thiz.records.percentage, 570*thiz.width/750, 585*thiz.width/750)
               wx.downloadFile({
                 url: thiz.records.avatar_url,
                 success: function(res) {
@@ -209,7 +210,7 @@
           height: 37px/2;
           box-sizing: border-box;
           padding: 0 16%;
-          margin-top: 96px/2;
+          margin-top: 110px/2;//96
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -222,7 +223,7 @@
           }
         }
         .btn_box{
-          margin-top:466px/2;
+          margin-top:490px/2;
           width: 100%;
           box-sizing: border-box;
           padding: 0 8%;
