@@ -1,14 +1,14 @@
 <template>
-    <div class="user_box" @click="tonewpage('userdata','')">
+    <div class="user_box">
       <image src="/static/img/touxiang.png" class="user_bg"></image>
       <div class="user_info">
         <div class="img_box" >
-          <image :src='imgurl' v-if="isauth"></image>
+          <image :src='imgurl' v-if="isauth" @click="tonewpage('userdata','')"></image>
           <button open-type="getUserInfo" v-if="!isauth&&authreturn" :_id="isauth" class="btn_auth" @getuserinfo="bindGetUserInfo">
             <image src="/static/img/role.png"></image>
           </button>
         </div>
-        <div class="username" v-if="isauth&&authreturn">
+        <div class="username" v-if="isauth&&authreturn" @click="tonewpage('userdata','')">
           {{username}}&nbsp;<span class="levelname">{{user.rank_name}}</span>
           <!--<div class="userlevel">{{user.rank_name}}<span class="levelsign">{{user.experience}}</span></div>-->
           <div class="userlevel"><span v-if="points>=0">银两 : {{points}}&nbsp;&nbsp;</span>经验 : {{user.experience}}</div>
