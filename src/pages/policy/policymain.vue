@@ -4,6 +4,14 @@
         <div class="width"></div>
       </div>
       <div class="searchk">
+        <picker
+          mode="selector"
+          :value="pickerIndex"
+          :range="pickerValueArray"
+          @change="bindPickerChange">
+          <div class="org-box" v-show="pickerIndex>=0">{{pickerValueArray[pickerIndex]}}</div>
+          <div class="org-box" v-show="pickerIndex==-1">请选择</div>
+        </picker>
         <a class="ui-link" :href="'/pages/policylist/main'">
           <div class="searchinput">请输入标题或内容</div>
         </a>
@@ -141,14 +149,23 @@
         is_bk_hide: false,
         hot_list:[],
         headbook_list:[],
-        policy_list:[]
+        policy_list:[],
+        pickerIndex:-1,
+        pickerValueArray:[],
+        wishidlist:null,
+        org_id:null,
+        pickerwishText:''
       }
     },
 
     methods: {
       async getpolicyMain() {
         let that = this;
-        let res = await this.$get('/rs/info_policy');
+        let infodata={};
+        if(that.org_id){
+          infodata.organiz_id= that.org_id;
+        }
+        let res = await this.$get('/rs/info_policy',infodata);
         if (res.code == 200){
           if (res.hots.length > 0){
             for (var i=0;i<res.hots.length; i++){
@@ -190,7 +207,36 @@
             that.is_bk_hide = false;
           }
         }
-      }
+      },
+      async getorganiz(){
+        let than = this;
+        let res = await this.$get('/rs/organiz');
+        if (res.code == 200){
+          var obj = [];
+          var array=[];
+          for(var i=0;i<res.rows.length;i++){
+            var o = {};
+            array.push(res.rows[i].name)
+            o.id = res.rows[i].id;
+            o.name = res.rows[i].name;
+            obj.push(o);
+          }
+          than.pickerValueArray=array;
+          than.wishidlist = obj;
+        }
+      },
+      bindPickerChange(e){
+        let that=this;
+        let ival=e.mp.detail.value;
+        that.pickerIndex=ival;
+        that.pickerwishText=that.pickerValueArray[ival];
+        for(let wishVal of that.wishidlist ){
+          if(that.pickerwishText==wishVal.name){
+            that.org_id=wishVal.id;
+            that.getpolicyMain();
+          }
+        }
+      },
     },
 
     created () {
@@ -208,12 +254,18 @@
           that.marginright=parseInt(that.marginright)-(parseInt(width750)-parseInt(width))+"rpx";
         }).exec();
       }).exec();
-
-
     },
     onShow: function() {
+      this.pickerIndex=-1;
+      this.org_id='';
+      this.getorganiz(); //获取组织列表
       this.getpolicyMain()//获取政策百科主页数据
-    }
+    },
+    onUnload(){
+      this.pickerwishText='';
+      this.org_id='';
+      this.pickerIndex=-1;
+    },
   }
 </script>
 
@@ -266,6 +318,24 @@
     padding: 10px/2 12px/2;
     background: #f6f6f6;
     box-sizing: border-box;
+    display:flex;
+    .org-box{
+      box-sizing: border-box;
+      width:230px/2;
+      height: 70px/2;
+      line-height: 70/2px;
+      font-size: 28px/2;
+      color: #888;
+      overflow: hidden;
+      padding:0 70px/2 0 15px/2;
+      background: #fff url("../../../static/img/arrow-down.png") 179px/2 center no-repeat;
+      background-size: 26px/2 25px/2;
+      border-radius: 10/2px;
+    }
+    .ui-link{
+      width:520px/2;
+      box-sizing: border-box;
+    }
   }
   .searchinput{
     width: 100%;
