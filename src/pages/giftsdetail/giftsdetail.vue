@@ -15,7 +15,11 @@
                 <div class="cname">{{messageData.store_name}}</div>
                 <div class="site" @click.stop="tonewpage('shop','pid='+messageData.store_id)" >公司主页</div>
               </div>
-              <div class="location">{{messageData.province_name}}{{messageData.city_name}}{{messageData.area_name}}{{messageData.store_address}}</div>
+              <div class="location"
+                   v-if="messageData.province_name && messageData.store_address"
+              >{{messageData.province_name}}{{messageData.city_name}}{{messageData.area_name}}{{messageData.store_address}}
+              </div>
+              <div class="location" v-else>暂无地址</div>
               <div class="intro">
                 简介：{{messageData.store_details}}
               </div>
