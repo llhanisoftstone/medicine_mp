@@ -82,11 +82,11 @@
     async getpage(){
         let that = this
         let res = await that.$get('/rs/first_page')
-        if(res.code == 200){
+      if(res.code == 200){
             that.p_number = res.present_count
           for(let i = 0;i<res.win_treasure.length;i++){
             res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
-            res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
+//            res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
           }
             that.win_treasure = res.win_treasure
 
@@ -420,7 +420,6 @@
     padding: 0 26px/2;
     display: flex;
     flex-flow: wrap;
-    justify-content: space-between;
     li{
       width: 219px/2;
       height: 327px/2;
@@ -428,6 +427,10 @@
       margin-bottom:20px/2;
       border-radius: 10px/2;
       background: #fff;
+      margin-right:11px/2;
+      &:nth-of-type(3n){
+        margin-right: 0;
+      }
       div{
         width: 219px/2;
         height: 220px/2;
