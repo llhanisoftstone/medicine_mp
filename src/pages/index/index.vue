@@ -51,7 +51,8 @@
           <div>
             <image :src="v.picpath"></image>
           </div>
-          <h3>{{v.price}}元代金券</h3>
+          <!--<h3>{{v.price}}元代金券</h3>-->
+          <h3>{{v.ticket_name}}</h3>
         </main>
         <a @click="reward(v.id)">挑战</a>
       </li>
@@ -70,7 +71,7 @@
       p_number:0,
       win_treasure: [],
       r_id:0,
-      tickt_id:''
+      tickt_id:'',
     }
   },
 
@@ -81,11 +82,14 @@
   methods: {
     async getpage(){
         let that = this
-        let res = await that.$get('/rs/first_page')
+      let tdata={
+        order:'order_code desc'
+      }
+        let res = await that.$get('/rs/first_page',tdata)
       if(res.code == 200){
             that.p_number = res.present_count
           for(let i = 0;i<res.win_treasure.length;i++){
-            res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
+            res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].piclogo
             res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
           }
             that.win_treasure = res.win_treasure
