@@ -1,0 +1,208 @@
+<template>
+  <div>
+    <ul class="gift_list">
+      <li v-for="(v,i) in policy_list" >
+        <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)">
+          <div>
+            <image :src="v.picpath"></image>
+          </div>
+          <h3>{{v.price}}元代金券</h3>
+        </main>
+        <a @click="reward(v.id)">挑战</a>
+      </li>
+    </ul>
+    <div class="nogetList" v-if="iskong">暂无礼物</div>
+  </div>
+</template>
+
+<script type="javascript">
+  export default {
+    data () {
+      return {
+        policy_list:[],
+        scrollIcon:false,
+        scrollTop:0,
+        iskong:false,
+        page:1,
+        size:6
+      }
+    },
+    onPullDownRefresh () {
+      wx.showNavigationBarLoading();//在标题栏中显示加载
+      this.page=1;
+      this.policy_list=[];
+      this.refresh();
+      // 下拉刷新
+      wx.hideNavigationBarLoading(); //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
+    },
+    onReachBottom () {
+      this.page++;
+      this.loadmore()
+      // 上拉加载
+    },
+    methods: {
+      async getpolicyList() {
+        let that = this;
+        let data = {
+          page:this.page,
+          size:this.size,
+          order:'create_time desc'
+        };
+        let res = await that.$get('/rs/first_page',data)
+        if(res.code == 200){
+          that.iskong=false;
+          for(let i = 0;i<res.win_treasure.length;i++){
+            res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
+            res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
+          }
+          if (res.win_treasure.length > 0){
+            that.policy_list = that.policy_list.concat(res.win_treasure);
+          }
+        }else if (res.code == 602 && that.page == 1){
+            that.iskong=true;
+        }
+      },
+      refresh(){
+        this.page = 1;
+        this.getpolicyList();
+      },
+      loadmore () {
+        this.getpolicyList();
+      },
+      scrolltoTop(){
+        if (wx.pageScrollTo) {
+          wx.pageScrollTo({
+            scrollTop: 0
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+          })
+        }
+      },
+      tonewpage(urlname,data){
+        wx.navigateTo({
+          url:`/pages/${urlname}/main?${data}`
+        })
+      },
+      reward(r_id){
+        this.r_id=r_id
+        this.$socket.emit('data_chain',{
+          cmd:'fight',
+          u_id: this.$store.state.user.userid,
+          game_cfg_id: r_id,
+          game_type:1,
+          level:1
+        })
+      }
+    },
+    onLoad: function (option) {
+
+    },
+    onShow:function(){
+      this.page = 1;
+      this.policy_list = [];
+      this.getpolicyList()//获取数据
+    },
+    onUnload: function () {
+      this.page = 1;
+      this.policy_list = [];
+      this.iskong = false;
+      this.scrollIcon=false;
+      this.scrollTop=0;
+    },
+    onPageScroll:function(res){
+      let top = res.scrollTop;
+      if (top > 400) {
+        this.scrollIcon = true;
+      } else {
+        this.scrollIcon = false;
+      }
+    }
+  }
+</script>
+
+<style scoped lang="less">
+  @import "../../static/less/common.less";
+
+  .mui-ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
+  }
+  div,p,ul,li,input{
+    box-sizing:border-box;
+  }
+  .nogetList{
+    padding-top: 290px;
+    box-sizing:border-box;
+    background: url(../../../static/img/konhyemain.jpg) center 100px no-repeat;
+    background-size:145px 148px;
+    width: 100%;
+    height: 297px;
+    color: #999999;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .gift_list{
+    width: 100%;
+    box-sizing: border-box;
+    padding:26px/2;
+    display: flex;
+    flex-flow: wrap;
+    li{
+      width: 219px/2;
+      height: 327px/2;
+      box-shadow: #acacac 4px/2 5px/2 15px/2;
+      margin-bottom:20px/2;
+      border-radius: 10px/2;
+      background: #fff;
+      margin-right:11px/2;
+      &:nth-of-type(3n){
+        margin-right: 0;
+      }
+      div{
+        width: 219px/2;
+        height: 220px/2;
+        box-sizing: border-box;
+        padding: 20px/2;
+        image{
+          width: 100%;
+          height: 100%;
+        }
+      }
+      h3{
+        width: 100%;
+        padding: 0 17px/2;
+        font-size:28px/2;
+        color: #333;
+        box-sizing: border-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: center;
+      }
+      a{
+        margin:0 auto;
+        margin-top:16px/2;
+        display: flex;
+        width: 100px/2;
+        height: 43px/2;
+        border-radius: 50px/2;
+        font-size: 30px/2;
+        box-sizing: border-box;
+        line-height: normal;
+        color: #fff;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        padding-bottom: 2px/2;
+        background: @bg_color;
+      }
+    }
+  }
+</style>
