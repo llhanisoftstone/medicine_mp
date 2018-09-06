@@ -266,7 +266,6 @@
       }).exec();
     },
     onShow: function() {
-      console.log('百科页id：'+this.getorganizid)
       if(this.getorganizid){
         this.org_id=this.getorganizid;
       }else{
