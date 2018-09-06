@@ -708,6 +708,7 @@
         line-height: 30/2px;
         font-size: 26/2px;
         color: #999;
+        color: #df5c3e;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;

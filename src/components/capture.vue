@@ -170,6 +170,9 @@
         font-size: 28px/2;
         color: #333;
       }
+      .rank_name{
+        color: #df5c3e;
+      }
       .yl{
         width: 39px/2;
         height: 39px/2;
@@ -273,4 +276,5 @@
         align-items: center;
       }
     }
+
 </style>

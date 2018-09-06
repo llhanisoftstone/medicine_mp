@@ -128,7 +128,7 @@
                 }
               }
               if(!res.rows[0].store_picpath){
-                res.rows[0].store_picpath= '/static/img/logo_moren.jpg';
+                res.rows[0].store_picpath= '/static/img/ticketshop_default.jpg';
               } else {
                 let storeUrl=res.rows[0].store_picpath;
                 if (storeUrl.substr(0,4).toLowerCase()!="http" || storeUrl.substr(0,5).toLowerCase()!="https"){
