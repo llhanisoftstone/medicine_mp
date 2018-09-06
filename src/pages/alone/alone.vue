@@ -86,6 +86,9 @@
         },
         methods: {
           showgz(){
+            if(this.isreward){
+                return;
+            }
             this.gzshow=true;
           },
           hidegz(){
@@ -394,7 +397,9 @@
           },2000)
         }
       })
-
+    },
+    onShow(){
+      this.gzshow=false;
     },
     onUnload(){
       let that = this
