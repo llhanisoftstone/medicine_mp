@@ -86,7 +86,7 @@
             that.p_number = res.present_count
           for(let i = 0;i<res.win_treasure.length;i++){
             res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
-//            res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
+            res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
           }
             that.win_treasure = res.win_treasure
 
