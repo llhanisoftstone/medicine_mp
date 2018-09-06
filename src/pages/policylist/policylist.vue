@@ -47,6 +47,7 @@
       return {
         policy_list:[],
         _code:'',
+        orgid:'',
         _search:'',
         searchVal:'',
         scrollIcon:false,
@@ -83,6 +84,9 @@
           order:'create_time desc',
           unique_code:this._code
         };
+        if(this.orgid){
+          data.organiz_id=this.orgid;
+        }
         if (this._search){
             data.search = 1;
             data.searchData = this._search;
@@ -153,6 +157,7 @@
       this.page = 1;
       this._search = '';
       this._code = option.pid||"";
+      this.orgid = option.org_id;
       this.policy_list = [];
       this.getpolicyList()//获取数据
     },

@@ -68,7 +68,7 @@
         <div class="line-division"></div>
         <div class="common-head headbook-head">
           <span class="handbook-icon">办理手册</span>
-          <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl'"><span>更多></span></a>
+          <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&org_id='+org_id"><span>更多></span></a>
           <ul class="headbook-list">
             <li v-for="(item,i) in headbook_list" :key="item.id">
               <a :href="'/pages/policydetails/main?pid='+item.id" class="item-details">
@@ -102,7 +102,7 @@
         <div class="line-division"></div>
         <div class="common-head policy-head">
           <span class="policy-icon">政策百科</span>
-          <a :href="'/pages/policylist/main?pid=zcbk'" class="ui-link"><span>更多></span></a>
+          <a :href="'/pages/policylist/main?pid=zcbk&org_id='+org_id" class="ui-link"><span>更多></span></a>
           <ul class="policy-list">
             <li v-for="(item1,i) in policy_list" :key="item1.id">
               <a :href="'/pages/policydetails/main?pid='+item1.id" class="item-details">
