@@ -219,11 +219,9 @@
            this.watchsocket()
       },
       onShow(){
+        this.gzshow=false;
+        this.isshow=false;
         this.watchsocket()
-      },
-      onUnload(){
-          this.gzshow=false;
-          this.isshow=false;
       }
     }
 </script>
