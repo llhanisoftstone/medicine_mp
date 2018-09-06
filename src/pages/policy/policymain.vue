@@ -161,7 +161,9 @@
     methods: {
       async getpolicyMain() {
         let that = this;
-        let infodata={};
+        let infodata={
+            status:2, //状态：0-草稿；1-待审核，2-上架，3-拒绝，4-下架；
+        };
         if(that.org_id){
           infodata.organiz_id= that.org_id;
         }
