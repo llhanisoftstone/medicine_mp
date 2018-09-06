@@ -135,6 +135,7 @@
       <a class="ui-link" :href="'/pages/questions/main'">
         <div class="zc_btn"><div class="zcbtn_top">我要了解</div></div>
       </a>
+    <div class="nogetList" v-if="!is_hot_hide&&!is_bl_hide&&!is_bk_hide">暂无内容</div>
   </div>
 </template>
 
@@ -154,7 +155,8 @@
         pickerValueArray:[],
         wishidlist:null,
         org_id:null,
-        pickerwishText:''
+        pickerwishText:'',
+
       }
     },
 
@@ -169,6 +171,7 @@
         }
         let res = await this.$get('/rs/info_policy',infodata);
         if (res.code == 200){
+            that.isNoneInfo=false;
           if (res.hots.length > 0){
             for (var i=0;i<res.hots.length; i++){
               res.hots[i]._index = i+1;
@@ -611,5 +614,17 @@
     font-size: 0.261rem;
     line-height: 0.5rem;
     color: #666666;
+  }
+  .nogetList{
+    padding-top: 290px;
+    box-sizing:border-box;
+    background: url(../../../static/img/konhyemain.jpg) center 100px no-repeat;
+    background-size:145px 148px;
+    width: 100%;
+    height: 297px;
+    color: #999999;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 50px;
   }
 </style>
