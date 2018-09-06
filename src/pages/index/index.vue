@@ -154,6 +154,7 @@
       this.watchsocket()
     },
     onShow(){
+      this.$store.commit('getorganizid','');
       if(this.$store.state.isauth){
         wx.showTabBar({animation:true})
       }else{

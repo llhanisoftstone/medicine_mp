@@ -159,7 +159,11 @@
 
       }
     },
-
+    computed:{
+      getorganizid (){
+        return this.$store.state.organizcookie;
+      },
+    },
     methods: {
       async getpolicyMain() {
         let that = this;
@@ -262,8 +266,13 @@
       }).exec();
     },
     onShow: function() {
-      this.pickerIndex=-1;
-      this.org_id='';
+      console.log('百科页id：'+this.getorganizid)
+      if(this.getorganizid){
+        this.org_id=this.getorganizid;
+      }else{
+        this.org_id='';
+        this.pickerIndex=-1;
+      }
       this.getorganiz(); //获取组织列表
       this.getpolicyMain()//获取政策百科主页数据
     },
