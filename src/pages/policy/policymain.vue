@@ -238,6 +238,7 @@
         for(let wishVal of that.wishidlist ){
           if(that.pickerwishText==wishVal.name){
             that.org_id=wishVal.id;
+            that.$store.commit('getorganizid',this.org_id);
             that.getpolicyMain();
           }
         }

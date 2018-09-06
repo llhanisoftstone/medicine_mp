@@ -39,12 +39,13 @@ const store = new Vuex.Store({
     f_level: 0,                 // 亲友团进行的关卡
     max_nub: 0,                    // 关卡题目数量
     modalshow: true,               // 是否显示弹窗
-    quick: [],                        //快捷语
-    successTips:[],                 //正确提示
-    errorTips:[],                    //错误提示
-    rightTitle:0,                    //正确题目数量
-    allTitle:0,                      //所有题目
-    useTime:0                        //答题所用时间
+    quick: [],                        // 快捷语
+    successTips: [],                 // 正确提示
+    errorTips: [],                    // 错误提示
+    rightTitle: 0,                    // 正确题目数量
+    allTitle: 0,                      // 所有题目
+    useTime: 0,                        // 答题所用时间
+    organizcookie: ''                        // 政策百科机构id临时存储
   },
   mutations: {
     rightTitle: (state, nub) => {
@@ -167,6 +168,10 @@ const store = new Vuex.Store({
     get_openid: (state, openid) => {
       const obj = state
       obj.openid = openid
+    },
+    getorganizid: (state, organizcookie) => {
+      const obj = state
+      obj.organizcookie = organizcookie
     }
   }
 })

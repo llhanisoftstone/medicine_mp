@@ -37,7 +37,7 @@
       </div>
     </div>
     <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
-    <div class="nogetList" v-if="iskong">暂无记录</div>
+    <div class="nogetList" v-if="iskong">暂无内容</div>
   </div>
 </template>
 
@@ -148,6 +148,11 @@
           this.clearhide = false;
         }
       }
+    },
+    computed:{
+        getorganizid (){
+          return this.$store.state.organizcookie;
+        },
     },
     onUnload: function () {
       this.searchVal = '';
