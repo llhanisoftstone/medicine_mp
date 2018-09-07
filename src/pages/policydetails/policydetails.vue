@@ -25,8 +25,8 @@
           that.create_time = this.conversionTime(res.rows[0].create_time,'/');
           var details=res.rows[0].details;
           if (details){
-            var aimurl = that.$store.state.url+"/upload/ueeditor/";
-            details=details.replace(/\/upload\/ueeditor/g, aimurl);
+            var aimurl = 'src="'+that.$store.state.url+"/upload/";
+            details=details.replace(/src=\"\/upload\//g, aimurl);
             details=details.replace(/\<img(.+?)src\=\"(.+?)\".+?\>/g,"<img style='max-width:100%;height:auto' src='$2'>")
           }
           that.details =  details;
