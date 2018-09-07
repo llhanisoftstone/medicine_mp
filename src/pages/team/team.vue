@@ -93,10 +93,10 @@
       </div>
       <div class="publish_box" v-if="!gameover">
         <div class="btn_box_send">
-          <p @click="send('选1',0)">选1</p>
-          <p @click="send('选2',1)">选2</p>
-          <p @click="send('选3',2)">选3</p>
-          <p @click="send('选4',3)">选4</p>
+          <p @click="send('选1，听我的没错！',0)">选1</p>
+          <p @click="send('选2，绝对科学！大家跟着我走。',1)">选2</p>
+          <p @click="send('选3，才是硬道理！',2)">选3</p>
+          <p @click="send('选4，真理往往掌握在少数人手里!',3)">选4</p>
         </div>
         <i class="quick" @click="selectQuick">常用语</i>
         <a @click="userTools(user.tools[0].amount,1)" :class="{surplus:times<10}" href="" v-if="challenger==user.userid">
