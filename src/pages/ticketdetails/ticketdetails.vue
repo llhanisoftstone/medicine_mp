@@ -73,6 +73,7 @@
         if(time==null){
           return;
         }
+        time=time.replace(/-/g, '/');
         var data = new Date(time);
         var month=parseInt(data.getMonth()+1);
         var months="";
