@@ -143,7 +143,7 @@
               if (Details){
                 let aimurl = this.$store.state.url+"/upload/ueeditor";
                 Details=Details.replace(/\/upload\/ueeditor/g, aimurl);
-                Details=Details.replace(/\<img/gi, '<img style="width:100%;max-width:100%;height:auto" ');
+                Details=Details.replace(/\<img(.+?)src\=\"(.+?)\".+?\>/g,"<img style='max-width:100%;height:auto' src='$2'>")
                 res.rows[0].details=Details;
               }else{
                   this.nogetshow=true;
