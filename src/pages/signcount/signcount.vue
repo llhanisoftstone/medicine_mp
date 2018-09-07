@@ -7,7 +7,7 @@
           <div class="mui-media-body">
             <p class="sign-success" v-if="nowflag">今日已签到</p>
             <p class="sign-success" v-if="isoverflag">恭喜你签到成功，银两<span class="co_fe698a">+{{getpointer}}!</span></p>
-            <p class="p-margin">今日奖励<span class="co_fe698a">{{oldpoints}} </span>银两，当前总银两<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
+            <p class="p-margin">今日奖励<span class="co_fe698a">{{oldpoints}}</span>银两，当前总银两<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
             </p>
           </div>
           <a href="/pages/itemshop/main" class="btn_sign">兑换</a>

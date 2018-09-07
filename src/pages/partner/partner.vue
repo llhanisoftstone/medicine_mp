@@ -3,7 +3,7 @@
     <div class="messagecenter" v-if="seen">
       <div class="item">
         <div class="title">商家名称</div>
-        <input type="text" v-model='name' maxlength="10"  placeholder="请输入商家名称"/>
+        <input type="text" v-model='name' maxlength="20"  placeholder="请输入商家名称"/>
       </div>
       <div class="item">
         <div class="title">联系人</div>
