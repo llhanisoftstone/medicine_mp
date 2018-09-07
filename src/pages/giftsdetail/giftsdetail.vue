@@ -389,7 +389,7 @@
         width:538px/2;
         height:70px/2;
         line-height:70px/2;
-        margin:11px/2 auto 0;
+        margin:10px/2 auto 0;
         border-radius: 40px/2;
         color:#fff;
         font-size: 30px/2;
