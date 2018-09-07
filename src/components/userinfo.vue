@@ -286,7 +286,7 @@
           padding-left: 35/2px;
           display: inline-block;
           vertical-align: middle;
-          transform: translateY(-4/2px);
+          transform: translateY(-8/2px);
           line-height: 32/2px;
           font-size: 16/2px;
           color: #df5c3e;
