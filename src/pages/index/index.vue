@@ -154,8 +154,16 @@
     },
     userinfo(){
         return this.$store.state.userinfo
+    },
+    user(){
+        return this.$store.state.user
     }
   },
+    watch:{
+      user(val,oldval){
+        this.getuserperson()
+      }
+    },
   created () {
     // 调用应用实例的方法获取全局数据
 //    this.getLogin()
@@ -173,7 +181,6 @@
       }
       this.watchsocket()
       this.getpage()
-      this.getuserperson()
     },
     onHide(){
       this.$socket.removeAllListeners('data_chain')
