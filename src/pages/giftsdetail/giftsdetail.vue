@@ -142,8 +142,8 @@
               res.rows[0].count = thiz.commons.zcount(res.rows[0].count);
               let Details=res.rows[0].details;
               if (Details){
-                let aimurl = this.$store.state.url+"/upload/ueeditor";
-                Details=Details.replace(/\/upload\/ueeditor/g, aimurl);
+                var aimurl = 'src="'+thiz.$store.state.url+"/upload/";
+                Details=Details.replace(/src=\"\/upload\//g, aimurl);
                 Details=Details.replace(/\<img(.+?)src\=\"(.+?)\".+?\>/g,"<img style='max-width:100%;height:auto' src='$2'>")
                 res.rows[0].details=Details;
               }else{

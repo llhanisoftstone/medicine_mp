@@ -9,7 +9,8 @@
           </button>
         </div>
         <div class="username" v-if="isauth&&authreturn" @click="tonewpage('userdata','')">
-          {{username}}&nbsp;<span class="levelname">{{user.rank_name}}</span>
+          <span class="username_b">{{username}}</span>
+          &nbsp;<span class="levelname">{{user.rank_name}}</span>
           <!--<div class="userlevel">{{user.rank_name}}<span class="levelsign">{{user.experience}}</span></div>-->
           <div class="userlevel"><span v-if="points>=0">银两 : {{points}}&nbsp;&nbsp;</span>经验 : {{user.experience}}</div>
         </div>
@@ -271,12 +272,21 @@
           height:auto;
           box-sizing: border-box;
           white-space: nowrap;
+          .username_b{
+            max-width: 300px/2;
+            font-size: 32px/2;
+            line-height: 32px/2;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 37px/2;
+          }
         }
         .levelname{
           padding-left: 35/2px;
           display: inline-block;
           vertical-align: middle;
-          transform: translateY(-4/2px);
+          transform: translateY(-8/2px);
           line-height: 32/2px;
           font-size: 16/2px;
           color: #df5c3e;
