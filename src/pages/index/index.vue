@@ -33,7 +33,7 @@
         </a>
       </div>
     </div>
-    <div class="gitf_box">
+    <div class="gitf_box" v-if="win_treasure.length>0">
       <div class="gift">
         <div class="gift_text">
           <h2>为礼物而战</h2>
