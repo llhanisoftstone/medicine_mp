@@ -11,7 +11,7 @@
                 <div class="userlevel">{{user.rank_name}}</div>
               </div>
             </div>
-            <div class="gift_img" @click.stop="showgz()">
+            <div class="gift_img" @click="showgz()">
               <image src="/static/img/gift_img.png"></image>
             </div>
           </div>
@@ -86,6 +86,9 @@
         },
         methods: {
           showgz(){
+            if(this.isreward){
+                return;
+            }
             this.gzshow=true;
           },
           hidegz(){
@@ -394,7 +397,9 @@
           },2000)
         }
       })
-
+    },
+    onShow(){
+      this.gzshow=false;
     },
     onUnload(){
       let that = this
@@ -628,7 +633,7 @@
       border-radius: 30px/2;
       background: #ffffff;
       position: absolute;
-      top:224px/2;
+      top:354px/2;
       left:0;
       right:0;
       margin:auto;
@@ -703,6 +708,7 @@
         line-height: 30/2px;
         font-size: 26/2px;
         color: #999;
+        color: #df5c3e;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;

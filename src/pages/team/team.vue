@@ -375,7 +375,7 @@
                   type:1
               })
                 if(index>=0){
-                  that.submit(index)
+                  that.submit(index,that.$store.state.answer.answer_json[index].right)
                 }
           },
           submit(index,right){    //提交答案
@@ -479,7 +479,7 @@
             }
           },
           tanswer(val,oldval){
-            this.isanimation=false
+            this.isanimation=true
             this.istimes=false
             clearTimeout(this.setfn)
             this.setfn=null
