@@ -21,16 +21,16 @@ export default {
        wx.showLoading({
          mask: true
        })
-      clearTimeout(loadTime)
+      clearInterval(loadTime)
       loadTime = null
-      loadTime = setTimeout(() => {
+      loadTime = setInterval(() => {
         if ((url !== 'pages/alone/main') && (url !== 'pages/pkanswer/main') && (url !== 'pages/team/main') ){
-          wx.hideLoading()
+//          wx.hideLoading()
            wx.showLoading({
              mask: true
            })
         }
-      }, 3000)
+      }, 1000)
       that.$store.commit('getsocket', false)
       let pagesArr = getCurrentPages()
       let currentPage = pagesArr[pagesArr.length - 1]

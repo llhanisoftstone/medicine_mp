@@ -143,7 +143,7 @@
               if (Details){
                 let aimurl = this.$store.state.url+"/upload/ueeditor";
                 Details=Details.replace(/\/upload\/ueeditor/g, aimurl);
-                Details=Details.replace(/\<img/gi, '<img style="width:100%;max-width:100%;height:auto" ');
+                Details=Details.replace(/\<img(.+?)src\=\"(.+?)\".+?\>/g,"<img style='max-width:100%;height:auto' src='$2'>")
                 res.rows[0].details=Details;
               }else{
                   this.nogetshow=true;
@@ -383,16 +383,19 @@
       position:fixed;
       bottom:0;
       text-align: center;
+      box-sizing: border-box;
       a{
         display:block;
         width:538px/2;
         height:70px/2;
         line-height:70px/2;
-        margin:5px/2 auto 0;
+        margin:11px/2 auto 0;
         border-radius: 40px/2;
         color:#fff;
         font-size: 30px/2;
         background-color: #df5c3e;
+        border:none;
+        box-sizing: border-box;
       }
     }
     .footcgotop{
