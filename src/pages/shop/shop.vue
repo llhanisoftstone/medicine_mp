@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div id="index_gallerySlider" class="index_gallerySlider" v-if="bannerpath">
+    <div id="index_gallerySlider" class="index_gallerySlider" v-if="movies.length>0">
       <swiper :indicator-dots="indicatorDots"
               :autoplay="true" :circular="true" :interval="3000"
               :duration="duration" indicator-color="rgba(226,226,226,1)" indicator-active-color="#ffffff">
@@ -82,6 +82,8 @@
             for(var j=0;j<pics.length;j++){
               if(pics[j].substring(0,4)!="http"){
                 pics[j] = that.$store.state.url+pics[j];
+              }else{
+                pics[j] = pics[j];
               }
             }
             that.movies=pics;
