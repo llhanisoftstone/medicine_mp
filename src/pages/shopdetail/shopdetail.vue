@@ -1,7 +1,8 @@
 <template>
   <div class="content">
     <div class="title">{{title}}</div>
-    <div class="release-time">发布时间 : {{create_time}}</div>
+    <div class="release-time" v-if="category==2">发布时间 : {{create_time}}</div>
+    <div class="release-time" v-if="category!=2">&nbsp;</div>
     <div class="details"><div  v-html="details"></div></div>
   </div>
 </template>
@@ -12,6 +13,7 @@
       return {
         title:'',
         create_time:'',
+        category:"",
         details:'',
       }
     },
@@ -47,6 +49,7 @@
     },
 
     onLoad: function (option) {
+      this.category=option.category;
       this.getpolicyInfo(option.pid)//获取数据
     }
   }

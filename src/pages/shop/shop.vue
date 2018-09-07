@@ -12,13 +12,13 @@
       </swiper>
     </div>
     <div class="toplist">
-      <div class="topitem" @click.stop="tonewpage('shopdetail','pid='+itemt.id)" v-for="(itemt,i_t) in top_list">
+      <div class="topitem" @click.stop="tonewpage('shopdetail','pid='+itemt.id+'&category='+itemt.category)" v-for="(itemt,i_t) in top_list">
         <div class="imgk"><img :src="itemt.picpath" alt=""></div>
         <div class="item_name mui-ellipsis">{{itemt.name}}</div>
       </div>
     </div>
     <ul class="mainlist">
-      <li class="item" @click.stop="tonewpage('shopdetail','pid='+items.id)" v-for="(items,i_s) in shop_list"><img :src="items.picpath" alt=""></li>
+      <li class="item" @click.stop="tonewpage('shopdetail','pid='+items.id+'&category='+items.category)" v-for="(items,i_s) in shop_list"><img :src="items.picpath" alt=""></li>
     </ul>
     <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
     <div class="nogetList" v-if="iskong">暂无信息</div>

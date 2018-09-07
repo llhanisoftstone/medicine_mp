@@ -7,7 +7,7 @@
           <div class="mui-media-body">
             <p class="sign-success" v-if="nowflag">今日已签到</p>
             <p class="sign-success" v-if="isoverflag">恭喜你签到成功，银两<span class="co_fe698a">+{{getpointer}}!</span></p>
-            <p class="p-margin">今日奖励<span class="co_fe698a">{{oldpoints}} </span>银两，当前总银两<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
+            <p class="p-margin">今日奖励<span class="co_fe698a">{{oldpoints}}</span>银两，当前总银两<span id="so-points" class="co_fe698a">{{nowpointer}}</span>
             </p>
           </div>
           <a href="/pages/itemshop/main" class="btn_sign">兑换</a>
@@ -67,12 +67,15 @@
       <ul class="gift_list">
         <li v-for="(v,i) in win_treasure" >
           <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)">
-            <div>
-              <image :src="v.picpath"></image>
+            <div class="itemheadk">
+              <div>
+                <image :src="v.picpath"></image>
+                <div class="itemmodel">查看详情&gt;</div>
+              </div>
             </div>
             <h3>{{v.name}}</h3>
-            <a @click="reward(v.id)">挑战</a>
           </main>
+          <a @click="reward(v.id)">挑战</a>
         </li>
       </ul>
       <div id="zhezhao_fu" catchtouchmove='true' class="tryoutModelBox" v-if="isshowsign">
@@ -412,25 +415,45 @@
     .gift_list{
       width: 100%;
       box-sizing: border-box;
-      padding:12px 26px/2;
+      padding: 0 26px/2;
       display: flex;
       flex-flow: wrap;
       justify-content: space-between;
       li{
-        width: 220px/2;
+        width: 219px/2;
         height: 327px/2;
         box-shadow: #acacac 4px/2 5px/2 15px/2;
         margin-bottom:20px/2;
         border-radius: 10px/2;
         background: #fff;
-        div{
-          width: 220px/2;
+        div.itemheadk{
+          width: 219px/2;
           height: 220px/2;
           box-sizing: border-box;
           padding: 20px/2;
-          image{
+          div{
+            position: relative;
             width: 100%;
             height: 100%;
+            .itemmodel{
+              position: absolute;
+              bottom:0;
+              left:0;
+              width:100%;
+              font-size: 16/2px;
+              padding:6/2px;
+              padding-top: 20/2px;
+              line-height: 16/2px;
+              height: 22/2+20/2px;
+              text-align: right;
+              color: #fff;
+              box-sizing: border-box;
+              background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.4));
+            }
+            image{
+              width: 100%;
+              height: 100%;
+            }
           }
         }
         h3{
@@ -452,9 +475,13 @@
           height: 43px/2;
           border-radius: 50px/2;
           font-size: 30px/2;
+          box-sizing: border-box;
+          line-height: normal;
           color: #fff;
-          align-items: center;
           justify-content: center;
+          align-items: center;
+          align-content: center;
+          padding-bottom: 2px/2;
           background: @bg_color;
         }
       }
