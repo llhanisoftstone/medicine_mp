@@ -65,12 +65,14 @@
         精品推荐，快快挑战吧!
       </div>
       <ul class="gift_list">
-        <li v-for="(v,i) in win_treasure" @click="reward(v.id)">
-          <div>
-            <image :src="v.picpath"></image>
-          </div>
-          <h3>{{v.price}}元代金券</h3>
-          <a href="" :_id="v.id">挑战</a>
+        <li v-for="(v,i) in win_treasure" >
+          <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)">
+            <div>
+              <image :src="v.picpath"></image>
+            </div>
+            <h3>{{v.name}}</h3>
+            <a @click="reward(v.id)">挑战</a>
+          </main>
         </li>
       </ul>
       <div id="zhezhao_fu" catchtouchmove='true' class="tryoutModelBox" v-if="isshowsign">
@@ -215,6 +217,7 @@
             that.p_number = res.present_count
             for(let i = 0;i<res.win_treasure.length;i++){
               res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
+              res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
             }
             if(res.win_treasure.length>=3){
               that.win_treasure = res.win_treasure.slice(0,3)
@@ -281,6 +284,11 @@
             game_cfg_id: r_id,
             game_type:1,
             level:1
+          })
+        },
+        tonewpage(urlname,data){
+          wx.navigateTo({
+            url:`/pages/${urlname}/main?${data}`
           })
         },
         watchsocket(){
