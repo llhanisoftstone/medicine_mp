@@ -54,7 +54,7 @@
               <div class="itemmodel">查看详情&gt;</div>
             </div>
           </div>
-          <h3>{{v.price}}元代金券</h3>
+          <h3>{{v.name}}</h3>
         </main>
         <a @click="reward(v.id)">挑战</a>
       </li>
