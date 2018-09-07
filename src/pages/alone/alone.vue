@@ -11,7 +11,7 @@
                 <div class="userlevel">{{user.rank_name}}</div>
               </div>
             </div>
-            <div class="gift_img" @click.stop="showgz()">
+            <div class="gift_img" @click="showgz()">
               <image src="/static/img/gift_img.png"></image>
             </div>
           </div>
@@ -633,7 +633,7 @@
       border-radius: 30px/2;
       background: #ffffff;
       position: absolute;
-      top:224px/2;
+      top:354px/2;
       left:0;
       right:0;
       margin:auto;

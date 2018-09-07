@@ -33,7 +33,7 @@
         </a>
       </div>
     </div>
-    <div class="gitf_box">
+    <div class="gitf_box" v-if="win_treasure.length>0">
       <div class="gift">
         <div class="gift_text">
           <h2>为礼物而战</h2>
@@ -177,7 +177,22 @@
     },
     onHide(){
       this.$socket.removeAllListeners('data_chain')
-    }
+    },
+    onShareAppMessage(res){
+      let that=this;
+      let title='边玩边学，游戏学习两不误！';
+      let img=`${that.$store.state.url}/admin/img/1.jpg`;
+      let url='/pages/index/main'
+      return {
+        title:title,
+        path: url,
+        imageUrl: img,
+        success: (r)=>{
+        },
+        fail: (err)=>{
+        }
+      }
+    },
 }
 </script>
 

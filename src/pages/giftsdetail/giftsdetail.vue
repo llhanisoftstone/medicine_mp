@@ -383,16 +383,19 @@
       position:fixed;
       bottom:0;
       text-align: center;
+      box-sizing: border-box;
       a{
         display:block;
         width:538px/2;
         height:70px/2;
         line-height:70px/2;
-        margin:5px/2 auto 0;
+        margin:11px/2 auto 0;
         border-radius: 40px/2;
         color:#fff;
         font-size: 30px/2;
         background-color: #df5c3e;
+        border:none;
+        box-sizing: border-box;
       }
     }
     .footcgotop{
