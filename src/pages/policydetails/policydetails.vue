@@ -45,7 +45,11 @@
         return data.getFullYear()+sign+months+sign+day;
       }
     },
-
+    onUnload:function(){
+      this.title="";
+      this.create_time="";
+      this.details="";
+    },
     onLoad: function (option) {
       this.getpolicyInfo(option.pid)//获取数据
     }

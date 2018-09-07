@@ -86,7 +86,7 @@
         },
         methods: {
           showgz(){
-            if(this.isreward){
+            if(this.isreward!=0){
                 return;
             }
             this.gzshow=true;
