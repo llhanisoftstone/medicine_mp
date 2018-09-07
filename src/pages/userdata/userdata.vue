@@ -103,7 +103,7 @@
           this.$mptoast('请输入姓名');
           return;
         }
-        if(this.realname.trim().length<3){
+        if(this.realname.trim().length<2){
           this.$mptoast('姓名至少需要输入两位字符');
           return;
         }
