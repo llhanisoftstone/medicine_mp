@@ -177,7 +177,22 @@
     },
     onHide(){
       this.$socket.removeAllListeners('data_chain')
-    }
+    },
+    onShareAppMessage(res){
+      let that=this;
+      let title='边玩边学，游戏学习两不误！';
+      let img=`${that.$store.state.url}/admin/img/1.jpg`;
+      let url='/pages/index/main'
+      return {
+        title:title,
+        path: url,
+        imageUrl: img,
+        success: (r)=>{
+        },
+        fail: (err)=>{
+        }
+      }
+    },
 }
 </script>
 
