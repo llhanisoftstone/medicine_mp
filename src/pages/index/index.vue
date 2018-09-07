@@ -37,9 +37,9 @@
       <div class="gift">
         <div class="gift_text">
           <h2>为礼物而战</h2>
-          <p>礼物有诱惑，政策福利更吸引我</p>
+          <p><span>礼物有诱惑，政策福利更吸引我</span><span class="toduo" @click.stop="tonewpage('giftlist')">更多礼物&gt;</span></p>
         </div>
-        <i class="gift_img">
+        <i class="gift_img" @click.stop="tonewpage('giftlist')">
           <image src="/static/img/lw.png"></image>
         </i>
       </div>
@@ -390,7 +390,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: relative;
       .gift_text{
+        width: 100%;
         h2{
           padding-top: 60px/2;
           padding-bottom: 11px/2;
@@ -405,12 +407,19 @@
           font-size: 26px/2;
           color: #df5c3e;
           line-height: 26px/2;
+          display: flex;
+          justify-content: space-between;
+          .toduo{
+            padding-right:40/2px;
+          }
         }
       }
       i{
         animation: gift 3s infinite;
         width: 98px/2;
         height: 123px/2;
+        position: absolute;
+        right: 0;
         image{
           width: 98px/2;
           height: 123px/2;
@@ -424,6 +433,8 @@
     padding: 0 26px/2;
     display: flex;
     flex-flow: wrap;
+    align-content: space-between;
+    justify-content: space-between;
     li{
       width: 219px/2;
       height: 327px/2;

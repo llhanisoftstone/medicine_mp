@@ -1,14 +1,14 @@
 <template>
   <div>
     <ul class="gift_list">
-      <li v-for="(v,i) in policy_list" >
-        <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)">
+      <li v-for="(v,i) in policy_list" :class="{iskong:v.iskong}">
+        <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)" v-if="!v.iskong">
           <div>
             <image :src="v.picpath"></image>
           </div>
           <h3>{{v.price}}元代金券</h3>
         </main>
-        <a @click="reward(v.id)">挑战</a>
+        <a @click="reward(v.id)" v-if="!v.iskong">挑战</a>
       </li>
     </ul>
     <div class="nogetList" v-if="iskong">暂无礼物</div>
@@ -24,7 +24,7 @@
         scrollTop:0,
         iskong:false,
         page:1,
-        size:6
+        size:12
       }
     },
     onPullDownRefresh () {
@@ -47,17 +47,25 @@
         let data = {
           page:this.page,
           size:this.size,
+          id:">,10",
+          is_normal:1,
+          status:1,
           order:'create_time desc'
         };
-        let res = await that.$get('/rs/first_page',data)
+        let res = await that.$get('/rs/v_game_config',data)
         if(res.code == 200){
           that.iskong=false;
-          for(let i = 0;i<res.win_treasure.length;i++){
-            res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
-            res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
+          for(let i = 0;i<res.rows.length;i++){
+            res.rows[i].picpath = that.$store.state.url+ res.rows[i].picpath
+            res.rows[i].tickt_id = res.rows[i].level_json[0].reward[0].id
           }
-          if (res.win_treasure.length > 0){
-            that.policy_list = that.policy_list.concat(res.win_treasure);
+          if (res.rows.length > 0){
+            that.policy_list = that.policy_list.concat(res.rows);
+          }
+          if(res.rows.length<12&&res.rows.length%3!=0){
+              for(var n=0;n<3-res.rows.length%3;n++){
+                that.policy_list.push({iskong:true})
+              }
           }
         }else if (res.code == 602 && that.page == 1){
             that.iskong=true;
@@ -88,7 +96,7 @@
         })
       },
       reward(r_id){
-        this.r_id=r_id
+        this.r_id=r_id;
         this.$socket.emit('data_chain',{
           cmd:'fight',
           u_id: this.$store.state.user.userid,
@@ -154,7 +162,12 @@
     padding:26px/2;
     display: flex;
     flex-flow: wrap;
+    align-content: space-between;
+    justify-content: space-between;
     li{
+      &.iskong{
+        opacity: 0;
+      }
       width: 219px/2;
       height: 327px/2;
       box-shadow: #acacac 4px/2 5px/2 15px/2;
