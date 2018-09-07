@@ -33,7 +33,7 @@
       </div>
       <div v-if="scrollIcon" @click.stop="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
       <div class="nogetList" v-if="nogetshow">暂无内容</div>
-      <div class="buybutton">
+      <div class="buybutton" :class="{iphonexbottom:isiphonex}">
         <a v-if="exist" @click="reward(game_cfg_id)" >立即挑战</a>
       </div>
     </div>
@@ -57,6 +57,7 @@
               exist:false, //优惠券信息是否存在
               game_cfg_id:'',
               r_id:0,
+              isiphonex:false,//是否是iphoneX
             }
         },
       onPullDownRefresh () {
@@ -198,6 +199,18 @@
         this.game_cfg_id=option.vid;//挑战id
         this.nogetshow=false;
         this.exist=false;
+        let that=this;
+        try {
+          let res = wx.getSystemInfoSync();
+          console.log(res)
+          if(res.model.match(/iPhone X/ig)){
+            that.isiphonex=true;
+          }else{
+            that.isiphonex=false;
+          }
+        } catch (e) {
+
+        }
         this.watchsocket()
       },
       onShow(){
@@ -384,12 +397,15 @@
       bottom:0;
       text-align: center;
       box-sizing: border-box;
+      &.iphonexbottom{
+        height:122px/2 !important;
+      }
       a{
         display:block;
         width:538px/2;
         height:70px/2;
         line-height:70px/2;
-        margin:11px/2 auto 0;
+        margin:11px/2 auto;
         border-radius: 40px/2;
         color:#fff;
         font-size: 30px/2;

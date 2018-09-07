@@ -374,9 +374,15 @@
                   data:msg,
                   type:1
               })
-                if(index>=0){
-                  that.submit(index,that.$store.state.answer.answer_json[index].right)
-                }
+            if(!this.isstart){
+              return
+            }
+            if(this.gameover){
+              return
+            }
+            if(index>=0){
+              that.submit(index,that.$store.state.answer.answer_json[index].right)
+            }
           },
           submit(index,right){    //提交答案
             if(!this.isstart){
@@ -925,7 +931,7 @@
     .doommview{
       z-index: 3;
       height: 30%;
-      width: 750px/2;
+      width: 100%;
       position: absolute;
       box-sizing: border-box;
       overflow-x: hidden;
