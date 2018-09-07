@@ -51,7 +51,6 @@
           <div>
             <image :src="v.picpath"></image>
           </div>
-          <!--<h3>{{v.price}}元代金券</h3>-->
           <h3>{{v.ticket_name}}</h3>
         </main>
         <a @click="reward(v.id)">挑战</a>
