@@ -25,7 +25,7 @@ export default {
       loadTime = null
       loadTime = setInterval(() => {
         if ((url !== 'pages/alone/main') && (url !== 'pages/pkanswer/main') && (url !== 'pages/team/main') ){
-          wx.hideLoading()
+//          wx.hideLoading()
            wx.showLoading({
              mask: true
            })
