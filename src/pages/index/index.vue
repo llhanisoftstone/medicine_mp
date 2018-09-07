@@ -301,8 +301,8 @@
     color: #fff;
     font-size: 26px/2;
     background: @bg_color;
-    margin-left: 50px/2;
     box-shadow: #923c3c 2px/2 5px/2 15px/2;
+    margin-top: 40px/2;
   }
   .container{
     background: #fff url(../../../static/img/yetou.jpg) center top no-repeat;
