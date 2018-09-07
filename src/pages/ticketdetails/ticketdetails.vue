@@ -65,6 +65,8 @@
                 rs.rows[i].use_time = this.conversionTime(rs.rows[i].use_time);
               }
               that.sendlist = rs.rows;
+            }else{
+              that.sendlist = [];
             }
           }
         }
