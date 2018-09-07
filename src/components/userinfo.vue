@@ -263,13 +263,14 @@
           margin-left: 38px/2;
           font-size: 32px/2;
           color: #333;
-          width: 250px/2;
+          width: 300px/2;
           display:inline-block;
           word-break:break-all;
           word-wrap:break-word;
           -webkit-text-size-adjust:none;
           height:auto;
           box-sizing: border-box;
+          white-space: nowrap;
         }
         .levelname{
           padding-left: 35/2px;

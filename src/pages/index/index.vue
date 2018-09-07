@@ -54,7 +54,7 @@
               <div class="itemmodel">查看详情&gt;</div>
             </div>
           </div>
-          <h3>{{v.price}}元代金券</h3>
+          <h3>{{v.name}}</h3>
         </main>
         <a @click="reward(v.id)">挑战</a>
       </li>
@@ -301,8 +301,8 @@
     color: #fff;
     font-size: 26px/2;
     background: @bg_color;
-    margin-left: 50px/2;
     box-shadow: #923c3c 2px/2 5px/2 15px/2;
+    margin-top: 40px/2;
   }
   .container{
     background: #fff url(../../../static/img/yetou.jpg) center top no-repeat;
