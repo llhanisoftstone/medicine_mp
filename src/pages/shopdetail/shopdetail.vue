@@ -47,7 +47,7 @@
         return data.getFullYear()+sign+months+sign+day;
       }
     },
-    onShow: function (option) {
+    onLoad: function (option) {
       this.category=option.category;
       this.getpolicyInfo(option.pid)//获取数据
     },
