@@ -374,9 +374,15 @@
                   data:msg,
                   type:1
               })
-                if(index>=0){
-                  that.submit(index,that.$store.state.answer.answer_json[index].right)
-                }
+            if(!this.isstart){
+              return
+            }
+            if(this.gameover){
+              return
+            }
+            if(index>=0){
+              that.submit(index,that.$store.state.answer.answer_json[index].right)
+            }
           },
           submit(index,right){    //提交答案
             if(!this.isstart){
