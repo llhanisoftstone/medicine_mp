@@ -27,7 +27,7 @@
           if (details){
             var aimurl = that.$store.state.url+"/upload/ueeditor/";
             details=details.replace(/\/upload\/ueeditor/g, aimurl);
-            details=details.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
+            details=details.replace(/\<img(.+?)src\=\"(.+?)\".+?\>/g,"<img style='max-width:100%;height:auto' src='$2'>")
           }
           that.details =  details;
         }
