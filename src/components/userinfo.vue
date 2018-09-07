@@ -279,7 +279,7 @@
             display: inline-block;
             overflow: hidden;
             text-overflow: ellipsis;
-            height: 32px/2;
+            height: 37px/2;
           }
         }
         .levelname{
