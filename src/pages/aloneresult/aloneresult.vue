@@ -126,7 +126,7 @@
       let title='边玩边学，游戏学习两不误！';
       let img=`${that.$store.state.url}/admin/img/1.jpg`;
       let url='/pages/index/main';
-      if(that.isreward == 0){//礼物挑战
+      if(that.isreward !== 0){
         if(that.win==2){
           title="@你 答题赢礼品，千种礼券任你选"
           img=`${that.$store.state.url}/admin/img/2.jpg`;
@@ -137,7 +137,7 @@
           title="@你 为礼物而战，我还会再回来的"
           img=`${that.$store.state.url}/admin/img/3.jpg`;
         }
-      }else{
+      }else{//礼物挑战
         if(that.win==2){
           title="@你 答题赢好礼，千种礼券任你选"
           img=`${that.$store.state.url}/admin/img/2.jpg`;

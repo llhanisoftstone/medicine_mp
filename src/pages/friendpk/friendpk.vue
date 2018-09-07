@@ -28,10 +28,11 @@
         哇哦！还没有企业上榜~<br>赶快去上榜吧~
       </div>
     </div>
-    <button open-type="share" class="pk_btn" v-if="isFriends==1">挑战好友
+    <button open-type="share" class="pk_btn" v-if="isFriends==1">
+      <div class="tzbox">挑战好友</div>
       <div class="pk_btn_box"></div>
     </button>
-    <a :href="'/pages/loadpk/main?from=2&&id='+user.userid" class="pk_btn" v-if="isFriends!=1">全网挑战 <div class="pk_btn_box"></div></a>
+    <a :href="'/pages/loadpk/main?from=2&&id='+user.userid" class="pk_btn" v-if="isFriends!=1"><div class="tzbox">全网挑战</div><div class="pk_btn_box"></div></a>
   </div>
 </template>
 
@@ -281,31 +282,40 @@
   }
   @keyframes pk_btn {
     0%{
-      margin-top:50px/2;
+      /*<!--margin-top:50px/2;-->*/
+      transform:translateY(0)
     }
     40%{
-      margin-top:50px/2;
+      /*<!--margin-top:50px/2;-->*/
+      transform:translateY(0)
     }
     42%{
-      margin-top:40px/2;
+      /*<!--margin-top:40px/2;-->*/
+      transform:translateY(-10/2px)
     }
     48%{
-      margin-top:40px/2;
+      /*<!--margin-top:40px/2;-->*/
+      transform:translateY(-10/2px)
     }
     50%{
-      margin-top:50px/2;
+      /*<!--margin-top:50px/2;-->*/
+      transform:translateY(0)
     }
     52%{
-      margin-top:40px/2;
+      /*<!--margin-top:40px/2;-->*/
+      transform:translateY(-10/2px)
     }
     58%{
-      margin-top:40px/2;
+      /*<!--margin-top:40px/2;-->*/
+      transform:translateY(-10/2px)
     }
     60%{
-      margin-top:50px/2;
+      /*<!--margin-top:50px/2;-->*/
+      transform:translateY(0)
     }
     100%{
-      margin-top:50px/2;
+      /*<!--margin-top:50px/2;-->*/
+      transform:translateY(0)
     }
   }
   .pk_btn_box{
@@ -320,6 +330,17 @@
     z-index:-1;
     border-radius: 50px/2;
     box-sizing: border-box;
+  }
+  .tzbox{
+    width: 100%;
+    height:100%;
+    background: @bg_color;
+    position: absolute;
+    z-index: 1;
+    border-radius: 50px/2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .pk_btn{
     position: relative;

@@ -29,7 +29,7 @@
     <div :class="{'btn':true}" @click="childrenmitData">
       确&nbsp;&nbsp;&nbsp;认
     </div>
-    <mptoast/>
+    <mptoast :toasthide="toasthide"/>
   </div>
 </template>
 
@@ -62,6 +62,7 @@
         address:'',
         select:'',
         add_id:'',
+        toasthide:false,
         isBtnClicked:false,
       }
     },
@@ -248,8 +249,10 @@
       this.rank=1;
     },
     onShow(){
+      this.toasthide = true;
+      setTimeout(()=>{  this.toasthide = false;},2000)
       this.isBtnClicked=true;
-    },
+    }
   }
 </script>
 

@@ -31,7 +31,7 @@
       <div :class="{'btn':true}" @click="childrenmitData">
         确&nbsp;&nbsp;&nbsp;认
       </div>
-    <mptoast/>
+    <mptoast :toasthide="toasthide"/>
   </div>
 </template>
 
@@ -69,7 +69,9 @@
         member_id:'',
         isBtnClicked:false,
         company:[],
-        isclick:false
+        toasthide:false,
+        isclick:false,
+        timeout:null
       }
     },
     methods: {
@@ -101,6 +103,10 @@
           this.$mptoast('请输入姓名');
           return;
         }
+        if(this.realname.trim().length<3){
+          this.$mptoast('姓名至少需要输入两位字符');
+          return;
+        }
         var myreg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
         if(this.phone==''||this.phone==null){
           this.$mptoast('请输入手机号');
@@ -123,7 +129,7 @@
             }
             if(this.isBtnClicked){
               this.isBtnClicked=false;
-              setTimeout(function() {
+              this.timeout=setTimeout(function() {
                 wx.navigateBack({     //返回上一页面或多级页面
                   delta: 1
                 })
@@ -222,17 +228,23 @@
       this.rank=1;
     },
     onShow(){
+      this.toasthide = true;
+      setTimeout(()=>{  this.toasthide = false;},2000)
       this.getUserinfo();
       this.isBtnClicked=true;
     },
     onUnload(){
+      if(this.timeout){
+        clearTimeout(this.timeout)
+        this.timeout=null;
+      }
       this.company=[];
       wx.removeStorage({
         key: 'keyuser',
         success: function(res) {
           console.log(res.data)
         }
-      })
+      });
     },
     watch:{
       async comp_name(val, oldval){
@@ -247,7 +259,7 @@
         }
         let com = await this.$get('/rs/company',{name:val,search:1,page:1,size:4})
         if(com.code==200){
-            this.company = com.rows
+          this.company = com.rows
         }else{
           this.company = []
         }
