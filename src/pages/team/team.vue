@@ -925,7 +925,7 @@
     .doommview{
       z-index: 3;
       height: 30%;
-      width: 750px/2;
+      width: 100%;
       position: absolute;
       box-sizing: border-box;
       overflow-x: hidden;

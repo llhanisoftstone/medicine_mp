@@ -446,7 +446,6 @@
     padding: 0 26px/2;
     display: flex;
     flex-flow: wrap;
-    justify-content: space-between;
     li{
       width: 219px/2;
       height: 327px/2;
@@ -454,6 +453,7 @@
       margin-bottom:20px/2;
       border-radius: 10px/2;
       background: #fff;
+      margin-right: 22px/2;
       div.itemheadk{
         width: 219px/2;
         height: 220px/2;
@@ -512,6 +512,9 @@
         padding-bottom: 2px/2;
         background: @bg_color;
       }
+    }
+    li:nth-of-type(3n){
+      margin-right: 0;
     }
   }
 </style>
