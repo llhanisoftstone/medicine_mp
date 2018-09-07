@@ -88,6 +88,22 @@
                                 mask:true
                               })
                               thiz.isshow=false
+                            },
+                            fail: function (res) {
+                              console.log(res)
+                              if (res.errMsg === "saveImageToPhotosAlbum:fail auth deny") {
+                                console.log("打开设置窗口");
+                                wx.openSetting({
+                                  success(settingdata) {
+                                    console.log(settingdata)
+                                    if (settingdata.authSetting["scope.writePhotosAlbum"]) {
+                                      console.log("获取权限成功，再次点击图片保存到相册")
+                                    } else {
+                                      console.log("获取权限失败")
+                                    }
+                                  }
+                                })
+                              }
                             }
                           })
                         }

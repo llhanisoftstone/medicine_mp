@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 26,
+			"current": 11,
 			"list": [
 				{
 					"id": 0,
@@ -111,7 +111,7 @@
 					"id": 11,
 					"name": "成绩单",
 					"pathName": "pages/report/main",
-					"query": "room_id=1017-ac9a7930&u_id=1017",
+					"query": "room_id=75183-714ae1e0&u_id=75183",
 					"scene": "1007"
 				},
 				{
