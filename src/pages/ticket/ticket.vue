@@ -232,6 +232,8 @@
         .lower-part{
           position: absolute;
           width: 100%;
+          left:0;
+          right:0;
           height: 79px/2;
           bottom: 0;
           background: url('../../../static/img/yhj_1.jpg') no-repeat left center;
