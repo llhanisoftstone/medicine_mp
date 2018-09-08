@@ -201,12 +201,12 @@
       .icon-img{
         display:inline-block;
         width:40px;
-        height:38px;
+        height:40px;
         position:absolute;
         top:14px;
         right:18px;
         background: url("../../../static/img/yicaina.png") center center no-repeat;
-        background-size: 40px 38px;
+        background-size: 40px 40px;
       }
       .item_list{
         font-size: 28/2px;
