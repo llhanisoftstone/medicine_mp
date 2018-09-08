@@ -411,6 +411,7 @@
       font-size:15px;
       box-sizing:border-box;
       border-bottom: 1px solid #e2e2e2;
+      margin-bottom: 20px/2;
     }
     .gift_list{
       width: 100%;
