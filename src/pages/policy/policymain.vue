@@ -4,6 +4,14 @@
         <div class="width"></div>
       </div>
       <div class="searchk">
+        <picker
+          mode="selector"
+          :value="pickerIndex"
+          :range="pickerValueArray"
+          @change="bindPickerChange">
+          <div class="org-box" v-show="pickerIndex>=0">{{pickerValueArray[pickerIndex]}}</div>
+          <div class="org-box" v-show="pickerIndex==-1">请选择机关</div>
+        </picker>
         <a class="ui-link" :href="'/pages/policylist/main'">
           <div class="searchinput">请输入标题或内容</div>
         </a>
@@ -60,7 +68,7 @@
         <div class="line-division"></div>
         <div class="common-head headbook-head">
           <span class="handbook-icon">办理手册</span>
-          <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl'"><span>更多></span></a>
+          <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&org_id='+org_id"><span>更多></span></a>
           <ul class="headbook-list">
             <li v-for="(item,i) in headbook_list" :key="item.id">
               <a :href="'/pages/policydetails/main?pid='+item.id" class="item-details">
@@ -94,7 +102,7 @@
         <div class="line-division"></div>
         <div class="common-head policy-head">
           <span class="policy-icon">政策百科</span>
-          <a :href="'/pages/policylist/main?pid=zcbk'" class="ui-link"><span>更多></span></a>
+          <a :href="'/pages/policylist/main?pid=zcbk&org_id='+org_id" class="ui-link"><span>更多></span></a>
           <ul class="policy-list">
             <li v-for="(item1,i) in policy_list" :key="item1.id">
               <a :href="'/pages/policydetails/main?pid='+item1.id" class="item-details">
@@ -127,6 +135,7 @@
       <a class="ui-link" :href="'/pages/toknow/main?isjy=false'">
         <div class="zc_btn"><div class="zcbtn_top">我要咨询</div></div>
       </a>
+    <div class="nogetList" v-if="!is_hot_hide&&!is_bl_hide&&!is_bk_hide">暂无内容</div>
   </div>
 </template>
 
@@ -141,15 +150,32 @@
         is_bk_hide: false,
         hot_list:[],
         headbook_list:[],
-        policy_list:[]
+        policy_list:[],
+        pickerIndex:-1,
+        pickerValueArray:[],
+        wishidlist:null,
+        org_id:null,
+        pickerwishText:'',
+
       }
     },
-
+    computed:{
+      getorganizid (){
+        return this.$store.state.organizcookie;
+      },
+    },
     methods: {
       async getpolicyMain() {
         let that = this;
-        let res = await this.$get('/rs/info_policy');
+        let infodata={
+            status:2, //状态：0-草稿；1-待审核，2-上架，3-拒绝，4-下架；
+        };
+        if(that.org_id){
+          infodata.organiz_id= that.org_id;
+        }
+        let res = await this.$get('/rs/info_policy',infodata);
         if (res.code == 200){
+            that.isNoneInfo=false;
           if (res.hots.length > 0){
             for (var i=0;i<res.hots.length; i++){
               res.hots[i]._index = i+1;
@@ -190,7 +216,37 @@
             that.is_bk_hide = false;
           }
         }
-      }
+      },
+      async getorganiz(){
+        let than = this;
+        let res = await this.$get('/rs/organiz');
+        if (res.code == 200){
+          var obj = [];
+          var array=[];
+          for(var i=0;i<res.rows.length;i++){
+            var o = {};
+            array.push(res.rows[i].name)
+            o.id = res.rows[i].id;
+            o.name = res.rows[i].name;
+            obj.push(o);
+          }
+          than.pickerValueArray=array;
+          than.wishidlist = obj;
+        }
+      },
+      bindPickerChange(e){
+        let that=this;
+        let ival=e.mp.detail.value;
+        that.pickerIndex=ival;
+        that.pickerwishText=that.pickerValueArray[ival];
+        for(let wishVal of that.wishidlist ){
+          if(that.pickerwishText==wishVal.name){
+            that.org_id=wishVal.id;
+            that.$store.commit('getorganizid',this.org_id);
+            that.getpolicyMain();
+          }
+        }
+      },
     },
 
     created () {
@@ -208,12 +264,22 @@
           that.marginright=parseInt(that.marginright)-(parseInt(width750)-parseInt(width))+"rpx";
         }).exec();
       }).exec();
-
-
     },
     onShow: function() {
+      if(this.getorganizid){
+        this.org_id=this.getorganizid;
+      }else{
+        this.org_id='';
+        this.pickerIndex=-1;
+      }
+      this.getorganiz(); //获取组织列表
       this.getpolicyMain()//获取政策百科主页数据
-    }
+    },
+    onUnload(){
+      this.pickerwishText='';
+      this.org_id='';
+      this.pickerIndex=-1;
+    },
   }
 </script>
 
@@ -266,6 +332,24 @@
     padding: 10px/2 12px/2;
     background: #f6f6f6;
     box-sizing: border-box;
+    display:flex;
+    .org-box{
+      box-sizing: border-box;
+      width:230px/2;
+      height: 70px/2;
+      line-height: 70/2px;
+      font-size: 28px/2;
+      color: #888;
+      overflow: hidden;
+      padding:0 70px/2 0 15px/2;
+      background: #fff url("../../../static/img/arrow-down.png") 179px/2 center no-repeat;
+      background-size: 26px/2 25px/2;
+      border-radius: 10/2px;
+    }
+    .ui-link{
+      width:520px/2;
+      box-sizing: border-box;
+    }
   }
   .searchinput{
     width: 100%;
@@ -539,5 +623,17 @@
     font-size: 0.261rem;
     line-height: 0.5rem;
     color: #666666;
+  }
+  .nogetList{
+    padding-top: 290px;
+    box-sizing:border-box;
+    background: url(../../../static/img/konhyemain.jpg) center 100px no-repeat;
+    background-size:145px 148px;
+    width: 100%;
+    height: 297px;
+    color: #999999;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 50px;
   }
 </style>

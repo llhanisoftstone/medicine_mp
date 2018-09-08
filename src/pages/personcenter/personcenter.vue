@@ -55,6 +55,7 @@
       this.getuserperson();
     },
     onShow(){
+      this.$store.commit('getorganizid','');
       this.getuserperson();
     }
   }

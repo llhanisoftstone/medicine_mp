@@ -7,11 +7,11 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    url: 'https://policy.lifeonway.com',
-    // url: 'https://pol.lifeonway.com',
+    // url: 'https://policy.lifeonway.com',
+    url: 'https://pol.lifeonway.com',
     // url: 'http://192.168.1.114:5000',
-    // ws_server: 'https://pol.lifeonway.com',
-    ws_server: 'https://policy.lifeonway.com',
+    ws_server: 'https://pol.lifeonway.com',
+    // ws_server: 'https://policy.lifeonway.com',
     // ws_server: 'http://192.168.1.105:5000',
     userinfo: {},    //  微信返回用户信息
     code: '',
@@ -42,7 +42,8 @@ const store = new Vuex.Store({
     errorTips: [],                    // 错误提示
     rightTitle: 0,                    // 正确题目数量
     allTitle: 0,                      // 所有题目
-    useTime: 0                        // 答题所用时间
+    useTime: 0,                        // 答题所用时间
+    organizcookie: ''                        // 政策百科机构id临时存储
   },
   mutations: {
     rightTitle: (state, nub) => {
@@ -165,6 +166,10 @@ const store = new Vuex.Store({
     get_openid: (state, openid) => {
       const obj = state
       obj.openid = openid
+    },
+    getorganizid: (state, organizcookie) => {
+      const obj = state
+      obj.organizcookie = organizcookie
     }
   }
 })

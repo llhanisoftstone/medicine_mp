@@ -37,7 +37,7 @@
       </div>
     </div>
     <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
-    <div class="nogetList" v-if="iskong">暂无记录</div>
+    <div class="nogetList" v-if="iskong">暂无内容</div>
   </div>
 </template>
 
@@ -47,6 +47,7 @@
       return {
         policy_list:[],
         _code:'',
+        orgid:'',
         _search:'',
         searchVal:'',
         scrollIcon:false,
@@ -83,6 +84,9 @@
           order:'create_time desc',
           unique_code:this._code
         };
+        if(this.orgid){
+          data.organiz_id=this.orgid;
+        }
         if (this._search){
             data.search = 1;
             data.searchData = this._search;
@@ -145,6 +149,11 @@
         }
       }
     },
+    computed:{
+        getorganizid (){
+          return this.$store.state.organizcookie;
+        },
+    },
     onUnload: function () {
       this.searchVal = '';
       this.iskong = false;
@@ -153,6 +162,9 @@
       this.page = 1;
       this._search = '';
       this._code = option.pid||"";
+      if(option.org_id && option.org_id!='null') {
+        this.orgid = option.org_id;
+      }
       this.policy_list = [];
       this.getpolicyList()//获取数据
     },

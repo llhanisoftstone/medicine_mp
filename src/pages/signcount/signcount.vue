@@ -215,11 +215,11 @@
         },
         async getpage(){
           let that = this;
-          let res = await that.$get('/rs/first_page',{page:1,size:3,order:'create_time desc'})
+          let res = await that.$get('/rs/first_page',{page:1,size:3,order:'order_code desc, create_time desc'})
           if(res.code == 200){
             that.p_number = res.present_count
             for(let i = 0;i<res.win_treasure.length;i++){
-              res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
+              res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].piclogo;
               res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
             }
             if(res.win_treasure.length>=3){

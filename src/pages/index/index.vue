@@ -37,9 +37,9 @@
       <div class="gift">
         <div class="gift_text">
           <h2>为礼物而战</h2>
-          <p>礼物有诱惑，政策福利更吸引我</p>
+          <p><span>礼物有诱惑，政策福利更吸引我</span><span class="toduo" @click.stop="tonewpage('giftlist')">更多礼物&gt;</span></p>
         </div>
-        <i class="gift_img">
+        <i class="gift_img" @click.stop="tonewpage('giftlist')">
           <image src="/static/img/lw.png"></image>
         </i>
       </div>
@@ -54,7 +54,7 @@
               <div class="itemmodel">查看详情&gt;</div>
             </div>
           </div>
-          <h3>{{v.name}}</h3>
+          <h3>{{v.ticket_name}}</h3>
         </main>
         <a @click="reward(v.id)">挑战</a>
       </li>
@@ -91,11 +91,14 @@
     },
     async getpage(){
         let that = this
-        let res = await that.$get('/rs/first_page')
-        if(res.code == 200){
+      let tdata={
+        order:'order_code desc'
+      }
+        let res = await that.$get('/rs/first_page',tdata)
+      if(res.code == 200){
             that.p_number = res.present_count
           for(let i = 0;i<res.win_treasure.length;i++){
-            res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].picpath
+            res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].piclogo
             res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
           }
             that.win_treasure = res.win_treasure
@@ -141,10 +144,10 @@
   computed:{
     isauth(){
       if(this.$store.state.isauth){
-        wx.showTabBar()
+        wx.showTabBar({animation:true})
       }else{
         if(this.$store.state.authreturn){
-          wx.hideTabBar()
+          wx.hideTabBar({animation:true})
         }
       }
       return this.$store.state.isauth
@@ -172,11 +175,12 @@
       this.watchsocket()
     },
     onShow(){
+      this.$store.commit('getorganizid','');
       if(this.$store.state.isauth){
-        wx.showTabBar()
+        wx.showTabBar({animation:true})
       }else{
         if(this.$store.state.authreturn){
-          wx.hideTabBar()
+          wx.hideTabBar({animation:true})
         }
       }
       if(this.$store.state.user.userid){
@@ -422,7 +426,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: relative;
       .gift_text{
+        width: 100%;
         h2{
           padding-top: 60px/2;
           padding-bottom: 11px/2;
@@ -437,12 +443,19 @@
           font-size: 26px/2;
           color: #df5c3e;
           line-height: 26px/2;
+          display: flex;
+          justify-content: space-between;
+          .toduo{
+            padding-right:40/2px;
+          }
         }
       }
       i{
         animation: gift 3s infinite;
         width: 98px/2;
         height: 123px/2;
+        position: absolute;
+        right: 0;
         image{
           width: 98px/2;
           height: 123px/2;
@@ -456,6 +469,8 @@
     padding: 0 26px/2;
     display: flex;
     flex-flow: wrap;
+    align-content: space-between;
+    justify-content: space-between;
     li{
       width: 219px/2;
       height: 327px/2;
@@ -463,7 +478,10 @@
       margin-bottom:20px/2;
       border-radius: 10px/2;
       background: #fff;
-      margin-right: 22px/2;
+      margin-right:11px/2;
+      &:nth-of-type(3n){
+        margin-right: 0;
+      }
       div.itemheadk{
         width: 219px/2;
         height: 220px/2;
