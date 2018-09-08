@@ -4,9 +4,9 @@
       <li v-for="(v,i) in policy_list" :class="{iskong:v.iskong}">
         <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)" v-if="!v.iskong">
           <div>
-            <image :src="v.picpath"></image>
+            <image :src="v.piclogo"></image>
           </div>
-          <h3>{{v.price}}元代金券</h3>
+          <h3>{{v.ticket_name}}</h3>
         </main>
         <a @click="reward(v.id)" v-if="!v.iskong">挑战</a>
       </li>
@@ -56,7 +56,7 @@
         if(res.code == 200){
           that.iskong=false;
           for(let i = 0;i<res.rows.length;i++){
-            res.rows[i].picpath = that.$store.state.url+ res.rows[i].picpath
+            res.rows[i].piclogo = that.$store.state.url+ res.rows[i].piclogo
             res.rows[i].tickt_id = res.rows[i].level_json[0].reward[0].id
           }
           if (res.rows.length > 0){
