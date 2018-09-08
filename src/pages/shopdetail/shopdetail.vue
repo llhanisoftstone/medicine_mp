@@ -47,10 +47,15 @@
         return data.getFullYear()+sign+months+sign+day;
       }
     },
-
     onLoad: function (option) {
       this.category=option.category;
       this.getpolicyInfo(option.pid)//获取数据
+    },
+    onUnload:function(){
+      this.title="";
+      this.create_time="";
+      this.category="";
+      this.details="";
     }
   }
 </script>

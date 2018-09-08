@@ -178,8 +178,8 @@
             height:280px/2;
           }
           .item_logo{
-            width: 125px/2;
-            height: 125px/2;
+            width: 127px/2;
+            height: 127px/2;
             border-radius: 50%;
             margin-top: 2px/2;
             margin-left: 2px/2;
