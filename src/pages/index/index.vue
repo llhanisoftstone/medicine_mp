@@ -470,7 +470,6 @@
     display: flex;
     flex-flow: wrap;
     align-content: space-between;
-    justify-content: space-between;
     li{
       width: 219px/2;
       height: 327px/2;
@@ -478,7 +477,7 @@
       margin-bottom:20px/2;
       border-radius: 10px/2;
       background: #fff;
-      margin-right:11px/2;
+      margin-right:22px/2;
       &:nth-of-type(3n){
         margin-right: 0;
       }
