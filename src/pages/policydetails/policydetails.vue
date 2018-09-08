@@ -25,9 +25,9 @@
           that.create_time = this.conversionTime(res.rows[0].create_time,'/');
           var details=res.rows[0].details;
           if (details){
-            var aimurl = that.$store.state.url+"/upload/ueeditor/";
-            details=details.replace(/\/upload\/ueeditor/g, aimurl);
-            details=details.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
+            var aimurl = 'src="'+that.$store.state.url+"/upload/";
+            details=details.replace(/src=\"\/upload\//g, aimurl);
+            details=details.replace(/\<img(.+?)src\=\"(.+?)\".+?\>/g,"<img style='max-width:100%;height:auto' src='$2'>")
           }
           that.details =  details;
         }
@@ -45,7 +45,11 @@
         return data.getFullYear()+sign+months+sign+day;
       }
     },
-
+    onUnload:function(){
+      this.title="";
+      this.create_time="";
+      this.details="";
+    },
     onLoad: function (option) {
       this.getpolicyInfo(option.pid)//获取数据
     }

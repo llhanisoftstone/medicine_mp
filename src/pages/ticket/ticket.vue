@@ -77,7 +77,7 @@
           size:this.size,
           u_id:this.$store.state.user.userid
         };
-        let res = await that.$get('/rs/v_ticket_send_rule_list',data);
+        let res = await that.$get('/rs/v_ticket_send_rule_front',data);
         console.log(res.rows.length)
         if (res.code == 200){
           that.iskong=false;
@@ -231,11 +231,13 @@
         }
         .lower-part{
           position: absolute;
-          width: 700px/2;
+          width: 100%;
+          left:0;
+          right:0;
           height: 79px/2;
           bottom: 0;
           background: url('../../../static/img/yhj_1.jpg') no-repeat left center;
-          background-size: 699px/2 79px/2;
+          background-size: 700px/2 79px/2;
           span{
             float: left;
             width: 33%;

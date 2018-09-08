@@ -17,7 +17,7 @@
           </div>
           <div class="gift gift_t" v-if="v==5" @click="showpick(v)">
             <i class="a_up"></i>
-            <p>她未来10元代金券</p>
+            <p>月饼20元代金券</p>
           </div>
           <div class="gift gift_r" v-if="v==10" @click="showpick(v)">
             <p>瑄府燕窝128元代金券</p>

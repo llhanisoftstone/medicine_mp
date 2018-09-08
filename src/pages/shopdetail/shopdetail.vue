@@ -1,7 +1,8 @@
 <template>
   <div class="content">
     <div class="title">{{title}}</div>
-    <div class="release-time">发布时间 : {{create_time}}</div>
+    <div class="release-time" v-if="category==2">发布时间 : {{create_time}}</div>
+    <div class="release-time" v-if="category!=2">&nbsp;</div>
     <div class="details"><div  v-html="details"></div></div>
   </div>
 </template>
@@ -12,6 +13,7 @@
       return {
         title:'',
         create_time:'',
+        category:"",
         details:'',
       }
     },
@@ -25,9 +27,9 @@
           that.create_time = this.conversionTime(res.rows[0].create_time,'/');
           var details=res.rows[0].details;
           if (details){
-            var aimurl = that.$store.state.url+"/upload/ueeditor/";
-            details=details.replace(/\/upload\/ueeditor/g, aimurl);
-            details=details.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
+            var aimurl = 'src="'+that.$store.state.url+"/upload/";
+            details=details.replace(/src=\"\/upload\//g, aimurl);
+            details=details.replace(/\<img(.+?)src\=\"(.+?)\".+?\>/g,"<img style='max-width:100%;height:auto' src='$2'>")
           }
           that.details =  details;
         }
@@ -45,9 +47,15 @@
         return data.getFullYear()+sign+months+sign+day;
       }
     },
-
     onLoad: function (option) {
+      this.category=option.category;
       this.getpolicyInfo(option.pid)//获取数据
+    },
+    onUnload:function(){
+      this.title="";
+      this.create_time="";
+      this.category="";
+      this.details="";
     }
   }
 </script>

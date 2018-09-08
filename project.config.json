@@ -207,10 +207,9 @@
 				},
 				{
 					"id": -1,
-					"name": "百科",
-					"pathName": "pages/policy/main",
-					"query": "",
-					"scene": "1007"
+					"name": "优惠卷",
+					"pathName": "pages/ticket/main",
+					"query": "id=4"
 				}
 			]
 		}

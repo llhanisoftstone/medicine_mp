@@ -56,7 +56,7 @@
               }
               that.piclogo = res.rows[0].piclogo
             }else{
-              that.piclogo = "/static/img/logo_moren.jpg";
+              that.piclogo = "/static/img/ticketshop_default.jpg";
             }
             let rs = await  that.$get('/rs/member_ticket',{ticket_id:pid,order:'get_time desc'});
             if (rs.rows.length > 0){
@@ -65,6 +65,8 @@
                 rs.rows[i].use_time = this.conversionTime(rs.rows[i].use_time);
               }
               that.sendlist = rs.rows;
+            }else{
+              that.sendlist = [];
             }
           }
         }
@@ -73,6 +75,7 @@
         if(time==null){
           return;
         }
+        time=time.replace(/-/g, '/');
         var data = new Date(time);
         var month=parseInt(data.getMonth()+1);
         var months="";

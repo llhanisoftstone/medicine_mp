@@ -33,7 +33,7 @@
       </div>
       <div v-if="scrollIcon" @click.stop="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
       <div class="nogetList" v-if="nogetshow">暂无内容</div>
-      <div class="buybutton">
+      <div class="buybutton" :class="{iphonexbottom:isiphonex}">
         <a v-if="exist" @click="reward(game_cfg_id)" >立即挑战</a>
       </div>
     </div>
@@ -57,6 +57,7 @@
               exist:false, //优惠券信息是否存在
               game_cfg_id:'',
               r_id:0,
+              isiphonex:false,//是否是iphoneX
             }
         },
       onPullDownRefresh () {
@@ -141,9 +142,9 @@
               res.rows[0].count = thiz.commons.zcount(res.rows[0].count);
               let Details=res.rows[0].details;
               if (Details){
-                let aimurl = this.$store.state.url+"/upload/ueeditor";
-                Details=Details.replace(/\/upload\/ueeditor/g, aimurl);
-                Details=Details.replace(/\<img/gi, '<img style="width:100%;max-width:100%;height:auto" ');
+                var aimurl = 'src="'+thiz.$store.state.url+"/upload/";
+                Details=Details.replace(/src=\"\/upload\//g, aimurl);
+                Details=Details.replace(/\<img(.+?)src\=\"(.+?)\".+?\>/g,"<img style='max-width:100%;height:auto' src='$2'>")
                 res.rows[0].details=Details;
               }else{
                   this.nogetshow=true;
@@ -198,6 +199,18 @@
         this.game_cfg_id=option.vid;//挑战id
         this.nogetshow=false;
         this.exist=false;
+        let that=this;
+        try {
+          let res = wx.getSystemInfoSync();
+          console.log(res)
+          if(res.model.match(/iPhone X/ig)){
+            that.isiphonex=true;
+          }else{
+            that.isiphonex=false;
+          }
+        } catch (e) {
+
+        }
         this.watchsocket()
       },
       onShow(){
@@ -384,12 +397,15 @@
       bottom:0;
       text-align: center;
       box-sizing: border-box;
+      &.iphonexbottom{
+        height:122px/2 !important;
+      }
       a{
         display:block;
         width:538px/2;
         height:70px/2;
         line-height:70px/2;
-        margin:12px/2 auto 0;
+        margin:11px/2 auto;
         border-radius: 40px/2;
         color:#fff;
         font-size: 30px/2;

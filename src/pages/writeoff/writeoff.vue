@@ -55,6 +55,11 @@
           },1000)
         }else{
           that.$mptoast('该二维码无效');
+          setTimeout(function () {
+            wx.redirectTo({
+              url:`/pages/ticket/main`
+            })
+          },1000)
         }
       },
       getformatDate(date,fmt){
@@ -81,7 +86,12 @@
       }
     },
     onLoad: function () {
-      this.getverifyingCode();
+      setTimeout(()=>{
+        this.getverifyingCode();
+      },100)
+    },
+    onShow:function(){
+
     }
   }
 </script>

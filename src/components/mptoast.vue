@@ -1,11 +1,12 @@
 <template>
-  <div class="textClass" v-if="show">
+  <div class="textClass" v-if="show&&!toasthide">
     {{text}}
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script type="javascript">
   export default {
+    props: ['toasthide'],
     data () {
       return {
         animateShow: false
@@ -32,6 +33,7 @@
         return normalClass + animatClass
       }
     }
+
   }
 </script>
 

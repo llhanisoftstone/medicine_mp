@@ -54,7 +54,7 @@
               <div class="itemmodel">查看详情&gt;</div>
             </div>
           </div>
-          <h3>{{v.price}}元代金券</h3>
+          <h3>{{v.name}}</h3>
         </main>
         <a @click="reward(v.id)">挑战</a>
       </li>
@@ -154,8 +154,16 @@
     },
     userinfo(){
         return this.$store.state.userinfo
+    },
+    user(){
+        return this.$store.state.user
     }
   },
+    watch:{
+      user(val,oldval){
+        this.getuserperson()
+      }
+    },
   created () {
     // 调用应用实例的方法获取全局数据
 //    this.getLogin()
@@ -171,9 +179,11 @@
           wx.hideTabBar()
         }
       }
+      if(this.$store.state.user.userid){
+        this.getuserperson()
+      }
       this.watchsocket()
       this.getpage()
-      this.getuserperson()
     },
     onHide(){
       this.$socket.removeAllListeners('data_chain')
@@ -301,8 +311,8 @@
     color: #fff;
     font-size: 26px/2;
     background: @bg_color;
-    margin-left: 50px/2;
     box-shadow: #923c3c 2px/2 5px/2 15px/2;
+    margin-top: 40px/2;
   }
   .container{
     background: #fff url(../../../static/img/yetou.jpg) center top no-repeat;
@@ -446,7 +456,6 @@
     padding: 0 26px/2;
     display: flex;
     flex-flow: wrap;
-    justify-content: space-between;
     li{
       width: 219px/2;
       height: 327px/2;
@@ -454,6 +463,7 @@
       margin-bottom:20px/2;
       border-radius: 10px/2;
       background: #fff;
+      margin-right: 22px/2;
       div.itemheadk{
         width: 219px/2;
         height: 220px/2;
@@ -512,6 +522,9 @@
         padding-bottom: 2px/2;
         background: @bg_color;
       }
+    }
+    li:nth-of-type(3n){
+      margin-right: 0;
     }
   }
 </style>

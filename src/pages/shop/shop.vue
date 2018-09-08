@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div id="index_gallerySlider" class="index_gallerySlider" v-if="bannerpath">
+    <div id="index_gallerySlider" class="index_gallerySlider" v-if="movies.length>0">
       <swiper :indicator-dots="indicatorDots"
               :autoplay="true" :circular="true" :interval="3000"
               :duration="duration" indicator-color="rgba(226,226,226,1)" indicator-active-color="#ffffff">
@@ -12,13 +12,13 @@
       </swiper>
     </div>
     <div class="toplist">
-      <div class="topitem" @click.stop="tonewpage('shopdetail','pid='+itemt.id)" v-for="(itemt,i_t) in top_list">
+      <div class="topitem" @click.stop="tonewpage('shopdetail','pid='+itemt.id+'&category='+itemt.category)" v-for="(itemt,i_t) in top_list">
         <div class="imgk"><img :src="itemt.picpath" alt=""></div>
         <div class="item_name mui-ellipsis">{{itemt.name}}</div>
       </div>
     </div>
     <ul class="mainlist">
-      <li class="item" @click.stop="tonewpage('shopdetail','pid='+items.id)" v-for="(items,i_s) in shop_list"><img :src="items.picpath" alt=""></li>
+      <li class="item" @click.stop="tonewpage('shopdetail','pid='+items.id+'&category='+items.category)" v-for="(items,i_s) in shop_list"><img :src="items.picpath" alt=""></li>
     </ul>
     <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
     <div class="nogetList" v-if="iskong">暂无信息</div>
@@ -82,6 +82,8 @@
             for(var j=0;j<pics.length;j++){
               if(pics[j].substring(0,4)!="http"){
                 pics[j] = that.$store.state.url+pics[j];
+              }else{
+                pics[j] = pics[j];
               }
             }
             that.movies=pics;

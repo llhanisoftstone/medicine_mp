@@ -59,6 +59,7 @@
         picpath:"",
         ishidden:false,
         seen:true,
+        issubmit:false,
         iskong:false,
         paytype:true,
         isshow:false,
@@ -239,6 +240,9 @@
       },
       async orderlist(){
         let that = this;
+        if(this.issubmit){
+            return;
+        }
         if(this.amount==""||this.amount<=0){
           this.$mptoast("请输入购买个数");
           return;
@@ -248,6 +252,8 @@
             this.$mptoast("您的银两余额不足，请选择其它支付方式");
             return;
           }
+        }else{
+            this.issubmit=true;
         }
         let res = await that.$post('/rs/order_build',{pay_type:this.pay_type,amount:this.amount,goods_id:this.goods_id});
         if(res.code == 200){
@@ -301,8 +307,10 @@
       this.name_type="银两";
       this.istotalprice=false;
       this.istotalpoint=true;
+      this.issubmit=false;
     },
     onUnload:function(){
+      this.issubmit=false;
       for(let key in this.goods){
         this.goods[key].isreverse=false;
         this.goods[key].isreverse_z="-1";
