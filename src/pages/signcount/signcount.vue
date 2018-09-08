@@ -236,6 +236,8 @@
               this.isoverflag=true;
               this.nowpointer=aa.total_points;
               this.getpointer=aa.points;
+            this.oldpoints=aa.points;
+
             var daystotal=this.days;
             var nowtime=new Date();
             if(aa.days.length>0){
