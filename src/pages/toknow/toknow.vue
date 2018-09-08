@@ -71,7 +71,7 @@
         methods: {
             async getWishCate(){
               let than = this;
-              let res = await this.$get('/rs/wish_category');
+              let res = await this.$get('/rs/wish_category',{status:1});
               if (res.code == 200){
                 var obj = [];
                 var array=[];
