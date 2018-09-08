@@ -179,6 +179,9 @@
           wx.hideTabBar()
         }
       }
+      if(this.$store.state.user.userid){
+        this.getuserperson()
+      }
       this.watchsocket()
       this.getpage()
     },
