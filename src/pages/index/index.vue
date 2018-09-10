@@ -50,7 +50,7 @@
         <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)">
           <div class="itemheadk">
             <div>
-              <image :src="v.picpath"></image>
+              <image :src="v.piclogo"></image>
               <div class="itemmodel">查看详情&gt;</div>
             </div>
           </div>
@@ -98,7 +98,7 @@
       if(res.code == 200){
             that.p_number = res.present_count
           for(let i = 0;i<res.win_treasure.length;i++){
-            res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].piclogo
+            res.win_treasure[i].piclogo = that.$store.state.url+ res.win_treasure[i].piclogo
             res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
           }
             that.win_treasure = res.win_treasure

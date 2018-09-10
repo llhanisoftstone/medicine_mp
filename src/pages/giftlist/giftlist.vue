@@ -3,8 +3,11 @@
     <ul class="gift_list">
       <li v-for="(v,i) in policy_list" :class="{iskong:v.iskong}">
         <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)" v-if="!v.iskong">
+          <div class="itemheadk">
           <div>
             <image :src="v.piclogo"></image>
+            <div class="itemmodel">查看详情&gt;</div>
+          </div>
           </div>
           <h3>{{v.ticket_name}}</h3>
         </main>
@@ -178,14 +181,34 @@
       &:nth-of-type(3n){
         margin-right: 0;
       }
-      div{
+      div.itemheadk{
         width: 219px/2;
         height: 220px/2;
         box-sizing: border-box;
         padding: 20px/2;
-        image{
+        div{
+          position: relative;
           width: 100%;
           height: 100%;
+          .itemmodel{
+            position: absolute;
+            bottom:0;
+            left:0;
+            width:100%;
+            font-size: 16/2px;
+            padding:6/2px;
+            padding-top: 20/2px;
+            line-height: 16/2px;
+            height: 22/2+20/2px;
+            text-align: right;
+            color: #fff;
+            box-sizing: border-box;
+            background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.4));
+          }
+          image{
+            width: 100%;
+            height: 100%;
+          }
         }
       }
       h3{
