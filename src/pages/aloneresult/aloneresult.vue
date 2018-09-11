@@ -273,6 +273,7 @@
     width: 100%px/2;
     height: auto;
     position: relative;
+    padding-bottom: 10px/2;
     h1{
       animation: title .8s ease;
       position: absolute;
