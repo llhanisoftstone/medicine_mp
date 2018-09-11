@@ -258,7 +258,7 @@
         margin-top:-90px/2;
       }
       p{
-        color: #567dff;
+        color: #d57e46;
         font-size: 28px/2;
         width: 100%;
         text-align: center;
