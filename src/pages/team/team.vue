@@ -1543,7 +1543,7 @@
       }
       p{
         font-size: 28px/2;
-        color: #567dff;
+        color: #d57e46;
         margin-top:43px/2;
         text-align: center;
       }
