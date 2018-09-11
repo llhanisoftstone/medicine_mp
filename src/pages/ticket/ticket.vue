@@ -75,7 +75,8 @@
         let data = {
           page:this.page,
           size:this.size,
-          u_id:this.$store.state.user.userid
+          u_id:this.$store.state.user.userid,
+          order:'create_time desc, index_id desc'
         };
         let res = await that.$get('/rs/v_ticket_send_rule_front',data);
         console.log(res.rows.length)

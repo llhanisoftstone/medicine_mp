@@ -6,7 +6,7 @@
             <div class="shade"></div>
             <image class="background-img" src="/static/img/back_icon-1.jpg" alt=""></image>
             <div class="item_margin"><img class="item_logo" :src="piclogo" alt=""></div>
-            <p class="item_name">{{ticket_name}}</p>
+            <p class="item_name">{{store_name}}</p>
             <div class="ticket-info">
               <div class="ticket-name">{{ticket_name}}</div>
               <div class="ticket-count">{{ticket_amount}}张</div>
@@ -37,6 +37,7 @@
       return {
         piclogo:'',
         ticket_name:'',
+        store_name:'',
         ticket_amount:0,
         sendlist:[]
       }
@@ -49,6 +50,7 @@
         if (res.code == 200){
           if (res.rows.length > 0){
             that.ticket_name = res.rows[0].name;
+            that.store_name = res.rows[0].store_name;
             that.ticket_amount = res.rows[0].total_amount;
             if(res.rows[0].piclogo){
               if(res.rows[0].piclogo.substring(0,4)!="http"){
@@ -171,11 +173,11 @@
         }
         .lower-part{
           position: absolute;
-          width: 700px/2;
+          width: 100%;
           height: 79px/2;
           bottom: 0;
           background: url('../../../static/img/yhj_1.jpg') no-repeat left center;
-          background-size: 699px/2 79px/2;
+          background-size: 700px/2 79px/2;
           span{
             float: left;
             width: 33%;
