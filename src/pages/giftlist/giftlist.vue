@@ -99,15 +99,33 @@
         })
       },
       reward(r_id){
+        let that=this;
         this.r_id=r_id;
         this.$socket.emit('data_chain',{
           cmd:'fight',
-          u_id: this.$store.state.user.userid,
+          u_id: that.$store.state.user.userid,
           game_cfg_id: r_id,
           game_type:1,
           level:1
         })
-      }
+      },
+      watchsocket(){
+        let that=this
+        that.$socket.removeAllListeners('data_chain')
+        that.$socket.on('data_chain',d=>{
+          if(d.cmd == 'answer'&&d.step == 1){
+            that.$socket.removeAllListeners('data_chain')
+            that.$store.commit('get_answer',d.details[0])
+            that.$store.commit('get_step',d.step)
+            that.$store.commit('get_level',1)
+            that.$store.commit('get_room',d.room_id)
+            that.$store.commit('get_max_nub',d.max_step)
+            wx.navigateTo({
+              url:`/pages/alone/main?id=${that.r_id}`
+            })
+          }
+        })
+      },
     },
     onLoad: function (option) {
 
@@ -116,6 +134,7 @@
       this.page = 1;
       this.policy_list = [];
       this.getpolicyList()//获取数据
+      this.watchsocket()
     },
     onUnload: function () {
       this.page = 1;
