@@ -74,7 +74,7 @@
             },
           failTips(){
                 if(this.$store.state.failTips.length>0){
-                  return this.$store.state.failTips[Math.floor(Math.random()*this.$store.state.failTips.length)]
+                  return this.$store.state.failTips[Math.floor(Math.random()*this.$store.state.failTips.length)].details
                 }else{
                     return '留得青山在，不怕没柴烧'
                 }
