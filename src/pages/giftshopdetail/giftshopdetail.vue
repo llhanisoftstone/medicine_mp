@@ -41,7 +41,7 @@
             }
             that.piclogo = res.rows[0].piclogo
           }else{
-            that.piclogo = "/static/img/logo_moren.jpg";
+            that.piclogo = "/static/img/ticketshop_default.jpg";
           }
           that.name = res.rows[0].name
           that.phone = res.rows[0].phone

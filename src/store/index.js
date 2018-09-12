@@ -9,8 +9,10 @@ const store = new Vuex.Store({
   state: {
     // url: 'https://policy.lifeonway.com',
     url: 'https://pol.lifeonway.com',
-    // url: 'http://192.168.1.114:5000',
+    // url: 'https://pk.lifeonway.com',
+    // url: 'http://192.168.1.137:5000',
     ws_server: 'https://pol.lifeonway.com',
+    // ws_server: 'https://pk.lifeonway.com',
     // ws_server: 'https://policy.lifeonway.com',
     // ws_server: 'http://192.168.1.105:5000',
     userinfo: {},    //  微信返回用户信息
@@ -40,6 +42,7 @@ const store = new Vuex.Store({
     quick: [],                        // 快捷语
     successTips: [],                 // 正确提示
     errorTips: [],                    // 错误提示
+    failTips:[],                       //失败提示语
     rightTitle: 0,                    // 正确题目数量
     allTitle: 0,                      // 所有题目
     useTime: 0,                        // 答题所用时间
@@ -81,6 +84,10 @@ const store = new Vuex.Store({
     errorTips: (state, arr) => {
       const obj = state
       obj.errorTips = arr
+    },
+    failTips: (state, arr) => {
+      const obj = state
+      obj.failTips = arr
     },
     getsocket: (state, islogin = true) => {
       const obj = state

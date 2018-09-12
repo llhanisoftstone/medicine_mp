@@ -3,8 +3,11 @@
     <ul class="gift_list">
       <li v-for="(v,i) in policy_list" :class="{iskong:v.iskong}">
         <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)" v-if="!v.iskong">
+          <div class="itemheadk">
           <div>
             <image :src="v.piclogo"></image>
+            <div class="itemmodel">查看详情&gt;</div>
+          </div>
           </div>
           <h3>{{v.ticket_name}}</h3>
         </main>
@@ -96,15 +99,33 @@
         })
       },
       reward(r_id){
+        let that=this;
         this.r_id=r_id;
         this.$socket.emit('data_chain',{
           cmd:'fight',
-          u_id: this.$store.state.user.userid,
+          u_id: that.$store.state.user.userid,
           game_cfg_id: r_id,
           game_type:1,
           level:1
         })
-      }
+      },
+      watchsocket(){
+        let that=this
+        that.$socket.removeAllListeners('data_chain')
+        that.$socket.on('data_chain',d=>{
+          if(d.cmd == 'answer'&&d.step == 1){
+            that.$socket.removeAllListeners('data_chain')
+            that.$store.commit('get_answer',d.details[0])
+            that.$store.commit('get_step',d.step)
+            that.$store.commit('get_level',1)
+            that.$store.commit('get_room',d.room_id)
+            that.$store.commit('get_max_nub',d.max_step)
+            wx.navigateTo({
+              url:`/pages/alone/main?id=${that.r_id}`
+            })
+          }
+        })
+      },
     },
     onLoad: function (option) {
 
@@ -113,6 +134,7 @@
       this.page = 1;
       this.policy_list = [];
       this.getpolicyList()//获取数据
+      this.watchsocket()
     },
     onUnload: function () {
       this.page = 1;
@@ -178,14 +200,34 @@
       &:nth-of-type(3n){
         margin-right: 0;
       }
-      div{
+      div.itemheadk{
         width: 219px/2;
         height: 220px/2;
         box-sizing: border-box;
         padding: 20px/2;
-        image{
+        div{
+          position: relative;
           width: 100%;
           height: 100%;
+          .itemmodel{
+            position: absolute;
+            bottom:0;
+            left:0;
+            width:100%;
+            font-size: 16/2px;
+            padding:6/2px;
+            padding-top: 20/2px;
+            line-height: 16/2px;
+            height: 22/2+20/2px;
+            text-align: right;
+            color: #fff;
+            box-sizing: border-box;
+            background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.4));
+          }
+          image{
+            width: 100%;
+            height: 100%;
+          }
         }
       }
       h3{

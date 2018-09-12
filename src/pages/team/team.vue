@@ -80,7 +80,8 @@
           </div>
         </div>
         <div class="fail" v-if="iswin==1">
-          <image src="/static/img/team_fail.png"></image>
+          <!--<image src="/static/img/team_fail.png"></image>-->
+          <image src="/static/img/shenheshibai_03.jpg"></image>
           <p>留得青山在，不怕没柴烧</p>
         </div>
       </div>
@@ -1542,7 +1543,7 @@
       }
       p{
         font-size: 28px/2;
-        color: #567dff;
+        color: #d57e46;
         margin-top:43px/2;
         text-align: center;
       }

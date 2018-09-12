@@ -36,8 +36,9 @@
             <span class="rank_name">{{user.rank_name}}</span>
           </li>
         </ul>
-        <image src="/static/img/fail.png" class="tips"></image>
-        <p>留得青山在，不怕没柴烧</p>
+        <!--<image src="/static/img/fail.png" class="tips"></image>-->
+        <image src="/static/img/shenheshibai_03.jpg" class="tips"></image>
+        <p>{{failTips}}</p>
       </div>
     </div>
 </template>
@@ -70,7 +71,14 @@
             },
             rank(){
                 return this.$store.state.rightTitle
-            }
+            },
+          failTips(){
+                if(this.$store.state.failTips.length>0){
+                  return this.$store.state.failTips[Math.floor(Math.random()*this.$store.state.failTips.length)]
+                }else{
+                    return '留得青山在，不怕没柴烧'
+                }
+          }
         }
 
     }
@@ -239,8 +247,10 @@
       /*justify-content: center;*/
       /*display:flex;*/
       .tips{
-        width: 178px/2;
-        height: 206px/2;
+        /*<!--width: 178px/2;-->*/
+        width: 233px/2;
+        /*<!--height: 206px/2;-->*/
+        height: 270px/2;
         margin:0 auto;
         display: block;
         position: relative;
@@ -248,7 +258,7 @@
         margin-top:-90px/2;
       }
       p{
-        color: #567dff;
+        color: #d57e46;
         font-size: 28px/2;
         width: 100%;
         text-align: center;

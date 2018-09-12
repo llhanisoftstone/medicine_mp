@@ -304,6 +304,11 @@ export default {
           that.$store.commit('errorTips', res.rows)
         }
       })
+      this.$get('/rs/hint_set', {category: 3, page: 1, size: 20}).then(res => {
+        if (res.code === 200) {
+          that.$store.commit('failTips', res.rows)
+        }
+      })
     }
   }
 }

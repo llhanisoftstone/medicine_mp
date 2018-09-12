@@ -23,7 +23,7 @@
         <li v-for="(v,i) in company" @click="choice(v.name)">{{v.name}}</li>
       </ul>
     </div>
-      <div class="item" @click="addresslist">
+      <div class="item" @click="addresslist" v-if="false">
           <div class="title">详细地址</div>
           <input type="text" style="max-width:90%"  disabled placeholder="详细地址" maxlength="30" confirm-type="next" v-model='address' />
           <img src="/static/img/arrow.png"/>
