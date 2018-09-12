@@ -416,7 +416,7 @@
     .footcgotop{
       position: fixed;
       z-index: 100;
-      bottom: 100px/2;
+      bottom: 130px/2;
       right: 30px/2;
       width: 80px/2;
       height: 80px/2;
