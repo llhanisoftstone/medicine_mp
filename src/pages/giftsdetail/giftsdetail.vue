@@ -216,6 +216,7 @@
         this.watchsocket()
       },
       onHide(){
+          this.scrollIcon=false
         this.$socket.removeAllListeners('data_chain')
       },
       onPageScroll:function(res){
