@@ -82,7 +82,7 @@
         <div class="fail" v-if="iswin==1">
           <!--<image src="/static/img/team_fail.png"></image>-->
           <image src="/static/img/shenheshibai_03.jpg"></image>
-          <p>留得青山在，不怕没柴烧</p>
+          <p>{{failTips}}</p>
         </div>
       </div>
 
@@ -530,7 +530,14 @@
             },
             rank(){
                 return this.$store.state.rightTitle
+            },
+          failTips(){
+            if(this.$store.state.failTips.length>0){
+              return this.$store.state.failTips[Math.floor(Math.random()*this.$store.state.failTips.length)].details
+            }else{
+              return '留得青山在，不怕没柴烧'
             }
+          }
         },
     onShareAppMessage(res){
       let that = this;
