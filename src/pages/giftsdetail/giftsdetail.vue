@@ -193,6 +193,7 @@
         this.getmessage(this.pid);
       },
       onLoad: function (option) {
+        this.scrollIcon=false
         this.messageData=[];
         this.pid=option.tid;//优惠券id
         this.game_cfg_id=option.vid;//挑战id
@@ -216,6 +217,7 @@
         this.watchsocket()
       },
       onHide(){
+        this.scrollIcon=false
         this.$socket.removeAllListeners('data_chain')
       },
       onPageScroll:function(res){
