@@ -8,7 +8,7 @@
             <div class="item_margin"><img class="item_logo" :src="piclogo" alt=""></div>
             <p class="item_name">{{store_name}}</p>
             <div class="ticket-info">
-              <div class="ticket-name">{{ticket_name}}</div>
+              <div class="ticket-name">{{name}}</div>
               <div class="ticket-count">{{ticket_amount}}张</div>
             </div>
           </div>
@@ -36,7 +36,7 @@
     data () {
       return {
         piclogo:'',
-        ticket_name:'',
+        name:'',
         store_name:'',
         ticket_amount:0,
         sendlist:[]
@@ -49,7 +49,11 @@
         let res = await that.$get('/rs/v_ticket_send_rule_statics',{ticket_id:pid});
         if (res.code == 200){
           if (res.rows.length > 0){
-            that.ticket_name = res.rows[0].name;
+            if(res.rows[0].type == 3){
+              that.name = res.rows[0].goods_name;
+            }else{
+              that.name = res.rows[0].name;
+            }
             that.store_name = res.rows[0].store_name;
             that.ticket_amount = res.rows[0].total_amount;
             if(res.rows[0].piclogo){

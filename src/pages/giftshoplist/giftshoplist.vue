@@ -7,7 +7,7 @@
           <image class="item_img1" src="/static/img/back_icon-1.jpg" alt="" v-if="item.status==0"></image>
           <div class="item_info1">
             <p class="item_rmb"><span class="rmbsign">{{item.price}}</span><span class="djqsign">元代金券</span></p>
-            <p class="item_type">线上红包</p>
+            <p class="item_type">线上代金券</p>
             <p class="item_time">有效期至 : {{item.end_time}}</p>
             <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
             <p class="item_name">{{item.name}}</p>
@@ -20,7 +20,25 @@
           <image class="item_img2" src="/static/img/back_icon-2.jpg" alt="" v-if="item.status==0"></image>
           <div class="item_info2">
             <p class="item_rmb"><span class="rmbsign">{{item.price}}</span><span class="djqsign">元代金券</span></p>
-            <p class="item_type">实体店红包</p>
+            <p class="item_type">实体店代金券</p>
+            <p class="item_time">有效期至 : {{item.end_time}}</p>
+            <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
+            <p class="item_name">{{item.name}}</p>
+            <div class="item_contact">
+              <span class="item_phone" @click.stop="dialing(item.phone)">{{item.phone}}</span>
+              <span class="item_address">{{item.address}}</span>
+            </div>
+            <img class="item_sign" src="/static/img/shiyong_03.png" v-if="item.status==1" alt="">
+            <img class="item_sign" src="/static/img/guoqi_06.png" v-if="item.status==2" alt="">
+          </div>
+          <div class="del2" catchtap="del" :key="item.id">删除</div>
+        </a>
+        <a v-if="item.type==3" :href="'/pages/giftshopdetail/main?pid='+item.id" :class="{'touch-item':true,'touch-move-active':item.isTouchMove }" :key="item.id" @longpress.stop="deleteItem" :data-index="item.id">
+          <image class="item_img2" src="/static/img/beijing-2.png" v-if="item.status==1 || item.status==2" alt=""></image>
+          <image class="item_img2" src="/static/img/back_icon-2.jpg" alt="" v-if="item.status==0"></image>
+          <div class="item_info2">
+            <p class="item_rmb"><span class="rmbsign">{{item.goods_name}}</span><span class="djqsign"></span></p>
+            <p class="item_type">实体店产品</p>
             <p class="item_time">有效期至 : {{item.end_time}}</p>
             <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
             <p class="item_name">{{item.name}}</p>

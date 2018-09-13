@@ -7,9 +7,9 @@
               <div class="shade"></div>
               <image src="/static/img/back_icon-1.jpg" class="background-img"></image>
               <div class="ticket-info">
-                <p class="item_rmb"><span class="rmbsign">{{item.price}}</span><span class="djqsign">元代金券({{item.total_amount}}张)</span></p>
+                <p class="item_rmb"><span class="rmbsign">{{item.name}}</span><span class="djqsign">({{item.total_amount}}份)</span></p>
                 <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
-                <p class="item_name">{{item.name}}</p>
+                <p class="item_name">{{item.store_name}}</p>
                 <div class="count-list">
                   <ul class="clear ">
                     <li>
@@ -84,6 +84,9 @@
           that.iskong=false;
           if (res.rows.length > 0){
             for (var i=0; i<res.rows.length; i++){
+              if(res.rows[i].type == 3){
+                res.rows[i].name = res.rows[i].goods_name;
+              }
               if (res.rows[i].price){
                 res.rows[i].price=that.pricetab(res.rows[i].price);
               }
