@@ -84,6 +84,9 @@
     },
     methods: {
       submitData(){
+          if(!this.isTrue){
+              return;
+          }
         if((this.name).trim()==''){
           this.$mptoast('请输入商家名称');
           return;
@@ -107,6 +110,7 @@
           contacts:this.people,
           status:0
         }
+        this.isTrue=false;
         if(this.id){
           this.$put('/rs/cooperator/'+this.id,data).then(res=>{
             if(res.code == 200){
@@ -118,6 +122,7 @@
               },1000);
             }else{
               this.$mptoast('修改失败');
+              this.isTrue=true;
             }
           })
         }else{
@@ -131,6 +136,7 @@
               },1000);
             }else{
               this.$mptoast('提交失败');
+              this.isTrue=true;
             }
           })
         }
@@ -194,7 +200,8 @@
       this.seen=false;
       this.isseen=false;
       this.overseen=false;
-      this.overseenbtn=false
+      this.overseenbtn=false;
+      this.isTrue=true;
     }
   }
 </script>
