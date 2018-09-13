@@ -49,11 +49,7 @@
         let res = await that.$get('/rs/v_ticket_send_rule_statics',{ticket_id:pid});
         if (res.code == 200){
           if (res.rows.length > 0){
-            if(res.rows[0].type == 3){
-              that.name = res.rows[0].goods_name;
-            }else{
-              that.name = res.rows[0].name;
-            }
+            that.name = res.rows[0].name;
             that.store_name = res.rows[0].store_name;
             that.ticket_amount = res.rows[0].total_amount;
             if(res.rows[0].piclogo){

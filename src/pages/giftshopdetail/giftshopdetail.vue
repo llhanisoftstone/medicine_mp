@@ -46,7 +46,7 @@
           }else{
             that.piclogo = "/static/img/ticketshop_default.jpg";
           }
-          that.name = res.rows[0].name
+          that.name = res.rows[0].store_name
           that.phone = res.rows[0].phone
           that.address = res.rows[0].address
           that.province = res.rows[0].province
