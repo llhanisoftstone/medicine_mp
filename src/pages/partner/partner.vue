@@ -120,6 +120,9 @@
                   delta: 1
                 })
               },1000);
+            }else if(res.code==500){
+              this.$mptoast('该商家名称已存在，不能重复使用');
+              this.isTrue=true;
             }else{
               this.$mptoast('修改失败');
               this.isTrue=true;
@@ -134,6 +137,9 @@
                   delta: 1
                 })
               },1000);
+            }else if(res.code==500){
+              this.$mptoast('该商家名称已存在，不能重复使用');
+              this.isTrue=true;
             }else{
               this.$mptoast('提交失败');
               this.isTrue=true;
