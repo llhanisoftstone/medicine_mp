@@ -3,7 +3,7 @@
     <div class="imgk"><img :src="piclogo" alt=""></div>
     <p class="title">{{name}}</p>
     <p class="phone" @click="dialing(phone)"><image src="/static/img/tel_icon.png" class="tel_icon"></image>{{phone}}</p>
-    <p class="address">{{address}}</p>
+    <p class="address">{{province}}{{city}}{{area}}{{address}}</p>
     <div class="codek">
       <div class="imgkqrcode">
         <canvas class="canvas_sty" canvas-id="mycanvas"/>
@@ -22,6 +22,9 @@
         name:'',
         phone:'',
         address:'',
+        province:'',
+        city:'',
+        area:'',
         code:'',
         qrcode:'',
         maskHidden:true,
@@ -46,6 +49,9 @@
           that.name = res.rows[0].name
           that.phone = res.rows[0].phone
           that.address = res.rows[0].address
+          that.province = res.rows[0].province
+          that.city = res.rows[0].city
+          that.area = res.rows[0].area
           that.code = res.rows[0].ticket_code
           wx.createSelectorQuery().select('.main').boundingClientRect(function (rect) {
             if(rect){
