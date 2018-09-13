@@ -44,7 +44,7 @@
             <p class="item_name">{{item.name}}</p>
             <div class="item_contact">
               <span class="item_phone" @click.stop="dialing(item.phone)">{{item.phone}}</span>
-              <span class="item_address">{{item.address}}</span>
+              <span class="item_address">{{item.province}}{{item.city}}{{item.area}}{{item.address}}</span>
             </div>
             <img class="item_sign" src="/static/img/shiyong_03.png" v-if="item.status==1" alt="">
             <img class="item_sign" src="/static/img/guoqi_06.png" v-if="item.status==2" alt="">

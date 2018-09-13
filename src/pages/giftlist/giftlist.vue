@@ -53,6 +53,7 @@
           id:">,10",
           is_normal:1,
           status:1,
+          ticket_status:1,
           order:'create_time desc'
         };
         let res = await that.$get('/rs/v_game_config',data)
