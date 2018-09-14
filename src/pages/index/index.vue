@@ -92,7 +92,7 @@
     async getpage(){
         let that = this
       let tdata={
-        order:'order_code desc'
+        order:'order_code desc,create_time desc'
       }
         let res = await that.$get('/rs/first_page',tdata)
       if(res.code == 200){

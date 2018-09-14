@@ -12,7 +12,7 @@
           <div class="org-box" v-show="pickerIndex>=0">{{pickerValueArray[pickerIndex]}}</div>
           <div class="org-box" v-show="pickerIndex==-1">请选择机关</div>
         </picker>
-        <a class="ui-link" :href="'/pages/policylist/main?search=1'">
+        <a class="ui-link" :href="'/pages/policylist/main?org_id='+org_id">
           <div class="searchinput">请输入标题或内容</div>
         </a>
       </div>
@@ -341,7 +341,7 @@
       font-size: 28px/2;
       color: #888;
       overflow: hidden;
-      padding:0 50px/2 0 20px/2;
+      padding:0 50px/2 0 16px/2;
       background: url("../../../static/img/arrow-down.png") 165px/2 center no-repeat;
       background-size: 26px/2 25px/2;
       border-radius: 10/2px;
