@@ -294,6 +294,7 @@
           height:30/2px;
           background: url("../../static/img/levelback.png")no-repeat left center;
           background-size: 99/2px 28/2px;
+          margin-left: 5px/2;
         }
         .userlevel{
           color:#df5c3e;
