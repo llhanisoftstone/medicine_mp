@@ -177,9 +177,6 @@
   },
     onLoad(){
       this.watchsocket()
-    },
-    onShow(){
-      this.$store.commit('getorganizid','');
       if(this.$store.state.isauth){
         wx.showTabBar({animation:true})
       }else{
@@ -187,6 +184,9 @@
           wx.hideTabBar({animation:true})
         }
       }
+    },
+    onShow(){
+      this.$store.commit('getorganizid','');
       if(this.$store.state.user.userid){
         this.getuserperson()
       }
