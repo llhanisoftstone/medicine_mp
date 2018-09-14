@@ -427,7 +427,7 @@
       flex-flow: wrap;
       align-content: space-between;
       li{
-        width: 31.37%;
+        width: 31%;
         height: 327px/2;
         box-shadow: #acacac 4px/2 5px/2 15px/2;
         margin-bottom:20px/2;
