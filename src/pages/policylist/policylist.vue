@@ -166,8 +166,12 @@
       this.page = 1;
       this._search = '';
       this._code = option.pid||"";
-      if(option.org_id && option.org_id!='null') {
-        this.orgid = option.org_id;
+      if(option.search==1){//如果是点击搜索按钮进入的页面
+        this.orgid='';
+      }else{
+        if(option.org_id && option.org_id!='null') {
+          this.orgid = option.org_id;
+        }
       }
       this.policy_list = [];
       this.getpolicyList()//获取数据

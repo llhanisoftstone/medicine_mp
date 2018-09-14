@@ -12,7 +12,7 @@
           <div class="org-box" v-show="pickerIndex>=0">{{pickerValueArray[pickerIndex]}}</div>
           <div class="org-box" v-show="pickerIndex==-1">请选择机关</div>
         </picker>
-        <a class="ui-link" :href="'/pages/policylist/main'">
+        <a class="ui-link" :href="'/pages/policylist/main?search=1'">
           <div class="searchinput">请输入标题或内容</div>
         </a>
       </div>
