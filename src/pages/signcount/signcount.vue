@@ -75,7 +75,7 @@
             </div>
             <h3>{{v.name}}</h3>
           </main>
-          <a @click="reward(v.id)">挑战</a>
+          <a @click="reward(v.id,v.isReward)" :class="{'disabled':v.isReward<=0}">挑战</a>
         </li>
       </ul>
       <div id="zhezhao_fu" catchtouchmove='true' class="tryoutModelBox" v-if="isshowsign">
@@ -221,6 +221,8 @@
             for(let i = 0;i<res.win_treasure.length;i++){
               res.win_treasure[i].picpath = that.$store.state.url+ res.win_treasure[i].piclogo;
               res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
+              let amount = Number(res.win_treasure[i].amount)==0?Number(res.win_treasure[i].total_amount):Number(res.win_treasure[i].amount)
+              res.win_treasure[i].isReward = amount - Number(res.win_treasure[i].send_amount)
             }
             if(res.win_treasure.length>=3){
               that.win_treasure = res.win_treasure.slice(0,3)
@@ -281,15 +283,17 @@
         notshowsign(){
           this.isshowsign=false;
         },
-        reward(r_id){
-          this.r_id=r_id
-          this.$socket.emit('data_chain',{
-            cmd:'fight',
-            u_id: this.$store.state.user.userid,
-            game_cfg_id: r_id,
-            game_type:1,
-            level:1
-          })
+        reward(r_id,amount){
+            if(amount>0){
+              this.r_id=r_id
+              this.$socket.emit('data_chain',{
+                cmd:'fight',
+                u_id: this.$store.state.user.userid,
+                game_cfg_id: r_id,
+                game_type:1,
+                level:1
+              })
+            }
         },
         tonewpage(urlname,data){
           wx.navigateTo({
@@ -490,6 +494,9 @@
           align-content: center;
           padding-bottom: 2px/2;
           background: @bg_color;
+        }
+        .disabled{
+          background: #999;
         }
       }
       li:nth-of-type(3n){
