@@ -335,19 +335,19 @@
     display:flex;
     .org-box{
       box-sizing: border-box;
-      width:230px/2;
+      width:210px/2;
       height: 70px/2;
       line-height: 70/2px;
       font-size: 28px/2;
       color: #888;
       overflow: hidden;
-      padding:0 70px/2 0 15px/2;
-      background: #fff url("../../../static/img/arrow-down.png") 179px/2 center no-repeat;
+      padding:0 50px/2 0 20px/2;
+      background: url("../../../static/img/arrow-down.png") 165px/2 center no-repeat;
       background-size: 26px/2 25px/2;
       border-radius: 10/2px;
     }
     .ui-link{
-      width:520px/2;
+      width:540px/2;
       box-sizing: border-box;
     }
   }
