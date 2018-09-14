@@ -33,7 +33,7 @@
         </a>
       </div>
     </div>
-    <div class="gitf_box" v-if="win_treasure.length>0">
+    <div class="gitf_box">
       <div class="gift">
         <div class="gift_text">
           <h2>为礼物而战</h2>
@@ -56,7 +56,7 @@
           </div>
           <h3>{{v.ticket_name}}</h3>
         </main>
-        <a @click="reward(v.id)">挑战</a>
+        <a @click="reward(v.id,v.isReward)" :class="{'disabled':v.isReward<=0}">挑战</a>
       </li>
     </ul>
   </div>
@@ -100,6 +100,8 @@
           for(let i = 0;i<res.win_treasure.length;i++){
             res.win_treasure[i].piclogo = that.$store.state.url+ res.win_treasure[i].piclogo
             res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
+            let amount = Number(res.win_treasure[i].amount)==0?Number(res.win_treasure[i].total_amount):Number(res.win_treasure[i].amount)
+            res.win_treasure[i].isReward = amount - Number(res.win_treasure[i].send_amount)
           }
             that.win_treasure = res.win_treasure
 
@@ -108,15 +110,17 @@
           that.win_treasure=[]
         }
     },
-    reward(r_id){
-        this.r_id=r_id
-        this.$socket.emit('data_chain',{
+    reward(r_id,amount){
+        if(amount>0){
+          this.r_id=r_id
+          this.$socket.emit('data_chain',{
             cmd:'fight',
             u_id: this.$store.state.user.userid,
             game_cfg_id: r_id,
             game_type:1,
             level:1
-        })
+          })
+        }
     },
     watchsocket(){
       let that=this
@@ -538,6 +542,9 @@
         align-content: center;
         padding-bottom: 2px/2;
         background: @bg_color;
+      }
+      .disabled{
+        background: #999;
       }
     }
     li:nth-of-type(3n){
