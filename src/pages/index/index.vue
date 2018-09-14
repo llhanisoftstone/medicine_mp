@@ -475,18 +475,18 @@
     flex-flow: wrap;
     align-content: space-between;
     li{
-      width: 219px/2;
+      width: 31%;
       height: 327px/2;
       box-shadow: #acacac 4px/2 5px/2 15px/2;
       margin-bottom:20px/2;
       border-radius: 10px/2;
       background: #fff;
-      margin-right:22px/2;
+      margin-right:3.15%;
       &:nth-of-type(3n){
         margin-right: 0;
       }
       div.itemheadk{
-        width: 219px/2;
+        width: 100%;
         height: 220px/2;
         box-sizing: border-box;
         padding: 20px/2;
