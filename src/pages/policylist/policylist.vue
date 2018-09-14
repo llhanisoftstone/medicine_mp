@@ -103,6 +103,9 @@
           if (res.rows.length > 0){
             for (let i=0; i<res.rows.length; i++){
               res.rows[i].view_count = that.commons.zcount(res.rows[i].view_count)
+//              if(res.rows[i].pic_abbr){
+//                res.rows[0].pic_abbr= '/static/img/giftshop_moren2.jpg';
+//              }
               res.rows[i].pic_abbr = that.$store.state.url+res.rows[i].pic_abbr;
             }
             that.policy_list = that.policy_list.concat(res.rows);
