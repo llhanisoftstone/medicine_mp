@@ -5,7 +5,7 @@
       </div>
       <div class="aboutus_text">
         <div class="ab_title">公共政策宣传共享平台</div>
-        <div class="ab_content">V1.0.0</div>
+        <div class="ab_content">V1.0.1</div>
       </div>
       <div class="ab_text">
         政策大咖是为公共政策制定部门提供互联网宣传的平台；用户在娱乐中了解和掌握政策，帮助企业拓展市场、提升形象。平台由西安市人力资源和社会保障局发起，由藤罗网络设计开发运营。通过闯关、对战和挑战等形式，享受娱乐的同时，实现了公共政策的推广和宣传。
