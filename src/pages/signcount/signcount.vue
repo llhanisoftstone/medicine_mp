@@ -73,7 +73,7 @@
                 <div class="itemmodel">查看详情&gt;</div>
               </div>
             </div>
-            <h3>{{v.name}}</h3>
+            <h3>{{v.ticket_name}}</h3>
           </main>
           <a @click="reward(v.id,v.isReward)" :class="{'disabled':v.isReward<=0}">挑战</a>
         </li>

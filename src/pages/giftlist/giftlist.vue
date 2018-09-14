@@ -2,7 +2,7 @@
   <div>
     <ul class="gift_list">
       <li v-for="(v,i) in policy_list" :class="{iskong:v.iskong}">
-        <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)" v-if="!v.iskong">
+        <main @click.stop="tonewpage('giftsdetail','tid='+v.ticket_id+'&vid='+v.id)" v-if="!v.iskong">
           <div class="itemheadk">
           <div>
             <image :src="v.piclogo"></image>
@@ -61,7 +61,7 @@
           that.iskong=false;
           for(let i = 0;i<res.rows.length;i++){
             res.rows[i].piclogo = that.$store.state.url+ res.rows[i].piclogo
-            res.rows[i].tickt_id = res.rows[i].level_json[0].reward[0].id
+            //res.rows[i].tickt_id = res.rows[i].level_json[0].reward[0].id
             if(res.rows[i].amount>0){
               res.rows[i].amount_z=res.rows[i].amount-res.rows[i].send_amount
             }else{
