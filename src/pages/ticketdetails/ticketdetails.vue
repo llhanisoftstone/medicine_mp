@@ -224,7 +224,7 @@
     }
   }
     .nogetList{
-      padding-top: 530/2px;
+      padding-top: 630/2px;
       background: url("../../../static/img/konhyemain.jpg") center 250/2px no-repeat;
       background-size:144.5px 148px;
       width: 100%;
