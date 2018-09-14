@@ -52,7 +52,6 @@
           page:this.page,
           size:this.size,
           id:">,10",
-          is_normal:1,
           status:1,
           ticket_status:1,
           order:'order_code desc,create_time desc'
