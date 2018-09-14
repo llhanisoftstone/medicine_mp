@@ -202,7 +202,7 @@
       margin-bottom:20px/2;
       border-radius: 10px/2;
       background: #fff;
-      margin-right:11px/2;
+      /*<!--margin-right:11px/2;-->*/
       &:nth-of-type(3n){
         margin-right: 0;
       }
