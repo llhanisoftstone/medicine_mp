@@ -2,6 +2,7 @@
   <div class="main">
     <div class="imgk"><img :src="piclogo" alt=""></div>
     <p class="title">{{name}}</p>
+    <p class="s_name">{{store_name}}</p>
     <p class="phone" @click="dialing(phone)"><image src="/static/img/tel_icon.png" class="tel_icon"></image>{{phone}}</p>
     <p class="address">{{province}}{{city}}{{area}}{{address}}</p>
     <div class="codek">
@@ -20,6 +21,7 @@
       return {
         piclogo:'',
         name:'',
+        store_name:'',
         phone:'',
         address:'',
         province:'',
@@ -46,7 +48,8 @@
           }else{
             that.piclogo = "/static/img/ticketshop_default.jpg";
           }
-          that.name = res.rows[0].store_name
+          that.name = res.rows[0].name
+          that.store_name = res.rows[0].store_name
           that.phone = res.rows[0].phone
           that.address = res.rows[0].address
           that.province = res.rows[0].province
@@ -121,6 +124,11 @@
   .title{
     padding-top: 35px/2;
     font-size: 40px/2;
+    color:#333;
+  }
+  .s_name{
+    padding-top: 15px/2;
+    font-size: 30px/2;
     color:#333;
   }
   .phone{
