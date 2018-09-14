@@ -34,7 +34,8 @@
       <div v-if="scrollIcon" @click.stop="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
       <div class="nogetList" v-if="nogetshow">暂无内容</div>
       <div class="buybutton" :class="{iphonexbottom:isiphonex}">
-        <a v-if="exist" @click="reward(game_cfg_id)" >立即挑战</a>
+        <a v-if="exist&&messageData.amount_z>0" @click="reward(game_cfg_id)" >立即挑战</a>
+        <a v-if="exist&&messageData.amount_z<=0" class="hui">立即挑战</a>
       </div>
     </div>
 </template>
@@ -119,6 +120,11 @@
             if (res.code == 200){
               thiz.exist=true;
               thiz.nogetshow=false;
+              if(res.rows[0].amount>0){
+                res.rows[0].amount_z=res.rows[0].amount-res.rows[0].send_amount
+              }else{
+                res.rows[0].amount_z=res.rows[0].total_amount-res.rows[0].send_amount
+              }
               if(!res.rows[0].picurl){
                 res.rows[0].picurl= '/static/img/giftshop_moren2.jpg';
               } else {
@@ -413,6 +419,9 @@
         background-color: #df5c3e;
         border:none;
         box-sizing: border-box;
+        &.hui{
+          background: #999;
+        }
       }
     }
     .footcgotop{
