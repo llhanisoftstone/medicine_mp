@@ -7,10 +7,10 @@
           <image class="item_img1" src="/static/img/back_icon-1.jpg" alt="" v-if="item.status==0"></image>
           <div class="item_info1">
             <p class="item_rmb"><span class="rmbsign">{{item.price}}</span><span class="djqsign">元代金券</span></p>
-            <p class="item_type">线上红包</p>
+            <p class="item_type">线上代金券</p>
             <p class="item_time">有效期至 : {{item.end_time}}</p>
             <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
-            <p class="item_name">{{item.name}}</p>
+            <div class="item_name"><div>{{item.name}}</div></div>
             <img class="item_sign" src="/static/img/shiyong_03.png" v-if="item.status==1" alt="">
             <img class="item_sign" src="/static/img/guoqi_06.png" v-if="item.status==2" alt="">
           </div>
@@ -20,10 +20,28 @@
           <image class="item_img2" src="/static/img/back_icon-2.jpg" alt="" v-if="item.status==0"></image>
           <div class="item_info2">
             <p class="item_rmb"><span class="rmbsign">{{item.price}}</span><span class="djqsign">元代金券</span></p>
-            <p class="item_type">实体店红包</p>
+            <p class="item_type">实体店代金券</p>
             <p class="item_time">有效期至 : {{item.end_time}}</p>
             <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
-            <p class="item_name">{{item.name}}</p>
+            <div class="item_name"><div>{{item.name}}</div></div>
+            <div class="item_contact">
+              <span class="item_phone" @click.stop="dialing(item.phone)">{{item.phone}}</span>
+              <span class="item_address">{{item.province}}{{item.city}}{{item.area}}{{item.address}}</span>
+            </div>
+            <img class="item_sign" src="/static/img/shiyong_03.png" v-if="item.status==1" alt="">
+            <img class="item_sign" src="/static/img/guoqi_06.png" v-if="item.status==2" alt="">
+          </div>
+          <div class="del2" catchtap="del" :key="item.id">删除</div>
+        </a>
+        <a v-if="item.type==3" :href="'/pages/giftshopdetail/main?pid='+item.id" :class="{'touch-item':true,'touch-move-active':item.isTouchMove }" :key="item.id" @longpress.stop="deleteItem" :data-index="item.id">
+          <image class="item_img2" src="/static/img/beijing-2.png" v-if="item.status==1 || item.status==2" alt=""></image>
+          <image class="item_img2" src="/static/img/back_icon-2.jpg" alt="" v-if="item.status==0"></image>
+          <div class="item_info2">
+            <div class="item_rmb"><p class="rmbsign">{{item.name}}</p></div>
+            <div><p class="item_type">实体店产品</p><p class="swsign">价值{{item.price}}元</p></div>
+            <p class="item_time">有效期至 : {{item.end_time}}</p>
+            <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
+            <div class="item_name"><div>{{item.name}}</div></div>
             <div class="item_contact">
               <span class="item_phone" @click.stop="dialing(item.phone)">{{item.phone}}</span>
               <span class="item_address">{{item.province}}{{item.city}}{{item.area}}{{item.address}}</span>
@@ -295,17 +313,27 @@
     }
     .item_name{
       position: absolute;
-      top: 184px/2;
+      top: 175px/2;
       width: 210px/2;
+      height: 60px/2;
       text-align: center;
-      right: 21px/2;
+      right: 20px/2;
       font-size: 23px/2;
       color: #543202;
+      >div{
+        position:absolute;
+        display:inline-block;
+        top:50%;
+        left:50%;
+        width: 210px/2;
+        transform:translate(-50%,-50%);
+        -webkit-transform:translate(-50%,-50%);
+      }
     }
     .item_rmb{
       position: absolute;
-      top: 66px/2;
-      left: 56px/2;
+      top: 40px/2;
+      left: 40px/2;
     }
     .rmbsign{
       font-size: 45px/2;
@@ -313,18 +341,25 @@
     .djqsign{
       font-size: 26px/2;
     }
+    .swsign{
+      position: absolute;
+      color: #543202;
+      font-size: 26px/2;
+      top: 127px/2;
+      right: 240px/2;
+    }
     .item_type{
       position: absolute;
       color: #543202;
       font-size: 26px/2;
       top: 127px/2;
-      left: 56px/2;
+      left: 40px/2;
     }
     .item_time{
       position: absolute;
       font-size: 24px/2;
       top: 173px/2;
-      left: 56px/2;
+      left: 40px/2;
     }
     .item_sign{
       position: absolute;

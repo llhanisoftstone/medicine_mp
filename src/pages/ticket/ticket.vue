@@ -7,9 +7,9 @@
               <div class="shade"></div>
               <image src="/static/img/back_icon-1.jpg" class="background-img"></image>
               <div class="ticket-info">
-                <p class="item_rmb"><span class="rmbsign">{{item.price}}</span><span class="djqsign">元代金券({{item.total_amount}}张)</span></p>
+                <div class="item_rmb"><p class="rmbsign">{{item.name}}</p><p class="djqsign">价值{{item.price}}元&nbsp;({{item.total_amount}}份)</p></div>
                 <div class="item_margin"><img class="item_logo" :src="item.piclogo" alt=""></div>
-                <p class="item_name">{{item.name}}</p>
+                <div class="item_name"><div>{{item.name}}</div></div>
                 <div class="count-list">
                   <ul class="clear ">
                     <li>
@@ -160,7 +160,7 @@
         .item_rmb{
           color: #ffffff;
           position: absolute;
-          top: 66px/2;
+          top: 40px/2;
           left: 40px/2;
         }
         .shade{
@@ -187,17 +187,29 @@
           }
           .item_name{
             position: absolute;
-            top: 200px/2;
+            top: 180px/2;
             width: 210px/2;
+            height: 75px/2;
             text-align: center;
             right: 0;
             font-size: 23px/2;
             color: #543202;
+            >div{
+              position:absolute;
+              display:inline-block;
+              top:50%;
+              left:50%;
+              width: 210px/2;
+              transform:translate(-50%,-50%);
+              -webkit-transform:translate(-50%,-50%);
+            }
           }
           .rmbsign{
             font-size: 45px/2;
           }
           .djqsign{
+            color: #543202;
+            margin-top: 10px/2;
             font-size: 26px/2;
           }
           .count-list{

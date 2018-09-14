@@ -82,7 +82,8 @@
           page:this.page,
           size:this.size,
           order:'create_time desc',
-          unique_code:this._code
+          unique_code:this._code,
+          status:2, //状态：0-草稿；1-待审核，2-上架，3-拒绝，4-下架；
         };
         if(this.orgid){
           data.organiz_id=this.orgid;

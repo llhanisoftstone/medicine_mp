@@ -210,6 +210,12 @@
 					"name": "优惠卷",
 					"pathName": "pages/ticket/main",
 					"query": "id=4"
+				},
+				{
+					"id": -1,
+					"name": "签到",
+					"pathName": "pages/signcount/main",
+					"query": ""
 				}
 			]
 		}

@@ -11,7 +11,8 @@
           </div>
           <h3>{{v.ticket_name}}</h3>
         </main>
-        <a @click="reward(v.id)" v-if="!v.iskong">挑战</a>
+        <a @click="reward(v.id)" v-if="!v.iskong&&v.amount_z>0">挑战</a>
+        <a v-if="!v.iskong&&v.amount_z<=0" class="hui">挑战</a>
       </li>
     </ul>
     <div class="nogetList" v-if="iskong">暂无礼物</div>
@@ -54,7 +55,7 @@
           is_normal:1,
           status:1,
           ticket_status:1,
-          order:'create_time desc'
+          order:'order_code desc,create_time desc'
         };
         let res = await that.$get('/rs/v_game_config',data)
         if(res.code == 200){
@@ -62,6 +63,11 @@
           for(let i = 0;i<res.rows.length;i++){
             res.rows[i].piclogo = that.$store.state.url+ res.rows[i].piclogo
             res.rows[i].tickt_id = res.rows[i].level_json[0].reward[0].id
+            if(res.rows[i].amount>0){
+              res.rows[i].amount_z=res.rows[i].amount-res.rows[i].send_amount
+            }else{
+              res.rows[i].amount_z=res.rows[i].total_amount-res.rows[i].send_amount
+            }
           }
           if (res.rows.length > 0){
             that.policy_list = that.policy_list.concat(res.rows);
@@ -258,6 +264,9 @@
         align-content: center;
         padding-bottom: 2px/2;
         background: @bg_color;
+        &.hui{
+          background: #999;
+        }
       }
     }
   }
