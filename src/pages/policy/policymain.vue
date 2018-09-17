@@ -65,7 +65,7 @@
         </div>
       </div>
       <div class="handbook-info" v-if="is_bl_hide">
-        <div class="line-division"></div>
+        <div class="line-division" v-if="is_hot_hide"></div>
         <div class="common-head headbook-head">
           <span class="handbook-icon">办理手册</span>
           <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&org_id='+org_id"><span>更多></span></a>
