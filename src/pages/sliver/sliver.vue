@@ -2,7 +2,7 @@
   <div class="container">
     <userinfo :username="$store.state.userinfo.nickName" :imgurl="$store.state.userinfo.avatarUrl">
       <div slot="userRight">
-        <a class="wallet">{{pointssliver}}</a>
+        <a class="wallet"><span class="pointk">{{pointssliver}}</span></a>
       </div>
     </userinfo>
     <ul class="tablist">
@@ -102,17 +102,23 @@
     margin-top:10px;
   }
   .wallet{
-    padding-left:31px;
-    margin-left:5px;
-    height:19px;
-    background:url(../../../static/img/my_06.png) no-repeat left center;
-    background-size:26px 19px;
+    .pointk{
+      background:url(../../../static/img/my_06.png) no-repeat left center;
+      background-size:26px 19px;
+      padding-left:31px;
+      padding-right: 10/2px;
+      margin-left:5px;
+      height:19px;
+      color: #df5c3e;
+      font-size: 14px;
+    }
+    width: 200/2px;
+    float: right;
     display: flex;
     align-content: center;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    color: #df5c3e;
-    font-size: 14px;
+    margin-top:40px/2;
   }
   .nogetList{
     padding-top: 290px;
