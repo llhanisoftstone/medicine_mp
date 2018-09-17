@@ -26,6 +26,7 @@
               <div>{{item.use_time}}</div>
             </li>
           </ul>
+          <div class="nogetList" v-if="nogetshow">暂无记录</div>
         </div>
       </div>
     </div>
@@ -39,7 +40,8 @@
         name:'',
         store_name:'',
         ticket_amount:0,
-        sendlist:[]
+        sendlist:[],
+        nogetshow:false,
       }
     },
 
@@ -62,6 +64,7 @@
             }
             let rs = await  that.$get('/rs/member_ticket',{ticket_id:pid,order:'get_time desc'});
             if (rs.rows.length > 0){
+              that.nogetshow=false;
               for (let i=0;i<rs.rows.length; i++){
                 rs.rows[i].get_time = this.conversionTime(rs.rows[i].get_time);
                 rs.rows[i].use_time = this.conversionTime(rs.rows[i].use_time);
@@ -69,6 +72,9 @@
               that.sendlist = rs.rows;
             }else{
               that.sendlist = [];
+            }
+            if(rs.code==602){
+              that.nogetshow=true;
             }
           }
         }
@@ -97,6 +103,7 @@
       }
     },
     onLoad: function (option) {
+      this.nogetshow=false;
       this.getticketInfo(option.pid,option.type)//获取数据
     }
   }
@@ -216,4 +223,17 @@
       }
     }
   }
+    .nogetList{
+      padding-top: 630/2px;
+      background: url("../../../static/img/konhyemain.jpg") center 250/2px no-repeat;
+      background-size:144.5px 148px;
+      width: 100%;
+      color:#999;
+      font-size:14px;
+      text-align: center;
+      margin-bottom:30px;
+      box-sizing:border-box;
+      height:594/2px;
+
+    }
 </style>

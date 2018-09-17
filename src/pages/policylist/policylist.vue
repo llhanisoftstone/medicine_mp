@@ -103,10 +103,11 @@
           if (res.rows.length > 0){
             for (let i=0; i<res.rows.length; i++){
               res.rows[i].view_count = that.commons.zcount(res.rows[i].view_count)
-//              if(res.rows[i].pic_abbr){
-//                res.rows[0].pic_abbr= '/static/img/giftshop_moren2.jpg';
-//              }
-              res.rows[i].pic_abbr = that.$store.state.url+res.rows[i].pic_abbr;
+              if(!res.rows[i].pic_abbr || res.rows[i].pic_abbr==''){
+                res.rows[i].pic_abbr= '/static/img/policy_default.jpg';
+              }else{
+                res.rows[i].pic_abbr = that.$store.state.url+res.rows[i].pic_abbr;
+              }
             }
             that.policy_list = that.policy_list.concat(res.rows);
           }
@@ -166,12 +167,8 @@
       this.page = 1;
       this._search = '';
       this._code = option.pid||"";
-      if(option.search==1){//如果是点击搜索按钮进入的页面
-        this.orgid='';
-      }else{
-        if(option.org_id && option.org_id!='null') {
-          this.orgid = option.org_id;
-        }
+      if(option.org_id && option.org_id!='null') {
+        this.orgid = option.org_id;
       }
       this.policy_list = [];
       this.getpolicyList()//获取数据

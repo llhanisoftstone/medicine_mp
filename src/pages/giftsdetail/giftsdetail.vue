@@ -313,10 +313,12 @@
           .cname{
             font-size: 35px/2;
             height:36px/2;
-            line-height: 36px/2;
+            line-height: 38px/2;
             color:#333;
             font-weight: bold;
             width:70%;
+            vertical-align: middle;
+            display:inline-block;
             word-break:break-all;
             .ellipsis();
           }
