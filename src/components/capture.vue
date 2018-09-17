@@ -24,7 +24,7 @@
       </div>
       <div class="gift_box draw_box" v-if="win==1">
         <image src="/static/img/609_02.jpg"></image>
-        <image src="/static/img/pj.png" class="tips"></image>
+        <image src="/static/img/pj.jpg" class="tips"></image>
         <p>海内存知己，天涯若比邻</p>
       </div>
       <div class="gift_box fail" v-if="win==0">
@@ -272,8 +272,9 @@
       align-content: center;
       flex-wrap: wrap;
       .tips{
-        width: 161px/2;
-        height: 139px/2;
+        width: 232px/2;
+        height: 269px/2;
+        margin-top: -40px/2;
       }
       p{
         width: 100%;
