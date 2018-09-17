@@ -53,6 +53,7 @@
           size:this.size,
           id:">,10",
           status:1,
+          store_status:1,
           ticket_status:1,
           order:'order_code desc,create_time desc'
         };
