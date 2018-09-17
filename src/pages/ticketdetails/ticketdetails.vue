@@ -46,7 +46,7 @@
     methods: {
       async getticketInfo(pid) {
         let that = this;
-        let res = await that.$get('/rs/v_ticket_send_rule_statics',{ticket_id:pid});
+        let res = await that.$get('/rs/v_ticket_send_rule_front',{ticket_id:pid});
         if (res.code == 200){
           if (res.rows.length > 0){
             that.name = res.rows[0].name;
