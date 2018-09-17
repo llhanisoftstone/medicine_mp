@@ -134,6 +134,7 @@
   .phone{
     font-size: 30px/2;
     color:#333;
+    height: 40px/2;
     padding-top: 29px/2;
     position: relative;
     margin-left: 45px/2;
