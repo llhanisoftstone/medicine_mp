@@ -226,7 +226,7 @@
           height: 37px/2;
           box-sizing: border-box;
           padding: 0 16%;
-          margin-top: 110px/2;//96
+          margin-top: 113px/2;//96
           display: flex;
           align-items: center;
           justify-content: space-between;
