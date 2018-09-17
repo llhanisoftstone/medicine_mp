@@ -3,7 +3,7 @@
     <div class="imgk"><img :src="piclogo" alt=""></div>
     <p class="title">{{name}}</p>
     <p class="s_name">{{store_name}}</p>
-    <p class="phone" @click="dialing(phone)"><image src="/static/img/tel_icon.png" class="tel_icon"></image>{{phone}}</p>
+    <p class="phone" v-if="phone != ''" @click="dialing(phone)"><image src="/static/img/tel_icon.png" class="tel_icon"></image>{{phone}}</p>
     <p class="address">{{province}}{{city}}{{area}}{{address}}</p>
     <div class="codek">
       <div class="imgkqrcode">
