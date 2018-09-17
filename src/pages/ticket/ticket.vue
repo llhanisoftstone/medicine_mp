@@ -143,7 +143,7 @@
       margin-bottom: 50px;
     }
     .data-list ul.list-ul{
-      margin: 20px/2 26px/2;
+      padding: 20px/2 26px/2;
       .item_margin{
         background-color: #ffffff;
         border-radius: 50%;
