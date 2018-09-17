@@ -2,7 +2,7 @@
   <div>
     <div class="search">
       <div class="search_icon"></div>
-      <input confirm-type="search" class="search-input" v-model="searchVal" placeholder="请输入标题或内容" @confirm="confirm($event)"/>
+      <input confirm-type="search" maxlength="20" class="search-input" v-model="searchVal" placeholder="请输入标题或内容" @confirm="confirm($event)"/>
       <div class="clear" :class="{'clear_icon':clearhide}" v-on:click="clearInput"></div>
     </div>
     <div class="handbook-info">

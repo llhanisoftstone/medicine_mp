@@ -91,10 +91,7 @@
     },
     async getpage(){
         let that = this
-      let tdata={
-        order:'order_code desc,create_time desc'
-      }
-        let res = await that.$get('/rs/first_page',tdata)
+        let res = await that.$get('/rs/first_page')
       if(res.code == 200){
             that.p_number = res.present_count
           for(let i = 0;i<res.win_treasure.length;i++){
