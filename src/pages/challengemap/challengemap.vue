@@ -112,6 +112,7 @@
                   that.$store.commit('get_room',d.room_id)
                   that.$store.commit('get_level',d.level)
                   that.$store.commit('get_max_nub',d.max_step)
+                  that.$store.commit('get_que_type',d.type)
                   that.isshow=false
                   wx.navigateTo({
                     url:'/pages/alone/main'

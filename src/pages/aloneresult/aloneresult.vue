@@ -112,7 +112,7 @@
       },
       user(){
           return this.$store.state.user
-      }
+      },
     },
     mounted(){
       if(this.$store.state.prize.id){
@@ -192,9 +192,16 @@
         })
       }else{
         this.isreward=0;
-        wx.setNavigationBarTitle({
-          title:`闯关结果`
-        })
+        let qtype=this.$store.state.question_type;
+        if(qtype==1){
+          wx.setNavigationBarTitle({
+            title:`答题结果`
+          })
+        }else{
+          wx.setNavigationBarTitle({
+            title:`闯关结果`
+          })
+        }
       }
       that.$socket.on('data_chain',d=>{
         if(d.cmd == 'answer'){

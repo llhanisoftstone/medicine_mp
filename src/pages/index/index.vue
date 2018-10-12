@@ -142,15 +142,24 @@
     watchsocket(){
       let that=this
       that.$socket.removeAllListeners('data_chain')
+      that.$socket.on('global_chain',d=>{
+        if(d.cmd=='error' && d.errcode==303){
+          that.$mptoast('该活动只能参加一次');
+        }
+      });
       that.$socket.on('data_chain',d=>{
         if(d.cmd == 'answer'&&d.step == 1 ){
           that.$socket.removeAllListeners('data_chain')
           if(d.type==1){
-              let answerjson=d.details[0].answer_json;
-              for(let val of answerjson){
+              if(d.details[0]){
+                let answerjson=d.details[0].answer_json;
+                for(let val of answerjson){
                   val.right='true';
+                }
+                d.details[0].answer_json=answerjson;
+              }else{
+                that.$mptoast('暂无题目');
               }
-            d.details[0].answer_json=answerjson;
           }
           that.$store.commit('get_answer',d.details[0])
           that.$store.commit('get_step',d.step)
@@ -158,16 +167,13 @@
           that.$store.commit('get_room',d.room_id)
           that.$store.commit('get_max_nub',d.max_step)
           that.$store.commit('get_que_type',d.type)
-          wx.navigateTo({
-            url:`/pages/alone/main?id=${that.r_id}`
-          })
+          //if(d.details[0]){
+            wx.navigateTo({
+              url:`/pages/alone/main?id=${that.r_id}`
+            })
+          //}
         }
       })
-      that.$socket.on('global_chain',d=>{
-        if(d.cmd=='error' && d.errcode==303){
-          that.$mptoast('该活动只能参加一次');
-        }
-      });
     },
     tonewpage(urlname,data){
       wx.navigateTo({
