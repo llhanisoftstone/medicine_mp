@@ -156,7 +156,6 @@
       });
       that.$socket.on('data_chain',d=>{
         if(d.cmd == 'answer'&&d.step == 1 ){
-          that.$socket.removeAllListeners('data_chain')
           if(d.type==1){
               if(d.details[0]){
                 let answerjson=d.details[0].answer_json;
@@ -174,11 +173,13 @@
           that.$store.commit('get_room',d.room_id)
           that.$store.commit('get_max_nub',d.max_step)
           that.$store.commit('get_que_type',d.type)
-          //if(d.details[0]){
+          console.log(d.details[0])
+          if(d.details[0]){
+            that.$socket.removeAllListeners('data_chain')
             wx.navigateTo({
               url:`/pages/alone/main?id=${that.r_id}`
             })
-          //}
+          }
         }
       })
     },
@@ -600,7 +601,7 @@
     width:100%;
     padding: 0 26px/2;
     image{
-      width:100%;
+      width:698px/2;
       height:176px/2;
       max-width:100%;
     }
