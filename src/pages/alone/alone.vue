@@ -95,7 +95,7 @@
         },
         methods: {
           showgz(){
-            if(this.isreward!=0){
+            if(this.isreward!=0 || this.$store.state.question_type==1){
                 return;
             }
             this.gzshow=true;

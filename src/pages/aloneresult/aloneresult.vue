@@ -39,7 +39,7 @@
       <navigator href="" v-if="(win==2)&&isreward==0&&level<11" @click="toalone">下一关<div class ='pk_btn_box'></div></navigator>
       <navigator :href="'/pages/report/main?room_id='+room_id+'&u_id='+user.userid" v-if="win==2">炫耀成绩单<div class ='pk_btn_box'></div></navigator>
       <button open-type="share" v-if="win==2">分享战绩<div class ='pk_btn_box'></div></button>
-      <navigator v-if="win!=2" @click="repeat">再来一次<div class ='pk_btn_box'></div></navigator>
+      <navigator v-if="win!=2 && question_type!=1" @click="repeat">再来一次<div class ='pk_btn_box'></div></navigator>
       <button open-type="share" v-if="win!=2">考考好友<div class ='pk_btn_box'></div></button>
     </div>
   </div>
@@ -112,6 +112,9 @@
       },
       user(){
           return this.$store.state.user
+      },
+      question_type(){
+        return this.$store.state.question_type
       },
     },
     mounted(){
@@ -202,6 +205,7 @@
             title:`闯关结果`
           })
         }
+
       }
       that.$socket.on('data_chain',d=>{
         if(d.cmd == 'answer'){
