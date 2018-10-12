@@ -8,6 +8,7 @@
       </userinfo>
     </div>
     <div class="survey-box"
+         v-show="activityShow"
          @click="survey(9,1)"
     >
       <!--game_cfg_id写死为9，type:题目类型，0单选，1问卷题目-->
@@ -80,7 +81,8 @@
       win_treasure: [],
       r_id:0,
       points:0,
-      tickt_id:''
+      tickt_id:'',
+      activityShow:false,
     }
   },
 
@@ -102,6 +104,11 @@
         let that = this
         let res = await that.$get('/rs/first_page')
       if(res.code == 200){
+            if(res.activity==1){
+                that.activityShow=true;
+            }else{
+              that.activityShow=false;
+            }
             that.p_number = res.present_count
           for(let i = 0;i<res.win_treasure.length;i++){
             res.win_treasure[i].piclogo = that.$store.state.url+ res.win_treasure[i].piclogo
@@ -212,6 +219,7 @@
 //    this.getLogin()
   },
     onLoad(){
+      this.activityShow=false;
       this.watchsocket()
       if(this.$store.state.isauth){
         wx.showTabBar({animation:true})
