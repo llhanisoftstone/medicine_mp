@@ -113,7 +113,8 @@
           u_id: that.$store.state.user.userid,
           game_cfg_id: r_id,
           game_type:1,
-          level:1
+          level:1,
+          type:0
         })
       },
       watchsocket(){
@@ -127,6 +128,7 @@
             that.$store.commit('get_level',1)
             that.$store.commit('get_room',d.room_id)
             that.$store.commit('get_max_nub',d.max_step)
+            that.$store.commit('get_que_type',d.type)
             wx.navigateTo({
               url:`/pages/alone/main?id=${that.r_id}`
             })

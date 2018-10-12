@@ -40,6 +40,9 @@
           <!--isreward = 9表示问卷调查类型-->
           <prop :tips="tips" :surplus="times<10" :istimeused="istime" :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
         </div>
+        <div class="prop_box" v-else>
+          <p class="tips" v-if="tips">{{tips}}</p>
+        </div>
       </div>
       <div class="bg_shade gzk" v-if="gzshow" @click="hidegz" catchtouchmove='true'>
         <div class="pick_box" @click.stop="">
@@ -837,5 +840,18 @@
       width: 100%;
       height: 110px/2;
       z-index: 3;
+    }
+    .tips{
+      flex:1;
+      width:524px/2;
+      margin:0 auto;
+      height: 60px/2;
+      background: #f1f1f1;
+      color: #df5c3e;
+      font-size: 28px/2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50px/2;
     }
 </style>

@@ -63,7 +63,9 @@
         data(){
             return {}
         },
-        methods: {},
+        methods: {
+
+        },
         components: {},
         computed:{
             user(){

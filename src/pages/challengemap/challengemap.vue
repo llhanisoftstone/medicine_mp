@@ -163,7 +163,8 @@
                   u_id: that.$store.state.user.userid,
                   game_cfg_id: 2,
                   game_type:1,
-                  level:that.select
+                  level:that.select,
+                  type:0
               })
           },
           team(){

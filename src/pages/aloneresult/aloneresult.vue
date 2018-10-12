@@ -95,7 +95,7 @@
             level:1,
           })
         }
-      }
+      },
     },
     components: {
       capture
