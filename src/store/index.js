@@ -7,14 +7,14 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    url: 'https://policy.lifeonway.com',
+    // url: 'https://policy.lifeonway.com',
     // url: 'https://pol.lifeonway.com',
     // url: 'https://pk.lifeonway.com',
-    // url: 'http://192.168.1.137:5000',
+    url: 'http://192.168.1.10:5000',
     // ws_server: 'https://pol.lifeonway.com',
     // ws_server: 'https://pk.lifeonway.com',
-    ws_server: 'https://policy.lifeonway.com',
-    // ws_server: 'http://192.168.1.105:5000',
+    // ws_server: 'https://policy.lifeonway.com',
+    ws_server: 'http://192.168.1.10:5000',
     userinfo: {},    //  微信返回用户信息
     code: '',
     isauth: false,      // 是否授权
@@ -36,6 +36,7 @@ const store = new Vuex.Store({
     step: 0,              //   第几题
     prize: {},             //  奖品
     level: 0,                 // 当前进行的关卡
+    question_type: 0,                 // 题目类型：0单选，1选什么都对(问卷题)
     f_level: 0,                 // 亲友团进行的关卡
     max_nub: 0,                    // 关卡题目数量
     modalshow: true,               // 是否显示弹窗
@@ -169,6 +170,10 @@ const store = new Vuex.Store({
     get_max_nub: (state, maxnub) => {
       const obj = state
       obj.max_nub = maxnub
+    },
+    get_que_type: (state, type) => {
+      const obj = state
+      obj.question_type = type
     },
     get_openid: (state, openid) => {
       const obj = state

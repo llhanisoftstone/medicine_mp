@@ -7,6 +7,12 @@
         </div>
       </userinfo>
     </div>
+    <div class="survey-box"
+         @click="survey(9,1)"
+    >
+      <!--game_cfg_id写死用9，type:题目类型，0单选，1问卷题目-->
+        <image src="/static/img/suery_bg.png"></image>
+    </div>
     <div class="match_box">
       <a href="/pages/challengemap/main" class="challenge_b">
         <div class="challenge" @click="challengemap">
@@ -115,21 +121,40 @@
             u_id: this.$store.state.user.userid,
             game_cfg_id: r_id,
             game_type:1,
-            level:1
+            level:1,
+            type:0
           })
         }
+    },
+    survey(r_id,gametype){
+      this.$socket.emit('data_chain',{
+        cmd:'fight',
+        u_id: this.$store.state.user.userid,
+        game_cfg_id: r_id,
+        game_type:1,
+        level:1,
+        type:gametype
+      })
     },
     watchsocket(){
       let that=this
       that.$socket.removeAllListeners('data_chain')
       that.$socket.on('data_chain',d=>{
-        if(d.cmd == 'answer'&&d.step == 1){
+        if(d.cmd == 'answer'&&d.step == 1 ){
           that.$socket.removeAllListeners('data_chain')
+          if(d.type==1){
+              let answerjson=d.details[0].answer_json;
+              for(let val of answerjson){
+                  val.right='true';
+              }
+            d.details[0].answer_json=answerjson;
+          }
           that.$store.commit('get_answer',d.details[0])
           that.$store.commit('get_step',d.step)
           that.$store.commit('get_level',1)
           that.$store.commit('get_room',d.room_id)
           that.$store.commit('get_max_nub',d.max_step)
+          that.$store.commit('get_que_type',d.type)
           wx.navigateTo({
             url:`/pages/alone/main?id=${that.r_id}`
           })
@@ -546,6 +571,16 @@
     }
     li:nth-of-type(3n){
       margin-right: 0;
+    }
+  }
+  .survey-box{
+    box-sizing: border-box;
+    width:100%;
+    padding: 0 26px/2;
+    image{
+      width:100%;
+      height:176px/2;
+      max-width:100%;
     }
   }
 </style>
