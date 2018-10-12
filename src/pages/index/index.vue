@@ -10,7 +10,7 @@
     <div class="survey-box"
          @click="survey(9,1)"
     >
-      <!--game_cfg_id写死用9，type:题目类型，0单选，1问卷题目-->
+      <!--game_cfg_id写死为9，type:题目类型，0单选，1问卷题目-->
         <image src="/static/img/suery_bg.png"></image>
     </div>
     <div class="match_box">
@@ -65,11 +65,13 @@
         <a @click="reward(v.id,v.isReward)" :class="{'disabled':v.isReward<=0}">挑战</a>
       </li>
     </ul>
+    <mptoast/>
   </div>
 </template>
 
 <script type="javascript">
   import userinfo from '../../components/userinfo'
+  import mptoast from '../../components/mptoast'
   export default {
 
   data () {
@@ -83,7 +85,8 @@
   },
 
   components: {
-    userinfo
+    userinfo,
+    mptoast
   },
 
   methods: {
@@ -160,6 +163,11 @@
           })
         }
       })
+      that.$socket.on('global_chain',d=>{
+        if(d.cmd=='error' && d.errcode==303){
+          that.$mptoast('该活动只能参加一次');
+        }
+      });
     },
     tonewpage(urlname,data){
       wx.navigateTo({
