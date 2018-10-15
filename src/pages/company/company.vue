@@ -71,6 +71,56 @@
           </div>
           <div class="more">更多<span>&gt;</span></div>
         </div>
+        <ul class="gift_list">
+          <li  >
+            <main >
+              <div class="itemheadk">
+                <div>
+                  <image src="/static/img/ticketshop_default.jpg"></image>
+                  <div class="itemmodel">查看详情&gt;</div>
+                </div>
+              </div>
+              <h3>门票庄园60元代金券</h3>
+            </main>
+            <a >领取</a>
+          </li>
+          <li  >
+            <main >
+              <div class="itemheadk">
+                <div>
+                  <image src="/static/img/ticketshop_default.jpg"></image>
+                  <div class="itemmodel">查看详情&gt;</div>
+                </div>
+              </div>
+              <h3>门票庄园60元代金券</h3>
+            </main>
+            <a >领取</a>
+          </li>
+          <li  >
+            <main >
+              <div class="itemheadk">
+                <div>
+                  <image src="/static/img/ticketshop_default.jpg"></image>
+                  <div class="itemmodel">查看详情&gt;</div>
+                </div>
+              </div>
+              <h3>门票庄园60元代金券</h3>
+            </main>
+            <a >领取</a>
+          </li>
+          <li  >
+            <main >
+              <div class="itemheadk">
+                <div>
+                  <image src="/static/img/ticketshop_default.jpg"></image>
+                  <div class="itemmodel">查看详情&gt;</div>
+                </div>
+              </div>
+              <h3>3333333333rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrreeeeeegggg</h3>
+            </main>
+            <a >领取</a>
+          </li>
+        </ul>
       </div>
     </div>
 </template>
@@ -293,7 +343,89 @@
         background: #fff url(../../../static/img/company/fuli.png) no-repeat center;
         background-size: 31px/2 31px/2;
       }
-
+      .gift_list{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 26px/2;
+        display: flex;
+        flex-flow: wrap;
+        align-content: space-between;
+        li{
+          width: 31%;
+          //height: 327px/2;
+          padding-bottom: 18px/2;
+          box-shadow: #acacac 4px/2 5px/2 15px/2;
+          margin-bottom:20px/2;
+          border-radius: 10px/2;
+          background: #fff;
+          margin-right:3.15%;
+          &:nth-of-type(3n){
+            margin-right: 0;
+          }
+          div.itemheadk{
+            width: 100%;
+            height: 220px/2;
+            box-sizing: border-box;
+            padding: 20px/2;
+            div{
+              position: relative;
+              width: 100%;
+              height: 100%;
+              .itemmodel{
+                position: absolute;
+                bottom:0;
+                left:0;
+                width:100%;
+                font-size: 16/2px;
+                padding:6/2px;
+                padding-top: 20/2px;
+                line-height: 16/2px;
+                height: 22/2+20/2px;
+                text-align: right;
+                color: #fff;
+                box-sizing: border-box;
+                background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.4));
+              }
+              image{
+                width: 100%;
+                height: 100%;
+              }
+            }
+          }
+          h3{
+            width: 100%;
+            padding: 0 17px/2;
+            font-size:28px/2;
+            color: #333;
+            box-sizing: border-box;
+            word-break: break-all;
+            .ellipsis(2)
+          }
+          a{
+            margin:0 auto;
+            margin-top:16px/2;
+            display: flex;
+            width: 100px/2;
+            height: 43px/2;
+            border-radius: 50px/2;
+            font-size: 30px/2;
+            box-sizing: border-box;
+            line-height: normal;
+            color: #fff;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            padding-bottom: 2px/2;
+            background: @bg_color;
+          }
+          .disabled{
+            background: #999;
+          }
+        }
+        li:nth-of-type(3n){
+          margin-right: 0;
+        }
+      }
     }
     .footcgotop{
       position: fixed;
