@@ -1,54 +1,114 @@
 <template>
   <div class="container" :class="{fixed:!isauth&&authreturn}">
-    <div class="user_box">
-      <userinfo :username="userinfo.nickName" :imgurl="userinfo.avatarUrl" :points="points">
-        <div slot="userRight">
-          <a href="/pages/signcount/main" class="btn_sign">签到</a>
-        </div>
-      </userinfo>
+    <div id="index_gallerySlider" class="index_gallerySlider">
+      <swiper :indicator-dots="indicatorDots"
+              @change="bannerChange"
+              :autoplay="true" :circular="true" :interval="3000"
+              :duration="duration" indicator-color="rgba(226,226,226,1)" indicator-active-color="#ffffff">
+        <template v-if="movies.length">
+          <block v-for="(item,i) in movies">
+            <swiper-item>
+              <a @click.stop="tonewpage(item.url,item.urlid)">
+                <image :src="item.picpath" class="slide-image" width="355" height="150"/>
+              </a>
+            </swiper-item>
+          </block>
+        </template>
+      </swiper>
     </div>
-    <div class="survey-box"
-         v-show="activityShow"
-         @click="survey(9,1)"
-    >
-      <!--game_cfg_id写死为9，type:题目类型，0单选，1问卷题目-->
-        <image src="/static/img/suery_bg.png"></image>
-    </div>
-    <div class="match_box">
-      <a href="/pages/challengemap/main" class="challenge_b">
-        <div class="challenge" @click="challengemap">
-          <h2>闯关赛</h2>
-          <h4 style="padding-bottom: 3px">已有<span style="font-weight: bold;">{{p_number}}</span>人获得礼物</h4>
-          <h4>就算闯关没有礼物</h4>
-          <h4>我也势必要去挑战的！</h4>
+    <div class="handbook-info">
+      <div class="line-division"></div>
+      <div class="common-head headbook-head">
+        <span class="handbook-icon">政策补贴</span>
+        <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&org_id='+org_id"><span>更多<i>></i></span></a>
+        <div class="content_main">
+          <div class="navigation">
+            <a class="" @click.stop="tonewpage('','')">
+              <div class="navigation_icon index_icon_48"></div>
+              <div class="navigation_label">稳岗补贴</div>
+            </a>
+            <a class="" @click.stop="tonewpage('','')">
+              <div class="navigation_icon index_icon_49"></div>
+              <div class="navigation_label">农业补贴</div>
+            </a>
+            <a class="" @click.stop="tonewpage('','')">
+              <div class="navigation_icon index_icon_50"></div>
+              <div class="navigation_label">科技补贴</div>
+            </a>
+            <a class="" @click.stop="tonewpage('','')">
+              <div class="navigation_icon index_icon_51"></div>
+              <div class="navigation_label">安监补贴</div>
+            </a>
+            <a class="" @click.stop="tonewpage('','')">
+              <div class="navigation_icon index_icon_51"></div>
+              <div class="navigation_label">工业补贴</div>
+            </a>
+            <a class="" @click.stop="tonewpage('','')">
+              <div class="navigation_icon index_icon_51"></div>
+              <div class="navigation_label">林业补贴</div>
+            </a>
+          </div>
         </div>
-      </a>
-      <div class="challenge_box">
-        <a href="/pages/loadpk/main?from=2">
-          <div class="item_1">
-            <h2>全网挑战</h2>
-            <h4>世界那么大</h4>
-            <h4>我就想看看我排第几</h4>
-          </div>
-        </a>
-        <a href="/pages/friendpk/main">
-          <div class="item_2">
-            <h2>好友PK</h2>
-            <h4>真正的友谊经得起挑战</h4>
-            <h4>看看谁跟我志同道合</h4>
-          </div>
-        </a>
       </div>
     </div>
-    <div class="gitf_box">
-      <div class="gift">
-        <div class="gift_text">
-          <h2>为礼物而战</h2>
-          <p><span>礼物有诱惑，政策福利更吸引我</span><span class="toduo" @click.stop="tonewpage('giftlist')">更多礼物&gt;</span></p>
+    <div class="handbook-info">
+      <div class="line-division"></div>
+      <div class="common-head headbook-head">
+        <span class="handbookpersonn-icon">个人福利</span>
+        <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&org_id='+org_id"><span>更多<i>></i></span></a>
+        <div class="personalwelfare">
+          <swiper  class="swiper-block"  previous-margin="120px" next-margin="150px" current="swiperIndex" @change="swiperChange">
+            <block v-for="(itemb,index) in moviesperson" >
+              <swiper-item class="swiper-item" :class="{active:swiperIndex == index ? true : false}">
+                <image mode="aspectFill"   :src="itemb.picpath" class="slide-image" />
+              </swiper-item>
+            </block>
+          </swiper>
         </div>
-        <i class="gift_img" @click.stop="tonewpage('giftlist')">
-          <image src="/static/img/lw.png"></image>
-        </i>
+      </div>
+    </div>
+    <div class="handbook-info">
+      <div class="line-division"></div>
+      <div class="common-head headbook-head ">
+        <span class="headcompany-head">企业专栏</span>
+        <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&org_id='+org_id"><span>更多<i>></i></span></a>
+        <ul class="contain_company">
+          <li>
+            <div class="companyhead"><image src="../../../static/img/icon1.png"></image></div>
+            <div class="companymess">
+              <p class="companyname">中国中铁一局集团</p>
+              <p class="companyleab">建筑工程 机电一体化</p>
+            </div>
+          </li>
+          <li>
+            <div class="companyhead"><image src="../../../static/img/icon1.png"></image></div>
+            <div class="companymess">
+              <p class="companyname">中国中铁一局集团中国中铁一局集团</p>
+              <p class="companyleab">建筑工程 机电一体化</p>
+            </div>
+          </li>
+          <li>
+            <div class="companyhead"><image src="../../../static/img/icon1.png"></image></div>
+            <div class="companymess">
+              <p class="companyname">中国中铁一局集团中国中铁一局集团</p>
+              <p class="companyleab">建筑工程 机电一体化</p>
+            </div>
+          </li>
+          <li>
+            <div class="companyhead"><image src="../../../static/img/icon1.png"></image></div>
+            <div class="companymess">
+              <p class="companyname">中国中铁一局集团中国中铁一局集团</p>
+              <p class="companyleab">建筑工程 机电一体化</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="handbook-info">
+      <div class="line-division"></div>
+      <div class="common-head headbook-head ">
+        <span class="headgift-head">商家福利</span>
+        <a class="ui-link" :href="'/pages/giftlist/main'"><span>更多<i>></i></span></a>
       </div>
     </div>
     <!--<div class="gift_title"><span></span><i></i><image src="/static/img/liwu.png"></image>为礼物而挑战<i></i><span></span></div>-->
@@ -83,6 +143,11 @@
       points:0,
       tickt_id:'',
       activityShow:false,
+      banner:0,
+      movies:[],
+      bannerperson:0,
+      swiperIndex:1,
+      moviesperson:[{picpath:`../../../static/img/shenhezhong_03.jpg`},{picpath:`../../../static/img/shenheshibai_03.jpg`},{picpath:`../../../static/img/back_icon-2.jpg`}],
     }
   },
 
@@ -92,6 +157,39 @@
   },
 
   methods: {
+    async getbanner (){
+      let thiz=this;
+      let getdata={
+        page:1,
+        size:6,
+        status:1,
+        order:'create_time desc'
+      };
+      let res = await thiz.$get('/rs/banner',getdata);
+      if (res.code == 200){
+        if (res.rows.length > 0){
+          for(var i=0;i<res.rows.length;i++){
+            res.rows[i].picpath=thiz.$store.state.url+res.rows[i].picpath;
+            res.rows[i].url=(res.rows[i].urlpath).replace(/.html/,"").split("?")[0];
+            res.rows[i].urlid=(res.rows[i].urlpath).split("?")[1];
+            if(thiz.login[res.rows[i].url]){
+              res.rows[i].url=thiz.login[res.rows[i].url]
+              res.rows[i].urlid=''
+            }
+          }
+          thiz.movies=res.rows;
+        }
+      }else{
+        thiz.movies=[{picpath:`../../../static/img/5guan.png`}]
+      }
+    },
+    bannerChange(even){
+      this.banner=even.mp.detail.current;
+    },
+    swiperChange(e){
+        console.log(JSON.stringify(e.mp.current))
+//      this.swiperIndex= e.current
+    },
     async getuserperson(){
       let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
       if(aa.code==200){
@@ -221,7 +319,8 @@
   },
     onLoad(){
       this.activityShow=false;
-      this.watchsocket()
+      this.watchsocket();
+      this.getbanner();
       if(this.$store.state.isauth){
         wx.showTabBar({animation:true})
       }else{
@@ -368,7 +467,7 @@
     margin-top: 40px/2;
   }
   .container{
-    background: #fff url(../../../static/img/yetou.jpg) center top no-repeat;
+    background: #fff;
     background-size: 100% auto;
     &.fixed{
       display: block;
@@ -461,6 +560,216 @@
       }
     }
   }
+  .index_gallerySlider{
+    width: 750px/2;
+    min-height: 342px/2;
+    swiper,swiper-item,image{
+      width:100%;
+      height:342/2px;
+    }
+  }
+  .personalwelfare{
+    width: 750px/2;
+    padding:10px 0 15px 0;
+    min-height: 240px/2;
+    .swiper-block{
+      height: 240px/2;
+      width: 100%;
+    }
+    .swiper-item{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      overflow:unset;
+      z-index: 1;
+    }
+    .swiper-item.active{
+      z-index:20;
+    }
+    .swiper-item.active .slide-image{
+      transform: scale(1.45);
+      -webkit-transform:scale(1.45);
+      transition:all .2s ease-in 0s;
+    }
+    .slide-image{
+      height:165px/2;
+      width: 249px/2;
+      border-radius: 20px/2;
+      box-shadow: 5px 5px 10px/2 rgba(101,101,101,0.75);
+    }
+  }
+  .common-head{
+    width: 100%;
+    overflow: hidden;
+    margin:11px 0 0 0;
+    line-height: 0.36rem;
+    position: relative;
+  }
+  .common-head .ui-link{
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .common-head .ui-link span{
+    padding-right:13px;
+    font-size: 26px/2;
+    float: left;
+    display: block;
+    line-height: 0.4rem;
+    color: #666;
+    i{
+      color: #df5c3e;
+      font-style: normal;
+      display:inline-block;
+    }
+  }
+  .handbook-icon{
+    display: block;
+    font-size: 15px;
+    color: #333;
+    margin-left:13px;
+    padding-left: 43px/2;
+    line-height: 0.4rem;
+    background: url('../../../static/img/icon1.png') no-repeat left center;
+    background-size: 31px/2 31px/2;
+  }
+  .handbookpersonn-icon{
+    display: block;
+    font-size: 15px;
+    color: #333;
+    margin-left:13px;
+    padding-left: 43px/2;
+    line-height: 0.4rem;
+    background: url('../../../static/img/icon2.png') no-repeat left center;
+    background-size: 31px/2 31px/2;
+  }
+  .headgift-head{
+    display: block;
+    font-size: 15px;
+    color: #333;
+    margin-left:13px;
+    padding-left: 43px/2;
+    line-height: 0.4rem;
+    background: url('../../../static/img/icon4.png') no-repeat left center;
+    background-size: 32px/2 32px/2;
+  }
+  .headcompany-head{
+    display: block;
+    font-size: 15px;
+    color: #333;
+    margin-left:13px;
+    padding-left: 43px/2;
+    line-height: 0.4rem;
+    background: url('../../../static/img/icon3.png') no-repeat left center;
+    background-size: 31px/2 31px/2;
+  }
+  .line-division {
+    height: 5px;
+    background-color: #f6f6f6;
+  }
+  .content_main{
+    background: #fff;
+    margin:auto 26px/2;
+    padding-top: 20px/2;
+    .navigation{
+      box-sizing: border-box;
+      width: 100%;
+      justify-content: space-between;
+      a{
+        display: inline-block;
+        width:25%;
+        padding-bottom: 30px/2;
+      }
+      .navigation_icon{
+        width: 92px/2;
+        height: 92px/2;
+        margin:0 auto;
+      }
+      .navigation_label{
+        margin-top: 15px/2;
+        font-size: 26px/2;
+        line-height: 26px/2;
+        color: #666;
+        text-align: center;
+      }
+      .index_icon_48{
+        background: url("../../../static/img/linye.png") center center;
+        background-size: 100% 100%;
+      }
+      .index_icon_49{
+        background: url("../../../static/img/linye.png") center center;
+        background-size: 100% 100%;
+      }
+      .index_icon_50{
+        background: url("../../../static/img/linye.png") center center;
+        background-size: 100% 100%;
+      }
+      .index_icon_51{
+        background: url("../../../static/img/linye.png") center center;
+        background-size: 100% 100%;
+      }
+    }
+  }
+  .contain_company{
+    overflow:hidden;
+    padding:13px 13px 9px;
+    li{
+      width:47%;
+      padding:17px/2 9px/2 17px/2 6px/2;
+      margin-right:2%;
+      float:left;
+      display:flex;
+      background:#f3f3f3;
+      border-radius:5px;
+      margin-bottom:13px/2;
+      justify-content: flex-start;
+      align-items: center;
+      .companyhead{
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        vertical-align:middle;
+        margin-right:5px;
+        image{
+          width:40px;
+          height:40px;
+          border-radius:50%;
+          vertical-align:middle;
+        }
+      }
+      .companymess{
+        width:75%;
+      }
+      .companyname{
+        max-width:100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-all;
+        word-wrap: break-word;
+        font-size:12px;
+        color:#666;
+      }
+      .companyleab{
+        max-width:100%;
+        font-size:10px;
+        color:#999;
+        padding-left: 28px/2;
+        line-height: 0.4rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-all;
+        background: url('../../../static/img/biaoqian.png') no-repeat left center;
+        background-size: 21px/2 20px/2;
+      }
+    }
+    li:nth-child(2n){
+      margin-right:0;
+    }
+  }
   .gitf_box{
     width: 100%;
     height: 182px/2;
@@ -516,6 +825,7 @@
     width: 100%;
     box-sizing: border-box;
     padding: 0 26px/2;
+    margin-top:20px/2;
     display: flex;
     flex-flow: wrap;
     align-content: space-between;
