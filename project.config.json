@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 29,
+			"current": 30,
 			"list": [
 				{
 					"id": 0,
@@ -226,7 +226,13 @@
 				{
 					"id": -1,
 					"name": "haibao",
-					"pathName": "pages/report/main"
+					"pathName": "pages/report/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "公司主页",
+					"pathName": "pages/company/main"
 				}
 			]
 		}
