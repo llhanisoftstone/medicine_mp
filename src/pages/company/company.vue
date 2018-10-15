@@ -35,12 +35,42 @@
         </ul>
       </div>
       <!--通知公告-->
-      <div class="notice-box">
-
+      <div class="notice_box">
+        <div class="titie_box">
+          <div class="icon_box">
+            <div class="notice_icon"></div>
+            <div class="title">通知公告</div>
+          </div>
+          <div class="more">更多<span>&gt;</span></div>
+        </div>
+        <ul class="notice_msg">
+          <li>
+            <div class="left_item">关于公积金的领取通知</div>
+            <div class="right_item"></div>
+          </li>
+          <li>
+            <div class="left_item">关于公积金的领取通知关于公积金的领取通知关于公积金的领取通知</div>
+            <div class="right_item"></div>
+          </li>
+          <li>
+            <div class="left_item">关于公积金的领取通知</div>
+            <div class="right_item"></div>
+          </li>
+          <li>
+            <div class="left_item">关于公积金的领取通知</div>
+            <div class="right_item"></div>
+          </li>
+        </ul>
       </div>
       <!--员工福利-->
-      <div class="gift-box">
-
+      <div class="gift_box">
+        <div class="titie_box">
+          <div class="icon_box">
+            <div class="gift_icon"></div>
+            <div class="title">员工福利</div>
+          </div>
+          <div class="more">更多<span>&gt;</span></div>
+        </div>
       </div>
     </div>
 </template>
@@ -164,6 +194,7 @@
     .titie_box{
       display:flex;
       justify-content: space-between;
+      align-items: center;
       padding:22px/2 26px/2 28px/2;
       .icon_box{
         display:flex;
@@ -173,6 +204,13 @@
         font-size: 30px/2;
         color:#333333;
         padding-left:12px/2;
+      }
+    }
+    .more{
+      font-size: 26px/2;
+      color:#666666;
+      span{
+        color:#df5c3e;
       }
     }
     .study_box{
@@ -205,11 +243,58 @@
             font-size: 26px/2;
             color:#666666;
             margin-top: 10px/2;
+            .ellipsis();
           }
         }
       }
     }
+    .notice_box{
+      border-top: 10px/2 solid #f6f6f6;
+      .notice_icon{
+        width:32px/2;
+        height:28px/2;
+        background: #fff url(../../../static/img/company/icon_notice.png) no-repeat center;
+        background-size: 32px/2 28px/2;
+      }
+      .notice_msg{
+        padding-bottom: 30px/2;
+        li{
+          width:100%;
+          height:60px/2;
+          display:flex;
+          align-items: center;
+          justify-content: space-between;
+          font-size: 26px/2;
+          color:#666666;
+          padding:0 26px/2;
+          border-top: 1px solid #e2e2e2;
+          &:last-child{
+            border-bottom: 1px solid #e2e2e2;
+          }
+        }
+        .left_item{
+          .ellipsis();
+          width:90%;
+        }
+        .right_item{
+          width:12px/2;
+          height:24px/2;
+          background: #fff url(../../../static/img/arrow.png) no-repeat center;
+          background-size: 12px/2 24px/2;
+        }
+      }
 
+    }
+    .gift_box{
+      border-top: 10px/2 solid #f6f6f6;
+      .gift_icon{
+        width:31px/2;
+        height:31px/2;
+        background: #fff url(../../../static/img/company/fuli.png) no-repeat center;
+        background-size: 31px/2 31px/2;
+      }
+
+    }
     .footcgotop{
       position: fixed;
       z-index: 100;
