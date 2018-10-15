@@ -143,7 +143,7 @@
       margin-bottom: 50px;
     }
     .data-list ul.list-ul{
-      margin: 0 26px/2;
+      padding: 20px/2 26px/2;
       .item_margin{
         background-color: #ffffff;
         border-radius: 50%;
@@ -155,7 +155,7 @@
       }
       li.list-li{
         position: relative;
-        margin-top: 20px/2;
+        margin-bottom: 20px/2;
         height: 342px/2;
         .item_rmb{
           color: #ffffff;
@@ -265,9 +265,6 @@
         .lower-part span.bor-rig:last-child{
           border: 0;
         }
-      }
-      li.list-li:last-child{
-        margin-bottom: 20px/2;
       }
     }
 </style>

@@ -7,7 +7,7 @@ export function get (url, body) {
       url: store.state.url + url,    // 拼接完整的url
       data: body,
       header: {
-        Authorization: `jwt ${store.state.sid}`
+        Authorization: `jwt ${store.state.user.sid}`
       },
       method: 'GET',
       success (res) {

@@ -215,7 +215,7 @@
         },
         async getpage(){
           let that = this;
-          let res = await that.$get('/rs/first_page',{page:1,size:3,order:'order_code desc, create_time desc'})
+          let res = await that.$get('/rs/first_page',{page:1,size:3})
           if(res.code == 200){
             that.p_number = res.present_count
             for(let i = 0;i<res.win_treasure.length;i++){
@@ -291,7 +291,8 @@
                 u_id: this.$store.state.user.userid,
                 game_cfg_id: r_id,
                 game_type:1,
-                level:1
+                level:1,
+                type:0
               })
             }
         },
@@ -311,6 +312,7 @@
               that.$store.commit('get_level',1)
               that.$store.commit('get_room',d.room_id)
               that.$store.commit('get_max_nub',d.max_step)
+              that.$store.commit('get_que_type',d.type)
               wx.navigateTo({
                 url:`/pages/alone/main?id=${that.r_id}`
               })

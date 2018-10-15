@@ -89,7 +89,8 @@
               select:0,    //选择的关卡
               game_type:-1,     //单人 1   多人 2
               tips:-1,           //显示提示信息
-              tipsprize:0        //提示关卡
+              tipsprize:0,        //提示关卡
+              tipsTime:null        //提示信息时间函数
             }
         },
         methods: {
@@ -111,6 +112,7 @@
                   that.$store.commit('get_room',d.room_id)
                   that.$store.commit('get_level',d.level)
                   that.$store.commit('get_max_nub',d.max_step)
+                  that.$store.commit('get_que_type',d.type)
                   that.isshow=false
                   wx.navigateTo({
                     url:'/pages/alone/main'
@@ -130,15 +132,17 @@
           },
           showpick(v){
             if(this.level<v){
-                if(this.tips!=-1){
-                    return
-                }
+//                if(this.tips!=-1){
+//                    return
+//                }
               let gaplevel=v-this.level;
               this.tips=v
               if(v==5 || v==10){
                 this.tipsprize = gaplevel
               }
-              setTimeout(()=>{
+              clearTimeout(this.tipsTime)
+              this.tipsTime=null
+              this.tipsTime = setTimeout(()=>{
                 this.tips=-1
                 this.tipsprize=0
               },3500)
@@ -160,7 +164,8 @@
                   u_id: that.$store.state.user.userid,
                   game_cfg_id: 2,
                   game_type:1,
-                  level:that.select
+                  level:that.select,
+                  type:0
               })
           },
           team(){
@@ -217,6 +222,7 @@
       onLoad(){
         wx.hideShareMenu()
            this.watchsocket()
+        this.tips = -1
       },
       onShow(){
         this.gzshow=false;

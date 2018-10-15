@@ -7,6 +7,13 @@
         </div>
       </userinfo>
     </div>
+    <div class="survey-box"
+         v-show="activityShow"
+         @click="survey(9,1)"
+    >
+      <!--game_cfg_id写死为9，type:题目类型，0单选，1问卷题目-->
+        <image src="/static/img/suery_bg.png"></image>
+    </div>
     <div class="match_box">
       <a href="/pages/challengemap/main" class="challenge_b">
         <div class="challenge" @click="challengemap">
@@ -59,11 +66,13 @@
         <a @click="reward(v.id,v.isReward)" :class="{'disabled':v.isReward<=0}">挑战</a>
       </li>
     </ul>
+    <mptoast/>
   </div>
 </template>
 
 <script type="javascript">
   import userinfo from '../../components/userinfo'
+  import mptoast from '../../components/mptoast'
   export default {
 
   data () {
@@ -72,12 +81,14 @@
       win_treasure: [],
       r_id:0,
       points:0,
-      tickt_id:''
+      tickt_id:'',
+      activityShow:false,
     }
   },
 
   components: {
-    userinfo
+    userinfo,
+    mptoast
   },
 
   methods: {
@@ -91,11 +102,13 @@
     },
     async getpage(){
         let that = this
-      let tdata={
-        order:'order_code desc,create_time desc'
-      }
-        let res = await that.$get('/rs/first_page',tdata)
+        let res = await that.$get('/rs/first_page')
       if(res.code == 200){
+            if(res.activity==1){
+                that.activityShow=true;
+            }else{
+              that.activityShow=false;
+            }
             that.p_number = res.present_count
           for(let i = 0;i<res.win_treasure.length;i++){
             res.win_treasure[i].piclogo = that.$store.state.url+ res.win_treasure[i].piclogo
@@ -118,24 +131,55 @@
             u_id: this.$store.state.user.userid,
             game_cfg_id: r_id,
             game_type:1,
-            level:1
+            level:1,
+            type:0
           })
         }
+    },
+    survey(r_id,gametype){
+      this.$socket.emit('data_chain',{
+        cmd:'fight',
+        u_id: this.$store.state.user.userid,
+        game_cfg_id: r_id,
+        game_type:1,
+        level:1,
+        type:gametype
+      })
     },
     watchsocket(){
       let that=this
       that.$socket.removeAllListeners('data_chain')
+      that.$socket.on('global_chain',d=>{
+        if(d.cmd=='error' && d.errcode==303){
+          that.$mptoast('该活动只能参加一次');
+        }
+      });
       that.$socket.on('data_chain',d=>{
-        if(d.cmd == 'answer'&&d.step == 1){
-          that.$socket.removeAllListeners('data_chain')
+        if(d.cmd == 'answer'&&d.step == 1 ){
+          if(d.type==1){
+              if(d.details[0]){
+                let answerjson=d.details[0].answer_json;
+                for(let val of answerjson){
+                  val.right='true';
+                }
+                d.details[0].answer_json=answerjson;
+              }else{
+                that.$mptoast('暂无题目');
+              }
+          }
           that.$store.commit('get_answer',d.details[0])
           that.$store.commit('get_step',d.step)
           that.$store.commit('get_level',1)
           that.$store.commit('get_room',d.room_id)
           that.$store.commit('get_max_nub',d.max_step)
-          wx.navigateTo({
-            url:`/pages/alone/main?id=${that.r_id}`
-          })
+          that.$store.commit('get_que_type',d.type)
+          console.log(d.details[0])
+          if(d.details[0]){
+            that.$socket.removeAllListeners('data_chain')
+            wx.navigateTo({
+              url:`/pages/alone/main?id=${that.r_id}`
+            })
+          }
         }
       })
     },
@@ -176,6 +220,7 @@
 //    this.getLogin()
   },
     onLoad(){
+      this.activityShow=false;
       this.watchsocket()
       if(this.$store.state.isauth){
         wx.showTabBar({animation:true})
@@ -549,6 +594,16 @@
     }
     li:nth-of-type(3n){
       margin-right: 0;
+    }
+  }
+  .survey-box{
+    box-sizing: border-box;
+    width:100%;
+    padding: 0 26px/2;
+    image{
+      width:698px/2;
+      height:176px/2;
+      max-width:100%;
     }
   }
 </style>

@@ -25,14 +25,23 @@
           <answer title="题库由西安市人社局失业保险处提供" :answer="answer.name" distance="1">
             <div slot="list">
               <ul :class="{'bottom1_an':isanimation&&(step!=1),'bottom_an':isanimation&&(step==1),'answer_box_ul':true}">
-                <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}</li>
+                <template v-if="question_type == 1">
+                  <li  :class="{'correct':isshow&&(index==idx)}" v-for="(v,idx) in answer.answer_json" v-on:click="submit(idx,v.right)">{{v.answer}}</li>
+                </template>
+               <template v-else >
+                 <li :class="{'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)">{{v.answer}}</li>
+               </template>
               </ul>
             </div>
           </answer>
         </div>
         <!--<p class="provide">本题由{{answer.organiz_name}}提供</p>-->
-        <div class="prop_box">
+        <div class="prop_box" v-if="question_type != 1">
+          <!--isreward = 9表示问卷调查类型-->
           <prop :tips="tips" :surplus="times<10" :istimeused="istime" :istimes="true" :answer="answernub" :times="timenub" v-on:userTools="userTools"></prop>
+        </div>
+        <div class="prop_box" v-else>
+          <p class="tips" v-if="tips">{{tips}}</p>
         </div>
       </div>
       <div class="bg_shade gzk" v-if="gzshow" @click="hidegz" catchtouchmove='true'>
@@ -86,7 +95,7 @@
         },
         methods: {
           showgz(){
-            if(this.isreward!=0){
+            if(this.isreward!=0 || this.$store.state.question_type==1){
                 return;
             }
             this.gzshow=true;
@@ -194,7 +203,8 @@
                 score:reply,   // 得分
                 tool_id: that.tool_id,   // 使用道具
                 use_time:(30-this.times)>0?30-this.times:0,   //使用时间   -1 自己延时
-                step:that.$store.state.step
+                step:that.$store.state.step,
+                type:that.$store.state.question_type   //问题类型
               })
             if(reply==1){
               that.$store.commit('rightTitle',1)
@@ -257,7 +267,10 @@
           },
           step(){
               return this.$store.state.step
-          }
+          },
+          question_type(){
+            return this.$store.state.question_type
+          },
         },
         mounted(){
         },
@@ -313,6 +326,13 @@
             that.hreftime=null
             that.hreftime=setTimeout(function(){
               that.left = ((d.step - 1)/d.max_step)*175
+              if(d.type==1){
+                let answerjson=d.details[0].answer_json;
+                for(let val of answerjson){
+                  val.right='true';
+                }
+                d.details[0].answer_json=answerjson;
+              }
               that.$store.commit('get_answer',d.details[0])
               that.$store.commit('get_step',d.step)
               wx.setNavigationBarTitle({
@@ -820,5 +840,18 @@
       width: 100%;
       height: 110px/2;
       z-index: 3;
+    }
+    .tips{
+      flex:1;
+      width:524px/2;
+      margin:0 auto;
+      height: 60px/2;
+      background: #f1f1f1;
+      color: #df5c3e;
+      font-size: 28px/2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50px/2;
     }
 </style>
