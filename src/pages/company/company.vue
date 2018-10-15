@@ -1,7 +1,29 @@
 <template>
     <div >
       <div class="gallaryslider">
-        <image src="/static/img/logo_moren.jpg"></image>
+        <swiper
+          :autoplay="true"
+          :interval="3000"
+          :circular="true"
+          indicator-active-color="rgba(226,108,21,1)"
+          indicator-color="rgba(206,206,206,1)"
+          :indicator-dots="true">
+          <block>
+            <swiper-item>
+              <image src="/static/img/logo_moren.jpg"></image>
+            </swiper-item>
+          </block>
+          <block>
+            <swiper-item>
+              <image src="/static/img/logo_moren.jpg"></image>
+            </swiper-item>
+          </block>
+          <block>
+            <swiper-item>
+              <image src="/static/img/logo_moren.jpg"></image>
+            </swiper-item>
+          </block>
+        </swiper>
       </div>
       <!--培训学习-->
       <div class="study_box">
@@ -235,7 +257,7 @@
       overflow: hidden;
     }
     .gallaryslider{
-      image{
+      swiper,swiper-item,image{
         width:100%;
         height:342px/2;
         vertical-align: bottom;
@@ -272,7 +294,7 @@
         background-size: 31px/2 31px/2;
       }
       .category_box{
-        padding:0 52px/2 35px/2;
+        padding:0 52px/2 0;
         width:100%;
         display:flex;
         flex-wrap:wrap;
