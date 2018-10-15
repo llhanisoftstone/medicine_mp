@@ -66,19 +66,19 @@
           <div class="more">更多<span>&gt;</span></div>
         </div>
         <ul class="notice_msg">
-          <li>
+          <li @click.stop="tonewpage('noticedetail',{pid:''})">
             <div class="left_item">关于公积金的领取通知</div>
             <div class="right_item"></div>
           </li>
-          <li>
+          <li @click.stop="tonewpage('noticedetail',{pid:''})">
             <div class="left_item">关于公积金的领取通知关于公积金的领取通知关于公积金的领取通知</div>
             <div class="right_item"></div>
           </li>
-          <li>
+          <li @click.stop="tonewpage('noticedetail',{pid:''})">
             <div class="left_item">关于公积金的领取通知</div>
             <div class="right_item"></div>
           </li>
-          <li>
+          <li @click.stop="tonewpage('noticedetail',{pid:''})">
             <div class="left_item">关于公积金的领取通知</div>
             <div class="right_item"></div>
           </li>
