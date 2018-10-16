@@ -2,13 +2,13 @@
   <div class="mui-content ">
       <ul class="content-box" >
         <li v-for="(item,idx) in seasondata"
-            @click.stop="tonewpage('informationdetail','pid='+item.id)"
+            @click.stop="tonewpage('noticedetail','pid='+item.id)"
             :key="idx">
           <div class="left-item">
-            <p class="title">{{item.title}}</p>
+            <p class="title">{{item.name}}</p>
             <p class="date">{{item.create_time}}</p>
           </div>
-          <image :src="item.picpath"></image>
+          <image :src="item.list_pic_path"></image>
         </li>
       </ul>
       <div class="nogetList" v-show="iskong">暂无信息</div>
@@ -55,9 +55,9 @@
           page:this.page,
           size:this.size,
           status:"1",
-          order:'create_time desc'
+          order:'is_main desc,sequence desc,create_time desc'
         };
-        let res = await that.$get('/rs/notify',data);
+        let res = await that.$get('/rs/notify/',data);
         if(res.code==200){
           that.iskong=false;
           if(that.page==1){
@@ -65,10 +65,10 @@
           }
           if(res.rows.length>0){
             for(var i=0;i<res.rows.length;i++){
-              if(res.rows[i].picpath){
-                res.rows[i].picpath=that.$store.state.url+res.rows[i].picpath;
+              if(res.rows[i].list_pic_path){
+                res.rows[i].list_pic_path=that.$store.state.url+res.rows[i].list_pic_path;
               }else{
-                //res.rows[i].picpath='/static/img/default_img/moren227141.jpg';
+                //res.rows[i].list_pic_path='/static/img/default_img/moren227141.jpg';
               }
               res.rows[i].create_time = this.commons.getDate(res.rows[i].create_time);
             }

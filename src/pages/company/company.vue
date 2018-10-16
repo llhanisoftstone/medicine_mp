@@ -60,7 +60,7 @@
             <div class="title">通知公告</div>
           </div>
           <div
-            @click.stop="tonewpage('noticelist')"
+            @click.stop="tonewpage('noticelist','')"
             class="more">更多<span>&gt;</span></div>
         </div>
         <ul class="notice_msg">
