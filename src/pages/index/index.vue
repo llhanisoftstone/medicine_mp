@@ -644,7 +644,7 @@
       width:31px/2;
       height:31px/2;
       vertical-align: middle;
-      margin-right:5px;
+      margin-right:5.5px;
     }
   }
   .handbookpersonn-icon{
