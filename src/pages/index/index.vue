@@ -654,8 +654,8 @@
     margin-left:13px;
     line-height: 0.4rem;
     image{
-      width:31px/2;
-      height:31px/2;
+      width:32px/2;
+      height:32px/2;
       vertical-align: middle;
       margin-right:5px;
     }
