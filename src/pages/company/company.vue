@@ -13,7 +13,7 @@
             v-for="(item,idx) in banner">
             <swiper-item>
               <navigator>
-                <image :src="item.picurl"></image>
+                <image :src="item.picpath"></image>
               </navigator>
             </swiper-item>
           </block>
@@ -151,17 +151,13 @@
 
 <script type="javascript">
   import common from '../../static/js/common'
-
     export default {
       name: 'companyindex',
         data(){
             return {
               currentSwiper:0,
               banner:[
-                {picurl:'../../../static/img/logo_moren.jpg'},
-                {picurl:'../../../static/img/logo_moren.jpg'},
-                {picurl:'../../../static/img/logo_moren.jpg'},
-                {picurl:'../../../static/img/logo_moren.jpg'},
+                {picpath:'../../../static/img/logo_moren.jpg'},
               ]
             }
         },
@@ -180,22 +176,29 @@
               url:`/pages/${urlname}/main?${data}`
             })
           },
-          async listdata (pid){
+          async getBanner (pid){
             let thiz = this;
             let data = {
-
+              status:1,
+              category:2,
+              order:'create_time desc'
             };
-            let res = await thiz.$get('/rs//' + pid, data);
+            let res = await thiz.$get('/rs/banner', data);
             if (res.code == 200){
-
+              if(res.rows){
+                  for(let val of res.rows){
+                      val.picpath=thiz.formatPicUrl(val.picpath,'logo_moren.jpg');
+                  }
+                  thiz.banner=res.rows;
+              }
             }else if(res.code==602){
 
             }
           },
-          topic(pic,moren){
+          formatPicUrl(pic,moren){
             let thiz=this;
             if(!pic||pic=="undefined"||pic==null){
-              return '/static/img/default_img/'+moren;
+              return '/static/img/'+moren;
             } else {
               if (pic.substr(0,4).toLowerCase()!="http" ||pic.substr(0,4).toLowerCase()!="https" ){
                 return thiz.$store.state.url + pic;
@@ -232,6 +235,7 @@
         } catch (e) {
 
         }
+        this.getBanner();
         //this.watchsocket()
       },
       onShow(){
@@ -282,7 +286,7 @@
         display: flex;
         justify-content: center;
         .dot{
-          margin: 0 10px/2;
+          margin: 0 5px/2;
           width: 10px/2;
           height: 10px/2;
           background-color: #cecece;
