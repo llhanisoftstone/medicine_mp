@@ -231,8 +231,8 @@
 				},
 				{
 					"id": -1,
-					"name": "liaotian",
-					"pathName": "pages/chat/main"
+					"name": "公司主页",
+					"pathName": "pages/company/main"
 				}
 			]
 		}

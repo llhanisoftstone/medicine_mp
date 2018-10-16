@@ -1,0 +1,474 @@
+<template>
+    <div >
+      <div class="gallaryslider">
+        <swiper
+          :autoplay="true"
+          :interval="3000"
+          :circular="true"
+          indicator-active-color="rgba(226,108,21,1)"
+          indicator-color="rgba(206,206,206,1)"
+          :indicator-dots="true">
+          <block>
+            <swiper-item>
+              <image src="/static/img/logo_moren.jpg"></image>
+            </swiper-item>
+          </block>
+          <block>
+            <swiper-item>
+              <image src="/static/img/logo_moren.jpg"></image>
+            </swiper-item>
+          </block>
+          <block>
+            <swiper-item>
+              <image src="/static/img/logo_moren.jpg"></image>
+            </swiper-item>
+          </block>
+        </swiper>
+      </div>
+      <!--培训学习-->
+      <div class="study_box">
+        <div class="titie_box">
+          <div class="icon_box">
+            <div class="stydy_icon"></div>
+            <div class="title">政策补贴</div>
+          </div>
+        </div>
+        <ul class="category_box">
+          <li>
+            <image src="/static/img/company/zhidu.png"></image>
+            <p>公司制度</p>
+          </li>
+          <li>
+            <image src="/static/img/company/zhidu.png"></image>
+            <p>公司制度</p>
+          </li>
+          <li>
+            <image src="/static/img/company/zhidu.png"></image>
+            <p>公司制度</p>
+          </li>
+          <li>
+            <image src="/static/img/company/zhidu.png"></image>
+            <p>公司制度</p>
+          </li>
+          <li>
+            <image src="/static/img/company/zhidu.png"></image>
+            <p>公司制度</p>
+          </li>
+        </ul>
+      </div>
+      <!--通知公告-->
+      <div class="notice_box">
+        <div class="titie_box">
+          <div class="icon_box">
+            <div class="notice_icon"></div>
+            <div class="title">通知公告</div>
+          </div>
+          <div class="more">更多<span>&gt;</span></div>
+        </div>
+        <ul class="notice_msg">
+          <li @click.stop="tonewpage('noticedetail',{pid:''})">
+            <div class="left_item">关于公积金的领取通知</div>
+            <div class="right_item"></div>
+          </li>
+          <li @click.stop="tonewpage('noticedetail',{pid:''})">
+            <div class="left_item">关于公积金的领取通知关于公积金的领取通知关于公积金的领取通知</div>
+            <div class="right_item"></div>
+          </li>
+          <li @click.stop="tonewpage('noticedetail',{pid:''})">
+            <div class="left_item">关于公积金的领取通知</div>
+            <div class="right_item"></div>
+          </li>
+          <li @click.stop="tonewpage('noticedetail',{pid:''})">
+            <div class="left_item">关于公积金的领取通知</div>
+            <div class="right_item"></div>
+          </li>
+        </ul>
+      </div>
+      <!--员工福利-->
+      <div class="gift_box">
+        <div class="titie_box">
+          <div class="icon_box">
+            <div class="gift_icon"></div>
+            <div class="title">员工福利</div>
+          </div>
+          <div class="more">更多<span>&gt;</span></div>
+        </div>
+        <ul class="gift_list">
+          <li  >
+            <main >
+              <div class="itemheadk">
+                <div>
+                  <image src="/static/img/ticketshop_default.jpg"></image>
+                  <div class="itemmodel">查看详情&gt;</div>
+                </div>
+              </div>
+              <h3>门票庄园60元代金券</h3>
+            </main>
+            <a >领取</a>
+          </li>
+          <li  >
+            <main >
+              <div class="itemheadk">
+                <div>
+                  <image src="/static/img/ticketshop_default.jpg"></image>
+                  <div class="itemmodel">查看详情&gt;</div>
+                </div>
+              </div>
+              <h3>门票庄园60元代金券</h3>
+            </main>
+            <a >领取</a>
+          </li>
+          <li  >
+            <main >
+              <div class="itemheadk">
+                <div>
+                  <image src="/static/img/ticketshop_default.jpg"></image>
+                  <div class="itemmodel">查看详情&gt;</div>
+                </div>
+              </div>
+              <h3>门票庄园60元代金券</h3>
+            </main>
+            <a >领取</a>
+          </li>
+          <li  >
+            <main >
+              <div class="itemheadk">
+                <div>
+                  <image src="/static/img/ticketshop_default.jpg"></image>
+                  <div class="itemmodel">查看详情&gt;</div>
+                </div>
+              </div>
+              <h3>3333333333rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrreeeeeegggg</h3>
+            </main>
+            <a >领取</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+</template>
+
+<script type="javascript">
+  import common from '../../static/js/common'
+
+    export default {
+      name: 'companyindex',
+        data(){
+            return {
+
+            }
+        },
+      methods: {
+          showimg(img,imglist){
+            wx.previewImage({
+              current: img||"", // 当前显示图片的http链接
+              urls: imglist // 需要预览的图片http链接列表
+            })
+          },
+          tonewpage(urlname,data){
+            wx.navigateTo({
+              url:`/pages/${urlname}/main?${data}`
+            })
+          },
+          async listdata (pid){
+            let thiz = this;
+            let data = {
+
+            };
+            let res = await thiz.$get('/rs//' + pid, data);
+            if (res.code == 200){
+
+            }else if(res.code==602){
+
+            }
+          },
+          topic(pic,moren){
+            let thiz=this;
+            if(!pic||pic=="undefined"||pic==null){
+              return '/static/img/default_img/'+moren;
+            } else {
+              if (pic.substr(0,4).toLowerCase()!="http" ||pic.substr(0,4).toLowerCase()!="https" ){
+                return thiz.$store.state.url + pic;
+              } else {
+                return thiz;
+              }
+            }
+          },
+          scrolltoTop(){
+            if (wx.pageScrollTo) {
+              wx.pageScrollTo({
+                scrollTop: 0
+              })
+            } else {
+              wx.showModal({
+                title: '提示',
+                content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+              })
+            }
+          },
+        },
+      mounted(){
+
+      },
+      onLoad: function (option) {
+        try {
+          let res = wx.getSystemInfoSync();
+          console.log(res)
+          if(res.model.match(/iPhone X/ig)){
+
+          }else{
+
+          }
+        } catch (e) {
+
+        }
+        //this.watchsocket()
+      },
+      onShow(){
+//        this.watchsocket()
+      },
+      onHide(){
+//        this.scrollIcon=false
+//        this.$socket.removeAllListeners('data_chain')
+      },
+//      onPageScroll:function(res){
+//        let top = res.scrollTop;
+//        if (top > 400) {
+//          this.scrollIcon = true;
+//        } else {
+//          this.scrollIcon = false;
+//        }
+//      },
+
+    }
+</script>
+
+<style lang="less" scoped>
+    @import '../../static/less/common.less';
+    div,p,ul,li,input{
+      box-sizing:border-box;
+    }
+    image{
+      vertical-align: bottom;
+    }
+    .ellipsis(@count:1){
+      display: -webkit-box;
+      -webkit-line-clamp: @count;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .gallaryslider{
+      swiper,swiper-item,image{
+        width:100%;
+        height:342px/2;
+        vertical-align: bottom;
+      }
+    }
+    .titie_box{
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      padding:22px/2 26px/2 28px/2;
+      .icon_box{
+        display:flex;
+        align-items: center;
+      }
+      .title{
+        font-size: 30px/2;
+        color:#333333;
+        padding-left:12px/2;
+      }
+    }
+    .more{
+      font-size: 26px/2;
+      color:#666666;
+      span{
+        color:#df5c3e;
+      }
+    }
+    .study_box{
+      border-top: 10px/2 solid #f6f6f6;
+      .stydy_icon{
+        width:31px/2;
+        height:31px/2;
+        background: #fff url(../../../static/img/company/peixun.png) no-repeat center;
+        background-size: 31px/2 31px/2;
+      }
+      .category_box{
+        padding:0 52px/2 0;
+        width:100%;
+        display:flex;
+        flex-wrap:wrap;
+        li{
+          width:105px/2;
+          text-align: center;
+          margin-right: 75px/2;
+          margin-bottom: 38px/2;
+          &:nth-child(4n){
+            margin-right:0;
+          }
+          image{
+            width:90px/2;
+            height:90px/2;
+          }
+          p{
+            text-align: center;
+            font-size: 26px/2;
+            color:#666666;
+            margin-top: 10px/2;
+            .ellipsis();
+          }
+        }
+      }
+    }
+    .notice_box{
+      border-top: 10px/2 solid #f6f6f6;
+      .notice_icon{
+        width:32px/2;
+        height:28px/2;
+        background: #fff url(../../../static/img/company/icon_notice.png) no-repeat center;
+        background-size: 32px/2 28px/2;
+      }
+      .notice_msg{
+        padding-bottom: 30px/2;
+        li{
+          width:100%;
+          height:60px/2;
+          display:flex;
+          align-items: center;
+          justify-content: space-between;
+          font-size: 26px/2;
+          color:#666666;
+          padding:0 26px/2;
+          border-top: 1px solid #e2e2e2;
+          &:last-child{
+            border-bottom: 1px solid #e2e2e2;
+          }
+        }
+        .left_item{
+          .ellipsis();
+          width:90%;
+        }
+        .right_item{
+          width:12px/2;
+          height:24px/2;
+          background: #fff url(../../../static/img/arrow.png) no-repeat center;
+          background-size: 12px/2 24px/2;
+        }
+      }
+
+    }
+    .gift_box{
+      border-top: 10px/2 solid #f6f6f6;
+      .gift_icon{
+        width:31px/2;
+        height:31px/2;
+        background: #fff url(../../../static/img/company/fuli.png) no-repeat center;
+        background-size: 31px/2 31px/2;
+      }
+      .gift_list{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 26px/2;
+        display: flex;
+        flex-flow: wrap;
+        align-content: space-between;
+        li{
+          width: 31%;
+          //height: 327px/2;
+          padding-bottom: 18px/2;
+          box-shadow: #acacac 4px/2 5px/2 15px/2;
+          margin-bottom:20px/2;
+          border-radius: 10px/2;
+          background: #fff;
+          margin-right:3.15%;
+          &:nth-of-type(3n){
+            margin-right: 0;
+          }
+          div.itemheadk{
+            width: 100%;
+            height: 220px/2;
+            box-sizing: border-box;
+            padding: 20px/2;
+            div{
+              position: relative;
+              width: 100%;
+              height: 100%;
+              .itemmodel{
+                position: absolute;
+                bottom:0;
+                left:0;
+                width:100%;
+                font-size: 16/2px;
+                padding:6/2px;
+                padding-top: 20/2px;
+                line-height: 16/2px;
+                height: 22/2+20/2px;
+                text-align: right;
+                color: #fff;
+                box-sizing: border-box;
+                background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.4));
+              }
+              image{
+                width: 100%;
+                height: 100%;
+              }
+            }
+          }
+          h3{
+            width: 100%;
+            padding: 0 17px/2;
+            font-size:28px/2;
+            color: #333;
+            box-sizing: border-box;
+            word-break: break-all;
+            .ellipsis(2)
+          }
+          a{
+            margin:0 auto;
+            margin-top:16px/2;
+            display: flex;
+            width: 100px/2;
+            height: 43px/2;
+            border-radius: 50px/2;
+            font-size: 30px/2;
+            box-sizing: border-box;
+            line-height: normal;
+            color: #fff;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            padding-bottom: 2px/2;
+            background: @bg_color;
+          }
+          .disabled{
+            background: #999;
+          }
+        }
+        li:nth-of-type(3n){
+          margin-right: 0;
+        }
+      }
+    }
+    .footcgotop{
+      position: fixed;
+      z-index: 100;
+      bottom: 130px/2;
+      right: 30px/2;
+      width: 80px/2;
+      height: 80px/2;
+      background:url('../../../static/img/scrollTop.png') center no-repeat;
+      background-size: 80px/2 80px/2;
+    }
+    .nogetList{
+      padding-top: 630/2px;
+      background: url("../../../static/img/konhyemain.jpg") center 250/2px no-repeat;
+      background-size:144.5px 148px;
+      width: 100%;
+      color:#999;
+      font-size:14px;
+      text-align: center;
+      margin-bottom:30px;
+      box-sizing:border-box;
+      height:594/2px;
+    }
+</style>
