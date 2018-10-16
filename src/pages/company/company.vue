@@ -2,28 +2,30 @@
     <div >
       <div class="gallaryslider">
         <swiper
+          class="swiper-box"
+          @change="bannerChange"
           :autoplay="true"
           :interval="3000"
           :circular="true"
-          indicator-active-color="rgba(226,108,21,1)"
-          indicator-color="rgba(206,206,206,1)"
-          :indicator-dots="true">
-          <block>
+          :indicator-dots="false">
+          <block
+            :key="idx"
+            v-for="(item,idx) in banner">
             <swiper-item>
-              <image src="/static/img/logo_moren.jpg"></image>
-            </swiper-item>
-          </block>
-          <block>
-            <swiper-item>
-              <image src="/static/img/logo_moren.jpg"></image>
-            </swiper-item>
-          </block>
-          <block>
-            <swiper-item>
-              <image src="/static/img/logo_moren.jpg"></image>
+              <navigator>
+                <image :src="item.picurl"></image>
+              </navigator>
             </swiper-item>
           </block>
         </swiper>
+        <view class="dots">
+          <block :key="banneridx"
+                 v-for="(item,banneridx) in banner">
+            <view
+              :class="{'dot':true,'active':currentSwiper==banneridx}"
+            ></view>
+          </block>
+        </view>
       </div>
       <!--培训学习-->
       <div class="study_box">
@@ -154,10 +156,19 @@
       name: 'companyindex',
         data(){
             return {
-
+              currentSwiper:0,
+              banner:[
+                {picurl:'../../../static/img/logo_moren.jpg'},
+                {picurl:'../../../static/img/logo_moren.jpg'},
+                {picurl:'../../../static/img/logo_moren.jpg'},
+                {picurl:'../../../static/img/logo_moren.jpg'},
+              ]
             }
         },
       methods: {
+        bannerChange(e){
+          this.currentSwiper=e.mp.detail.current;
+        },
           showimg(img,imglist){
             wx.previewImage({
               current: img||"", // 当前显示图片的http链接
@@ -257,10 +268,30 @@
       overflow: hidden;
     }
     .gallaryslider{
+      position: relative;
       swiper,swiper-item,image{
         width:100%;
         height:342px/2;
         vertical-align: bottom;
+      }
+      .dots{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 5px/2;
+        display: flex;
+        justify-content: center;
+        .dot{
+          margin: 0 10px/2;
+          width: 10px/2;
+          height: 10px/2;
+          background-color: #cecece;
+          border-radius: 50%;
+          transition: all .3s;
+          &.active{
+            background: #e26c15;
+          }
+        }
       }
     }
     .titie_box{
