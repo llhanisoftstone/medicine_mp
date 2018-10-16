@@ -2,7 +2,9 @@
   <div class="content">
     <div class="title">{{title}}</div>
     <div class="release-time">发布时间 : {{create_time}}</div>
-    <div class="details"><div  v-html="details"></div></div>
+    <div class="details">
+      <div v-html="details"></div>
+    </div>
   </div>
 </template>
 
@@ -18,11 +20,11 @@
     methods: {
       async getNoticeInfo(pid) {
         let that = this;
-        let res = await this.$get('/rs/infomation/'+pid);
+        let res = await this.$get('/rs/notify/'+pid);
         if (res.code == 200){
-          that.title = res.rows[0].title;
+          that.title = res.rows[0].name;
           that.create_time = this.conversionTime(res.rows[0].create_time,'/');
-          var details=res.rows[0].details;
+          var details=res.rows[0].content;
           if (details){
             var aimurl = 'src="'+that.$store.state.url+"/upload/";
             details=details.replace(/src=\"\/upload\//g, aimurl);
