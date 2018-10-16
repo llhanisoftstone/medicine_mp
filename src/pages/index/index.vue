@@ -19,31 +19,30 @@
     <div class="handbook-info">
       <div class="line-division"></div>
       <div class="common-head headbook-head">
-        <span class="handbook-icon">政策补贴</span>
-        <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&org_id='+org_id"><span>更多<i>></i></span></a>
+        <span class="handbook-icon"><image src="../../../static/img/icon1.png" alt=""></image>政策补贴</span>
         <div class="content_main">
           <div class="navigation">
-            <a class="" @click.stop="tonewpage('','')">
+            <a class="" @click.stop="tonewpage('pkselect','')">
               <div class="navigation_icon index_icon_48"></div>
               <div class="navigation_label">稳岗补贴</div>
             </a>
-            <a class="" @click.stop="tonewpage('','')">
+            <a class="" @click.stop="tonewpage('pkselect','')">
               <div class="navigation_icon index_icon_49"></div>
               <div class="navigation_label">农业补贴</div>
             </a>
-            <a class="" @click.stop="tonewpage('','')">
+            <a class="" @click.stop="tonewpage('pkselect','')">
               <div class="navigation_icon index_icon_50"></div>
               <div class="navigation_label">科技补贴</div>
             </a>
-            <a class="" @click.stop="tonewpage('','')">
+            <a class="" @click.stop="tonewpage('pkselect','')">
               <div class="navigation_icon index_icon_51"></div>
               <div class="navigation_label">安监补贴</div>
             </a>
-            <a class="" @click.stop="tonewpage('','')">
+            <a class="" @click.stop="tonewpage('pkselect','')">
               <div class="navigation_icon index_icon_51"></div>
               <div class="navigation_label">工业补贴</div>
             </a>
-            <a class="" @click.stop="tonewpage('','')">
+            <a class="" @click.stop="tonewpage('pkselect','')">
               <div class="navigation_icon index_icon_51"></div>
               <div class="navigation_label">林业补贴</div>
             </a>
@@ -54,15 +53,19 @@
     <div class="handbook-info">
       <div class="line-division"></div>
       <div class="common-head headbook-head">
-        <span class="handbookpersonn-icon">个人福利</span>
-        <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&org_id='+org_id"><span>更多<i>></i></span></a>
+        <span class="handbookpersonn-icon"><image src="../../../static/img/icon2.png" alt=""></image>个人福利</span>
         <div class="personalwelfare">
-          <swiper  class="swiper-block"  previous-margin="120px" next-margin="150px" current="swiperIndex" @change="swiperChange">
-            <block v-for="(itemb,index) in moviesperson" >
-              <swiper-item class="swiper-item" :class="{active:swiperIndex == index ? true : false}">
-                <image mode="aspectFill"   :src="itemb.picpath" class="slide-image" />
-              </swiper-item>
-            </block>
+          <swiper :indicator-dots="indicatorDots"
+                  @change="swiperChange"
+                  :autoplay="false" :circular="true" :interval="3000"
+                  :duration="duration" indicator-color="rgba(226,226,226,0)" indicator-active-color="rgba(226,226,226,0)" previous-margin='138px' next-margin='138px'>
+            <template v-if="moviesperson.length">
+              <block v-for="(itemp,ip) in moviesperson">
+                <swiper-item :class="{activezindex:swiperIndex==ip?true:false}">
+                    <image :src="itemp.picpath" class="slide-image" :class="{active:swiperIndex==ip?true:false}"/>
+                </swiper-item>
+              </block>
+            </template>
           </swiper>
         </div>
       </div>
@@ -146,7 +149,7 @@
       banner:0,
       movies:[],
       bannerperson:0,
-      swiperIndex:1,
+      swiperIndex:0,
       moviesperson:[{picpath:`../../../static/img/shenhezhong_03.jpg`},{picpath:`../../../static/img/shenheshibai_03.jpg`},{picpath:`../../../static/img/back_icon-2.jpg`}],
     }
   },
@@ -187,8 +190,8 @@
       this.banner=even.mp.detail.current;
     },
     swiperChange(e){
-        console.log(JSON.stringify(e.mp.current))
-//      this.swiperIndex= e.current
+        console.log(JSON.stringify(e.mp.detail.current))
+      this.swiperIndex= e.mp.detail.current;
     },
     async getuserperson(){
       let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
@@ -571,32 +574,38 @@
   .personalwelfare{
     width: 750px/2;
     padding:10px 0 15px 0;
-    min-height: 240px/2;
+    min-height: 265px/2;
+    box-sizing:border-box;
+    swiper,swiper-item{
+      height: 240px/2;
+    }
     .swiper-block{
       height: 240px/2;
       width: 100%;
     }
-    .swiper-item{
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      overflow:unset;
-      z-index: 1;
+    swiper-item{
+      display:flex;
+      align-items: center;
+      z-index:1;
+      overflow:visible;
+      text-align:center;
+      position:relative;
+      image{
+        height:160px/2;
+        width:250px/2;
+        box-shadow:0 2.5px 2.5px rgba(101,101,101,0.75);
+        border-radius:20px/2;
+      }
+      image.active{
+          transform:scale(1.44);
+          transition: all 0.3s;
+          border-radius:30px/2;
+        }
     }
-    .swiper-item.active{
+    swiper-item.activezindex{
       z-index:20;
-    }
-    .swiper-item.active .slide-image{
-      transform: scale(1.45);
-      -webkit-transform:scale(1.45);
-      transition:all .2s ease-in 0s;
-    }
-    .slide-image{
-      height:165px/2;
-      width: 249px/2;
-      border-radius: 20px/2;
-      box-shadow: 5px 5px 10px/2 rgba(101,101,101,0.75);
+      transform:scale(1.44);
+      transition: all 0.3s;
     }
   }
   .common-head{
@@ -630,20 +639,26 @@
     font-size: 15px;
     color: #333;
     margin-left:13px;
-    padding-left: 43px/2;
     line-height: 0.4rem;
-    background: url('../../../static/img/icon1.png') no-repeat left center;
-    background-size: 31px/2 31px/2;
+    image{
+      width:31px/2;
+      height:31px/2;
+      vertical-align: middle;
+      margin-right:5.5px;
+    }
   }
   .handbookpersonn-icon{
     display: block;
     font-size: 15px;
     color: #333;
     margin-left:13px;
-    padding-left: 43px/2;
     line-height: 0.4rem;
-    background: url('../../../static/img/icon2.png') no-repeat left center;
-    background-size: 31px/2 31px/2;
+    image{
+      width:32px/2;
+      height:32px/2;
+      vertical-align: middle;
+      margin-right:5px;
+    }
   }
   .headgift-head{
     display: block;
