@@ -36,7 +36,7 @@
           </div>
         </div>
         <ul class="category_box">
-          <li>
+          <li @click.stop="tonewpage('pkselect','')">
             <image src="/static/img/company/zhidu.png"></image>
             <p>公司制度</p>
           </li>
@@ -84,56 +84,24 @@
             <div class="gift_icon"></div>
             <div class="title">员工福利</div>
           </div>
-          <div class="more">更多<span>&gt;</span></div>
+          <div
+            @click.stop="tonewpage('giftlist')"
+            class="more">更多<span>&gt;</span></div>
         </div>
         <ul class="gift_list">
-          <li  >
-            <main >
+          <li  v-for="(v,i) in win_treasure" >
+            <main @click.stop="tonewpage('giftsdetail','tid='+v.tickt_id+'&vid='+v.id)">
               <div class="itemheadk">
                 <div>
-                  <image src="/static/img/ticketshop_default.jpg"></image>
+                  <image :src="v.piclogo"></image>
                   <div class="itemmodel">查看详情&gt;</div>
                 </div>
               </div>
-              <h3>门票庄园60元代金券</h3>
+              <h3>{{v.ticket_name}}</h3>
             </main>
-            <a >领取</a>
-          </li>
-          <li  >
-            <main >
-              <div class="itemheadk">
-                <div>
-                  <image src="/static/img/ticketshop_default.jpg"></image>
-                  <div class="itemmodel">查看详情&gt;</div>
-                </div>
-              </div>
-              <h3>门票庄园60元代金券</h3>
-            </main>
-            <a >领取</a>
-          </li>
-          <li  >
-            <main >
-              <div class="itemheadk">
-                <div>
-                  <image src="/static/img/ticketshop_default.jpg"></image>
-                  <div class="itemmodel">查看详情&gt;</div>
-                </div>
-              </div>
-              <h3>门票庄园60元代金券</h3>
-            </main>
-            <a >领取</a>
-          </li>
-          <li  >
-            <main >
-              <div class="itemheadk">
-                <div>
-                  <image src="/static/img/ticketshop_default.jpg"></image>
-                  <div class="itemmodel">查看详情&gt;</div>
-                </div>
-              </div>
-              <h3>3333333333rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrreeeeeegggg</h3>
-            </main>
-            <a >领取</a>
+            <div class="btn_box">
+              <a @click="reward(v.id,v.isReward)" :class="{'disabled':v.isReward<=0}">挑战</a>
+            </div>
           </li>
         </ul>
       </div>
@@ -146,6 +114,7 @@
       name: 'companyindex',
         data(){
             return {
+              win_treasure: [],
               currentSwiper:0,
               banner:[
                 {picpath:'../../../static/img/logo_moren.jpg'},
@@ -208,6 +177,72 @@
 
           }
         },
+        async getpage(){
+          let that = this
+          let res = await that.$get('/rs/first_page')
+          if(res.code == 200){
+            for(let i = 0;i<res.win_treasure.length;i++){
+              res.win_treasure[i].piclogo = that.$store.state.url+ res.win_treasure[i].piclogo
+              res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
+              let amount = Number(res.win_treasure[i].amount)==0?Number(res.win_treasure[i].total_amount):Number(res.win_treasure[i].amount)
+              res.win_treasure[i].isReward = amount - Number(res.win_treasure[i].send_amount)
+            }
+            that.win_treasure = res.win_treasure
+
+          }else{
+            that.win_treasure=[]
+          }
+        },
+        reward(r_id,amount){
+          if(amount>0){
+            this.r_id=r_id
+            this.$socket.emit('data_chain',{
+              cmd:'fight',
+              u_id: this.$store.state.user.userid,
+              game_cfg_id: r_id,
+              game_type:1,
+              level:1,
+              type:0
+            })
+          }
+        },
+        watchsocket(){
+          let that=this
+          that.$socket.removeAllListeners('data_chain')
+          that.$socket.on('global_chain',d=>{
+            if(d.cmd=='error' && d.errcode==303){
+              that.$mptoast('该活动只能参加一次');
+            }
+          });
+          that.$socket.on('data_chain',d=>{
+            if(d.cmd == 'answer'&&d.step == 1 ){
+              if(d.type==1){
+                if(d.details[0]){
+                  let answerjson=d.details[0].answer_json;
+                  for(let val of answerjson){
+                    val.right='true';
+                  }
+                  d.details[0].answer_json=answerjson;
+                }else{
+                  that.$mptoast('暂无题目');
+                }
+              }
+              that.$store.commit('get_answer',d.details[0])
+              that.$store.commit('get_step',d.step)
+              that.$store.commit('get_level',1)
+              that.$store.commit('get_room',d.room_id)
+              that.$store.commit('get_max_nub',d.max_step)
+              that.$store.commit('get_que_type',d.type)
+              console.log(d.details[0])
+              if(d.details[0]){
+                that.$socket.removeAllListeners('data_chain')
+                wx.navigateTo({
+                  url:`/pages/alone/main?id=${that.r_id}`
+                })
+              }
+            }
+          })
+        },
           formatPicUrl(pic,moren){
             let thiz=this;
             if(!pic||pic=="undefined"||pic==null){
@@ -253,11 +288,11 @@
         //this.watchsocket()
       },
       onShow(){
-//        this.watchsocket()
+        this.getpage()
+        this.watchsocket()
       },
       onHide(){
-//        this.scrollIcon=false
-//        this.$socket.removeAllListeners('data_chain')
+        this.$socket.removeAllListeners('data_chain')
       },
 //      onPageScroll:function(res){
 //        let top = res.scrollTop;
@@ -423,13 +458,14 @@
         align-content: space-between;
         li{
           width: 31%;
-          //height: 327px/2;
+          height: 327px/2+43px/2;
           padding-bottom: 18px/2;
           box-shadow: #acacac 4px/2 5px/2 15px/2;
           margin-bottom:20px/2;
           border-radius: 10px/2;
           background: #fff;
           margin-right:3.15%;
+          position:relative;
           &:nth-of-type(3n){
             margin-right: 0;
           }
@@ -472,9 +508,14 @@
             word-break: break-all;
             .ellipsis(2)
           }
+          .btn_box{
+            width:100%;
+            position:absolute;
+            bottom:16px/2;
+            text-align: center;
+          }
           a{
             margin:0 auto;
-            margin-top:16px/2;
             display: flex;
             width: 100px/2;
             height: 43px/2;
