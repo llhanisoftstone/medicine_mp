@@ -29,36 +29,29 @@
         </view>
       </div>
       <!--培训学习-->
-      <div class="study_box">
+      <div
+        v-for="(column,colidx) in column_item"
+        :key="colidx"
+        class="study_box">
         <div class="titie_box">
           <div class="icon_box">
-            <div class="stydy_icon"></div>
-            <div class="title">培训学习</div>
+              <image
+                class="study_icon"
+                :src="imgURL+column.c_icon_path"></image>
+            <div class="title">{{column.c_name}}</div>
           </div>
         </div>
         <ul class="category_box">
-          <li @click.stop="tonewpage('pkselect','')">
-            <image src="/static/img/company/zhidu.png"></image>
-            <p>公司制度</p>
-          </li>
-          <li>
-            <image src="/static/img/company/zhidu.png"></image>
-            <p>公司制度</p>
-          </li>
-          <li>
-            <image src="/static/img/company/zhidu.png"></image>
-            <p>公司制度</p>
-          </li>
-          <li>
-            <image src="/static/img/company/zhidu.png"></image>
-            <p>公司制度</p>
-          </li>
-          <li>
-            <image src="/static/img/company/zhidu.png"></image>
-            <p>公司制度</p>
+          <li
+            v-for="(citem,cidx) in column.child"
+            :key="citem.id"
+            @click.stop="tonewpage('pkselect','')">
+            <image :src="imgURL+citem.icon_path"></image>
+            <p>{{citem.name}}</p>
           </li>
         </ul>
       </div>
+
       <!--通知公告-->
       <div class="notice_box">
         <div class="titie_box">
@@ -66,7 +59,9 @@
             <div class="notice_icon"></div>
             <div class="title">通知公告</div>
           </div>
-          <div class="more">更多<span>&gt;</span></div>
+          <div
+            @click.stop="tonewpage('noticelist')"
+            class="more">更多<span>&gt;</span></div>
         </div>
         <ul class="notice_msg">
           <li
@@ -121,6 +116,7 @@
                 {picpath:'../../../static/img/logo_moren.jpg'},
               ],
               noticeArray:[],//通知列表
+              column_item:[], //栏目
             }
         },
       methods: {
@@ -179,18 +175,19 @@
 
           }
         },
-        async getpage(){
+        async getpage(pid){
           let that = this
-          let res = await that.$get('/rs/first_page')
+          let res = await that.$get('/rs/main_page/',{comp_id:pid})
           if(res.code == 200){
+            that.column_item=res.column_item;
+
             for(let i = 0;i<res.win_treasure.length;i++){
               res.win_treasure[i].piclogo = that.$store.state.url+ res.win_treasure[i].piclogo
               res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
               let amount = Number(res.win_treasure[i].amount)==0?Number(res.win_treasure[i].total_amount):Number(res.win_treasure[i].amount)
               res.win_treasure[i].isReward = amount - Number(res.win_treasure[i].send_amount)
             }
-            that.win_treasure = res.win_treasure
-
+            that.win_treasure = res.win_treasure;
           }else{
             that.win_treasure=[]
           }
@@ -273,6 +270,11 @@
       mounted(){
 
       },
+      computed:{
+        imgURL(){
+          return this.$store.state.url;
+        }
+      },
       onLoad: function (option) {
         try {
           let res = wx.getSystemInfoSync();
@@ -285,12 +287,12 @@
         } catch (e) {
 
         }
-        this.getBanner();
-        this.getNotice();
+        this.getBanner(option.pid);
+        this.getNotice(option.pid);
+        this.getpage(option.pid)
         //this.watchsocket()
       },
       onShow(){
-        this.getpage()
         this.watchsocket()
       },
       onHide(){
@@ -373,11 +375,9 @@
     }
     .study_box{
       border-top: 10px/2 solid #f6f6f6;
-      .stydy_icon{
+      .study_icon{
         width:31px/2;
         height:31px/2;
-        background: #fff url(../../../static/img/company/peixun.png) no-repeat center;
-        background-size: 31px/2 31px/2;
       }
       .category_box{
         padding:0 52px/2 0;
