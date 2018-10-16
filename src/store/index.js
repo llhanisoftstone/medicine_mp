@@ -7,8 +7,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    url: 'https://policy.lifeonway.com',
-    // url: 'https://pol.lifeonway.com',
+    // url: 'https://policy.lifeonway.com',
+    url: 'https://pol.lifeonway.com',
     // url: 'https://pk.lifeonway.com',
     // url: 'http://192.168.1.10:5000',
     // ws_server: 'https://pol.lifeonway.com',

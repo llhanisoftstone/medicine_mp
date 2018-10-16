@@ -6,10 +6,10 @@
         <image src="/static/img/top_bg.png"></image>
       </div>
       <ul class="selectitem">
-        <li class="loadpk"><div class="loadimg"></div><div class="rightness"><p class="pktitle"></p><br><span>冲顶排位赛，一触即发！</span></div></li>
-        <li class="friendpk"><div class="friendimg"></div><div class="rightness"><p class="pktitle"></p><br><span>真正的友谊经得起挑战，看看谁跟我志同道合！</span></div></li>
-        <li class="alone"><div class="aloneimg"></div><div class="rightness"><p class="pktitle"></p><br><span>美貌与智慧并存的你，一个人去攻城拔寨吧！</span></div></li>
-        <li class="challengemap"><div class="challengeimg"></div><div class="rightness"><p class="pktitle"></p><br><span>喊上小伙伴，一起组团更靠谱！</span></div></li>
+        <a href="/pages/loadpk/main?from=2"><li class="loadpk"><div class="loadimg"></div><div class="rightness"><p class="pktitle"></p><br><span>冲顶排位赛，一触即发！</span></div></li></a>
+        <button open-type="share"><li class="friendpk"><div class="friendimg"></div><div class="rightness"><p class="pktitle"></p><br><span>真正的友谊经得起挑战，看看谁跟我志同道合！</span></div></li></button>
+        <a href="/pages/challengemap/main?category=1"><li class="alone"><div class="aloneimg"></div><div class="rightness"><p class="pktitle"></p><br><span>美貌与智慧并存的你，一个人去攻城拔寨吧！</span></div></li></a>
+        <a href="/pages/challengemap/main?category=2"><li class="challengemap"><div class="challengeimg"></div><div class="rightness"><p class="pktitle"></p><br><span>喊上小伙伴，一起组团更靠谱！</span></div></li></a>
       </ul>
       <a href="/pages/friendpk/main">
       <div class="friendpkitem"></div>
@@ -22,10 +22,47 @@
         name: 'pkselect',
         props: [],
         data(){
-            return {}
+            return {
+              pid:'',
+            }
         },
         methods: {},
-        components: {}
+      computed:{
+        user(){
+          return this.$store.state.user
+        }
+      },
+      onShareAppMessage(res){
+        let that = this;
+        let title='@你 有人向你发起挑战，点击应战~';
+        let img=`${that.$store.state.url}/admin/img/7.jpg`;
+        let url=`/pages/authfight/main?`+`pages=loadpk&&from=1&&id=${this.$store.state.user.userid}`
+        if (res.from === 'menu') {
+          // 来自页面内转发按钮
+          title='边玩边学，游戏学习两不误！';
+          img=`${that.$store.state.url}/admin/img/1.jpg`;
+          url="/pages/index/main"
+          console.log(res.target)
+        }
+        return {
+          title: title,
+          path: url,
+          imageUrl: img,
+          success: (r)=>{
+            console.log(r);
+            wx.navigateTo({
+              url:"/pages/loadpk/main?from=1"
+            })
+          },
+          fail: (err)=>{
+            console.log(err)
+          }
+        }
+      },
+        onLoad: function (option) {
+              this.pid=option.pid;
+
+        }
 
     }
 </script>
@@ -45,6 +82,9 @@
   .selectitem{
     padding:0 25px 25px 25px;
     box-sizing:border-box;
+    button{
+      padding:0;
+    }
     li{
       width:100%;
       box-sizing:border-box;

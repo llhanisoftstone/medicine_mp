@@ -16,97 +16,59 @@
         </template>
       </swiper>
     </div>
-    <div class="handbook-info">
-      <div class="line-division"></div>
-      <div class="common-head headbook-head">
-        <span class="handbook-icon"><image src="../../../static/img/icon1.png" alt=""></image>政策补贴</span>
-        <div class="content_main">
-          <div class="navigation">
-            <a class="" @click.stop="tonewpage('pkselect','')">
-              <div class="navigation_icon index_icon_48"></div>
-              <div class="navigation_label">稳岗补贴</div>
-            </a>
-            <a class="" @click.stop="tonewpage('pkselect','')">
-              <div class="navigation_icon index_icon_49"></div>
-              <div class="navigation_label">农业补贴</div>
-            </a>
-            <a class="" @click.stop="tonewpage('pkselect','')">
-              <div class="navigation_icon index_icon_50"></div>
-              <div class="navigation_label">科技补贴</div>
-            </a>
-            <a class="" @click.stop="tonewpage('pkselect','')">
-              <div class="navigation_icon index_icon_51"></div>
-              <div class="navigation_label">安监补贴</div>
-            </a>
-            <a class="" @click.stop="tonewpage('pkselect','')">
-              <div class="navigation_icon index_icon_51"></div>
-              <div class="navigation_label">工业补贴</div>
-            </a>
-            <a class="" @click.stop="tonewpage('pkselect','')">
-              <div class="navigation_icon index_icon_51"></div>
-              <div class="navigation_label">林业补贴</div>
-            </a>
+    <div v-for="(citem,i) in coumn_item">
+      <div v-if="citem.c_target_type==1&&citem.show_css==1" class="handbook-info">
+        <div class="line-division"></div>
+        <div class="common-head headbook-head">
+          <span class="handbook-icon"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
+          <div class="content_main">
+            <div class="navigation">
+              <a class="" v-for="(listc,il) in citem.child" @click.stop="tonewpage('pkselect','pid='+listc.target_id)">
+                <div class="navigation_icon"><image :src="imgUrl+listc.icon_path" alt=""></image></div>
+                <div class="navigation_label">{{listc.name}}</div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="handbook-info">
-      <div class="line-division"></div>
-      <div class="common-head headbook-head">
-        <span class="handbookpersonn-icon"><image src="../../../static/img/icon2.png" alt=""></image>个人福利</span>
-        <div class="personalwelfare">
-          <swiper :indicator-dots="indicatorDots"
-                  @change="swiperChange"
-                  :autoplay="false" :circular="true" :interval="3000"
-                  :duration="duration" indicator-color="rgba(226,226,226,0)" indicator-active-color="rgba(226,226,226,0)" previous-margin='138px' next-margin='138px'>
-            <template v-if="moviesperson.length">
-              <block v-for="(itemp,ip) in moviesperson">
-                <swiper-item :class="{activezindex:swiperIndex==ip?true:false}">
-                    <image :src="itemp.picpath" class="slide-image" :class="{active:swiperIndex==ip?true:false}"/>
-                </swiper-item>
-              </block>
-            </template>
-          </swiper>
+      <div v-if="citem.c_target_type==1&&citem.show_css==2" class="handbook-info">
+        <div class="line-division"></div>
+        <div class="common-head headbook-head">
+          <span class="handbookpersonn-icon"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
+          <div class="personalwelfare">
+            <swiper :indicator-dots="indicatorDots"
+                    @change="swiperChange"
+                    :autoplay="false" :circular="true" :interval="3000"
+                    :duration="duration" indicator-color="rgba(226,226,226,0)" indicator-active-color="rgba(226,226,226,0)" previous-margin='138px' next-margin='138px'>
+              <template v-if="citem.child.length">
+                <block v-for="(listc,il) in citem.child">
+                  <swiper-item :class="{activezindex:swiperIndex==il?true:false}">
+                    <image @click.stop="tonewpage('pkselect','pid='+listc.target_id)" :src="imgUrl+listc.icon_path" class="slide-image" :class="{active:swiperIndex==il?true:false}"><span class="font">{{listc.name}}</span></image>
+                  </swiper-item>
+                </block>
+              </template>
+            </swiper>
+          </div>
+        </div>
+      </div>
+      <div v-if="citem.c_target_type==2&&citem.show_css==3" class="handbook-info">
+        <div class="line-division"></div>
+        <div class="common-head headbook-head ">
+          <span class="headcompany-head"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
+          <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&org_id='+org_id"><span>更多<i>></i></span></a>
+          <ul class="contain_company" v-for="(listc,il) in citem.child">
+            <li @click.stop="tonewpage('company','pid='+listc.target_id)">
+              <div class="companyhead"><image :src="imgUrl+listc.cp_picpath"></image></div>
+              <div class="companymess">
+                <p class="companyname">{{listc.cp_name}}</p>
+                <p class="companyleab">{{listc.cp_tag}}</p>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-    <div class="handbook-info">
-      <div class="line-division"></div>
-      <div class="common-head headbook-head ">
-        <span class="headcompany-head">企业专栏</span>
-        <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&org_id='+org_id"><span>更多<i>></i></span></a>
-        <ul class="contain_company">
-          <li>
-            <div class="companyhead"><image src="../../../static/img/icon1.png"></image></div>
-            <div class="companymess">
-              <p class="companyname">中国中铁一局集团</p>
-              <p class="companyleab">建筑工程 机电一体化</p>
-            </div>
-          </li>
-          <li>
-            <div class="companyhead"><image src="../../../static/img/icon1.png"></image></div>
-            <div class="companymess">
-              <p class="companyname">中国中铁一局集团中国中铁一局集团</p>
-              <p class="companyleab">建筑工程 机电一体化</p>
-            </div>
-          </li>
-          <li>
-            <div class="companyhead"><image src="../../../static/img/icon1.png"></image></div>
-            <div class="companymess">
-              <p class="companyname">中国中铁一局集团中国中铁一局集团</p>
-              <p class="companyleab">建筑工程 机电一体化</p>
-            </div>
-          </li>
-          <li>
-            <div class="companyhead"><image src="../../../static/img/icon1.png"></image></div>
-            <div class="companymess">
-              <p class="companyname">中国中铁一局集团中国中铁一局集团</p>
-              <p class="companyleab">建筑工程 机电一体化</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
+
     <div class="handbook-info">
       <div class="line-division"></div>
       <div class="common-head headbook-head ">
@@ -142,6 +104,7 @@
     return {
       p_number:0,
       win_treasure: [],
+      coumn_item:[],
       r_id:0,
       points:0,
       tickt_id:'',
@@ -150,7 +113,6 @@
       movies:[],
       bannerperson:0,
       swiperIndex:0,
-      moviesperson:[{picpath:`../../../static/img/shenhezhong_03.jpg`},{picpath:`../../../static/img/shenheshibai_03.jpg`},{picpath:`../../../static/img/back_icon-2.jpg`}],
     }
   },
 
@@ -160,12 +122,18 @@
   },
 
   methods: {
+    tonewpage(urlname,data){
+      wx.navigateTo({
+        url:`/pages/${urlname}/main?${data}`
+      })
+    },
     async getbanner (){
       let thiz=this;
       let getdata={
         page:1,
-        size:6,
+        size:10,
         status:1,
+        category:1,
         order:'create_time desc'
       };
       let res = await thiz.$get('/rs/banner',getdata);
@@ -175,15 +143,11 @@
             res.rows[i].picpath=thiz.$store.state.url+res.rows[i].picpath;
             res.rows[i].url=(res.rows[i].urlpath).replace(/.html/,"").split("?")[0];
             res.rows[i].urlid=(res.rows[i].urlpath).split("?")[1];
-            if(thiz.login[res.rows[i].url]){
-              res.rows[i].url=thiz.login[res.rows[i].url]
-              res.rows[i].urlid=''
-            }
           }
           thiz.movies=res.rows;
         }
       }else{
-        thiz.movies=[{picpath:`../../../static/img/5guan.png`}]
+        thiz.movies=[{picpath:`../../../static/img/bg_banner.png`}]
       }
     },
     bannerChange(even){
@@ -211,17 +175,40 @@
               that.activityShow=false;
             }
             that.p_number = res.present_count
+        if(res.win_treasure&&res.win_treasure.length>0){
           for(let i = 0;i<res.win_treasure.length;i++){
             res.win_treasure[i].piclogo = that.$store.state.url+ res.win_treasure[i].piclogo
             res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
             let amount = Number(res.win_treasure[i].amount)==0?Number(res.win_treasure[i].total_amount):Number(res.win_treasure[i].amount)
             res.win_treasure[i].isReward = amount - Number(res.win_treasure[i].send_amount)
           }
-            that.win_treasure = res.win_treasure
-
+          that.win_treasure = res.win_treasure
+        }else{
+          that.win_treasure=[]
+        }
+        if(res.column_item&&res.column_item.length>0){
+            for(var j=0;j<res.column_item.length;j++){
+                if(res.column_item[j].c_target_type==1&&res.column_item[j].show_css==2){
+                    if(res.column_item[j].child.length>0){
+                        if(res.column_item[j].child.length==1){
+                          res.column_item[j].child.push(res.column_item[j].child[0]);
+                          res.column_item[j].child.push(res.column_item[j].child[0])
+                        }else if(res.column_item[j].child.length==2){
+                          res.column_item[j].child.push(res.column_item[j].child[0]);
+                          res.column_item[j].child.unshift(res.column_item[j].child[1]);
+                        }
+                    }
+                }
+            }
+          that.coumn_item=res.column_item;
+          console.log(that.coumn_item)
+        }else{
+          that.coumn_item=[];
+        }
         }else{
           that.p_number=0
           that.win_treasure=[]
+          that.coumn_item=[]
         }
     },
     reward(r_id,amount){
@@ -309,6 +296,9 @@
     },
     user(){
         return this.$store.state.user
+    },
+    imgUrl(){
+      return this.$store.state.url
     }
   },
     watch:{
@@ -595,12 +585,21 @@
         width:250px/2;
         box-shadow:0 2.5px 2.5px rgba(101,101,101,0.75);
         border-radius:20px/2;
+        position:relative;
+        span{
+          position:absolute;
+          right:8px;
+          bottom:8px;
+          font-size:14px;
+          z-index:30;
+          color:#fff;
+        }
       }
       image.active{
           transform:scale(1.44);
-          transition: all 0.3s;
+          transition: all 0.5s;
           border-radius:30px/2;
-        }
+      }
     }
     swiper-item.activezindex{
       z-index:20;
@@ -643,6 +642,7 @@
     image{
       width:31px/2;
       height:31px/2;
+      margin-top:-1px;
       vertical-align: middle;
       margin-right:5.5px;
     }
@@ -656,6 +656,7 @@
     image{
       width:32px/2;
       height:32px/2;
+      margin-top:-1px;
       vertical-align: middle;
       margin-right:5px;
     }
@@ -675,10 +676,14 @@
     font-size: 15px;
     color: #333;
     margin-left:13px;
-    padding-left: 43px/2;
     line-height: 0.4rem;
-    background: url('../../../static/img/icon3.png') no-repeat left center;
-    background-size: 31px/2 31px/2;
+    image{
+      width:32px/2;
+      height:32px/2;
+      margin-top:-1px;
+      vertical-align: middle;
+      margin-right:5px;
+    }
   }
   .line-division {
     height: 5px;
@@ -701,6 +706,11 @@
         width: 92px/2;
         height: 92px/2;
         margin:0 auto;
+        image{
+          width:100%;
+          height:100%;
+          border-radius:50%;
+        }
       }
       .navigation_label{
         margin-top: 15px/2;
@@ -709,22 +719,7 @@
         color: #666;
         text-align: center;
       }
-      .index_icon_48{
-        background: url("../../../static/img/linye.png") center center;
-        background-size: 100% 100%;
-      }
-      .index_icon_49{
-        background: url("../../../static/img/linye.png") center center;
-        background-size: 100% 100%;
-      }
-      .index_icon_50{
-        background: url("../../../static/img/linye.png") center center;
-        background-size: 100% 100%;
-      }
-      .index_icon_51{
-        background: url("../../../static/img/linye.png") center center;
-        background-size: 100% 100%;
-      }
+
     }
   }
   .contain_company{
