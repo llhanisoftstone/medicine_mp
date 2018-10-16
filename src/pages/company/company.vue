@@ -32,7 +32,7 @@
         <div class="titie_box">
           <div class="icon_box">
             <div class="stydy_icon"></div>
-            <div class="title">政策补贴</div>
+            <div class="title">培训学习</div>
           </div>
         </div>
         <ul class="category_box">
@@ -191,7 +191,8 @@
           let thiz = this;
           let data = {
             status:1,
-            order:'is_main desc,create_time desc'
+            is_main:1,
+            order:'sequence desc,create_time desc'
           };
           let res = await thiz.$get('/rs/notify', data);
           if (res.code == 200){

@@ -2,7 +2,9 @@
   <div class="content">
     <div class="title">{{title}}</div>
     <div class="release-time">发布时间 : {{create_time}}</div>
-    <div class="details"><div  v-html="details"></div></div>
+    <div class="details">
+      <div v-html="details"></div>
+    </div>
   </div>
 </template>
 
