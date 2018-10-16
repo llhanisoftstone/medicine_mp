@@ -68,20 +68,11 @@
           <div class="more">更多<span>&gt;</span></div>
         </div>
         <ul class="notice_msg">
-          <li @click.stop="tonewpage('noticedetail',{pid:''})">
-            <div class="left_item">关于公积金的领取通知</div>
-            <div class="right_item"></div>
-          </li>
-          <li @click.stop="tonewpage('noticedetail',{pid:''})">
-            <div class="left_item">关于公积金的领取通知关于公积金的领取通知关于公积金的领取通知</div>
-            <div class="right_item"></div>
-          </li>
-          <li @click.stop="tonewpage('noticedetail',{pid:''})">
-            <div class="left_item">关于公积金的领取通知</div>
-            <div class="right_item"></div>
-          </li>
-          <li @click.stop="tonewpage('noticedetail',{pid:''})">
-            <div class="left_item">关于公积金的领取通知</div>
+          <li
+            v-for="(notice,nidx) in noticeArray"
+            :key="nidx"
+            @click.stop="tonewpage('noticedetail','pid='+notice.id)">
+            <div class="left_item">{{notice.name}}</div>
             <div class="right_item"></div>
           </li>
         </ul>
@@ -158,7 +149,8 @@
               currentSwiper:0,
               banner:[
                 {picpath:'../../../static/img/logo_moren.jpg'},
-              ]
+              ],
+              noticeArray:[],//通知列表
             }
         },
       methods: {
@@ -195,6 +187,26 @@
 
             }
           },
+        async getNotice (pid){
+          let thiz = this;
+          let data = {
+            status:1,
+            order:'is_main desc,create_time desc'
+          };
+          let res = await thiz.$get('/rs/notify', data);
+          if (res.code == 200){
+            let noticeArr=res.rows;
+            if(noticeArr){
+                if(noticeArr.length<=4){
+                    thiz.noticeArray=noticeArr;
+                }else{
+                  thiz.noticeArray=noticeArr.slice(0,4);
+                }
+            }
+          }else if(res.code==602){
+
+          }
+        },
           formatPicUrl(pic,moren){
             let thiz=this;
             if(!pic||pic=="undefined"||pic==null){
@@ -236,6 +248,7 @@
 
         }
         this.getBanner();
+        this.getNotice();
         //this.watchsocket()
       },
       onShow(){
