@@ -12,9 +12,10 @@
             :key="idx"
             v-for="(item,idx) in banner">
             <swiper-item>
-              <navigator>
+              <a
+                @click.stop="tonewpage(item.urlpath,'')">
                 <image :src="item.picpath"></image>
-              </navigator>
+              </a>
             </swiper-item>
           </block>
         </swiper>
@@ -133,6 +134,7 @@
             })
           },
           tonewpage(urlname,data){
+            if(!urlname){return;}
             wx.navigateTo({
               url:`/pages/${urlname}/main?${data}`
             })
