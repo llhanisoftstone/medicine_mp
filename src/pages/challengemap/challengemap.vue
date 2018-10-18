@@ -112,7 +112,6 @@
             that.$socket.on('data_chain',d=>{
               if(d.cmd == 'answer'&&that.game_type==1){
                 if(d.step==1&&d.level==that.select){
-                  console.log(d)
                   that.$store.commit('get_answer',d.details[0])
                   that.$store.commit('get_step',d.step)
                   that.$store.commit('get_room',d.room_id)
@@ -121,7 +120,7 @@
                   that.$store.commit('get_que_type',d.type)
                   that.isshow=false
                   wx.navigateTo({
-                    url:'/pages/alone/main&&pid='+this.category_id
+                    url:'/pages/alone/main?pid='+this.category_id
                   })
                 }
               }else if(d.cmd == 'fight'){
@@ -138,9 +137,6 @@
           },
           showpick(v){
             if(this.level<v){
-//                if(this.tips!=-1){
-//                    return
-//                }
               let gaplevel=v-this.level;
               this.tips=v
               if(v==5 || v==10){
