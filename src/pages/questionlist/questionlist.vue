@@ -2,41 +2,21 @@
     <div>
       <div class="mui-control-content mui-active friend_content">
         <ul class="box mui-table-view" id="datalist">
-          <li class=" mui-table-view-cell" >
+          <li class=" mui-table-view-cell" v-for="(item,i) in contactlist">
             <div class="mui-table-cell box_item">
               <div class="box_left">
                 <div class="box-left_div bg_touxiang80">
-                  <image src="" alt=""></image>
+                  <image :src="contactlist.to_avatar_url" alt=""></image>
                 </div>
                 <div class="item-info">
                   <div class="name_info">
-                    <p class="namefriend mui-ellipsis">新联</p>
+                    <p class="namefriend mui-ellipsis">{{contactlist.to_nickname}}</p>
                   </div>
-                  <p class="chatDetail mui-ellipsis">啦啦啦啦啦啦啦啦啦啦啦啦</p>
+                  <p class="chatDetail mui-ellipsis">{{contactlist.details}}</p>
                 </div>
               </div>
               <div class="box_right">
-                <span class="info" style="text-align: right;color:rgb(200,200,200)">2018-05-06</span>
-                <span class="info" style="text-align: right;color:rgb(95,193,139);margin-top:5px;">订单号：0256879</span>
-              </div>
-            </div>
-          </li>
-          <li class=" mui-table-view-cell" >
-            <div class="mui-table-cell box_item">
-              <div class="box_left">
-                <div class="box-left_div bg_touxiang80">
-                  <image src="" alt=""></image>
-                </div>
-                <div class="item-info">
-                  <div class="name_info">
-                    <p class="namefriend mui-ellipsis">yoyo</p>
-                  </div>
-                  <p class="chatDetail mui-ellipsis">啦啦啦啦啦啦啦啦啦啦啦啦</p>
-                </div>
-              </div>
-              <div class="box_right">
-                <span class="info" style="text-align: right;color:rgb(200,200,200)">2018-05-06</span>
-                <span class="info" style="text-align: right;color:rgb(95,193,139)">订单号：0256879</span>
+                <span class="info" style="text-align: right;color:rgb(200,200,200)">{{contactlist.create_time}}</span>
               </div>
             </div>
           </li>
@@ -53,7 +33,10 @@
     props: [],
     data(){
       return{
+        page:1,
+        size:10,
         scrollTop:0,
+        contactlist:[],
         scrollIcon:false,
         nogetshow:false,
         isposition:true,
@@ -61,7 +44,7 @@
     },
     onPullDownRefresh () {
       this.page=1;
-      this.history_list=[];
+      this.contactlist=[];
       this.refresh();
       // 下拉刷新
       wx.hideNavigationBarLoading() //完成停止加载
@@ -73,7 +56,42 @@
     },
     methods:{
       async getList() {
-
+        let that = this;
+        let data = {
+          page:this.page,
+          size:this.size,
+          u_id:this.$store.state.user.userid,
+          order:'is_read desc,create_time desc',
+        };
+        let res = await that.$get('/rs/contact_chats_list',data);
+        if (res.code == 200){
+          that.nogetshow=false;
+          if (res.rows.length > 0){
+            for (let i=0; i<res.rows.length; i++){
+              if(!res.rows[i].to_avatar_url || res.rows[i].to_avatar_url==''){
+                res.rows[i].to_avatar_url= '/static/img/policy_default.jpg';
+              }else{
+                res.rows[i].to_avatar_url = that.$store.state.url+res.rows[i].to_avatar_url;
+              }
+              res.rows[i].create_time = this.conversionTime(res.rows[i].create_time,'-');
+            }
+            that.contactlist = that.company_list.concat(res.rows);
+          }
+        }else if (res.code == 602 && that.page == 1){
+          that.nogetshow=true;
+        }
+      },
+      conversionTime(time,sign){
+        if(time==null){
+          return;
+        }
+        time=time.replace(/-/g, '/');
+        var data = new Date(time);
+        var month=parseInt(data.getMonth()+1);
+        var months="";
+        months=month;
+        var day=data.getDate();
+        return data.getFullYear()+sign+months+sign+day;
       },
       async refresh(){
         this.getList();
@@ -107,12 +125,10 @@
       confirm
     },
     onLoad: function (option) {
-
-
-    },
-    onUnload: function () {
-      this.nogetshow = false
-      this.page=1
+      this.nogetshow = false;
+      this.page=1;
+      this.contactlist=[];
+      this.getList();
     },
     onPageScroll:function(res){
       let top = res.scrollTop;
@@ -129,6 +145,18 @@
 </style>
 <style lang="less" scoped>
     @import '../../static/less/common.less';
+    .nogetList{
+      padding-top: 290px;
+      box-sizing:border-box;
+      background: url(../../../static/img/kongyemian_03.png) center 100px no-repeat;
+      background-size:145px 148px;
+      width: 100%;
+      height: 297px;
+      color: #999999;
+      font-size: 14px;
+      text-align: center;
+      margin-bottom: 50px;
+    }
     .friend_content{
       margin-top:10px/2;
       background:#fff;
@@ -185,6 +213,7 @@
     }
     .box_right{
       margin-right:30px/2;
+      margin-top:15px/2;
       height:108px/2;
     }
     .box_left{
@@ -207,5 +236,15 @@
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 1;
+    }
+    .footcgotop{
+      position: fixed;
+      z-index: 100;
+      bottom: 100px/2;
+      right: 30px/2;
+      width: 80px/2;
+      height: 80px/2;
+      background:url('../../../static/img/scrollTop.png') center no-repeat;
+      background-size: 80px/2 80px/2;
     }
 </style>

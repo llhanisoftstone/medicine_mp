@@ -55,10 +55,10 @@
         <div class="line-division"></div>
         <div class="common-head headbook-head ">
           <span class="headcompany-head"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
-          <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&org_id='+org_id"><span>更多<i>></i></span></a>
+          <a  @click.stop="tonewpage('morecompany','')" class="ui-link"><span>更多<i>></i></span></a>
           <ul class="contain_company" v-for="(listc,il) in citem.child">
             <li @click.stop="tonewpage('company','pid='+listc.target_id)">
-              <div class="companyhead"><image :src="imgUrl+listc.cp_picpath"></image></div>
+              <div class="companyhead"><image v-if="listc.cp_picpath" :src="imgUrl+listc.cp_picpath"></image><image v-if="!listc.cp_picpath" src="../../../static/img/policy_default.jpg"></image></div>
               <div class="companymess">
                 <p class="companyname">{{listc.cp_name}}</p>
                 <p class="companyleab">{{listc.cp_tag}}</p>
