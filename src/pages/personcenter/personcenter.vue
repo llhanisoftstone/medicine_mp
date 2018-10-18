@@ -13,7 +13,7 @@
         <li class="groupcard" v-if="seen"><a href="/pages/ticket/main"><div class="title">优惠券</div><p class="messagealert">优惠券发放入口</p><span class="listimg cardimg"></span></a></li>
         <li class="setting"><a href="/pages/setting/main"><div class="title">设置</div><p class="messagealert">进入有惊喜，等你来完善<br/>游戏银两两不误</p><span class="listimg settingimg"></span></a></li>
         <li class="jyk"><a href="/pages/questions/main?isjy=true"><div class="title">我要建议</div><p class="messagealert">建议采纳后<br/>100银两免费拿</p><span class="listimg jyimg"></span></a></li>
-        <li class="zxk"><a href="/pages/questions/main"><div class="title">我要咨询</div><p class="messagealert">找不到你想要的政策<br/>来这里咨询吧！
+        <li class="zxk"><a href="/pages/questionlist/main"><div class="title">我的咨询</div><p class="messagealert">找不到你想要的政策<br/>来这里咨询吧！
         </p><span class="listimg zximg"></span></a></li>
       </ul>
     </div>

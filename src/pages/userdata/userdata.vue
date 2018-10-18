@@ -29,7 +29,7 @@
     </div>
     <div class="item">
       <div class="title">证件号</div>
-      <input type="text" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'')" v-model='cardNum' maxlength="30" confirm-type="next"  placeholder="证件号" />
+      <input type="text" @bindfocus="this.cardNum=this.cardNum.replace(/[^a-zA-Z0-9]/g,'')" v-model='cardNum' maxlength="30" confirm-type="next"  placeholder="证件号" />
     </div>
       <div class="item" @click="addresslist" v-if="false">
           <div class="title">详细地址</div>
@@ -60,6 +60,7 @@
         pickerValueDefault:[0],
         pickerText:'',
         cardtype:"",
+        nocomany:true,
         name:'',
         gender:'',
         realname:'',
@@ -90,8 +91,9 @@
         this.company=[]
       },
       choice(name){
-          this.isclick=true
-          this.comp_name=name
+          this.isclick=true;
+          this.comp_name=name;
+          this.nocomany=false;
           this.company=[]
       },
       showPicker1() {
@@ -137,12 +139,13 @@
           this.$mptoast('请输入证件号码');
           return;
         }else if(this.cardtype==0){
-          if(!pattern1.test(this.cardtype)){
+          if(!pattern1.test(this.cardNum)){
             this.$mptoast('您的身份证号输入有误，请重新输入');
             return;
           }
         }
         data.cert_type=this.cardtype;
+        debugger
         data.cert_value=this.cardNum;
         this.$post('/rs/complete_user_info',data).then(res=>{
           if(res.code == 200){
@@ -297,7 +300,8 @@
         if(com.code==200){
           this.company = com.rows
         }else{
-          this.company = []
+          this.company = [];
+          this.nocomany=true;
         }
       }
     }
