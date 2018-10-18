@@ -1,4 +1,4 @@
-import store from '../../store/index'
+import store from '@/store/index'
 
 const options = {
   sampleRate: 16000,  // 采样率，有效值 8000/16000/44100

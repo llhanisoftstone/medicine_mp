@@ -155,14 +155,16 @@
       <ul
         v-show="currentTab==-1"
         class="chat-box">
-          <li @click.stop="tonewpage('chat','')">
+          <li
+            v-for="(hr,hidx) in hrdata"
+            @click.stop="tochat(hr.id)">
             <div class="user-box">
               <image
                 class="userpic"
                 src="../../static/img/user.png"></image>
               <div class="userinfo">
                 <div class="namebox">
-                  <span class="uname">金莎莎</span>
+                  <span class="uname">{{hr.nickname}}</span>
                   <span class="utitle">经办人</span>
                 </div>
                 <div class="tag-box">
@@ -172,58 +174,12 @@
                 </div>
                 <div class="count">
                   <span class="ctitle">咨询数：</span>
-                  <span>12345</span>
+                  <span>{{hr.talk_count}}</span>
                 </div>
               </div>
             </div>
             <div class="askbtn">咨询</div>
           </li>
-        <li>
-          <div class="user-box">
-            <image
-              class="userpic"
-              src="../../static/img/user.png"></image>
-            <div class="userinfo">
-              <div class="namebox">
-                <span class="uname">金莎莎</span>
-                <span class="utitle">经办人</span>
-              </div>
-              <div class="tag-box">
-                <span class="tag">稳岗补贴</span>
-                <span class="tag">失业保险</span>
-                <span class="tag">失业保险</span>
-              </div>
-              <div class="count">
-                <span class="ctitle">咨询数：</span>
-                <span>12345</span>
-              </div>
-            </div>
-          </div>
-          <div class="askbtn">咨询</div>
-        </li>
-        <li>
-          <div class="user-box">
-            <image
-              class="userpic"
-              src="../../static/img/user.png"></image>
-            <div class="userinfo">
-              <div class="namebox">
-                <span class="uname">金莎莎</span>
-                <span class="utitle">经办人</span>
-              </div>
-              <div class="tag-box">
-                <span class="tag">稳岗补贴</span>
-                <span class="tag">失业保险</span>
-                <span class="tag">失业保险</span>
-              </div>
-              <div class="count">
-                <span class="ctitle">咨询数：</span>
-                <span>12345</span>
-              </div>
-            </div>
-          </div>
-          <div class="askbtn">咨询</div>
-        </li>
       </ul>
   </div>
 </template>
@@ -251,7 +207,10 @@
           {name:'失业补贴'},
           {name:'保险失业'},
         ],
-        currentTab:-1
+        currentTab:-1,
+        hrdata:[],//经办人信息
+        chatType:1,//类型，1-文字；2-图片；3-视频；4-语音
+        to_u_id:''
       }
     },
     computed:{
@@ -342,6 +301,38 @@
           }
         }
       },
+      async getPolicydata(){
+        let that = this;
+        let res = await that.$get('/rs/info_policy_column');
+        if (res.code == 200){
+          that.hrdata=res.hr;
+
+        }
+      },
+      tochat(touid){
+        this.to_u_id=touid;
+        this.$socket.emit('data_chain',{
+          cmd:'msgchat',
+          u_id: this.$store.state.user.userid,
+          to_u_id: 16,
+          type:this.chatType,
+          detail:'你好！'
+        });
+      },
+      watchsocket(){
+        let that=this
+        that.$socket.removeAllListeners('data_chain')
+        that.$socket.on('data_chain',d=>{
+          if(d.cmd == 'msgchat' ){
+
+            //that.$store.commit('get_answer',d.details[0])
+            //that.$socket.removeAllListeners('data_chain')
+            wx.navigateTo({
+              url:`/pages/chat/main?tuid=${that.to_u_id}`
+            })
+          }
+        })
+      },
       tonewpage(urlname,data){
         if(!urlname){return;}
         wx.navigateTo({
@@ -374,7 +365,9 @@
         this.pickerIndex=-1;
       }
       this.getorganiz(); //获取组织列表
-      this.getpolicyMain()//获取政策百科主页数据
+      this.getPolicydata();
+      this.getpolicyMain();//获取政策百科主页数据
+      this.watchsocket();
     },
     onUnload(){
       this.pickerwishText='';

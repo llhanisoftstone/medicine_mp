@@ -64,6 +64,7 @@
           v-model.trim="sendMsg"
           type="text"
           maxlength="140"
+          ref="saytext"
           id="saytext"
           name="saytext"
           class="input_text" />
@@ -83,7 +84,6 @@
             @click="isMoreShow=true"
             class="functions more"></span>
         </template>
-
       </div>
       <div class="face_content">
 
@@ -115,10 +115,37 @@
         action:'keyboard',
         sendMsg:'',
         isMoreShow:false,
+        path:'',
+        to_u_id:''
       }
     },
     methods:{
-
+      sendMessage(){
+        this.$socket.emit('data_chain',{
+          cmd:'msgchat',
+          u_id: this.$store.state.user.userid,
+          to_u_id: touid,
+          type:this.chatType,
+          detail:'你好！'
+        });
+      },
+      start(){
+        this.$startManager()
+      },
+      stop(){
+        let that = this
+        that.$stopManager(res =>{
+          res = JSON.parse(res)
+          that.path = res[0].url
+        })
+      },
+      play(){
+        console.log(this.path)
+        this.$playAudio(this.$store.state.url+this.path)
+      }
+    },
+    onLoad:function (option){
+        this.to_u_id=option.tuid;
     },
 
   }

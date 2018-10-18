@@ -8,6 +8,5 @@ export default {
   config: {
     navigationBarTitleText: '聊天',
     'enablePullDownRefresh': true,
-    backgroundColor:'#f2f2f2'
   }
 }
