@@ -1,0 +1,255 @@
+<template>
+    <div>
+      <div class="mui-control-content mui-active friend_content">
+        <ul class="box mui-table-view" id="datalist">
+          <li class=" mui-table-view-cell" v-for="(item,i) in contactlist">
+            <div class="mui-table-cell box_item">
+              <div class="box_left">
+                <div class="box-left_div bg_touxiang80">
+                  <image :src="contactlist.to_avatar_url" alt=""></image>
+                </div>
+                <div class="item-info">
+                  <div class="name_info">
+                    <p class="namefriend mui-ellipsis">{{contactlist.to_nickname}}</p>
+                  </div>
+                  <p class="chatDetail mui-ellipsis">{{contactlist.details}}</p>
+                </div>
+              </div>
+              <div class="box_right">
+                <span class="info" style="text-align: right;color:rgb(200,200,200)">{{contactlist.create_time}}</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
+      <div class="nogetList" v-if="nogetshow"><image src="../../../static/img/kongyemian_03.png"></image><p>暂无记录</p></div>
+    </div>
+</template>
+
+<script type="javascript">
+  export default{
+    name: 'questionlist',
+    props: [],
+    data(){
+      return{
+        page:1,
+        size:10,
+        scrollTop:0,
+        contactlist:[],
+        scrollIcon:false,
+        nogetshow:false,
+        isposition:true,
+      }
+    },
+    onPullDownRefresh () {
+      this.page=1;
+      this.contactlist=[];
+      this.refresh();
+      // 下拉刷新
+      wx.hideNavigationBarLoading() //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
+    },
+    onReachBottom () {
+      this.page++;
+      this.loadmore()
+    },
+    methods:{
+      async getList() {
+        let that = this;
+        let data = {
+          page:this.page,
+          size:this.size,
+          u_id:this.$store.state.user.userid,
+          order:'is_read desc,create_time desc',
+        };
+        let res = await that.$get('/rs/contact_chats_list',data);
+        if (res.code == 200){
+          that.nogetshow=false;
+          if (res.rows.length > 0){
+            for (let i=0; i<res.rows.length; i++){
+              if(!res.rows[i].to_avatar_url || res.rows[i].to_avatar_url==''){
+                res.rows[i].to_avatar_url= '/static/img/policy_default.jpg';
+              }else{
+                res.rows[i].to_avatar_url = that.$store.state.url+res.rows[i].to_avatar_url;
+              }
+              res.rows[i].create_time = this.conversionTime(res.rows[i].create_time,'-');
+            }
+            that.contactlist = that.company_list.concat(res.rows);
+          }
+        }else if (res.code == 602 && that.page == 1){
+          that.nogetshow=true;
+        }
+      },
+      conversionTime(time,sign){
+        if(time==null){
+          return;
+        }
+        time=time.replace(/-/g, '/');
+        var data = new Date(time);
+        var month=parseInt(data.getMonth()+1);
+        var months="";
+        months=month;
+        var day=data.getDate();
+        return data.getFullYear()+sign+months+sign+day;
+      },
+      async refresh(){
+        this.getList();
+      },
+      loadmore(){
+        this.getList();
+      },
+      scrolltoTop(){
+        let zhiz=this;
+        if(zhiz.time){
+          clearTimeout(zhiz.time);
+        }
+        zhiz.time=setTimeout(function(){
+          zhiz.scrollIcon = false;
+        },1000)
+        if (wx.pageScrollTo) {
+          wx.pageScrollTo({
+            scrollTop: 0
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+          })
+        }
+      },
+    },
+    computed:{
+    },
+    components:{
+      confirm
+    },
+    onLoad: function (option) {
+      this.nogetshow = false;
+      this.page=1;
+      this.contactlist=[];
+      this.getList();
+    },
+    onPageScroll:function(res){
+      let top = res.scrollTop;
+      if (top > 400) {
+        this.scrollIcon = true;
+      } else {
+        this.scrollIcon = false;
+      }
+    },
+  }
+</script>
+<style>
+  page{ background: rgb(234,234,234); }
+</style>
+<style lang="less" scoped>
+    @import '../../static/less/common.less';
+    .nogetList{
+      margin-top:100px;
+      box-sizing:border-box;
+      width: 100%;
+      height: 297px;
+      color: #999999;
+      font-size: 14px;
+      text-align: center;
+      margin-bottom: 50px;
+      image{
+        width:289px/2;
+        height:296px/2;
+      }
+      p{
+        margin-top:15px;
+      }
+    }
+    .friend_content{
+      margin-top:10px/2;
+      background:#fff;
+      padding-left:25px/2;
+      li{
+        border-top:1px solid #e3e3e3;
+        padding:12px/2 0;
+      }
+      li:first-child{
+        border:none;
+      }
+    }
+    .box_item{
+      display: flex;
+      justify-content: space-between;
+    }
+    .box_item image{
+      display: block;
+      float: left;
+      width:115px/2;
+      height:115px/2;
+    }
+    .item-info{
+      text-align: left;
+      margin-left: 20px/2;
+    }
+    .name_info{
+      margin-top: 13px/2;
+      height:46.875px/2;
+    }
+    .namefriend{
+      font-size: 34px/2;
+      width:328px/2;
+      max-width: 354px/2;
+      height:46.875px/2;
+      line-height:39px/2;
+      color: rgb(120,120,120);
+      padding: 2px 0;
+    }
+    .chatDetail {
+      max-width:328.125px/2;
+      font-size: 28px/2;
+      height: 30px/2;
+      line-height: 29px/2;
+      color: rgb(200,200,200);
+      margin-top: 13px/2;
+    }
+    .phone{
+      max-width: 10rem;
+      font-size:468px/2;
+      line-height:30px/2;
+      color: rgb(200,200,200);
+      margin-top:15px/2;
+    }
+    .box_right{
+      margin-right:30px/2;
+      margin-top:15px/2;
+      height:108px/2;
+    }
+    .box_left{
+      display: flex;
+    }
+    .mui-ellipsis{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: break-all;
+    }
+    .info{
+      max-width:290px/2;
+      display: inline-block;
+      font-size: 21px/2;
+      color:rgb(95,193,139);
+      margin-top:5px/2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+    .footcgotop{
+      position: fixed;
+      z-index: 100;
+      bottom: 100px/2;
+      right: 30px/2;
+      width: 80px/2;
+      height: 80px/2;
+      background:url('../../../static/img/scrollTop.png') center no-repeat;
+      background-size: 80px/2 80px/2;
+    }
+</style>

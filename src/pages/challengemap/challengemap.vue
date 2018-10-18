@@ -95,7 +95,8 @@
               tips:-1,           //显示提示信息
               tipsprize:0,        //提示关卡
               tipsTime:null,        //提示信息时间函数
-              category:''
+              category:'',
+              category_id:'',
             }
         },
         methods: {
@@ -111,7 +112,6 @@
             that.$socket.on('data_chain',d=>{
               if(d.cmd == 'answer'&&that.game_type==1){
                 if(d.step==1&&d.level==that.select){
-                  console.log(d)
                   that.$store.commit('get_answer',d.details[0])
                   that.$store.commit('get_step',d.step)
                   that.$store.commit('get_room',d.room_id)
@@ -120,7 +120,7 @@
                   that.$store.commit('get_que_type',d.type)
                   that.isshow=false
                   wx.navigateTo({
-                    url:'/pages/alone/main'
+                    url:'/pages/alone/main?pid='+this.category_id
                   })
                 }
               }else if(d.cmd == 'fight'){
@@ -129,7 +129,7 @@
                   that.$store.commit('get_level',that.select)
                   that.isshow=false
                   wx.navigateTo({
-                    url:`/pages/team/main?id=${that.$store.state.user.userid}`
+                    url:`/pages/team/main?id=${that.$store.state.user.userid}&&pid=${this.category_id}`
                   })
                 }
               }
@@ -137,9 +137,6 @@
           },
           showpick(v){
             if(this.level<v){
-//                if(this.tips!=-1){
-//                    return
-//                }
               let gaplevel=v-this.level;
               this.tips=v
               if(v==5 || v==10){
@@ -163,7 +160,8 @@
                 game_cfg_id: 2,
                 game_type:1,
                 level:that.select,
-                type:0
+                type:0,
+                category_id:that.category_id
               })
             }
           },
@@ -178,7 +176,7 @@
         let that=this;
         let title='@你 助力好友一起闯关吧~';
         let img=`${that.$store.state.url}/admin/img/team.jpg`;
-        let url=`/pages/authmulti/main?`+`pages=team&&ismy=1&&id=${that.$store.state.user.userid}`
+        let url=`/pages/authmulti/main?`+`pages=team&&ismy=1&&id=${that.$store.state.user.userid}&&pid=${this.category_id}`
         if (res.from === 'menu') {
           // 来自页面内转发按钮
           title='边玩边学，游戏学习两不误！';
@@ -202,7 +200,8 @@
               game_cfg_id: 2,
               game_type:2,
               level:that.select,
-              game_style:1
+              game_style:1,
+              category_id:that.category_id
             })
           },
           fail: (err)=>{
@@ -224,6 +223,7 @@
       onLoad(option){
         wx.hideShareMenu()
         this.category=option.category;
+        this.category_id=option.pid;
         this.watchsocket()
         this.tips = -1;
       },

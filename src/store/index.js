@@ -15,6 +15,8 @@ const store = new Vuex.Store({
     // ws_server: 'https://pk.lifeonway.com',
     // ws_server: 'https://policy.lifeonway.com',
     ws_server: 'http://192.168.1.10:5000',
+    // ws_server: 'https://policy.lifeonway.com',
+    // ws_server: 'http://192.168.1.10:5000',
     userinfo: {},    //  微信返回用户信息
     code: '',
     isauth: false,      // 是否授权

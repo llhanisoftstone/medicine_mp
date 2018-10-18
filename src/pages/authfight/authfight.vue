@@ -184,7 +184,7 @@
           }
         },
       onLoad: function (option) {
-        this.topage=`/pages/${option.pages}/main?from=${option.from}&&id=${option.id}`
+        this.topage=`/pages/${option.pages}/main?from=${option.from}&&id=${option.id}&&pid=${option.pid}`
       },
       onUnload(){
         this.isshow=true;

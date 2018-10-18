@@ -90,7 +90,8 @@
               isanimation:false,           //是否显示动画
               tanswer:'',
               setfn:null,
-              tips:''                   //答题提示语
+              tips:'',                   //答题提示语
+              category_id:''
             }
         },
         methods: {
@@ -204,7 +205,8 @@
                 tool_id: that.tool_id,   // 使用道具
                 use_time:(30-this.times)>0?30-this.times:0,   //使用时间   -1 自己延时
                 step:that.$store.state.step,
-                type:that.$store.state.question_type   //问题类型
+                type:that.$store.state.question_type,  //问题类型
+                category_id:that.category_id
               })
             if(reply==1){
               that.$store.commit('rightTitle',1)
@@ -228,7 +230,8 @@
                   level:that.$store.state.level,
                   tool_id: that.tool_id,   // 使用道具
                   use_time:-1,   //使用时间   -1 自己延时
-                  step:that.$store.state.step
+                  step:that.$store.state.step,
+                  category_id:that.category_id
                 })
                 that.$store.commit('useTime',30)
                 that.$store.commit('allTitle',1)
@@ -295,6 +298,7 @@
     onLoad(option){
       let that =this
       that.left=0;
+      that.category_id=option.pid;
       that.isanimation=true
       setTimeout(()=>{
         that.isanimation=false
@@ -364,7 +368,7 @@
               clearInterval(that.atimefn)
               that.atimefn=null
               wx.redirectTo({
-                url:'/pages/aloneresult/main?result=2'
+                url:'/pages/aloneresult/main?result=2&&category_id='+that.category_id
               })
             },2000)
           }
@@ -406,12 +410,12 @@
             that.atimefn=null
             if(that.isreward!=0){
               wx.redirectTo({
-                url:`/pages/aloneresult/main?result=0&&id=${that.isreward}`
+                url:`/pages/aloneresult/main?result=0&&id=${that.isreward}&&category_id=${that.category_id}`
               })
               that.isreward=0
             }else{
               wx.redirectTo({
-                url:'/pages/aloneresult/main?result=0'
+                url:'/pages/aloneresult/main?result=0&&category_id='+that.category_id
               })
             }
           },2000)
