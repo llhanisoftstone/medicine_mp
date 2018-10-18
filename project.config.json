@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 32,
+			"current": 33,
 			"list": [
 				{
 					"id": 0,
@@ -245,6 +245,12 @@
 					"id": 32,
 					"name": "聊天",
 					"pathName": "pages/chat/main",
+					"query": "tuid=16"
+				},
+				{
+					"id": -1,
+					"name": "我的咨询",
+					"pathName": "pages/questionlist/main",
 					"query": "tuid=16"
 				}
 			]

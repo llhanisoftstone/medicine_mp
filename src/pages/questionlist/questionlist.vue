@@ -2,21 +2,23 @@
     <div>
       <div class="mui-control-content mui-active friend_content">
         <ul class="box mui-table-view" id="datalist">
-          <li class=" mui-table-view-cell" v-for="(item,i) in contactlist">
+          <li
+            @click="tonewpage('chat','tuid='+item.to_u_id)"
+            class=" mui-table-view-cell" v-for="(item,i) in contactlist">
             <div class="mui-table-cell box_item">
               <div class="box_left">
                 <div class="box-left_div bg_touxiang80">
-                  <image :src="contactlist.to_avatar_url" alt=""></image>
+                  <image :src="item.to_avatar_url" alt=""></image>
                 </div>
                 <div class="item-info">
                   <div class="name_info">
-                    <p class="namefriend mui-ellipsis">{{contactlist.to_nickname}}</p>
+                    <p class="namefriend mui-ellipsis">{{item.to_nickname}}</p>
                   </div>
-                  <p class="chatDetail mui-ellipsis">{{contactlist.details}}</p>
+                  <p class="chatDetail mui-ellipsis">{{item.details}}</p>
                 </div>
               </div>
               <div class="box_right">
-                <span class="info" style="text-align: right;color:rgb(200,200,200)">{{contactlist.create_time}}</span>
+                <span class="info" style="text-align: right;color:rgb(200,200,200)">{{item.create_time}}</span>
               </div>
             </div>
           </li>
@@ -75,7 +77,7 @@
               }
               res.rows[i].create_time = this.conversionTime(res.rows[i].create_time,'-');
             }
-            that.contactlist = that.company_list.concat(res.rows);
+            that.contactlist = that.contactlist.concat(res.rows);
           }
         }else if (res.code == 602 && that.page == 1){
           that.nogetshow=true;
@@ -98,6 +100,12 @@
       },
       loadmore(){
         this.getList();
+      },
+      tonewpage(urlname,data){
+        if(!urlname){return;}
+        wx.navigateTo({
+          url:`/pages/${urlname}/main?${data}`
+        })
       },
       scrolltoTop(){
         let zhiz=this;
