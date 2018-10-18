@@ -113,7 +113,7 @@
               win_treasure: [],
               currentSwiper:0,
               banner:[
-                {picpath:'../../../static/img/logo_moren.jpg'},
+                {picpath:'../../../static/img/bg_banner.png'},
               ],
               noticeArray:[],//通知列表
               column_item:[], //栏目
@@ -146,7 +146,7 @@
             if (res.code == 200){
               if(res.rows){
                   for(let val of res.rows){
-                      val.picpath=thiz.formatPicUrl(val.picpath,'logo_moren.jpg');
+                      val.picpath=thiz.formatPicUrl(val.picpath,'bg_banner.png');
                   }
                   thiz.banner=res.rows;
               }

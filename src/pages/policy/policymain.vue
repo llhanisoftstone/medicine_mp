@@ -16,6 +16,20 @@
           <div class="searchinput">请输入标题或内容</div>
         </a>
       </div>
+      <div class="category-box">
+        <scroll-view
+          :scroll-with-animation="true"
+          :scroll-x="true">
+            <div
+              @click="currentTab=-1"
+              :class="{'active':currentTab==-1}">在线咨询</div>
+            <div
+              v-for="(cate,cindex) in categorydata"
+              :key="cindex"
+              @click="currentTab=cindex"
+              :class="{'active':currentTab==cindex}">{{cate.name}}</div>
+        </scroll-view>
+      </div>
       <div class="hot-info" v-if="is_hot_hide">
         <div class="common-head hot-head">
           <span class="hot-icon">热门关注</span>
@@ -156,7 +170,13 @@
         wishidlist:null,
         org_id:null,
         pickerwishText:'',
-
+        categorydata:[
+          {name:'稳岗补贴'},
+          {name:'农业补贴'},
+          {name:'失业补贴'},
+          {name:'保险失业'},
+        ],
+        currentTab:-1
       }
     },
     computed:{
@@ -635,5 +655,32 @@
     font-size: 14px;
     text-align: center;
     margin-bottom: 50px;
+  }
+  .category-box{
+    scroll-view{
+      display:flex;
+      white-space: nowrap;
+      align-items: center;
+      height:75px/2;
+      padding-left: 5px/2;
+    }
+    div{
+      padding:10px/2 30px/2;
+      font-size:28px/2;
+      box-sizing:border-box;
+      text-align:center;
+      display: inline-block;
+      align-items: center;
+      color:#333333;
+      &.active{
+        color:#df5c3e;
+        border-bottom: 2px solid #df5c3e;
+      }
+    }
+    ::-webkit-scrollbar{
+      width: 0;
+      height: 0;
+      color: transparent;
+    }
   }
 </style>
