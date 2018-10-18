@@ -126,7 +126,7 @@
           u_id: this.$store.state.user.userid,
           to_u_id: touid,
           type:this.chatType,
-          detail:'你好！'
+          detail:this.sendMsg
         });
       },
       start(){
