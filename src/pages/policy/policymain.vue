@@ -161,19 +161,69 @@
                 class="userpic"
                 src="../../static/img/user.png"></image>
               <div class="userinfo">
-                <div >
+                <div class="namebox">
                   <span class="uname">金莎莎</span>
                   <span class="utitle">经办人</span>
                 </div>
                 <div class="tag-box">
                   <span class="tag">稳岗补贴</span>
+                  <span class="tag">失业保险333333</span>
                   <span class="tag">失业保险</span>
-                  <span class="tag">失业保险</span>
+                </div>
+                <div class="count">
+                  <span class="ctitle">咨询数：</span>
+                  <span>12345</span>
                 </div>
               </div>
             </div>
             <div class="askbtn">咨询</div>
           </li>
+        <li>
+          <div class="user-box">
+            <image
+              class="userpic"
+              src="../../static/img/user.png"></image>
+            <div class="userinfo">
+              <div class="namebox">
+                <span class="uname">金莎莎</span>
+                <span class="utitle">经办人</span>
+              </div>
+              <div class="tag-box">
+                <span class="tag">稳岗补贴</span>
+                <span class="tag">失业保险</span>
+                <span class="tag">失业保险</span>
+              </div>
+              <div class="count">
+                <span class="ctitle">咨询数：</span>
+                <span>12345</span>
+              </div>
+            </div>
+          </div>
+          <div class="askbtn">咨询</div>
+        </li>
+        <li>
+          <div class="user-box">
+            <image
+              class="userpic"
+              src="../../static/img/user.png"></image>
+            <div class="userinfo">
+              <div class="namebox">
+                <span class="uname">金莎莎</span>
+                <span class="utitle">经办人</span>
+              </div>
+              <div class="tag-box">
+                <span class="tag">稳岗补贴</span>
+                <span class="tag">失业保险</span>
+                <span class="tag">失业保险</span>
+              </div>
+              <div class="count">
+                <span class="ctitle">咨询数：</span>
+                <span>12345</span>
+              </div>
+            </div>
+          </div>
+          <div class="askbtn">咨询</div>
+        </li>
       </ul>
   </div>
 </template>
@@ -728,22 +778,53 @@
       }
       .userinfo{
         color:#666666;
+        padding-top: 0;
+        padding-left: 34px/2;
+        width:340px/2;
+        .namebox{
+          height:32px/2;
+          line-height:34px/2;
+          margin-bottom: 16px/2;
+        }
         .uname{
           font-size: 30px/2;
           color:#333333;
+          line-height: 32px/2;
         }
         .utitle{
           font-size: 24px/2;
           color:#666666;
+          padding-left: 9px/2;
         }
       }
       .tag-box{
+        line-height:34px/2;
+        margin-bottom: 18px/2;
+        display:flex;
+        flex-wrap: nowrap;
         .tag{
           font-size: 21px/2;
           color:#666666;
           background-color: #eaeaea;
-          height:32px/2;
-          border-radius: 16px/2;
+          padding:2px/2 10px/2;
+          border-radius: 18px/2;
+          margin-right: 13px/2;
+          width:105px/2;
+          .ellipsis(1)
+        }
+      }
+      .count{
+        font-size: 16px/2;
+        color:#666666;
+        padding-left: 33px/2;
+        height:30px/2;
+        background:url(../../../static/img/chaticon.png) no-repeat left center;
+        background-size: 27px/2 23px/2;
+        display:table-cell;
+        vertical-align:middle;
+        text-align:center;
+        .ctitle{
+          color: #df5c3e;
         }
       }
       .askbtn{
@@ -759,5 +840,11 @@
         align-items:center;
       }
     }
+  }
+  .ellipsis(@count:1){
+    display: -webkit-box;
+    -webkit-line-clamp: @count;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 </style>
