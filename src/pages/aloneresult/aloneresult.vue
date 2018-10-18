@@ -37,7 +37,7 @@
     </div>
     <div :class="{'btn_box':true,'btn_win':myscore>vsscore,'btn_loss':!(myscore>vsscore)}">
       <navigator href="" v-if="(win==2)&&isreward==0&&level<11" @click="toalone">下一关<div class ='pk_btn_box'></div></navigator>
-      <navigator :href="'/pages/report/main?room_id='+room_id+'&u_id='+user.userid" v-if="win==2">炫耀成绩单<div class ='pk_btn_box'></div></navigator>
+      <navigator :href="'/pages/report/main?room_id='+room_id+'&u_id='+user.userid+'&category_id='+category_id" v-if="win==2">炫耀成绩单<div class ='pk_btn_box'></div></navigator>
       <button open-type="share" v-if="win==2">分享战绩<div class ='pk_btn_box'></div></button>
       <navigator v-if="win!=2 && question_type!=1" @click="repeat">再来一次<div class ='pk_btn_box'></div></navigator>
       <button open-type="share" v-if="win!=2">考考好友<div class ='pk_btn_box'></div></button>
@@ -54,7 +54,8 @@
         win:2,    //2赢  1平局  0输
         iscard:false,
         card:{},
-        isreward:0         //是否是首页进入的奖励关卡   0 不是
+        isreward:0,        //是否是首页进入的奖励关卡   0 不是
+        category_id:''
       }
     },
     methods: {
@@ -71,6 +72,7 @@
           game_cfg_id: 2,
           game_type:1,
           level:this.$store.state.level,
+          category_id:this.category_id,
         })
 //        wx.redirectTo({
 //          url:'/pages/alone/main'
@@ -85,6 +87,7 @@
             game_cfg_id: 2,
             game_type:1,
             level:that.$store.state.level,
+            category_id:that.category_id
           })
         }else{
           this.$socket.emit('data_chain',{
@@ -93,6 +96,7 @@
             game_cfg_id: this.isreward,
             game_type:1,
             level:1,
+            category_id:that.category_id
           })
         }
       },
@@ -135,7 +139,7 @@
           img=`${that.$store.state.url}/admin/img/2.jpg`;
 //          url='/pages/report/main?roomid=0';
 //          url='/pages/index/main';
-          url=`/pages/report/main?room_id=${that.$store.state.room_id}&u_id=${that.$store.state.user.userid}`;
+          url=`/pages/report/main?room_id=${that.$store.state.room_id}&u_id=${that.$store.state.user.userid}&category_id=${that.category_id}`;
         }else{
           title="@你 为礼物而战，我还会再回来的"
           img=`${that.$store.state.url}/admin/img/3.jpg`;
@@ -146,7 +150,7 @@
           img=`${that.$store.state.url}/admin/img/2.jpg`;
 //          url='/pages/report/main?roomid=0';
 //          url='/pages/index/main';
-          url=`/pages/report/main?room_id=${that.$store.state.room_id}&u_id=${that.$store.state.user.userid}`;
+          url=`/pages/report/main?room_id=${that.$store.state.room_id}&u_id=${that.$store.state.user.userid}&category_id=${that.category_id}`;
         }else{
           title="@你 这道题有点难哦，快来帮帮我吧！"
           img=`${that.$store.state.url}/admin/img/3.jpg`;
@@ -179,6 +183,7 @@
       this.isreward=0
     },
     onLoad(option){
+        this.category_id=option.category_id;
       wx.hideShareMenu()
 //      this.cleardata()
       this.win=option.result;

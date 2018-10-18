@@ -23,7 +23,7 @@
         </ul>
       </div>
       <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
-      <div class="nogetList" v-if="nogetshow">暂无记录</div>
+      <div class="nogetList" v-if="nogetshow"><image src="../../../static/img/kongyemian_03.png"></image><p>暂无记录</p></div>
     </div>
 </template>
 
@@ -146,16 +146,21 @@
 <style lang="less" scoped>
     @import '../../static/less/common.less';
     .nogetList{
-      padding-top: 290px;
+      margin-top:100px;
       box-sizing:border-box;
-      background: url(../../../static/img/kongyemian_03.png) center 100px no-repeat;
-      background-size:145px 148px;
       width: 100%;
       height: 297px;
       color: #999999;
       font-size: 14px;
       text-align: center;
       margin-bottom: 50px;
+      image{
+        width:289px/2;
+        height:296px/2;
+      }
+      p{
+        margin-top:15px;
+      }
     }
     .friend_content{
       margin-top:10px/2;

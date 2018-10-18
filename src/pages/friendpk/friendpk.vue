@@ -32,7 +32,7 @@
       <div class="tzbox">挑战好友</div>
       <div class="pk_btn_box"></div>
     </button>
-    <a :href="'/pages/loadpk/main?from=2&&id='+user.userid" class="pk_btn" v-if="isFriends!=1"><div class="tzbox">全网挑战</div><div class="pk_btn_box"></div></a>
+    <a :href="'/pages/loadpk/main?from=2&&id='+user.userid+'&category_id='+category_id" class="pk_btn" v-if="isFriends!=1"><div class="tzbox">全网挑战</div><div class="pk_btn_box"></div></a>
   </div>
 </template>
 
@@ -42,7 +42,8 @@
     data(){
       return {
         isFriends:1,     //1 好友排行    2 全国排行   3企业排行
-        rankings:[]
+        rankings:[],
+        category_id:""
       }
     },
     methods: {
@@ -103,8 +104,42 @@
       this.getdata()
       wx.hideShareMenu()
     },
+    onLoad: function(option){
+        this.category_id=option.pid;
+    },
     components: {},
-
+    computed:{
+      user(){
+        return this.$store.state.user
+      }
+    },
+    onShareAppMessage(res){
+      let that = this;
+      let title='@你 有人向你发起挑战，点击应战~';
+      let img=`${that.$store.state.url}/admin/img/7.jpg`;
+      let url=`/pages/authfight/main?`+`pages=loadpk&&from=1&&id=${this.$store.state.user.userid}`
+      if (res.from === 'menu') {
+        // 来自页面内转发按钮
+        title='边玩边学，游戏学习两不误！';
+        img=`${that.$store.state.url}/admin/img/1.jpg`;
+        url="/pages/index/main"
+        console.log(res.target)
+      }
+      return {
+        title: title,
+        path: url,
+        imageUrl: img,
+        success: (r)=>{
+          console.log(r);
+          wx.navigateTo({
+            url:"/pages/loadpk/main?from=1&category_id="+this.category_id
+          })
+        },
+        fail: (err)=>{
+          console.log(err)
+        }
+      }
+    }
 
   }
 </script>
