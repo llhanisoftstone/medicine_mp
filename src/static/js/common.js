@@ -46,3 +46,37 @@ function getDate (v1) {
 }
 let commons = {zcount, formatPrice, distance, getDate}
 export default commons
+function num_limit(el,obj){
+  var minus=obj.minus||false;
+  var dec=obj.dec||false;
+  var max=obj.max;
+  var maxval=obj.maxval;
+  if(minus&&dec){//负数和小数
+    el = el.replace(/[^\d.\-]/g,""); //清除"数字"和".""和"-"以外的字符
+  }else if(minus){//负数
+    el = el.replace(/[^\d\-]/g,""); //清除"数字"和"-"以外的字符
+  }else if(dec){//小数
+    el = el.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+  }else{//正整数
+    el = el.replace(/[^\d]/g,""); //清除"数字"和"."以外的字符
+  }
+  el = el.replace(/^\./g,""); //验证第一个字符是数字
+  el = el.replace(/\.{2,}/g,"."); //只保留第一个., 清除多余的
+  el = el.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+  el = el.replace(/\-{2,}/g,"-"); //只保留第一个字符-, 清除多余的
+  el = el.replace(/^\-/g,"$#$").replace(/\-/g,"").replace("$#$","-");
+  if(dec){
+    var reg=new RegExp("^(\\-)*(\\d+)\\.(\\d{0,"+dec+"}).*$","i");
+    el = el.replace(reg,'$1$2.$3'); //只能输入两个小数
+  }
+  if(el.length>max){  //最大位数
+    el = el.substring(0,max);
+  }
+  if(maxval){
+    maxval=Number(maxval);
+    if(el>maxval){  //最大值
+      el = maxval;
+    }
+  }
+  return el
+}

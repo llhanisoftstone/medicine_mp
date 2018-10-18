@@ -12,7 +12,7 @@
       <div class="title">企业</div>
       <input type="text" v-model='comp_name' @blur="compblur()" maxlength="20" confirm-type="next" placeholder="企业名称"/>
       <ul class="company">
-        <li v-for="(v,i) in company" @click="choice(v.name)">{{v.name}}</li>
+        <li v-for="(v,i) in company" @click.stop="choice(v.name)">{{v.name}}</li>
       </ul>
     </div>
       <div class="item">
@@ -91,6 +91,7 @@
         this.company=[]
       },
       choice(name){
+          debugger
           this.isclick=true;
           this.comp_name=name;
           this.nocomany=false;
@@ -134,6 +135,7 @@
           realname:this.realname,
           company:this.comp_name
         };
+
         var pattern1 =/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
         if(this.cardNum==""||this.cardNum==null){
           this.$mptoast('请输入证件号码');
@@ -144,9 +146,11 @@
             return;
           }
         }
-        data.cert_type=this.cardtype;
-        debugger
+        data.cert_type=parseFloat(this.cardtype)+1;
         data.cert_value=this.cardNum;
+        if(this.comp_name&&this.nocomany){
+          return  this.$mptoast('该企业为入住平台，请重新填写');
+        }
         this.$post('/rs/complete_user_info',data).then(res=>{
           if(res.code == 200){
             if(res.iscreate==1){
@@ -209,9 +213,9 @@
             that.realname=user.realname;
             that.phone=user.phone;
             that.isclick=true;
-            that.cardtype=user.cert_type;
+            that.cert_type=user.cert_type;
             if(user.cert_type==1){
-                that.pickerText='身份证号'
+                that.pickerText='身份证'
             }else if(user.cert_type==2){
               that.pickerText='工号'
             }else if(user.cert_type==3){
@@ -231,11 +235,11 @@
                 address='';
             }
             that.address=address;
-            that.pickerText=user.shop_address;
             that.shop_label=user.nicklabel;
             that.shop_logo=user.shop_logo;
             that.shop_phone=user.phone;
             that.shop_address=user.address;
+            that.nocomany=false;
             wx.getStorage({
               key: 'keyuser',
               success: function(res) {
@@ -276,7 +280,6 @@
         clearTimeout(this.timeout)
         this.timeout=null;
       }
-      this.cardtype="";
       this.company=[];
       wx.removeStorage({
         key: 'keyuser',
@@ -323,7 +326,7 @@
   }
   .company{
     position: relative;
-    z-index:10;
+    z-index:50;
     margin-top:1px/2;
     overflow: hidden;
     li{
