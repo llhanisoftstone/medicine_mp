@@ -1,0 +1,741 @@
+<template>
+  <div class="mui-content">
+    <div  id="chatPullList" class="mui-scroll-wrapper">
+      <div class="mui-scroll">
+        <div id="customerMessage_content" class="box">
+          <div class="mui-content-padded">
+            <div id="messageListData">
+              <div class="box_bd" id="messageList">
+                <div class="time"><span>10月18日  下午3:23</span></div>
+                <div class="message me">
+                  <div class="avatar bg_touxiang80">
+                    <image src="/static/img/user.png"></image>
+                  </div>
+
+                  <div class="content">
+                    <div class="sendmessage" data_type="1">
+                      <div style="">
+                        <p>您好！欢迎咨询</p>
+                      </div>
+                    </div>
+
+                    <!--<div class="sendmessageimg" data_type="2">-->
+                      <!--<a class="swipebox">-->
+                        <!--<image src="" style="border:1px solid #fff"></image>-->
+                      <!--</a>-->
+                    <!--</div>-->
+
+                  </div>
+                </div>
+
+
+                <!--<div class="message">-->
+                  <!--<div class="avatar bg_touxiang80">-->
+                    <!--{{#equal ishas2 0}}-->
+                    <!--{{else}}-->
+                    <!--<img src="{{http_pre_90 from_head_pic}}"/>-->
+                    <!--{{/equal}}-->
+                  <!--</div>-->
+
+                  <!--<div class="content">-->
+                    <!--{{#equal data_type 1}}-->
+                    <!--<div class="getmessage">-->
+                      <!--<p>{{{details}}}</p>-->
+                    <!--</div>-->
+                    <!--{{/equal}}-->
+                    <!--{{#equal data_type 2}}-->
+                    <!--<div class="getmessageimg">-->
+                      <!--<a href="{{http_pre details}}" class="swipebox">-->
+                        <!--<img src="{{http_pre details}}"  style="border:1px solid #fff">-->
+                      <!--</a>-->
+                    <!--</div>-->
+                    <!--{{/equal}}-->
+                  <!--</div>-->
+                <!--</div>-->
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="sendarea">
+      <div class="common" >
+        <span class="functions voice" ></span>
+        <!--<span class="functions keyboard" ></span>-->
+        <input type="text" maxlength="140" id="saytext" name="saytext"  class="input_text" />
+        <span class="functions face" ></span>
+        <span class="functions more" style="display: block;" ></span>
+        <span class="sendBtn hides"  style="color: #FFFFFF;display: none;">发送</span>
+
+      </div>
+      <div class="face_content">
+
+      </div>
+      <div class="module" style="display: none">
+        <div class="m_item">
+          <a class="img_select_box to_img" style="margin-right: 1.28rem">
+            <input id="photoupload" class="hardwarefile" type="file" accept="image/*" multiple="multiple">
+            <image src="/static/img/dakaituku.png" alt=""></image>
+            <p class="send_item_name">相册</p>
+          </a>
+          <a class="img_select_box to_camera">
+            <input id="cameraupload" class="hardwarefile" type="file" accept="image/*" capture="camera">
+            <image src="/static/img/dakaixiangji.png" alt=""></image>
+            <p class="send_item_name">相机</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default{
+    data(){
+      return {
+
+      }
+    },
+    methods:{
+
+    },
+
+  }
+</script>
+<style lang="less" scoped>
+  @import '../../static/less/common.less';
+
+  *{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  }
+  p,ul,li,div{
+    padding:0;
+    margin:0;
+  }
+  ul{
+    list-style: none;
+  }
+  img,image{
+    vertical-align: middle;
+  }
+  input{
+    outline:none;
+  }
+  html, body {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+  }
+  .mui-content{
+    background: #f2f2f2;
+    height: 100%;
+    overflow: auto;
+  }
+  #customerMessage_content {
+    height: 100%;
+  }
+
+  .mui-content-padded {
+    margin: 0;
+  }
+
+  .mui-scroll-wrapper {
+    margin-bottom: 93px/2;
+  }
+
+  /*聊天面板*/
+  .sendarea{
+    position: fixed;
+    z-index:11;
+    background-color: #fff;
+    bottom: 0;
+    left:0;
+    width:100%;
+  }
+  .common{
+    display: flex;
+    -webkit-justify-content: space-between;
+    width: 100%;
+    height:90px/2;
+    padding: 10px/2 20px/2;
+    background: #f9f9f9;
+    box-sizing: border-box;
+  }
+
+  .functions{
+    width: 70px/2;
+    height: 70px/2;
+    vertical-align: middle;
+  }
+  .face{
+    background: url("../../../static/img/biaoqing.png") no-repeat center center;
+    background-size: 48px/2 48px/2;
+  }
+  .voice{
+    background: url("../../../static/img/voice.png") no-repeat center center;
+    background-size: 48px/2 48px/2;
+  }
+  .keyboard{
+    background: url("../../../static/img/keyboard.png") no-repeat center center;
+    background-size: 48px/2 48px/2;
+  }
+  .more{
+    width:72px/2;
+    background: url("../../../static/img/gengduo.png") no-repeat center center;
+    background-size: 48px/2 48px/2;
+  }
+
+  .common>input{
+    width: 562px/2;
+    height: 60px/2;
+    border-radius: 12px/2;
+    padding-left:10px/2 ;
+    border: 1px solid #e3e3e3;
+  }
+  #saytext{
+    width: 562px/2;
+    height: 60px/2;
+    border-radius: 12px/2;
+    padding-left:10px/2 ;
+    border: 1px solid #e3e3e3;
+    font-size: 30px/2;
+  }
+  .module{
+
+    width:100%;
+    height:412px/2;
+    background: #f6f6f6;
+    padding:36px/2 74px/2;
+    border-top: 1px solid #e3e3e3;
+
+  }
+
+  .m_item{
+    display: flex;
+    text-align: center;
+  }
+  .m_item image{
+    width:114px/2;
+    height:114px/2;
+  }
+  .send_item_name{
+    color:#999;
+    font-size: 24px/2;
+    height:24px/2;
+    line-height: 24px/2;
+    margin-top: 26px/2;
+  }
+
+  .sendBtn{
+    -webkit-tap-highlight-color:transparent;
+    display: block;
+    float: right;
+    width: 72px/2;
+    height: 48px/2;
+    background: rgb(95,193,139);
+    line-height: 48px/2;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 12px/2;
+    border-radius: 4px/2;
+    margin-top: 10px/2;
+  }
+
+  /*=============聊天消息框===============*/
+  /*时间节点显示*/
+  .time{
+    margin-bottom:28xp/2;
+  }
+  .time span{
+    font-size: 24px/2;
+    color: #999;
+    width: 375xp/2;
+    margin-left: 243px/2;
+    text-align: center;
+  }
+
+
+  /*wechat css*/
+  .box {
+    /*position: absolute;*/
+    /*background-color: #eee;*/
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+  }
+  .box_bd {
+    padding: 14px/2 20px/2;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+  }
+  .message.me {
+    float: right;
+    text-align: right;
+    clear: right;
+  }
+  .message {
+    margin-bottom: 24xp/2;
+    float: left;
+    width: 100%;
+  }
+  .message.me .avatar {
+    float: right;
+    width: 80px/2;
+    height: 80px/2;
+    border-radius:50%;
+  }
+  .message .avatar {
+    width: 80px/2;
+    height: 80px/2;
+    cursor: pointer;
+    float: left;
+    border-radius:50%;
+  }
+  .message .content {
+    overflow: hidden;
+  }
+  .bubble.bubble_primary {
+    background-color: #fad3d8;
+    margin-right: 33px/2;
+  }
+  .bubble {
+    max-width: 70%;
+    min-height: 1em;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    text-align: left;
+    font-size: 12px/2;
+    margin: 0 10px/2;
+    margin-left: 32px/2;
+  }
+  .bubble.bubble_default {
+    background-color: #fff;
+  }
+  .bubble.right:before, .bubble.right:after {
+    left: 100%;
+  }
+  .bubble:before, .bubble:after {
+    position: absolute;
+    top: 26px/2;
+    border: 6px/2 solid transparent;
+    content: " ";
+  }
+  .bubble_cont {
+    word-wrap: break-word;
+    word-break: break-all;
+    min-height: 25px/2;
+  }
+  .bubble_cont .plain {
+    padding: 5px/2;
+    font-size: 30px/2;
+    border: 1px solid rgba(231,34,65,0.2);
+  }
+  pre {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    white-space: pre-wrap;
+    word-break: initial;
+  }
+  #facebox{
+    top: 2rem;
+    left: 0.2rem;
+  }
+  .qqFace { margin-top: 0px;padding: 2px;  }
+  .qqFace table td { padding: 0px 5px/2; }
+  .qqFace table td img,.qqFace table td image { cursor: pointer;  }
+
+  .message.me .avatar img,.message .avatar img,.message.me .avatar image,.message .avatar image{
+    width: 80px/2;
+    height: 80px/2;
+    border-radius: 50%;
+  }
+  .face_content {
+    display: none;
+    height: 375px/2;
+    background: #fff;
+  }
+
+  .imgupload .filecontent{
+    width: 120px/2;
+    height: 120px/2;
+  }
+  #uploadifive-file_upload_center{
+    width: 120px/2;
+    height: 120px/2;
+  }
+  .moduleitem1,.moduleitem2,.moduleitem3{
+    float: left;
+    padding-right: 50px/2;
+  }
+  .modulename{
+    font-size: 30px/2;
+    color: #666;
+    text-align: center;
+    margin: 12px/2 0 32px/2 0;
+  }
+  .bubble.bubble_primary.right:after {
+    border-left-color: rgba(231,34,65,0.2);
+    border-left-width: 10px/2;
+  }
+
+
+  #video {
+    position: relative;
+    width: 421px/2;
+    height: auto;
+    min-height: 328px/2;
+  }
+  .control {
+    width: 140px/2;
+    height: 140px/2;
+    position: absolute;
+    top: 94px/2;
+    left: 140px/2;
+  }
+
+
+  .sendmessage {
+    background-color: #fff;
+    position: relative;
+    font-size: 30px/2;
+    float: right;
+    margin-right: 15px/2;
+    text-align: left;
+    border-radius: 14px/2;
+  }
+  .sendmessageimg{
+    position: relative;
+    font-size: 30px/2;
+    float: right;
+    margin-right: 15px/2;
+    border-radius: 14px/2;
+  }
+  .sendmessage .showloadimg{
+    height: 210px/2;
+    width: 164px/2;
+    /*background-size: 4.5rem;width: 3.5rem;*/
+    /*background: #cccccc url(../../images/logo.png) no-repeat center center;*/
+  }
+  .sendmessage p{
+    line-height: 38px/2;
+    max-width: 422px/2;
+    color:#666;
+    padding: 24px/2 26px/2;
+    word-wrap: break-word; word-break: normal;
+  }
+  .sendmessageimg:after, .sendmessageimg:before {
+    border: solid transparent;
+    content: ' ';
+    height: 0;
+    left: 100%;
+    position: absolute;
+    width: 0;
+  }
+  .sendmessageimg:after {
+    border-width: 6px/2;
+    border-left-color: #fff;
+    background: inherit;
+    background-clip: border-box;
+    background-origin: border-box;
+    background-position: 20px/2 -30px/2;
+    top: 10px/2;
+  }
+
+  .sendmessageimg:before {
+    border-width: 8px/2;
+    border-left-color: #fff;
+    top: 8px/2;
+  }
+  .sendmessage:after, .sendmessage:before {
+    border: solid transparent;
+    content: ' ';
+    height: 0;
+    left: 100%;
+    position: absolute;
+    width: 0;
+  }
+
+  .sendmessage:after {
+    border-width: 6px/2;
+    border-left-color: #fff;
+    top: 10px/2;
+  }
+
+  .sendmessage:before {
+    border-width: 8px/2;
+    border-left-color: #fff;
+    top: 8px/2;
+  }
+  .sendmessage img,.sendmessage image{
+    width: 30px/2;
+    max-width: 30px/2;
+    height: 30px/2;
+  }
+
+  .getmessageimg{
+    position: relative;
+    font-size: 30px/2;
+    float: left;
+    margin-left: 12px/2;
+    text-align: left;
+    border-radius: 14px/2;
+  }
+  .getmessage img,.getmessage image{
+    width: 30px/2;
+    max-width: 30px/2;
+    height: 30px/2;
+  }
+
+  .getmessageimg:after, .getmessageimg:before {
+    border: solid transparent;
+    content: ' ';
+    height: 0;
+    right: 100%;
+    position: absolute;
+    width: 0;
+  }
+  .getmessageimg:after {
+    border-width: 6px/2;
+    border-right-color: #ffffff;
+    top: 10px/2;
+  }
+
+  .getmessageimg:before {
+    border-width: 0;
+    border-right-color: #e4e4e4;
+    top: 8px/2;
+  }
+
+  /*发送图片*/
+  .sendmessageimg  img,.sendmessageimg  image{
+    width: 40%;
+    height: 40%;
+    border-radius: 14px/2;
+    padding: 2px;
+  }
+  /*发送图片end*/
+
+  /*接收图片*/
+  .getmessageimg  img,.getmessageimg  image{
+    width: 40%;
+    height: 40%;
+    border-radius: 0.3rem;
+    padding: 2px;
+    background: #ffffff;
+  }
+  /*接收图片end*/
+
+  .getmessage {
+    background-color: #ffffff;
+    position: relative;
+    font-size: 30px/2;
+    float: left;
+    margin-left: 12px/2;
+    text-align: left;
+    border-radius: 14px/2;
+  }
+  .getmessage p{
+    line-height: 38px/2;
+    max-width: 445px/2;
+    color:#666;
+    padding: 24px/2 26px/2;
+    word-wrap: break-word; word-break: normal;
+  }
+
+  .getmessage:after, .getmessage:before {
+    border: solid transparent;
+    content: ' ';
+    height: 0;
+    right: 100%;
+    position: absolute;
+    width: 0;
+  }
+
+  .getmessage:after {
+    border-width: 6px/2;
+    border-right-color: #ffffff;
+    top: 10px/2;
+  }
+
+  .getmessage:before {
+    border-width: 8px/2;
+    border-right-color: #fff;
+    top: 8px/2;
+  }
+
+  /*点击查看图片*/
+  .mui-preview-image.mui-fullscreen {
+    position: fixed;
+    z-index: 20;
+    background-color: #000;
+  }
+  .mui-preview-header,
+  .mui-preview-footer {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    z-index: 10;
+  }
+  .mui-preview-header {
+    height: 44px/2;
+    top: 0;
+  }
+  .mui-preview-footer {
+    height: 50px/2;
+    bottom: 0px;
+  }
+  .mui-preview-header .mui-preview-indicator {
+    display: block;
+    line-height: 44px;
+    color: #fff;
+    text-align: center;
+    margin: 15px auto;
+    width: 70px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    font-size: 16px;
+  }
+  .mui-preview-image {
+    display: none;
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+  .mui-preview-image.mui-preview-in {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+  }
+  .mui-preview-image.mui-preview-out {
+    background: none;
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+  }
+  .mui-preview-image.mui-preview-out .mui-preview-header,
+  .mui-preview-image.mui-preview-out .mui-preview-footer {
+    display: none;
+  }
+  .mui-zoom-scroller {
+    position: absolute;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    -webkit-backface-visibility: hidden;
+  }
+  .mui-zoom {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
+  .mui-slider .mui-slider-group .mui-slider-item img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+    width: 100%;
+  }
+  .mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+    display: inline-table;
+  }
+  .mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  .mui-preview-loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: none;
+  }
+  .mui-preview-loading.mui-active {
+    display: block;
+  }
+  .mui-preview-loading .mui-spinner-white {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
+    height: 50px;
+    width: 50px;
+  }
+  .mui-preview-image img.mui-transitioning {
+    -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @-webkit-keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  p img,p image {
+    max-width: 100%;
+    height: auto;
+  }
+
+
+  .img_select_box{
+    position:relative;
+  }
+  #facebox img{
+    width: 30px/2;
+    max-width: 30px/2;
+    height: 30px/2;
+  }
+
+</style>

@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 31,
+			"current": 32,
 			"list": [
 				{
 					"id": 0,
@@ -240,6 +240,12 @@
 					"name": "政策百科",
 					"pathName": "pages/policy/main",
 					"query": "pid=60"
+				},
+				{
+					"id": -1,
+					"name": "聊天",
+					"pathName": "pages/chat/main",
+					"query": ""
 				}
 			]
 		}
