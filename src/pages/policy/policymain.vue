@@ -30,6 +30,7 @@
               :class="{'active':currentTab==cindex}">{{cate.name}}</div>
         </scroll-view>
       </div>
+    <div v-show="currentTab!=-1">
       <div class="hot-info" v-if="is_hot_hide">
         <div class="common-head hot-head">
           <span class="hot-icon">热门关注</span>
@@ -59,22 +60,22 @@
             </swiper>
           </div>
           <!--<ul class="hot-list">-->
-            <!--<li v-for="(v,_index) in hot_list" :key="v._index">-->
-              <!--<a :href="'/pages/policydetails/main?pid='+v.id" class="item-details">-->
-                <!--<div class="hot_item">-->
-                  <!--<div class="imgk">-->
-                    <!--<img :src="v.pic_abbr" alt="">-->
-                    <!--<div class="imgkinfok">-->
-                      <!--<div class="imgkinfo">-->
-                        <!--<span class="imgkinfo_name">{{v.organiz_name||" "}}</span>-->
-                        <!--<span class="imgkinfo_count">{{v.view_count}}</span>-->
-                      <!--</div>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                  <!--<div class="item_title">{{v.title}}</div>-->
-                <!--</div>-->
-              <!--</a>-->
-            <!--</li>-->
+          <!--<li v-for="(v,_index) in hot_list" :key="v._index">-->
+          <!--<a :href="'/pages/policydetails/main?pid='+v.id" class="item-details">-->
+          <!--<div class="hot_item">-->
+          <!--<div class="imgk">-->
+          <!--<img :src="v.pic_abbr" alt="">-->
+          <!--<div class="imgkinfok">-->
+          <!--<div class="imgkinfo">-->
+          <!--<span class="imgkinfo_name">{{v.organiz_name||" "}}</span>-->
+          <!--<span class="imgkinfo_count">{{v.view_count}}</span>-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--<div class="item_title">{{v.title}}</div>-->
+          <!--</div>-->
+          <!--</a>-->
+          <!--</li>-->
           <!--</ul>-->
         </div>
       </div>
@@ -149,7 +150,31 @@
       <a class="ui-link" :href="'/pages/toknow/main?isjy=false'">
         <div class="zc_btn"><div class="zcbtn_top">我要咨询</div></div>
       </a>
-    <div class="nogetList" v-if="!is_hot_hide&&!is_bl_hide&&!is_bk_hide">暂无内容</div>
+      <div class="nogetList" v-if="!is_hot_hide&&!is_bl_hide&&!is_bk_hide">暂无内容</div>
+    </div>
+      <ul
+        v-show="currentTab==-1"
+        class="chat-box">
+          <li>
+            <div class="user-box">
+              <image
+                class="userpic"
+                src="../../static/img/user.png"></image>
+              <div class="userinfo">
+                <div >
+                  <span class="uname">金莎莎</span>
+                  <span class="utitle">经办人</span>
+                </div>
+                <div class="tag-box">
+                  <span class="tag">稳岗补贴</span>
+                  <span class="tag">失业保险</span>
+                  <span class="tag">失业保险</span>
+                </div>
+              </div>
+            </div>
+            <div class="askbtn">咨询</div>
+          </li>
+      </ul>
   </div>
 </template>
 
@@ -681,6 +706,58 @@
       width: 0;
       height: 0;
       color: transparent;
+    }
+  }
+  ul.chat-box{
+    padding:0 35px/2 0 12px;
+    li{
+      padding:37px/2 22px/2 37px/2 45px/2;
+      border-bottom: 1px solid #e2e2e2;
+      display:flex;
+      align-items: center;
+      justify-content: space-between;
+      .user-box{
+        display:flex;
+        .userpic{
+          width:120px/2;
+          height:120px/2;
+          border-radius: 50%;
+          border:3px/2 solid #999999;
+          vertical-align: bottom;
+        }
+      }
+      .userinfo{
+        color:#666666;
+        .uname{
+          font-size: 30px/2;
+          color:#333333;
+        }
+        .utitle{
+          font-size: 24px/2;
+          color:#666666;
+        }
+      }
+      .tag-box{
+        .tag{
+          font-size: 21px/2;
+          color:#666666;
+          background-color: #eaeaea;
+          height:32px/2;
+          border-radius: 16px/2;
+        }
+      }
+      .askbtn{
+        width:130px/2;
+        height:51px/2;
+        font-size: 26px/2;
+        color:#ffffff;
+        background-color: #df5c3e;
+        text-align: center;
+        border-radius: 10px/2;
+        display: flex;
+        justify-content: center;
+        align-items:center;
+      }
     }
   }
 </style>
