@@ -7,51 +7,39 @@
             <div id="messageListData">
               <div class="box_bd" id="messageList">
                 <div class="time"><span>10月18日  下午3:23</span></div>
+                <div class="message">
+                  <div class="avatar bg_touxiang80">
+                    <image src="/static/img/user.png"></image>
+                  </div>
+                  <div class="content">
+                    <div class="getmessage">
+                      <p>您好！欢迎咨询</p>
+                    </div>
+                    <!--<div class="getmessageimg" data_type="2">-->
+                      <!--<a href="" class="swipebox">-->
+                        <!--<image src="" style="border:1px solid #fff"></image>-->
+                      <!--</a>-->
+                    <!--</div>-->
+                  </div>
+                </div>
                 <div class="message me">
                   <div class="avatar bg_touxiang80">
                     <image src="/static/img/user.png"></image>
                   </div>
-
                   <div class="content">
                     <div class="sendmessage" data_type="1">
                       <div style="">
-                        <p>您好！欢迎咨询</p>
+                        <p>我有问题我有问题我有问题我有问题我有问题我有问题我有问题</p>
                       </div>
                     </div>
-
                     <!--<div class="sendmessageimg" data_type="2">-->
-                      <!--<a class="swipebox">-->
-                        <!--<image src="" style="border:1px solid #fff"></image>-->
-                      <!--</a>-->
+                    <!--<a class="swipebox">-->
+                    <!--<image src="" style="border:1px solid #fff"></image>-->
+                    <!--</a>-->
                     <!--</div>-->
 
                   </div>
                 </div>
-
-
-                <!--<div class="message">-->
-                  <!--<div class="avatar bg_touxiang80">-->
-                    <!--{{#equal ishas2 0}}-->
-                    <!--{{else}}-->
-                    <!--<img src="{{http_pre_90 from_head_pic}}"/>-->
-                    <!--{{/equal}}-->
-                  <!--</div>-->
-
-                  <!--<div class="content">-->
-                    <!--{{#equal data_type 1}}-->
-                    <!--<div class="getmessage">-->
-                      <!--<p>{{{details}}}</p>-->
-                    <!--</div>-->
-                    <!--{{/equal}}-->
-                    <!--{{#equal data_type 2}}-->
-                    <!--<div class="getmessageimg">-->
-                      <!--<a href="{{http_pre details}}" class="swipebox">-->
-                        <!--<img src="{{http_pre details}}"  style="border:1px solid #fff">-->
-                      <!--</a>-->
-                    <!--</div>-->
-                    <!--{{/equal}}-->
-                  <!--</div>-->
-                <!--</div>-->
               </div>
             </div>
 
@@ -63,26 +51,54 @@
 
     <div class="sendarea">
       <div class="common" >
-        <span class="functions voice" ></span>
-        <!--<span class="functions keyboard" ></span>-->
-        <input type="text" maxlength="140" id="saytext" name="saytext"  class="input_text" />
+        <span
+          @click="action='voice'"
+          v-show="action=='keyboard'"
+          class="functions voice"></span>
+        <span
+          @click="action='keyboard'"
+          v-show="action=='voice'"
+          class="functions keyboard" ></span>
+        <input
+          v-show="action=='keyboard'"
+          v-model.trim="sendMsg"
+          type="text"
+          maxlength="140"
+          id="saytext"
+          name="saytext"
+          class="input_text" />
+        <div
+          v-show="action=='voice'"
+          class="record-box"
+          @touchstart="start"
+          @touchend="stop">按住说话</div>
         <span class="functions face" ></span>
-        <span class="functions more" style="display: block;" ></span>
-        <span class="sendBtn hides"  style="color: #FFFFFF;display: none;">发送</span>
+        <template v-if="sendMsg.length>=1">
+          <span
+            @click="sendMessage"
+            class="sendBtn">发送</span>
+        </template>
+        <template v-else>
+          <span
+            @click="isMoreShow=true"
+            class="functions more"></span>
+        </template>
 
       </div>
       <div class="face_content">
 
       </div>
-      <div class="module" style="display: none">
+      <div
+        v-show="isMoreShow"
+        class="module more_content" >
         <div class="m_item">
           <a class="img_select_box to_img" style="margin-right: 1.28rem">
-            <input id="photoupload" class="hardwarefile" type="file" accept="image/*" multiple="multiple">
+            <!--<input id="photoupload" class="hardwarefile" type="file" accept="image/*" multiple="multiple">-->
             <image src="/static/img/dakaituku.png" alt=""></image>
             <p class="send_item_name">相册</p>
           </a>
           <a class="img_select_box to_camera">
-            <input id="cameraupload" class="hardwarefile" type="file" accept="image/*" capture="camera">
+            <!--<input id="cameraupload" class="hardwarefile" type="file" accept="image/*" capture="camera">-->
             <image src="/static/img/dakaixiangji.png" alt=""></image>
             <p class="send_item_name">相机</p>
           </a>
@@ -96,7 +112,9 @@
   export default{
     data(){
       return {
-
+        action:'keyboard',
+        sendMsg:'',
+        isMoreShow:false,
       }
     },
     methods:{
@@ -105,6 +123,12 @@
 
   }
 </script>
+<style>
+  page{
+    background: #f2f2f2;
+    height: 100%;
+  }
+</style>
 <style lang="less" scoped>
   @import '../../static/less/common.less';
 
@@ -194,14 +218,7 @@
     background-size: 48px/2 48px/2;
   }
 
-  .common>input{
-    width: 562px/2;
-    height: 60px/2;
-    border-radius: 12px/2;
-    padding-left:10px/2 ;
-    border: 1px solid #e3e3e3;
-  }
-  #saytext{
+  #saytext,.record-box{
     width: 562px/2;
     height: 60px/2;
     border-radius: 12px/2;
@@ -209,14 +226,18 @@
     border: 1px solid #e3e3e3;
     font-size: 30px/2;
   }
+  .record-box{
+    text-align: center;
+    color:#666666;
+    line-height: 61px/2;
+  }
   .module{
-
+    box-sizing: border-box;
     width:100%;
     height:412px/2;
     background: #f6f6f6;
     padding:36px/2 74px/2;
     border-top: 1px solid #e3e3e3;
-
   }
 
   .m_item{
@@ -241,29 +262,27 @@
     float: right;
     width: 72px/2;
     height: 48px/2;
-    background: rgb(95,193,139);
+    background-color: #df5c3e;
     line-height: 48px/2;
     text-align: center;
-    color: #FFFFFF;
-    font-size: 12px/2;
-    border-radius: 4px/2;
+    color: #ffffff;
+    font-size: 24px/2;
+    border-radius: 6px/2;
     margin-top: 10px/2;
   }
 
   /*=============聊天消息框===============*/
   /*时间节点显示*/
   .time{
-    margin-bottom:28xp/2;
+    margin-bottom:28px/2;
   }
   .time span{
     font-size: 24px/2;
     color: #999;
-    width: 375xp/2;
+    width: 375px/2;
     margin-left: 243px/2;
     text-align: center;
   }
-
-
   /*wechat css*/
   .box {
     /*position: absolute;*/
@@ -284,7 +303,7 @@
     clear: right;
   }
   .message {
-    margin-bottom: 24xp/2;
+    margin-bottom: 24px/2;
     float: left;
     width: 100%;
   }

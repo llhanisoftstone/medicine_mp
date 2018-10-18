@@ -155,7 +155,7 @@
       <ul
         v-show="currentTab==-1"
         class="chat-box">
-          <li>
+          <li @click.stop="tonewpage('chat','')">
             <div class="user-box">
               <image
                 class="userpic"
@@ -341,6 +341,12 @@
             that.getpolicyMain();
           }
         }
+      },
+      tonewpage(urlname,data){
+        if(!urlname){return;}
+        wx.navigateTo({
+          url:`/pages/${urlname}/main?${data}`
+        })
       },
     },
 
