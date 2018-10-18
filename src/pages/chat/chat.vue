@@ -5,31 +5,21 @@
         <div id="customerMessage_content" class="box">
           <div class="mui-content-padded">
             <div id="messageListData">
-              <div class="box_bd" id="messageList">
-                <div class="time"><span>10月18日  下午3:23</span></div>
-                <div class="message">
+              <div
+                v-for="(chat,indx) in chatdata"
+                class="box_bd" id="messageList">
+                <div v-if="indx==0" class="time"><span>{{chat.create_time}}</span></div>
+
+                <div
+                  v-if="u_id==chat.u_id"
+                  class="message me">
                   <div class="avatar bg_touxiang80">
-                    <image src="/static/img/user.png"></image>
-                  </div>
-                  <div class="content">
-                    <div class="getmessage">
-                      <p>您好！欢迎咨询</p>
-                    </div>
-                    <!--<div class="getmessageimg" data_type="2">-->
-                      <!--<a href="" class="swipebox">-->
-                        <!--<image src="" style="border:1px solid #fff"></image>-->
-                      <!--</a>-->
-                    <!--</div>-->
-                  </div>
-                </div>
-                <div class="message me">
-                  <div class="avatar bg_touxiang80">
-                    <image src="/static/img/user.png"></image>
+                    <image :src="chat.avatar_url"></image>
                   </div>
                   <div class="content">
                     <div class="sendmessage" data_type="1">
                       <div style="">
-                        <p>我有问题我有问题我有问题我有问题我有问题我有问题我有问题</p>
+                        <p>{{chat.details}}</p>
                       </div>
                     </div>
                     <!--<div class="sendmessageimg" data_type="2">-->
@@ -37,14 +27,29 @@
                     <!--<image src="" style="border:1px solid #fff"></image>-->
                     <!--</a>-->
                     <!--</div>-->
-
                   </div>
                 </div>
+                <div
+                  v-else
+                  class="message">
+                  <div class="avatar bg_touxiang80">
+                    <image :src="chat.to_avatar_url"></image>
+                  </div>
+                  <div class="content">
+                    <div class="getmessage">
+                      <p>{{chat.details}}</p>
+                    </div>
+                    <!--<div class="getmessageimg" data_type="2">-->
+                    <!--<a href="" class="swipebox">-->
+                    <!--<image src="" style="border:1px solid #fff"></image>-->
+                    <!--</a>-->
+                    <!--</div>-->
+                  </div>
+                </div>
+
               </div>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
@@ -116,18 +121,61 @@
         sendMsg:'',
         isMoreShow:false,
         path:'',
-        to_u_id:''
+        to_u_id:'',
+        u_id:'',
+        chatdata:[],
+        chatType:1,//类型，1-文字；2-图片；3-视频；4-语音
       }
     },
+//    computed:{
+//      u_id(){
+//        return this.$store.state.user.userid;
+//      }
+//    },
     methods:{
       sendMessage(){
+        let that=this;
         this.$socket.emit('data_chain',{
           cmd:'msgchat',
-          u_id: this.$store.state.user.userid,
-          to_u_id: touid,
-          type:this.chatType,
-          detail:this.sendMsg
+          u_id: that.$store.state.user.userid,
+          to_u_id: that.to_u_id,
+          type:that.chatType,
+          detail:that.sendMsg
         });
+        that.chatdata.push({
+          u_id: that.$store.state.user.userid,
+          to_u_id: that.to_u_id,
+          type:that.chatType,
+          details:that.sendMsg
+        });
+        that.sendMsg=''
+      },
+      watchsocket(){
+        let that=this
+        that.$socket.removeAllListeners('data_chain')
+        that.$socket.on('data_chain',d=>{
+          if(d.cmd == 'msgchat' ){
+            //that.$store.commit('get_answer',d.details[0])
+
+          }
+        })
+      },
+      async getChatdata(){
+        let that = this;
+        let data={
+          page:1,
+          size:6,
+          to_id:this.to_u_id,
+          u_id:this.$store.state.user.userid,
+        };
+        let res = await that.$get('/rs/contact_chats',data);
+        if (res.code == 200){
+            if(res.rows){
+              res.rows[0].create_time=this.formatedate(res.rows[0].create_time);
+            }
+          that.chatdata=res.rows;
+
+        }
       },
       start(){
         this.$startManager()
@@ -142,11 +190,42 @@
       play(){
         console.log(this.path)
         this.$playAudio(this.$store.state.url+this.path)
-      }
+      },
+      formatedate(time){
+        Date.prototype.Format = function (fmt) { //author: meizz
+          var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+          };
+          if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+          for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+          return fmt;
+        };
+        let date=new Date(time);
+        let dates;
+        if(parseInt(date.Format("hh"))>12){
+          var num=parseInt(date.Format("hh"))-12;
+          dates=date.Format("MM月dd日")+"  下午"+num+":"+date.Format("mm");
+        }else {
+          dates=date.Format("MM月dd日")+"  上午"+date.Format("hh")+":"+date.Format("mm");
+        }
+        return dates;
+      },
     },
     onLoad:function (option){
         this.to_u_id=option.tuid;
+        this.u_id=this.$store.state.user.userid;
+        this.getChatdata();
     },
+    onShow:function(){
+      this.watchsocket();
+    }
 
   }
 </script>

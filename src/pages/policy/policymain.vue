@@ -209,7 +209,6 @@
         ],
         currentTab:-1,
         hrdata:[],//经办人信息
-        chatType:1,//类型，1-文字；2-图片；3-视频；4-语音
         to_u_id:''
       }
     },
@@ -310,27 +309,8 @@
         }
       },
       tochat(touid){
-        this.to_u_id=touid;
-        this.$socket.emit('data_chain',{
-          cmd:'msgchat',
-          u_id: this.$store.state.user.userid,
-          to_u_id: 16,
-          type:this.chatType,
-          detail:'你好！'
-        });
-      },
-      watchsocket(){
-        let that=this
-        that.$socket.removeAllListeners('data_chain')
-        that.$socket.on('data_chain',d=>{
-          if(d.cmd == 'msgchat' ){
-
-            //that.$store.commit('get_answer',d.details[0])
-            //that.$socket.removeAllListeners('data_chain')
-            wx.navigateTo({
-              url:`/pages/chat/main?tuid=${that.to_u_id}`
-            })
-          }
+        wx.navigateTo({
+          url:`/pages/chat/main?tuid=${touid}`
         })
       },
       tonewpage(urlname,data){
@@ -367,7 +347,6 @@
       this.getorganiz(); //获取组织列表
       this.getPolicydata();
       this.getpolicyMain();//获取政策百科主页数据
-      this.watchsocket();
     },
     onUnload(){
       this.pickerwishText='';

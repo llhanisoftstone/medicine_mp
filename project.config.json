@@ -242,10 +242,10 @@
 					"query": "pid=60"
 				},
 				{
-					"id": -1,
+					"id": 32,
 					"name": "聊天",
 					"pathName": "pages/chat/main",
-					"query": ""
+					"query": "tuid=16"
 				}
 			]
 		}
