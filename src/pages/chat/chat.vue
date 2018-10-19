@@ -9,15 +9,17 @@
                 v-for="(chat,indx) in chatdata"
                 class="box_bd" id="messageList">
                 <div v-if="indx==0" class="time"><span>{{chat.create_time}}</span></div>
-
+                <!--我发送的-->
                 <div
                   v-if="u_id==chat.u_id"
                   class="message me">
                   <div class="avatar bg_touxiang80">
-                    <image :src="chat.avatar_url"></image>
+                    <image :src="useravatar"></image>
                   </div>
                   <div class="content">
-                    <div class="sendmessage" data_type="1">
+                    <div
+                      v-if="chat.data_type==1"
+                      class="sendmessage">
                       <div style="">
                         <p>{{chat.details}}</p>
                       </div>
@@ -29,6 +31,7 @@
                     <!--</div>-->
                   </div>
                 </div>
+                <!--接收的消息-->
                 <div
                   v-else
                   class="message">
@@ -36,7 +39,9 @@
                     <image :src="chat.to_avatar_url"></image>
                   </div>
                   <div class="content">
-                    <div class="getmessage">
+                    <div
+                      v-if="chat.data_type==1"
+                      class="getmessage">
                       <p>{{chat.details}}</p>
                     </div>
                     <!--<div class="getmessageimg" data_type="2">-->
@@ -127,11 +132,11 @@
         chatType:1,//类型，1-文字；2-图片；3-视频；4-语音
       }
     },
-//    computed:{
-//      u_id(){
-//        return this.$store.state.user.userid;
-//      }
-//    },
+    computed:{
+      useravatar(){
+        return this.$store.state.userinfo.avatarUrl;
+      }
+    },
     methods:{
       sendMessage(){
         let that=this;
@@ -221,6 +226,7 @@
     onLoad:function (option){
         this.to_u_id=option.tuid;
         this.u_id=this.$store.state.user.userid;
+        console.log(this.$store.state.user)
         this.getChatdata();
     },
     onShow:function(){
