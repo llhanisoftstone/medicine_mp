@@ -16,42 +16,58 @@
                   <div class="avatar bg_touxiang80">
                     <image :src="useravatar"></image>
                   </div>
-                  <div class="content">
-                    <div
-                      v-if="chat.data_type==1"
-                      class="sendmessage">
+                  <div v-if="chat.data_type==1" class="content">
+                    <div class="sendmessage">
                       <div style="">
                         <p>{{chat.details}}</p>
                       </div>
                     </div>
-                    <!--<div class="sendmessageimg" data_type="2">-->
-                    <!--<a class="swipebox">-->
-                    <!--<image src="" style="border:1px solid #fff"></image>-->
-                    <!--</a>-->
-                    <!--</div>-->
+                  </div>
+                  <div v-if="chat.data_type==2" class="content">
+                    <div class="getmessage imgbox">
+                      <image
+                        mode="widthFix"
+                        :src="imgURL+chat.details"></image>
+                    </div>
+                  </div>
+                  <div v-if="chat.data_type==4" class="content">
+                    <div class="sendmessage">
+                      <div style="">
+                        <p
+                          @click="play(chat.details)"
+                        >{{chat.details}}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <!--接收的消息-->
                 <div
-                  v-else
+                  v-if="u_id!=chat.u_id"
                   class="message">
                   <div class="avatar bg_touxiang80">
                     <image :src="to_avatar_url"></image>
                   </div>
-                  <div class="content">
-                    <div
-                      v-if="chat.data_type==1"
-                      class="getmessage">
+                  <div v-if="chat.data_type==1" class="content">
+                    <div class="getmessage">
                       <p>{{chat.details}}</p>
                     </div>
-                    <!--<div class="getmessageimg" data_type="2">-->
-                    <!--<a href="" class="swipebox">-->
-                    <!--<image src="" style="border:1px solid #fff"></image>-->
-                    <!--</a>-->
-                    <!--</div>-->
                   </div>
-                </div>
+                  <div v-if="chat.data_type==2" class="content">
+                    <div class="getmessage imgbox">
+                      <image
+                        mode="widthFix"
+                        :src="imgURL+chat.details"></image>
+                    </div>
+                  </div>
+                  <div v-if="chat.data_type==4" class="content">
+                    <div class="getmessage">
+                      <p
+                        @click="play(chat.details)"
+                      >{{chat.details}}</p>
+                    </div>
+                  </div>
 
+                </div>
               </div>
             </div>
           </div>
@@ -62,11 +78,11 @@
     <div class="sendarea">
       <div class="common" >
         <span
-          @click="action='voice'"
+          @click="action='voice';isMoreShow=false;"
           v-show="action=='keyboard'"
           class="functions voice"></span>
         <span
-          @click="action='keyboard'"
+          @click="action='keyboard';isMoreShow=false;"
           v-show="action=='voice'"
           class="functions keyboard" ></span>
         <input
@@ -82,7 +98,7 @@
           v-show="action=='voice'"
           class="record-box"
           @touchstart="start"
-          @touchend="stop">按住说话</div>
+          @touchend="stop">{{voicetip}}</div>
         <span class="functions face"></span>
         <template v-if="sendMsg.length>=1">
           <span
@@ -103,13 +119,13 @@
         class="module more_content" >
         <div class="m_item">
           <div
-            @click="albumImg"
+            @click="sendImg('album')"
             class="img_select_box to_img" style="margin-right: 1.28rem">
             <image src="/static/img/dakaituku.png"></image>
             <p class="send_item_name">相册</p>
           </div>
           <div
-            @click="cameraImg"
+            @click="sendImg('camera')"
             class="img_select_box to_camera">
             <image src="/static/img/dakaixiangji.png"></image>
             <p class="send_item_name">相机</p>
@@ -127,22 +143,28 @@
         action:'keyboard',
         sendMsg:'',
         isMoreShow:false,
-        path:'',
+        path:'',//音频路径
         to_u_id:'',
         u_id:'',
         chatdata:[],
-        chatType:1,//类型，1-文字；2-图片；3-视频；4-语音
+        chatType:1, //类型，1-文字；2-图片；3-视频；4-语音
         to_avatar_url:'',//对方的头像
+        voicetip:'按住 说话',
+
       }
     },
     computed:{
       useravatar(){//当前用户头像
         return this.$store.state.userinfo.avatarUrl;
       },
+      imgURL(){
+        return this.$store.state.url;
+      }
     },
     methods:{
       sendMessage(){
         let that=this;
+        that.chatType=1;
         this.$socket.emit('data_chain',{
           cmd:'msgchat',
           u_id: that.$store.state.user.userid,
@@ -150,7 +172,6 @@
           type:that.chatType,
           detail:that.sendMsg
         });
-
         that.sendMsg=''
       },
       watchsocket(){
@@ -191,41 +212,49 @@
         }
       },
       start(){
+        this.voicetip='松开 结束';
         this.$startManager()
       },
       stop(){
-        let that = this
+        let that = this;
+        that.voicetip='按住 说话';
+        that.chatType=4;
         that.$stopManager(res =>{
           res = JSON.parse(res)
+          console.log(res)
           that.path = res[0].url
+          that.$socket.emit('data_chain',{
+            cmd:'msgchat',
+            u_id: that.$store.state.user.userid,
+            to_u_id: that.to_u_id,
+            type:that.chatType,
+            detail:res[0].url
+          });
         })
       },
-      play(){
-        console.log(this.path)
-        this.$playAudio(this.$store.state.url+this.path)
+      play(path){
+        this.$playAudio(this.$store.state.url+path)
       },
-      albumImg(){
+      sendImg(imgType){
         var that=this;
-        this.$uploadImg({
+        that.chatType=2;
+        that.$uploadImg({
           count: 1,
           sizeType: ['original', 'compressed'],
-          sourceType: ['album'],
+          sourceType: [imgType],
         },function (rs) {
-          var obj = JSON.parse(rs);
-          //that.url=obj[0].url;
+          let obj = JSON.parse(rs);
+          console.log(obj[0])
+          that.$socket.emit('data_chain',{
+            cmd:'msgchat',
+            u_id: that.$store.state.user.userid,
+            to_u_id: that.to_u_id,
+            type:that.chatType,
+            detail:obj[0].url
+          });
         })
       },
-      cameraImg(){
-        var that=this;
-        this.$uploadImg({
-          count: 1,
-          sizeType: ['original', 'compressed'],
-          sourceType: ['camera'],
-        },function (rs) {
-          var obj = JSON.parse(rs);
-          //that.url=obj[0].url;
-        })
-      },
+
       formatedate(time){
         Date.prototype.Format = function (fmt) { //author: meizz
           var o = {
@@ -653,10 +682,12 @@
     text-align: left;
     border-radius: 14px/2;
   }
+  .imgbox{
+
+  }
   .getmessage img,.getmessage image{
-    width: 30px/2;
-    max-width: 30px/2;
-    height: 30px/2;
+    width: 200px/2;
+    //max-width: 60px/2;
   }
 
   .getmessageimg:after, .getmessageimg:before {
