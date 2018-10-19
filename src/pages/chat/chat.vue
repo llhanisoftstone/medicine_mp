@@ -27,6 +27,7 @@
                     <div class="sendmessage imgbox">
                       <image
                         mode="widthFix"
+                        @click="showimg(imgURL+chat.details,imgURL+chat.details)"
                         :src="imgURL+chat.details"></image>
                     </div>
                   </div>
@@ -56,6 +57,7 @@
                   <div v-if="chat.data_type==2" class="content">
                     <div class="getmessage imgbox">
                       <image
+                        @click="showimg(imgURL+chat.details,imgURL+chat.details)"
                         mode="widthFix"
                         :src="imgURL+chat.details"></image>
                     </div>
@@ -338,7 +340,14 @@
             return '';
           }
         }
-      }
+      },
+      showimg(img,arr){
+        let that = this;
+        wx.previewImage({
+          current: img||"", // 当前显示图片的http链接
+          urls: [arr] // 需要预览的图片http链接列表
+        })
+      },
     },
     onLoad:function (option){
         this.to_u_id=option.tuid;
@@ -769,10 +778,12 @@
     &.v_left{
       background:#df5c3e url("../../../static/img/voiceleft.png") no-repeat center left;
       background-size: 48px/2 48px/2;
+      text-align: right;
     }
     &.v_right{
       background:#df5c3e url("../../../static/img/voiceright.png") no-repeat center right;
       background-size: 48px/2 48px/2;
+      text-align: left;
     }
   }
   .getmessage img,.getmessage image{
