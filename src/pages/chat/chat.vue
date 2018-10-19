@@ -83,7 +83,7 @@
           class="record-box"
           @touchstart="start"
           @touchend="stop">按住说话</div>
-        <span class="functions face" ></span>
+        <span class="functions face"></span>
         <template v-if="sendMsg.length>=1">
           <span
             @click="sendMessage"
@@ -102,16 +102,18 @@
         v-show="isMoreShow"
         class="module more_content" >
         <div class="m_item">
-          <a class="img_select_box to_img" style="margin-right: 1.28rem">
-            <!--<input id="photoupload" class="hardwarefile" type="file" accept="image/*" multiple="multiple">-->
-            <image src="/static/img/dakaituku.png" alt=""></image>
+          <div
+            @click="albumImg"
+            class="img_select_box to_img" style="margin-right: 1.28rem">
+            <image src="/static/img/dakaituku.png"></image>
             <p class="send_item_name">相册</p>
-          </a>
-          <a class="img_select_box to_camera">
-            <!--<input id="cameraupload" class="hardwarefile" type="file" accept="image/*" capture="camera">-->
-            <image src="/static/img/dakaixiangji.png" alt=""></image>
+          </div>
+          <div
+            @click="cameraImg"
+            class="img_select_box to_camera">
+            <image src="/static/img/dakaixiangji.png"></image>
             <p class="send_item_name">相机</p>
-          </a>
+          </div>
         </div>
       </div>
     </div>
@@ -201,6 +203,28 @@
       play(){
         console.log(this.path)
         this.$playAudio(this.$store.state.url+this.path)
+      },
+      albumImg(){
+        var that=this;
+        this.$uploadImg({
+          count: 1,
+          sizeType: ['original', 'compressed'],
+          sourceType: ['album'],
+        },function (rs) {
+          var obj = JSON.parse(rs);
+          //that.url=obj[0].url;
+        })
+      },
+      cameraImg(){
+        var that=this;
+        this.$uploadImg({
+          count: 1,
+          sizeType: ['original', 'compressed'],
+          sourceType: ['camera'],
+        },function (rs) {
+          var obj = JSON.parse(rs);
+          //that.url=obj[0].url;
+        })
       },
       formatedate(time){
         Date.prototype.Format = function (fmt) { //author: meizz
