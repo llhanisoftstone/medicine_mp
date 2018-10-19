@@ -4,6 +4,7 @@
         <ul class="box mui-table-view" id="datalist">
           <li
             @click="tonewpage('chat','tuid='+item.to_u_id)"
+            :key="i"
             class=" mui-table-view-cell" v-for="(item,i) in contactlist">
             <div class="mui-table-cell box_item">
               <div class="box_left">
