@@ -24,7 +24,7 @@
                     </div>
                   </div>
                   <div v-if="chat.data_type==2" class="content">
-                    <div class="getmessage imgbox">
+                    <div class="sendmessage imgbox">
                       <image
                         mode="widthFix"
                         :src="imgURL+chat.details"></image>
@@ -36,7 +36,7 @@
                         <p
                           class="voicebtn v_right"
                           @click="play(chat.details)"
-                        ></p>
+                        >{{chat.duration}}</p>
                       </div>
                     </div>
                   </div>
@@ -65,7 +65,7 @@
                       <p
                         class="voicebtn v_left"
                         @click="play(chat.details)"
-                      ></p>
+                      >{{chat.duration}}</p>
                     </div>
                   </div>
 
@@ -92,7 +92,7 @@
           v-model.trim="sendMsg"
           type="text"
           maxlength="140"
-          ref="saytext"
+          :ref="saytext"
           id="saytext"
           name="saytext"
           class="input_text"/>
@@ -101,7 +101,7 @@
           :class="{'record-box':true,'active':recordclicked}"
           @touchstart="start"
           @touchend="stop">{{voicetip}}</div>
-        <span class="functions face"></span>
+        <!--<span class="functions face"></span>-->
         <template v-if="sendMsg.length>=1">
           <span
             @click="sendMessage"
@@ -140,10 +140,12 @@
         <image src="/static/img/sound.gif"></image>
       </div>
     </div>
+    <mptoast/>
   </div>
 </template>
 
 <script>
+  import mptoast from '../../components/mptoast'
   export default{
     data(){
       return {
@@ -160,13 +162,16 @@
         recordclicked:false,
       }
     },
+    components: {
+      mptoast
+    },
     computed:{
       useravatar(){//当前用户头像
         return this.$store.state.userinfo.avatarUrl;
       },
       imgURL(){
         return this.$store.state.url;
-      }
+      },
     },
     methods:{
       sendMessage(){
@@ -195,12 +200,18 @@
         that.$socket.removeAllListeners('data_chain')
         that.$socket.on('data_chain',d=>{
           if(d.cmd == 'msgchat' ){
-            that.chatdata.push({
-              u_id: d.u_id,
-              to_u_id: d.to_u_id,
-              data_type:d.type,
-              details:d.detail
-            });
+            let msgdata={
+                u_id: d.u_id,
+                to_u_id: d.to_u_id,
+                data_type:d.type,
+            }
+            if(d.type==4){
+              msgdata.details=this.getvoiceurl(d.detail);
+              msgdata.duration=this.getduration(d.detail);
+            }else{
+              msgdata.details=d.detail;
+            }
+            that.chatdata.push(msgdata);
           }
         })
       },
@@ -214,17 +225,20 @@
         };
         let res = await that.$get('/rs/contact_chats',data);
         if (res.code == 200){
+            let chat=res.rows;
             if(res.rows){
               res.rows[0].create_time=this.formatedate(res.rows[0].create_time);
-              for(let val of res.rows){
+              for(let val of chat){
                   if(this.u_id==val.to_id){
                     that.to_avatar_url=val.avatar_url;
                   }
+                  if(val.data_type==4){
+                    val.duration=that.getduration(val.details);
+                    val.details=that.getvoiceurl(val.details);
+                  }
               }
             }
-
-          that.chatdata=res.rows;
-
+          that.chatdata=chat;
         }
       },
       start(){
@@ -238,15 +252,20 @@
         that.voicetip='按住 说话';
         that.chatType=4;
         that.$stopManager(res =>{
-          res = JSON.parse(res)
-          console.log(res)
-          that.path = res[0].url
+          let data = JSON.parse(res.data)
+          console.log(data)
+          let file=res.file;
+          if(file.duration<1000){
+              that.$mptoast('录音时间太短');
+              return;
+          }
+          that.path = data[0].url;
           that.$socket.emit('data_chain',{
             cmd:'msgchat',
             u_id: that.$store.state.user.userid,
             to_u_id: that.to_u_id,
             type:that.chatType,
-            detail:res[0].url
+            detail:data[0].url+','+file.duration,
           });
         })
       },
@@ -272,7 +291,6 @@
           });
         })
       },
-
       formatedate(time){
         Date.prototype.Format = function (fmt) { //author: meizz
           var o = {
@@ -299,6 +317,28 @@
         }
         return dates;
       },
+      getvoiceurl(data){
+          if(data){
+              let str=data.split(',')
+              if (str.length>=2){
+                  str=str[0].toString();
+                return str;
+              }else{
+                return '';
+              }
+          }
+      },
+      getduration(data){
+        if(data){
+          let time=data.split(',');
+          if (time.length>=2){
+            time=Math.ceil(parseInt(time[1])/1000)
+            return time+"''";
+          }else{
+            return '';
+          }
+        }
+      }
     },
     onLoad:function (option){
         this.to_u_id=option.tuid;
@@ -462,6 +502,7 @@
     font-size: 24px/2;
     border-radius: 6px/2;
     margin-top: 10px/2;
+    margin-left: 10px/2;
   }
 
   /*=============聊天消息框===============*/
@@ -509,7 +550,7 @@
   .message {
     margin-bottom: 24px/2;
     float: left;
-    width: 100%;
+    //width: 100%;
   }
   .message.me .avatar {
     float: right;
@@ -702,9 +743,9 @@
     top: 8px/2;
   }
   .sendmessage img,.sendmessage image{
-    width: 30px/2;
-    max-width: 30px/2;
-    height: 30px/2;
+    width: 200px/2;
+    //max-width: 30px/2;
+    //height: 30px/2;
   }
 
   .getmessageimg{
@@ -721,6 +762,8 @@
   .voicebtn{
     width:400px/2;
     height:25px/2;
+    line-height: 28px/2 !important;
+    color: #ffffff;
     background-color: #df5c3e;
     border-radius: 10px/2;
     &.v_left{
