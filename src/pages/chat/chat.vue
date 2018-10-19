@@ -148,12 +148,7 @@
           type:that.chatType,
           detail:that.sendMsg
         });
-        that.chatdata.push({
-          u_id: that.$store.state.user.userid,
-          to_u_id: that.to_u_id,
-          data_type:that.chatType,
-          details:that.sendMsg
-        });
+
         that.sendMsg=''
       },
       watchsocket(){
@@ -161,7 +156,6 @@
         that.$socket.removeAllListeners('data_chain')
         that.$socket.on('data_chain',d=>{
           if(d.cmd == 'msgchat' ){
-            //that.$store.commit('get_answer',d.details[0])
             that.chatdata.push({
               u_id: d.u_id,
               to_u_id: d.to_u_id,
