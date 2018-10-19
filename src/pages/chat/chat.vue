@@ -183,7 +183,7 @@
     watch:{
       setTimeNum:{
         handler:function(oldval,newval){
-          if(newval>=60){
+          if(newval>=59){
             this.stop();
           }
         },
