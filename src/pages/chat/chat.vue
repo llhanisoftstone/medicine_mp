@@ -150,7 +150,7 @@
         that.chatdata.push({
           u_id: that.$store.state.user.userid,
           to_u_id: that.to_u_id,
-          type:that.chatType,
+          data_type:that.chatType,
           details:that.sendMsg
         });
         that.sendMsg=''

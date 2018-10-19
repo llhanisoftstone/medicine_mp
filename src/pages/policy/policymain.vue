@@ -161,7 +161,8 @@
             <div class="user-box">
               <image
                 class="userpic"
-                src="../../static/img/user.png"></image>
+                :src="hr.avatar_url"></image>
+              <!--../../static/img/user.png-->
               <div class="userinfo">
                 <div class="namebox">
                   <span class="uname">{{hr.nickname}}</span>
