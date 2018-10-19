@@ -54,6 +54,7 @@
           let data = {
             page:this.page,
             size:this.size,
+            status:'1',
             order:'create_time desc',
           };
           let res = await that.$get('/rs/company',data);

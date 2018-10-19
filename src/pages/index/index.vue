@@ -61,7 +61,7 @@
               <div class="companyhead"><image v-if="listc.cp_picpath" :src="imgUrl+listc.cp_picpath"></image><image v-if="!listc.cp_picpath" src="../../../static/img/policy_default.jpg"></image></div>
               <div class="companymess">
                 <p class="companyname">{{listc.cp_name}}</p>
-                <p class="companyleab">{{listc.cp_tag}}</p>
+                <p class="companyleab"><span v-for="(ticp,ia) in listc.cp_tags">{{ticp}}</span></p>
               </div>
             </li>
           </ul>
@@ -196,6 +196,15 @@
                         }else if(res.column_item[j].child.length==2){
                           res.column_item[j].child.push(res.column_item[j].child[0]);
                           res.column_item[j].child.unshift(res.column_item[j].child[1]);
+                        }
+                    }
+                }
+                if(res.column_item[j].c_target_type==2&&res.column_item[j].show_css==3){
+                    if(res.column_item[j].child.length>0){
+                        for(var k=0;k<res.column_item[j].child.length;k++){
+                            if(res.column_item[j].child[k].cp_tag){
+                              res.column_item[j].child[k].cp_tags=res.column_item[j].child[k].cp_tag.split(",");
+                            }
                         }
                     }
                 }
@@ -603,8 +612,6 @@
     }
     swiper-item.activezindex{
       z-index:20;
-      transform:scale(1.44);
-      transition: all 0.3s;
     }
   }
   .common-head{
@@ -774,6 +781,9 @@
         word-break: break-all;
         background: url('../../../static/img/biaoqian.png') no-repeat left center;
         background-size: 21px/2 20px/2;
+        span{
+          margin-right:5px;
+        }
       }
     }
     li:nth-child(2n){

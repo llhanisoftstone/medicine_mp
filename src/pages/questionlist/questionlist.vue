@@ -10,6 +10,7 @@
               <div class="box_left">
                 <div class="box-left_div bg_touxiang80">
                   <image :src="item.to_avatar_url" alt=""></image>
+                  <span class="mui-bage" v-if="item.unread_count>0">{{item.unread_count}}</span>
                 </div>
                 <div class="item-info">
                   <div class="name_info">
@@ -73,8 +74,6 @@
             for (let i=0; i<res.rows.length; i++){
               if(!res.rows[i].to_avatar_url || res.rows[i].to_avatar_url==''){
                 res.rows[i].to_avatar_url= '/static/img/policy_default.jpg';
-              }else{
-                res.rows[i].to_avatar_url = that.$store.state.url+res.rows[i].to_avatar_url;
               }
               res.rows[i].create_time = this.conversionTime(res.rows[i].create_time,'-');
             }
@@ -187,6 +186,21 @@
       display: flex;
       justify-content: space-between;
     }
+    .box-left_div{
+      position:relative;
+      .mui-bage{
+        line-height: 1.1;
+        display: inline-block;
+        padding: 3px 6px;
+        position:absolute;
+        font-size:12px;
+        top:-2px;
+        right:-8px;
+        color: #fff;
+        border-radius: 100px;
+        background-color: #e60012;
+      }
+    }
     .box_item image{
       display: block;
       float: left;
@@ -214,7 +228,7 @@
       max-width:328.125px/2;
       font-size: 28px/2;
       height: 30px/2;
-      line-height: 29px/2;
+      line-height:120%;
       color: rgb(200,200,200);
       margin-top: 13px/2;
     }
