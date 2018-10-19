@@ -36,13 +36,7 @@
                   v-else
                   class="message">
                   <div class="avatar bg_touxiang80">
-                    <image
-                      v-if="u_id==chat.u_id"
-                      :src="to_avatar_url_2"></image>
-                    <image
-                      v-else
-                      :src="to_avatar_url_1"></image>
-
+                    <image :src="to_avatar_url"></image>
                   </div>
                   <div class="content">
                     <div
@@ -136,14 +130,13 @@
         u_id:'',
         chatdata:[],
         chatType:1,//类型，1-文字；2-图片；3-视频；4-语音
-        to_avatar_url_1:'',//对方的头像
-        to_avatar_url_2:'',//对方的头像
+        to_avatar_url:'',//对方的头像
       }
     },
     computed:{
       useravatar(){//当前用户头像
         return this.$store.state.userinfo.avatarUrl;
-      }
+      },
     },
     methods:{
       sendMessage(){
@@ -190,8 +183,11 @@
         if (res.code == 200){
             if(res.rows){
               res.rows[0].create_time=this.formatedate(res.rows[0].create_time);
-              that.to_avatar_url_1=res.rows[0].to_avatar_url;
-              that.to_avatar_url_2=res.rows[0].avatar_url;
+              for(let val of res.rows){
+                  if(this.u_id==val.to_id){
+                    that.to_avatar_url=val.avatar_url;
+                  }
+              }
             }
 
           that.chatdata=res.rows;
