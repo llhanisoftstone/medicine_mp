@@ -34,8 +34,9 @@
                     <div class="sendmessage">
                       <div style="">
                         <p
+                          class="voicebtn"
                           @click="play(chat.details)"
-                        >{{chat.details}}</p>
+                        ></p>
                       </div>
                     </div>
                   </div>
@@ -62,8 +63,9 @@
                   <div v-if="chat.data_type==4" class="content">
                     <div class="getmessage">
                       <p
+                        class="voicebtn"
                         @click="play(chat.details)"
-                      >{{chat.details}}</p>
+                      ></p>
                     </div>
                   </div>
 
@@ -684,6 +686,12 @@
   }
   .imgbox{
 
+  }
+  .voicebtn{
+    width:500px/2;
+    height:25px/2;
+    background-color: #df5c3e;
+    border-radius: 10px/2;
   }
   .getmessage img,.getmessage image{
     width: 200px/2;
