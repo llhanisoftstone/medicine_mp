@@ -205,12 +205,7 @@
         wishidlist:null,
         org_id:null,
         pickerwishText:'',
-        categorydata:[
-          {name:'稳岗补贴'},
-          {name:'农业补贴'},
-          {name:'失业补贴'},
-          {name:'保险失业'},
-        ],
+        categorydata:[], //分类名称
         currentTab:-1,
         hrdata:[],//经办人信息
         to_u_id:''
@@ -317,8 +312,8 @@
                 }
             }
             that.hrdata=hrData;
-            console.log(that.hrdata)
           }
+          that.categorydata=res.column;
         }
       },
       tochat(touid){

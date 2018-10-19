@@ -2,6 +2,11 @@
   <div class="mui-content">
     <div  id="chatPullList" class="mui-scroll-wrapper">
       <div class="mui-scroll">
+        <div
+          v-show="recordclicked"
+          class="voicetipbox">
+          <image src="/static/img/sound.gif"></image>
+        </div>
         <div id="customerMessage_content" class="box">
           <div class="mui-content-padded">
             <div id="messageListData">
@@ -80,11 +85,11 @@
     <div class="sendarea">
       <div class="common" >
         <span
-          @click="action='voice';isMoreShow=false;"
+          @click="voiceBtnClick"
           v-show="action=='keyboard'"
           class="functions voice"></span>
         <span
-          @click="action='keyboard';isMoreShow=false;"
+          @click="keyboardBtnClick"
           v-show="action=='voice'"
           class="functions keyboard" ></span>
         <input
@@ -95,10 +100,10 @@
           ref="saytext"
           id="saytext"
           name="saytext"
-          class="input_text" />
+          class="input_text"/>
         <div
           v-show="action=='voice'"
-          class="record-box"
+          :class="{'record-box':true,'active':recordclicked}"
           @touchstart="start"
           @touchend="stop">{{voicetip}}</div>
         <span class="functions face"></span>
@@ -152,7 +157,7 @@
         chatType:1, //类型，1-文字；2-图片；3-视频；4-语音
         to_avatar_url:'',//对方的头像
         voicetip:'按住 说话',
-
+        recordclicked:false,
       }
     },
     computed:{
@@ -175,6 +180,15 @@
           detail:that.sendMsg
         });
         that.sendMsg=''
+      },
+      voiceBtnClick(){
+        this.action='voice';
+        this.isMoreShow=false;
+      },
+      keyboardBtnClick(){
+        this.action='keyboard';
+        //this.$refs['saytext'].focus();
+        this.isMoreShow=false;
       },
       watchsocket(){
         let that=this
@@ -214,11 +228,13 @@
         }
       },
       start(){
+        this.recordclicked=true;
         this.voicetip='松开 结束';
         this.$startManager()
       },
       stop(){
         let that = this;
+        that.recordclicked=false;
         that.voicetip='按住 说话';
         that.chatType=4;
         that.$stopManager(res =>{
@@ -336,6 +352,7 @@
     background: #f2f2f2;
     height: 100%;
     overflow: auto;
+    position:relative;
   }
   #customerMessage_content {
     height: 100%;
@@ -403,6 +420,9 @@
     text-align: center;
     color:#666666;
     line-height: 61px/2;
+    &.active{
+      background-color: #cccccc;
+    }
   }
   .module{
     box-sizing: border-box;
@@ -445,6 +465,17 @@
   }
 
   /*=============聊天消息框===============*/
+  .voicetipbox{
+    width:750px/2;
+    margin:0 auto;
+    text-align: center;
+    position:absolute;
+    top:300px/2;
+    image{
+      width:290px/2;
+      height:290px/2;
+    }
+  }
   /*时间节点显示*/
   .time{
     margin-bottom:28px/2;
