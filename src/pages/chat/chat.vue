@@ -36,7 +36,7 @@
                   v-else
                   class="message">
                   <div class="avatar bg_touxiang80">
-                    <image :src="chat.to_avatar_url"></image>
+                    <image :src="to_avatar_url"></image>
                   </div>
                   <div class="content">
                     <div
@@ -130,10 +130,11 @@
         u_id:'',
         chatdata:[],
         chatType:1,//类型，1-文字；2-图片；3-视频；4-语音
+        to_avatar_url:'',//对方的头像
       }
     },
     computed:{
-      useravatar(){
+      useravatar(){//当前用户头像
         return this.$store.state.userinfo.avatarUrl;
       }
     },
@@ -161,7 +162,12 @@
         that.$socket.on('data_chain',d=>{
           if(d.cmd == 'msgchat' ){
             //that.$store.commit('get_answer',d.details[0])
-
+            that.chatdata.push({
+              u_id: d.u_id,
+              to_u_id: d.to_u_id,
+              data_type:d.type,
+              details:d.detail
+            });
           }
         })
       },
@@ -169,7 +175,7 @@
         let that = this;
         let data={
           page:1,
-          size:6,
+          size:20,
           to_id:this.to_u_id,
           u_id:this.$store.state.user.userid,
         };
@@ -177,7 +183,9 @@
         if (res.code == 200){
             if(res.rows){
               res.rows[0].create_time=this.formatedate(res.rows[0].create_time);
+              that.toto_avatar_url=res.rows[0].to_avatar_url;
             }
+
           that.chatdata=res.rows;
 
         }
