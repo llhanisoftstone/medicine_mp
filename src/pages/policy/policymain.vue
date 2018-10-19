@@ -4,14 +4,14 @@
         <div class="width"></div>
       </div>
       <div class="searchk">
-        <picker
-          mode="selector"
-          :value="pickerIndex"
-          :range="pickerValueArray"
-          @change="bindPickerChange">
-          <div class="org-box" v-show="pickerIndex>=0">{{pickerValueArray[pickerIndex]}}</div>
-          <div class="org-box" v-show="pickerIndex==-1">请选择机关</div>
-        </picker>
+        <!--<picker-->
+          <!--mode="selector"-->
+          <!--:value="pickerIndex"-->
+          <!--:range="pickerValueArray"-->
+          <!--@change="bindPickerChange">-->
+          <!--<div class="org-box" v-show="pickerIndex>=0">{{pickerValueArray[pickerIndex]}}</div>-->
+          <!--<div class="org-box" v-show="pickerIndex==-1">请选择机关</div>-->
+        <!--</picker>-->
         <a class="ui-link" :href="'/pages/policylist/main?org_id='+org_id">
           <div class="searchinput">请输入标题或内容</div>
         </a>
@@ -26,7 +26,7 @@
             <div
               v-for="(cate,cindex) in categorydata"
               :key="cindex"
-              @click="currentTab=cindex"
+              @click="tabClick(cindex,cate.id)"
               :class="{'active':currentTab==cindex}">{{cate.name}}</div>
         </scroll-view>
       </div>
@@ -162,7 +162,6 @@
               <image
                 class="userpic"
                 :src="hr.avatar_url"></image>
-              <!--../../static/img/user.png-->
               <div class="userinfo">
                 <div class="namebox">
                   <span class="uname">{{hr.nickname}}</span>
@@ -208,7 +207,8 @@
         categorydata:[], //分类名称
         currentTab:-1,
         hrdata:[],//经办人信息
-        to_u_id:''
+        to_u_id:'',
+        column_id:'',//栏目id
       }
     },
     computed:{
@@ -222,8 +222,11 @@
         let infodata={
             status:2, //状态：0-草稿；1-待审核，2-上架，3-拒绝，4-下架；
         };
-        if(that.org_id){
-          infodata.organiz_id= that.org_id;
+//        if(that.org_id){
+//          infodata.organiz_id= that.org_id;
+//        }
+        if(that.column_id){
+          infodata.column_id= that.column_id;
         }
         let res = await this.$get('/rs/info_policy',infodata);
         if (res.code == 200){
@@ -308,18 +311,35 @@
             for(let val of hrData){
                 if(val.hr_tag.length>0){
                   let tags=val.hr_tag.split(',');
+                  if(tags.length>3){
+                    tags=tags.slice(0,3)
+                  }
                   val.hrtags=tags;
+                  if(!val.avatar_url){
+                    val.avatar_url='../../static/img/user.png'
+                  }
                 }
+            }
+            if(res.column){
+              that.column_id=res.column[0].id;
             }
             that.hrdata=hrData;
           }
           that.categorydata=res.column;
+        }
+        if(that.column_id){
+          that.getpolicyMain();//获取政策百科主页数据
         }
       },
       tochat(touid){
         wx.navigateTo({
           url:`/pages/chat/main?tuid=${touid}`
         })
+      },
+      tabClick(idx,id){
+        this.currentTab=idx;
+        this.column_id=id;
+        this.getpolicyMain();
       },
       tonewpage(urlname,data){
         if(!urlname){return;}
@@ -346,15 +366,15 @@
       }).exec();
     },
     onShow: function() {
-      if(this.getorganizid){
+      /*if(this.getorganizid){
         this.org_id=this.getorganizid;
       }else{
         this.org_id='';
         this.pickerIndex=-1;
-      }
-      this.getorganiz(); //获取组织列表
+      }*/
+      //this.getorganiz(); //获取组织列表
       this.getPolicydata();
-      this.getpolicyMain();//获取政策百科主页数据
+
     },
     onUnload(){
       this.pickerwishText='';
@@ -428,7 +448,8 @@
       border-radius: 10/2px;
     }
     .ui-link{
-      width:540px/2;
+      //width:540px/2;
+      width:100%;
       box-sizing: border-box;
     }
   }
@@ -788,6 +809,7 @@
         margin-bottom: 18px/2;
         display:flex;
         flex-wrap: nowrap;
+        overflow: hidden;
         .tag{
           font-size: 21px/2;
           color:#666666;
@@ -795,7 +817,7 @@
           padding:2px/2 10px/2;
           border-radius: 18px/2;
           margin-right: 13px/2;
-          width:105px/2;
+          max-width:105px/2;
           .ellipsis(1)
         }
       }

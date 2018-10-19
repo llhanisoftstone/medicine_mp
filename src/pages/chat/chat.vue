@@ -162,6 +162,11 @@
         to_avatar_url:'',//对方的头像
         voicetip:'按住 说话',
         recordclicked:false,
+        page:1,
+        size:10,
+        getNodata:false,
+        setTime:null,
+        setTimeNum:0,
       }
     },
     components: {
@@ -175,6 +180,26 @@
         return this.$store.state.url;
       },
     },
+    watch:{
+      setTimeNum:{
+        handler:function(oldval,newval){
+          if(newval>=60){
+            this.stop();
+          }
+        },
+        deep:true
+      }
+    },
+    onPullDownRefresh () {
+      wx.showNavigationBarLoading();//在标题栏中显示加载
+      this.loadMore();
+      // 下拉加载
+      wx.hideNavigationBarLoading(); //完成停止加载
+      wx.stopPullDownRefresh()     //停止下拉刷新
+    },
+    /*onReachBottom () {
+      this.page++;
+    },*/
     methods:{
       sendMessage(){
         let that=this;
@@ -187,6 +212,11 @@
           detail:that.sendMsg
         });
         that.sendMsg=''
+      },
+      loadMore(){
+        if(this.getNodata){return;}
+        this.page++;
+        this.getChatdata();
       },
       voiceBtnClick(){
         this.action='voice';
@@ -220,10 +250,12 @@
       async getChatdata(){
         let that = this;
         let data={
-          page:1,
-          size:20,
+          page:this.page,
+          size:this.size,
+          status:'1',
           to_id:this.to_u_id,
           u_id:this.$store.state.user.userid,
+          order:'create_time desc'
         };
         let res = await that.$get('/rs/contact_chats',data);
         if (res.code == 200){
@@ -240,16 +272,32 @@
                   }
               }
             }
-          that.chatdata=chat;
+          chat=chat.reverse();
+          if(that.page==1){
+            that.chatdata=chat;
+          }else{
+            chat=chat.concat(that.chatdata);
+            that.chatdata=chat;
+          }
+        }else if(res.code==602){
+            that.getNodata=true;
+        }else{
+          that.getNodata=true;
         }
       },
       start(){
-        this.recordclicked=true;
-        this.voicetip='松开 结束';
-        this.$startManager()
+        let that=this;
+        that.recordclicked=true;
+        that.voicetip='松开 结束';
+        that.$startManager();
+        that.setTime=setInterval(()=>{
+            that.setTimeNum++;
+        },1000)
       },
       stop(){
         let that = this;
+        that.setTime=null;
+        that.setTimeNum=0;
         that.recordclicked=false;
         that.voicetip='按住 说话';
         that.chatType=4;
@@ -356,8 +404,10 @@
         this.getChatdata();
     },
     onShow:function(){
+      this.page=1;
+      this.setTime=null
       this.watchsocket();
-    }
+    },
 
   }
 </script>
