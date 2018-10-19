@@ -16,42 +16,62 @@
                   <div class="avatar bg_touxiang80">
                     <image :src="useravatar"></image>
                   </div>
-                  <div class="content">
-                    <div
-                      v-if="chat.data_type==1"
-                      class="sendmessage">
+                  <div v-if="chat.data_type==1" class="content">
+                    <div class="sendmessage">
                       <div style="">
                         <p>{{chat.details}}</p>
                       </div>
                     </div>
-                    <!--<div class="sendmessageimg" data_type="2">-->
-                    <!--<a class="swipebox">-->
-                    <!--<image src="" style="border:1px solid #fff"></image>-->
-                    <!--</a>-->
-                    <!--</div>-->
+                  </div>
+                  <div v-if="chat.data_type==2" class="content">
+                    <div class="sendmessage imgbox">
+                      <image
+                        mode="widthFix"
+                        @click="showimg(imgURL+chat.details,imgURL+chat.details)"
+                        :src="imgURL+chat.details"></image>
+                    </div>
+                  </div>
+                  <div v-if="chat.data_type==4" class="content">
+                    <div class="sendmessage">
+                      <div style="">
+                        <p
+                          class="voicebtn v_right"
+                          @click="play(chat.details)"
+                        >{{chat.duration}}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <!--接收的消息-->
                 <div
-                  v-else
+                  v-if="u_id!=chat.u_id"
                   class="message">
                   <div class="avatar bg_touxiang80">
-                    <image :src="chat.to_avatar_url"></image>
+                    <image :src="to_avatar_url"></image>
                   </div>
-                  <div class="content">
-                    <div
-                      v-if="chat.data_type==1"
-                      class="getmessage">
+                  <div v-if="chat.data_type==1" class="content">
+                    <div class="getmessage">
                       <p>{{chat.details}}</p>
                     </div>
-                    <!--<div class="getmessageimg" data_type="2">-->
-                    <!--<a href="" class="swipebox">-->
-                    <!--<image src="" style="border:1px solid #fff"></image>-->
-                    <!--</a>-->
-                    <!--</div>-->
                   </div>
-                </div>
+                  <div v-if="chat.data_type==2" class="content">
+                    <div class="getmessage imgbox">
+                      <image
+                        @click="showimg(imgURL+chat.details,imgURL+chat.details)"
+                        mode="widthFix"
+                        :src="imgURL+chat.details"></image>
+                    </div>
+                  </div>
+                  <div v-if="chat.data_type==4" class="content">
+                    <div class="getmessage">
+                      <p
+                        class="voicebtn v_left"
+                        @click="play(chat.details)"
+                      >{{chat.duration}}</p>
+                    </div>
+                  </div>
 
+                </div>
               </div>
             </div>
           </div>
@@ -62,11 +82,11 @@
     <div class="sendarea">
       <div class="common" >
         <span
-          @click="action='voice'"
+          @click="voiceBtnClick"
           v-show="action=='keyboard'"
           class="functions voice"></span>
         <span
-          @click="action='keyboard'"
+          @click="keyboardBtnClick"
           v-show="action=='voice'"
           class="functions keyboard" ></span>
         <input
@@ -74,16 +94,16 @@
           v-model.trim="sendMsg"
           type="text"
           maxlength="140"
-          ref="saytext"
+          :ref="saytext"
           id="saytext"
           name="saytext"
-          class="input_text" />
+          class="input_text"/>
         <div
           v-show="action=='voice'"
-          class="record-box"
+          :class="{'record-box':true,'active':recordclicked}"
           @touchstart="start"
-          @touchend="stop">按住说话</div>
-        <span class="functions face" ></span>
+          @touchend="stop">{{voicetip}}</div>
+        <!--<span class="functions face"></span>-->
         <template v-if="sendMsg.length>=1">
           <span
             @click="sendMessage"
@@ -102,44 +122,63 @@
         v-show="isMoreShow"
         class="module more_content" >
         <div class="m_item">
-          <a class="img_select_box to_img" style="margin-right: 1.28rem">
-            <!--<input id="photoupload" class="hardwarefile" type="file" accept="image/*" multiple="multiple">-->
-            <image src="/static/img/dakaituku.png" alt=""></image>
+          <div
+            @click="sendImg('album')"
+            class="img_select_box to_img" style="margin-right: 1.28rem">
+            <image src="/static/img/dakaituku.png"></image>
             <p class="send_item_name">相册</p>
-          </a>
-          <a class="img_select_box to_camera">
-            <!--<input id="cameraupload" class="hardwarefile" type="file" accept="image/*" capture="camera">-->
-            <image src="/static/img/dakaixiangji.png" alt=""></image>
+          </div>
+          <div
+            @click="sendImg('camera')"
+            class="img_select_box to_camera">
+            <image src="/static/img/dakaixiangji.png"></image>
             <p class="send_item_name">相机</p>
-          </a>
+          </div>
         </div>
       </div>
+      <div
+        v-show="recordclicked"
+        class="voicetipbox">
+        <image src="/static/img/sound.gif"></image>
+      </div>
     </div>
+    <mptoast/>
   </div>
 </template>
 
 <script>
+  import mptoast from '../../components/mptoast'
   export default{
     data(){
       return {
         action:'keyboard',
         sendMsg:'',
         isMoreShow:false,
-        path:'',
+        path:'',//音频路径
         to_u_id:'',
         u_id:'',
         chatdata:[],
-        chatType:1,//类型，1-文字；2-图片；3-视频；4-语音
+        chatType:1, //类型，1-文字；2-图片；3-视频；4-语音
+        to_avatar_url:'',//对方的头像
+        voicetip:'按住 说话',
+        recordclicked:false,
       }
     },
+    components: {
+      mptoast
+    },
     computed:{
-      useravatar(){
+      useravatar(){//当前用户头像
         return this.$store.state.userinfo.avatarUrl;
-      }
+      },
+      imgURL(){
+        return this.$store.state.url;
+      },
     },
     methods:{
       sendMessage(){
         let that=this;
+        that.chatType=1;
         this.$socket.emit('data_chain',{
           cmd:'msgchat',
           u_id: that.$store.state.user.userid,
@@ -147,21 +186,34 @@
           type:that.chatType,
           detail:that.sendMsg
         });
-        that.chatdata.push({
-          u_id: that.$store.state.user.userid,
-          to_u_id: that.to_u_id,
-          data_type:that.chatType,
-          details:that.sendMsg
-        });
         that.sendMsg=''
+      },
+      voiceBtnClick(){
+        this.action='voice';
+        this.isMoreShow=false;
+      },
+      keyboardBtnClick(){
+        this.action='keyboard';
+        //this.$refs['saytext'].focus();
+        this.isMoreShow=false;
       },
       watchsocket(){
         let that=this
         that.$socket.removeAllListeners('data_chain')
         that.$socket.on('data_chain',d=>{
           if(d.cmd == 'msgchat' ){
-            //that.$store.commit('get_answer',d.details[0])
-
+            let msgdata={
+                u_id: d.u_id,
+                to_u_id: d.to_u_id,
+                data_type:d.type,
+            }
+            if(d.type==4){
+              msgdata.details=this.getvoiceurl(d.detail);
+              msgdata.duration=this.getduration(d.detail);
+            }else{
+              msgdata.details=d.detail;
+            }
+            that.chatdata.push(msgdata);
           }
         })
       },
@@ -169,32 +221,77 @@
         let that = this;
         let data={
           page:1,
-          size:6,
+          size:20,
           to_id:this.to_u_id,
           u_id:this.$store.state.user.userid,
         };
         let res = await that.$get('/rs/contact_chats',data);
         if (res.code == 200){
+            let chat=res.rows;
             if(res.rows){
               res.rows[0].create_time=this.formatedate(res.rows[0].create_time);
+              for(let val of chat){
+                  if(this.u_id==val.to_id){
+                    that.to_avatar_url=val.avatar_url;
+                  }
+                  if(val.data_type==4){
+                    val.duration=that.getduration(val.details);
+                    val.details=that.getvoiceurl(val.details);
+                  }
+              }
             }
-          that.chatdata=res.rows;
-
+          that.chatdata=chat;
         }
       },
       start(){
+        this.recordclicked=true;
+        this.voicetip='松开 结束';
         this.$startManager()
       },
       stop(){
-        let that = this
+        let that = this;
+        that.recordclicked=false;
+        that.voicetip='按住 说话';
+        that.chatType=4;
         that.$stopManager(res =>{
-          res = JSON.parse(res)
-          that.path = res[0].url
+          let data = JSON.parse(res.data)
+          console.log(data)
+          let file=res.file;
+          if(file.duration<1000){
+              that.$mptoast('录音时间太短');
+              return;
+          }
+          that.path = data[0].url;
+          that.$socket.emit('data_chain',{
+            cmd:'msgchat',
+            u_id: that.$store.state.user.userid,
+            to_u_id: that.to_u_id,
+            type:that.chatType,
+            detail:data[0].url+','+file.duration,
+          });
         })
       },
-      play(){
-        console.log(this.path)
-        this.$playAudio(this.$store.state.url+this.path)
+      play(path){
+        this.$playAudio(this.$store.state.url+path)
+      },
+      sendImg(imgType){
+        var that=this;
+        that.chatType=2;
+        that.$uploadImg({
+          count: 1,
+          sizeType: ['original', 'compressed'],
+          sourceType: [imgType],
+        },function (rs) {
+          let obj = JSON.parse(rs);
+          console.log(obj[0])
+          that.$socket.emit('data_chain',{
+            cmd:'msgchat',
+            u_id: that.$store.state.user.userid,
+            to_u_id: that.to_u_id,
+            type:that.chatType,
+            detail:obj[0].url
+          });
+        })
       },
       formatedate(time){
         Date.prototype.Format = function (fmt) { //author: meizz
@@ -221,6 +318,35 @@
           dates=date.Format("MM月dd日")+"  上午"+date.Format("hh")+":"+date.Format("mm");
         }
         return dates;
+      },
+      getvoiceurl(data){
+          if(data){
+              let str=data.split(',')
+              if (str.length>=2){
+                  str=str[0].toString();
+                return str;
+              }else{
+                return '';
+              }
+          }
+      },
+      getduration(data){
+        if(data){
+          let time=data.split(',');
+          if (time.length>=2){
+            time=Math.ceil(parseInt(time[1])/1000)
+            return time+"''";
+          }else{
+            return '';
+          }
+        }
+      },
+      showimg(img,arr){
+        let that = this;
+        wx.previewImage({
+          current: img||"", // 当前显示图片的http链接
+          urls: [arr] // 需要预览的图片http链接列表
+        })
       },
     },
     onLoad:function (option){
@@ -275,6 +401,7 @@
     background: #f2f2f2;
     height: 100%;
     overflow: auto;
+    position:relative;
   }
   #customerMessage_content {
     height: 100%;
@@ -342,6 +469,9 @@
     text-align: center;
     color:#666666;
     line-height: 61px/2;
+    &.active{
+      background-color: #cccccc;
+    }
   }
   .module{
     box-sizing: border-box;
@@ -381,9 +511,21 @@
     font-size: 24px/2;
     border-radius: 6px/2;
     margin-top: 10px/2;
+    margin-left: 10px/2;
   }
 
   /*=============聊天消息框===============*/
+  .voicetipbox{
+    width:750px/2;
+    margin:0 auto;
+    text-align: center;
+    position:absolute;
+    bottom:500px/2;
+    image{
+      width:290px/2;
+      height:290px/2;
+    }
+  }
   /*时间节点显示*/
   .time{
     margin-bottom:28px/2;
@@ -417,7 +559,7 @@
   .message {
     margin-bottom: 24px/2;
     float: left;
-    width: 100%;
+    //width: 100%;
   }
   .message.me .avatar {
     float: right;
@@ -610,9 +752,9 @@
     top: 8px/2;
   }
   .sendmessage img,.sendmessage image{
-    width: 30px/2;
-    max-width: 30px/2;
-    height: 30px/2;
+    width: 200px/2;
+    //max-width: 30px/2;
+    //height: 30px/2;
   }
 
   .getmessageimg{
@@ -623,10 +765,30 @@
     text-align: left;
     border-radius: 14px/2;
   }
+  .imgbox{
+
+  }
+  .voicebtn{
+    width:400px/2;
+    height:25px/2;
+    line-height: 28px/2 !important;
+    color: #ffffff;
+    background-color: #df5c3e;
+    border-radius: 10px/2;
+    &.v_left{
+      background:#df5c3e url("../../../static/img/voiceleft.png") no-repeat center left;
+      background-size: 48px/2 48px/2;
+      text-align: right;
+    }
+    &.v_right{
+      background:#df5c3e url("../../../static/img/voiceright.png") no-repeat center right;
+      background-size: 48px/2 48px/2;
+      text-align: left;
+    }
+  }
   .getmessage img,.getmessage image{
-    width: 30px/2;
-    max-width: 30px/2;
-    height: 30px/2;
+    width: 200px/2;
+    //max-width: 60px/2;
   }
 
   .getmessageimg:after, .getmessageimg:before {

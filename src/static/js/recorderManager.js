@@ -14,14 +14,16 @@ export function startManager () {
 }
 export function stopManager (callback) {
   Recorder.onStop( file => {
-    console.log(file)
+    //console.log(file)
     wx.uploadFile({
       url: `${store.state.url}/op/upload`,
       filePath: file.tempFilePath,
       formData: {'upType': 'titlePic'},
       name: 'file',
       success: (res) => {
-        callback(res.data)
+        res.file=file;
+        console.log(res)
+        callback(res)
       },
       fail: err => {
         console.log(err)

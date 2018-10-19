@@ -168,10 +168,13 @@
                   <span class="uname">{{hr.nickname}}</span>
                   <span class="utitle">经办人</span>
                 </div>
-                <div class="tag-box">
-                  <span class="tag">稳岗补贴</span>
-                  <span class="tag">失业保险333333</span>
-                  <span class="tag">失业保险</span>
+                <div
+                  v-if="hr.hrtags"
+                  class="tag-box">
+                  <span
+                    v-for="(tag,tidx) in hr.hrtags"
+                    :key="tidx"
+                    class="tag">{{tag}}</span>
                 </div>
                 <div class="count">
                   <span class="ctitle">咨询数：</span>
@@ -202,12 +205,7 @@
         wishidlist:null,
         org_id:null,
         pickerwishText:'',
-        categorydata:[
-          {name:'稳岗补贴'},
-          {name:'农业补贴'},
-          {name:'失业补贴'},
-          {name:'保险失业'},
-        ],
+        categorydata:[], //分类名称
         currentTab:-1,
         hrdata:[],//经办人信息
         to_u_id:''
@@ -305,8 +303,17 @@
         let that = this;
         let res = await that.$get('/rs/info_policy_column');
         if (res.code == 200){
-          that.hrdata=res.hr;
-
+          let hrData=res.hr;
+          if(hrData){
+            for(let val of hrData){
+                if(val.hr_tag.length>0){
+                  let tags=val.hr_tag.split(',');
+                  val.hrtags=tags;
+                }
+            }
+            that.hrdata=hrData;
+          }
+          that.categorydata=res.column;
         }
       },
       tochat(touid){
