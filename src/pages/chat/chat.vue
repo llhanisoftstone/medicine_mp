@@ -2,11 +2,6 @@
   <div class="mui-content">
     <div  id="chatPullList" class="mui-scroll-wrapper">
       <div class="mui-scroll">
-        <div
-          v-show="recordclicked"
-          class="voicetipbox">
-          <image src="/static/img/sound.gif"></image>
-        </div>
         <div id="customerMessage_content" class="box">
           <div class="mui-content-padded">
             <div id="messageListData">
@@ -39,7 +34,7 @@
                     <div class="sendmessage">
                       <div style="">
                         <p
-                          class="voicebtn"
+                          class="voicebtn v_right"
                           @click="play(chat.details)"
                         ></p>
                       </div>
@@ -68,7 +63,7 @@
                   <div v-if="chat.data_type==4" class="content">
                     <div class="getmessage">
                       <p
-                        class="voicebtn"
+                        class="voicebtn v_left"
                         @click="play(chat.details)"
                       ></p>
                     </div>
@@ -138,6 +133,11 @@
             <p class="send_item_name">相机</p>
           </div>
         </div>
+      </div>
+      <div
+        v-show="recordclicked"
+        class="voicetipbox">
+        <image src="/static/img/sound.gif"></image>
       </div>
     </div>
   </div>
@@ -470,7 +470,7 @@
     margin:0 auto;
     text-align: center;
     position:absolute;
-    top:300px/2;
+    bottom:500px/2;
     image{
       width:290px/2;
       height:290px/2;
@@ -719,10 +719,18 @@
 
   }
   .voicebtn{
-    width:500px/2;
+    width:400px/2;
     height:25px/2;
     background-color: #df5c3e;
     border-radius: 10px/2;
+    &.v_left{
+      background:#df5c3e url("../../../static/img/voiceleft.png") no-repeat center left;
+      background-size: 48px/2 48px/2;
+    }
+    &.v_right{
+      background:#df5c3e url("../../../static/img/voiceright.png") no-repeat center right;
+      background-size: 48px/2 48px/2;
+    }
   }
   .getmessage img,.getmessage image{
     width: 200px/2;
