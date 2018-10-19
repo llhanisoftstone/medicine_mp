@@ -183,7 +183,7 @@
         if (res.code == 200){
             if(res.rows){
               res.rows[0].create_time=this.formatedate(res.rows[0].create_time);
-              that.toto_avatar_url=res.rows[0].to_avatar_url;
+              that.to_avatar_url=res.rows[0].to_avatar_url;
             }
 
           that.chatdata=res.rows;
