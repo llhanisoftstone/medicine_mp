@@ -1,7 +1,10 @@
 <template>
   <div class="mui-content">
     <div  id="chatPullList" class="mui-scroll-wrapper">
-      <div class="mui-scroll">
+      <div
+        @touchstart="touchStart($event)"
+        @touchend="touchEnd($event)"
+        class="mui-scroll">
         <div id="customerMessage_content" class="box">
           <div class="mui-content-padded">
             <div id="messageListData">
@@ -14,7 +17,9 @@
                   v-if="u_id==chat.u_id"
                   class="message me">
                   <div class="avatar bg_touxiang80">
-                    <image :src="useravatar"></image>
+                    <image
+                      @click="showimg(useravatar,useravatar)"
+                      :src="useravatar"></image>
                   </div>
                   <div v-if="chat.data_type==1" class="content">
                     <div class="sendmessage">
@@ -48,7 +53,9 @@
                   v-if="u_id!=chat.u_id"
                   class="message">
                   <div class="avatar bg_touxiang80">
-                    <image :src="to_avatar_url"></image>
+                    <image
+                      @click="showimg(to_avatar_url,to_avatar_url)"
+                      :src="to_avatar_url"></image>
                   </div>
                   <div v-if="chat.data_type==1" class="content">
                     <div class="getmessage">
@@ -172,7 +179,11 @@
         getNodata:false,
         setTime:null,
         setTimeNum:0,
-        inputfocus:false
+        inputfocus:false,
+//        startX:null,
+//        startY:null,
+//        endX:null,
+//        endY:null,
       }
     },
     components: {
@@ -196,13 +207,17 @@
         deep:true
       }
     },
-    onPullDownRefresh () {
+    /*onPullDownRefresh () {
+      if(this.getNodata){
+        wx.stopPullDownRefresh()
+        return;
+      }
       wx.showNavigationBarLoading();//在标题栏中显示加载
       this.loadMore();
       // 下拉加载
       wx.hideNavigationBarLoading(); //完成停止加载
       wx.stopPullDownRefresh()     //停止下拉刷新
-    },
+    },*/
     /*onReachBottom () {
       this.page++;
     },*/
@@ -221,7 +236,10 @@
         that.sendMsg=''
       },
       loadMore(){
-        //if(this.getNodata){return;}
+        if(this.getNodata){
+          wx.hideNavigationBarLoading(); //完成停止加载
+            return;
+        }
         this.page++;
         this.getChatdata();
       },
@@ -253,6 +271,7 @@
               msgdata.details=d.detail;
             }
             that.chatdata.push(msgdata);
+            that.pageScrollToBottom()
           }
         })
       },
@@ -268,6 +287,7 @@
         };
         let res = await that.$get('/rs/contact_chats',data);
         if (res.code == 200){
+          wx.hideNavigationBarLoading(); //完成停止加载
             let chat=res.rows;
             if(res.rows){
               res.rows[0].create_time=this.formatedate(res.rows[0].create_time);
@@ -289,8 +309,10 @@
             that.chatdata=chat;
           }
         }else if(res.code==602){
-            that.getNodata=true;
+          wx.hideNavigationBarLoading(); //完成停止加载
+          that.getNodata=true;
         }else{
+          wx.hideNavigationBarLoading(); //完成停止加载
           that.getNodata=true;
         }
       },
@@ -407,6 +429,34 @@
           urls: [arr] // 需要预览的图片http链接列表
         })
       },
+      // 滑动开始
+      touchStart(e){
+        // 获取移动距离，
+        this.startX = e.mp.changedTouches[0].clientX;
+        this.startY = e.mp.changedTouches[0].clientY;
+        //console.log('startY:'+this.startY)
+      },
+      // 滑动结束
+      touchEnd(e,index){
+        // 获取移动距离
+        this.endX = e.mp.changedTouches[0].clientX;
+        this.endY = e.mp.changedTouches[0].clientY;
+        console.log(this.startY-this.endY)
+        if(this.startY-this.endY < 0){//下拉
+          wx.showNavigationBarLoading();//在标题栏中显示加载
+          this.loadMore();
+        } else {//上拉
+
+        }
+      },
+      pageScrollToBottom: function () {
+        wx.createSelectorQuery().select('#messageListData').boundingClientRect(function (rect) {
+          // 使页面滚动到底部
+          wx.pageScrollTo({
+            scrollTop: rect.bottom
+          })
+        }).exec()
+      },
     },
     onLoad:function (option){
         this.to_u_id=option.tuid;
@@ -418,6 +468,7 @@
       this.page=1;
       this.setTime=null
       this.watchsocket();
+      this.pageScrollToBottom();
     },
 
   }
