@@ -36,8 +36,9 @@
                       <div style="">
                         <p
                           class="voicebtn v_right"
+                          :style="{width:chat.duration*7/2+'px'}"
                           @click="play(chat.details)"
-                        >{{chat.duration}}</p>
+                        >{{chat.duration}}''</p>
                       </div>
                     </div>
                   </div>
@@ -66,8 +67,9 @@
                     <div class="getmessage">
                       <p
                         class="voicebtn v_left"
+                        :style="{width:chat.duration*7/2+'px'}"
                         @click="play(chat.details)"
-                      >{{chat.duration}}</p>
+                      >{{chat.duration}}''</p>
                     </div>
                   </div>
 
@@ -95,6 +97,9 @@
           type="text"
           maxlength="140"
           :ref="saytext"
+          cursor-spacing="5"
+          :focus="inputfocus"
+          @click="inputfocus=true;"
           id="saytext"
           name="saytext"
           class="input_text"/>
@@ -111,7 +116,7 @@
         </template>
         <template v-else>
           <span
-            @click="isMoreShow=true"
+            @click="inputfocus=false;isMoreShow=true;"
             class="functions more"></span>
         </template>
       </div>
@@ -167,6 +172,7 @@
         getNodata:false,
         setTime:null,
         setTimeNum:0,
+        inputfocus:false
       }
     },
     components: {
@@ -203,6 +209,7 @@
     methods:{
       sendMessage(){
         let that=this;
+        that.inputfocus=false;
         that.chatType=1;
         this.$socket.emit('data_chain',{
           cmd:'msgchat',
@@ -214,16 +221,18 @@
         that.sendMsg=''
       },
       loadMore(){
-        if(this.getNodata){return;}
+        //if(this.getNodata){return;}
         this.page++;
         this.getChatdata();
       },
       voiceBtnClick(){
         this.action='voice';
+        this.inputfocus=false;
         this.isMoreShow=false;
       },
       keyboardBtnClick(){
         this.action='keyboard';
+        this.inputfocus=true;
         //this.$refs['saytext'].focus();
         this.isMoreShow=false;
       },
@@ -287,6 +296,7 @@
       },
       start(){
         let that=this;
+        that.inputfocus=false;
         that.recordclicked=true;
         that.voicetip='松开 结束';
         that.$startManager();
@@ -296,6 +306,7 @@
       },
       stop(){
         let that = this;
+        that.inputfocus=false;
         that.setTime=null;
         that.setTimeNum=0;
         that.recordclicked=false;
@@ -383,9 +394,9 @@
           let time=data.split(',');
           if (time.length>=2){
             time=Math.ceil(parseInt(time[1])/1000)
-            return time+"''";
+            return time;
           }else{
-            return '';
+            return 0;
           }
         }
       },
@@ -819,7 +830,7 @@
 
   }
   .voicebtn{
-    width:400px/2;
+    min-width:90px/2;
     height:25px/2;
     line-height: 28px/2 !important;
     color: #ffffff;
