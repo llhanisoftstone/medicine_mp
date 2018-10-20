@@ -45,7 +45,7 @@
           <li
             v-for="(citem,cidx) in column.child"
             :key="citem.id"
-            @click.stop="tonewpage('pkselect','')">
+            @click.stop="tonewpage('pkselect','pid='+citem.target_id)">
             <image :src="imgURL+citem.icon_path"></image>
             <p>{{citem.name}}</p>
           </li>
