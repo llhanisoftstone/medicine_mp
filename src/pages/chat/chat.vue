@@ -256,7 +256,7 @@
       },
       watchsocket(){
         let that=this
-        that.$socket.removeAllListeners('data_chain')
+        //that.$socket.removeAllListeners('data_chain')
         that.$socket.on('data_chain',d=>{
           if(d.cmd == 'msgchat' ){
             let msgdata={
