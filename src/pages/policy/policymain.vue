@@ -188,6 +188,7 @@
 </template>
 
 <script type="javascript">
+  import mptoast from '../../components/mptoast'
   export default {
     data () {
       return {
@@ -210,6 +211,9 @@
         to_u_id:'',
         column_id:'',//栏目id
       }
+    },
+    components: {
+      mptoast
     },
     computed:{
       getorganizid (){
@@ -332,6 +336,10 @@
         }
       },
       tochat(touid){
+        if(this.u_id==touid){
+          this.$mptoast('不能咨询自己');
+          return;
+        }
         wx.navigateTo({
           url:`/pages/chat/main?tuid=${touid}`
         })
@@ -373,6 +381,7 @@
         this.pickerIndex=-1;
       }*/
       //this.getorganiz(); //获取组织列表
+      this.u_id=this.$store.state.user.userid;
       this.getPolicydata();
 
     },
