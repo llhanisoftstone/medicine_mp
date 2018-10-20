@@ -184,6 +184,7 @@
             <div class="askbtn">咨询</div>
           </li>
       </ul>
+    <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
   </div>
 </template>
 
@@ -210,6 +211,10 @@
         hrdata:[],//经办人信息
         to_u_id:'',
         column_id:'',//栏目id
+        scrollIcon:false,
+        scrollTop:0,
+        page:1,
+        size:12
       }
     },
     components: {
@@ -219,6 +224,19 @@
       getorganizid (){
         return this.$store.state.organizcookie;
       },
+    },
+    onPullDownRefresh () {
+      wx.showNavigationBarLoading();//在标题栏中显示加载
+      this.page=1;
+      this.refresh();
+      // 下拉刷新
+      wx.hideNavigationBarLoading(); //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
+    },
+    onReachBottom () {
+      this.page++;
+      this.loadmore()
+      // 上拉加载
     },
     methods: {
       async getpolicyMain() {
@@ -318,6 +336,7 @@
                   if(tags.length>3){
                     tags=tags.slice(0,3)
                   }
+                  val.talk_count=that.formatcount(val.talk_count);
                   val.hrtags=tags;
                   if(!val.avatar_url){
                     val.avatar_url='../../static/img/user.png'
@@ -355,6 +374,39 @@
           url:`/pages/${urlname}/main?${data}`
         })
       },
+      refresh(){
+        this.page = 1;
+        this.getPolicydata();
+      },
+      loadmore () {
+        this.getPolicydata();
+      },
+      scrolltoTop(){
+        if (wx.pageScrollTo) {
+          wx.pageScrollTo({
+            scrollTop: 0
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+          })
+        }
+      },
+      formatcount(count){
+        if(count==""||count==null){
+          return "0";
+        }else{
+          var counts=count.toString();
+          if(counts.length>8){
+            return parseInt(counts.substr(0,counts.length-8))+"亿";
+          }else if(counts.length>4){
+            return parseInt(counts.substr(0,counts.length-4))+"万";
+          }else{
+            return parseInt(counts);
+          }
+        }
+      }
     },
 
     created () {
@@ -390,6 +442,14 @@
       this.org_id='';
       this.pickerIndex=-1;
     },
+    onPageScroll:function(res){
+      let top = res.scrollTop;
+      if (top > 400) {
+        this.scrollIcon = true;
+      } else {
+        this.scrollIcon = false;
+      }
+    }
   }
 </script>
 
@@ -863,5 +923,15 @@
     -webkit-line-clamp: @count;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  .footcgotop{
+    position: fixed;
+    z-index: 100;
+    bottom: 100px/2;
+    right: 30px/2;
+    width: 80px/2;
+    height: 80px/2;
+    background:url('../../../static/img/scrollTop.png') center no-repeat;
+    background-size: 80px/2 80px/2;
   }
 </style>

@@ -5,6 +5,9 @@
         @touchstart="touchStart($event)"
         @touchend="touchEnd($event)"
         class="mui-scroll">
+        <!--<scroll-view-->
+          <!--:scroll-y="true"-->
+          <!--:style="{height:windowheight+'px'}">-->
         <div id="customerMessage_content" class="box">
           <div class="mui-content-padded">
             <div id="messageListData">
@@ -85,6 +88,7 @@
             </div>
           </div>
         </div>
+        <!--</scroll-view>-->
       </div>
     </div>
 
@@ -184,6 +188,7 @@
 //        startY:null,
 //        endX:null,
 //        endY:null,
+        windowheight:900
       }
     },
     components: {
@@ -256,7 +261,7 @@
       },
       watchsocket(){
         let that=this
-        //that.$socket.removeAllListeners('data_chain')
+        that.$socket.removeAllListeners('data_chain')
         that.$socket.on('data_chain',d=>{
           if(d.cmd == 'msgchat' ){
             let msgdata={
@@ -457,8 +462,18 @@
           })
         }).exec()
       },
+      getSysteminfo(){
+        let that=this;
+        try {
+          let res = wx.getSystemInfoSync();
+          that.windowheight=res.windowHeight;
+        } catch (e) {
+
+        }
+      },
     },
     onLoad:function (option){
+        //this.getSysteminfo();
         this.to_u_id=option.tuid;
         this.u_id=this.$store.state.user.userid;
         console.log(this.$store.state.user)
@@ -470,6 +485,9 @@
       this.watchsocket();
       this.pageScrollToBottom();
     },
+    onUnload:function(){
+        this.chatdata=[];
+    }
 
   }
 </script>
