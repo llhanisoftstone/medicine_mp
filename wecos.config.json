@@ -1,0 +1,12 @@
+{
+  "appDir": "./dist",
+  "uploadFileBlackList": ["./dist/static/img/answer.png","./dist/static/img/answer_2.png","./dist/static/img/policy.png","./dist/static/img/policy_2.png","./dist/static/img/my.png","./dist/static/img/my_2.png"],
+  "cos": {
+    "appid": "1254151090",
+    "bucketname": "policy",
+    "folder": "/",
+    "region": "cd",
+    "secret_key": "DF5jCTcbPwZAh4FF50nQ58KagcNAlDdw",
+    "secret_id":"AKIDwqdHqJbifR3UkpNQxJXbUGtTyIRPanDS"
+  }
+}
