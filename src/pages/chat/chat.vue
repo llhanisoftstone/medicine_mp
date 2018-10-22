@@ -109,11 +109,12 @@
           maxlength="140"
           :ref="saytext"
           cursor-spacing="5"
-          :focus="inputfocus"
-          @click="inputfocus=true;"
+
           id="saytext"
           name="saytext"
           class="input_text"/>
+        <!--:focus="inputfocus"-->
+        <!--@click="inputfocus=true;"-->
         <div
           v-show="action=='voice'"
           :class="{'record-box':true,'active':recordclicked}"
