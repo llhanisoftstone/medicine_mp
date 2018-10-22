@@ -29,6 +29,7 @@
         scrollTop:0,
         seasondata:[],
         type:"",
+        compid:''
       }
     },
     methods: {
@@ -55,7 +56,8 @@
           page:this.page,
           size:this.size,
           status:"1",
-          order:'is_main desc,sequence desc,create_time desc'
+          order:'is_main desc,sequence desc,create_time desc',
+          comp_id:this.compid
         };
         let res = await that.$get('/rs/notify/',data);
         if(res.code==200){
@@ -125,8 +127,8 @@
       this.type=1;
       this.seasondata=[];
       this.iskong=false;
+      this.compid=option.pid;
       this.getlistdata(option.pid);
-
     },
     onUnload:function (){
       this.seasondata=[];

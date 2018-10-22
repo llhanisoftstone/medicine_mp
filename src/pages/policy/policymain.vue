@@ -215,7 +215,7 @@
         scrollIcon:false,
         scrollTop:0,
         page:1,
-        size:12,
+        size:5,
         u_id:''
       }
     },
@@ -328,6 +328,11 @@
       },
       async getPolicydata(){
         let that = this;
+        let pdata={
+          page:that.page,
+          size:that.size,
+          status:1,
+        }
         let res = await that.$get('/rs/info_policy_column');
         if (res.code == 200){
           let hrData=res.hr;
@@ -347,6 +352,11 @@
             }
             if(res.column){
               that.column_id=res.column[0].id;
+            }
+            if(that.page==1){
+
+            }else{
+              //that.hrdata=that.hrdata.concat(res.hr);
             }
             that.hrdata=hrData;
           }

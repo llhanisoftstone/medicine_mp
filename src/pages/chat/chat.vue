@@ -1,14 +1,15 @@
 <template>
   <div class="mui-content">
-    <div  id="chatPullList" class="mui-scroll-wrapper">
-      <div
-        @touchstart="touchStart($event)"
-        @touchend="touchEnd($event)"
-        class="mui-scroll">
-        <!--<scroll-view-->
-          <!--:scroll-y="true"-->
-          <!--:style="{height:windowheight+'px'}">-->
-        <div id="customerMessage_content" class="box">
+        <scroll-view
+          @touchstart="touchStart($event)"
+          @touchend="touchEnd($event)"
+          :scroll-y="true"
+          @scroll="chatScroll"
+          :scroll-with-animation="true"
+          :scroll-into-view="toView"
+          class="mui-scroll-wrapper"
+          :style="{height:windowheight+'px'}">
+          <div id="customerMessage_content" class="box">
           <div class="mui-content-padded">
             <div id="messageListData">
               <div
@@ -27,12 +28,14 @@
                   <div v-if="chat.data_type==1" class="content">
                     <div class="sendmessage">
                       <div style="">
-                        <p>{{chat.details}}</p>
+                        <p :id="chat.id">{{chat.details}}</p>
                       </div>
                     </div>
                   </div>
                   <div v-if="chat.data_type==2" class="content">
-                    <div class="sendmessage imgbox">
+                    <div
+                      :id="chat.id"
+                      class="sendmessage imgbox">
                       <image
                         mode="widthFix"
                         @click="showimg(imgURL+chat.details,imgURL+chat.details)"
@@ -43,6 +46,7 @@
                     <div class="sendmessage">
                       <div style="">
                         <p
+                          :id="chat.id"
                           class="voicebtn v_right"
                           :style="{width:chat.duration*7/2+'px'}"
                           @click="play(chat.details)"
@@ -62,11 +66,13 @@
                   </div>
                   <div v-if="chat.data_type==1" class="content">
                     <div class="getmessage">
-                      <p>{{chat.details}}</p>
+                      <p :id="chat.id">{{chat.details}}</p>
                     </div>
                   </div>
                   <div v-if="chat.data_type==2" class="content">
-                    <div class="getmessage imgbox">
+                    <div
+                      :id="chat.id"
+                      class="getmessage imgbox">
                       <image
                         @click="showimg(imgURL+chat.details,imgURL+chat.details)"
                         mode="widthFix"
@@ -76,22 +82,20 @@
                   <div v-if="chat.data_type==4" class="content">
                     <div class="getmessage">
                       <p
+                        :id="chat.id"
                         class="voicebtn v_left"
                         :style="{width:chat.duration*7/2+'px'}"
                         @click="play(chat.details)"
                       >{{chat.duration}}''</p>
                     </div>
                   </div>
-
                 </div>
+
               </div>
             </div>
           </div>
         </div>
-        <!--</scroll-view>-->
-      </div>
-    </div>
-
+        </scroll-view>
     <div class="sendarea">
       <div class="common" >
         <span
@@ -108,18 +112,19 @@
           type="text"
           maxlength="140"
           :ref="saytext"
+          @focus=""
+          :confirm-hold="true"
           cursor-spacing="5"
-
+          @click="inputfocus=true;"
           id="saytext"
           name="saytext"
           class="input_text"/>
         <!--:focus="inputfocus"-->
-        <!--@click="inputfocus=true;"-->
         <div
           v-show="action=='voice'"
           :class="{'record-box':true,'active':recordclicked}"
-          @touchstart="start"
-          @touchend="stop">{{voicetip}}</div>
+          @touchstart="recordStart"
+          @touchend="recordStop">{{voicetip}}</div>
         <!--<span class="functions face"></span>-->
         <template v-if="sendMsg.length>=1">
           <span
@@ -185,11 +190,10 @@
         setTime:null,
         setTimeNum:0,
         inputfocus:false,
-//        startX:null,
-//        startY:null,
-//        endX:null,
-//        endY:null,
-        windowheight:900
+        windowheight:900,
+        scrollTop:0,
+        toView:'',
+        scrollHeight:0,
       }
     },
     components: {
@@ -207,7 +211,7 @@
       setTimeNum:{
         handler:function(oldval,newval){
           if(newval>=59){
-            this.stop();
+            this.recordStop();
           }
         },
         deep:true
@@ -230,7 +234,7 @@
     methods:{
       sendMessage(){
         let that=this;
-        that.inputfocus=false;
+        that.inputfocus=true;
         that.chatType=1;
         this.$socket.emit('data_chain',{
           cmd:'msgchat',
@@ -265,10 +269,13 @@
         that.$socket.removeAllListeners('data_chain')
         that.$socket.on('data_chain',d=>{
           if(d.cmd == 'msgchat' ){
+            that.toView='';
+            let msg_id='msg'+Math.random().toString(36).substr(2)
             let msgdata={
                 u_id: d.u_id,
                 to_u_id: d.to_u_id,
                 data_type:d.type,
+                id:msg_id
             }
             if(d.type==4){
               msgdata.details=this.getvoiceurl(d.detail);
@@ -277,7 +284,7 @@
               msgdata.details=d.detail;
             }
             that.chatdata.push(msgdata);
-            that.pageScrollToBottom()
+            that.pageScrollToBottom(msg_id)
           }
         })
       },
@@ -310,6 +317,7 @@
           chat=chat.reverse();
           if(that.page==1){
             that.chatdata=chat;
+            that.toView=chat[chat.length-1].id;
           }else{
             chat=chat.concat(that.chatdata);
             that.chatdata=chat;
@@ -322,8 +330,9 @@
           that.getNodata=true;
         }
       },
-      start(){
+      recordStart(){
         let that=this;
+        wx.vibrateShort();
         that.inputfocus=false;
         that.recordclicked=true;
         that.voicetip='松开 结束';
@@ -332,7 +341,7 @@
             that.setTimeNum++;
         },1000)
       },
-      stop(){
+      recordStop(){
         let that = this;
         that.inputfocus=false;
         that.setTime=null;
@@ -378,7 +387,8 @@
             type:that.chatType,
             detail:obj[0].url
           });
-        })
+        });
+        that.isMoreShow=false;
       },
       formatedate(time){
         Date.prototype.Format = function (fmt) { //author: meizz
@@ -447,7 +457,7 @@
         // 获取移动距离
         this.endX = e.mp.changedTouches[0].clientX;
         this.endY = e.mp.changedTouches[0].clientY;
-        console.log(this.startY-this.endY)
+        //console.log(this.startY-this.endY)
         if(this.startY-this.endY < 0){//下拉
           wx.showNavigationBarLoading();//在标题栏中显示加载
           this.loadMore();
@@ -455,13 +465,11 @@
 
         }
       },
-      pageScrollToBottom: function () {
-        wx.createSelectorQuery().select('#messageListData').boundingClientRect(function (rect) {
-          // 使页面滚动到底部
-          wx.pageScrollTo({
-            scrollTop: rect.bottom
-          })
-        }).exec()
+      pageScrollToBottom: function (msgid) {
+        let that=this;
+        this.$nextTick(()=>{
+          that.toView=msgid
+        })
       },
       getSysteminfo(){
         let that=this;
@@ -472,9 +480,14 @@
 
         }
       },
+      chatScroll(e){
+        console.log('scrollHeight:'+e.mp.detail.scrollHeight)
+        //console.log(e.mp.detail)
+        this.scrollHeight=e.mp.detail.scrollHeight;
+      },
     },
     onLoad:function (option){
-        //this.getSysteminfo();
+        this.getSysteminfo();
         this.to_u_id=option.tuid;
         this.u_id=this.$store.state.user.userid;
         console.log(this.$store.state.user)
@@ -488,7 +501,8 @@
     },
     onUnload:function(){
         this.chatdata=[];
-    }
+    },
+
 
   }
 </script>
@@ -528,14 +542,14 @@
     -webkit-touch-callout: none;
     -webkit-user-select: none;
   }
-  .mui-content{
-    background: #f2f2f2;
-    height: 100%;
-    overflow: auto;
-    position:relative;
-  }
+  /*.mui-content{*/
+    /*background: #f2f2f2;*/
+    /*height: 100%;*/
+    /*overflow: auto;*/
+    /*position:relative;*/
+  /*}*/
   #customerMessage_content {
-    height: 100%;
+    height: auto;
   }
 
   .mui-content-padded {
@@ -543,7 +557,8 @@
   }
 
   .mui-scroll-wrapper {
-    margin-bottom: 93px/2;
+    box-sizing: border-box;
+    padding-bottom: 93px/2;
   }
 
   /*聊天面板*/
@@ -590,7 +605,7 @@
 
   #saytext,.record-box{
     width: 562px/2;
-    height: 60px/2;
+    height: 70px/2;
     border-radius: 12px/2;
     padding-left:10px/2 ;
     border: 1px solid #e3e3e3;

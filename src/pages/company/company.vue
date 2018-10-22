@@ -60,7 +60,7 @@
             <div class="title">通知公告</div>
           </div>
           <div
-            @click.stop="tonewpage('noticelist','')"
+            @click.stop="tonewpage('noticelist','pid='+compid)"
             class="more">更多<span>&gt;</span></div>
         </div>
         <ul class="notice_msg">
@@ -117,6 +117,7 @@
               ],
               noticeArray:[],//通知列表
               column_item:[], //栏目
+              compid:''
             }
         },
       methods: {
@@ -287,6 +288,7 @@
         } catch (e) {
 
         }
+        this.compid=option.pid;
         this.getBanner(option.pid);
         this.getNotice(option.pid);
         this.getpage(option.pid)
