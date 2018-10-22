@@ -208,14 +208,14 @@
       },
     },
     watch:{
-      setTimeNum:{
-        handler:function(oldval,newval){
-          if(newval>=59){
-            this.recordStop();
-          }
-        },
-        deep:true
-      }
+//      setTimeNum:{
+//        handler:function(oldval,newval){
+//          if(newval>=59){
+//            this.recordStop();
+//          }
+//        },
+//        deep:true
+//      }
     },
     /*onPullDownRefresh () {
       if(this.getNodata){
@@ -330,8 +330,10 @@
           that.getNodata=true;
         }
       },
-      recordStart(){
+      recordStart(e){
         let that=this;
+        that.startX = e.mp.changedTouches[0].clientX;
+        that.startY = e.mp.changedTouches[0].clientY;
         wx.vibrateShort();
         that.inputfocus=false;
         that.recordclicked=true;
@@ -340,14 +342,21 @@
         that.setTime=setInterval(()=>{
             that.setTimeNum++;
         },1000)
+
       },
-      recordStop(){
+      recordStop(e){
         let that = this;
+        that.endX = e.mp.changedTouches[0].clientX;
+        that.endY = e.mp.changedTouches[0].clientY;
+        console.log(this.startY-this.endY)
         that.inputfocus=false;
         that.setTime=null;
         that.setTimeNum=0;
         that.recordclicked=false;
         that.voicetip='按住 说话';
+        if(this.startY-this.endY > 10 || this.startY-this.endY < 0){//上滑取消
+          return;
+        }
         that.chatType=4;
         that.$stopManager(res =>{
           let data = JSON.parse(res.data)
@@ -447,6 +456,7 @@
       },
       // 滑动开始
       touchStart(e){
+        this.toView='';
         // 获取移动距离，
         this.startX = e.mp.changedTouches[0].clientX;
         this.startY = e.mp.changedTouches[0].clientY;
