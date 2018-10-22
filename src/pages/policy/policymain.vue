@@ -181,10 +181,11 @@
                 </div>
               </div>
             </div>
-            <div class="askbtn">咨询</div>
+            <div :class="{'askbtn':true,'disabled':u_id==hr.id}" >咨询</div>
           </li>
       </ul>
     <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
+    <mptoast/>
   </div>
 </template>
 
@@ -214,7 +215,8 @@
         scrollIcon:false,
         scrollTop:0,
         page:1,
-        size:12
+        size:12,
+        u_id:''
       }
     },
     components: {
@@ -424,6 +426,7 @@
           that.marginright=parseInt(that.marginright)-(parseInt(width750)-parseInt(width))+"rpx";
         }).exec();
       }).exec();
+      that.u_id=that.$store.state.user.userid;
     },
     onShow: function() {
       /*if(this.getorganizid){
@@ -915,6 +918,9 @@
         display: flex;
         justify-content: center;
         align-items:center;
+        &.disabled{
+          background-color: #e2e2e2;
+        }
       }
     }
   }
