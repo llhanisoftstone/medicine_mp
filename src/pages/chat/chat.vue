@@ -317,6 +317,7 @@
           chat=chat.reverse();
           if(that.page==1){
             that.chatdata=chat;
+            chat[chat.length-1].id='msg'+chat[chat.length-1].id;
             that.toView=chat[chat.length-1].id;
           }else{
             chat=chat.concat(that.chatdata);
