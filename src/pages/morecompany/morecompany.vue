@@ -2,10 +2,10 @@
     <div>
         <ul class="companylist">
           <li v-for="(item,i) in company_list" @click.stop="tonewpage('company','pid='+item.id)">
-            <div class="box-left"><image :src="item.picpath"></image></div>
+            <div class="box-left"><image v-if="item.picpath" :src="item.picpath"></image><image v-if="!item.picpath" src="/static/img/policy_default.jpg"></image></div>
             <div class="box-center">
               <div class="name mui-ellipsis">{{item.name}}</div>
-              <div class="taglist mui-ellipsis" v-for="(itetag,t) in item.taglist"><span>{{itetag}}</span></div>
+              <div class="taglist mui-ellipsis" ><span v-for="(itetag,t) in item.taglist">{{itetag}}</span></div>
               <div class="detatils mui-ellipsis">{{item.name}}</div>
             </div>
             <div class="box-right"></div>
@@ -63,7 +63,7 @@
             if (res.rows.length > 0){
               for (let i=0; i<res.rows.length; i++){
                   if(!res.rows[i].picpath || res.rows[i].picpath==''){
-                  res.rows[i].picpath= '/static/img/policy_default.jpg';
+                  res.rows[i].picpath= '';
                  }else{
                   res.rows[i].picpath = that.$store.state.url+res.rows[i].picpath;
                   }

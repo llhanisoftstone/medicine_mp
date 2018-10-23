@@ -9,7 +9,8 @@
           <block v-for="(item,i) in movies">
             <swiper-item>
               <a @click.stop="tonewpage(item.url,item.urlid)">
-                <image :src="item.picpath" class="slide-image" width="355" height="150"/>
+                <image v-if="item.picpath" :src="item.picpath" class="slide-image" width="355" height="150"/>
+                <image v-if="!item.picpath" src="/static/img/bg_banner.png"></image>
               </a>
             </swiper-item>
           </block>
@@ -58,7 +59,7 @@
           <a  @click.stop="tonewpage('morecompany','')" class="ui-link"><span>更多<i>></i></span></a>
           <ul class="contain_company" v-for="(listc,il) in citem.child">
             <li @click.stop="tonewpage('company','pid='+listc.target_id)">
-              <div class="companyhead"><image v-if="listc.cp_picpath" :src="imgUrl+listc.cp_picpath"></image><image v-if="!listc.cp_picpath" src="../../../static/img/policy_default.jpg"></image></div>
+              <div class="companyhead"><image v-if="listc.cp_picpath" :src="imgUrl+listc.cp_picpath"></image><image v-if="!listc.cp_picpath" src="/static/img/policy_default.jpg"></image></div>
               <div class="companymess">
                 <p class="companyname">{{listc.cp_name}}</p>
                 <p class="companyleab"><span v-for="(ticp,ia) in listc.cp_tags">{{ticp}}</span></p>
@@ -147,7 +148,7 @@
           thiz.movies=res.rows;
         }
       }else{
-        thiz.movies=[{picpath:`../../../static/img/bg_banner.png`}]
+        thiz.movies=[{picpath:``}]
       }
     },
     bannerChange(even){
