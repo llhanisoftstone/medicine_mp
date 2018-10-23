@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 34,
+			"current": 35,
 			"list": [
 				{
 					"id": 0,
@@ -258,6 +258,11 @@
 					"name": "政策列表",
 					"pathName": "pages/policylist/main",
 					"query": "pid=zcbl"
+				},
+				{
+					"id": -1,
+					"name": "个人中心",
+					"pathName": "pages/personcenter/main"
 				}
 			]
 		}
