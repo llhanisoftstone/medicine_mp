@@ -160,8 +160,13 @@
             @click.stop="tochat(hr.id)">
             <div class="user-box">
               <image
+                v-if="hr.avatar_url"
                 class="userpic"
                 :src="hr.avatar_url"></image>
+              <image
+                src="/static/img/user.png"
+                v-else=""
+                class="userpic"></image>
               <div class="userinfo">
                 <div class="namebox">
                   <span class="uname">{{hr.nickname}}</span>
@@ -345,9 +350,9 @@
                   }
                   val.talk_count=that.formatcount(val.talk_count);
                   val.hrtags=tags;
-                  if(!val.avatar_url){
-                    val.avatar_url='../../static/img/user.png'
-                  }
+//                  if(!val.avatar_url){
+//                    val.avatar_url='/static/img/user.png'
+//                  }
                 }
             }
             if(res.column){
