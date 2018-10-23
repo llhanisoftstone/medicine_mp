@@ -190,7 +190,7 @@
         setTime:null,
         setTimeNum:0,
         inputfocus:false,
-        windowheight:900,
+        windowheight:400,
         scrollTop:0,
         toView:'',
         scrollHeight:0,
