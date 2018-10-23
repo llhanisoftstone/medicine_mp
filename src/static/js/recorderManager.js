@@ -5,7 +5,8 @@ const options = {
   numberOfChannels: 1, // 录音通道数，有效值 1/2
   encodeBitRate: 96000, // 编码码率
   format: 'mp3',         // 音频格式，有效值 aac/mp3
-  frameSize: 50          // 指定帧大小
+  frameSize: 50,          // 指定帧大小
+  duration: 60000,          // 录音的时长
 }
 const Recorder = wx.getRecorderManager()
 const AudioContext = wx.createInnerAudioContext()

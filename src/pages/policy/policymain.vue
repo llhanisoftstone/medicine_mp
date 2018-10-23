@@ -4,14 +4,14 @@
         <div class="width"></div>
       </div>
       <div class="searchk">
-        <picker
-          mode="selector"
-          :value="pickerIndex"
-          :range="pickerValueArray"
-          @change="bindPickerChange">
-          <div class="org-box" v-show="pickerIndex>=0">{{pickerValueArray[pickerIndex]}}</div>
-          <div class="org-box" v-show="pickerIndex==-1">请选择机关</div>
-        </picker>
+        <!--<picker-->
+          <!--mode="selector"-->
+          <!--:value="pickerIndex"-->
+          <!--:range="pickerValueArray"-->
+          <!--@change="bindPickerChange">-->
+          <!--<div class="org-box" v-show="pickerIndex>=0">{{pickerValueArray[pickerIndex]}}</div>-->
+          <!--<div class="org-box" v-show="pickerIndex==-1">请选择机关</div>-->
+        <!--</picker>-->
         <a class="ui-link" :href="'/pages/policylist/main?org_id='+org_id">
           <div class="searchinput">请输入标题或内容</div>
         </a>
@@ -26,7 +26,7 @@
             <div
               v-for="(cate,cindex) in categorydata"
               :key="cindex"
-              @click="currentTab=cindex"
+              @click="tabClick(cindex,cate.id)"
               :class="{'active':currentTab==cindex}">{{cate.name}}</div>
         </scroll-view>
       </div>
@@ -160,9 +160,13 @@
             @click.stop="tochat(hr.id)">
             <div class="user-box">
               <image
+                v-if="hr.avatar_url"
                 class="userpic"
                 :src="hr.avatar_url"></image>
-              <!--../../static/img/user.png-->
+              <image
+                src="/static/img/user.png"
+                v-else=""
+                class="userpic"></image>
               <div class="userinfo">
                 <div class="namebox">
                   <span class="uname">{{hr.nickname}}</span>
@@ -182,13 +186,16 @@
                 </div>
               </div>
             </div>
-            <div class="askbtn">咨询</div>
+            <div :class="{'askbtn':true,'disabled':u_id==hr.id}" >咨询</div>
           </li>
       </ul>
+    <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
+    <mptoast/>
   </div>
 </template>
 
 <script type="javascript">
+  import mptoast from '../../components/mptoast'
   export default {
     data () {
       return {
@@ -208,13 +215,35 @@
         categorydata:[], //分类名称
         currentTab:-1,
         hrdata:[],//经办人信息
-        to_u_id:''
+        to_u_id:'',
+        column_id:'',//栏目id
+        scrollIcon:false,
+        scrollTop:0,
+        page:1,
+        size:5,
+        u_id:''
       }
+    },
+    components: {
+      mptoast
     },
     computed:{
       getorganizid (){
         return this.$store.state.organizcookie;
       },
+    },
+    onPullDownRefresh () {
+      wx.showNavigationBarLoading();//在标题栏中显示加载
+      this.page=1;
+      this.refresh();
+      // 下拉刷新
+      wx.hideNavigationBarLoading(); //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
+    },
+    onReachBottom () {
+      this.page++;
+      this.loadmore()
+      // 上拉加载
     },
     methods: {
       async getpolicyMain() {
@@ -222,8 +251,11 @@
         let infodata={
             status:2, //状态：0-草稿；1-待审核，2-上架，3-拒绝，4-下架；
         };
-        if(that.org_id){
-          infodata.organiz_id= that.org_id;
+//        if(that.org_id){
+//          infodata.organiz_id= that.org_id;
+//        }
+        if(that.column_id){
+          infodata.column_id= that.column_id;
         }
         let res = await this.$get('/rs/info_policy',infodata);
         if (res.code == 200){
@@ -301,6 +333,11 @@
       },
       async getPolicydata(){
         let that = this;
+        let pdata={
+          page:that.page,
+          size:that.size,
+          status:1,
+        }
         let res = await that.$get('/rs/info_policy_column');
         if (res.code == 200){
           let hrData=res.hr;
@@ -308,18 +345,45 @@
             for(let val of hrData){
                 if(val.hr_tag.length>0){
                   let tags=val.hr_tag.split(',');
+                  if(tags.length>3){
+                    tags=tags.slice(0,3)
+                  }
+                  val.talk_count=that.formatcount(val.talk_count);
                   val.hrtags=tags;
+//                  if(!val.avatar_url){
+//                    val.avatar_url='/static/img/user.png'
+//                  }
                 }
+            }
+            if(res.column){
+              that.column_id=res.column[0].id;
+            }
+            if(that.page==1){
+
+            }else{
+              //that.hrdata=that.hrdata.concat(res.hr);
             }
             that.hrdata=hrData;
           }
           that.categorydata=res.column;
         }
+        if(that.column_id){
+          that.getpolicyMain();//获取政策百科主页数据
+        }
       },
       tochat(touid){
+        if(this.u_id==touid){
+          this.$mptoast('不能咨询自己');
+          return;
+        }
         wx.navigateTo({
           url:`/pages/chat/main?tuid=${touid}`
         })
+      },
+      tabClick(idx,id){
+        this.currentTab=idx;
+        this.column_id=id;
+        this.getpolicyMain();
       },
       tonewpage(urlname,data){
         if(!urlname){return;}
@@ -327,6 +391,39 @@
           url:`/pages/${urlname}/main?${data}`
         })
       },
+      refresh(){
+        this.page = 1;
+        this.getPolicydata();
+      },
+      loadmore () {
+        this.getPolicydata();
+      },
+      scrolltoTop(){
+        if (wx.pageScrollTo) {
+          wx.pageScrollTo({
+            scrollTop: 0
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+          })
+        }
+      },
+      formatcount(count){
+        if(count==""||count==null){
+          return "0";
+        }else{
+          var counts=count.toString();
+          if(counts.length>8){
+            return parseInt(counts.substr(0,counts.length-8))+"亿";
+          }else if(counts.length>4){
+            return parseInt(counts.substr(0,counts.length-4))+"万";
+          }else{
+            return parseInt(counts);
+          }
+        }
+      }
     },
 
     created () {
@@ -344,23 +441,33 @@
           that.marginright=parseInt(that.marginright)-(parseInt(width750)-parseInt(width))+"rpx";
         }).exec();
       }).exec();
+      that.u_id=that.$store.state.user.userid;
     },
     onShow: function() {
-      if(this.getorganizid){
+      /*if(this.getorganizid){
         this.org_id=this.getorganizid;
       }else{
         this.org_id='';
         this.pickerIndex=-1;
-      }
-      this.getorganiz(); //获取组织列表
+      }*/
+      //this.getorganiz(); //获取组织列表
+      this.u_id=this.$store.state.user.userid;
       this.getPolicydata();
-      this.getpolicyMain();//获取政策百科主页数据
+
     },
     onUnload(){
       this.pickerwishText='';
       this.org_id='';
       this.pickerIndex=-1;
     },
+    onPageScroll:function(res){
+      let top = res.scrollTop;
+      if (top > 400) {
+        this.scrollIcon = true;
+      } else {
+        this.scrollIcon = false;
+      }
+    }
   }
 </script>
 
@@ -428,7 +535,8 @@
       border-radius: 10/2px;
     }
     .ui-link{
-      width:540px/2;
+      //width:540px/2;
+      width:100%;
       box-sizing: border-box;
     }
   }
@@ -788,6 +896,7 @@
         margin-bottom: 18px/2;
         display:flex;
         flex-wrap: nowrap;
+        overflow: hidden;
         .tag{
           font-size: 21px/2;
           color:#666666;
@@ -795,7 +904,7 @@
           padding:2px/2 10px/2;
           border-radius: 18px/2;
           margin-right: 13px/2;
-          width:105px/2;
+          max-width:105px/2;
           .ellipsis(1)
         }
       }
@@ -824,6 +933,9 @@
         display: flex;
         justify-content: center;
         align-items:center;
+        &.disabled{
+          background-color: #e2e2e2;
+        }
       }
     }
   }
@@ -832,5 +944,15 @@
     -webkit-line-clamp: @count;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  .footcgotop{
+    position: fixed;
+    z-index: 100;
+    bottom: 100px/2;
+    right: 30px/2;
+    width: 80px/2;
+    height: 80px/2;
+    background:url('../../../static/img/scrollTop.png') center no-repeat;
+    background-size: 80px/2 80px/2;
   }
 </style>

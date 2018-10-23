@@ -14,7 +14,13 @@
             <swiper-item>
               <a
                 @click.stop="tonewpage(item.urlpath,'')">
-                <image :src="item.picpath"></image>
+                <image
+                  v-if="item.picpath"
+                  :src="imgURL+item.picpath"></image>
+                <image
+                  v-else=""
+                  src="/static/img/bg_banner.png"
+                ></image>
               </a>
             </swiper-item>
           </block>
@@ -45,7 +51,7 @@
           <li
             v-for="(citem,cidx) in column.child"
             :key="citem.id"
-            @click.stop="tonewpage('pkselect','')">
+            @click.stop="tonewpage('pkselect','pid='+citem.target_id)">
             <image :src="imgURL+citem.icon_path"></image>
             <p>{{citem.name}}</p>
           </li>
@@ -60,7 +66,7 @@
             <div class="title">通知公告</div>
           </div>
           <div
-            @click.stop="tonewpage('noticelist','')"
+            @click.stop="tonewpage('noticelist','pid='+compid)"
             class="more">更多<span>&gt;</span></div>
         </div>
         <ul class="notice_msg">
@@ -112,11 +118,10 @@
             return {
               win_treasure: [],
               currentSwiper:0,
-              banner:[
-                {picpath:'../../../static/img/bg_banner.png'},
-              ],
+              banner:[],
               noticeArray:[],//通知列表
               column_item:[], //栏目
+              compid:''
             }
         },
       methods: {
@@ -140,14 +145,15 @@
             let data = {
               status:1,
               category:2,
+              //comp_id:pid,
               order:'create_time desc'
             };
             let res = await thiz.$get('/rs/banner', data);
             if (res.code == 200){
               if(res.rows){
-                  for(let val of res.rows){
-                      val.picpath=thiz.formatPicUrl(val.picpath,'bg_banner.png');
-                  }
+//                  for(let val of res.rows){
+//                      val.picpath=thiz.formatPicUrl(val.picpath,'bg_banner.png');
+//                  }
                   thiz.banner=res.rows;
               }
             }else if(res.code==602){
@@ -159,6 +165,7 @@
           let data = {
             status:1,
             is_main:1,
+            comp_id:pid,
             order:'sequence desc,create_time desc'
           };
           let res = await thiz.$get('/rs/notify', data);
@@ -245,7 +252,7 @@
           formatPicUrl(pic,moren){
             let thiz=this;
             if(!pic||pic=="undefined"||pic==null){
-              return '/static/img/'+moren;
+              //return '/static/img/'+moren;
             } else {
               if (pic.substr(0,4).toLowerCase()!="http" ||pic.substr(0,4).toLowerCase()!="https" ){
                 return thiz.$store.state.url + pic;
@@ -287,6 +294,7 @@
         } catch (e) {
 
         }
+        this.compid=option.pid;
         this.getBanner(option.pid);
         this.getNotice(option.pid);
         this.getpage(option.pid)

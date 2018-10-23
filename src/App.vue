@@ -15,7 +15,7 @@ export default {
       if (!that.$store.state.user.userid) {
         that.getLogin()
       }
-    })
+    });
     this.$socket.on('disconnect', d => {
       console.log(d)
        wx.showLoading({
@@ -113,7 +113,13 @@ export default {
         })
       }
     })
-
+    let redtime=null;
+    if (that.$store.state.user.userid) {
+      that.getRedHot()
+    }
+    redtime = setInterval(()=>{
+      that.getRedHot()
+    },60000)
     // 调用API从本地缓存中获取数据
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -278,6 +284,8 @@ export default {
                   that.$store.commit('getm_user', user)
                 }
               })
+              that.getRedHot();
+
 //                console.log(res)
             }
           })
@@ -309,6 +317,19 @@ export default {
           that.$store.commit('failTips', res.rows)
         }
       })
+    },
+    async getRedHot(){
+      let res = await this.$get('/rs/get_new_hints');
+      if(res.count>0){
+        wx.showTabBarRedDot({
+            index:2
+          }
+        )
+      }else{
+        wx.hideTabBarRedDot({
+          index:2
+        })
+      }
     }
   }
 }
