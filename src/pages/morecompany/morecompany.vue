@@ -148,6 +148,7 @@
       display:flex;
       justify-content: flex-start;
       align-items: center;
+      position:relative;
       .box-left{
         width:125px/2;
         height:125px/2;
@@ -160,7 +161,7 @@
         }
       }
       .box-center{
-        width:440px/2;
+        width:60%;
         margin-right:40px/2;
         .name{
           font-size:14px;
@@ -189,6 +190,8 @@
         }
       }
       .box-right{
+        position:absolute;
+        right:30px/2;
         width:18px/2;
         height:37px/2;
         background:url(../../../static/img/arrorcompany.png) no-repeat center center;
