@@ -2,7 +2,7 @@
   <div>
     <div class="search">
       <div class="search_icon"></div>
-      <input confirm-type="search" maxlength="20" class="search-input" v-model="searchVal" placeholder="请输入标题或内容" @confirm="confirm($event)"/>
+      <input confirm-type="search" maxlength="20" class="search-input" v-model.trim="searchVal" placeholder="请输入标题或内容" @confirm="confirm($event)"/>
       <div class="clear" :class="{'clear_icon':clearhide}" v-on:click="clearInput"></div>
     </div>
     <div class="handbook-info">
@@ -38,10 +38,12 @@
     </div>
     <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
     <div class="nogetList" v-if="iskong">暂无内容</div>
+    <mptoast/>
   </div>
 </template>
 
 <script type="javascript">
+  import mptoast from '../../components/mptoast'
   export default {
     data () {
       return {
@@ -59,7 +61,9 @@
         size:6
       }
     },
-
+    components: {
+      mptoast
+    },
     onPullDownRefresh () {
       wx.showNavigationBarLoading() //在标题栏中显示加载
       this.page=1;
@@ -117,6 +121,10 @@
         }
       },
       confirm(e){
+        if(!this.searchVal){
+          this.$mptoast('请输入内容');
+          return;
+        }
         this.page=1;
         this.policy_list=[];
         this._search = e.target.value;
@@ -337,4 +345,5 @@
     background:url('../../../static/img/scrollTop.png') center no-repeat;
     background-size: 80px/2 80px/2;
   }
+
 </style>
