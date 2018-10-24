@@ -118,6 +118,7 @@
           @click="inputfocus=true;"
           id="saytext"
           name="saytext"
+          @confirm="sendMessage"
           class="input_text"/>
         <!--:focus="inputfocus"-->
         <div
