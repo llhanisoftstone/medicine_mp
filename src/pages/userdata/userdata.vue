@@ -17,19 +17,21 @@
     </div>
       <div class="item">
         <div class="title">证件类型</div>
-        <input type="" placeholder="请选择" :value="pickerText" disabled="disabled" @click="showzonePicker" />
+        <input type="default" placeholder="请选择" :value="pickerText" disabled="disabled" @click="showzonePicker" />
       <mpvue-picker
         ref="mpvuePicker" @pickerCancel="pickerCancel"
         :pickerValueArray="pickerValueArray"
         :pickerValueDefault='pickerValueDefault'
         :mode="mode"
         :deepLength=deepLength
-        @onConfirm="onConfirm" >
+        @onConfirm="onConfirm"
+      @onChange="onChange">
       </mpvue-picker>
     </div>
     <div class="item">
       <div class="title">证件号</div>
-      <input type="text" @bindfocus="this.cardNum=this.cardNum.replace(/[^a-zA-Z0-9]/g,'')" v-model='cardNum' maxlength="30" confirm-type="next"  placeholder="证件号" />
+      <input type="text" v-model='cardNumtext' v-if="pickerText!='身份证'" maxlength="20" confirm-type="next"  placeholder="证件号" />
+      <input type="idcard" v-model='cardNum' v-if="pickerText=='身份证'" maxlength="18" confirm-type="next"  placeholder="证件号" />
     </div>
       <div class="item" @click="addresslist" v-if="false">
           <div class="title">详细地址</div>
@@ -44,7 +46,7 @@
 </template>
 
 <script type="javascript">
-  import mpvuePicker from 'mpvue-picker';
+  import mpvuePicker from '../../components/mpvuePicker';
   import mptoast from '../../components/mptoast';
   export default {
     label: 'userdata',
@@ -56,9 +58,10 @@
     data(){
       return {
         rank:1,
-        pickerValueArray:['身份证', '工号', '工资号'],
+        pickerValueArray:[],
         pickerValueDefault:[0],
         pickerText:'',
+        oldpickerText:'',
         cardtype:"",
         nocomany:true,
         name:'',
@@ -67,6 +70,7 @@
         comp_name:'',
         phone:'',
         cardNum:'',
+        cardNumtext:'',
         shop_label:'',
         shop_logo:'',
         shop_phone:'',
@@ -84,33 +88,41 @@
       }
     },
     methods: {
+      limit(val){
+        if (!val) {
+          return
+        }
+        return  val.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
+      },
       showzonePicker: function (e) {
+          this.pickerValueArray=["身份证",'工号',"工资号"];
+        if(this.pickerText=="身份证"){
+          this.pickerValueDefault = [0];
+        }else if(this.pickerText=="工号"){
+          this.pickerValueDefault = [1];
+        }else  if(this.pickerText=="工资号"){
+          this.pickerValueDefault = [2];
+        }else{
+          this.pickerValueDefault = [0];
+        }
         this.$refs.mpvuePicker.show();
       },
       compblur(){
         this.company=[]
       },
       choice(name){
-          debugger
           this.isclick=true;
           this.comp_name=name;
           this.nocomany=false;
           this.company=[]
       },
-      showPicker1() {
-        this.$refs.mpvuePicker.show();
-      },
-      showPicker2() {
-        this.$refs.mpvuePicker.show();
-      },
-      showPicker3() {
-        this.$refs.mpvuePicker.show();
-      },
-      pickerConfirm(e) {
-        console.log(e);
-      },
       onConfirm(e){
         this.pickerText = `${this.pickerValueArray[e[0]]}`;
+        if(this.pickerText!=this.oldpickerText){
+           this.cardNum="";
+           this.cardNumtext="";
+        }
+        this.oldpickerText=this.pickerText;
         this.cardtype=e[0];
       },
       childrenmitData(){
@@ -137,17 +149,26 @@
         };
 
         var pattern1 =/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
-        if(this.cardNum==""||this.cardNum==null){
-          this.$mptoast('请输入证件号码');
-          return;
-        }else if(this.cardtype==0){
-          if(!pattern1.test(this.cardNum)){
+       if(this.cardtype==0){
+         if(this.cardNum==""||this.cardNum==null){
+           this.$mptoast('请输入证件号码');
+           return;
+         }else if(!pattern1.test(this.cardNum)){
             this.$mptoast('您的身份证号输入有误，请重新输入');
             return;
           }
-        }
+        }else if(this.cardtype==1||this.cardtype==2){
+         if(this.cardNumtext==""||this.cardNumtext==null) {
+           this.$mptoast('请输入证件号码');
+           return;
+         }
+       }
         data.cert_type=parseFloat(this.cardtype)+1;
-        data.cert_value=this.cardNum;
+        if(this.cardtype==0){
+          data.cert_value=this.cardNum;
+        }else if(this.cardtype==1||this.cardtype==2){
+          data.cert_value=this.cardNumtext;
+        }
         if(this.comp_name&&this.nocomany){
           return  this.$mptoast('该企业为入住平台，请重新填写');
         }
@@ -215,16 +236,27 @@
             that.isclick=true;
             that.cert_type=user.cert_type;
             if(user.cert_type==1){
-                that.pickerText='身份证'
+                that.pickerText='身份证';
+                that.oldpickerText="身份证";
+              that.cardNum=user.cert_value;
+              that.cardNumtext="";
             }else if(user.cert_type==2){
-              that.pickerText='工号'
+              that.pickerText='工号';
+              that.oldpickerText="工号";
+              that.cardNumtext=user.cert_value;
+              that.cardNum="";
             }else if(user.cert_type==3){
-              that.pickerText='工资号'
+              that.pickerText='工资号';
+              that.oldpickerText="工资号";
+              that.cardNumtext=user.cert_value;
+              that.cardNum="";
             }else{
               that.pickerText="";
               that.cardtype="";
+              that.oldpickerText="";
+              that.cardNumtext="";
+              that.cardNum="";
             }
-            that.cardNum=user.cert_value;
             that.comp_name=user.comp_name;
             that.company=[];
 
@@ -305,6 +337,14 @@
         }else{
           this.company = [];
           this.nocomany=true;
+        }
+      },
+      cardNumtext(val,oldval){
+        this.cardNumtext = this.limit(val)
+        if(this.limit(val)){
+          this.cardNumtext=this.limit(val);
+        }else{
+          this.cardNumtext="";
         }
       }
     }

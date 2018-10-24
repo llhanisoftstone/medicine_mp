@@ -148,6 +148,7 @@
       display:flex;
       justify-content: flex-start;
       align-items: center;
+      position:relative;
       .box-left{
         width:125px/2;
         height:125px/2;
@@ -160,17 +161,17 @@
         }
       }
       .box-center{
-        width:440px/2;
+        width:435px/2;
         margin-right:40px/2;
         .name{
           font-size:14px;
           color:#333;
-          width:440px/2;
+          width:435px/2;
         }
         .taglist{
           font-size:21px/2;
           color:#666;
-          width:440px/2;
+          width:435px/2;
           margin-top:10px/2;
           span{
             background:#eaeaea;
@@ -185,10 +186,12 @@
           font-size:18px/2;
           margin-top:10px/2;
           color:#666;
-          width:440px/2;
+          width:435px/2;
         }
       }
       .box-right{
+        position:absolute;
+        right:30px/2;
         width:18px/2;
         height:37px/2;
         background:url(../../../static/img/arrorcompany.png) no-repeat center center;
