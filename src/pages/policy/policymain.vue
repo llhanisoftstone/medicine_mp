@@ -459,6 +459,10 @@
       this.pickerwishText='';
       this.org_id='';
       this.pickerIndex=-1;
+      this.$toastStore.commit('hideToast')
+    },
+    onHide(){
+      this.$toastStore.commit('hideToast')
     },
     onPageScroll:function(res){
       let top = res.scrollTop;

@@ -523,8 +523,9 @@
             console.log(res)
         }
       })
-      console.log('离开页面')
+//      console.log('离开页面')
       this.chatdata=[];
+
     },
     onHide:function(){
         console.log('隐藏页面')
