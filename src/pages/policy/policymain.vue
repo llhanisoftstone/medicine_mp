@@ -826,6 +826,9 @@
     margin-bottom: 50px;
   }
   .category-box{
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
     scroll-view{
       display:flex;
       white-space: nowrap;
@@ -853,6 +856,7 @@
     }
   }
   ul.chat-box{
+    box-sizing: border-box;
     padding:0 35px/2 0 12px;
     li{
       padding:37px/2 22px/2 37px/2 45px/2;

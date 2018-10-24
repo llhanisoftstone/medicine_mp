@@ -929,7 +929,7 @@
     min-width:90px/2;
     height:25px/2;
     line-height: 28px/2 !important;
-    color: #ffffff;
+    color: #ffffff !important;
     background-color: #df5c3e;
     border-radius: 10px/2;
     &.v_left{
