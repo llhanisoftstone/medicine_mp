@@ -25,7 +25,7 @@
         :mode="mode"
         :deepLength=deepLength
         @onConfirm="onConfirm"
-      @onChange="onChange">
+      >
       </mpvue-picker>
     </div>
     <div class="item">

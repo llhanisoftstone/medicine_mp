@@ -113,6 +113,7 @@ export default {
     }
   },
   onLoad(){
+    this.showPicker = false;
     this.initPicker(this.pickerValueArray);
   },
   methods: {
