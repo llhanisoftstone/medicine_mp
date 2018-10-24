@@ -491,11 +491,12 @@
         let that=this;
         try {
           let res = wx.getSystemInfoSync();
-          that.windowheight=res.windowHeight;
           if(res.model.match(/iPhone X/ig)){
             that.isiphoneX=true;
+            that.windowheight=res.windowHeight-34;
           }else{
             that.isiphoneX=false;
+            that.windowheight=res.windowHeight;
           }
         } catch (e) {
 
