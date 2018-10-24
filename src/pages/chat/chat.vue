@@ -507,6 +507,7 @@
     },
     onShow:function(){
       this.recordclicked=false;
+      this.sendMsg='';
       this.page=1;
       this.setTime=null
       this.watchsocket();
