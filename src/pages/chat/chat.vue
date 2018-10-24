@@ -208,14 +208,14 @@
       },
     },
     watch:{
-//      setTimeNum:{
-//        handler:function(oldval,newval){
-//          if(newval>=59){
-//            this.recordStop();
-//          }
-//        },
-//        deep:true
-//      }
+      setTimeNum:{
+        handler:function(oldval,newval){
+          if(newval>=59){
+            this.recordStop();
+          }
+        },
+        deep:true
+      }
     },
     /*onPullDownRefresh () {
       if(this.getNodata){
@@ -347,16 +347,20 @@
       },
       recordStop(e){
         let that = this;
-        that.endX = e.mp.changedTouches[0].clientX;
-        that.endY = e.mp.changedTouches[0].clientY;
-        console.log(this.startY-this.endY)
+        if(e){
+          that.endX = e.mp.changedTouches[0].clientX;
+          that.endY = e.mp.changedTouches[0].clientY;
+          console.log(this.startY-this.endY)
+        }
         that.inputfocus=false;
         that.setTime=null;
         that.setTimeNum=0;
         that.recordclicked=false;
         that.voicetip='按住 说话';
-        if(this.startY-this.endY > 10 || this.startY-this.endY < 0){//上滑取消
-          return;
+        if(e){
+          if(this.startY-this.endY > 10 || this.startY-this.endY < 0){//上滑取消
+            return;
+          }
         }
         that.chatType=4;
         that.$stopManager(res =>{
