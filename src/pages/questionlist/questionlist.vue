@@ -20,7 +20,7 @@
                 </div>
               </div>
               <div class="box_right">
-                <span class="info" style="text-align: right;color:rgb(200,200,200)">{{item.create_time}}</span>
+                <span class="info" style="text-align: right;color:rgb(200,200,200)">{{item.update_time}}</span>
               </div>
             </div>
           </li>
@@ -75,7 +75,7 @@
               if(!res.rows[i].to_avatar_url || res.rows[i].to_avatar_url==''){
                 res.rows[i].to_avatar_url= '/static/img/policy_default.jpg';
               }
-              res.rows[i].create_time = this.conversionTime(res.rows[i].create_time,'-');
+              res.rows[i].update_time = this.conversionTime(res.rows[i].update_time,'-');
             }
             that.contactlist = that.contactlist.concat(res.rows);
           }

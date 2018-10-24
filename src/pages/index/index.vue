@@ -1,12 +1,23 @@
 <template>
   <div class="container" :class="{fixed:!isauth&&authreturn}">
+    <button open-type="getUserInfo" v-if="!isauth&&authreturn" :_id="isauth" class="btn_auth">
+      <image src="/static/img/role.png"></image>
+      <div class="button_container">
+        <p class="btn_box">
+          <button class="btn" open-type="getUserInfo"  @getuserinfo="bindGetUserInfo" @click="jumptype=1">去看看</button>
+        </p>
+        <p class="btn_box">
+          <button class="btn" open-type="getUserInfo"  @getuserinfo="bindGetUserInfo" @click="jumptype=2">去学习</button>
+        </p>
+      </div>
+    </button>
     <div id="index_gallerySlider" class="index_gallerySlider">
       <swiper :indicator-dots="indicatorDots"
               @change="bannerChange"
               :autoplay="true" :circular="true" :interval="3000"
               :duration="duration" indicator-color="rgba(226,226,226,1)" indicator-active-color="#ffffff">
         <template v-if="movies.length">
-          <block v-for="(item,i) in movies">
+          <block v-for="(item,i) in movies" :key="i">
             <swiper-item>
               <a @click.stop="tonewpage(item.url,item.urlid)">
                 <image v-if="item.picpath" :src="item.picpath" class="slide-image" width="355" height="150"/>
@@ -37,7 +48,7 @@
         <div class="common-head headbook-head">
           <span class="handbookpersonn-icon"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
           <div class="personalwelfare">
-            <swiper :indicator-dots="indicatorDots"
+            <swiper
                     @change="swiperChange"
                     :autoplay="false" :circular="true" :interval="3000"
                     :duration="duration" indicator-color="rgba(226,226,226,0)" indicator-active-color="rgba(226,226,226,0)" previous-margin='138px' next-margin='138px'>
@@ -92,6 +103,7 @@
         <a @click="reward(v.id,v.isReward)" :class="{'disabled':v.isReward<=0}">挑战</a>
       </li>
     </ul>
+    <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
     <mptoast/>
   </div>
 </template>
@@ -110,10 +122,14 @@
       points:0,
       tickt_id:'',
       activityShow:false,
+      indicatorDots: true,
       banner:0,
       movies:[],
       bannerperson:0,
       swiperIndex:0,
+      jumptype:0,
+      scrollIcon:false,
+      scrollTop:0,
     }
   },
 
@@ -126,6 +142,148 @@
     tonewpage(urlname,data){
       wx.navigateTo({
         url:`/pages/${urlname}/main?${data}`
+      })
+    },
+    tozhan(){
+      let thiz=this;
+      wx.redirectTo({
+        url:"/pages/policymain/main"
+      })
+    },
+    toindex(){
+      wx.switchTab({
+        url:"/pages/index/main"
+      })
+    },
+    bindGetUserInfo: function(e) {
+      let that = this
+      if(!e.target.userInfo){
+        return
+      }
+      if(that.$store.state.isauth){
+        if(that.jumptype==1){
+          that.tozhan();
+        }
+        if(that.jumptype==2){
+          that.toindex();
+        }
+        return
+      }
+      that.$store.commit('getuser', e.target.userInfo)
+      that.$store.commit('getauth')
+      that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:e.target.encryptedData,iv:e.target.iv}).then(res=>{
+        console.log(res)
+        if (res.code === 200) {
+          for (let i = 0; i < res.tools.length; i++) {
+            if (!res.tools[i].amount) {
+              res.tools[i].amount = 0
+            }
+          }
+          that.$store.commit('getm_user', res)
+          that.$socket.on('data_chain', d => {
+            if (d.cmd === 'login') {
+              that.$store.commit('getsocket')
+            }
+            console.log(d)
+          })
+          that.$socket.emit('data_chain', {
+            cmd: 'login',
+            u_id: res.userid,
+            nickname: that.$store.state.userinfo.nickName,
+            picpath: that.$store.state.userinfo.avatarUrl
+          })
+          that.$socket.on('global_chain', d => {
+            console.log(d)
+            if (d.cmd === 'error') {
+              if (d.errcode === 601) {
+                if (that.$store.state.modalshow) {
+                  let pagesArr = getCurrentPages()
+                  let currentPage = pagesArr[pagesArr.length - 1]
+                  let url = currentPage.route
+                  if ((url !== 'pages/authfight/main') && (url !== 'pages/authmulti/main')) {
+                    that.$store.commit('getmodal', false)
+                    wx.hideLoading()
+//                      wx.showLoading({
+//                        mask:true
+//                      })
+                    wx.showModal({
+                      title: '提示',
+                      content: '无法获取好友信息,请重试',
+                      showCancel: false,
+                      confirmText: '确定',
+                      confirmColor: '#df5c3e',
+                      mask: true,
+                      complete: res => {
+                        console.log(`重新登录${that.$store.state.user.userid}`)
+                        that.$socket.emit('data_chain', {
+                          cmd: 'login',
+                          u_id: that.$store.state.user.userid,
+                          nickname: that.$store.state.userinfo.nickName,
+                          picpath: that.$store.state.userinfo.avatarUrl
+                        })
+                        that.$store.commit('getmodal', true)
+                        wx.switchTab({
+                          url: '/pages/index/main'
+                        })
+                      }
+                    })
+                  } else {
+                    that.$socket.emit('data_chain', {
+                      cmd: 'login',
+                      u_id: that.$store.state.user.userid,
+                      nickname: that.$store.state.userinfo.nickName,
+                      picpath: that.$store.state.userinfo.avatarUrl
+                    })
+                  }
+                }
+              } else if (d.errcode === 404) {
+                if (that.$store.state.modalshow) {
+                  that.$store.commit('getmodal', false)
+                  wx.hideLoading()
+                  wx.showModal({
+                    title: '提示',
+                    content: '房间不存在',
+                    showCancel: false,
+                    confirmText: '返回首页',
+                    confirmColor: '#df5c3e',
+                    mask: true,
+                    complete: res => {
+                      wx.switchTab({
+                        url: '/pages/index/main'
+                      })
+                      that.$store.commit('getmodal', true)
+                    }
+                  })
+                }
+              } else if (d.errcode === 301) {
+                if (that.$store.state.modalshow) {
+                  that.$store.commit('getmodal', false)
+                  wx.hideLoading()
+                  wx.showModal({
+                    title: '提示',
+                    content: '连接已断开',
+                    showCancel: false,
+                    confirmText: '返回首页',
+                    confirmColor: '#df5c3e',
+                    mask: true,
+                    complete: res => {
+                      wx.switchTab({
+                        url: '/pages/index/main'
+                      })
+                      that.$store.commit('getmodal', true)
+                    }
+                  })
+                }
+              }
+            }else if(d.cmd === 'upgrade') {
+              let user = that.$store.state.user
+              user.rank_code = d.rank_code
+              user.rank_name = d.rank_name
+              user.experience = d.experience
+              that.$store.commit('getm_user', user)
+            }
+          })
+        }
       })
     },
     async getbanner (){
@@ -286,6 +444,18 @@
         url:`/pages/${urlname}/main?${data}`
       })
     },
+    scrolltoTop(){
+      if (wx.pageScrollTo) {
+        wx.pageScrollTo({
+          scrollTop: 0
+        })
+      } else {
+        wx.showModal({
+          title: '提示',
+          content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+        })
+      }
+    },
   },
   computed:{
     isauth(){
@@ -358,11 +528,91 @@
         }
       }
     },
+    onPageScroll:function(res){
+      let top = res.scrollTop;
+      if (top > 400) {
+        this.scrollIcon = true;
+      } else {
+        this.scrollIcon = false;
+      }
+    }
 }
 </script>
 
 <style scoped lang="less">
   @import "../../static/less/common.less";
+  .btn_auth{
+    width: 750px/2;
+    height: 100%;
+    position: fixed;
+    top:0;
+    left:0;
+    z-index:50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*background: transparent;*/
+    background: rgba(0,0,0,0.7);
+    image{
+      width: 634px/2;
+      height: 497px/2;
+      margin:auto;
+      position: absolute;
+      top:226px/2;
+      left:0;
+      right:0;
+      border-radius: 0 !important;
+    }
+    span{
+      width: 100%;
+      height: 30px/2;
+      font-size: 30px/2;
+      color: #fff;
+      position: absolute;
+      top:611px/2;
+      left:0;
+      right:0;
+      text-align: center;
+    }
+    .button_container{
+      position: absolute;
+      top:723px/2;
+      margin: 109px/2 auto 0;
+      box-sizing: border-box;
+      width:750px/2;
+      display:flex;
+      justify-content: space-between;
+      padding:0 93px/2;
+    }
+    .btn_box{
+      font-size: 30px/2;
+      color: #fff;
+      width: 270px/2;
+      height: 66px/2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 40px/2;
+      background: linear-gradient(150deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
+      box-shadow: 1px 1.5px 1px 1px rgba(0,0,0,.2);
+      button{
+        width: 262px/2;
+        height: 58px/2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px/2;
+        color: #fff;
+        background: #df5c3e;
+        border-radius: 40px/2;
+        box-shadow: none;
+        border:none;
+        &:after {
+          border: none;
+        }
+      }
+    }
+  }
   @keyframes gift {
     1% {
       transform: translate(0, 0) rotate(6.5deg)
@@ -936,5 +1186,15 @@
       height:176px/2;
       max-width:100%;
     }
+  }
+  .footcgotop{
+    position: fixed;
+    z-index: 100;
+    bottom: 100px/2;
+    right: 30px/2;
+    width: 80px/2;
+    height: 80px/2;
+    background:url('../../../static/img/scrollTop.png') center no-repeat;
+    background-size: 80px/2 80px/2;
   }
 </style>
