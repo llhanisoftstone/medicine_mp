@@ -880,8 +880,6 @@
   .sendmessage .showloadimg{
     height: 210px/2;
     width: 164px/2;
-    /*background-size: 4.5rem;width: 3.5rem;*/
-    /*background: #cccccc url(../../images/logo.png) no-repeat center center;*/
   }
   .sendmessage p{
     line-height: 38px/2;
@@ -933,10 +931,20 @@
     border-left-color: #fff;
     top: 8px/2;
   }
+  .sendmessage.imgbox:after {
+    border-width: 6px/2;
+    border-left-color: #df5c3e;
+    top: 10px/2;
+  }
+
+  .sendmessage.imgbox:before {
+    border-width: 8px/2;
+    border-left-color: #df5c3e;
+    top: 8px/2;
+  }
+
   .sendmessage img,.sendmessage image{
     width: 200px/2;
-    //max-width: 30px/2;
-    //height: 30px/2;
   }
 
   .getmessageimg{
@@ -981,15 +989,15 @@
     position: absolute;
     width: 0;
   }
-  .getmessageimg:after {
+  .getmessage.imgbox:after {
     border-width: 6px/2;
-    border-right-color: #ffffff;
+    border-right-color: #df5c3e;
     top: 10px/2;
   }
 
-  .getmessageimg:before {
+  .getmessage.imgbox:before {
     border-width: 0;
-    border-right-color: #e4e4e4;
+    border-right-color: #df5c3e;
     top: 8px/2;
   }
 

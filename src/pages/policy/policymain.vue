@@ -337,6 +337,7 @@
           page:that.page,
           size:that.size,
           status:1,
+          order:'hr_code,desc,create_time,desc'
         }
         let res = await that.$get('/rs/info_policy_column');
         if (res.code == 200){
