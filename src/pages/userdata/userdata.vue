@@ -58,7 +58,7 @@
     data(){
       return {
         rank:1,
-        pickerValueArray:["身份证",'工号',"工资号"],
+        pickerValueArray:[],
         pickerValueDefault:[0],
         pickerText:'',
         oldpickerText:'',
@@ -95,6 +95,16 @@
         return  val.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
       },
       showzonePicker: function (e) {
+          this.pickerValueArray=["身份证",'工号',"工资号"];
+        if(this.pickerText=="身份证"){
+          this.pickerValueDefault = [0];
+        }else if(this.pickerText=="工号"){
+          this.pickerValueDefault = [1];
+        }else  if(this.pickerText=="工资号"){
+          this.pickerValueDefault = [2];
+        }else{
+          this.pickerValueDefault = [0];
+        }
         this.$refs.mpvuePicker.show();
       },
       compblur(){
@@ -114,9 +124,6 @@
         }
         this.oldpickerText=this.pickerText;
         this.cardtype=e[0];
-      },
-      onChange(e){
-        this.pickerValue = e.mp.detail.value;
       },
       childrenmitData(){
         if(this.realname==null||(this.realname).trim()==''){
