@@ -17,8 +17,7 @@
     </div>
       <div class="item">
         <div class="title">证件类型</div>
-        <span class="cardname cardtitle" v-if="!pickerText"  @click="showzonePicker" >请选择</span>
-        <span class="cardname" v-if="pickerText" @click="showzonePicker" >{{pickerText}}</span>
+        <input type="default" placeholder="请选择" :value="pickerText" disabled="disabled" @click="showzonePicker" />
       <mpvue-picker
         ref="mpvuePicker" @pickerCancel="pickerCancel"
         :pickerValueArray="pickerValueArray"
@@ -364,17 +363,6 @@
     border-bottom: 1px solid #ccc;
     padding-left: 80px;
     position: relative;
-    .cardname{
-      display:inline-block;
-      height: 40px;
-      font-size: 15px;
-      line-height:40px;
-      width:100%;
-      vertical-align: top;
-    }
-    .cardtitle{
-      color:#808080;
-    }
   }
   .company{
     position: relative;

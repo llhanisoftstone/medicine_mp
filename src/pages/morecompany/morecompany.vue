@@ -161,7 +161,7 @@
         }
       }
       .box-center{
-        width:60%;
+        width:440px/2;
         margin-right:40px/2;
         .name{
           font-size:14px;
