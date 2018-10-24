@@ -51,7 +51,7 @@
             <swiper
               @change="swiperChange"
               :autoplay="false" :circular="true" :interval="3000"
-              :duration="duration" previous-margin='138px' next-margin='138px'>
+              :duration="duration" previous-margin='251rpx' next-margin='251rpx'>
               <template v-if="citem.child.length>0">
                 <block v-for="(listc,il) in citem.child">
                   <swiper-item :class="{activezindex:swiperIndex==il?true:false}">
@@ -839,12 +839,17 @@
       width: 100%;
     }
     swiper-item{
-      display:flex;
-      align-items: center;
-      z-index:1;
-      overflow:visible;
-      text-align:center;
+      /*display:flex;*/
+      /*align-items: center;*/
+      /*z-index:1;*/
+      /*overflow:visible;*/
+      /*text-align:center;*/
       position:relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      overflow:unset;
       image{
         height:160px/2;
         width:250px/2;
