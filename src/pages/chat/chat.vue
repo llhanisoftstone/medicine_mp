@@ -498,6 +498,7 @@
       },
     },
     onLoad:function (option){
+        this.recordclicked=false;
         this.getSysteminfo();
         this.to_u_id=option.tuid;
         this.u_id=this.$store.state.user.userid;
@@ -505,6 +506,7 @@
         this.getChatdata();
     },
     onShow:function(){
+      this.recordclicked=false;
       this.page=1;
       this.setTime=null
       this.watchsocket();
