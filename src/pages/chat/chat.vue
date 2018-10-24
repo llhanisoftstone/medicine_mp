@@ -43,7 +43,7 @@
                     </div>
                   </div>
                   <div v-if="chat.data_type==4" class="content">
-                    <div class="sendmessage">
+                    <div class="sendmessage voicebox">
                       <div style="">
                         <p
                           :id="chat.id"
@@ -80,7 +80,7 @@
                     </div>
                   </div>
                   <div v-if="chat.data_type==4" class="content">
-                    <div class="getmessage">
+                    <div class="getmessage voicebox">
                       <p
                         :id="chat.id"
                         class="voicebtn v_left"
@@ -931,13 +931,13 @@
     border-left-color: #fff;
     top: 8px/2;
   }
-  .sendmessage.imgbox:after {
+  .sendmessage.voicebox:after {
     border-width: 6px/2;
     border-left-color: #df5c3e;
     top: 10px/2;
   }
 
-  .sendmessage.imgbox:before {
+  .sendmessage.voicebox:before {
     border-width: 8px/2;
     border-left-color: #df5c3e;
     top: 8px/2;
@@ -989,13 +989,13 @@
     position: absolute;
     width: 0;
   }
-  .getmessage.imgbox:after {
+  .getmessage.voicebox:after {
     border-width: 6px/2;
     border-right-color: #df5c3e;
     top: 10px/2;
   }
 
-  .getmessage.imgbox:before {
+  .getmessage.voicebox:before {
     border-width: 0;
     border-right-color: #df5c3e;
     top: 8px/2;
