@@ -1,5 +1,5 @@
 <template>
-  <div class="mui-content">
+  <div class="mui-content" :class="{'body_ipxclass':isiphoneX}">
         <scroll-view
           @touchstart="touchStart($event)"
           @touchend="touchEnd($event)"
@@ -96,7 +96,7 @@
           </div>
         </div>
         </scroll-view>
-    <div class="sendarea">
+    <div class="sendarea" :class="{'sendarea_ipxclass':isiphoneX}">
       <div class="common" >
         <span
           @click="voiceBtnClick"
@@ -194,6 +194,7 @@
         scrollTop:0,
         toView:'',
         scrollHeight:0,
+        isiphoneX:false,
       }
     },
     components: {
@@ -491,6 +492,11 @@
         try {
           let res = wx.getSystemInfoSync();
           that.windowheight=res.windowHeight;
+          if(res.model.match(/iPhone X/ig)){
+            that.isiphoneX=true;
+          }else{
+            that.isiphoneX=false;
+          }
         } catch (e) {
 
         }
@@ -1205,5 +1211,10 @@
     max-width: 30px/2;
     height: 30px/2;
   }
-
+.body_ipxclass{
+  margin-bottom: 68px/2 !important;
+}
+  .sendarea_ipxclass{
+    bottom: 68px/2 !important;
+  }
 </style>
