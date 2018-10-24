@@ -303,7 +303,7 @@
           wx.hideNavigationBarLoading(); //完成停止加载
             let chat=res.rows;
             if(res.rows){
-              res.rows[0].create_time=this.formatedate(res.rows[0].create_time);
+              //res.rows[0].create_time=this.formatedate(res.rows[0].create_time);
               for(let val of chat){
                   if(this.u_id==val.to_id){
                     that.to_avatar_url=val.avatar_url;
@@ -518,8 +518,18 @@
       this.pageScrollToBottom();
     },
     onUnload:function(){
-        this.chatdata=[];
+      wx.stopVoice({
+        complete:function(res){
+            console.log(res)
+        }
+      })
+      console.log('离开页面')
+      this.chatdata=[];
     },
+    onHide:function(){
+        console.log('隐藏页面')
+      wx.stopVoice()
+    }
 
 
   }
