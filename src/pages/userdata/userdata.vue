@@ -373,7 +373,7 @@
       vertical-align: top;
     }
     .cardtitle{
-      color:#999;
+      color:#808080;
     }
   }
   .company{
