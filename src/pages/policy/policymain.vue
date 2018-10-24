@@ -905,6 +905,7 @@
           border-radius: 18px/2;
           margin-right: 13px/2;
           max-width:105px/2;
+          word-break: break-all;
           .ellipsis(1)
         }
       }

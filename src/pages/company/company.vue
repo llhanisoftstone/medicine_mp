@@ -314,6 +314,7 @@
 
         }
         this.banner=[];
+        this.noticeArray=[];
         this.compid=option.pid;
         this.getBanner(option.pid);
         this.getNotice(option.pid);
