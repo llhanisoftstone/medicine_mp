@@ -49,13 +49,13 @@
           <span class="handbookpersonn-icon"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
           <div class="personalwelfare">
             <swiper
-              @change="swiperChange"
+              @change="swiperChange($event,citem.c_id)"
               :autoplay="false" :circular="true" :interval="3000"
               :duration="duration" previous-margin='251rpx' next-margin='251rpx'>
               <template v-if="citem.child.length>0">
                 <block v-for="(listc,il) in citem.child">
-                  <swiper-item :class="{activezindex:swiperIndex==il?true:false}">
-                    <image @click.stop="tonewpage('pkselect','pid='+listc.target_id)" :src="imgUrl+listc.icon_path" class="slide-image" :class="{active:swiperIndex==il?true:false}"><span class="font">{{listc.name}}</span></image>
+                  <swiper-item :class="{activezindex:swiperIndex[citem.c_id]==il?true:false}">
+                    <image @click.stop="tonewpage('pkselect','pid='+listc.target_id)" :src="imgUrl+listc.icon_path" class="slide-image" :class="{active:swiperIndex[citem.c_id]==il?true:false}"><span class="font">{{listc.name}}</span></image>
                   </swiper-item>
                 </block>
               </template>
@@ -126,7 +126,7 @@
       banner:0,
       movies:[],
       bannerperson:0,
-      swiperIndex:0,
+      swiperIndex:{},
       jumptype:0,
       scrollIcon:false,
       scrollTop:0,
@@ -318,8 +318,8 @@
     bannerChange(even){
       this.banner=even.mp.detail.current;
     },
-    swiperChange(e){
-      this.swiperIndex= parseFloat(e.mp.detail.current);
+    swiperChange(e,id){
+      this.swiperIndex[id]= parseFloat(e.mp.detail.current);
     },
     async getuserperson(){
       let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
@@ -362,6 +362,7 @@
                           res.column_item[j].child.unshift(res.column_item[j].child[1]);
                         }
                     }
+                    that.swiperIndex[res.column_item[j].c_id]=0;
                 }
                 if(res.column_item[j].c_target_type==2&&res.column_item[j].show_css==3){
                     if(res.column_item[j].child.length>0){

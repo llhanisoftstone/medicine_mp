@@ -88,6 +88,12 @@
       }
     },
     methods: {
+      limitrealname(val){
+        if (!val) {
+          return
+        }
+        return  val.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
+      },
       limit(val){
         if (!val) {
           return
@@ -345,6 +351,14 @@
           this.cardNumtext=this.limit(val);
         }else{
           this.cardNumtext="";
+        }
+      },
+      realname(val,oldval){
+        this.realname = this.limitrealname(val)
+        if(this.limitrealname(val)){
+          this.realname=this.limitrealname(val);
+        }else{
+          this.realname="";
         }
       }
     }
