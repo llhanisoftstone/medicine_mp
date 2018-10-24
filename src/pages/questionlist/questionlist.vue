@@ -137,7 +137,7 @@
     components:{
       confirm
     },
-    onLoad: function (option) {
+    onShow: function (option) {
       this.nogetshow = false;
       this.page=1;
       this.contactlist=[];
