@@ -75,6 +75,11 @@
               if(!res.rows[i].to_avatar_url || res.rows[i].to_avatar_url==''){
                 res.rows[i].to_avatar_url= '/static/img/policy_default.jpg';
               }
+              if(res.rows[i].data_type==2){
+                res.rows[i].details="[图片]"
+              }else if(res.rows[i].data_type==4){
+                res.rows[i].details="[语音]"
+              }
               res.rows[i].update_time = this.conversionTime(res.rows[i].update_time,'-');
             }
             that.contactlist = that.contactlist.concat(res.rows);
@@ -227,7 +232,6 @@
     .chatDetail {
       max-width:328.125px/2;
       font-size: 28px/2;
-      height: 30px/2;
       line-height:120%;
       color: rgb(200,200,200);
       margin-top: 13px/2;

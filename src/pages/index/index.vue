@@ -49,10 +49,10 @@
           <span class="handbookpersonn-icon"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
           <div class="personalwelfare">
             <swiper
-                    @change="swiperChange"
-                    :autoplay="false" :circular="true" :interval="3000"
-                    :duration="duration" indicator-color="rgba(226,226,226,0)" indicator-active-color="rgba(226,226,226,0)" previous-margin='138px' next-margin='138px'>
-              <template v-if="citem.child.length">
+              @change="swiperChange"
+              :autoplay="false" :circular="true" :interval="3000"
+              :duration="duration" previous-margin='138px' next-margin='138px'>
+              <template v-if="citem.child.length>0">
                 <block v-for="(listc,il) in citem.child">
                   <swiper-item :class="{activezindex:swiperIndex==il?true:false}">
                     <image @click.stop="tonewpage('pkselect','pid='+listc.target_id)" :src="imgUrl+listc.icon_path" class="slide-image" :class="{active:swiperIndex==il?true:false}"><span class="font">{{listc.name}}</span></image>
@@ -147,7 +147,7 @@
     tozhan(){
       let thiz=this;
       wx.redirectTo({
-        url:"/pages/policymain/main"
+        url:"/pages/policy/main"
       })
     },
     toindex(){
@@ -283,6 +283,12 @@
               that.$store.commit('getm_user', user)
             }
           })
+          if(that.jumptype==1){
+            that.tozhan();
+          }
+          if(that.jumptype==2){
+            that.toindex();
+          }
         }
       })
     },
@@ -313,8 +319,7 @@
       this.banner=even.mp.detail.current;
     },
     swiperChange(e){
-        console.log(JSON.stringify(e.mp.detail.current))
-      this.swiperIndex= e.mp.detail.current;
+      this.swiperIndex= parseFloat(e.mp.detail.current);
     },
     async getuserperson(){
       let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
