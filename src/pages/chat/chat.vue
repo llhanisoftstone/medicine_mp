@@ -538,6 +538,7 @@
     },
     onShow:function(){
       this.recordclicked=false;
+      this.isMoreShow=false;
       this.sendMsg='';
       this.page=1;
       this.setTime=null
