@@ -358,11 +358,11 @@
               that.column_id=res.column[0].id;
             }
             if(that.page==1){
-
+              that.hrdata=hrData;
             }else{
-              //that.hrdata=that.hrdata.concat(res.hr);
+              that.hrdata=that.hrdata.concat(hrData);
             }
-            that.hrdata=hrData;
+
           }
           that.categorydata=res.column;
 
