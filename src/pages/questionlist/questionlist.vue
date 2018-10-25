@@ -28,7 +28,7 @@
         </ul>
       </div>
       <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
-      <div class="nogetList" v-if="nogetshow"><image src="../../../static/img/kongyemian_03.png"></image><p>暂无记录</p></div>
+      <div class="nogetList" v-if="nogetshow"><image src="/static/img/kongyemian_03.png"></image><p>暂无记录</p></div>
     </div>
 </template>
 
