@@ -6,7 +6,7 @@
             <div class="box-center">
               <div class="name mui-ellipsis">{{item.name}}</div>
               <div class="taglist mui-ellipsis" ><span v-for="(itetag,t) in item.taglist">{{itetag}}</span></div>
-              <div class="detatils mui-ellipsis">{{item.name}}</div>
+              <div class="detatils mui-ellipsis">{{item.province_name}}{{item.city_name}}{{item.zone_name}}{{item.address}}</div>
             </div>
             <div class="box-right"></div>
           </li>
@@ -55,7 +55,7 @@
             page:this.page,
             size:this.size,
             status:'1',
-            order:'create_time desc',
+            order:'sequence desc,create_time desc',
           };
           let res = await that.$get('/rs/company',data);
           if (res.code == 200){

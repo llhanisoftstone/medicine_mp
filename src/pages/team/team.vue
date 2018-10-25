@@ -81,7 +81,7 @@
         </div>
         <div class="fail" v-if="iswin==1">
           <!--<image src="/static/img/team_fail.png"></image>-->
-          <image src="/static/img/shenheshibai_03.jpg"></image>
+          <image src="/static/img/pg.png"></image>
           <p>{{failTips}}</p>
         </div>
       </div>
@@ -1547,19 +1547,19 @@
     .fail{
       width: 100%;
       height: 100%;
-      margin-top: -160px/2;
+      margin-top: -200px/2;
       position: relative;
       z-index:1;
       image{
-        width: 233px/2;
-        height: 271px/2;
+        width: 232px/2;
+        height: 269px/2;
         display: block;
         margin:0 auto;
       }
       p{
         font-size: 28px/2;
         color: #d57e46;
-        margin-top:43px/2;
+        margin-top:23px/2;
         text-align: center;
       }
     }

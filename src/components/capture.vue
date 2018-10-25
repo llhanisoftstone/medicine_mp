@@ -37,7 +37,7 @@
           </li>
         </ul>
         <!--<image src="/static/img/fail.png" class="tips"></image>-->
-        <image src="/static/img/shenheshibai_03.jpg" class="tips"></image>
+        <image src="/static/img/pg.png" class="tips"></image>
         <p>{{failTips}}</p>
       </div>
     </div>
@@ -257,14 +257,14 @@
         display: block;
         position: relative;
         z-index:5;
-        margin-top:-90px/2;
+        margin-top:-150px/2;
       }
       p{
         color: #d57e46;
         font-size: 28px/2;
         width: 100%;
         text-align: center;
-        margin-top:43px/2;
+        margin-top:23px/2;
       }
     }
     .draw_box{

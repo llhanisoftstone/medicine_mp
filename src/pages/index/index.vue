@@ -11,22 +11,39 @@
         </p>
       </div>
     </button>
-    <div id="index_gallerySlider" class="index_gallerySlider">
-      <swiper :indicator-dots="indicatorDots"
-              @change="bannerChange"
-              :autoplay="true" :circular="true" :interval="3000"
-              :duration="duration" indicator-color="rgba(226,226,226,1)" indicator-active-color="#ffffff">
-        <template v-if="movies.length">
-          <block v-for="(item,i) in movies" :key="i">
-            <swiper-item>
-              <a @click.stop="tonewpage(item.url,item.urlid)">
-                <image v-if="item.picpath" :src="item.picpath" class="slide-image" width="355" height="150"/>
-                <image v-if="!item.picpath" src="/static/img/bg_banner.png"></image>
-              </a>
-            </swiper-item>
-          </block>
-        </template>
+    <div class="gallaryslider">
+      <swiper
+        class="swiper-box"
+        @change="bannerChange"
+        :autoplay="true"
+        :interval="3000"
+        :circular="true"
+        :indicator-dots="false">
+        <block
+          :key="idx"
+          v-for="(item,idx) in movies">
+          <swiper-item>
+            <a
+              @click.stop="tonewpage(item.url,item.urlid,true)">
+              <image
+                v-if="item.picpath"
+                :src="imgUrl+item.picpath"></image>
+              <image
+                v-else=""
+                src="/static/img/bg_banner.png"
+              ></image>
+            </a>
+          </swiper-item>
+        </block>
       </swiper>
+      <view class="dots">
+        <block :key="banneridx"
+               v-for="(item,banneridx) in movies">
+          <view
+            :class="{'dot':true,'active':currentSwiper==banneridx}"
+          ></view>
+        </block>
+      </view>
     </div>
     <div v-for="(citem,i) in coumn_item">
       <div v-if="citem.c_target_type==1&&citem.show_css==1" class="handbook-info">
@@ -49,13 +66,13 @@
           <span class="handbookpersonn-icon"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
           <div class="personalwelfare">
             <swiper
-              @change="swiperChange"
+              @change="swiperChange($event,citem.c_id)"
               :autoplay="false" :circular="true" :interval="3000"
               :duration="duration" previous-margin='251rpx' next-margin='251rpx'>
               <template v-if="citem.child.length>0">
                 <block v-for="(listc,il) in citem.child">
-                  <swiper-item :class="{activezindex:swiperIndex==il?true:false}">
-                    <image @click.stop="tonewpage('pkselect','pid='+listc.target_id)" :src="imgUrl+listc.icon_path" class="slide-image" :class="{active:swiperIndex==il?true:false}"><span class="font">{{listc.name}}</span></image>
+                  <swiper-item :class="{activezindex:swiperIndex[citem.c_id]==il?true:false}">
+                    <image @click.stop="tonewpage('pkselect','pid='+listc.target_id)" :src="imgUrl+listc.icon_path" class="slide-image" :class="{active:swiperIndex[citem.c_id]==il?true:false}"><span class="font">{{listc.name}}</span></image>
                   </swiper-item>
                 </block>
               </template>
@@ -67,9 +84,9 @@
         <div class="line-division"></div>
         <div class="common-head headbook-head ">
           <span class="headcompany-head"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
-          <a  @click.stop="tonewpage('morecompany','')" class="ui-link"><span>更多<i>></i></span></a>
-          <ul class="contain_company" v-for="(listc,il) in citem.child">
-            <li @click.stop="tonewpage('company','pid='+listc.target_id)">
+          <a  @click.stop="tonewpage('morecompany','')" class="ui-link"><span><span>更多</span><span :class="{topios:isiphonex}" class="arrowup">></span></span></a>
+          <ul class="contain_company">
+            <li v-for="(listc,il) in citem.child" @click.stop="tonewpage('company','pid='+listc.target_id)">
               <div class="companyhead"><image v-if="listc.cp_picpath" :src="imgUrl+listc.cp_picpath"></image><image v-if="!listc.cp_picpath" src="/static/img/policy_default.jpg"></image></div>
               <div class="companymess">
                 <p class="companyname">{{listc.cp_name}}</p>
@@ -85,7 +102,7 @@
       <div class="line-division"></div>
       <div class="common-head headbook-head ">
         <span class="headgift-head">商家福利</span>
-        <a class="ui-link" :href="'/pages/giftlist/main'"><span>更多<i>></i></span></a>
+        <a class="ui-link" :href="'/pages/giftlist/main'"><span><span>更多</span><span :class="{topios:isiphonex}" class="arrowup">></span></span></a>
       </div>
     </div>
     <!--<div class="gift_title"><span></span><i></i><image src="/static/img/liwu.png"></image>为礼物而挑战<i></i><span></span></div>-->
@@ -126,10 +143,12 @@
       banner:0,
       movies:[],
       bannerperson:0,
-      swiperIndex:0,
+      swiperIndex:{},
+      currentSwiper:0,
       jumptype:0,
       scrollIcon:false,
       scrollTop:0,
+      isiphonex:false,
     }
   },
 
@@ -304,11 +323,10 @@
       let res = await thiz.$get('/rs/banner',getdata);
       if (res.code == 200){
         if (res.rows.length > 0){
-          for(var i=0;i<res.rows.length;i++){
-            res.rows[i].picpath=thiz.$store.state.url+res.rows[i].picpath;
-            res.rows[i].url=(res.rows[i].urlpath).replace(/.html/,"").split("?")[0];
-            res.rows[i].urlid=(res.rows[i].urlpath).split("?")[1];
-          }
+            for(var i=0;i<res.rows.length;i++){
+              res.rows[i].url=(res.rows[i].urlpath).replace(/.html/,"").split("?")[0];
+              res.rows[i].urlid=(res.rows[i].urlpath).split("?")[1];
+            }
           thiz.movies=res.rows;
         }
       }else{
@@ -318,8 +336,8 @@
     bannerChange(even){
       this.banner=even.mp.detail.current;
     },
-    swiperChange(e){
-      this.swiperIndex= parseFloat(e.mp.detail.current);
+    swiperChange(e,id){
+      this.swiperIndex[id]= parseFloat(e.mp.detail.current);
     },
     async getuserperson(){
       let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
@@ -362,6 +380,7 @@
                           res.column_item[j].child.unshift(res.column_item[j].child[1]);
                         }
                     }
+                    that.swiperIndex[res.column_item[j].c_id]=0;
                 }
                 if(res.column_item[j].c_target_type==2&&res.column_item[j].show_css==3){
                     if(res.column_item[j].child.length>0){
@@ -506,6 +525,18 @@
           wx.hideTabBar({animation:true})
         }
       }
+      var that=this;
+      try {
+        var res = wx.getSystemInfoSync();
+        console.log(res)
+        if(res.model.match(/iPhone X/ig)){
+          that.isiphonex=true;
+        }else{
+          that.isiphonex=false;
+        }
+      } catch (e) {
+        // Do something when catch error
+      }
     },
     onShow(){
       this.$store.commit('getorganizid','');
@@ -546,6 +577,33 @@
 
 <style scoped lang="less">
   @import "../../static/less/common.less";
+  .gallaryslider{
+    position: relative;
+    swiper,swiper-item,image{
+      width:100%;
+      height:342px/2;
+      vertical-align: bottom;
+    }
+    .dots{
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 5px/2;
+      display: flex;
+      justify-content: center;
+      .dot{
+        margin: 0 5px/2;
+        width: 10px/2;
+        height: 10px/2;
+        background-color: #cecece;
+        border-radius: 50%;
+        transition: all .3s;
+        &.active{
+          background: #e26c15;
+        }
+      }
+    }
+  }
   .btn_auth{
     width: 750px/2;
     height: 100%;
@@ -888,17 +946,25 @@
     right: 0;
     top: 0;
   }
-  .common-head .ui-link span{
+  .common-head .ui-link>span{
     padding-right:13px;
     font-size: 26px/2;
     float: left;
     display: block;
-    line-height: 0.4rem;
+    line-height: 32px/2;
     color: #666;
-    i{
+    span{
+      line-height: 32px/2;
+      display:inline-block;
+    }
+    .arrowup{
       color: #df5c3e;
+      vertical-align: top;
       font-style: normal;
       display:inline-block;
+    }
+    .arrowup.topios{
+      margin-top:-2px;
     }
   }
   .handbook-icon{
@@ -906,11 +972,11 @@
     font-size: 15px;
     color: #333;
     margin-left:13px;
-    line-height: 0.4rem;
+    line-height:32px/2;
     image{
       width:31px/2;
       height:31px/2;
-      margin-top:-1px;
+      margin-top:-2px;
       vertical-align: middle;
       margin-right:5.5px;
     }
@@ -920,11 +986,11 @@
     font-size: 15px;
     color: #333;
     margin-left:13px;
-    line-height: 0.4rem;
+    line-height:32px/2;
     image{
       width:32px/2;
       height:32px/2;
-      margin-top:-1px;
+      margin-top:-2px;
       vertical-align: middle;
       margin-right:5px;
     }
@@ -944,11 +1010,11 @@
     font-size: 15px;
     color: #333;
     margin-left:13px;
-    line-height: 0.4rem;
+    line-height:32px/2;
     image{
       width:32px/2;
       height:32px/2;
-      margin-top:-1px;
+      margin-top:-2px;
       vertical-align: middle;
       margin-right:5px;
     }

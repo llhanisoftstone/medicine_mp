@@ -2,15 +2,15 @@
   <div class="container">
       <div class="item">
         <div class="title">姓名</div>
-        <input type="text" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
+        <input type="text" v-model='realname' @click="focus=true" :focus="focusshow" maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
       </div>
       <div class="item">
         <div class="title">手机号</div>
-        <input type="number" v-model='phone' maxlength="11" confirm-type="next"  placeholder="手机号" />
+        <input type="number" v-model='phone' @click="focus=true" :focus="focusshow" maxlength="11" confirm-type="next"  placeholder="手机号" />
       </div>
     <div class="item">
       <div class="title">企业</div>
-      <input type="text" v-model='comp_name' @blur="compblur()" maxlength="20" confirm-type="next" placeholder="企业名称"/>
+      <input type="text" v-model='comp_name' @click="focus=true" :focus="focusshow" @blur="compblur()" maxlength="20" confirm-type="next" placeholder="企业名称"/>
       <ul class="company">
         <li v-for="(v,i) in company" @click.stop="choice(v.name)">{{v.name}}</li>
       </ul>
@@ -25,13 +25,13 @@
         :mode="mode"
         :deepLength=deepLength
         @onConfirm="onConfirm"
-      @onChange="onChange">
+      >
       </mpvue-picker>
     </div>
     <div class="item">
       <div class="title">证件号</div>
-      <input type="text" v-model='cardNumtext' v-if="pickerText!='身份证'" maxlength="20" confirm-type="next"  placeholder="证件号" />
-      <input type="idcard" v-model='cardNum' v-if="pickerText=='身份证'" maxlength="18" confirm-type="next"  placeholder="证件号" />
+      <input type="text" v-model='cardNumtext' @click="focus=true" :focus="focusshow" v-if="pickerText!='身份证'" maxlength="20" confirm-type="next"  placeholder="证件号" />
+      <input type="idcard" v-model='cardNum' @click="focus=true" :focus="focusshow" v-if="pickerText=='身份证'" maxlength="18" confirm-type="next"  placeholder="证件号" />
     </div>
       <div class="item" @click="addresslist" v-if="false">
           <div class="title">详细地址</div>
@@ -67,6 +67,7 @@
         name:'',
         gender:'',
         realname:'',
+        focusshow:false,
         comp_name:'',
         phone:'',
         cardNum:'',
@@ -88,6 +89,12 @@
       }
     },
     methods: {
+      limitrealname(val){
+        if (!val) {
+          return
+        }
+        return  val.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
+      },
       limit(val){
         if (!val) {
           return
@@ -95,6 +102,7 @@
         return  val.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
       },
       showzonePicker: function (e) {
+          this.focusshow=false;
           this.pickerValueArray=["身份证",'工号',"工资号"];
         if(this.pickerText=="身份证"){
           this.pickerValueDefault = [0];
@@ -170,7 +178,7 @@
           data.cert_value=this.cardNumtext;
         }
         if(this.comp_name&&this.nocomany){
-          return  this.$mptoast('该企业为入住平台，请重新填写');
+          return  this.$mptoast('该企业未入驻平台，请重新填写');
         }
         this.$post('/rs/complete_user_info',data).then(res=>{
           if(res.code == 200){
@@ -234,22 +242,24 @@
             that.realname=user.realname;
             that.phone=user.phone;
             that.isclick=true;
-            that.cert_type=user.cert_type;
             if(user.cert_type==1){
                 that.pickerText='身份证';
                 that.oldpickerText="身份证";
               that.cardNum=user.cert_value;
               that.cardNumtext="";
+              that.cardtype=0;
             }else if(user.cert_type==2){
               that.pickerText='工号';
               that.oldpickerText="工号";
               that.cardNumtext=user.cert_value;
               that.cardNum="";
+              that.cardtype=1;
             }else if(user.cert_type==3){
               that.pickerText='工资号';
               that.oldpickerText="工资号";
               that.cardNumtext=user.cert_value;
               that.cardNum="";
+              that.cardtype=2;
             }else{
               that.pickerText="";
               that.cardtype="";
@@ -312,6 +322,14 @@
         clearTimeout(this.timeout)
         this.timeout=null;
       }
+      this.pickerText="";
+      this.cardtype="";
+      this.oldpickerText="";
+      this.cardNumtext="";
+      this.cardNum="";
+      this.realname="";
+      this.phone="";
+      this.focusshow=false;
       this.company=[];
       wx.removeStorage({
         key: 'keyuser',
@@ -345,6 +363,14 @@
           this.cardNumtext=this.limit(val);
         }else{
           this.cardNumtext="";
+        }
+      },
+      realname(val,oldval){
+        this.realname = this.limitrealname(val)
+        if(this.limitrealname(val)){
+          this.realname=this.limitrealname(val);
+        }else{
+          this.realname="";
         }
       }
     }

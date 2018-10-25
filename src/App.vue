@@ -3,7 +3,7 @@ export default {
   created () {
     let that = this
     let showmsg = null
-    let loadTime=null
+    let loadTime = null
     that.getquick()
     that.getTips()
     this.$socket.on('connect', () => {
@@ -17,7 +17,6 @@ export default {
       }
     });
     this.$socket.on('disconnect', d => {
-      console.log(d)
        wx.showLoading({
          mask: true
        })

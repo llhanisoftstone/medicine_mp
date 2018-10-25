@@ -10,7 +10,8 @@
               <div class="box_left">
                 <div class="box-left_div bg_touxiang80">
                   <image :src="item.to_avatar_url" alt=""></image>
-                  <span class="mui-bage" v-if="item.unread_count>0">{{item.unread_count}}</span>
+                  <span class="mui-bage" v-if="item.unread_count>0&&item.unread_count<=99">{{item.unread_count}}</span>
+                  <span class="mui-bage" v-if="item.unread_count>0&&item.unread_count>99">99+</span>
                 </div>
                 <div class="item-info">
                   <div class="name_info">
@@ -81,8 +82,9 @@
                 res.rows[i].details="[语音]"
               }
               res.rows[i].update_time = this.conversionTime(res.rows[i].update_time,'-');
+              that.contactlist.push( res.rows[i]);
             }
-            that.contactlist = that.contactlist.concat(res.rows);
+
           }
         }else if (res.code == 602 && that.page == 1){
           that.nogetshow=true;
@@ -137,7 +139,7 @@
     components:{
       confirm
     },
-    onLoad: function (option) {
+    onShow: function (option) {
       this.nogetshow = false;
       this.page=1;
       this.contactlist=[];

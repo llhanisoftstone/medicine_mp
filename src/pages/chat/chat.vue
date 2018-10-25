@@ -398,7 +398,7 @@
         })
       },
       play(path){
-        this.$playAudio(this.$store.state.url+path)
+        this.$playAudio(this.$store.state.url + path);
       },
       sendImg(imgType){
         var that=this;
@@ -528,7 +528,7 @@
         this.getSysteminfo();
         this.to_u_id=option.tuid;
         this.u_id=this.$store.state.user.userid;
-        console.log(this.$store.state.user)
+        console.log(this.$store.state.user);
         this.getChatdata();
     },
     onShow:function(){
