@@ -173,12 +173,12 @@
                   <span class="utitle">经办人</span>
                 </div>
                 <div
-                  v-if="hr.hrtags"
+                  v-if="hr.hr_list"
                   class="tag-box">
                   <span
-                    v-for="(tag,tidx) in hr.hrtags"
+                    v-for="(tag,tidx) in hr.hr_list"
                     :key="tidx"
-                    class="tag">{{tag}}</span>
+                    class="tag">{{tag.name}}</span>
                 </div>
                 <div class="count">
                   <span class="ctitle">咨询数：</span>
@@ -344,17 +344,15 @@
           let hrData=res.hr;
           if(hrData){
             for(let val of hrData){
-                if(val.hr_tag && val.hr_tag.length>0){
-                  let tags=val.hr_tag.split(',');
+                if(val.hr_list && val.hr_list.length>0){
+                  let tags=val.hr_list;
                   if(tags.length>3){
                     tags=tags.slice(0,3)
                   }
-                  val.talk_count=that.formatcount(val.talk_count);
-                  val.hrtags=tags;
-//                  if(!val.avatar_url){
-//                    val.avatar_url='/static/img/user.png'
-//                  }
+                  //val.hrtags=tags;
                 }
+              val.talk_count=that.formatcount(val.talk_count);
+
             }
             if(res.column){
               that.column_id=res.column[0].id;
