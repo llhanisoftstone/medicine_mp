@@ -14,7 +14,7 @@
               v-for="(item,idx) in banner">
               <swiper-item>
                 <a
-                  @click.stop="tonewpage(item.urlpath,'')">
+                  @click.stop="tonewpage(item.urlpath,'',true)">
                   <image
                     v-if="item.picpath"
                     :src="imgURL+item.picpath"></image>
@@ -86,7 +86,7 @@
           </div>
           <div
             @click.stop="tonewpage('noticelist','pid='+compid)"
-            class="more">更多<span>&gt;</span></div>
+            class="more">更多<span :class="{iphonexclass:isiphonex}">&gt;</span></div>
         </div>
         <ul class="notice_msg">
           <li
@@ -107,7 +107,7 @@
           </div>
           <div
             @click.stop="tonewpage('giftlist')"
-            class="more">更多<span>&gt;</span></div>
+            class="more">更多<span  :class="{iphonexclass:isiphonex}">&gt;</span></div>
         </div>
         <ul class="gift_list">
           <li  v-for="(v,i) in win_treasure" >
@@ -140,7 +140,8 @@
               banner:[],
               noticeArray:[],//通知列表
               column_item:[], //栏目
-              compid:''
+              compid:'',
+              isiphonex:false,
             }
         },
       methods: {
@@ -153,11 +154,30 @@
               urls: imglist // 需要预览的图片http链接列表
             })
           },
-          tonewpage(urlname,data){
+          tonewpage(urlname,data,adminUrl){
             if(!urlname){return;}
-            wx.navigateTo({
-              url:`/pages/${urlname}/main?${data}`
-            })
+            if(!adminUrl){
+              wx.navigateTo({
+                url:`/pages/${urlname}/main?${data}`
+              })
+              return;
+            }else{
+                var strIdx=urlname.indexOf('?');
+                var reg = RegExp(/index|policy|personcenter/);
+                if(urlname.match(reg)){
+                  wx.switchTab({
+                    url:`/pages/${urlname}/main?${data}`
+                  })
+                  return;
+                }
+                if(strIdx!=-1){
+                  data=urlname.slice(strIdx)
+                  urlname=urlname.slice(0,strIdx);
+                }
+                wx.navigateTo({
+                  url:`/pages/${urlname}/main?${data}`
+                })
+            }
           },
           async getBanner (pid){
             let thiz = this;
@@ -324,6 +344,16 @@
       onShow(){
         this.currentSwiper=0;
         this.watchsocket()
+        try {
+          let res = wx.getSystemInfoSync();
+          if(res.model.match(/iPhone X/ig)){
+            this.isiphonex=true;
+          }else{
+            this.isiphonex=false;
+          }
+        } catch (e) {
+
+        }
       },
       onHide(){
         this.$socket.removeAllListeners('data_chain')
@@ -401,6 +431,12 @@
       color:#666666;
       span{
         color:#df5c3e;
+        vertical-align: top;
+        font-style: normal;
+        display:inline-block;
+        &.iphonexclass{
+          margin-top: -2px;
+        }
       }
     }
     .study_box{
