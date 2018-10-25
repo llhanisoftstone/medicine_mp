@@ -68,11 +68,11 @@
             <swiper
               @change="swiperChange($event,citem.c_id)"
               :autoplay="false" :circular="true" :interval="3000"
-              :duration="duration" previous-margin='251rpx' next-margin='251rpx'>
+              :duration="duration" next-margin='20rpx'>
               <template v-if="citem.child.length>0">
                 <block v-for="(listc,il) in citem.child">
-                  <swiper-item :class="{activezindex:swiperIndex[citem.c_id]==il?true:false}">
-                    <image @click.stop="tonewpage('pkselect','pid='+listc.target_id)" :src="imgUrl+listc.icon_path" class="slide-image" :class="{active:swiperIndex[citem.c_id]==il?true:false}"><span class="font">{{listc.name}}</span></image>
+                  <swiper-item>
+                    <image @click.stop="tonewpage('pkselect','pid='+listc.target_id)" :src="imgUrl+listc.icon_path" class="slide-image"><span class="font">{{listc.name}}</span></image>
                   </swiper-item>
                 </block>
               </template>
@@ -334,7 +334,7 @@
       }
     },
     bannerChange(even){
-      this.banner=even.mp.detail.current;
+      this.currentSwiper=even.mp.detail.current;
     },
     swiperChange(e,id){
       this.swiperIndex[id]= parseFloat(e.mp.detail.current);
@@ -897,11 +897,7 @@
       width: 100%;
     }
     swiper-item{
-      /*display:flex;*/
-      /*align-items: center;*/
-      /*z-index:1;*/
-      /*overflow:visible;*/
-      /*text-align:center;*/
+      width:437px/2 !important;
       position:relative;
       display: flex;
       flex-direction: column;
@@ -909,8 +905,9 @@
       align-items: flex-start;
       overflow:unset;
       image{
-        height:160px/2;
-        width:250px/2;
+        height:230px/2;
+        width:417px/2;
+        margin-left:20/2px;
         box-shadow:0 2.5px 2.5px rgba(101,101,101,0.75);
         border-radius:20px/2;
         position:relative;
@@ -923,14 +920,6 @@
           color:#fff;
         }
       }
-      image.active{
-          transform:scale(1.44);
-          transition: all 0.5s;
-          border-radius:30px/2;
-      }
-    }
-    swiper-item.activezindex{
-      z-index:20;
     }
   }
   .common-head{

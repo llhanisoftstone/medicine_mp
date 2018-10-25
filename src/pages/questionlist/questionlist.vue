@@ -28,7 +28,7 @@
         </ul>
       </div>
       <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
-      <div class="nogetList" v-if="nogetshow"><image src="../../../static/img/kongyemian_03.png"></image><p>暂无记录</p></div>
+      <div class="nogetList" v-if="nogetshow"><image src="/static/img/kongyemian_03.png"></image><p>暂无记录</p></div>
     </div>
 </template>
 
@@ -71,6 +71,9 @@
         let res = await that.$get('/rs/contact_chats_list',data);
         if (res.code == 200){
           that.nogetshow=false;
+          if(that.page==1){
+            that.contactlist=[];
+          }
           if (res.rows.length > 0){
             for (let i=0; i<res.rows.length; i++){
               if(!res.rows[i].to_avatar_url || res.rows[i].to_avatar_url==''){
@@ -82,12 +85,13 @@
                 res.rows[i].details="[语音]"
               }
               res.rows[i].update_time = this.conversionTime(res.rows[i].update_time,'-');
-              that.contactlist.push( res.rows[i]);
+              that.contactlist.push(res.rows[i]);
             }
 
           }
         }else if (res.code == 602 && that.page == 1){
           that.nogetshow=true;
+          that.contactlist=[];
         }
       },
       conversionTime(time,sign){

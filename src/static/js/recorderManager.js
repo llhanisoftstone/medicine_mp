@@ -39,8 +39,7 @@ export function playAudio (path) {
   })
   AudioContext.src = path
   AudioContext.obeyMuteSwitch = false
-  AudioContext.volume = 99;
-  AudioContext.obeyMuteSwitch = false;
+  AudioContext.volume = 99
   console.log(AudioContext.duration)
   AudioContext.play()
 }

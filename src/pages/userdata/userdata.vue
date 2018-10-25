@@ -2,15 +2,15 @@
   <div class="container">
       <div class="item">
         <div class="title">姓名</div>
-        <input type="text" v-model='realname' @click="focus=true" :focus="focusshow" maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
+        <input type="text" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
       </div>
       <div class="item">
         <div class="title">手机号</div>
-        <input type="number" v-model='phone' @click="focus=true" :focus="focusshow" maxlength="11" confirm-type="next"  placeholder="手机号" />
+        <input type="number" v-model='phone' maxlength="11" confirm-type="next"  placeholder="手机号" />
       </div>
     <div class="item">
       <div class="title">企业</div>
-      <input type="text" v-model='comp_name' @click="focus=true" :focus="focusshow" @blur="compblur()" maxlength="20" confirm-type="next" placeholder="企业名称"/>
+      <input type="text" v-model='comp_name' @blur="compblur()" maxlength="20" confirm-type="next" placeholder="企业名称"/>
       <ul class="company">
         <li v-for="(v,i) in company" @click.stop="choice(v.name)">{{v.name}}</li>
       </ul>
@@ -30,8 +30,8 @@
     </div>
     <div class="item">
       <div class="title">证件号</div>
-      <input type="text" v-model='cardNumtext' @click="focus=true" :focus="focusshow" v-if="pickerText!='身份证'" maxlength="20" confirm-type="next"  placeholder="证件号" />
-      <input type="idcard" v-model='cardNum' @click="focus=true" :focus="focusshow" v-if="pickerText=='身份证'" maxlength="18" confirm-type="next"  placeholder="证件号" />
+      <input type="text" v-model='cardNumtext' v-if="pickerText!='身份证'" maxlength="20" confirm-type="next"  placeholder="证件号" />
+      <input type="idcard" v-model='cardNum' v-if="pickerText=='身份证'" maxlength="18" confirm-type="next"  placeholder="证件号" />
     </div>
       <div class="item" @click="addresslist" v-if="false">
           <div class="title">详细地址</div>
@@ -67,7 +67,6 @@
         name:'',
         gender:'',
         realname:'',
-        focusshow:false,
         comp_name:'',
         phone:'',
         cardNum:'',
@@ -102,7 +101,6 @@
         return  val.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
       },
       showzonePicker: function (e) {
-          this.focusshow=false;
           this.pickerValueArray=["身份证",'工号',"工资号"];
         if(this.pickerText=="身份证"){
           this.pickerValueDefault = [0];
@@ -329,7 +327,6 @@
       this.cardNum="";
       this.realname="";
       this.phone="";
-      this.focusshow=false;
       this.company=[];
       wx.removeStorage({
         key: 'keyuser',
