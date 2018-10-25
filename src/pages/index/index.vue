@@ -11,22 +11,39 @@
         </p>
       </div>
     </button>
-    <div id="index_gallerySlider" class="index_gallerySlider">
-      <swiper :indicator-dots="indicatorDots"
-              @change="bannerChange"
-              :autoplay="true" :circular="true" :interval="3000"
-              :duration="duration" indicator-color="rgba(226,226,226,1)" indicator-active-color="#ffffff">
-        <template v-if="movies.length">
-          <block v-for="(item,i) in movies" :key="i">
-            <swiper-item>
-              <a @click.stop="tonewpage(item.url,item.urlid)">
-                <image v-if="item.picpath" :src="item.picpath" class="slide-image" width="355" height="150"/>
-                <image v-if="!item.picpath" src="/static/img/bg_banner.png"></image>
-              </a>
-            </swiper-item>
-          </block>
-        </template>
+    <div class="gallaryslider">
+      <swiper
+        class="swiper-box"
+        @change="bannerChange"
+        :autoplay="true"
+        :interval="3000"
+        :circular="true"
+        :indicator-dots="false">
+        <block
+          :key="idx"
+          v-for="(item,idx) in movies">
+          <swiper-item>
+            <a
+              @click.stop="tonewpage(item.urlpath,'')">
+              <image
+                v-if="item.picpath"
+                :src="imgUrl+item.picpath"></image>
+              <image
+                v-else=""
+                src="/static/img/bg_banner.png"
+              ></image>
+            </a>
+          </swiper-item>
+        </block>
       </swiper>
+      <view class="dots">
+        <block :key="banneridx"
+               v-for="(item,banneridx) in movies">
+          <view
+            :class="{'dot':true,'active':currentSwiper==banneridx}"
+          ></view>
+        </block>
+      </view>
     </div>
     <div v-for="(citem,i) in coumn_item">
       <div v-if="citem.c_target_type==1&&citem.show_css==1" class="handbook-info">
@@ -127,6 +144,7 @@
       movies:[],
       bannerperson:0,
       swiperIndex:{},
+      currentSwiper:0,
       jumptype:0,
       scrollIcon:false,
       scrollTop:0,
@@ -304,11 +322,6 @@
       let res = await thiz.$get('/rs/banner',getdata);
       if (res.code == 200){
         if (res.rows.length > 0){
-          for(var i=0;i<res.rows.length;i++){
-            res.rows[i].picpath=thiz.$store.state.url+res.rows[i].picpath;
-            res.rows[i].url=(res.rows[i].urlpath).replace(/.html/,"").split("?")[0];
-            res.rows[i].urlid=(res.rows[i].urlpath).split("?")[1];
-          }
           thiz.movies=res.rows;
         }
       }else{
@@ -547,6 +560,33 @@
 
 <style scoped lang="less">
   @import "../../static/less/common.less";
+  .gallaryslider{
+    position: relative;
+    swiper,swiper-item,image{
+      width:100%;
+      height:342px/2;
+      vertical-align: bottom;
+    }
+    .dots{
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 5px/2;
+      display: flex;
+      justify-content: center;
+      .dot{
+        margin: 0 5px/2;
+        width: 10px/2;
+        height: 10px/2;
+        background-color: #cecece;
+        border-radius: 50%;
+        transition: all .3s;
+        &.active{
+          background: #e26c15;
+        }
+      }
+    }
+  }
   .btn_auth{
     width: 750px/2;
     height: 100%;

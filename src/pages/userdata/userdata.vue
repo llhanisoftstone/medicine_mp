@@ -242,22 +242,24 @@
             that.realname=user.realname;
             that.phone=user.phone;
             that.isclick=true;
-            that.cert_type=user.cert_type;
             if(user.cert_type==1){
                 that.pickerText='身份证';
                 that.oldpickerText="身份证";
               that.cardNum=user.cert_value;
               that.cardNumtext="";
+              that.cardtype=0;
             }else if(user.cert_type==2){
               that.pickerText='工号';
               that.oldpickerText="工号";
               that.cardNumtext=user.cert_value;
               that.cardNum="";
+              that.cardtype=1;
             }else if(user.cert_type==3){
               that.pickerText='工资号';
               that.oldpickerText="工资号";
               that.cardNumtext=user.cert_value;
               that.cardNum="";
+              that.cardtype=2;
             }else{
               that.pickerText="";
               that.cardtype="";
