@@ -85,8 +85,8 @@
         <div class="common-head headbook-head ">
           <span class="headcompany-head"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
           <a  @click.stop="tonewpage('morecompany','')" class="ui-link"><span>更多<i>></i></span></a>
-          <ul class="contain_company" v-for="(listc,il) in citem.child">
-            <li @click.stop="tonewpage('company','pid='+listc.target_id)">
+          <ul class="contain_company">
+            <li v-for="(listc,il) in citem.child" @click.stop="tonewpage('company','pid='+listc.target_id)">
               <div class="companyhead"><image v-if="listc.cp_picpath" :src="imgUrl+listc.cp_picpath"></image><image v-if="!listc.cp_picpath" src="/static/img/policy_default.jpg"></image></div>
               <div class="companymess">
                 <p class="companyname">{{listc.cp_name}}</p>
