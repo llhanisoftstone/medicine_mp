@@ -86,7 +86,7 @@
           </div>
           <div
             @click.stop="tonewpage('noticelist','pid='+compid)"
-            class="more">更多<span>&gt;</span></div>
+            class="more">更多<span :class="{iphonexclass:isiphonex}">&gt;</span></div>
         </div>
         <ul class="notice_msg">
           <li
@@ -107,7 +107,7 @@
           </div>
           <div
             @click.stop="tonewpage('giftlist')"
-            class="more">更多<span>&gt;</span></div>
+            class="more">更多<span  :class="{iphonexclass:isiphonex}">&gt;</span></div>
         </div>
         <ul class="gift_list">
           <li  v-for="(v,i) in win_treasure" >
@@ -140,7 +140,8 @@
               banner:[],
               noticeArray:[],//通知列表
               column_item:[], //栏目
-              compid:''
+              compid:'',
+              isiphonex:false,
             }
         },
       methods: {
@@ -343,6 +344,16 @@
       onShow(){
         this.currentSwiper=0;
         this.watchsocket()
+        try {
+          let res = wx.getSystemInfoSync();
+          if(res.model.match(/iPhone X/ig)){
+            this.isiphonex=true;
+          }else{
+            this.isiphonex=false;
+          }
+        } catch (e) {
+
+        }
       },
       onHide(){
         this.$socket.removeAllListeners('data_chain')
@@ -420,6 +431,12 @@
       color:#666666;
       span{
         color:#df5c3e;
+        vertical-align: top;
+        font-style: normal;
+        display:inline-block;
+        &.iphonexclass{
+          margin-top: -2px;
+        }
       }
     }
     .study_box{
