@@ -240,11 +240,14 @@
       wx.hideNavigationBarLoading(); //完成停止加载
       wx.stopPullDownRefresh() //停止下拉刷新
     },
-    onReachBottom () {
+    /*onReachBottom () {
+      if(this.column_id==''){
+          return;
+      }
       this.page++;
       this.loadmore()
       // 上拉加载
-    },
+    },*/
     methods: {
       async getpolicyMain() {
         let that = this;
@@ -347,10 +350,9 @@
                   if(tags.length>6){
                     tags=tags.slice(0,6)
                   }
-                  //val.hrtags=tags;
+                  val.hr_list=tags;
                 }
               val.talk_count=that.formatcount(val.talk_count);
-
             }
             if(res.column){
               that.column_id=res.column[0].id;
@@ -896,7 +898,7 @@
       }
       .tag-box{
         line-height:34px/2;
-        margin-bottom: 18px/2;
+        //margin-bottom: 18px/2;
         display:flex;
         flex-wrap: wrap;
         overflow: hidden;
@@ -909,6 +911,7 @@
           margin-right: 13px/2;
           max-width:105px/2;
           word-break: break-all;
+          margin-bottom: 10px/2;
           .ellipsis(1)
         }
       }
