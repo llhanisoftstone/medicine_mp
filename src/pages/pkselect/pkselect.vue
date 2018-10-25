@@ -162,7 +162,7 @@
       }
       .pktitle{
         background:url(../../../static/img/duoren01.png) no-repeat center center;
-        background-size:190px/2 40px/2;
+        background-size:175px/2 35px/2;
         width:190px/2;
         height:40px/2;
       }
