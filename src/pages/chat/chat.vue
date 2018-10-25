@@ -673,7 +673,7 @@
   .module{
     box-sizing: border-box;
     width:100%;
-    height:412px/2;
+    height:310px/2;
     background: #f6f6f6;
     padding:36px/2 74px/2;
     border-top: 1px solid #e3e3e3;
