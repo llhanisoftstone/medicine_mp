@@ -334,18 +334,28 @@
         }
       },
       recordStart(e){
+        wx.vibrateShort();
         let that=this;
         that.startX = e.mp.changedTouches[0].clientX;
         that.startY = e.mp.changedTouches[0].clientY;
-        wx.vibrateShort();
+        wx.getSetting({
+          success(res) {
+            if (!res.authSetting['scope.record']) {
+              that.$mptoast('请先开启录音权限');
+              setTimeout(()=>{
+                wx.openSetting();
+              },1500)
+              return;
+            }
+          }
+        })
         that.inputfocus=false;
         that.recordclicked=true;
         that.voicetip='松开 结束';
         that.$startManager();
         that.setTime=setInterval(()=>{
-            that.setTimeNum++;
+          that.setTimeNum++;
         },1000)
-
       },
       recordStop(e){
         let that = this;
@@ -531,13 +541,13 @@
             console.log(res)
         }
       })
-//      console.log('离开页面')
+      wx.stopBackgroundAudio()
       this.chatdata=[];
-
     },
     onHide:function(){
         console.log('隐藏页面')
       wx.stopVoice()
+      wx.stopBackgroundAudio()
     }
 
 

@@ -339,12 +339,12 @@
           status:1,
           order:'hr_code,desc,create_time,desc'
         }
-        let res = await that.$get('/rs/info_policy_column');
+        let res = await that.$get('/rs/info_policy_column',pdata);
         if (res.code == 200){
           let hrData=res.hr;
           if(hrData){
             for(let val of hrData){
-                if(val.hr_tag.length>0){
+                if(val.hr_tag && val.hr_tag.length>0){
                   let tags=val.hr_tag.split(',');
                   if(tags.length>3){
                     tags=tags.slice(0,3)
@@ -367,10 +367,11 @@
             that.hrdata=hrData;
           }
           that.categorydata=res.column;
+
         }
-        if(that.column_id){
+//        if(that.column_id){
           that.getpolicyMain();//获取政策百科主页数据
-        }
+//        }
       },
       tochat(touid){
         if(this.u_id==touid){
