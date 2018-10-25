@@ -66,7 +66,7 @@
           page:this.page,
           size:this.size,
           u_id:this.$store.state.user.userid,
-          order:'unread_count desc,create_time desc',
+          order:'is_read desc,create_time desc',
         };
         let res = await that.$get('/rs/contact_chats_list',data);
         if (res.code == 200){
@@ -146,7 +146,6 @@
     onShow: function (option) {
       this.nogetshow = false;
       this.page=1;
-      this.contactlist=[];
       this.getList();
     },
     onPageScroll:function(res){
