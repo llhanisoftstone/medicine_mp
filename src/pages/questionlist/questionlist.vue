@@ -81,8 +81,9 @@
                 res.rows[i].details="[语音]"
               }
               res.rows[i].update_time = this.conversionTime(res.rows[i].update_time,'-');
+              that.contactlist.push( res.rows[i]);
             }
-            that.contactlist = that.contactlist.concat(res.rows);
+
           }
         }else if (res.code == 602 && that.page == 1){
           that.nogetshow=true;
