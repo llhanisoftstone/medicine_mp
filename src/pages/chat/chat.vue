@@ -292,8 +292,10 @@
             }else{
               msgdata.details=d.detail;
             }
-            that.chatdata.push(msgdata);
-            that.pageScrollToBottom(msg_id)
+            if(d.u_id==that.u_id){
+              that.chatdata.push(msgdata);
+              that.pageScrollToBottom(msg_id)
+            }
           }
         })
       },
