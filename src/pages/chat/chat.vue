@@ -3,6 +3,7 @@
         <scroll-view
           @touchstart="touchStart($event)"
           @touchend="touchEnd($event)"
+          @click="isMoreShow=false;"
           :scroll-y="true"
           @scroll="chatScroll"
           :scroll-with-animation="true"
