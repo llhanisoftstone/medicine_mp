@@ -370,6 +370,7 @@
 //        if(that.column_id){
           that.getpolicyMain();//获取政策百科主页数据
 //        }
+
       },
       tochat(touid){
         if(this.u_id==touid){

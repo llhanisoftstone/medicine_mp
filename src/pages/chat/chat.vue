@@ -236,6 +236,9 @@
     methods:{
       sendMessage(){
         let that=this;
+        if(that.sendMsg==''){
+            return;
+        }
         that.inputfocus=true;
         that.chatType=1;
         this.$socket.emit('data_chain',{
