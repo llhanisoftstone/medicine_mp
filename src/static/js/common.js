@@ -40,9 +40,12 @@ function getDate (v1) {
   if (v1 == null) {
     return
   }
+  v1 = v1.replace(/-/g, '/')
   var data = Date.parse(v1)
   data = new Date(data)
-  return data.getFullYear() + '-' + parseInt(data.getMonth() + 1) + '-' + data.getDate()
+  var month = parseInt(data.getMonth() + 1) < 10 ? '0' + parseInt(data.getMonth() + 1) : parseInt(data.getMonth() + 1)
+  var date = parseInt(data.getDate()) < 10 ? '0' + parseInt(data.getDate()) : parseInt(data.getDate())
+  return data.getFullYear() + '-' + month + '-' + date
 }
 let commons = {zcount, formatPrice, distance, getDate}
 export default commons
