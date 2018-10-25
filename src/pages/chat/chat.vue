@@ -16,7 +16,7 @@
               <div
                 v-for="(chat,indx) in chatdata"
                 class="box_bd" id="messageList">
-                <div v-if="indx==0" class="time"><span>{{chat.create_time}}</span></div>
+                <div v-if="indx%size==0" class="time"><span>{{chat.create_time}}</span></div>
                 <!--我发送的-->
                 <div
                   v-if="u_id==chat.u_id"
@@ -529,6 +529,7 @@
     },
     onLoad:function (option){
         this.recordclicked=false;
+        this.getNodata=false;
         this.getSysteminfo();
         this.to_u_id=option.tuid;
         this.u_id=this.$store.state.user.userid;
