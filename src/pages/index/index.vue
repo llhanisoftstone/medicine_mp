@@ -24,7 +24,7 @@
           v-for="(item,idx) in movies">
           <swiper-item>
             <a
-              @click.stop="tonewpage(item.urlpath,'')">
+              @click.stop="tonewpage(item.url,item.urlid,true)">
               <image
                 v-if="item.picpath"
                 :src="imgUrl+item.picpath"></image>
@@ -322,6 +322,10 @@
       let res = await thiz.$get('/rs/banner',getdata);
       if (res.code == 200){
         if (res.rows.length > 0){
+            for(var i=0;i<res.rows.length;i++){
+              res.rows[i].url=(res.rows[i].urlpath).replace(/.html/,"").split("?")[0];
+              res.rows[i].urlid=(res.rows[i].urlpath).split("?")[1];
+            }
           thiz.movies=res.rows;
         }
       }else{
