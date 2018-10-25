@@ -14,7 +14,7 @@
               v-for="(item,idx) in banner">
               <swiper-item>
                 <a
-                  @click.stop="tonewpage(item.urlpath,'')">
+                  @click.stop="tonewpage(item.urlpath,'',true)">
                   <image
                     v-if="item.picpath"
                     :src="imgURL+item.picpath"></image>
@@ -153,11 +153,30 @@
               urls: imglist // 需要预览的图片http链接列表
             })
           },
-          tonewpage(urlname,data){
+          tonewpage(urlname,data,adminUrl){
             if(!urlname){return;}
-            wx.navigateTo({
-              url:`/pages/${urlname}/main?${data}`
-            })
+            if(!adminUrl){
+              wx.navigateTo({
+                url:`/pages/${urlname}/main?${data}`
+              })
+              return;
+            }else{
+                var strIdx=urlname.indexOf('?');
+                var reg = RegExp(/index|policy|personcenter/);
+                if(urlname.match(reg)){
+                  wx.switchTab({
+                    url:`/pages/${urlname}/main?${data}`
+                  })
+                  return;
+                }
+                if(strIdx!=-1){
+                  data=urlname.slice(strIdx)
+                  urlname=urlname.slice(0,strIdx);
+                }
+                wx.navigateTo({
+                  url:`/pages/${urlname}/main?${data}`
+                })
+            }
           },
           async getBanner (pid){
             let thiz = this;
