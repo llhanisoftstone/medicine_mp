@@ -178,7 +178,7 @@
           data.cert_value=this.cardNumtext;
         }
         if(this.comp_name&&this.nocomany){
-          return  this.$mptoast('该企业为入住平台，请重新填写');
+          return  this.$mptoast('该企业未入驻平台，请重新填写');
         }
         this.$post('/rs/complete_user_info',data).then(res=>{
           if(res.code == 200){
