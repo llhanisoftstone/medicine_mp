@@ -334,8 +334,6 @@
       async getPolicydata(){
         let that = this;
         let pdata={
-          page:that.page,
-          size:that.size,
           status:1,
           order:'hr_code,desc,create_time,desc'
         }
@@ -346,8 +344,8 @@
             for(let val of hrData){
                 if(val.hr_list && val.hr_list.length>0){
                   let tags=val.hr_list;
-                  if(tags.length>3){
-                    tags=tags.slice(0,3)
+                  if(tags.length>6){
+                    tags=tags.slice(0,6)
                   }
                   //val.hrtags=tags;
                 }
@@ -357,12 +355,8 @@
             if(res.column){
               that.column_id=res.column[0].id;
             }
-            if(that.page==1){
-              that.hrdata=hrData;
-            }else{
-              that.hrdata=that.hrdata.concat(hrData);
-            }
 
+            that.hrdata=hrData;
           }
           that.categorydata=res.column;
 
@@ -904,7 +898,7 @@
         line-height:34px/2;
         margin-bottom: 18px/2;
         display:flex;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         overflow: hidden;
         .tag{
           font-size: 21px/2;
