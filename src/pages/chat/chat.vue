@@ -213,6 +213,7 @@
     watch:{
       setTimeNum:{
         handler:function(oldval,newval){
+            console.log('settimeNum:'+newval)
           if(newval>=59){
             this.recordStop();
           }
@@ -345,6 +346,9 @@
       recordStart(e){
         wx.vibrateShort();
         let that=this;
+        clearInterval(that.setTime);
+        that.setTime=null;
+        that.setTimeNum=0;
         that.$stopAudio();
         that.startX = e.mp.changedTouches[0].clientX;
         that.startY = e.mp.changedTouches[0].clientY;
@@ -363,9 +367,9 @@
         that.recordclicked=true;
         that.voicetip='松开 结束';
         that.$startManager();
-        that.setTime=setInterval(()=>{
-          that.setTimeNum++;
-        },1000)
+//        that.setTime=setInterval(()=>{
+//          that.setTimeNum++;
+//        },1000)
       },
       recordStop(e){
         let that = this;
@@ -386,21 +390,22 @@
         }
         that.chatType=4;
         that.$stopManager(res =>{
-          let data = JSON.parse(res.data)
+          //let data = JSON.parse(res.data)
+          let data = res.data
           console.log(data)
           let file=res.file;
           if(file.duration<1000){
               that.$mptoast('录音时间太短');
-              return;
+          }else{
+            that.path = data[0].url;
+            that.$socket.emit('data_chain',{
+              cmd:'msgchat',
+              u_id: that.$store.state.user.userid,
+              to_u_id: that.to_u_id,
+              type:that.chatType,
+              detail:data[0].url+','+file.duration,
+            });
           }
-          that.path = data[0].url;
-          that.$socket.emit('data_chain',{
-            cmd:'msgchat',
-            u_id: that.$store.state.user.userid,
-            to_u_id: that.to_u_id,
-            type:that.chatType,
-            detail:data[0].url+','+file.duration,
-          });
         })
       },
       play(path){
@@ -543,6 +548,7 @@
       this.isMoreShow=false;
       this.sendMsg='';
       this.page=1;
+      clearInterval(this.setTime)
       this.setTime=null
       this.watchsocket();
       this.pageScrollToBottom();

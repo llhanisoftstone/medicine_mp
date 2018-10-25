@@ -15,21 +15,25 @@ export function startManager () {
 }
 export function stopManager (callback) {
   Recorder.onStop( file => {
-    //console.log(file)
-    wx.uploadFile({
-      url: `${store.state.url}/op/upload`,
-      filePath: file.tempFilePath,
-      formData: {'upType': 'titlePic'},
-      name: 'file',
-      success: (res) => {
-        res.file=file;
-        console.log(res)
-        callback(res)
-      },
-      fail: err => {
-        console.log(err)
-      }
-    })
+    console.log(file)
+    if(file.duration<1000){
+      callback({file:file});
+    }else{
+      wx.uploadFile({
+        url: `${store.state.url}/op/upload`,
+        filePath: file.tempFilePath,
+        formData: {'upType': 'titlePic'},
+        name: 'file',
+        success: (res) => {
+          res.file=file;
+          console.log(res)
+          callback(res)
+        },
+        fail: err => {
+          console.log(err)
+        }
+      })
+    }
   })
   Recorder.stop()
 }
