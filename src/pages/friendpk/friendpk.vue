@@ -32,7 +32,7 @@
       <div class="tzbox">挑战好友</div>
       <div class="pk_btn_box"></div>
     </button>
-    <a :href="'/pages/loadpk/main?from=2&&id='+user.userid" class="pk_btn" v-if="isFriends!=1"><div class="tzbox">全网挑战</div><div class="pk_btn_box"></div></a>
+    <a :href="'/pages/loadpk/main?from=2&&id='+user.userid+'&category_id='+category_id" class="pk_btn" v-if="isFriends!=1"><div class="tzbox">全网挑战</div><div class="pk_btn_box"></div></a>
   </div>
 </template>
 
@@ -42,7 +42,8 @@
     data(){
       return {
         isFriends:1,     //1 好友排行    2 全国排行   3企业排行
-        rankings:[]
+        rankings:[],
+        category_id:""
       }
     },
     methods: {
@@ -103,6 +104,9 @@
       this.getdata()
       wx.hideShareMenu()
     },
+    onLoad: function(option){
+        this.category_id=option.pid;
+    },
     components: {},
     computed:{
       user(){
@@ -128,7 +132,7 @@
         success: (r)=>{
           console.log(r);
           wx.navigateTo({
-            url:"/pages/loadpk/main?from=1"
+            url:"/pages/loadpk/main?from=1&category_id="+this.category_id
           })
         },
         fail: (err)=>{

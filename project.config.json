@@ -33,7 +33,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 28,
+			"current": 35,
 			"list": [
 				{
 					"id": 0,
@@ -220,7 +220,49 @@
 				{
 					"id": -1,
 					"name": "政策百科",
-					"pathName": "pages/policy/main"
+					"pathName": "pages/policy/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "haibao",
+					"pathName": "pages/report/main",
+					"query": ""
+				},
+				{
+					"id": 30,
+					"name": "公司主页",
+					"pathName": "pages/company/main",
+					"query": "pid=60"
+				},
+				{
+					"id": -1,
+					"name": "政策百科",
+					"pathName": "pages/policy/main",
+					"query": "pid=60"
+				},
+				{
+					"id": 32,
+					"name": "聊天",
+					"pathName": "pages/chat/main",
+					"query": "tuid=16"
+				},
+				{
+					"id": -1,
+					"name": "我的咨询",
+					"pathName": "pages/questionlist/main",
+					"query": "tuid=16"
+				},
+				{
+					"id": -1,
+					"name": "政策列表",
+					"pathName": "pages/policylist/main",
+					"query": "pid=zcbl"
+				},
+				{
+					"id": -1,
+					"name": "个人中心",
+					"pathName": "pages/personcenter/main"
 				}
 			]
 		}

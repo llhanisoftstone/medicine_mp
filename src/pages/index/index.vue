@@ -1,54 +1,108 @@
 <template>
   <div class="container" :class="{fixed:!isauth&&authreturn}">
-    <div class="user_box">
-      <userinfo :username="userinfo.nickName" :imgurl="userinfo.avatarUrl" :points="points">
-        <div slot="userRight">
-          <a href="/pages/signcount/main" class="btn_sign">签到</a>
-        </div>
-      </userinfo>
+    <button open-type="getUserInfo" v-if="!isauth&&authreturn" :_id="isauth" class="btn_auth">
+      <image src="/static/img/role.png"></image>
+      <div class="button_container">
+        <p class="btn_box">
+          <button class="btn" open-type="getUserInfo"  @getuserinfo="bindGetUserInfo" @click="jumptype=1">去看看</button>
+        </p>
+        <p class="btn_box">
+          <button class="btn" open-type="getUserInfo"  @getuserinfo="bindGetUserInfo" @click="jumptype=2">去学习</button>
+        </p>
+      </div>
+    </button>
+    <div class="gallaryslider">
+      <swiper
+        class="swiper-box"
+        @change="bannerChange"
+        :autoplay="true"
+        :interval="3000"
+        :circular="true"
+        :indicator-dots="false">
+        <block
+          :key="idx"
+          v-for="(item,idx) in movies">
+          <swiper-item>
+            <a
+              @click.stop="tonewpage(item.url,item.urlid,true)">
+              <image
+                v-if="item.picpath"
+                :src="imgUrl+item.picpath"></image>
+              <image
+                v-else=""
+                src="/static/img/bg_banner.png"
+              ></image>
+            </a>
+          </swiper-item>
+        </block>
+      </swiper>
+      <view class="dots">
+        <block :key="banneridx"
+               v-for="(item,banneridx) in movies">
+          <view
+            :class="{'dot':true,'active':currentSwiper==banneridx}"
+          ></view>
+        </block>
+      </view>
     </div>
-    <div class="survey-box"
-         v-show="activityShow"
-         @click="survey(9,1)"
-    >
-      <!--game_cfg_id写死为9，type:题目类型，0单选，1问卷题目-->
-        <image src="/static/img/suery_bg.png"></image>
-    </div>
-    <div class="match_box">
-      <a href="/pages/challengemap/main" class="challenge_b">
-        <div class="challenge" @click="challengemap">
-          <h2>闯关赛</h2>
-          <h4 style="padding-bottom: 3px">已有<span style="font-weight: bold;">{{p_number}}</span>人获得礼物</h4>
-          <h4>就算闯关没有礼物</h4>
-          <h4>我也势必要去挑战的！</h4>
+    <div v-for="(citem,i) in coumn_item">
+      <div v-if="citem.c_target_type==1&&citem.show_css==1" class="handbook-info">
+        <div class="line-division"></div>
+        <div class="common-head headbook-head">
+          <span class="handbook-icon"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
+          <div class="content_main">
+            <div class="navigation">
+              <a class="" v-for="(listc,il) in citem.child" @click.stop="tonewpage('pkselect','pid='+listc.target_id)">
+                <div class="navigation_icon"><image :src="imgUrl+listc.icon_path" alt=""></image></div>
+                <div class="navigation_label">{{listc.name}}</div>
+              </a>
+            </div>
+          </div>
         </div>
-      </a>
-      <div class="challenge_box">
-        <a href="/pages/loadpk/main?from=2">
-          <div class="item_1">
-            <h2>全网挑战</h2>
-            <h4>世界那么大</h4>
-            <h4>我就想看看我排第几</h4>
+      </div>
+      <div v-if="citem.c_target_type==1&&citem.show_css==2" class="handbook-info">
+        <div class="line-division"></div>
+        <div class="common-head headbook-head">
+          <span class="handbookpersonn-icon"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
+          <div class="personalwelfare">
+            <swiper
+              @change="swiperChange($event,citem.c_id)"
+              :autoplay="false" :circular="true" :interval="3000"
+              :duration="duration" previous-margin='251rpx' next-margin='251rpx'>
+              <template v-if="citem.child.length>0">
+                <block v-for="(listc,il) in citem.child">
+                  <swiper-item :class="{activezindex:swiperIndex[citem.c_id]==il?true:false}">
+                    <image @click.stop="tonewpage('pkselect','pid='+listc.target_id)" :src="imgUrl+listc.icon_path" class="slide-image" :class="{active:swiperIndex[citem.c_id]==il?true:false}"><span class="font">{{listc.name}}</span></image>
+                  </swiper-item>
+                </block>
+              </template>
+            </swiper>
           </div>
-        </a>
-        <a href="/pages/friendpk/main">
-          <div class="item_2">
-            <h2>好友PK</h2>
-            <h4>真正的友谊经得起挑战</h4>
-            <h4>看看谁跟我志同道合</h4>
-          </div>
-        </a>
+        </div>
+      </div>
+      <div v-if="citem.c_target_type==2&&citem.show_css==3" class="handbook-info">
+        <div class="line-division"></div>
+        <div class="common-head headbook-head ">
+          <span class="headcompany-head"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
+          <a  @click.stop="tonewpage('morecompany','')" class="ui-link"><span>更多<i>></i></span></a>
+          <ul class="contain_company" v-for="(listc,il) in citem.child">
+            <li @click.stop="tonewpage('company','pid='+listc.target_id)">
+              <div class="companyhead"><image v-if="listc.cp_picpath" :src="imgUrl+listc.cp_picpath"></image><image v-if="!listc.cp_picpath" src="/static/img/policy_default.jpg"></image></div>
+              <div class="companymess">
+                <p class="companyname">{{listc.cp_name}}</p>
+                <p class="companyleab"><span v-for="(ticp,ia) in listc.cp_tags">{{ticp}}</span></p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="gitf_box">
-      <div class="gift">
-        <div class="gift_text">
-          <h2>为礼物而战</h2>
-          <p><span>礼物有诱惑，政策福利更吸引我</span><span class="toduo" @click.stop="tonewpage('giftlist')">更多礼物&gt;</span></p>
-        </div>
-        <i class="gift_img" @click.stop="tonewpage('giftlist')">
-          <image src="/static/img/lw.png"></image>
-        </i>
+
+    <div class="handbook-info">
+      <div class="line-division"></div>
+      <div class="common-head headbook-head ">
+        <span class="headgift-head">商家福利</span>
+        <a class="ui-link" :href="'/pages/giftlist/main'"><span>更多<i>></i></span></a>
       </div>
     </div>
     <!--<div class="gift_title"><span></span><i></i><image src="/static/img/liwu.png"></image>为礼物而挑战<i></i><span></span></div>-->
@@ -66,6 +120,7 @@
         <a @click="reward(v.id,v.isReward)" :class="{'disabled':v.isReward<=0}">挑战</a>
       </li>
     </ul>
+    <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
     <mptoast/>
   </div>
 </template>
@@ -79,10 +134,20 @@
     return {
       p_number:0,
       win_treasure: [],
+      coumn_item:[],
       r_id:0,
       points:0,
       tickt_id:'',
       activityShow:false,
+      indicatorDots: true,
+      banner:0,
+      movies:[],
+      bannerperson:0,
+      swiperIndex:{},
+      currentSwiper:0,
+      jumptype:0,
+      scrollIcon:false,
+      scrollTop:0,
     }
   },
 
@@ -92,6 +157,187 @@
   },
 
   methods: {
+    tonewpage(urlname,data){
+      wx.navigateTo({
+        url:`/pages/${urlname}/main?${data}`
+      })
+    },
+    tozhan(){
+      let thiz=this;
+      wx.redirectTo({
+        url:"/pages/policy/main"
+      })
+    },
+    toindex(){
+      wx.switchTab({
+        url:"/pages/index/main"
+      })
+    },
+    bindGetUserInfo: function(e) {
+      let that = this
+      if(!e.target.userInfo){
+        return
+      }
+      if(that.$store.state.isauth){
+        if(that.jumptype==1){
+          that.tozhan();
+        }
+        if(that.jumptype==2){
+          that.toindex();
+        }
+        return
+      }
+      that.$store.commit('getuser', e.target.userInfo)
+      that.$store.commit('getauth')
+      that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:e.target.encryptedData,iv:e.target.iv}).then(res=>{
+        console.log(res)
+        if (res.code === 200) {
+          for (let i = 0; i < res.tools.length; i++) {
+            if (!res.tools[i].amount) {
+              res.tools[i].amount = 0
+            }
+          }
+          that.$store.commit('getm_user', res)
+          that.$socket.on('data_chain', d => {
+            if (d.cmd === 'login') {
+              that.$store.commit('getsocket')
+            }
+            console.log(d)
+          })
+          that.$socket.emit('data_chain', {
+            cmd: 'login',
+            u_id: res.userid,
+            nickname: that.$store.state.userinfo.nickName,
+            picpath: that.$store.state.userinfo.avatarUrl
+          })
+          that.$socket.on('global_chain', d => {
+            console.log(d)
+            if (d.cmd === 'error') {
+              if (d.errcode === 601) {
+                if (that.$store.state.modalshow) {
+                  let pagesArr = getCurrentPages()
+                  let currentPage = pagesArr[pagesArr.length - 1]
+                  let url = currentPage.route
+                  if ((url !== 'pages/authfight/main') && (url !== 'pages/authmulti/main')) {
+                    that.$store.commit('getmodal', false)
+                    wx.hideLoading()
+//                      wx.showLoading({
+//                        mask:true
+//                      })
+                    wx.showModal({
+                      title: '提示',
+                      content: '无法获取好友信息,请重试',
+                      showCancel: false,
+                      confirmText: '确定',
+                      confirmColor: '#df5c3e',
+                      mask: true,
+                      complete: res => {
+                        console.log(`重新登录${that.$store.state.user.userid}`)
+                        that.$socket.emit('data_chain', {
+                          cmd: 'login',
+                          u_id: that.$store.state.user.userid,
+                          nickname: that.$store.state.userinfo.nickName,
+                          picpath: that.$store.state.userinfo.avatarUrl
+                        })
+                        that.$store.commit('getmodal', true)
+                        wx.switchTab({
+                          url: '/pages/index/main'
+                        })
+                      }
+                    })
+                  } else {
+                    that.$socket.emit('data_chain', {
+                      cmd: 'login',
+                      u_id: that.$store.state.user.userid,
+                      nickname: that.$store.state.userinfo.nickName,
+                      picpath: that.$store.state.userinfo.avatarUrl
+                    })
+                  }
+                }
+              } else if (d.errcode === 404) {
+                if (that.$store.state.modalshow) {
+                  that.$store.commit('getmodal', false)
+                  wx.hideLoading()
+                  wx.showModal({
+                    title: '提示',
+                    content: '房间不存在',
+                    showCancel: false,
+                    confirmText: '返回首页',
+                    confirmColor: '#df5c3e',
+                    mask: true,
+                    complete: res => {
+                      wx.switchTab({
+                        url: '/pages/index/main'
+                      })
+                      that.$store.commit('getmodal', true)
+                    }
+                  })
+                }
+              } else if (d.errcode === 301) {
+                if (that.$store.state.modalshow) {
+                  that.$store.commit('getmodal', false)
+                  wx.hideLoading()
+                  wx.showModal({
+                    title: '提示',
+                    content: '连接已断开',
+                    showCancel: false,
+                    confirmText: '返回首页',
+                    confirmColor: '#df5c3e',
+                    mask: true,
+                    complete: res => {
+                      wx.switchTab({
+                        url: '/pages/index/main'
+                      })
+                      that.$store.commit('getmodal', true)
+                    }
+                  })
+                }
+              }
+            }else if(d.cmd === 'upgrade') {
+              let user = that.$store.state.user
+              user.rank_code = d.rank_code
+              user.rank_name = d.rank_name
+              user.experience = d.experience
+              that.$store.commit('getm_user', user)
+            }
+          })
+          if(that.jumptype==1){
+            that.tozhan();
+          }
+          if(that.jumptype==2){
+            that.toindex();
+          }
+        }
+      })
+    },
+    async getbanner (){
+      let thiz=this;
+      let getdata={
+        page:1,
+        size:10,
+        status:1,
+        category:1,
+        order:'create_time desc'
+      };
+      let res = await thiz.$get('/rs/banner',getdata);
+      if (res.code == 200){
+        if (res.rows.length > 0){
+            for(var i=0;i<res.rows.length;i++){
+              res.rows[i].url=(res.rows[i].urlpath).replace(/.html/,"").split("?")[0];
+              res.rows[i].urlid=(res.rows[i].urlpath).split("?")[1];
+            }
+          thiz.movies=res.rows;
+        }
+      }else{
+        thiz.movies=[{picpath:``}]
+      }
+    },
+    bannerChange(even){
+      this.banner=even.mp.detail.current;
+    },
+    swiperChange(e,id){
+      this.swiperIndex[id]= parseFloat(e.mp.detail.current);
+    },
     async getuserperson(){
       let aa = await this.$get('/rs/member',{id:this.$store.state.user.userid});
       if(aa.code==200){
@@ -110,17 +356,50 @@
               that.activityShow=false;
             }
             that.p_number = res.present_count
+        if(res.win_treasure&&res.win_treasure.length>0){
           for(let i = 0;i<res.win_treasure.length;i++){
             res.win_treasure[i].piclogo = that.$store.state.url+ res.win_treasure[i].piclogo
             res.win_treasure[i].tickt_id = res.win_treasure[i].level_json[0].reward[0].id
             let amount = Number(res.win_treasure[i].amount)==0?Number(res.win_treasure[i].total_amount):Number(res.win_treasure[i].amount)
             res.win_treasure[i].isReward = amount - Number(res.win_treasure[i].send_amount)
           }
-            that.win_treasure = res.win_treasure
-
+          that.win_treasure = res.win_treasure
+        }else{
+          that.win_treasure=[]
+        }
+        if(res.column_item&&res.column_item.length>0){
+            for(var j=0;j<res.column_item.length;j++){
+                if(res.column_item[j].c_target_type==1&&res.column_item[j].show_css==2){
+                    if(res.column_item[j].child.length>0){
+                        if(res.column_item[j].child.length==1){
+                          res.column_item[j].child.push(res.column_item[j].child[0]);
+                          res.column_item[j].child.push(res.column_item[j].child[0])
+                        }else if(res.column_item[j].child.length==2){
+                          res.column_item[j].child.push(res.column_item[j].child[0]);
+                          res.column_item[j].child.unshift(res.column_item[j].child[1]);
+                        }
+                    }
+                    that.swiperIndex[res.column_item[j].c_id]=0;
+                }
+                if(res.column_item[j].c_target_type==2&&res.column_item[j].show_css==3){
+                    if(res.column_item[j].child.length>0){
+                        for(var k=0;k<res.column_item[j].child.length;k++){
+                            if(res.column_item[j].child[k].cp_tag){
+                              res.column_item[j].child[k].cp_tags=res.column_item[j].child[k].cp_tag.split(",");
+                            }
+                        }
+                    }
+                }
+            }
+          that.coumn_item=res.column_item;
+          console.log(that.coumn_item)
+        }else{
+          that.coumn_item=[];
+        }
         }else{
           that.p_number=0
           that.win_treasure=[]
+          that.coumn_item=[]
         }
     },
     reward(r_id,amount){
@@ -188,6 +467,18 @@
         url:`/pages/${urlname}/main?${data}`
       })
     },
+    scrolltoTop(){
+      if (wx.pageScrollTo) {
+        wx.pageScrollTo({
+          scrollTop: 0
+        })
+      } else {
+        wx.showModal({
+          title: '提示',
+          content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+        })
+      }
+    },
   },
   computed:{
     isauth(){
@@ -208,6 +499,9 @@
     },
     user(){
         return this.$store.state.user
+    },
+    imgUrl(){
+      return this.$store.state.url
     }
   },
     watch:{
@@ -221,7 +515,8 @@
   },
     onLoad(){
       this.activityShow=false;
-      this.watchsocket()
+      this.watchsocket();
+      this.getbanner();
       if(this.$store.state.isauth){
         wx.showTabBar({animation:true})
       }else{
@@ -256,11 +551,118 @@
         }
       }
     },
+    onPageScroll:function(res){
+      let top = res.scrollTop;
+      if (top > 400) {
+        this.scrollIcon = true;
+      } else {
+        this.scrollIcon = false;
+      }
+    }
 }
 </script>
 
 <style scoped lang="less">
   @import "../../static/less/common.less";
+  .gallaryslider{
+    position: relative;
+    swiper,swiper-item,image{
+      width:100%;
+      height:342px/2;
+      vertical-align: bottom;
+    }
+    .dots{
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 5px/2;
+      display: flex;
+      justify-content: center;
+      .dot{
+        margin: 0 5px/2;
+        width: 10px/2;
+        height: 10px/2;
+        background-color: #cecece;
+        border-radius: 50%;
+        transition: all .3s;
+        &.active{
+          background: #e26c15;
+        }
+      }
+    }
+  }
+  .btn_auth{
+    width: 750px/2;
+    height: 100%;
+    position: fixed;
+    top:0;
+    left:0;
+    z-index:50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*background: transparent;*/
+    background: rgba(0,0,0,0.7);
+    image{
+      width: 634px/2;
+      height: 497px/2;
+      margin:auto;
+      position: absolute;
+      top:226px/2;
+      left:0;
+      right:0;
+      border-radius: 0 !important;
+    }
+    span{
+      width: 100%;
+      height: 30px/2;
+      font-size: 30px/2;
+      color: #fff;
+      position: absolute;
+      top:611px/2;
+      left:0;
+      right:0;
+      text-align: center;
+    }
+    .button_container{
+      position: absolute;
+      top:723px/2;
+      margin: 109px/2 auto 0;
+      box-sizing: border-box;
+      width:750px/2;
+      display:flex;
+      justify-content: space-between;
+      padding:0 93px/2;
+    }
+    .btn_box{
+      font-size: 30px/2;
+      color: #fff;
+      width: 270px/2;
+      height: 66px/2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 40px/2;
+      background: linear-gradient(150deg,#f4c8be 0%, #df5c3e 50% ,#b54b32 100%);
+      box-shadow: 1px 1.5px 1px 1px rgba(0,0,0,.2);
+      button{
+        width: 262px/2;
+        height: 58px/2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px/2;
+        color: #fff;
+        background: #df5c3e;
+        border-radius: 40px/2;
+        box-shadow: none;
+        border:none;
+        &:after {
+          border: none;
+        }
+      }
+    }
+  }
   @keyframes gift {
     1% {
       transform: translate(0, 0) rotate(6.5deg)
@@ -368,7 +770,7 @@
     margin-top: 40px/2;
   }
   .container{
-    background: #fff url(../../../static/img/yetou.jpg) center top no-repeat;
+    background: #fff;
     background-size: 100% auto;
     &.fixed{
       display: block;
@@ -461,6 +863,239 @@
       }
     }
   }
+  .index_gallerySlider{
+    width: 750px/2;
+    min-height: 342px/2;
+    swiper,swiper-item,image{
+      width:100%;
+      height:342/2px;
+    }
+  }
+  .personalwelfare{
+    width: 750px/2;
+    padding:10px 0 15px 0;
+    min-height: 265px/2;
+    box-sizing:border-box;
+    swiper,swiper-item{
+      height: 240px/2;
+    }
+    .swiper-block{
+      height: 240px/2;
+      width: 100%;
+    }
+    swiper-item{
+      /*display:flex;*/
+      /*align-items: center;*/
+      /*z-index:1;*/
+      /*overflow:visible;*/
+      /*text-align:center;*/
+      position:relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      overflow:unset;
+      image{
+        height:160px/2;
+        width:250px/2;
+        box-shadow:0 2.5px 2.5px rgba(101,101,101,0.75);
+        border-radius:20px/2;
+        position:relative;
+        span{
+          position:absolute;
+          right:8px;
+          bottom:8px;
+          font-size:14px;
+          z-index:30;
+          color:#fff;
+        }
+      }
+      image.active{
+          transform:scale(1.44);
+          transition: all 0.5s;
+          border-radius:30px/2;
+      }
+    }
+    swiper-item.activezindex{
+      z-index:20;
+    }
+  }
+  .common-head{
+    width: 100%;
+    overflow: hidden;
+    margin:11px 0 0 0;
+    line-height: 0.36rem;
+    position: relative;
+  }
+  .common-head .ui-link{
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .common-head .ui-link span{
+    padding-right:13px;
+    font-size: 26px/2;
+    float: left;
+    display: block;
+    line-height: 0.4rem;
+    color: #666;
+    i{
+      color: #df5c3e;
+      font-style: normal;
+      display:inline-block;
+    }
+  }
+  .handbook-icon{
+    display: block;
+    font-size: 15px;
+    color: #333;
+    margin-left:13px;
+    line-height: 0.4rem;
+    image{
+      width:31px/2;
+      height:31px/2;
+      margin-top:-1px;
+      vertical-align: middle;
+      margin-right:5.5px;
+    }
+  }
+  .handbookpersonn-icon{
+    display: block;
+    font-size: 15px;
+    color: #333;
+    margin-left:13px;
+    line-height: 0.4rem;
+    image{
+      width:32px/2;
+      height:32px/2;
+      margin-top:-1px;
+      vertical-align: middle;
+      margin-right:5px;
+    }
+  }
+  .headgift-head{
+    display: block;
+    font-size: 15px;
+    color: #333;
+    margin-left:13px;
+    padding-left: 43px/2;
+    line-height: 0.4rem;
+    background: url('../../../static/img/icon4.png') no-repeat left center;
+    background-size: 32px/2 32px/2;
+  }
+  .headcompany-head{
+    display: block;
+    font-size: 15px;
+    color: #333;
+    margin-left:13px;
+    line-height: 0.4rem;
+    image{
+      width:32px/2;
+      height:32px/2;
+      margin-top:-1px;
+      vertical-align: middle;
+      margin-right:5px;
+    }
+  }
+  .line-division {
+    height: 5px;
+    background-color: #f6f6f6;
+  }
+  .content_main{
+    background: #fff;
+    margin:auto 26px/2;
+    padding-top: 20px/2;
+    .navigation{
+      box-sizing: border-box;
+      width: 100%;
+      justify-content: space-between;
+      a{
+        display: inline-block;
+        width:25%;
+        padding-bottom: 30px/2;
+      }
+      .navigation_icon{
+        width: 92px/2;
+        height: 92px/2;
+        margin:0 auto;
+        image{
+          width:100%;
+          height:100%;
+          border-radius:50%;
+        }
+      }
+      .navigation_label{
+        margin-top: 15px/2;
+        font-size: 26px/2;
+        line-height: 26px/2;
+        color: #666;
+        text-align: center;
+      }
+
+    }
+  }
+  .contain_company{
+    overflow:hidden;
+    padding:13px 13px 9px;
+    li{
+      width:47%;
+      padding:17px/2 9px/2 17px/2 6px/2;
+      margin-right:2%;
+      float:left;
+      display:flex;
+      background:#f3f3f3;
+      border-radius:5px;
+      margin-bottom:13px/2;
+      justify-content: flex-start;
+      align-items: center;
+      .companyhead{
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        vertical-align:middle;
+        margin-right:5px;
+        image{
+          width:40px;
+          height:40px;
+          border-radius:50%;
+          vertical-align:middle;
+        }
+      }
+      .companymess{
+        width:75%;
+      }
+      .companyname{
+        max-width:100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-all;
+        word-wrap: break-word;
+        font-size:12px;
+        color:#666;
+      }
+      .companyleab{
+        max-width:100%;
+        font-size:10px;
+        color:#999;
+        padding-left: 28px/2;
+        line-height: 0.4rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-all;
+        background: url('../../../static/img/biaoqian.png') no-repeat left center;
+        background-size: 21px/2 20px/2;
+        span{
+          margin-right:5px;
+        }
+      }
+    }
+    li:nth-child(2n){
+      margin-right:0;
+    }
+  }
   .gitf_box{
     width: 100%;
     height: 182px/2;
@@ -516,6 +1151,7 @@
     width: 100%;
     box-sizing: border-box;
     padding: 0 26px/2;
+    margin-top:20px/2;
     display: flex;
     flex-flow: wrap;
     align-content: space-between;
@@ -605,5 +1241,15 @@
       height:176px/2;
       max-width:100%;
     }
+  }
+  .footcgotop{
+    position: fixed;
+    z-index: 100;
+    bottom: 100px/2;
+    right: 30px/2;
+    width: 80px/2;
+    height: 80px/2;
+    background:url('../../../static/img/scrollTop.png') center no-repeat;
+    background-size: 80px/2 80px/2;
   }
 </style>

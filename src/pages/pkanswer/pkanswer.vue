@@ -76,7 +76,8 @@
                 isanimation:false,         //是否显示动画
                 tanswer:'',
                 setfn:null,
-                tips:''                   //答题提示语
+                tips:'',                  //答题提示语
+              category_id:''
             }
         },
         methods: {
@@ -180,7 +181,8 @@
               score:reply,   // 得分
               tool_id: this.tool_id,   // 使用道具
               use_time:30-this.times,   //使用时间   -1 自己延时   -2  对方延时
-              step:this.$store.state.step
+              step:this.$store.state.step,
+              category_id:this.category_id,
             })
             if(reply!=0){
               this.$store.commit('rightTitle',1)
@@ -202,7 +204,8 @@
                 u_id:that.$store.state.user.userid,
                 tool_id: that.tool_id,   // 使用道具
                 use_time:-1,   //使用时间   -1 自己延时   -2  对方延时
-                step:that.$store.state.step
+                step:that.$store.state.step,
+                category_id:that.category_id,
               })
               this.$store.commit('useTime',30)
               that.$store.commit('allTitle',1)
@@ -213,7 +216,8 @@
                 room_id:that.$store.state.room_id,
                 u_id:that.$store.state.user.userid,
                 use_time:-2,   //使用时间   -1 自己延时   -2  对方延时
-                step:that.$store.state.step
+                step:that.$store.state.step,
+                category_id:that.category_id,
               })
             }
           }
@@ -287,7 +291,8 @@
         },
       onLoad(option){
         this.cleardata()
-        this.from = option.from
+        this.from = option.from;
+        this.category_id=option.category_id;
         if(this.from == 1){
           wx.setNavigationBarTitle({
             title: '对战'

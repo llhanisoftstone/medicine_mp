@@ -13,8 +13,15 @@
         <li class="groupcard" v-if="seen"><a href="/pages/ticket/main"><div class="title">优惠券</div><p class="messagealert">优惠券发放入口</p><span class="listimg cardimg"></span></a></li>
         <li class="setting"><a href="/pages/setting/main"><div class="title">设置</div><p class="messagealert">进入有惊喜，等你来完善<br/>游戏银两两不误</p><span class="listimg settingimg"></span></a></li>
         <li class="jyk"><a href="/pages/questions/main?isjy=true"><div class="title">我要建议</div><p class="messagealert">建议采纳后<br/>100银两免费拿</p><span class="listimg jyimg"></span></a></li>
-        <li class="zxk"><a href="/pages/questions/main"><div class="title">我要咨询</div><p class="messagealert">找不到你想要的政策<br/>来这里咨询吧！
-        </p><span class="listimg zximg"></span></a></li>
+        <li class="zxk">
+          <a href="/pages/questionlist/main">
+            <div class="title">我的咨询</div>
+            <p class="messagealert">找不到你想要的政策<br/>来这里咨询吧！</p>
+            <span class="listimg zximg">
+              <span v-if="redHot" class="red_dot"></span>
+            </span>
+          </a>
+        </li>
       </ul>
     </div>
   </div>
@@ -28,7 +35,8 @@
       return {
         isnewuser: true,
         seen:false,
-        points:0
+        points:0,
+        redHot:false
       }
     },
     computed:{
@@ -49,14 +57,33 @@
             this.seen=true;
           }
         }
+      },
+      async getRedHot(){
+        let res = await this.$get('/rs/get_new_hints');
+        if(res.count>0){
+          this.redHot=true;
+          wx.showTabBarRedDot({
+              index:2
+            }
+          )
+        }else{
+          this.redHot=false;
+          wx.hideTabBarRedDot({
+            index:2
+          })
+        }
       }
     },
     mounted(){
       this.getuserperson();
     },
+    onLoad(){
+
+    },
     onShow(){
       this.$store.commit('getorganizid','');
       this.getuserperson();
+      this.getRedHot();
     }
   }
 </script>
@@ -122,6 +149,16 @@
     right:15px;
     width:36px;
     height:41px;
+  }
+  .red_dot{
+    position:absolute;
+    display: inline-block;
+    width:19px/2;
+    height:19px/2;
+    border-radius: 50%;
+    background-color: #F43530;
+    top:0;
+    right:-10px/2;
   }
   .moneyimg{
     background:url(../../../static/img/my_11.png) no-repeat center center;

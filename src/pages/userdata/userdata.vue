@@ -1,27 +1,37 @@
 <template>
   <div class="container">
-      <!--<div class="item">-->
-        <!--<div class="title">微信昵称</div>-->
-        <!--<input type="text" :value='name' disabled maxlength="10" readonly onfocus="this.blur()" confirm-type="next" placeholder="请输入微信昵称"/>-->
-      <!--</div>-->
-      <!--<div class="item">-->
-        <!--<div class="title">性别</div>-->
-        <!--<input disabled="disabled" :value='gender' type="text"  placeholder="请选择性别"/>-->
-      <!--</div>-->
       <div class="item">
         <div class="title">姓名</div>
-        <input type="text" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
+        <input type="text" v-model='realname' @click="focus=true" :focus="focusshow" maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
       </div>
       <div class="item">
         <div class="title">手机号</div>
-        <input type="number" v-model='phone' maxlength="11" confirm-type="next"  placeholder="手机号" />
+        <input type="number" v-model='phone' @click="focus=true" :focus="focusshow" maxlength="11" confirm-type="next"  placeholder="手机号" />
       </div>
     <div class="item">
       <div class="title">企业</div>
-      <input type="text" v-model='comp_name' @blur="compblur()" maxlength="20" confirm-type="next" placeholder="企业名称"/>
+      <input type="text" v-model='comp_name' @click="focus=true" :focus="focusshow" @blur="compblur()" maxlength="20" confirm-type="next" placeholder="企业名称"/>
       <ul class="company">
-        <li v-for="(v,i) in company" @click="choice(v.name)">{{v.name}}</li>
+        <li v-for="(v,i) in company" @click.stop="choice(v.name)">{{v.name}}</li>
       </ul>
+    </div>
+      <div class="item">
+        <div class="title">证件类型</div>
+        <input type="default" placeholder="请选择" :value="pickerText" disabled="disabled" @click="showzonePicker" />
+      <mpvue-picker
+        ref="mpvuePicker" @pickerCancel="pickerCancel"
+        :pickerValueArray="pickerValueArray"
+        :pickerValueDefault='pickerValueDefault'
+        :mode="mode"
+        :deepLength=deepLength
+        @onConfirm="onConfirm"
+      >
+      </mpvue-picker>
+    </div>
+    <div class="item">
+      <div class="title">证件号</div>
+      <input type="text" v-model='cardNumtext' @click="focus=true" :focus="focusshow" v-if="pickerText!='身份证'" maxlength="20" confirm-type="next"  placeholder="证件号" />
+      <input type="idcard" v-model='cardNum' @click="focus=true" :focus="focusshow" v-if="pickerText=='身份证'" maxlength="18" confirm-type="next"  placeholder="证件号" />
     </div>
       <div class="item" @click="addresslist" v-if="false">
           <div class="title">详细地址</div>
@@ -36,7 +46,7 @@
 </template>
 
 <script type="javascript">
-  import mpvuePicker from 'mpvue-picker';
+  import mpvuePicker from '../../components/mpvuePicker';
   import mptoast from '../../components/mptoast';
   export default {
     label: 'userdata',
@@ -48,16 +58,20 @@
     data(){
       return {
         rank:1,
-        pickerValueArray: [],
-        pickerValueDefault: [0,0,0],
-        pickerValue: 0,
+        pickerValueArray:[],
+        pickerValueDefault:[0],
         pickerText:'',
+        oldpickerText:'',
+        cardtype:"",
+        nocomany:true,
         name:'',
         gender:'',
         realname:'',
+        focusshow:false,
         comp_name:'',
         phone:'',
         cardNum:'',
+        cardNumtext:'',
         shop_label:'',
         shop_logo:'',
         shop_phone:'',
@@ -75,28 +89,49 @@
       }
     },
     methods: {
+      limitrealname(val){
+        if (!val) {
+          return
+        }
+        return  val.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
+      },
+      limit(val){
+        if (!val) {
+          return
+        }
+        return  val.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
+      },
+      showzonePicker: function (e) {
+          this.focusshow=false;
+          this.pickerValueArray=["身份证",'工号',"工资号"];
+        if(this.pickerText=="身份证"){
+          this.pickerValueDefault = [0];
+        }else if(this.pickerText=="工号"){
+          this.pickerValueDefault = [1];
+        }else  if(this.pickerText=="工资号"){
+          this.pickerValueDefault = [2];
+        }else{
+          this.pickerValueDefault = [0];
+        }
+        this.$refs.mpvuePicker.show();
+      },
       compblur(){
         this.company=[]
       },
       choice(name){
-          this.isclick=true
-          this.comp_name=name
+          this.isclick=true;
+          this.comp_name=name;
+          this.nocomany=false;
           this.company=[]
       },
-      showPicker1() {
-        this.$refs.mpvuePicker.show();
-      },
-      showPicker2() {
-        this.$refs.mpvuePicker.show();
-      },
-      showPicker3() {
-        this.$refs.mpvuePicker.show();
-      },
-      pickerConfirm(e) {
-        console.log(e);
-      },
       onConfirm(e){
-        this.pickerText = `${this.pickerValueArray[e[0]].label}${this.pickerValueArray[e[0]].children[e[1]].label}${this.pickerValueArray[e[0]].children[e[1]].children[e[2]].label}`;
+        this.pickerText = `${this.pickerValueArray[e[0]]}`;
+        if(this.pickerText!=this.oldpickerText){
+           this.cardNum="";
+           this.cardNumtext="";
+        }
+        this.oldpickerText=this.pickerText;
+        this.cardtype=e[0];
       },
       childrenmitData(){
         if(this.realname==null||(this.realname).trim()==''){
@@ -120,6 +155,31 @@
           realname:this.realname,
           company:this.comp_name
         };
+
+        var pattern1 =/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+       if(this.cardtype==0){
+         if(this.cardNum==""||this.cardNum==null){
+           this.$mptoast('请输入证件号码');
+           return;
+         }else if(!pattern1.test(this.cardNum)){
+            this.$mptoast('您的身份证号输入有误，请重新输入');
+            return;
+          }
+        }else if(this.cardtype==1||this.cardtype==2){
+         if(this.cardNumtext==""||this.cardNumtext==null) {
+           this.$mptoast('请输入证件号码');
+           return;
+         }
+       }
+        data.cert_type=parseFloat(this.cardtype)+1;
+        if(this.cardtype==0){
+          data.cert_value=this.cardNum;
+        }else if(this.cardtype==1||this.cardtype==2){
+          data.cert_value=this.cardNumtext;
+        }
+        if(this.comp_name&&this.nocomany){
+          return  this.$mptoast('该企业未入驻平台，请重新填写');
+        }
         this.$post('/rs/complete_user_info',data).then(res=>{
           if(res.code == 200){
             if(res.iscreate==1){
@@ -182,6 +242,31 @@
             that.realname=user.realname;
             that.phone=user.phone;
             that.isclick=true;
+            if(user.cert_type==1){
+                that.pickerText='身份证';
+                that.oldpickerText="身份证";
+              that.cardNum=user.cert_value;
+              that.cardNumtext="";
+              that.cardtype=0;
+            }else if(user.cert_type==2){
+              that.pickerText='工号';
+              that.oldpickerText="工号";
+              that.cardNumtext=user.cert_value;
+              that.cardNum="";
+              that.cardtype=1;
+            }else if(user.cert_type==3){
+              that.pickerText='工资号';
+              that.oldpickerText="工资号";
+              that.cardNumtext=user.cert_value;
+              that.cardNum="";
+              that.cardtype=2;
+            }else{
+              that.pickerText="";
+              that.cardtype="";
+              that.oldpickerText="";
+              that.cardNumtext="";
+              that.cardNum="";
+            }
             that.comp_name=user.comp_name;
             that.company=[];
 
@@ -192,11 +277,11 @@
                 address='';
             }
             that.address=address;
-            that.pickerText=user.shop_address;
             that.shop_label=user.nicklabel;
             that.shop_logo=user.shop_logo;
             that.shop_phone=user.phone;
             that.shop_address=user.address;
+            that.nocomany=false;
             wx.getStorage({
               key: 'keyuser',
               success: function(res) {
@@ -214,7 +299,6 @@
             wx.removeStorage({
               key: 'keyuser',
               success: function(res) {
-                console.log(res.data)
               }
             })
           }
@@ -238,6 +322,14 @@
         clearTimeout(this.timeout)
         this.timeout=null;
       }
+      this.pickerText="";
+      this.cardtype="";
+      this.oldpickerText="";
+      this.cardNumtext="";
+      this.cardNum="";
+      this.realname="";
+      this.phone="";
+      this.focusshow=false;
       this.company=[];
       wx.removeStorage({
         key: 'keyuser',
@@ -261,7 +353,24 @@
         if(com.code==200){
           this.company = com.rows
         }else{
-          this.company = []
+          this.company = [];
+          this.nocomany=true;
+        }
+      },
+      cardNumtext(val,oldval){
+        this.cardNumtext = this.limit(val)
+        if(this.limit(val)){
+          this.cardNumtext=this.limit(val);
+        }else{
+          this.cardNumtext="";
+        }
+      },
+      realname(val,oldval){
+        this.realname = this.limitrealname(val)
+        if(this.limitrealname(val)){
+          this.realname=this.limitrealname(val);
+        }else{
+          this.realname="";
         }
       }
     }
@@ -283,7 +392,7 @@
   }
   .company{
     position: relative;
-    z-index:10;
+    z-index:50;
     margin-top:1px/2;
     overflow: hidden;
     li{
@@ -362,5 +471,7 @@
     display:inline-block;
     width:30%;
   }
-
+  .item view{
+    font-size:15px;
+  }
 </style>

@@ -44,7 +44,8 @@
                 again:0,                 //是否重复挑战   好友对战使用
                 router:0,                //0返回   1跳转
                 isend:false,               //是否已发送匹配请求
-                rout:null              // 延时跳转页面
+                rout:null,             // 延时跳转页面
+              category_id:''
             }
         },
         methods: {
@@ -59,7 +60,7 @@
               this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
               this.from=2
               this.other_uid=''
-              this.$socket.emit('data_chain', {cmd:'fight',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
+              this.$socket.emit('data_chain', {cmd:'fight',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from,category_id:this.category_id})
               wx.setNavigationBarTitle({
                 title: '全网挑战'
               })
@@ -103,7 +104,8 @@
                 cmd:'fight',
                 u_id:that.$store.state.user.userid,
                 game_cfg_id:1,
-                game_type:that.from
+                game_type:that.from,
+                category_id:that.category_id
               }
               if(that.again == 1){   //好友再来一局 传对方id和一个默认值
                senddata.to_u_id=that.$store.state.vsuser.id
@@ -156,11 +158,11 @@
 //            this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
             this.again=0
           }
+          this.category_id=option.pid;
         }
         this.cleardata()
         clearTimeout(this.rout)
         this.isend=false
-        console.log(option)
         if(option.id){
           this.other_uid = option.id
         }else{
@@ -192,7 +194,7 @@
                 that.$socket.removeAllListeners('data_chain')
                 that.router=1
                 wx.redirectTo({
-                  url:`/pages/pkanswer/main?from=${that.from}`
+                  url:`/pages/pkanswer/main?from=${that.from}`+"&category_id="+that.category_id
                 })
                 that.isend=false
               },1500)

@@ -6,9 +6,13 @@
         <li :class="{'pass':v<level,'on':v==level}" v-for="(v,i) in levelarr" @click="showpick(v)">
           <div class="nub" v-if="v!=5&&v!=10">{{v}}</div>
           <div class="nub" v-if="v==5||v==10"></div>
-          <div class="user" v-if="v==level">
-            <image :src='imgurl'></image>
-          </div>
+            <div class="user" v-if="v==level">
+              <button v-if="category==2" open-type="share">
+              <image :src='imgurl'></image>
+              </button>
+              <image v-if="category==1" :src='imgurl'></image>
+            </div>
+
           <div class="prizebox1" v-if="v==5">
             <image src="/static/img/5guan.png"></image>
           </div>
@@ -33,33 +37,33 @@
           </div>
         </li>
       </ul>
-      <div class="bg_shade" v-if="isshow" @click="hidepick" catchtouchmove='true'>
-        <div class="pick_box" @click.stop="prevent">
-          <h2>闯关人数</h2>
-          <div class="pick_item_box">
-            <div class="pick_item" @click="alone">
-              <!--<a href="">-->
-                <image src="/static/img/yaoqing_3.png"></image>
-                <div>
-                  <p>美貌与智慧并存的你，</p>
-                  <p>一个人去攻城拔寨吧！</p>
-                  <a><i>单人闯关</i></a>
-                </div>
-              <!--</a>-->
-            </div>
-            <div class="pick_item">
-                <image src="/static/img/yaoqing_1.png"></image>
-                <div>
-                  <p>喊上小伙伴，</p>
-                  <p>一起组团闯关更靠谱！</p>
-                  <i class="btn_box">
-                    <button open-type="share">组团闯关</button>
-                  </i>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!--<div class="bg_shade" v-if="isshow" @click="hidepick" catchtouchmove='true'>-->
+        <!--<div class="pick_box" @click.stop="prevent">-->
+          <!--<h2>闯关人数</h2>-->
+          <!--<div class="pick_item_box">-->
+            <!--<div class="pick_item" @click="alone">-->
+              <!--&lt;!&ndash;<a href="">&ndash;&gt;-->
+                <!--<image src="/static/img/yaoqing_3.png"></image>-->
+                <!--<div>-->
+                  <!--<p>美貌与智慧并存的你，</p>-->
+                  <!--<p>一个人去攻城拔寨吧！</p>-->
+                  <!--<a><i>单人闯关</i></a>-->
+                <!--</div>-->
+              <!--&lt;!&ndash;</a>&ndash;&gt;-->
+            <!--</div>-->
+            <!--<div class="pick_item">-->
+                <!--<image src="/static/img/yaoqing_1.png"></image>-->
+                <!--<div>-->
+                  <!--<p>喊上小伙伴，</p>-->
+                  <!--<p>一起组团闯关更靠谱！</p>-->
+                  <!--<i class="btn_box">-->
+                    <!--<button open-type="share">组团闯关</button>-->
+                  <!--</i>-->
+                <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
       <div class="bg_shade gzk" v-if="gzshow" @click="hidegz" catchtouchmove='true'>
         <div class="pick_box" @click.stop="">
           <h2>游戏规则</h2>
@@ -90,7 +94,9 @@
               game_type:-1,     //单人 1   多人 2
               tips:-1,           //显示提示信息
               tipsprize:0,        //提示关卡
-              tipsTime:null        //提示信息时间函数
+              tipsTime:null,        //提示信息时间函数
+              category:'',
+              category_id:'',
             }
         },
         methods: {
@@ -106,7 +112,6 @@
             that.$socket.on('data_chain',d=>{
               if(d.cmd == 'answer'&&that.game_type==1){
                 if(d.step==1&&d.level==that.select){
-                  console.log(d)
                   that.$store.commit('get_answer',d.details[0])
                   that.$store.commit('get_step',d.step)
                   that.$store.commit('get_room',d.room_id)
@@ -115,7 +120,7 @@
                   that.$store.commit('get_que_type',d.type)
                   that.isshow=false
                   wx.navigateTo({
-                    url:'/pages/alone/main'
+                    url:'/pages/alone/main?pid='+this.category_id
                   })
                 }
               }else if(d.cmd == 'fight'){
@@ -124,7 +129,7 @@
                   that.$store.commit('get_level',that.select)
                   that.isshow=false
                   wx.navigateTo({
-                    url:`/pages/team/main?id=${that.$store.state.user.userid}`
+                    url:`/pages/team/main?id=${that.$store.state.user.userid}&&pid=${this.category_id}`
                   })
                 }
               }
@@ -132,9 +137,6 @@
           },
           showpick(v){
             if(this.level<v){
-//                if(this.tips!=-1){
-//                    return
-//                }
               let gaplevel=v-this.level;
               this.tips=v
               if(v==5 || v==10){
@@ -148,47 +150,33 @@
               },3500)
               return
             }
-            this.isshow=true
             this.select=v
+            if(this.category==1){
+              let that=this
+              this.game_type=1
+              this.$socket.emit('data_chain',{
+                cmd:'fight',
+                u_id: that.$store.state.user.userid,
+                game_cfg_id: 2,
+                game_type:1,
+                level:that.select,
+                type:0,
+                category_id:that.category_id
+              })
+            }
           },
           hidepick(){
             this.isshow=false
             this.select=this.level
           },
           prevent(){},       //阻止冒泡
-          alone(){
-              let that=this
-              this.game_type=1
-              this.$socket.emit('data_chain',{
-                  cmd:'fight',
-                  u_id: that.$store.state.user.userid,
-                  game_cfg_id: 2,
-                  game_type:1,
-                  level:that.select,
-                  type:0
-              })
-          },
-          team(){
-              let that =this
-            this.game_type=2
-            if(that.select == 0){
-                  that.select = that.level
-            }
-            that.$socket.emit('data_chain',{
-                cmd:'fight',
-                u_id: that.$store.state.user.userid,
-                game_cfg_id: 2,
-                game_type:2,
-                level:that.select,
-                game_style:1
-              })
-          }
+
         },
       onShareAppMessage(res){
         let that=this;
         let title='@你 助力好友一起闯关吧~';
         let img=`${that.$store.state.url}/admin/img/team.jpg`;
-        let url=`/pages/authmulti/main?`+`pages=team&&ismy=1&&id=${that.$store.state.user.userid}`
+        let url=`/pages/authmulti/main?`+`pages=team&&ismy=1&&id=${that.$store.state.user.userid}&&pid=${this.category_id}`
         if (res.from === 'menu') {
           // 来自页面内转发按钮
           title='边玩边学，游戏学习两不误！';
@@ -201,7 +189,20 @@
           path: url,
           imageUrl: img,
           success: (r)=>{
-            that.team()
+            let that =this
+            this.game_type=2
+            if(that.select == 0){
+              that.select = that.level
+            }
+            that.$socket.emit('data_chain',{
+              cmd:'fight',
+              u_id: that.$store.state.user.userid,
+              game_cfg_id: 2,
+              game_type:2,
+              level:that.select,
+              game_style:1,
+              category_id:that.category_id
+            })
           },
           fail: (err)=>{
             console.log(err)
@@ -219,10 +220,12 @@
                   return this.$store.state.user.game_level
             }
         },
-      onLoad(){
+      onLoad(option){
         wx.hideShareMenu()
-           this.watchsocket()
-        this.tips = -1
+        this.category=option.category;
+        this.category_id=option.pid;
+        this.watchsocket()
+        this.tips = -1;
       },
       onShow(){
         this.gzshow=false;
@@ -588,10 +591,10 @@
           background: transparent;
           border-color:transparent;
         }
-    .user{
-      margin-top:-4px/2;
-      margin-left:56px/2;
-    }
+      .user{
+        margin-top:-4px/2;
+        margin-left:56px/2;
+      }
        }
     }
     .pass{
@@ -617,6 +620,12 @@
           height: 82px/2;
           border-radius: 50%;
           border:4px/2 solid #df5c3e;
+        }
+        button{
+          padding:0;
+          width: 90px/2;
+          border-radius:50%;
+          height:90px/2;
         }
       }
     }

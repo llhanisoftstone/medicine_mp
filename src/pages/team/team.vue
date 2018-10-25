@@ -81,7 +81,7 @@
         </div>
         <div class="fail" v-if="iswin==1">
           <!--<image src="/static/img/team_fail.png"></image>-->
-          <image src="/static/img/shenheshibai_03.jpg"></image>
+          <image src="/static/img/pg.png"></image>
           <p>{{failTips}}</p>
         </div>
       </div>
@@ -157,7 +157,8 @@
               tanswer:'',
               setfn:null,
               isquick:false,          //是否显示快捷语
-              sendTime:0             //发送消息时间
+              sendTime:0 ,           //发送消息时间
+              category_id:''
             }
         },
         methods: {
@@ -292,7 +293,8 @@
                       level:that.$store.state.level,
                       game_cfg_id:2,
                       game_type:2,
-                      game_style:3
+                      game_style:3,
+                      category_id:that.category_id
                     })
                   wx.showLoading({
                     mask:true
@@ -309,7 +311,8 @@
                   game_cfg_id:2,
                   game_type:2,
                   game_style:3,
-                  play_again:1
+                  play_again:1,
+                  category_id:that.category_id
                 })
                 wx.showLoading({
                   mask:true
@@ -329,7 +332,8 @@
                 level:this.$store.state.level,
                 game_cfg_id:2,
                 game_type:2,
-                game_style:4
+                game_style:4,
+                category_id:this.category_id,
               })
               this.$store.commit('rightTitle',0)
               this.$store.commit('useTime',0)
@@ -419,7 +423,8 @@
                 score:reply,   // 得分
                 tool_id: that.tool_id,   // 使用道具
                 use_time:(30-this.times)>0?30-this.times:0,   //使用时间   -1 自己延时
-                step:that.$store.state.step
+                step:that.$store.state.step,
+                category_id:that.category_id
               })
               if(reply==1){
                 that.$store.commit('rightTitle',1)
@@ -454,7 +459,8 @@
                 level:that.$store.state.level,
                 tool_id: that.tool_id,   // 使用道具
                 use_time:-1,   //使用时间   -1 自己延时
-                step:that.$store.state.step
+                step:that.$store.state.step,
+                category_id:that.category_id
               })
               that.$store.commit('useTime',30)
               that.$store.commit('allTitle',1)
@@ -473,7 +479,8 @@
                   game_type:2,
                   u_id:that.$store.state.user.userid,
                   to_u_id:that.challenger,
-                  game_style:2
+                  game_style:2,
+                category_id:that.category_id
               })
           }
         },
@@ -614,7 +621,8 @@
       that.timesfn=setInterval(()=>{
         that.countdownfn()
       },1000)
-      that.challenger=option.id
+      that.challenger=option.id;
+      that.category_id=option.pid;
       if(that.challenger == that.$store.state.user.userid){
         that.team.push({
           id:that.$store.state.user.userid,
@@ -1539,19 +1547,19 @@
     .fail{
       width: 100%;
       height: 100%;
-      margin-top: -160px/2;
+      margin-top: -200px/2;
       position: relative;
       z-index:1;
       image{
-        width: 233px/2;
-        height: 271px/2;
+        width: 232px/2;
+        height: 269px/2;
         display: block;
         margin:0 auto;
       }
       p{
         font-size: 28px/2;
         color: #d57e46;
-        margin-top:43px/2;
+        margin-top:23px/2;
         text-align: center;
       }
     }
