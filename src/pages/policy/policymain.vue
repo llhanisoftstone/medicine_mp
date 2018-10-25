@@ -21,7 +21,7 @@
           :scroll-with-animation="true"
           :scroll-x="true">
             <div
-              @click="currentTab=-1"
+              @click="currentTab=-1;isAsk=true;"
               :class="{'active':currentTab==-1}">在线咨询</div>
             <div
               v-for="(cate,cindex) in categorydata"
@@ -221,7 +221,8 @@
         scrollTop:0,
         page:1,
         size:5,
-        u_id:''
+        u_id:'',
+        isAsk:true,//是否为咨询
       }
     },
     components: {
@@ -234,7 +235,7 @@
     },
     onPullDownRefresh () {
       wx.showNavigationBarLoading();//在标题栏中显示加载
-      this.page=1;
+      //this.page=1;
       this.refresh();
       // 下拉刷新
       wx.hideNavigationBarLoading(); //完成停止加载
@@ -354,18 +355,18 @@
                 }
               val.talk_count=that.formatcount(val.talk_count);
             }
-            if(res.column){
+            /*if(res.column){
               that.column_id=res.column[0].id;
-            }
+            }*/
 
             that.hrdata=hrData;
           }
           that.categorydata=res.column;
 
         }
-//        if(that.column_id){
+        if(!isAsk && that.column_id){
           that.getpolicyMain();//获取政策百科主页数据
-//        }
+        }
 
       },
       tochat(touid){
@@ -380,6 +381,7 @@
       tabClick(idx,id){
         this.currentTab=idx;
         this.column_id=id;
+        this.isAsk=false;
         this.getpolicyMain();
       },
       tonewpage(urlname,data){
@@ -389,7 +391,7 @@
         })
       },
       refresh(){
-        this.page = 1;
+        //this.page = 1;
         this.getPolicydata();
       },
       loadmore () {
