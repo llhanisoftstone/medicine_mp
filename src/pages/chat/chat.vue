@@ -218,6 +218,9 @@
           }
         },
         deep:true
+      },
+      sendMsg(){
+        this.sendMsg=this.sendMsg.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\@\.\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
       }
     },
     /*onPullDownRefresh () {
