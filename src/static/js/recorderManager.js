@@ -44,3 +44,6 @@ export function playAudio (path) {
   console.log(AudioContext.duration)
   AudioContext.play()
 }
+export function stopAudio () {
+  AudioContext.stop()
+}

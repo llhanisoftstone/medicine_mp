@@ -343,6 +343,7 @@
       recordStart(e){
         wx.vibrateShort();
         let that=this;
+        that.$stopAudio();
         that.startX = e.mp.changedTouches[0].clientX;
         that.startY = e.mp.changedTouches[0].clientY;
         wx.getSetting({
@@ -543,21 +544,13 @@
       this.pageScrollToBottom();
     },
     onUnload:function(){
-      wx.stopVoice({
-        complete:function(res){
-            console.log(res)
-        }
-      })
-      wx.stopBackgroundAudio()
+      this.$stopAudio();
       this.chatdata=[];
     },
     onHide:function(){
-        console.log('隐藏页面')
-      wx.stopVoice()
+      this.$stopAudio();
       wx.stopBackgroundAudio()
     }
-
-
   }
 </script>
 <style>
