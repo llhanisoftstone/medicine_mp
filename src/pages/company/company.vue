@@ -322,6 +322,7 @@
         //this.watchsocket()
       },
       onShow(){
+        this.currentSwiper=0;
         this.watchsocket()
       },
       onHide(){
