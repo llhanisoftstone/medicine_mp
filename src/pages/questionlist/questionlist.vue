@@ -10,7 +10,8 @@
               <div class="box_left">
                 <div class="box-left_div bg_touxiang80">
                   <image :src="item.to_avatar_url" alt=""></image>
-                  <span class="mui-bage" v-if="item.unread_count>0">{{item.unread_count}}</span>
+                  <span class="mui-bage" v-if="item.unread_count>0&&item.unread_count<=99">{{item.unread_count}}</span>
+                  <span class="mui-bage" v-if="item.unread_count>0&&item.unread_count>99">99+</span>
                 </div>
                 <div class="item-info">
                   <div class="name_info">
