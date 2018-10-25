@@ -414,7 +414,7 @@
             cmd:'msgchat',
             u_id: that.$store.state.user.userid,
             to_u_id: that.to_u_id,
-            type:that.chatType,
+            type:2,
             detail:obj[0].url
           });
         });
