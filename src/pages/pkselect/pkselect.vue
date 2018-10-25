@@ -83,6 +83,8 @@
     box-sizing:border-box;
     button{
       padding:0;
+      line-height:normal;
+      overflow:inherit;
     }
     li{
       width:100%;

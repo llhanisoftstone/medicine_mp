@@ -84,7 +84,7 @@
         <div class="line-division"></div>
         <div class="common-head headbook-head ">
           <span class="headcompany-head"><image :src="imgUrl+citem.c_icon_path" alt=""></image><span>{{citem.c_name}}</span></span>
-          <a  @click.stop="tonewpage('morecompany','')" class="ui-link"><span>更多<i>></i></span></a>
+          <a  @click.stop="tonewpage('morecompany','')" class="ui-link"><span><span>更多</span><span :class="{topios:isiphonex}" class="arrowup">></span></span></a>
           <ul class="contain_company">
             <li v-for="(listc,il) in citem.child" @click.stop="tonewpage('company','pid='+listc.target_id)">
               <div class="companyhead"><image v-if="listc.cp_picpath" :src="imgUrl+listc.cp_picpath"></image><image v-if="!listc.cp_picpath" src="/static/img/policy_default.jpg"></image></div>
@@ -102,7 +102,7 @@
       <div class="line-division"></div>
       <div class="common-head headbook-head ">
         <span class="headgift-head">商家福利</span>
-        <a class="ui-link" :href="'/pages/giftlist/main'"><span>更多<i>></i></span></a>
+        <a class="ui-link" :href="'/pages/giftlist/main'"><span><span>更多</span><span :class="{topios:isiphonex}" class="arrowup">></span></span></a>
       </div>
     </div>
     <!--<div class="gift_title"><span></span><i></i><image src="/static/img/liwu.png"></image>为礼物而挑战<i></i><span></span></div>-->
@@ -148,6 +148,7 @@
       jumptype:0,
       scrollIcon:false,
       scrollTop:0,
+      isiphonex:false,
     }
   },
 
@@ -523,6 +524,18 @@
         if(this.$store.state.authreturn){
           wx.hideTabBar({animation:true})
         }
+      }
+      var that=this;
+      try {
+        var res = wx.getSystemInfoSync();
+        console.log(res)
+        if(res.model.match(/iPhone X/ig)){
+          that.isiphonex=true;
+        }else{
+          that.isiphonex=false;
+        }
+      } catch (e) {
+        // Do something when catch error
       }
     },
     onShow(){
@@ -933,17 +946,25 @@
     right: 0;
     top: 0;
   }
-  .common-head .ui-link span{
+  .common-head .ui-link>span{
     padding-right:13px;
     font-size: 26px/2;
     float: left;
     display: block;
-    line-height: 0.4rem;
+    line-height: 32px/2;
     color: #666;
-    i{
+    span{
+      line-height: 32px/2;
+      display:inline-block;
+    }
+    .arrowup{
       color: #df5c3e;
+      vertical-align: top;
       font-style: normal;
       display:inline-block;
+    }
+    .arrowup.topios{
+      margin-top:-2px;
     }
   }
   .handbook-icon{
@@ -951,11 +972,11 @@
     font-size: 15px;
     color: #333;
     margin-left:13px;
-    line-height: 0.4rem;
+    line-height:32px/2;
     image{
       width:31px/2;
       height:31px/2;
-      margin-top:-1px;
+      margin-top:-2px;
       vertical-align: middle;
       margin-right:5.5px;
     }
@@ -965,11 +986,11 @@
     font-size: 15px;
     color: #333;
     margin-left:13px;
-    line-height: 0.4rem;
+    line-height:32px/2;
     image{
       width:32px/2;
       height:32px/2;
-      margin-top:-1px;
+      margin-top:-2px;
       vertical-align: middle;
       margin-right:5px;
     }
@@ -989,11 +1010,11 @@
     font-size: 15px;
     color: #333;
     margin-left:13px;
-    line-height: 0.4rem;
+    line-height:32px/2;
     image{
       width:32px/2;
       height:32px/2;
-      margin-top:-1px;
+      margin-top:-2px;
       vertical-align: middle;
       margin-right:5px;
     }
