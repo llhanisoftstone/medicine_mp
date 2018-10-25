@@ -24,7 +24,7 @@
         iskong:false,
         istop:false,
         page:1,
-        size:6,
+        size:8,
         scrollIcon:false,
         scrollTop:0,
         seasondata:[],
@@ -103,7 +103,7 @@
     },
     onPageScroll:function(res){
       let top = res.scrollTop;
-      if (top > 400) {
+      if (top > 300) {
         this.scrollIcon = true;
       } else {
         this.scrollIcon = false;

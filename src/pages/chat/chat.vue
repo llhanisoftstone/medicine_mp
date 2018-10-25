@@ -1,8 +1,9 @@
 <template>
-  <div class="mui-content">
+  <div class="mui-content" :class="{'body_ipxclass':isiphoneX}">
         <scroll-view
           @touchstart="touchStart($event)"
           @touchend="touchEnd($event)"
+          @click="isMoreShow=false;"
           :scroll-y="true"
           @scroll="chatScroll"
           :scroll-with-animation="true"
@@ -43,7 +44,7 @@
                     </div>
                   </div>
                   <div v-if="chat.data_type==4" class="content">
-                    <div class="sendmessage">
+                    <div class="sendmessage voicebox">
                       <div style="">
                         <p
                           :id="chat.id"
@@ -80,7 +81,7 @@
                     </div>
                   </div>
                   <div v-if="chat.data_type==4" class="content">
-                    <div class="getmessage">
+                    <div class="getmessage voicebox">
                       <p
                         :id="chat.id"
                         class="voicebtn v_left"
@@ -96,7 +97,7 @@
           </div>
         </div>
         </scroll-view>
-    <div class="sendarea">
+    <div class="sendarea" :class="{'sendarea_ipxclass':isiphoneX}">
       <div class="common" >
         <span
           @click="voiceBtnClick"
@@ -118,6 +119,7 @@
           @click="inputfocus=true;"
           id="saytext"
           name="saytext"
+          @confirm="sendMessage"
           class="input_text"/>
         <!--:focus="inputfocus"-->
         <div
@@ -194,6 +196,7 @@
         scrollTop:0,
         toView:'',
         scrollHeight:0,
+        isiphoneX:false,
       }
     },
     components: {
@@ -208,14 +211,17 @@
       },
     },
     watch:{
-//      setTimeNum:{
-//        handler:function(oldval,newval){
-//          if(newval>=59){
-//            this.recordStop();
-//          }
-//        },
-//        deep:true
-//      }
+      setTimeNum:{
+        handler:function(oldval,newval){
+          if(newval>=59){
+            this.recordStop();
+          }
+        },
+        deep:true
+      },
+      sendMsg(){
+        this.sendMsg=this.sendMsg.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\@\.\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
+      }
     },
     /*onPullDownRefresh () {
       if(this.getNodata){
@@ -234,6 +240,9 @@
     methods:{
       sendMessage(){
         let that=this;
+        if(that.sendMsg==''){
+            return;
+        }
         that.inputfocus=true;
         that.chatType=1;
         this.$socket.emit('data_chain',{
@@ -303,7 +312,7 @@
           wx.hideNavigationBarLoading(); //完成停止加载
             let chat=res.rows;
             if(res.rows){
-              res.rows[0].create_time=this.formatedate(res.rows[0].create_time);
+              //res.rows[0].create_time=this.formatedate(res.rows[0].create_time);
               for(let val of chat){
                   if(this.u_id==val.to_id){
                     that.to_avatar_url=val.avatar_url;
@@ -332,31 +341,46 @@
         }
       },
       recordStart(e){
+        wx.vibrateShort();
         let that=this;
+        that.$stopAudio();
         that.startX = e.mp.changedTouches[0].clientX;
         that.startY = e.mp.changedTouches[0].clientY;
-        wx.vibrateShort();
+        wx.getSetting({
+          success(res) {
+            if (!res.authSetting['scope.record']) {
+              that.$mptoast('请先开启录音权限');
+              setTimeout(()=>{
+                wx.openSetting();
+              },1500)
+              return;
+            }
+          }
+        })
         that.inputfocus=false;
         that.recordclicked=true;
         that.voicetip='松开 结束';
         that.$startManager();
         that.setTime=setInterval(()=>{
-            that.setTimeNum++;
+          that.setTimeNum++;
         },1000)
-
       },
       recordStop(e){
         let that = this;
-        that.endX = e.mp.changedTouches[0].clientX;
-        that.endY = e.mp.changedTouches[0].clientY;
-        console.log(this.startY-this.endY)
+        if(e){
+          that.endX = e.mp.changedTouches[0].clientX;
+          that.endY = e.mp.changedTouches[0].clientY;
+          console.log(this.startY-this.endY)
+        }
         that.inputfocus=false;
         that.setTime=null;
         that.setTimeNum=0;
         that.recordclicked=false;
         that.voicetip='按住 说话';
-        if(this.startY-this.endY > 10 || this.startY-this.endY < 0){//上滑取消
-          return;
+        if(e){
+          if(this.startY-this.endY > 10 || this.startY-this.endY < 0){//上滑取消
+            return;
+          }
         }
         that.chatType=4;
         that.$stopManager(res =>{
@@ -394,7 +418,7 @@
             cmd:'msgchat',
             u_id: that.$store.state.user.userid,
             to_u_id: that.to_u_id,
-            type:that.chatType,
+            type:2,
             detail:obj[0].url
           });
         });
@@ -486,7 +510,13 @@
         let that=this;
         try {
           let res = wx.getSystemInfoSync();
-          that.windowheight=res.windowHeight;
+          if(res.model.match(/iPhone X/ig)){
+            that.isiphoneX=true;
+            that.windowheight=res.windowHeight-34;
+          }else{
+            that.isiphoneX=false;
+            that.windowheight=res.windowHeight;
+          }
         } catch (e) {
 
         }
@@ -498,6 +528,7 @@
       },
     },
     onLoad:function (option){
+        this.recordclicked=false;
         this.getSysteminfo();
         this.to_u_id=option.tuid;
         this.u_id=this.$store.state.user.userid;
@@ -505,16 +536,21 @@
         this.getChatdata();
     },
     onShow:function(){
+      this.recordclicked=false;
+      this.sendMsg='';
       this.page=1;
       this.setTime=null
       this.watchsocket();
       this.pageScrollToBottom();
     },
     onUnload:function(){
-        this.chatdata=[];
+      this.$stopAudio();
+      this.chatdata=[];
     },
-
-
+    onHide:function(){
+      this.$stopAudio();
+      wx.stopBackgroundAudio()
+    }
   }
 </script>
 <style>
@@ -855,8 +891,6 @@
   .sendmessage .showloadimg{
     height: 210px/2;
     width: 164px/2;
-    /*background-size: 4.5rem;width: 3.5rem;*/
-    /*background: #cccccc url(../../images/logo.png) no-repeat center center;*/
   }
   .sendmessage p{
     line-height: 38px/2;
@@ -908,10 +942,20 @@
     border-left-color: #fff;
     top: 8px/2;
   }
+  .sendmessage.voicebox:after {
+    border-width: 6px/2;
+    border-left-color: #df5c3e;
+    top: 10px/2;
+  }
+
+  .sendmessage.voicebox:before {
+    border-width: 8px/2;
+    border-left-color: #df5c3e;
+    top: 8px/2;
+  }
+
   .sendmessage img,.sendmessage image{
     width: 200px/2;
-    //max-width: 30px/2;
-    //height: 30px/2;
   }
 
   .getmessageimg{
@@ -929,7 +973,7 @@
     min-width:90px/2;
     height:25px/2;
     line-height: 28px/2 !important;
-    color: #ffffff;
+    color: #ffffff !important;
     background-color: #df5c3e;
     border-radius: 10px/2;
     &.v_left{
@@ -956,15 +1000,15 @@
     position: absolute;
     width: 0;
   }
-  .getmessageimg:after {
+  .getmessage.voicebox:after {
     border-width: 6px/2;
-    border-right-color: #ffffff;
+    border-right-color: #df5c3e;
     top: 10px/2;
   }
 
-  .getmessageimg:before {
+  .getmessage.voicebox:before {
     border-width: 0;
-    border-right-color: #e4e4e4;
+    border-right-color: #df5c3e;
     top: 8px/2;
   }
 
@@ -1187,5 +1231,10 @@
     max-width: 30px/2;
     height: 30px/2;
   }
-
+.body_ipxclass{
+  margin-bottom: 68px/2 !important;
+}
+  .sendarea_ipxclass{
+    bottom: 68px/2 !important;
+  }
 </style>

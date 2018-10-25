@@ -1,30 +1,49 @@
 <template>
     <div >
       <div class="gallaryslider">
-        <swiper
-          class="swiper-box"
-          @change="bannerChange"
-          :autoplay="true"
-          :interval="3000"
-          :circular="true"
-          :indicator-dots="false">
-          <block
-            :key="idx"
-            v-for="(item,idx) in banner">
-            <swiper-item>
-              <a
-                @click.stop="tonewpage(item.urlpath,'')">
-                <image
-                  v-if="item.picpath"
-                  :src="imgURL+item.picpath"></image>
-                <image
-                  v-else=""
-                  src="/static/img/bg_banner.png"
-                ></image>
-              </a>
-            </swiper-item>
-          </block>
-        </swiper>
+        <template v-if="banner.length>0">
+          <swiper
+            class="swiper-box"
+            @change="bannerChange"
+            :autoplay="true"
+            :interval="3000"
+            :circular="true"
+            :indicator-dots="false">
+            <block
+              :key="idx"
+              v-for="(item,idx) in banner">
+              <swiper-item>
+                <a
+                  @click.stop="tonewpage(item.urlpath,'')">
+                  <image
+                    v-if="item.picpath"
+                    :src="imgURL+item.picpath"></image>
+                  <image
+                    v-else=""
+                    src="/static/img/bg_banner.png"
+                  ></image>
+                </a>
+              </swiper-item>
+            </block>
+          </swiper>
+        </template>
+        <template v-else="">
+          <swiper
+            class="swiper-box"
+            @change="bannerChange"
+            :autoplay="true"
+            :interval="3000"
+            :circular="true"
+            :indicator-dots="false">
+            <block>
+              <swiper-item>
+                <a>
+                  <image src="/static/img/bg_banner.png"></image>
+                </a>
+              </swiper-item>
+            </block>
+          </swiper>
+        </template>
         <view class="dots">
           <block :key="banneridx"
                  v-for="(item,banneridx) in banner">
@@ -145,7 +164,7 @@
             let data = {
               status:1,
               category:2,
-              //comp_id:pid,
+              comp_id:pid,
               order:'create_time desc'
             };
             let res = await thiz.$get('/rs/banner', data);
@@ -294,6 +313,8 @@
         } catch (e) {
 
         }
+        this.banner=[];
+        this.noticeArray=[];
         this.compid=option.pid;
         this.getBanner(option.pid);
         this.getNotice(option.pid);
@@ -301,6 +322,7 @@
         //this.watchsocket()
       },
       onShow(){
+        this.currentSwiper=0;
         this.watchsocket()
       },
       onHide(){

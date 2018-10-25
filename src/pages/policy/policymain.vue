@@ -21,7 +21,7 @@
           :scroll-with-animation="true"
           :scroll-x="true">
             <div
-              @click="currentTab=-1"
+              @click="currentTab=-1;isAsk=true;"
               :class="{'active':currentTab==-1}">在线咨询</div>
             <div
               v-for="(cate,cindex) in categorydata"
@@ -173,12 +173,12 @@
                   <span class="utitle">经办人</span>
                 </div>
                 <div
-                  v-if="hr.hrtags"
+                  v-if="hr.hr_list"
                   class="tag-box">
                   <span
-                    v-for="(tag,tidx) in hr.hrtags"
+                    v-for="(tag,tidx) in hr.hr_list"
                     :key="tidx"
-                    class="tag">{{tag}}</span>
+                    class="tag">{{tag.name}}</span>
                 </div>
                 <div class="count">
                   <span class="ctitle">咨询数：</span>
@@ -221,7 +221,8 @@
         scrollTop:0,
         page:1,
         size:5,
-        u_id:''
+        u_id:'',
+        isAsk:true,//是否为咨询
       }
     },
     components: {
@@ -234,17 +235,20 @@
     },
     onPullDownRefresh () {
       wx.showNavigationBarLoading();//在标题栏中显示加载
-      this.page=1;
+      //this.page=1;
       this.refresh();
       // 下拉刷新
       wx.hideNavigationBarLoading(); //完成停止加载
       wx.stopPullDownRefresh() //停止下拉刷新
     },
-    onReachBottom () {
+    /*onReachBottom () {
+      if(this.column_id==''){
+          return;
+      }
       this.page++;
       this.loadmore()
       // 上拉加载
-    },
+    },*/
     methods: {
       async getpolicyMain() {
         let that = this;
@@ -334,42 +338,36 @@
       async getPolicydata(){
         let that = this;
         let pdata={
-          page:that.page,
-          size:that.size,
           status:1,
+          order:'hr_code,desc,create_time,desc'
         }
-        let res = await that.$get('/rs/info_policy_column');
+        let res = await that.$get('/rs/info_policy_column',pdata);
         if (res.code == 200){
           let hrData=res.hr;
           if(hrData){
             for(let val of hrData){
-                if(val.hr_tag.length>0){
-                  let tags=val.hr_tag.split(',');
-                  if(tags.length>3){
-                    tags=tags.slice(0,3)
+                if(val.hr_list && val.hr_list.length>0){
+                  let tags=val.hr_list;
+                  if(tags.length>6){
+                    tags=tags.slice(0,6)
                   }
-                  val.talk_count=that.formatcount(val.talk_count);
-                  val.hrtags=tags;
-//                  if(!val.avatar_url){
-//                    val.avatar_url='/static/img/user.png'
-//                  }
+                  val.hr_list=tags;
                 }
+              val.talk_count=that.formatcount(val.talk_count);
             }
-            if(res.column){
+            /*if(res.column){
               that.column_id=res.column[0].id;
-            }
-            if(that.page==1){
+            }*/
 
-            }else{
-              //that.hrdata=that.hrdata.concat(res.hr);
-            }
             that.hrdata=hrData;
           }
           that.categorydata=res.column;
+
         }
-        if(that.column_id){
+        if(!isAsk && that.column_id){
           that.getpolicyMain();//获取政策百科主页数据
         }
+
       },
       tochat(touid){
         if(this.u_id==touid){
@@ -383,6 +381,7 @@
       tabClick(idx,id){
         this.currentTab=idx;
         this.column_id=id;
+        this.isAsk=false;
         this.getpolicyMain();
       },
       tonewpage(urlname,data){
@@ -392,7 +391,7 @@
         })
       },
       refresh(){
-        this.page = 1;
+        //this.page = 1;
         this.getPolicydata();
       },
       loadmore () {
@@ -459,6 +458,10 @@
       this.pickerwishText='';
       this.org_id='';
       this.pickerIndex=-1;
+      this.$toastStore.commit('hideToast')
+    },
+    onHide(){
+      this.$toastStore.commit('hideToast')
     },
     onPageScroll:function(res){
       let top = res.scrollTop;
@@ -826,6 +829,9 @@
     margin-bottom: 50px;
   }
   .category-box{
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
     scroll-view{
       display:flex;
       white-space: nowrap;
@@ -853,6 +859,7 @@
     }
   }
   ul.chat-box{
+    box-sizing: border-box;
     padding:0 35px/2 0 12px;
     li{
       padding:37px/2 22px/2 37px/2 45px/2;
@@ -893,9 +900,9 @@
       }
       .tag-box{
         line-height:34px/2;
-        margin-bottom: 18px/2;
+        //margin-bottom: 18px/2;
         display:flex;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         overflow: hidden;
         .tag{
           font-size: 21px/2;
@@ -905,6 +912,8 @@
           border-radius: 18px/2;
           margin-right: 13px/2;
           max-width:105px/2;
+          word-break: break-all;
+          margin-bottom: 10px/2;
           .ellipsis(1)
         }
       }
