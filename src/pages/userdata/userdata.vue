@@ -320,6 +320,13 @@
         clearTimeout(this.timeout)
         this.timeout=null;
       }
+      this.pickerText="";
+      this.cardtype="";
+      this.oldpickerText="";
+      this.cardNumtext="";
+      this.cardNum="";
+      this.realname="";
+      this.phone="";
       this.focusshow=false;
       this.company=[];
       wx.removeStorage({
