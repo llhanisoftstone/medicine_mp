@@ -334,7 +334,7 @@
       }
     },
     bannerChange(even){
-      this.banner=even.mp.detail.current;
+      this.currentSwiper=even.mp.detail.current;
     },
     swiperChange(e,id){
       this.swiperIndex[id]= parseFloat(e.mp.detail.current);
