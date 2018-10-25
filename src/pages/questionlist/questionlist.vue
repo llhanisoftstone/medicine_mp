@@ -213,6 +213,7 @@
       float: left;
       width:115px/2;
       height:115px/2;
+      border-radius:50%;
     }
     .item-info{
       text-align: left;
