@@ -300,7 +300,7 @@
               msgdata.details=d.detail;
             }
             if(!d.create_time){
-                msgdata.create_time=new Date().toLocaleString();
+                msgdata.create_time=this.getCurrentTime();
             }
             if(d.u_id==that.u_id){
               that.chatdata.push(msgdata);
@@ -545,6 +545,30 @@
         console.log('scrollHeight:'+e.mp.detail.scrollHeight)
         //console.log(e.mp.detail)
         this.scrollHeight=e.mp.detail.scrollHeight;
+      },
+      getCurrentTime(){
+        var now = new Date();
+        var year = now.getFullYear();       //年
+        var month = now.getMonth() + 1;     //月
+        var day = now.getDate();            //日
+        var hh = now.getHours();            //时
+        var mm = now.getMinutes();          //分
+        var ss = now.getSeconds();           //秒
+        var clock = year + "-";
+        if(month < 10)
+          clock += "0";
+        clock += month + "-";
+        if(day < 10)
+          clock += "0";
+        clock += day + " ";
+        if(hh < 10)
+          clock += "0";
+        clock += hh + ":";
+        if (mm < 10) clock += '0';
+        clock += mm + ":";
+        if (ss < 10) clock += '0';
+        clock += ss;
+        return(clock);
       },
     },
     onLoad:function (option){
