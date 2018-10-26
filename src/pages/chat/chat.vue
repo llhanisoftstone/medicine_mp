@@ -120,7 +120,6 @@
           name="saytext"
           @confirm="sendMessage"
           class="input_text"/>
-        <!--:focus="inputfocus"-->
         <div
           v-show="action=='voice'"
           :class="{'record-box':true,'active':recordclicked}"
@@ -292,6 +291,9 @@
               msgdata.duration=this.getduration(d.detail);
             }else{
               msgdata.details=d.detail;
+            }
+            if(!d.create_time){
+                msgdata.create_time=new Date().toLocaleString();
             }
             if(d.u_id==that.u_id){
               that.chatdata.push(msgdata);

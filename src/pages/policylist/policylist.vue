@@ -173,6 +173,7 @@
     },
     onLoad: function (option) {
       this.page = 1;
+      this.scrollIcon=false;
       this._search = '';
       this._code = option.pid||"";
       if(option.column_id && option.column_id!='null') {
