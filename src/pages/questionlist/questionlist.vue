@@ -146,7 +146,6 @@
     onShow: function (option) {
       this.nogetshow = false;
       this.page=1;
-      this.contactlist=[];
       this.getList();
     },
     onPageScroll:function(res){
