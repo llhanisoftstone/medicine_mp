@@ -197,6 +197,7 @@
         toView:'',
         scrollHeight:0,
         isiphoneX:false,
+        recordCancel:false,
       }
     },
     components: {
@@ -346,12 +347,13 @@
       recordStart(e){
         wx.vibrateShort();
         let that=this;
+        that.recordCancel=false;
         clearInterval(that.setTime);
         that.setTime=null;
         that.setTimeNum=0;
         that.$stopAudio();
-        that.startX = e.mp.changedTouches[0].clientX;
-        that.startY = e.mp.changedTouches[0].clientY;
+        that.startXs = e.mp.changedTouches[0].clientX;
+        that.startYs = e.mp.changedTouches[0].clientY;
         wx.getSetting({
           success(res) {
             if (!res.authSetting['scope.record']) {
@@ -373,11 +375,6 @@
       },
       recordStop(e){
         let that = this;
-        if(e){
-          that.endX = e.mp.changedTouches[0].clientX;
-          that.endY = e.mp.changedTouches[0].clientY;
-          console.log(this.startY-this.endY)
-        }
         that.inputfocus=false;
         clearInterval(that.setTime);
         that.setTime=null;
@@ -385,8 +382,11 @@
         that.recordclicked=false;
         that.voicetip='按住 说话';
         if(e){
-          if(this.startY-this.endY > 10 || this.startY-this.endY < 0){//上滑取消
-            return;
+          that.endXs = e.mp.changedTouches[0].clientX;
+          that.endYs = e.mp.changedTouches[0].clientY;
+          console.log(this.startYs-this.endYs)
+          if(that.startYs-that.endYs > 10 || that.startYs-that.endYs < 0){//上滑取消录音
+            that.recordCancel=true;
           }
         }
         that.chatType=4;
@@ -399,14 +399,16 @@
           if(file.duration<1000){
               that.$mptoast('录音时间太短');
           }else{
-            that.path = data[0].url;
-            that.$socket.emit('data_chain',{
-              cmd:'msgchat',
-              u_id: that.$store.state.user.userid,
-              to_u_id: that.to_u_id,
-              type:that.chatType,
-              detail:data[0].url+','+file.duration,
-            });
+            if(!that.recordCancel){
+              that.path = data[0].url;
+              that.$socket.emit('data_chain',{
+                cmd:'msgchat',
+                u_id: that.$store.state.user.userid,
+                to_u_id: that.to_u_id,
+                type:that.chatType,
+                detail:data[0].url+','+file.duration,
+              });
+            }
           }
         })
       },
