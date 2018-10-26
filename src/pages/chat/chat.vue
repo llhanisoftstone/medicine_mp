@@ -390,6 +390,7 @@
           }
         }
         that.chatType=4;
+        that.$stopRecorder();//停止录音
         that.$stopManager(res =>{
           //let data = JSON.parse(res.data)
           let data = res.data
@@ -556,10 +557,12 @@
     },
     onUnload:function(){
       this.$stopAudio();
+      this.$stopRecorder();
       this.chatdata=[];
     },
     onHide:function(){
       this.$stopAudio();
+      this.$stopRecorder();
       wx.stopBackgroundAudio()
     }
   }

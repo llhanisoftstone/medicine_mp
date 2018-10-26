@@ -14,6 +14,7 @@ export function startManager () {
   Recorder.start(options)
 }
 export function stopManager (callback) {
+  Recorder.stop()
   Recorder.onStop( file => {
     console.log(file)
     if(file.duration<1000){
@@ -35,7 +36,6 @@ export function stopManager (callback) {
       })
     }
   })
-  Recorder.stop()
 }
 export function playAudio (path) {
   AudioContext.onPlay(() => {
@@ -49,4 +49,7 @@ export function playAudio (path) {
 }
 export function stopAudio () {
   AudioContext.stop()
+}
+export function stopRecorder () {
+  Recorder.stop();
 }

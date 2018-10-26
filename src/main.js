@@ -6,7 +6,7 @@ import {get} from './require/get.js'
 import {put} from './require/put.js'
 import commons from './static/js/common.js'
 import {uploadImg} from './static/js/uploadImg.js'
-import {startManager,stopManager,playAudio,stopAudio} from './static/js/recorderManager.js'
+import {startManager,stopManager,playAudio,stopAudio,stopRecorder} from './static/js/recorderManager.js'
 import {callWXPAY} from './static/js/CallWXPay.js'
 import io from '../static/js/weapp.socket.io.js'
 import mpvueToastRegistry from 'mptoast/registry'
@@ -21,6 +21,7 @@ Vue.prototype.$startManager = startManager
 Vue.prototype.$stopManager = stopManager
 Vue.prototype.$playAudio = playAudio
 Vue.prototype.$stopAudio = stopAudio
+Vue.prototype.$stopRecorder = stopRecorder
 Vue.prototype.$callWXPAY = callWXPAY
 Vue.prototype.$socket = io(Vue.prototype.$store.state.ws_server)
 
