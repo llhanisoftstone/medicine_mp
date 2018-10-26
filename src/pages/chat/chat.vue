@@ -192,7 +192,7 @@
         setTime:null,
         setTimeNum:0,
         inputfocus:false,
-        windowheight:400,
+        windowheight:10,
         scrollTop:0,
         toView:'',
         scrollHeight:0,
@@ -996,11 +996,17 @@
       background:#df5c3e url("../../../static/img/voiceleft.png") no-repeat center left;
       background-size: 48px/2 48px/2;
       text-align: right;
+      &.play{
+        background:#df5c3e url("../../../static/img/leftplay.gif") no-repeat center left;
+      }
     }
     &.v_right{
       background:#df5c3e url("../../../static/img/voiceright.png") no-repeat center right;
       background-size: 48px/2 48px/2;
       text-align: left;
+      &.play{
+        background:#df5c3e url("../../../static/img/rightplay.gif") no-repeat center right;
+      }
     }
   }
   .getmessage img,.getmessage image{
