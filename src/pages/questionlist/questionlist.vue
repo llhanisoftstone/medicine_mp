@@ -194,6 +194,7 @@
     }
     .box_item{
       display: flex;
+      height:115px/2;
       justify-content: space-between;
     }
     .box-left_div{
