@@ -367,9 +367,9 @@
         that.recordclicked=true;
         that.voicetip='松开 结束';
         that.$startManager();
-//        that.setTime=setInterval(()=>{
-//          that.setTimeNum++;
-//        },1000)
+        that.setTime=setInterval(()=>{
+          that.setTimeNum++;
+        },1000)
       },
       recordStop(e){
         let that = this;
@@ -379,6 +379,7 @@
           console.log(this.startY-this.endY)
         }
         that.inputfocus=false;
+        clearInterval(that.setTime);
         that.setTime=null;
         that.setTimeNum=0;
         that.recordclicked=false;
@@ -412,7 +413,7 @@
         this.$playAudio(this.$store.state.url + path);
       },
       sendImg(imgType){
-        var that=this;
+        let that=this;
         that.chatType=2;
         that.$uploadImg({
           count: 1,
