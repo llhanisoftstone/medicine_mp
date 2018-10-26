@@ -49,8 +49,9 @@
                         <p
                           :id="chat.id"
                           class="voicebtn v_right"
+                          :class="{'play':acitveVoice==chat.id&&isStop==false}"
                           :style="{width:chat.duration*7/2+'px'}"
-                          @click="play(chat.details)"
+                          @click="play(chat.details,chat.id)"
                         >{{chat.duration}}''</p>
                       </div>
                     </div>
@@ -65,11 +66,13 @@
                       @click="showimg(to_avatar_url,to_avatar_url)"
                       :src="to_avatar_url"></image>
                   </div>
+                  <!--文字-->
                   <div v-if="chat.data_type==1" class="content">
                     <div class="getmessage">
                       <p :id="chat.id">{{chat.details}}</p>
                     </div>
                   </div>
+                  <!--图片-->
                   <div v-if="chat.data_type==2" class="content">
                     <div
                       :id="chat.id"
@@ -80,13 +83,15 @@
                         :src="imgURL+chat.details"></image>
                     </div>
                   </div>
+                  <!--音频-->
                   <div v-if="chat.data_type==4" class="content">
                     <div class="getmessage voicebox">
                       <p
                         :id="chat.id"
                         class="voicebtn v_left"
+                        :class="{'play':acitveVoice==chat.id&&isStop==false}"
                         :style="{width:chat.duration*7/2+'px'}"
-                        @click="play(chat.details)"
+                        @click="play(chat.details,chat.id)"
                       >{{chat.duration}}''</p>
                     </div>
                   </div>
@@ -195,6 +200,8 @@
         toView:'',
         scrollHeight:0,
         isiphoneX:false,
+        acitveVoice:-1,//当前播放音频ID
+        isStop:false,//播放是否暂停
         recordCancel:false,
       }
     },
@@ -393,8 +400,8 @@
         that.chatType=4;
         that.$stopRecorder();//停止录音
         that.$stopManager(res =>{
-          //let data = JSON.parse(res.data)
-          let data = res.data
+          let data = JSON.parse(res.data)
+          // let data = res.data
           console.log(data)
           let file=res.file;
           if(file.duration<1000){
@@ -413,8 +420,9 @@
           }
         })
       },
-      play(path){
-        this.$playAudio(this.$store.state.url + path);
+      play(path,id){
+        console.log(id)
+        this.$playAudio(this.$store.state.url + path,id);
       },
       sendImg(imgType){
         let that=this;
@@ -547,6 +555,22 @@
         this.u_id=this.$store.state.user.userid;
         console.log(this.$store.state.user);
         this.getChatdata();
+        var that=this;
+      this.$voice.onPlay(function (id) {
+        console.log('开始播放回调'+id);
+        that.isStop=false;
+        that.acitveVoice=id;
+      })
+      this.$voice.onPause(function (id) {
+        console.log('监听音频暂停事件回调'+id);
+        that.isStop=true;
+      })
+      this.$voice.onEnded(function (id) {
+        console.log('监听音频自然播放至结束的事件回调'+id);
+        that.acitveVoice=-1;
+        that.isStop=false;
+      })
+
     },
     onShow:function(){
       this.recordclicked=false;
@@ -999,6 +1023,7 @@
       text-align: right;
       &.play{
         background:#df5c3e url("../../../static/img/leftplay.gif") no-repeat center left;
+        background-size: 48px/2 48px/2;
       }
     }
     &.v_right{
@@ -1007,6 +1032,7 @@
       text-align: left;
       &.play{
         background:#df5c3e url("../../../static/img/rightplay.gif") no-repeat center right;
+        background-size: 48px/2 48px/2;
       }
     }
   }
