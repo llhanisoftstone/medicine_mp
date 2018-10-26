@@ -49,7 +49,7 @@
       return {
         policy_list:[],
         _code:'',
-        orgid:'',
+        column_id:'',
         _search:'',
         searchVal:'',
         scrollIcon:false,
@@ -89,8 +89,8 @@
           unique_code:this._code,
           status:2, //状态：0-草稿；1-待审核，2-上架，3-拒绝，4-下架；
         };
-        if(this.orgid){
-          data.organiz_id=this.orgid;
+        if(this.column_id){
+          data.column_id=this.column_id;
         }
         if (this._search){
             data.search = 1;
@@ -175,8 +175,8 @@
       this.page = 1;
       this._search = '';
       this._code = option.pid||"";
-      if(option.org_id && option.org_id!='null') {
-        this.orgid = option.org_id;
+      if(option.column_id && option.column_id!='null') {
+        this.column_id = option.column_id;
       }
       this.policy_list = [];
       this.getpolicyList()//获取数据
