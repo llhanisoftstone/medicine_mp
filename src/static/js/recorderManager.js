@@ -20,7 +20,10 @@ export function stopManager (callback) {
   Recorder.onStop( file => {
     console.log(file)
     if(file.duration<1000){
-      callback({file:file});
+      callback({
+        file:file,
+        data:"[]"
+      });
     }else{
       wx.uploadFile({
         url: `${store.state.url}/op/upload`,
@@ -29,7 +32,7 @@ export function stopManager (callback) {
         name: 'file',
         success: (res) => {
           res.file=file;
-          console.log(res)
+          //console.log(res)
           callback(res)
         },
         fail: err => {

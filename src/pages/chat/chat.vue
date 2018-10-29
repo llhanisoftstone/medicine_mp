@@ -198,6 +198,7 @@
         windowheight:10,
         scrollTop:0,
         toView:'',
+        lastestid:'',//toview暂存
         scrollHeight:0,
         isiphoneX:false,
         acitveVoice:-1,//当前播放音频ID
@@ -228,7 +229,16 @@
       },
       sendMsg(){
         this.sendMsg=this.sendMsg.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\@\.\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
-      }
+      },
+      isMoreShow(){
+          let that=this;
+          if(that.isMoreShow){
+              that.windowheight=that.windowheight-165;
+              that.toView=that.lastestid;
+          }else{
+            that.windowheight=that.windowheight+165;
+          }
+      },
     },
     /*onPullDownRefresh () {
       if(this.getNodata){
@@ -340,6 +350,7 @@
             that.chatdata=chat;
             chat[chat.length-1].id='msg'+chat[chat.length-1].id;
             that.toView=chat[chat.length-1].id;
+            that.lastestid=that.toView;
           }else{
             chat=chat.concat(that.chatdata);
             that.chatdata=chat;
@@ -365,11 +376,17 @@
         that.startYs = e.mp.changedTouches[0].clientY;
         wx.getSetting({
           success(res) {
+            console.log(res)
             if (!res.authSetting['scope.record']) {
               that.$mptoast('请先开启录音权限');
-              setTimeout(()=>{
-                wx.openSetting();
-              },1500)
+              wx.authorize({
+                scope: 'scope.record',
+                fail () {
+                  setTimeout(()=>{
+                    wx.openSetting();
+                  },1500)
+                }
+              })
               return;
             }
           }
@@ -401,9 +418,8 @@
         that.chatType=4;
         that.$stopRecorder();//停止录音
         that.$stopManager(res =>{
+
           let data = JSON.parse(res.data)
-          // let data = res.data
-          console.log(data)
           let file=res.file;
           if(file.duration<1000){
               that.$mptoast('录音时间太短');
@@ -499,7 +515,8 @@
       pageScrollToBottom: function (msgid) {
         let that=this;
         this.$nextTick(()=>{
-          that.toView=msgid
+          that.toView=msgid;
+          that.lastestid=that.toView;
         })
       },
       getSysteminfo(){

@@ -525,7 +525,7 @@
     }
   }
   .searchk{
-    width: 100%;
+    width: 750px/2;
     padding: 10px/2 12px/2;
     background: #f6f6f6;
     box-sizing: border-box;
