@@ -44,10 +44,13 @@ export function playAudio (path,id) {
   console.log(id);
   if(acitveVoice!=-1){//播放中再次点击播放
     console.log('播放中再次点击播放');
-    if(id==acitveVoice&&!isStop){//播放中并且当前不是暂停状态再次点击该语音时暂停
-      AudioContext.pause();
-      return;
-    }else if(id!=acitveVoice&&!isStop){//播放中点击其他语音，停止播放当前语音，播放该语音
+    // if(id==acitveVoice&&!isStop){//播放中并且当前不是暂停状态再次点击该语音时暂停
+    //   AudioContext.pause();
+    //   return;
+    // }else if(id!=acitveVoice&&!isStop){//播放中点击其他语音，停止播放当前语音，播放该语音
+    //   AudioContext.stop();
+    // }
+    if(id!=acitveVoice&&!isStop){//播放中点击其他语音，停止播放当前语音，播放该语音
       AudioContext.stop();
     }
 

@@ -423,6 +423,7 @@
       },
       play(path,id){
         console.log(id)
+        this.isStop=false;
         this.$playAudio(this.$store.state.url + path,id);
       },
       sendImg(imgType){
