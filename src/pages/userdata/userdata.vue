@@ -155,16 +155,28 @@
         };
 
         var pattern1 =/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
-       if(this.cardtype==0){if(this.cardNum&&!pattern1.test(this.cardNum)){
-            this.$mptoast('您的身份证号输入有误，请重新输入');
-            return;
-          }
-       }
         data.cert_type=parseFloat(this.cardtype)+1;
-        if(this.cardtype==0){
-          data.cert_value=this.cardNum;
-        }else if(this.cardtype==1||this.cardtype==2){
-          data.cert_value=this.cardNumtext;
+        if(data.cert_type==1){
+            if(this.cardNum==""||this.cardNum==null){
+              this.$mptoast('请输入证件号');
+              return;
+            }else{
+              if(!pattern1.test(this.cardNum)){
+                this.$mptoast('您的身份证号输入有误，请重新输入');
+                return;
+              }else{
+                data.cert_value=this.cardNum;
+              }
+
+            }
+
+        }else if(data.cert_type==2||data.cert_type==3){
+          if(this.cardNumtext==""||this.cardNumtext==null){
+            this.$mptoast('请输入证件号');
+            return;
+          }else {
+            data.cert_value = this.cardNumtext;
+          }
         }
         if(this.comp_name&&this.nocomany){
           return  this.$mptoast('该企业未入驻平台，请重新填写');
