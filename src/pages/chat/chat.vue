@@ -368,10 +368,14 @@
         let that=this;
         that.recordCancel=false;
         that.isStop=true;
+        that.inputfocus=false;
+        that.voicetip='松开 结束';
         clearInterval(that.setTime);
         that.setTime=null;
         that.setTimeNum=0;
         that.$stopAudio();
+        if(that.recordclicked){return;}
+        that.recordclicked=true;
         that.startXs = e.mp.changedTouches[0].clientX;
         that.startYs = e.mp.changedTouches[0].clientY;
         if(!that.recordAuth){
@@ -383,6 +387,7 @@
                 wx.authorize({
                   scope: 'scope.record',
                   fail () {
+                    that.recordclicked=false;
                     setTimeout(()=>{
                       wx.openSetting();
                     },1500)
@@ -395,9 +400,6 @@
             }
           })
         }
-        that.inputfocus=false;
-        that.recordclicked=true;
-        that.voicetip='松开 结束';
         that.$startManager();
         that.setTime=setInterval(()=>{
           that.setTimeNum++;
