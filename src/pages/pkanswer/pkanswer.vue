@@ -24,8 +24,8 @@
           <fraction :number="mynumber" color="#ffc02a"></fraction>
         </div>
         <div>
-          <answer title="题库由西安市人社局失业保险处提供" :answer="answer.name" distance="0">
-          <!--<answer :title="answer.category_name+', 本题由'+answer.organiz_name+'提供'" :answer="answer.name" distance="0">-->
+          <!--<answer title="题库由西安市人社局失业保险处提供" :answer="answer.name" distance="0">-->
+          <answer :title="answer.category_name+', 本题由'+answer.comp_name+'提供'" :answer="answer.name" distance="0">
             <div slot="list">
               <ul :class="{'bottom1_an':isanimation&&(step!=1),'bottom_an':isanimation&&(step==1),'answer_box':true}">
                 <li :class="{'my':index==i,'opponent':other==i,'correct':v.right&&isshow,'n_correct':index==i&&isshow&&!v.right,'n_correct':other==i&&isshow&&!v.right}" v-for="(v,i) in answer.answer_json" v-on:click="submit(i,v.right)"><span class="ismy"></span>{{v.answer}}<span class="nomy"></span></li>

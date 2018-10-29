@@ -190,14 +190,16 @@
         voicetip:'按住 说话',
         recordclicked:false,
         page:1,
-        size:10,
+        size:6,
         getNodata:false,
         setTime:null,
+        startRecordTime:null,
         setTimeNum:0,
         inputfocus:false,
         windowheight:10,
         scrollTop:0,
         toView:'',
+        lastestid:'',//toview暂存
         scrollHeight:0,
         isiphoneX:false,
         acitveVoice:-1,//当前播放音频ID
@@ -228,7 +230,16 @@
       },
       sendMsg(){
         this.sendMsg=this.sendMsg.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\@\.\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
-      }
+      },
+      isMoreShow(){
+          let that=this;
+          if(that.isMoreShow){
+              that.windowheight=that.windowheight-165;
+              that.toView=that.lastestid;
+          }else{
+            that.windowheight=that.windowheight+165;
+          }
+      },
     },
     /*onPullDownRefresh () {
       if(this.getNodata){
@@ -300,7 +311,7 @@
               msgdata.details=d.detail;
             }
             if(!d.create_time){
-                msgdata.create_time=new Date().toLocaleString();
+                msgdata.create_time=this.getCurrentTime();
             }
             if(d.u_id==that.u_id){
               that.chatdata.push(msgdata);
@@ -340,6 +351,7 @@
             that.chatdata=chat;
             chat[chat.length-1].id='msg'+chat[chat.length-1].id;
             that.toView=chat[chat.length-1].id;
+            that.lastestid=that.toView;
           }else{
             chat=chat.concat(that.chatdata);
             that.chatdata=chat;
@@ -356,27 +368,42 @@
         wx.vibrateShort();
         let that=this;
         that.recordCancel=false;
+        that.isStop=true;
+        that.inputfocus=false;
         clearInterval(that.setTime);
         that.setTime=null;
         that.setTimeNum=0;
         that.$stopAudio();
+        if(that.recordclicked){return;}
+        that.voicetip='松开 结束';
         that.startXs = e.mp.changedTouches[0].clientX;
         that.startYs = e.mp.changedTouches[0].clientY;
-        wx.getSetting({
-          success(res) {
-            if (!res.authSetting['scope.record']) {
-              that.$mptoast('请先开启录音权限');
-              setTimeout(()=>{
-                wx.openSetting();
-              },1500)
-              return;
+        if(!that.recordAuth){
+          wx.getSetting({
+            success(res) {
+              console.log(res)
+              if (!res.authSetting['scope.record']) {
+                that.$mptoast('请先开启录音权限');
+                wx.authorize({
+                  scope: 'scope.record',
+                  fail () {
+                    that.recordclicked=false;
+                    setTimeout(()=>{
+                      wx.openSetting();
+                    },1500)
+                  }
+                });
+                return;
+              }else{
+                that.recordAuth=true;
+              }
             }
-          }
-        })
-        that.inputfocus=false;
-        that.recordclicked=true;
-        that.voicetip='松开 结束';
-        that.$startManager();
+          })
+        }
+        that.startRecordTime=setTimeout(()=>{
+          that.recordclicked=true;
+          that.$startManager();
+        },200)
         that.setTime=setInterval(()=>{
           that.setTimeNum++;
         },1000)
@@ -385,6 +412,7 @@
         let that = this;
         that.inputfocus=false;
         clearInterval(that.setTime);
+        clearTimeout(that.startRecordTime);
         that.setTime=null;
         that.setTimeNum=0;
         that.recordclicked=false;
@@ -401,8 +429,6 @@
         that.$stopRecorder();//停止录音
         that.$stopManager(res =>{
           let data = JSON.parse(res.data)
-          // let data = res.data
-          console.log(data)
           let file=res.file;
           if(file.duration<1000){
               that.$mptoast('录音时间太短');
@@ -422,6 +448,7 @@
       },
       play(path,id){
         console.log(id)
+        this.isStop=false;
         this.$playAudio(this.$store.state.url + path,id);
       },
       sendImg(imgType){
@@ -443,32 +470,6 @@
           });
         });
         that.isMoreShow=false;
-      },
-      formatedate(time){
-        Date.prototype.Format = function (fmt) { //author: meizz
-          var o = {
-            "M+": this.getMonth() + 1, //月份
-            "d+": this.getDate(), //日
-            "h+": this.getHours(), //小时
-            "m+": this.getMinutes(), //分
-            "s+": this.getSeconds(), //秒
-            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-            "S": this.getMilliseconds() //毫秒
-          };
-          if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-          for (var k in o)
-            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-          return fmt;
-        };
-        let date=new Date(time);
-        let dates;
-        if(parseInt(date.Format("hh"))>12){
-          var num=parseInt(date.Format("hh"))-12;
-          dates=date.Format("MM月dd日")+"  下午"+num+":"+date.Format("mm");
-        }else {
-          dates=date.Format("MM月dd日")+"  上午"+date.Format("hh")+":"+date.Format("mm");
-        }
-        return dates;
       },
       getvoiceurl(data){
           if(data){
@@ -523,7 +524,8 @@
       pageScrollToBottom: function (msgid) {
         let that=this;
         this.$nextTick(()=>{
-          that.toView=msgid
+          that.toView=msgid;
+          that.lastestid=that.toView;
         })
       },
       getSysteminfo(){
@@ -546,6 +548,30 @@
         //console.log(e.mp.detail)
         this.scrollHeight=e.mp.detail.scrollHeight;
       },
+      getCurrentTime(){
+        var now = new Date();
+        var year = now.getFullYear();       //年
+        var month = now.getMonth() + 1;     //月
+        var day = now.getDate();            //日
+        var hh = now.getHours();            //时
+        var mm = now.getMinutes();          //分
+        var ss = now.getSeconds();           //秒
+        var clock = year + "-";
+        if(month < 10)
+          clock += "0";
+        clock += month + "-";
+        if(day < 10)
+          clock += "0";
+        clock += day + " ";
+        if(hh < 10)
+          clock += "0";
+        clock += hh + ":";
+        if (mm < 10) clock += '0';
+        clock += mm + ":";
+        if (ss < 10) clock += '0';
+        clock += ss;
+        return(clock);
+      },
     },
     onLoad:function (option){
         this.recordclicked=false;
@@ -555,7 +581,7 @@
         this.u_id=this.$store.state.user.userid;
         console.log(this.$store.state.user);
         this.getChatdata();
-        var that=this;
+        let that=this;
       this.$voice.onPlay(function (id) {
         console.log('开始播放回调'+id);
         that.isStop=false;
