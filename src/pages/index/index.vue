@@ -24,7 +24,7 @@
           v-for="(item,idx) in movies">
           <swiper-item>
             <a
-              @click.stop="tonewpage(item.url,item.urlid,true)">
+              @click.stop="tonewpage(item.urlpath,'',true)">
               <image
                 v-if="item.picpath"
                 :src="imgUrl+item.picpath"></image>
@@ -158,10 +158,30 @@
   },
 
   methods: {
-    tonewpage(urlname,data){
-      wx.navigateTo({
-        url:`/pages/${urlname}/main?${data}`
-      })
+    tonewpage(urlname,data,adminUrl){
+      if(!urlname){return;}
+      if(!adminUrl){
+        wx.navigateTo({
+          url:`/pages/${urlname}/main?${data}`
+        })
+        return;
+      }else{
+        var strIdx=urlname.indexOf('?');
+        var reg = RegExp(/index|policy|personcenter/);
+        if(urlname.match(reg)){
+          wx.switchTab({
+            url:`/pages/${urlname}/main?${data}`
+          })
+          return;
+        }
+        if(strIdx!=-1){
+          data=urlname.slice(strIdx)
+          urlname=urlname.slice(0,strIdx);
+        }
+        wx.navigateTo({
+          url:`/pages/${urlname}/main?${data}`
+        })
+      }
     },
     tozhan(){
       let thiz=this;
@@ -461,11 +481,6 @@
             })
           }
         }
-      })
-    },
-    tonewpage(urlname,data){
-      wx.navigateTo({
-        url:`/pages/${urlname}/main?${data}`
       })
     },
     scrolltoTop(){
@@ -918,6 +933,7 @@
           font-size:14px;
           z-index:30;
           color:#fff;
+          text-shadow:0 2.5px 2.5px rgba(101,101,101,0.75);
         }
       }
     }

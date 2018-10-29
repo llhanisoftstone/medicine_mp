@@ -120,7 +120,7 @@
                   that.$store.commit('get_que_type',d.type)
                   that.isshow=false
                   wx.navigateTo({
-                    url:'/pages/alone/main?pid='+this.category_id
+                    url:'/pages/alone/main?category_id='+this.category_id
                   })
                 }
               }else if(d.cmd == 'fight'){
@@ -129,7 +129,7 @@
                   that.$store.commit('get_level',that.select)
                   that.isshow=false
                   wx.navigateTo({
-                    url:`/pages/team/main?id=${that.$store.state.user.userid}&&pid=${this.category_id}`
+                    url:`/pages/team/main?id=${that.$store.state.user.userid}&&category_id=${this.category_id}`
                   })
                 }
               }
@@ -176,7 +176,7 @@
         let that=this;
         let title='@你 助力好友一起闯关吧~';
         let img=`${that.$store.state.url}/admin/img/team.jpg`;
-        let url=`/pages/authmulti/main?`+`pages=team&&ismy=1&&id=${that.$store.state.user.userid}&&pid=${this.category_id}`
+        let url=`/pages/authmulti/main?`+`pages=team&&ismy=1&&id=${that.$store.state.user.userid}&&category_id=${this.category_id}`
         if (res.from === 'menu') {
           // 来自页面内转发按钮
           title='边玩边学，游戏学习两不误！';
@@ -223,7 +223,7 @@
       onLoad(option){
         wx.hideShareMenu()
         this.category=option.category;
-        this.category_id=option.pid;
+        this.category_id=option.category_id;
         this.watchsocket()
         this.tips = -1;
       },
