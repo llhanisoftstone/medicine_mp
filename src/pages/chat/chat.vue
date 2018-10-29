@@ -190,7 +190,7 @@
         voicetip:'按住 说话',
         recordclicked:false,
         page:1,
-        size:10,
+        size:6,
         getNodata:false,
         setTime:null,
         setTimeNum:0,
