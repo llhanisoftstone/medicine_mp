@@ -145,6 +145,7 @@
       line-height: 40px/2;
       margin-bottom: 70px/2;
       text-align: justify;
+      word-break: break-all;
     }
     .top{
       margin-top:23px/2;

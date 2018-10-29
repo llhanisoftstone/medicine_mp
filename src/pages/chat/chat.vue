@@ -374,23 +374,27 @@
         that.$stopAudio();
         that.startXs = e.mp.changedTouches[0].clientX;
         that.startYs = e.mp.changedTouches[0].clientY;
-        wx.getSetting({
-          success(res) {
-            console.log(res)
-            if (!res.authSetting['scope.record']) {
-              that.$mptoast('请先开启录音权限');
-              wx.authorize({
-                scope: 'scope.record',
-                fail () {
-                  setTimeout(()=>{
-                    wx.openSetting();
-                  },1500)
-                }
-              })
-              return;
+        if(!that.recordAuth){
+          wx.getSetting({
+            success(res) {
+              console.log(res)
+              if (!res.authSetting['scope.record']) {
+                that.$mptoast('请先开启录音权限');
+                wx.authorize({
+                  scope: 'scope.record',
+                  fail () {
+                    setTimeout(()=>{
+                      wx.openSetting();
+                    },1500)
+                  }
+                });
+                return;
+              }else{
+                that.recordAuth=true;
+              }
             }
-          }
-        })
+          })
+        }
         that.inputfocus=false;
         that.recordclicked=true;
         that.voicetip='松开 结束';
