@@ -83,7 +83,7 @@
         <div class="line-division" v-if="is_hot_hide"></div>
         <div class="common-head headbook-head">
           <span class="handbook-icon">办理手册</span>
-          <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&org_id='+org_id"><span>更多></span></a>
+          <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&column_id='+column_id"><span>更多></span></a>
           <ul class="headbook-list">
             <li v-for="(item,i) in headbook_list" :key="item.id">
               <a :href="'/pages/policydetails/main?pid='+item.id" class="item-details">
@@ -117,7 +117,7 @@
         <div class="line-division"></div>
         <div class="common-head policy-head">
           <span class="policy-icon">政策百科</span>
-          <a :href="'/pages/policylist/main?pid=zcbk&org_id='+org_id" class="ui-link"><span>更多></span></a>
+          <a :href="'/pages/policylist/main?pid=zcbk&column_id='+column_id" class="ui-link"><span>更多></span></a>
           <ul class="policy-list">
             <li v-for="(item1,i) in policy_list" :key="item1.id">
               <a :href="'/pages/policydetails/main?pid='+item1.id" class="item-details">
@@ -151,6 +151,7 @@
         <div class="zc_btn"><div class="zcbtn_top">我要咨询</div></div>
       </a>
       <div class="nogetList" v-if="!is_hot_hide&&!is_bl_hide&&!is_bk_hide">暂无内容</div>
+      <div class="noperson" v-if="noperson">暂无内容</div>
     </div>
       <ul
         v-show="currentTab==-1"
@@ -223,6 +224,7 @@
         size:5,
         u_id:'',
         isAsk:true,//是否为咨询
+        noperson:false
       }
     },
     components: {
@@ -355,14 +357,12 @@
                 }
               val.talk_count=that.formatcount(val.talk_count);
             }
-            /*if(res.column){
-              that.column_id=res.column[0].id;
-            }*/
 
             that.hrdata=hrData;
           }
           that.categorydata=res.column;
-
+        }else{
+            that.noperson=true;
         }
         if(!isAsk && that.column_id){
           that.getpolicyMain();//获取政策百科主页数据
@@ -381,6 +381,7 @@
       tabClick(idx,id){
         this.currentTab=idx;
         this.column_id=id;
+        this.noperson=false;
         this.isAsk=false;
         this.getpolicyMain();
       },
@@ -450,6 +451,7 @@
         this.pickerIndex=-1;
       }*/
       //this.getorganiz(); //获取组织列表
+      this.noperson=false;
       this.u_id=this.$store.state.user.userid;
       this.getPolicydata();
 
@@ -963,5 +965,17 @@
     height: 80px/2;
     background:url('../../../static/img/scrollTop.png') center no-repeat;
     background-size: 80px/2 80px/2;
+  }
+  .noperson{
+    padding-top: 290px;
+    box-sizing:border-box;
+    background: url(../../../static/img/noperson.jpg) center 100px no-repeat;
+    background-size:145px 148px;
+    width: 100%;
+    height: 297px;
+    color: #999999;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 50px;
   }
 </style>

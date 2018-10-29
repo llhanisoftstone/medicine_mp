@@ -49,8 +49,9 @@
                         <p
                           :id="chat.id"
                           class="voicebtn v_right"
+                          :class="{'play':acitveVoice==chat.id&&isStop==false}"
                           :style="{width:chat.duration*7/2+'px'}"
-                          @click="play(chat.details)"
+                          @click="play(chat.details,chat.id)"
                         >{{chat.duration}}''</p>
                       </div>
                     </div>
@@ -65,11 +66,13 @@
                       @click="showimg(to_avatar_url,to_avatar_url)"
                       :src="to_avatar_url"></image>
                   </div>
+                  <!--文字-->
                   <div v-if="chat.data_type==1" class="content">
                     <div class="getmessage">
                       <p :id="chat.id">{{chat.details}}</p>
                     </div>
                   </div>
+                  <!--图片-->
                   <div v-if="chat.data_type==2" class="content">
                     <div
                       :id="chat.id"
@@ -80,18 +83,19 @@
                         :src="imgURL+chat.details"></image>
                     </div>
                   </div>
+                  <!--音频-->
                   <div v-if="chat.data_type==4" class="content">
                     <div class="getmessage voicebox">
                       <p
                         :id="chat.id"
                         class="voicebtn v_left"
+                        :class="{'play':acitveVoice==chat.id&&isStop==false}"
                         :style="{width:chat.duration*7/2+'px'}"
-                        @click="play(chat.details)"
+                        @click="play(chat.details,chat.id)"
                       >{{chat.duration}}''</p>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -121,7 +125,6 @@
           name="saytext"
           @confirm="sendMessage"
           class="input_text"/>
-        <!--:focus="inputfocus"-->
         <div
           v-show="action=='voice'"
           :class="{'record-box':true,'active':recordclicked}"
@@ -192,11 +195,14 @@
         setTime:null,
         setTimeNum:0,
         inputfocus:false,
-        windowheight:400,
+        windowheight:10,
         scrollTop:0,
         toView:'',
         scrollHeight:0,
         isiphoneX:false,
+        acitveVoice:-1,//当前播放音频ID
+        isStop:false,//播放是否暂停
+        recordCancel:false,
       }
     },
     components: {
@@ -213,6 +219,7 @@
     watch:{
       setTimeNum:{
         handler:function(oldval,newval){
+            console.log('settimeNum:'+newval)
           if(newval>=59){
             this.recordStop();
           }
@@ -292,8 +299,13 @@
             }else{
               msgdata.details=d.detail;
             }
-            that.chatdata.push(msgdata);
-            that.pageScrollToBottom(msg_id)
+            if(!d.create_time){
+                msgdata.create_time=new Date().toLocaleString();
+            }
+            if(d.u_id==that.u_id){
+              that.chatdata.push(msgdata);
+              that.pageScrollToBottom(msg_id)
+            }
           }
         })
       },
@@ -343,9 +355,13 @@
       recordStart(e){
         wx.vibrateShort();
         let that=this;
+        that.recordCancel=false;
+        clearInterval(that.setTime);
+        that.setTime=null;
+        that.setTimeNum=0;
         that.$stopAudio();
-        that.startX = e.mp.changedTouches[0].clientX;
-        that.startY = e.mp.changedTouches[0].clientY;
+        that.startXs = e.mp.changedTouches[0].clientX;
+        that.startYs = e.mp.changedTouches[0].clientY;
         wx.getSetting({
           success(res) {
             if (!res.authSetting['scope.record']) {
@@ -367,45 +383,49 @@
       },
       recordStop(e){
         let that = this;
-        if(e){
-          that.endX = e.mp.changedTouches[0].clientX;
-          that.endY = e.mp.changedTouches[0].clientY;
-          console.log(this.startY-this.endY)
-        }
         that.inputfocus=false;
+        clearInterval(that.setTime);
         that.setTime=null;
         that.setTimeNum=0;
         that.recordclicked=false;
         that.voicetip='按住 说话';
         if(e){
-          if(this.startY-this.endY > 10 || this.startY-this.endY < 0){//上滑取消
-            return;
+          that.endXs = e.mp.changedTouches[0].clientX;
+          that.endYs = e.mp.changedTouches[0].clientY;
+          console.log(this.startYs-this.endYs)
+          if(that.startYs-that.endYs > 10 || that.startYs-that.endYs < 0){//上滑取消录音
+            that.recordCancel=true;
           }
         }
         that.chatType=4;
+        that.$stopRecorder();//停止录音
         that.$stopManager(res =>{
           let data = JSON.parse(res.data)
+          // let data = res.data
           console.log(data)
           let file=res.file;
           if(file.duration<1000){
               that.$mptoast('录音时间太短');
-              return;
+          }else{
+            if(!that.recordCancel){
+              that.path = data[0].url;
+              that.$socket.emit('data_chain',{
+                cmd:'msgchat',
+                u_id: that.$store.state.user.userid,
+                to_u_id: that.to_u_id,
+                type:that.chatType,
+                detail:data[0].url+','+file.duration,
+              });
+            }
           }
-          that.path = data[0].url;
-          that.$socket.emit('data_chain',{
-            cmd:'msgchat',
-            u_id: that.$store.state.user.userid,
-            to_u_id: that.to_u_id,
-            type:that.chatType,
-            detail:data[0].url+','+file.duration,
-          });
         })
       },
-      play(path){
-        this.$playAudio(this.$store.state.url + path);
+      play(path,id){
+        console.log(id)
+        this.$playAudio(this.$store.state.url + path,id);
       },
       sendImg(imgType){
-        var that=this;
+        let that=this;
         that.chatType=2;
         that.$uploadImg({
           count: 1,
@@ -535,21 +555,41 @@
         this.u_id=this.$store.state.user.userid;
         console.log(this.$store.state.user);
         this.getChatdata();
+        var that=this;
+      this.$voice.onPlay(function (id) {
+        console.log('开始播放回调'+id);
+        that.isStop=false;
+        that.acitveVoice=id;
+      })
+      this.$voice.onPause(function (id) {
+        console.log('监听音频暂停事件回调'+id);
+        that.isStop=true;
+      })
+      this.$voice.onEnded(function (id) {
+        console.log('监听音频自然播放至结束的事件回调'+id);
+        that.acitveVoice=-1;
+        that.isStop=false;
+      })
+
     },
     onShow:function(){
       this.recordclicked=false;
+      this.isMoreShow=false;
       this.sendMsg='';
       this.page=1;
+      clearInterval(this.setTime)
       this.setTime=null
       this.watchsocket();
       this.pageScrollToBottom();
     },
     onUnload:function(){
       this.$stopAudio();
+      this.$stopRecorder();
       this.chatdata=[];
     },
     onHide:function(){
       this.$stopAudio();
+      this.$stopRecorder();
       wx.stopBackgroundAudio()
     }
   }
@@ -670,7 +710,7 @@
   .module{
     box-sizing: border-box;
     width:100%;
-    height:412px/2;
+    height:310px/2;
     background: #f6f6f6;
     padding:36px/2 74px/2;
     border-top: 1px solid #e3e3e3;
@@ -981,11 +1021,19 @@
       background:#df5c3e url("../../../static/img/voiceleft.png") no-repeat center left;
       background-size: 48px/2 48px/2;
       text-align: right;
+      &.play{
+        background:#df5c3e url("../../../static/img/leftplay.gif") no-repeat center left;
+        background-size: 48px/2 48px/2;
+      }
     }
     &.v_right{
       background:#df5c3e url("../../../static/img/voiceright.png") no-repeat center right;
       background-size: 48px/2 48px/2;
       text-align: left;
+      &.play{
+        background:#df5c3e url("../../../static/img/rightplay.gif") no-repeat center right;
+        background-size: 48px/2 48px/2;
+      }
     }
   }
   .getmessage img,.getmessage image{
