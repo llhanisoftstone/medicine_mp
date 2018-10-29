@@ -158,7 +158,7 @@
 //            this.$socket.emit('data_chain', {cmd:'left',u_id:this.$store.state.user.userid,game_cfg_id:1,game_type:this.from})
             this.again=0
           }
-          this.category_id=option.pid;
+          this.category_id=option.category_id;
         }
         this.cleardata()
         clearTimeout(this.rout)

@@ -583,30 +583,6 @@
         console.log('show page')
     },
     onLoad(option){
-//      wx.getSetting({
-//        success: function (res) {
-//          if (!res.authSetting['scope.userInfo']) {
-//            if (that.$store.state.modalshow) {
-//              that.$store.commit('getmodal', false)
-//              wx.hideLoading()
-//              wx.showModal({
-//                title: '提示',
-//                content: '未授权获取用户信息',
-//                showCancel: false,
-//                confirmText: '返回首页',
-//                confirmColor: '#df5c3e',
-//                mask: true,
-//                complete: res => {
-//                  wx.switchTab({
-//                    url: '/pages/index/main'
-//                  })
-//                  that.$store.commit('getmodal', true)
-//                }
-//              })
-//            }
-//          }
-//        }
-//      })
       let that =this
       that.isquick=false
       that.$store.commit('rightTitle',0)
@@ -622,7 +598,7 @@
         that.countdownfn()
       },1000)
       that.challenger=option.id;
-      that.category_id=option.pid;
+      that.category_id=option.category_id;
       if(that.challenger == that.$store.state.user.userid){
         that.team.push({
           id:that.$store.state.user.userid,

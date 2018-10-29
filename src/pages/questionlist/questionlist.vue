@@ -238,7 +238,6 @@
     .chatDetail {
       max-width:328.125px/2;
       font-size: 28px/2;
-      line-height:120%;
       color: rgb(200,200,200);
       margin-top: 13px/2;
     }

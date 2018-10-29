@@ -6,10 +6,10 @@
         <image src="/static/img/top_bg.png"></image>
       </div>
       <ul class="selectitem">
-        <a :href="'/pages/loadpk/main?from=2&&pid='+pid" ><li class="loadpk"><div class="loadimg"></div><div class="rightness"><p class="pktitle"></p><br><span>冲顶排位赛，一触即发！</span></div></li></a>
+        <a :href="'/pages/loadpk/main?from=2&&category_id='+pid" ><li class="loadpk"><div class="loadimg"></div><div class="rightness"><p class="pktitle"></p><br><span>冲顶排位赛，一触即发！</span></div></li></a>
         <button open-type="share"><li class="friendpk"><div class="friendimg"></div><div class="rightness"><p class="pktitle"></p><br><span>真正的友谊经得起挑战，看看谁跟我志同道合！</span></div></li></button>
-        <a :href="'/pages/challengemap/main?category=1&&pid='+pid"><li class="alone"><div class="aloneimg"></div><div class="rightness"><p class="pktitle"></p><br><span>美貌与智慧并存的你，一个人去攻城拔寨吧！</span></div></li></a>
-        <a :href="'/pages/challengemap/main?category=2&&pid='+pid"><li class="challengemap"><div class="challengeimg"></div><div class="rightness"><p class="pktitle"></p><br><span>喊上小伙伴，一起组团更靠谱！</span></div></li></a>
+        <a :href="'/pages/challengemap/main?category=1&&category_id='+pid"><li class="alone"><div class="aloneimg"></div><div class="rightness"><p class="pktitle"></p><br><span>美貌与智慧并存的你，一个人去攻城拔寨吧！</span></div></li></a>
+        <a :href="'/pages/challengemap/main?category=2&&category_id='+pid"><li class="challengemap"><div class="challengeimg"></div><div class="rightness"><p class="pktitle"></p><br><span>喊上小伙伴，一起组团更靠谱！</span></div></li></a>
       </ul>
       <a :href="'/pages/friendpk/main?pid='+pid">
       <div class="friendpkitem"></div>
@@ -36,7 +36,7 @@
         let that = this;
         let title='@你 有人向你发起挑战，点击应战~';
         let img=`${that.$store.state.url}/admin/img/7.jpg`;
-        let url=`/pages/authfight/main?`+`pages=loadpk&&from=1&&id=${this.$store.state.user.userid}&&pid=${this.pid}`
+        let url=`/pages/authfight/main?`+`pages=loadpk&&from=1&&id=${this.$store.state.user.userid}&&category_id=${this.pid}`
         if (res.from === 'menu') {
           // 来自页面内转发按钮
           title='边玩边学，游戏学习两不误！';
@@ -51,7 +51,7 @@
           success: (r)=>{
             console.log(r);
             wx.navigateTo({
-              url:"/pages/loadpk/main?from=1&&pid="+this.pid
+              url:"/pages/loadpk/main?from=1&&category_id="+this.pid
             })
           },
           fail: (err)=>{

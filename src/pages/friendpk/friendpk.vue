@@ -105,7 +105,7 @@
       wx.hideShareMenu()
     },
     onLoad: function(option){
-        this.category_id=option.pid;
+        this.category_id=option.category_id;
     },
     components: {},
     computed:{

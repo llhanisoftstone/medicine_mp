@@ -350,7 +350,7 @@
                 setTimeout(function(){
                   that.$socket.removeAllListeners('data_chain')
                   wx.redirectTo({
-                    url:`/pages/result/main?from=${that.from}`
+                    url:`/pages/result/main?from=${that.from}&&category_id=${that.category_id}`
                   })
                 },2000)
               }

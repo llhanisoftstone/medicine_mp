@@ -19,8 +19,8 @@
         </div>
       </div>
       <div :class="{'btn_box':true,'btn_win':myscore>vsscore,'btn_loss':!(myscore>vsscore)}">
-        <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from" v-if="(from==2)">再来一局</navigator>
-        <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from+'&&again=1'" v-if="(from==1)">再来一局</navigator>
+        <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from+'&&category_id='+category_id" v-if="(from==2)">再来一局</navigator>
+        <navigator open-type = "redirect" :url="'/pages/loadpk/main?from='+from+'&&again=1&&category_id='+category_id" v-if="(from==1)">再来一局</navigator>
         <!--<navigator open-type = "redirect" :url="'/pages/report/main?room_id='+roomid+'&u_id='+user.userid" v-if="win==2">分享战绩</navigator>-->
         <button open-type="share" v-if="win==2">分享战绩</button>
         <button open-type="share" v-if="win!=2">考考好友</button>
@@ -38,6 +38,7 @@
                 iscard:false,
                 card:{},
                 from: 2,//2全网 1好友
+              category_id:''
 
             }
         },
@@ -93,7 +94,7 @@
         let img = `${that.$store.state.url}/admin/img/1.jpg`
         if(that.myscore>that.vsscore){
           img = `${that.$store.state.url}/admin/img/2.jpg`
-          url=`/pages/report/main?room_id=${that.$store.state.room_id}&u_id=${that.$store.state.user.userid}`;
+          url=`/pages/report/main?room_id=${that.$store.state.room_id}&u_id=${that.$store.state.user.userid}&category_id=${that.category_id}`;
           til='@你 真烦人，又赢了，无敌是多么的寂寞~'
         }else if(that.myscore == that.vsscore){
             til = '@你 千金易得，对手难得，棋逢对手下次再战'
@@ -127,6 +128,7 @@
         wx.hideShareMenu()
           this.cleardata()
           this.from = option.from
+        this.category_id = option.category_id
       }
 
     }

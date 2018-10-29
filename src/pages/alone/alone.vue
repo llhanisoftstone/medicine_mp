@@ -298,7 +298,7 @@
     onLoad(option){
       let that =this
       that.left=0;
-      that.category_id=option.pid;
+      that.category_id=option.category_id;
       that.isanimation=true
       setTimeout(()=>{
         that.isanimation=false
@@ -389,12 +389,12 @@
             that.atimefn=null
             if(that.isreward!=0){
               wx.redirectTo({
-                url:`/pages/aloneresult/main?result=2&&id=${that.isreward}`
+                url:`/pages/aloneresult/main?result=2&&id=${that.isreward}&&category_id=${that.category_id}`
               })
               that.isreward=0
             }else{
               wx.redirectTo({
-                url:'/pages/aloneresult/main?result=2'
+                url:'/pages/aloneresult/main?result=2&&category_id='+that.category_id
               })
             }
           },2000)

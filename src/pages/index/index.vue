@@ -918,6 +918,7 @@
           font-size:14px;
           z-index:30;
           color:#fff;
+          text-shadow:0 2.5px 2.5px rgba(101,101,101,0.75);
         }
       }
     }

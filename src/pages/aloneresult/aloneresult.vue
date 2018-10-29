@@ -183,7 +183,7 @@
       this.isreward=0
     },
     onLoad(option){
-        this.category_id=option.category_id;
+      this.category_id=option.category_id;
       wx.hideShareMenu()
 //      this.cleardata()
       this.win=option.result;
@@ -224,11 +224,11 @@
             that.$socket.removeAllListeners('data_chain')
             if(that.id!=0){
               wx.redirectTo({
-                url:`/pages/alone/main?id=${that.isreward}`
+                url:`/pages/alone/main?id=${that.isreward}&&category_id=${that.category_id}`
               })
             }else{
               wx.redirectTo({
-                url:'/pages/alone/main'
+                url:'/pages/alone/main?category_id='+that.category_id
               })
             }
           }
