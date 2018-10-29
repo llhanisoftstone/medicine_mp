@@ -221,7 +221,7 @@
         }
         return {
           title: '@你 向你发起挑战，点击应战~',
-          path: `/pages/loadpk/main?from=1&&id=${this.$store.state.user.userid}`,
+          path: `/pages/loadpk/main?from=1&&id=${this.$store.state.user.userid}&&category_id=${this.category_id}`,
           imageUrl: `${that.$store.state.url}/admin/img/friend.jpg`,
           success: (r)=>{
             console.log(r)
