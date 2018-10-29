@@ -444,32 +444,6 @@
         });
         that.isMoreShow=false;
       },
-      formatedate(time){
-        Date.prototype.Format = function (fmt) { //author: meizz
-          var o = {
-            "M+": this.getMonth() + 1, //月份
-            "d+": this.getDate(), //日
-            "h+": this.getHours(), //小时
-            "m+": this.getMinutes(), //分
-            "s+": this.getSeconds(), //秒
-            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-            "S": this.getMilliseconds() //毫秒
-          };
-          if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-          for (var k in o)
-            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-          return fmt;
-        };
-        let date=new Date(time);
-        let dates;
-        if(parseInt(date.Format("hh"))>12){
-          var num=parseInt(date.Format("hh"))-12;
-          dates=date.Format("MM月dd日")+"  下午"+num+":"+date.Format("mm");
-        }else {
-          dates=date.Format("MM月dd日")+"  上午"+date.Format("hh")+":"+date.Format("mm");
-        }
-        return dates;
-      },
       getvoiceurl(data){
           if(data){
               let str=data.split(',')
