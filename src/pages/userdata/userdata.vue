@@ -318,6 +318,7 @@
       this.cardNum="";
       this.realname="";
       this.phone="";
+      this.comp_name="";
       this.company=[];
       wx.removeStorage({
         key: 'keyuser',
