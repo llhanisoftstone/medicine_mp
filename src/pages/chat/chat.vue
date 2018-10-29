@@ -356,6 +356,7 @@
         wx.vibrateShort();
         let that=this;
         that.recordCancel=false;
+        that.isStop=true;
         clearInterval(that.setTime);
         that.setTime=null;
         that.setTimeNum=0;
@@ -553,7 +554,7 @@
         this.u_id=this.$store.state.user.userid;
         console.log(this.$store.state.user);
         this.getChatdata();
-        var that=this;
+        let that=this;
       this.$voice.onPlay(function (id) {
         console.log('开始播放回调'+id);
         that.isStop=false;
