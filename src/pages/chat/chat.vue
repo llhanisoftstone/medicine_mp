@@ -574,6 +574,7 @@
       },
     },
     onLoad:function (option){
+        this.page=1;
         this.recordclicked=false;
         this.getNodata=false;
         this.getSysteminfo();
