@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h2 :class="{'topan':isanimation&&(step==1),'topan1':isanimation&&(step!=1)}">{{t_title}}</h2>
+      <h2 :class="{'topan':isanimation&&(step==1),'topan1':isanimation&&(step!=1)}" v-if="t_title">{{t_title}}</h2>
       <h4 :class="{'top':distance==1,'topan':isanimation&&(step==1),'topan1':isanimation&&(step!=1)}">{{a_answer}}</h4>
       <slot name="list"></slot>
     </div>
