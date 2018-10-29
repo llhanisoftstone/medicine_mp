@@ -3,14 +3,15 @@
       <div class="widthk">
         <div class="width"></div>
       </div>
+    <div class="top-container">
       <div class="searchk">
         <!--<picker-->
-          <!--mode="selector"-->
-          <!--:value="pickerIndex"-->
-          <!--:range="pickerValueArray"-->
-          <!--@change="bindPickerChange">-->
-          <!--<div class="org-box" v-show="pickerIndex>=0">{{pickerValueArray[pickerIndex]}}</div>-->
-          <!--<div class="org-box" v-show="pickerIndex==-1">请选择机关</div>-->
+        <!--mode="selector"-->
+        <!--:value="pickerIndex"-->
+        <!--:range="pickerValueArray"-->
+        <!--@change="bindPickerChange">-->
+        <!--<div class="org-box" v-show="pickerIndex>=0">{{pickerValueArray[pickerIndex]}}</div>-->
+        <!--<div class="org-box" v-show="pickerIndex==-1">请选择机关</div>-->
         <!--</picker>-->
         <a class="ui-link" :href="'/pages/policylist/main?org_id='+org_id">
           <div class="searchinput">请输入标题或内容</div>
@@ -20,176 +21,179 @@
         <scroll-view
           :scroll-with-animation="true"
           :scroll-x="true">
-            <div
-              @click="currentTab=-1;isAsk=true;"
-              :class="{'active':currentTab==-1}">在线咨询</div>
-            <div
-              v-for="(cate,cindex) in categorydata"
-              :key="cindex"
-              @click="tabClick(cindex,cate.id)"
-              :class="{'active':currentTab==cindex}">{{cate.name}}</div>
+          <div
+            @click="currentTab=-1;isAsk=true;"
+            :class="{'active':currentTab==-1}">在线咨询</div>
+          <div
+            v-for="(cate,cindex) in categorydata"
+            :key="cindex"
+            @click="tabClick(cindex,cate.id)"
+            :class="{'active':currentTab==cindex}">{{cate.name}}</div>
         </scroll-view>
       </div>
-    <div v-show="currentTab!=-1">
-      <div class="hot-info" v-if="is_hot_hide">
-        <div class="common-head hot-head">
-          <span class="hot-icon">热门关注</span>
-          <div class="hot-list">
-            <swiper :display-multiple-items="buylimitlistcount" :next-margin="marginright"
-                    :autoplay="false" :circular="true">
-              <block  v-for="(v,_index) in hot_list" :key="v._index">
-                <swiper-item>
-                  <div class="item">
-                    <a :href="'/pages/policydetails/main?pid='+v.id" class="item-details">
-                      <div class="hot_item">
-                        <div class="imgk">
-                          <img :src="v.pic_abbr" alt="">
-                          <div class="imgkinfok">
-                            <div class="imgkinfo">
-                              <span class="imgkinfo_name">{{v.organiz_name||" "}}</span>
-                              <span class="imgkinfo_count">{{v.view_count}}</span>
+    </div>
+    <div class="body-container">
+      <div v-show="currentTab!=-1">
+        <div class="hot-info" v-if="is_hot_hide">
+          <div class="common-head hot-head">
+            <span class="hot-icon">热门关注</span>
+            <div class="hot-list">
+              <swiper :display-multiple-items="buylimitlistcount" :next-margin="marginright"
+                      :autoplay="false" :circular="true">
+                <block  v-for="(v,_index) in hot_list" :key="v._index">
+                  <swiper-item>
+                    <div class="item">
+                      <a :href="'/pages/policydetails/main?pid='+v.id" class="item-details">
+                        <div class="hot_item">
+                          <div class="imgk">
+                            <img :src="v.pic_abbr" alt="">
+                            <div class="imgkinfok">
+                              <div class="imgkinfo">
+                                <span class="imgkinfo_name">{{v.organiz_name||" "}}</span>
+                                <span class="imgkinfo_count">{{v.view_count}}</span>
+                              </div>
                             </div>
                           </div>
+                          <div class="item_title">{{v.title}}</div>
                         </div>
-                        <div class="item_title">{{v.title}}</div>
-                      </div>
-                    </a>
-                  </div>
-                </swiper-item>
-              </block>
-            </swiper>
+                      </a>
+                    </div>
+                  </swiper-item>
+                </block>
+              </swiper>
+            </div>
+            <!--<ul class="hot-list">-->
+            <!--<li v-for="(v,_index) in hot_list" :key="v._index">-->
+            <!--<a :href="'/pages/policydetails/main?pid='+v.id" class="item-details">-->
+            <!--<div class="hot_item">-->
+            <!--<div class="imgk">-->
+            <!--<img :src="v.pic_abbr" alt="">-->
+            <!--<div class="imgkinfok">-->
+            <!--<div class="imgkinfo">-->
+            <!--<span class="imgkinfo_name">{{v.organiz_name||" "}}</span>-->
+            <!--<span class="imgkinfo_count">{{v.view_count}}</span>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="item_title">{{v.title}}</div>-->
+            <!--</div>-->
+            <!--</a>-->
+            <!--</li>-->
+            <!--</ul>-->
           </div>
-          <!--<ul class="hot-list">-->
-          <!--<li v-for="(v,_index) in hot_list" :key="v._index">-->
-          <!--<a :href="'/pages/policydetails/main?pid='+v.id" class="item-details">-->
-          <!--<div class="hot_item">-->
-          <!--<div class="imgk">-->
-          <!--<img :src="v.pic_abbr" alt="">-->
-          <!--<div class="imgkinfok">-->
-          <!--<div class="imgkinfo">-->
-          <!--<span class="imgkinfo_name">{{v.organiz_name||" "}}</span>-->
-          <!--<span class="imgkinfo_count">{{v.view_count}}</span>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<div class="item_title">{{v.title}}</div>-->
-          <!--</div>-->
-          <!--</a>-->
-          <!--</li>-->
-          <!--</ul>-->
         </div>
-      </div>
-      <div class="handbook-info" v-if="is_bl_hide">
-        <div class="line-division" v-if="is_hot_hide"></div>
-        <div class="common-head headbook-head">
-          <span class="handbook-icon">办理手册</span>
-          <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&column_id='+column_id"><span>更多></span></a>
-          <ul class="headbook-list">
-            <li v-for="(item,i) in headbook_list" :key="item.id">
-              <a :href="'/pages/policydetails/main?pid='+item.id" class="item-details">
-                <div class="msg-box">
-                  <div class="message-img">
-                    <img :src="item.pic_abbr" alt="">
-                  </div>
-                  <div class="info-content">
-                    <div class="message">
+        <div class="handbook-info" v-if="is_bl_hide">
+          <div class="line-division" v-if="is_hot_hide"></div>
+          <div class="common-head headbook-head">
+            <span class="handbook-icon">办理手册</span>
+            <a class="ui-link" :href="'/pages/policylist/main?pid=zcbl&column_id='+column_id"><span>更多></span></a>
+            <ul class="headbook-list">
+              <li v-for="(item,i) in headbook_list" :key="item.id">
+                <a :href="'/pages/policydetails/main?pid='+item.id" class="item-details">
+                  <div class="msg-box">
+                    <div class="message-img">
+                      <img :src="item.pic_abbr" alt="">
+                    </div>
+                    <div class="info-content">
+                      <div class="message">
                       <span class="pub-name">
                           <span>{{item.title}}</span>
                       </span>
-                    </div>
-                    <p class="message-info mui-ellipsis-2">
-                      {{item.remark}}
-                    </p>
-                    <div class="label-info clearfix">
-                      <div class="info-left">{{item.organiz_name||" "}}</div>
-                      <div class="info-right rt icon-reading">
-                        <span>{{item.view_count}}</span>
+                      </div>
+                      <p class="message-info mui-ellipsis-2">
+                        {{item.remark}}
+                      </p>
+                      <div class="label-info clearfix">
+                        <div class="info-left">{{item.organiz_name||" "}}</div>
+                        <div class="info-right rt icon-reading">
+                          <span>{{item.view_count}}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </a>
-            </li>
-          </ul>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <div class="policy-list" v-if="is_bk_hide">
-        <div class="line-division"></div>
-        <div class="common-head policy-head">
-          <span class="policy-icon">政策百科</span>
-          <a :href="'/pages/policylist/main?pid=zcbk&column_id='+column_id" class="ui-link"><span>更多></span></a>
-          <ul class="policy-list">
-            <li v-for="(item1,i) in policy_list" :key="item1.id">
-              <a :href="'/pages/policydetails/main?pid='+item1.id" class="item-details">
-                <div class="msg-box">
-                  <div class="message-img">
-                    <img :src="item1.pic_abbr" alt="">
-                  </div>
-                  <div class="info-content">
-                    <div class="message">
+        <div class="policy-list" v-if="is_bk_hide">
+          <div class="line-division"></div>
+          <div class="common-head policy-head">
+            <span class="policy-icon">政策百科</span>
+            <a :href="'/pages/policylist/main?pid=zcbk&column_id='+column_id" class="ui-link"><span>更多></span></a>
+            <ul class="policy-list">
+              <li v-for="(item1,i) in policy_list" :key="item1.id">
+                <a :href="'/pages/policydetails/main?pid='+item1.id" class="item-details">
+                  <div class="msg-box">
+                    <div class="message-img">
+                      <img :src="item1.pic_abbr" alt="">
+                    </div>
+                    <div class="info-content">
+                      <div class="message">
                       <span class="pub-name">
                           <span>{{item1.title}}</span>
                       </span>
-                    </div>
-                    <p class="message-info mui-ellipsis-2">
-                      {{item1.remark}}
-                    </p>
-                    <div class="label-info clearfix">
-                      <div class="info-left">{{item1.organiz_name||" "}}</div>
-                      <div class="info-right rt icon-reading">
-                        <span>{{item1.view_count}}</span>
+                      </div>
+                      <p class="message-info mui-ellipsis-2">
+                        {{item1.remark}}
+                      </p>
+                      <div class="label-info clearfix">
+                        <div class="info-left">{{item1.organiz_name||" "}}</div>
+                        <div class="info-right rt icon-reading">
+                          <span>{{item1.view_count}}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </a>
-            </li>
-          </ul>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
+        <a class="ui-link" :href="'/pages/toknow/main?isjy=false'">
+          <div class="zc_btn"><div class="zcbtn_top">我要咨询</div></div>
+        </a>
+        <div class="nogetList" v-if="!is_hot_hide&&!is_bl_hide&&!is_bk_hide">暂无内容</div>
+        <div class="noperson" v-if="noperson">暂无内容</div>
       </div>
-      <a class="ui-link" :href="'/pages/toknow/main?isjy=false'">
-        <div class="zc_btn"><div class="zcbtn_top">我要咨询</div></div>
-      </a>
-      <div class="nogetList" v-if="!is_hot_hide&&!is_bl_hide&&!is_bk_hide">暂无内容</div>
-      <div class="noperson" v-if="noperson">暂无内容</div>
-    </div>
       <ul
         v-show="currentTab==-1"
         class="chat-box">
-          <li
-            v-for="(hr,hidx) in hrdata"
-            @click.stop="tochat(hr.id)">
-            <div class="user-box">
-              <image
-                v-if="hr.avatar_url"
-                class="userpic"
-                :src="hr.avatar_url"></image>
-              <image
-                src="/static/img/user.png"
-                v-else=""
-                class="userpic"></image>
-              <div class="userinfo">
-                <div class="namebox">
-                  <span class="uname">{{hr.nickname}}</span>
-                  <span class="utitle">经办人</span>
-                </div>
-                <div
-                  v-if="hr.hr_list"
-                  class="tag-box">
+        <li
+          v-for="(hr,hidx) in hrdata"
+          @click.stop="tochat(hr.id)">
+          <div class="user-box">
+            <image
+              v-if="hr.avatar_url"
+              class="userpic"
+              :src="hr.avatar_url"></image>
+            <image
+              src="/static/img/user.png"
+              v-else=""
+              class="userpic"></image>
+            <div class="userinfo">
+              <div class="namebox">
+                <span class="uname">{{hr.nickname}}</span>
+                <span class="utitle">经办人</span>
+              </div>
+              <div
+                v-if="hr.hr_list"
+                class="tag-box">
                   <span
                     v-for="(tag,tidx) in hr.hr_list"
                     :key="tidx"
                     class="tag">{{tag.name}}</span>
-                </div>
-                <div class="count">
-                  <span class="ctitle">咨询数：</span>
-                  <span>{{hr.talk_count}}</span>
-                </div>
+              </div>
+              <div class="count">
+                <span class="ctitle">咨询数：</span>
+                <span>{{hr.talk_count}}</span>
               </div>
             </div>
-            <div :class="{'askbtn':true,'disabled':u_id==hr.id}" >咨询</div>
-          </li>
+          </div>
+          <div :class="{'askbtn':true,'disabled':u_id==hr.id}" >咨询</div>
+        </li>
       </ul>
+    </div>
     <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
     <mptoast/>
   </div>
@@ -833,6 +837,7 @@
   .category-box{
     box-sizing: border-box;
     width: 100%;
+    background-color: #ffffff;
     overflow: hidden;
     scroll-view{
       display:flex;
@@ -977,5 +982,14 @@
     font-size: 14px;
     text-align: center;
     margin-bottom: 50px;
+  }
+  .top-container{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index: 100;
+  }
+  .body-container{
+    padding-top:150px/2;
   }
 </style>
