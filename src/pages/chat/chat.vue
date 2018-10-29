@@ -193,6 +193,7 @@
         size:6,
         getNodata:false,
         setTime:null,
+        startRecordTime:null,
         setTimeNum:0,
         inputfocus:false,
         windowheight:10,
@@ -369,13 +370,12 @@
         that.recordCancel=false;
         that.isStop=true;
         that.inputfocus=false;
-        that.voicetip='松开 结束';
         clearInterval(that.setTime);
         that.setTime=null;
         that.setTimeNum=0;
         that.$stopAudio();
         if(that.recordclicked){return;}
-        that.recordclicked=true;
+        that.voicetip='松开 结束';
         that.startXs = e.mp.changedTouches[0].clientX;
         that.startYs = e.mp.changedTouches[0].clientY;
         if(!that.recordAuth){
@@ -400,7 +400,10 @@
             }
           })
         }
-        that.$startManager();
+        that.startRecordTime=setTimeout(()=>{
+          that.recordclicked=true;
+          that.$startManager();
+        },200)
         that.setTime=setInterval(()=>{
           that.setTimeNum++;
         },1000)
@@ -409,6 +412,7 @@
         let that = this;
         that.inputfocus=false;
         clearInterval(that.setTime);
+        clearTimeout(that.startRecordTime);
         that.setTime=null;
         that.setTimeNum=0;
         that.recordclicked=false;
@@ -424,7 +428,6 @@
         that.chatType=4;
         that.$stopRecorder();//停止录音
         that.$stopManager(res =>{
-
           let data = JSON.parse(res.data)
           let file=res.file;
           if(file.duration<1000){
