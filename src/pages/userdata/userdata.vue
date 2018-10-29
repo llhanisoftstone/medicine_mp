@@ -155,19 +155,10 @@
         };
 
         var pattern1 =/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
-       if(this.cardtype==0){
-         if(this.cardNum==""||this.cardNum==null){
-           this.$mptoast('请输入证件号码');
-           return;
-         }else if(!pattern1.test(this.cardNum)){
+       if(this.cardtype==0){if(this.cardNum&&!pattern1.test(this.cardNum)){
             this.$mptoast('您的身份证号输入有误，请重新输入');
             return;
           }
-        }else if(this.cardtype==1||this.cardtype==2){
-         if(this.cardNumtext==""||this.cardNumtext==null) {
-           this.$mptoast('请输入证件号码');
-           return;
-         }
        }
         data.cert_type=parseFloat(this.cardtype)+1;
         if(this.cardtype==0){

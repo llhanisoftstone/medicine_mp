@@ -483,11 +483,6 @@
         }
       })
     },
-    tonewpage(urlname,data){
-      wx.navigateTo({
-        url:`/pages/${urlname}/main?${data}`
-      })
-    },
     scrolltoTop(){
       if (wx.pageScrollTo) {
         wx.pageScrollTo({

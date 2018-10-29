@@ -6,7 +6,7 @@
             <div class="box-center">
               <div class="name mui-ellipsis">{{item.name}}</div>
               <div class="taglist mui-ellipsis" ><span v-for="(itetag,t) in item.taglist">{{itetag}}</span></div>
-              <div class="detatils mui-ellipsis">{{item.province_name}}{{item.city_name}}{{item.zone_name}}{{item.address}}</div>
+              <div class="detatils mui-ellipsis"><span v-if="item.province_name">{{item.province_name}}</span><span v-if="item.city_name">{{item.city_name}}</span><span v-if="item.zone_name">{{item.zone_name}}</span><span v-if="item.address">{{item.address}}</span></div>
             </div>
             <div class="box-right"></div>
           </li>

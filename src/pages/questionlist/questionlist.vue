@@ -66,7 +66,7 @@
           page:this.page,
           size:this.size,
           u_id:this.$store.state.user.userid,
-          order:'is_read desc,create_time desc',
+          order:'is_read asc,create_time desc',
         };
         let res = await that.$get('/rs/contact_chats_list',data);
         if (res.code == 200){
@@ -164,7 +164,7 @@
 <style lang="less" scoped>
     @import '../../static/less/common.less';
     .nogetList{
-      margin-top:100px;
+      margin-top:150px;
       box-sizing:border-box;
       width: 100%;
       height: 297px;
