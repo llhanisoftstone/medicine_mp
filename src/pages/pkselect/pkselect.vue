@@ -56,7 +56,7 @@
           },
           fail: (err)=>{
             console.log(err)
-          }
+          },
         }
       },
         onLoad: function (option) {
