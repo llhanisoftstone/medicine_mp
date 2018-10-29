@@ -190,9 +190,9 @@
             let res = await thiz.$get('/rs/banner', data);
             if (res.code == 200){
               if(res.rows){
-//                  for(let val of res.rows){
-//                      val.picpath=thiz.formatPicUrl(val.picpath,'bg_banner.png');
-//                  }
+                  if(res.rows.length>10){
+                      res.rows=res.rows.slice(0,10)
+                  }
                   thiz.banner=res.rows;
               }
             }else if(res.code==602){
