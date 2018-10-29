@@ -11,7 +11,7 @@
         <a :href="'/pages/challengemap/main?category=1&&category_id='+pid"><li class="alone"><div class="aloneimg"></div><div class="rightness"><p class="pktitle"></p><br><span>美貌与智慧并存的你，一个人去攻城拔寨吧！</span></div></li></a>
         <a :href="'/pages/challengemap/main?category=2&&category_id='+pid"><li class="challengemap"><div class="challengeimg"></div><div class="rightness"><p class="pktitle"></p><br><span>喊上小伙伴，一起组团更靠谱！</span></div></li></a>
       </ul>
-      <a :href="'/pages/friendpk/main?pid='+pid">
+      <a :href="'/pages/friendpk/main?category_id='+pid">
       <div class="friendpkitem"></div>
       </a>
     </div>
