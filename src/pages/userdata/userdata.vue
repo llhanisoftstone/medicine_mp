@@ -2,15 +2,15 @@
   <div class="container">
       <div class="item">
         <div class="title">姓名</div>
-        <input type="text" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名"/>
+        <input type="text" @click="switchp" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名" :focus="fnamec==''||fnamec=='realname'"/>
       </div>
       <div class="item">
         <div class="title">手机号</div>
-        <input type="number" v-model='phone' maxlength="11" confirm-type="next"  placeholder="手机号" />
+        <input type="number" @click="switchc" v-model='phone' maxlength="11" confirm-type="next"  placeholder="手机号" :focus="fnamer==''||fnamer=='phone'"/>
       </div>
     <div class="item">
       <div class="title">企业</div>
-      <input type="text" v-model='comp_name' @blur="compblur()" maxlength="20" confirm-type="next" placeholder="企业名称"/>
+      <input type="text" @click="switchr" v-model='comp_name' @blur="compblur()" maxlength="20" confirm-type="next" placeholder="企业名称" :focus="fnamei==''||fnamei=='comp_name'"/>
       <ul class="company">
         <li v-for="(v,i) in company" @click.stop="choice(v.name)">{{v.name}}</li>
       </ul>
@@ -30,8 +30,8 @@
     </div>
     <div class="item">
       <div class="title">证件号</div>
-      <input type="text" v-model='cardNumtext' v-if="pickerText!='身份证'" maxlength="20" confirm-type="next"  placeholder="证件号" />
-      <input type="idcard" v-model='cardNum' v-if="pickerText=='身份证'" maxlength="18" confirm-type="next"  placeholder="证件号" />
+      <input type="text" @click="switchi" v-model='cardNumtext' v-if="pickerText!='身份证'" maxlength="20" confirm-type="next"  placeholder="证件号" :focus="fcard==''||fcard=='cardNumtext'"/>
+      <input type="idcard" @click="switchi" v-model='cardNum' v-if="pickerText=='身份证'" maxlength="18" confirm-type="next"  placeholder="证件号" :focus="fcard==''||fcard=='cardNum'"/>
     </div>
       <div class="item" @click="addresslist" v-if="false">
           <div class="title">详细地址</div>
@@ -84,10 +84,38 @@
         company:[],
         toasthide:false,
         isclick:false,
-        timeout:null
+        timeout:null,
+        fnamec:'_',
+        fnamer:'_',
+        fnamei:'_',
+        fcard:'_'
       }
     },
     methods: {
+      switchp(){
+        this.fnamec=''
+        this.fnamer='_'
+        this.fnamei='_'
+        this.fcard='_'
+      },
+      switchc(){
+        this.fnamec='_'
+        this.fnamer=''
+        this.fnamei='_'
+        this.fcard='_'
+      },
+      switchr(){
+        this.fnamec='_'
+        this.fnamer='_'
+        this.fnamei=''
+        this.fcard='_'
+      },
+      switchi(){
+        this.fnamec='_'
+        this.fnamer='_'
+        this.fnamei='_'
+        this.fcard=''
+      },
       limitrealname(val){
         if (!val) {
           return
@@ -101,6 +129,10 @@
         return  val.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\,\?\<\>\。\，\-\——\=\;\！\!\+\？\、\；\$]/g,'');
       },
       showzonePicker: function (e) {
+        this.fnamec='_'
+        this.fnamer='_'
+        this.fnamei='_'
+        this.fcard='_'
           this.pickerValueArray=["身份证",'工号',"工资号"];
         if(this.pickerText=="身份证"){
           this.pickerValueDefault = [0];
