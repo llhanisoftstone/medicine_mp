@@ -27,7 +27,7 @@
         <counddown :time="times" v-if="istimes"></counddown>
       </div>
       <div class="answer" v-if="isstart&&iswin==0">
-        <answer v-if="answer.category_name" :title="answer.category_name+', 本题由'+answer.comp_name+'提供'" :answer="answer.name" distance="1">
+        <answer :title="answer.category_name+', 本题由'+answer.comp_name+'提供'" :answer="answer.name" distance="1">
         <!--<answer title="题库由西安市人社局失业保险处提供" :answer="answer.name" distance="1">-->
           <div slot="list">
             <ul :class="{'bottom1_an':isanimation&&(step!=1),'bottom_an':isanimation&&(step==1),'answer_box_ul':true}">
