@@ -1,6 +1,6 @@
 <template>
   <div class="container" :class="{fixed:!isauth&&authreturn}">
-    <button open-type="getUserInfo" v-if="!isauth&&authreturn" :_id="isauth" class="btn_auth">
+    <button v-if="!isauth&&authreturn" :_id="isauth" class="btn_auth">
       <image src="/static/img/role.png"></image>
       <div class="button_container">
         <p class="btn_box">
@@ -184,14 +184,13 @@
       }
     },
     tozhan(){
-      let thiz=this;
-      wx.redirectTo({
-        url:"/pages/policy/main"
+      wx.switchTab({
+        url:"/pages/index/main"
       })
     },
     toindex(){
       wx.switchTab({
-        url:"/pages/index/main"
+        url:"/pages/policy/main"
       })
     },
     bindGetUserInfo: function(e) {
@@ -208,8 +207,10 @@
         }
         return
       }
+      console.log("222")
       that.$store.commit('getuser', e.target.userInfo)
       that.$store.commit('getauth')
+      console.log("555")
       that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:e.target.encryptedData,iv:e.target.iv}).then(res=>{
         console.log(res)
         if (res.code === 200) {
@@ -533,7 +534,7 @@
       this.activityShow=false;
       this.watchsocket();
       this.getbanner();
-      if(this.$store.state.isauth){
+      if(!this.$store.state.isauth){
         wx.showTabBar({animation:true})
       }else{
         if(this.$store.state.authreturn){
@@ -661,6 +662,7 @@
       display:flex;
       justify-content: space-between;
       padding:0 93px/2;
+      z-index:100;
     }
     .btn_box{
       font-size: 30px/2;
