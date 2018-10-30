@@ -169,7 +169,7 @@
           width:435px/2;
         }
         .taglist{
-          font-size:21px/2;
+          font-size:22px/2;
           color:#666;
           width:435px/2;
           margin-top:10px/2;
@@ -183,7 +183,7 @@
           }
         }
         .detatils{
-          font-size:18px/2;
+          font-size:20px/2;
           margin-top:10px/2;
           color:#666;
           width:435px/2;
