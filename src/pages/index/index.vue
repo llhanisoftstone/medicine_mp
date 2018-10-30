@@ -601,7 +601,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 5px/2;
+      bottom: 20px/2;
       display: flex;
       justify-content: center;
       .dot{
