@@ -95,7 +95,7 @@
                       <img :src="item.pic_abbr" alt="">
                     </div>
                     <div class="info-content">
-                      <div class="message">
+                      <div class="message handbookmsg">
                       <span class="pub-name">
                           <span>{{item.title}}</span>
                       </span>
@@ -754,6 +754,9 @@
   }
   .info-content .message{
     /*margin-bottom: 0.192rem;*/
+    &.handbookmsg{
+      margin-top: -4px/2;
+    }
   }
   .message .pub-name{
     font-size: 0.32rem;

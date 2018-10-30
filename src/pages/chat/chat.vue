@@ -313,7 +313,10 @@
             if(!d.create_time){
                 msgdata.create_time=this.getCurrentTime();
             }
-            if(d.u_id==that.u_id){
+            console.log(d.u_id);
+            console.log(that.u_id);
+            if((d.to_u_id == that.u_id && d.u_id ==that.to_u_id)
+                || (d.u_id == that.u_id && d.to_u_id == that.to_u_id) ){
               that.chatdata.push(msgdata);
               that.pageScrollToBottom(msg_id)
             }
@@ -729,7 +732,7 @@
   .record-box{
     text-align: center;
     color:#666666;
-    line-height: 61px/2;
+    line-height: 70px/2;
     &.active{
       background-color: #cccccc;
     }
