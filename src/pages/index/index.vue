@@ -207,12 +207,9 @@
         }
         return
       }
-      console.log("222")
       that.$store.commit('getuser', e.target.userInfo)
       that.$store.commit('getauth')
-      console.log("555")
       that.$get('/weapp/login',{code:that.$store.state.code,encryptedData:e.target.encryptedData,iv:e.target.iv}).then(res=>{
-        console.log(res)
         if (res.code === 200) {
           for (let i = 0; i < res.tools.length; i++) {
             if (!res.tools[i].amount) {
