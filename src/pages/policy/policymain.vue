@@ -984,12 +984,12 @@
     margin-bottom: 50px;
   }
   .top-container{
-    position:fixed;
-    top:0;
-    left:0;
-    z-index: 100;
+    /*position:fixed;*/
+    /*top:0;*/
+    /*left:0;*/
+    /*z-index: 100;*/
   }
   .body-container{
-    padding-top:150px/2;
+    /*<!--padding-top:150px/2;-->*/
   }
 </style>
