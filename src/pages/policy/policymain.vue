@@ -103,7 +103,7 @@
                       <p class="message-info mui-ellipsis-2">
                         {{item.remark}}
                       </p>
-                      <div class="label-info clearfix">
+                      <div class="label-info book clearfix">
                         <div class="info-left">{{item.organiz_name||" "}}</div>
                         <div class="info-right rt icon-reading">
                           <span>{{item.view_count}}</span>
@@ -793,6 +793,9 @@
     left:0;
     padding-left: 0.21335rem;
     box-sizing: border-box;
+    &.book{
+      bottom:-5px/2;
+    }
   }
   .info-left{
     float: left;
