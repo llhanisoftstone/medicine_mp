@@ -531,7 +531,7 @@
       this.activityShow=false;
       this.watchsocket();
       this.getbanner();
-      if(!this.$store.state.isauth){
+      if(this.$store.state.isauth){
         wx.showTabBar({animation:true})
       }else{
         if(this.$store.state.authreturn){
@@ -627,7 +627,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /*background: transparent;*/
     background: rgba(0,0,0,0.7);
     image{
       width: 634px/2;
@@ -652,10 +651,12 @@
     }
     .button_container{
       position: absolute;
-      top:723px/2;
-      margin: 109px/2 auto 0;
+      top:832px/2;
+      left:0;
+      right:0;
+      margin:0 auto;
       box-sizing: border-box;
-      width:750px/2;
+      width:100%;
       display:flex;
       justify-content: space-between;
       padding:0 93px/2;
