@@ -93,12 +93,10 @@
     },
     methods: {
       toreverse(i){
-        //        if(this.goods[i].isreverse_run){
         if(this.isreverse_run){
           return;
         }
         this.isreverse_run=true;
-//        this.goods[i].isreverse_run=true;
         this.reverse(i);
         let thiz=this;
         for(var n=0;n<thiz.goods.length;n++){
@@ -120,9 +118,6 @@
             thiz.goods[i].isreverse_z="-1"
           }
         },250);
-//        let t2=setTimeout(function(){
-//          thiz.goods[i].isreverse_run=false;
-//        },500)
       },
       leftclick(){
         this.seen=true;
@@ -246,7 +241,7 @@
       async orderlist(){
         let that = this;
         if(this.issubmit){
-            return;
+          return;
         }
         if(this.amount==""||this.amount<=0){
           this.$mptoast("请输入购买个数");
@@ -258,7 +253,7 @@
             return;
           }
         }else{
-            this.issubmit=true;
+          this.issubmit=true;
         }
         let res = await that.$post('/rs/order_build',{pay_type:this.pay_type,amount:this.amount,goods_id:this.goods_id});
         if(res.code == 200){
@@ -315,7 +310,6 @@
       this.issubmit=false;
     },
     onUnload:function(){
-      this.issubmit=false;
       for(let key in this.goods){
         this.goods[key].isreverse=false;
         this.goods[key].isreverse_z="-1";
