@@ -347,26 +347,29 @@
   .itemlist{
     margin:13px;
     ul{
-      /*transform-style:preserve-3d;*/
       li{
-        /*transition: all .5s linear;*/
-        /*transform: rotateY(0deg);*/
         float:left;
         width:106px;
         height:120px;
-        /*border-radius:5px;*/
         margin-right:17px;
         text-align:center;
         box-sizing:border-box;
         position:relative;
         &.active{
-          /*transform: rotateY(180deg);*/
           .item_z{
-            transform: rotateY(180deg);
+            transform:rotateY(180deg);
+            -ms-transform:rotateY(180deg);
+            -moz-transform:rotateY(180deg);
+            -webkit-transform:rotateY(180deg);
+            -o-transform:rotateY(180deg);
             opacity: 0;
           }
           .item_reverse{
             transform: rotateY(360deg);
+            -ms-transform:rotateY(360deg);
+            -moz-transform:rotateY(360deg);
+            -webkit-transform:rotateY(360deg);
+            -o-transform:rotateY(360deg);
             opacity: 1;
           }
         }
@@ -375,7 +378,15 @@
           width: 100%;
           height:100%;
           transform: rotateY(0deg);
+          -ms-transform:rotateY(0deg);
+          -moz-transform:rotateY(0deg);
+          -webkit-transform:rotateY(0deg);
+          -o-transform:rotateY(0deg);
           transition: transform .5s linear;
+          -ms-transition:transform .5s linear;
+          -moz-transition:transform .5s linear;
+          -webkit-transition:transform .5s linear;
+          -o-transition:transform .5s linear;
           position: absolute;
           border-radius:5px;
           z-index: 0;
@@ -385,6 +396,14 @@
         }
         .item_reverse{
           transition: transform .5s linear;
+          -ms-transform:rotateY(180deg);
+          -moz-transform:rotateY(180deg);
+          -webkit-transform:rotateY(180deg);
+          -o-transform: rotateY(180deg);
+          -ms-transition:transform .5s linear;
+          -moz-transition:transform .5s linear;
+          -webkit-transition:transform .5s linear;
+          -o-transition:transform .5s linear;
           transform: rotateY(180deg);
           opacity: 0;
           position: absolute;
@@ -440,6 +459,10 @@
         position: absolute;
         top:100%;
         transform: translateY(-50%);
+        -ms-transform:rotateY(-50%);
+        -moz-transform:rotateY(-50%);
+        -webkit-transform:rotateY(-50%);
+        -o-transform: rotateY(-50%);
         width:100px;
         height:30px;
         border:3px solid #fff;
@@ -523,6 +546,9 @@
         left:50%;
         transform:translateX(-50%);
         -webkit-transform:translateX(-50%);
+        -ms-transform:rotateY(-50%);
+        -moz-transform:rotateY(-50%);
+        -o-transform: rotateY(-50%);
         width:78px;
         height:78px;
         border-radius:50%;
