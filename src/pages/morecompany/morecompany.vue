@@ -193,7 +193,8 @@
         position:absolute;
         right:30px/2;
         width:18px/2;
-        height:37px/2;
+        top:0;
+        height:100%;
         background:url(../../../static/img/arrorcompany.png) no-repeat center center;
         background-size:18px/2 37px/2;
       }
