@@ -961,7 +961,7 @@
     width: 164px/2;
   }
   .sendmessage p{
-    line-height: 38px/2;
+    line-height: 28px/2;
     max-width: 422px/2;
     color:#666;
     padding: 24px/2 26px/2;
