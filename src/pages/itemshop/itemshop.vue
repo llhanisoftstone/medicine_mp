@@ -34,7 +34,7 @@
             <div class="toolright"><span :class="{minusbtn:true,hui:amount==1}" @click="minusbtnnum"></span> <input class="amountcount" id="price" type="number"  v-model="amount" ref="type1" maxlength="3"  onkeyup="value=value.replace(/[^\d]/g,'')"/><span :class="{addbtn:true,hui:amount==999}" @click="addbtnnum"></span></div>
           </li>
           <li v-on:click="slelecttype(2)"  _pay_type="2"><span class="icon icon_pointer"></span><span class="content_title">可用银两<span class="isusepointer"></span>{{points}}</span><span class="pay_type" v-bind:class="{active:paytype2}"></span></li>
-          <li v-on:click="slelecttype(1)"  _pay_type="1"><span class="icon icon_money"></span><span class="content_title">微信支付(0.2元=20银两)</span><span class="pay_type" v-bind:class="{active:paytype1}"></span></li>
+          <li v-if="!phoneNews" v-on:click="slelecttype(1)"  _pay_type="1"><span class="icon icon_money"></span><span class="content_title">微信支付(0.2元=20银两)</span><span class="pay_type" v-bind:class="{active:paytype1}"></span></li>
         </ul>
         <div class="ispay" v-on:click="orderlist">确认支付</div>
       </div>
@@ -51,6 +51,11 @@
     props: [],
     components: {
       mptoast
+    },
+    computed:{
+      phoneNews(){
+        return /^.?iPhone.?/g.test(this.$store.state.phoneModal)
+      }
     },
     data(){
       return {

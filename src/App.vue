@@ -6,6 +6,10 @@ export default {
     let loadTime = null
     that.getquick()
     that.getTips()
+    let phoneNews = wx.getSystemInfoSync()
+    console.log(phoneNews)
+    this.$store.commit('getphoneModal', phoneNews.model)
+    this.$store.commit('getplatform', phoneNews.platform)
     this.$socket.on('connect', () => {
       clearTimeout(loadTime)
       loadTime = null

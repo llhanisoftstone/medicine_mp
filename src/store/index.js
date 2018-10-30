@@ -47,9 +47,19 @@ const store = new Vuex.Store({
     rightTitle: 0,                    // 正确题目数量
     allTitle: 0,                      // 所有题目
     useTime: 0,                        // 答题所用时间
-    organizcookie: ''                        // 政策百科机构id临时存储
+    organizcookie: '',                        // 政策百科机构id临时存储
+    phoneModal:'',
+    platform:''
   },
   mutations: {
+    getphoneModal: (state, phone) => {
+      const obj = state
+      obj.phoneModal = phone
+    },
+    getplatform: (state, phone) => {
+      const obj = state
+      obj.platform = phone
+    },
     rightTitle: (state, nub) => {
       const obj = state
       if (nub === 0) {
