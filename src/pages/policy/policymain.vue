@@ -363,6 +363,8 @@
             }
 
             that.hrdata=hrData;
+          }else{
+            that.noperson=true;
           }
           that.categorydata=res.column;
         }else{
