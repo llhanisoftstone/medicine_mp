@@ -11,11 +11,7 @@
 	"libVersion": "1.9.97",
 	"appid": "wx3602e7abe716d1bd",
 	"projectname": "policy_answer",
-	"svr": "/",
-	"client": "/",
-	"qcloudRoot": "/",
 	"miniprogramRoot": "dist/",
-	"pluginRoot": "/",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -33,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 37,
 			"list": [
 				{
 					"id": 0,
@@ -263,6 +259,18 @@
 					"id": -1,
 					"name": "个人中心",
 					"pathName": "pages/personcenter/main",
+					"query": ""
+				},
+				{
+					"id": 36,
+					"name": "培训列表",
+					"pathName": "pages/traininglist/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "培训详情",
+					"pathName": "pages/trainingdetails/main",
 					"query": ""
 				}
 			]
