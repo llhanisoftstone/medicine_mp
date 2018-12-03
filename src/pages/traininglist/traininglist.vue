@@ -46,16 +46,35 @@
 
 <script type="javascript">
     export default {
-        name: 'traininglist',
-        data(){
-          return {
-            curTab: 1,
+      data () {
+        return {
+          curTab: 1,
+          page:1,
+          size:6,
+        }
+      },
+      methods: {
+        async traininglist() {
+          let that = this;
+          let data = {
+            page:this.page,
+            size:this.size,
+            order:'create_time desc, index_id desc'
+          };
+          let res = await that.$get('/rs/activity_app',data);
+          if (res.code == 200){
+
+          }else{
+            if(that.page==1){
+
+            }
           }
         },
-        methods: {
-          tabactive(){
-          }
-        },
+
+      },
+      onLoad: function() {
+        this.traininglist()//获取数据
+      }
     }
 </script>
 

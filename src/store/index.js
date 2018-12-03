@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     url: 'https://policy.lifeonway.com',
     // url: 'https://pol.lifeonway.com',
     // url: 'https://pk.lifeonway.com',
-    // url: 'http://192.168.1.10:5000',
+    // url: 'http://192.168.1.105:5015',
     // ws_server: 'https://pol.lifeonway.com',
     // ws_server: 'https://pk.lifeonway.com',
     ws_server: 'https://policy.lifeonway.com',
