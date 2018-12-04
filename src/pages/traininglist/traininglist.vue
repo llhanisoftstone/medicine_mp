@@ -24,7 +24,9 @@
               <div class="footerTime">时间：2018-10-15   15:00-18:00</div>
               <div class="footerAddress mui-ellipsis">地点：一楼会议室妖灵妖领室一楼会一楼会议地点一楼会议室妖灵妖领室一楼会一楼会议</div>
             </div>
-            <div class="footerRight">打卡</div>
+            <div
+              @click="tonewpage('mapdetail','')"
+              class="footerRight">打卡</div>
           </div>
         </li>
         <li v-show="curTab==2">
@@ -54,7 +56,14 @@
         },
         methods: {
           tabactive(){
-          }
+
+          },
+          tonewpage(urlname,data){
+            if(!urlname){return;}
+            wx.navigateTo({
+              url:`/pages/${urlname}/main?${data}`
+            })
+          },
         },
     }
 </script>

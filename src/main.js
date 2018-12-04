@@ -55,6 +55,11 @@ export default {
           selectedIconPath: '/static/img/answer_2.png'
         },
         {
+          pagePath: 'pages/traininglist/main',
+          text: '培训监管',
+          iconPath: '/static/img/policy.png',
+          selectedIconPath: '/static/img/policy_2.png'},
+        {
           pagePath: 'pages/policy/main',
           text: '政策百科',
           iconPath: '/static/img/policy.png',
