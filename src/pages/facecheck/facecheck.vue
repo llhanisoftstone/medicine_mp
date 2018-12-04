@@ -38,7 +38,7 @@
           quality: 'high',
           success: (res) => {
             that.src=res.tempImagePath;
-            that.recordPhoto();
+            //that.recordPhoto();
           }
         })
       },
@@ -54,8 +54,29 @@
         },1800)
       },
       error(e) { //用户不允许使用摄像头时触发
-
         console.log(e.detail)
+        wx.showModal({
+          title: '温馨提示',
+          showCancel:false,
+          confirmColor:'#df5c3e',
+          content: '请开启使用摄像头权限',
+          success (res) {
+            if (res.confirm) {
+              wx.openSetting({
+                success (res) {
+                  console.log(res)
+
+                  //authSetting:scope.camera:false
+
+                }
+              })
+
+            } else if (res.cancel) {
+
+            }
+          }
+        })
+
       },
 
       tonewpage(urlname,data){
@@ -67,6 +88,9 @@
     },
     computed:{
 
+    },
+    onShow(){
+        //this.error(); //检查用户是否开启摄像头权限
     },
     onLoad:function (option){
       var that = this;

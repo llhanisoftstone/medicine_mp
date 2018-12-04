@@ -41,6 +41,7 @@
         let that=this;
         wx.showModal({
           title: '打卡确认',
+          confirmColor:'#df5c3e',
           content: '您确定要在当前位置打卡吗？',
           success (res) {
             if (res.confirm) {

@@ -57,8 +57,8 @@ export default {
         {
           pagePath: 'pages/traininglist/main',
           text: '培训监管',
-          iconPath: '/static/img/policy.png',
-          selectedIconPath: '/static/img/policy_2.png'},
+          iconPath: '/static/img/train.png',
+          selectedIconPath: '/static/img/train_active.png'},
         {
           pagePath: 'pages/policy/main',
           text: '政策百科',

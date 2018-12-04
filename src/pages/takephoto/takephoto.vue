@@ -57,7 +57,7 @@
     },
     onLoad:function (option){
       var that = this;
-
+      that.picPath='';
     }
   }
 </script>
