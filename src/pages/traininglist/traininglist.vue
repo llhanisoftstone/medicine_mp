@@ -28,6 +28,40 @@
               @click="tonewpage('mapdetail','')"
               class="footerRight">打卡</div>
           </div>
+          <ul class="cardImg">
+            <li>
+              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
+              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
+            </li>
+            <li>
+              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
+              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
+            </li>
+            <li>
+              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
+              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
+            </li>
+            <li>
+              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
+              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
+            </li>
+            <li>
+              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
+              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
+            </li>
+            <li>
+              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
+              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
+            </li>
+            <li>
+              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
+              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
+            </li>
+            <li>
+              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
+              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
+            </li>
+          </ul>
         </li>
         <li v-show="curTab==2">
           <div class="listImg">
@@ -41,6 +75,12 @@
             </div>
             <div class="footerRight">打卡</div>
           </div>
+          <ul class="cardImg">
+            <li>
+              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
+              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
+            </li>
+          </ul>
         </li>
       </ul>
     </div>
@@ -51,9 +91,24 @@
       data () {
         return {
           curTab: 1,
+          policy_list:[],
           page:1,
           size:6,
         }
+      },
+      onPullDownRefresh () {
+        wx.showNavigationBarLoading() //在标题栏中显示加载
+        this.page=1;
+        this.policy_list=[];
+        this.refresh();
+        // 下拉刷新
+        wx.hideNavigationBarLoading() //完成停止加载
+        wx.stopPullDownRefresh() //停止下拉刷新
+      },
+      onReachBottom () {
+        this.page++;
+        this.loadmore()
+        // 上拉加载
       },
       methods: {
         async traininglist() {
@@ -71,6 +126,13 @@
 
             }
           }
+        },
+        refresh(){
+          this.page = 1;
+          this.traininglist();
+        },
+        loadmore () {
+          this.traininglist();
         },
         tonewpage(urlname,data){
           if(!urlname){return;}
@@ -164,7 +226,7 @@
       height: auto;
       li{
         width: 100%;
-        height: 504px/2;
+        height: auto;
         background-color: #fff;
         margin-top: 12px/2;
         .listImg{
@@ -219,6 +281,40 @@
             text-align: center;
             line-height: 77px/2;
             font-size: 28px/2;
+          }
+
+        }
+        .cardImg{
+          width: 100%;
+          height: auto;
+          border-top: 1px solid #e2e2e2;
+          padding: 15px/2 26px/2;
+          overflow: auto;
+          li{
+            width: 20%;
+            height: auto;
+            float: left;
+            display: flex;
+            align-items: center;
+            .photo{
+              width: 94px/2;
+              height: 94px/2;
+              image{
+                width: 100%;
+                height: 100%;
+                display: block;
+              }
+            }
+            .jiantou{
+              width: 14px/2;
+              height: 14px/2;
+              margin: 0 14px/2;
+              image{
+                width: 100%;
+                height: 100%;
+                display: block;
+              }
+            }
           }
         }
       }
