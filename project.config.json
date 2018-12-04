@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 37,
+			"current": 38,
 			"list": [
 				{
 					"id": 0,
@@ -272,6 +272,11 @@
 					"name": "培训详情",
 					"pathName": "pages/trainingdetails/main",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "完善信息",
+					"pathName": "pages/perfectinfor/main"
 				}
 			]
 		}

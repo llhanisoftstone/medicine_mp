@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './traininglist'
+import App from './perfectinfor'
 
 const app = new Vue(App)
 app.$mount()
@@ -7,6 +7,6 @@ app.$mount()
 export default {
   // 这个字段走 app.json
   config: {
-    navigationBarTitleText: '培训监管'
+    navigationBarTitleText: '完善信息'
   }
 }
