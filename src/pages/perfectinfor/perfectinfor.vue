@@ -1,23 +1,16 @@
 <template>
   <div class="perfectinfor">
-    <div class="section">
-      <picker bindchange="bindPickerChange" :value="index" :range="array">
-        <div class="picker">
-          当前选择：{{array[2]}}
-        </div>
-      </picker>
-    </div>
     <div class="inforTitle">完善信息</div>
     <div class="container">
       <div class="item">
         <div class="title">公司名称</div>
-        <input type="default" placeholder="请选择公司名称" :value="pickerText" disabled="disabled" @click="showzonePicker" />
+        <input type="default" placeholder="请选择公司名称" :value="pickerText" disabled="disabled" @click="showSinglePicker" />
         <mpvue-picker
           ref="mpvuePicker" @pickerCancel="pickerCancel"
           :pickerValueArray="pickerValueArray"
           :pickerValueDefault='pickerValueDefault'
-          :mode="mode"
-          :deepLength=deepLength
+          :mode="selector"
+          :deepLength='deepLength'
           @onConfirm="onConfirm"
         >
         </mpvue-picker>
@@ -26,49 +19,42 @@
         <div class="title">姓名</div>
         <input type="text" @click="switchp" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名" :focus="fnamec==''||fnamec=='realname'"/>
       </div>
-
       <div class="item">
         <div class="title">证件号</div>
         <input type="text" @click="switchi" v-model='cardNumtext' v-if="pickerText!='身份证'" maxlength="20" confirm-type="next"  placeholder="证件号" :focus="fcard==''||fcard=='cardNumtext'"/>
         <input type="idcard" @click="switchi" v-model='cardNum' v-if="pickerText=='身份证'" maxlength="18" confirm-type="next"  placeholder="证件号" :focus="fcard==''||fcard=='cardNum'"/>
       </div>
-      <div :class="{'btn':true}" @click="childrenmitData">
-        保&nbsp;&nbsp;存
-      </div>
+      <div :class="{btn:true}" @click="childrenmitData">保&nbsp;&nbsp;存</div>
     </div>
   </div>
 </template>
 
 <script type="javascript">
+  import mpvuePicker from '../../components/mpvuePicker';
+  import mptoast from '../../components/mptoast';
   export default {
     name: 'perfectinfor',
+    components: {
+      mpvuePicker
+    },
     data(){
       return {
-        array: ['美国', '中国', '巴西', '日本'],
-        objectArray: [
-          {
-            id: 0,
-            name: '美国'
-          },
-          {
-            id: 1,
-            name: '中国'
-          },
-          {
-            id: 2,
-            name: '巴西'
-          },
-          {
-            id: 3,
-            name: '日本'
-          }
-        ],
-        index: 0
+        mode:"selector",
+        deepLength: 0, // 几级联动
+        pickerValueArray: [], // picker 数组值
+        pickerText: '',
+        pickerSingleArray: ["身份证",'工号',"工资号"],
       }
     },
     methods: {
-
-    },
+      showSinglePicker: function () {
+        this.pickerValueArray=this.pickerSingleArray;
+        this.$refs.mpvuePicker.show();
+      },
+      onConfirm(e){
+        this.pickerText = `${this.pickerValueArray[e[0]]}`;
+      },
+    }
   }
 </script>
 

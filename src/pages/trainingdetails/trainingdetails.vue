@@ -22,6 +22,7 @@
 </template>
 
 <script type="javascript">
+    import mptoast from '../../components/mptoast';
     export default {
         name: 'trainingdetails',
         data(){
