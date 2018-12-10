@@ -1,31 +1,31 @@
 <template>
   <div class="perfectinfor">
     <div class="inforTitle">完善信息</div>
-    <div class="container">
-      <div class="item">
-        <div class="title">公司名称</div>
-        <input type="default" placeholder="请选择公司名称" :value="pickerText" disabled="disabled" @click="showSinglePicker" />
-        <mpvue-picker
-          ref="mpvuePicker" @pickerCancel="pickerCancel"
-          :pickerValueArray="pickerValueArray"
-          :pickerValueDefault='pickerValueDefault'
-          :mode="selector"
-          :deepLength='deepLength'
-          @onConfirm="onConfirm"
-        >
-        </mpvue-picker>
+    <form id="informdata">
+      <div class="container">
+        <div class="item">
+          <div class="title">公司名称</div>
+          <picker
+            class="picker"
+            @change="PickerChange"
+            range-key="name"
+            :value="index"
+            :range="objectArray">
+            <input type="default" placeholder="请选择公司名称" v-model="companyName" disabled="disabled"  />
+          </picker>
+        </div>
+        <div class="item">
+          <div class="title">姓名</div>
+          <input type="text" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名" :focus="fnamec==''||fnamec=='realname'"/>
+        </div>
+        <div class="item">
+          <div class="title">身份证号</div>
+          <input type="text" v-model='cardNumtext' maxlength="18" confirm-type="next"  placeholder="证件号" :focus="fcard==''||fcard=='cardNumtext'"/>
+        </div>
+        <div :class="{btn:true}" @click="childrenmitData">保&nbsp;&nbsp;存</div>
       </div>
-      <div class="item">
-        <div class="title">姓名</div>
-        <input type="text" @click="switchp" v-model='realname' maxlength="10" confirm-type="next" placeholder="请输入姓名" :focus="fnamec==''||fnamec=='realname'"/>
-      </div>
-      <div class="item">
-        <div class="title">证件号</div>
-        <input type="text" @click="switchi" v-model='cardNumtext' v-if="pickerText!='身份证'" maxlength="20" confirm-type="next"  placeholder="证件号" :focus="fcard==''||fcard=='cardNumtext'"/>
-        <input type="idcard" @click="switchi" v-model='cardNum' v-if="pickerText=='身份证'" maxlength="18" confirm-type="next"  placeholder="证件号" :focus="fcard==''||fcard=='cardNum'"/>
-      </div>
-      <div :class="{btn:true}" @click="childrenmitData">保&nbsp;&nbsp;存</div>
-    </div>
+    </form>
+    <mptoast :toasthide="toasthide"/>
   </div>
 </template>
 
@@ -35,25 +35,72 @@
   export default {
     name: 'perfectinfor',
     components: {
+      mptoast,
       mpvuePicker
     },
     data(){
       return {
         mode:"selector",
-        deepLength: 0, // 几级联动
-        pickerValueArray: [], // picker 数组值
         pickerText: '',
-        pickerSingleArray: ["身份证",'工号',"工资号"],
+        toasthide:false,
+        companyName:"",
+        realname:"",
+        cardNumtext:"",
+        objectArray: [],
+        compid:""
       }
     },
     methods: {
-      showSinglePicker: function () {
-        this.pickerValueArray=this.pickerSingleArray;
-        this.$refs.mpvuePicker.show();
+      PickerChange: function(e) {
+        let indexValue=e.mp.detail.value;
+        this.compid=this.objectArray[indexValue].id;
+        this.companyName = this.objectArray[indexValue].name;
       },
-      onConfirm(e){
-        this.pickerText = `${this.pickerValueArray[e[0]]}`;
+      cardName(){
+        let data={
+          status:1
+        }
+        this.$get('/rs/company',data).then(res=>{
+          if(res.code == 200){
+            this.objectArray= res.rows;
+          }
+        })
       },
+      childrenmitData(){
+        if(!this.companyName){;
+          this.$mptoast('请选择公司名称');
+          return false;
+        }
+        if(!this.realname){;
+          this.$mptoast('请输入姓名');
+          return false;
+        }
+        var pattern1 =/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+        if(!this.cardNumtext){
+          this.$mptoast('请输入身份证号');
+          return false;
+        }
+        if(!pattern1.test(this.cardNumtext)){
+          this.$mptoast('您的身份证号输入有误，请重新输入');
+          return false;
+        }
+        let data={
+          bind:1,
+          name:this.realname,
+          card_num:this.cardNumtext,
+          comp_id:this.compid
+        }
+        this.$put('/rs/enter_staff/1',data).then(res=>{
+          if(res.code == 200){
+            this.$mptoast("保存成功");
+          }else {
+            this.$mptoast("当前企业下没有对应的用户！");
+          }
+        })
+      }
+    },
+    onLoad: function() {
+      this.cardName()//获取公司名称
     }
   }
 </script>

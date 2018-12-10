@@ -37,30 +37,6 @@
               <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
               <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
             </li>
-            <li>
-              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
-              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
-            </li>
-            <li>
-              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
-              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
-            </li>
-            <li>
-              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
-              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
-            </li>
-            <li>
-              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
-              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
-            </li>
-            <li>
-              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
-              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
-            </li>
-            <li>
-              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
-              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
-            </li>
           </ul>
         </li>
         <li v-show="curTab==2">
@@ -122,10 +98,10 @@
           let res = await that.$get('/rs/activity_app',data);
           if (res.code == 200){
 
-          }else{
-            if(that.page==1){
-
-            }
+          }else if(res.code == 311){
+            wx.redirectTo({
+              url: `/pages/perfectinfor/main`
+            })
           }
         },
         refresh(){
