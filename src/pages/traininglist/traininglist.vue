@@ -120,7 +120,7 @@
 
       },
       onLoad: function() {
-        //this.traininglist()//获取数据
+        this.traininglist()//获取数据
       }
     }
 </script>
