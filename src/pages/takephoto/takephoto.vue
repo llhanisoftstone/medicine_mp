@@ -70,6 +70,7 @@
         let data=that.$store.state.signdata
         data.act_id=that.act_id;
         data.pics=that.pics;
+        console.log(data)
         let res = await that.$post('/rs/activity_record', data);
         if(res.code==200){
           wx.showToast({
@@ -92,7 +93,7 @@
         },function (rs) {
           let obj = JSON.parse(rs);
           that.picPath=obj[0].url;
-          that.pics.push(obj[0].url);
+          that.pics.push({'scene_pic':obj[0].url});
         })
       },
       tonewpage(urlname,data){
