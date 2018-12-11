@@ -2,21 +2,21 @@
     <div class="trainingdetails">
       <div class="detailsTop"><image src="/static/img/xiangmutoutu@1.png"></image></div>
       <div class="detailsBody">
-        <div class="detailsTitle mui-ellipsis">企业培训企业培训企业培训企业培训</div>
+        <div class="detailsTitle">{{detailsInfo.name}}</div>
         <ul>
           <li>
             <div class="liLeft"><image src="/static/img/huodongdizhi.png" class="dizhiImg"></image>地址</div>
-            <div class="liRight mui-ellipsis">陕西省西安市世纪大道陕西省西安市世纪大道陕西省西安市世纪大道陕西省西安市世纪大道</div>
+            <div class="liRight">{{detailsInfo.address}}</div>
           </li>
           <li>
             <div class="liLeft"><image src="/static/img/huodongshijian.png" class="shijianImg"></image>活动时间</div>
-            <div class="liRight mui-ellipsis">2018-01-02 10:00-12:00</div>
+            <div class="liRight">{{detailsInfo.start_time}} 至 {{detailsInfo.end_time}}</div>
           </li>
         </ul>
-        <div class="detailsNote">免费送你50本书，一起来画画吧！免费送你50本书，一起来画画吧！免费送你50本书，一起来画画吧 ！免费送你50免费送你50本书，一起来画画吧！免费送你50本书，一起来画画吧！免费送你50本书，一起来画画吧 ！免费送你50</div>
+        <div class="detailsNote" v-html="detailsInfo.details">{{detailsInfo.details}}</div>
       </div>
       <div class="signIn">
-        <div class="signInBtn">签到打卡</div>
+        <div class="signInBtn" @click="tonewpage('mapdetail','')">签到打卡</div>
       </div>
     </div>
 </template>
@@ -26,11 +26,35 @@
     export default {
         name: 'trainingdetails',
         data(){
-
+          return {
+            pid:"",
+            detailsInfo:[]
+          }
         },
         methods: {
-
+          activityDetails(){
+            console.log(this.pid);
+            let data={
+              id:this.pid
+            }
+            this.$get('/rs/activity_app',data).then(res=>{
+              if(res.code == 200){
+                this.detailsInfo = res.rows[0];
+                console.log(this.detailsInfo );
+              }
+            })
+          },
+          tonewpage(urlname,data){
+            if(!urlname){return;}
+            wx.navigateTo({
+              url:`/pages/${urlname}/main?${data}`
+            })
+          },
         },
+        onLoad:function (option) {
+          this.pid = option.pid;
+          this.activityDetails();
+        }
     }
 </script>
 
@@ -60,12 +84,13 @@
       padding: 0 26px/2;
       .detailsTitle{
         width: 100%;
-        height: 90px/2;
-        line-height: 90px/2;
+        height: auto;
         font-size: 30px/2;
-        color: #333;
+        color: #666;
         border-bottom: 1px solid #e2e2e2;
-        padding: 0 23px/2;
+        padding: 20px/2;
+        word-wrap: break-word;
+        word-break: normal;
       }
       ul{
         width: 100%;
@@ -98,10 +123,13 @@
           }
           .liRight{
             width: 550px/2;
+            height: auto;
             font-size: 26px/2;
             color: #666;
             padding-left: 18px/2;
             border-left: 1px solid #e2e2e2;
+            word-wrap: break-word;
+            word-break: normal;
           }
         }
       }
@@ -111,6 +139,7 @@
         line-height: 40px/2;
         text-indent:52px/2;
         margin-top: 28px/2;
+        display: inline-block;
       }
     }
     .signIn{
