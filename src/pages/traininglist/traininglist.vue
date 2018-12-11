@@ -8,57 +8,29 @@
         </div>
         <div class="topNav">
           <ul class="navBox">
-            <li :class="{ activeli: curTab==1 }" @click="curTab=1">待培训</li>
-            <li :class="{ activeli: curTab==2 }" @click="curTab=2">已培训</li>
+            <li :class="{ activeli: curTab==1 }" @click="tabClick(1)">待培训</li>
+            <li :class="{ activeli: curTab==2 }" @click="tabClick(2)">已培训</li>
           </ul>
         </div>
       </div>
       <ul class="trainingList">
-        <li v-show="curTab==1">
+        <li v-for="item in activity_list">
           <div class="listImg">
-            <image src="/static/img/xiangmutoutu@1.png"></image>
-            <div class="imgTitle mui-ellipsis">企业制度培训企业制度培训企业制度培训企业制企业制度培训企业制度培训企业制度培训企业制</div>
+            <image :src="imgUrl+item.pic_path"></image>
+            <div class="imgTitle mui-ellipsis">{{item.name}}</div>
           </div>
           <div class="listFooter">
             <div class="footerLeft">
-              <div class="footerTime">时间：2018-10-15   15:00-18:00</div>
-              <div class="footerAddress mui-ellipsis">地点：一楼会议室妖灵妖领室一楼会一楼会议地点一楼会议室妖灵妖领室一楼会一楼会议</div>
+              <div class="footerTime">时间：{{item.start_time}}-{{item.end_time}}</div>
+              <div class="footerAddress mui-ellipsis">地点：{{item.address}}</div>
             </div>
             <div
               @click="tonewpage('mapdetail','')"
               class="footerRight">打卡</div>
           </div>
-          <ul class="cardImg">
-            <li>
-              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
-              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
-            </li>
-            <li>
-              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
-              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
-            </li>
-          </ul>
-        </li>
-        <li v-show="curTab==2">
-          <div class="listImg">
-            <image src="/static/img/xiangmutoutu@1.png"></image>
-            <div class="imgTitle mui-ellipsis">企业制度培训企业制度培训企业制度培训企业制企业制度培训企业制度培训企业制度培训企业制</div>
-          </div>
-          <div class="listFooter">
-            <div class="footerLeft">
-              <div class="footerTime">时间：2018-10-16</div>
-              <div class="footerAddress mui-ellipsis">地点：一楼会议室妖灵妖领室一楼会一楼会议地点一楼会议室妖灵妖领室一楼会一楼会议</div>
-            </div>
-            <div class="footerRight">打卡</div>
-          </div>
-          <ul class="cardImg">
-            <li>
-              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
-              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
-            </li>
-          </ul>
         </li>
       </ul>
+      <div class="emptyValue" v-show="empty"><image src="/static/img/morentu.png"></image><span>暂无通知</span></div>
     </div>
 </template>
 
@@ -68,15 +40,16 @@
       data () {
         return {
           curTab: 1,
-          policy_list:[],
+          activity_list:[],
           page:1,
           size:6,
+          empty:false
         }
       },
       onPullDownRefresh () {
         wx.showNavigationBarLoading() //在标题栏中显示加载
         this.page=1;
-        this.policy_list=[];
+        this.activity_list=[];
         this.refresh();
         // 下拉刷新
         wx.hideNavigationBarLoading() //完成停止加载
@@ -87,21 +60,33 @@
         this.loadmore()
         // 上拉加载
       },
+      computed:{
+        imgUrl(){
+          return this.$store.state.url;
+        }
+      },
       methods: {
+        tabClick(tab){
+          this.curTab=tab;
+          this.traininglist();
+        },
         async traininglist() {
           let that = this;
           let data = {
             page:this.page,
             size:this.size,
-            order:'create_time desc, index_id desc'
+//            order:'create_time desc'
           };
           let res = await that.$get('/rs/activity_app',data);
           if (res.code == 200){
-
+            this.activity_list = res.rows;
+            console.log(this.activity_list);
           }else if(res.code == 311){
             wx.redirectTo({
               url: `/pages/perfectinfor/main`
             })
+          }else {
+            this.empty == true
           }
         },
         refresh(){
@@ -294,6 +279,22 @@
             }
           }
         }
+      }
+    }
+    .emptyValue{
+      width: 400px/2;
+      height: 400px/2;
+      margin: 0 auto;
+      image{
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      span{
+        display: block;
+        text-align: center;
+        font-size: 26px/2;
+        color: #999;
       }
     }
 </style>

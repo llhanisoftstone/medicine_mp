@@ -67,11 +67,11 @@
         })
       },
       childrenmitData(){
-        if(!this.companyName){;
+        if(!this.companyName){
           this.$mptoast('请选择公司名称');
           return false;
         }
-        if(!this.realname){;
+        if(!this.realname){
           this.$mptoast('请输入姓名');
           return false;
         }
