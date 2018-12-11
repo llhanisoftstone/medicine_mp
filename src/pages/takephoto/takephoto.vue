@@ -30,7 +30,11 @@
     },
     methods: {
       confirm(){
-
+        wx.showToast({
+          title: '提交成功',
+          icon: 'success',
+          duration: 2000
+        });
       },
       takePhoto(){
         let that=this;
