@@ -25,7 +25,7 @@
               <div class="footerAddress mui-ellipsis">地点：{{item.address}}</div>
             </div>
             <div
-              @click="tonewpage('mapdetail','')"
+              @click="tonewpage('mapdetail','act_id='+item.id)"
               class="footerRight">打卡</div>
           </div>
         </li>
@@ -102,7 +102,6 @@
             url:`/pages/${urlname}/main?${data}`
           })
         },
-
       },
       onLoad: function() {
         this.traininglist()//获取数据

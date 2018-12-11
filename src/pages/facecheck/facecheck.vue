@@ -25,7 +25,11 @@
   export default {
     data () {
       return {
-        src:'',
+        src:'',        //人脸识别照片路径
+        act_id:'',     //活动id
+        name: '',        //姓名
+        card_num: '',    //身份证
+        comp_id: '',     //企业ID
       }
     },
     components: {
@@ -59,35 +63,53 @@
       async recordPhoto(src){
         let that=this;
         let data={
-          image:that.$store.state.url+src
+          image:that.$store.state.url+src,
+          name: that.name,               //姓名
+          card_num: that.card_num,       //身份证
+          comp_id: that.comp_id,         //企业ID
         };
-        let res = await that.$get('/rs/face_detect', data);
+        let res = await that.$post('/rs/face_detect', data);
         console.log(res)
         if(res.code==200){
           wx.hideLoading()
           let score=res.res.result.user_list[0].score;
           if(score>=80){
+            let singobj={
+              member_pic:that.src,
+              face_result:res.res.error_code,
+              face_json:res.res,
+            };
+
+            that.$store.commit('setSignData',singobj);
             wx.showToast({
               title: '人脸识别成功',
               icon: 'success',
               duration: 2000
             });
             setTimeout(()=>{
-              that.tonewpage('takephoto');
+              that.tonewpage('takephoto','act_id='+that.act_id+'&type=1');
             },1800)
           }
-
         }else{
           wx.hideLoading()
           wx.showToast({
             title: '人脸识别失败',
-            icon: 'success',
+            icon: 'none',
             duration: 2000
           });
-
         }
-
-
+      },
+      async getUserInfo(){
+        let that=this;
+        let data={
+          u_id:that.$store.state.user.userid,
+        };
+        let res = await that.$get('/rs/enter_staff', data);
+        if(res.code==200){
+          that.name=res.rows[0].name;
+          that.card_num=res.rows[0].card_num;
+          that.comp_id=res.rows[0].comp_id;
+        }
       },
       error(e) { //用户不允许使用摄像头时触发
         console.log(e.detail)
@@ -101,7 +123,6 @@
               wx.openSetting({
                 success (res) {
                   console.log(res)
-
                   //authSetting:scope.camera:false
 
                 }
@@ -143,7 +164,14 @@
     },
     onLoad:function (option){
       var that = this;
+      that.getUserInfo();
+      that.act_id=option.act_id;
       that.src='';
+      that.name='';
+      that.card_num='';
+      that.comp_id='';
+//      console.log(that.$store.state.signdata)
+//      console.log(that.$store.state.user)
     }
   }
 </script>
