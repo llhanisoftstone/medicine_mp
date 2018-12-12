@@ -14,7 +14,9 @@
         </div>
       </div>
       <ul class="trainingList">
-        <li v-for="item in activity_list">
+        <li
+          :key="index"
+          v-for="(item,index) in activity_list">
           <div class="listImg" @click="tonewpage('trainingdetails','pid='+item.id)">
             <image :src="imgUrl+item.pic_path" v-if="item.pic_path"></image>
             <image src="/static/img/jiantou.png" v-else></image>
@@ -27,15 +29,15 @@
             </div>
             <div
               @click="tonewpage('mapdetail','act_id='+item.id)"
-              v-if="item.count == 0"
+              v-if="item.count < 1"
               class="footerRight">打卡</div>
             <div
               @click="tonewpage('takephoto','type=2&act_id='+item.id)"
               class="footerRight_new" v-else>上传现场照</div>
           </div>
           <div class="statusText" v-show="photo" v-if="item.count == 0">未培训</div>
-          <div class="statusText" v-show="photo" v-else-if="item.count <= item.times">已完成</div>
-          <div class="statusText" v-show="photo" v-else="item.count > item.times">已结束</div>
+          <div class="statusText" v-show="photo" v-else-if="item.count <= item.pic_count">已完成</div>
+          <div class="statusText" v-show="photo" v-else="item.count > item.pic_count">已结束</div>
           <ul class="cardImg">
             <li>
               <div class="photo">
@@ -43,7 +45,9 @@
               </div>
               <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
             </li>
-            <li>
+            <li
+              :key="idx"
+              v-for="(items,idx) in item.pic_count">
               <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
               <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
             </li>
@@ -73,6 +77,7 @@
           dataTime:"",
           scrollIcon:false,
           scrollTop:0,
+
         }
       },
       onPageScroll:function(res){
@@ -116,6 +121,7 @@
           }
         },
         tabClick(tab){
+          this.activity_list=[];
           this.empty = false;
           this.curTab=tab;
           if(this.curTab == 1){
@@ -243,16 +249,18 @@
             height: 50px/2;
             color: #666;
             border: 1px solid #e2e2e2;
-            border-left: 0;
+
             line-height: 50px/2;
             text-align: center;
             font-size: 24px/2;
           }
           li:first-child{
             border-radius: 50px/2 0 0 50px/2;
+            border-right: 0;
           }
           li:last-child{
             border-radius: 0 50px/2 50px/2 0;
+            border-left: 0;
           }
           .activeli{
             border:0;
@@ -346,6 +354,7 @@
           height: auto;
           border-top: 1px solid #e2e2e2;
           padding: 10px/2 26px/2;
+          padding-top: 0;
           overflow: auto;
           li{
             width: 20%;
@@ -353,6 +362,7 @@
             float: left;
             display: flex;
             align-items: center;
+            margin-top: 10px/2;
             .photo{
               width: 94px/2;
               height: 94px/2;
