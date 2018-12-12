@@ -1,6 +1,9 @@
 <template>
     <div class="trainingdetails">
-      <div class="detailsTop"><image src="/static/img/xiangmutoutu@1.png"></image></div>
+      <div class="detailsTop">
+        <image :src="imgUrl+detailsInfo.pic_path" v-if="detailsInfo.pic_path"></image>
+        <image src="/static/img/jiantou.png" v-else></image>
+      </div>
       <div class="detailsBody">
         <div class="detailsTitle">{{detailsInfo.name}}</div>
         <ul>
@@ -15,10 +18,11 @@
             <div class="liRight">{{detailsInfo.start_time}} 至 {{detailsInfo.end_time}}</div>
           </li>
         </ul>
-        <div class="detailsNote" v-html="detailsInfo.details">{{detailsInfo.details}}</div>
+        <div class="detailsNote" v-html="detailsInfo.details"></div>
       </div>
       <div class="signIn">
-        <div class="signInBtn" @click="tonewpage('mapdetail','')">签到打卡</div>
+        <div class="signInBtn" @click="tonewpage('mapdetail','')" v-if="detailsInfo.count < 1">签到打卡</div>
+        <div class="signInBtn" @click="tonewpage('takephoto','type=2&act_id='+detailsInfo.id)" v-else>上传现场照</div>
       </div>
     </div>
 </template>
@@ -31,6 +35,11 @@
           return {
             pid:"",
             detailsInfo:[]
+          }
+        },
+        computed:{
+          imgUrl(){
+            return this.$store.state.url;
           }
         },
         methods: {
