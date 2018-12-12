@@ -30,7 +30,7 @@
               v-if="item.count == 0"
               class="footerRight">打卡</div>
             <div
-              class="footerRight_new" v-else>已打卡</div>
+              class="footerRight_new" v-else>上传现场照</div>
           </div>
           <div class="statusText" v-show="photo" v-if="item.count == 0">未培训</div>
           <div class="statusText" v-show="photo" v-else-if="item.count <= item.times">已完成</div>
@@ -314,26 +314,28 @@
             }
           }
           .footerRight{
-            width: 77px/2;
-            height: 77px/2;
+            width: 85px/2;
+            height: 85px/2;
             border-radius: 50%;
             background-color: #df5c3e;
             color: #fff;
             text-align: center;
-            line-height: 77px/2;
+            line-height: 85px/2;
             font-size: 28px/2;
             margin-right: 26px/2;
           }
           .footerRight_new{
-            width: 96px/2;
-            height: 50px/2;
+            width: 85px/2;
+            height: 85px/2;
+            border-radius: 50%;
+            background-color: #df5c3e;
             color: #fff;
             text-align: center;
-            font-size: 28px/2;
-            line-height: 50px/2;
-            border-radius: 10px/2;
-            margin-right: 15px/2;
-            background-color: rgba(153, 153, 153, 1);
+            font-size: 22px/2;
+            margin-right: 26px/2;
+            word-wrap:break-word;
+            word-break:normal;
+            padding-top:16px/2;
           }
 
         }
