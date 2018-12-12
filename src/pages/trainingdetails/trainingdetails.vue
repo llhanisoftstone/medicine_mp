@@ -6,10 +6,12 @@
         <ul>
           <li>
             <div class="liLeft"><image src="/static/img/huodongdizhi.png" class="dizhiImg"></image>地址</div>
+            <div class="liBorder"></div>
             <div class="liRight">{{detailsInfo.address}}</div>
           </li>
           <li>
             <div class="liLeft"><image src="/static/img/huodongshijian.png" class="shijianImg"></image>活动时间</div>
+            <div class="liBorder"></div>
             <div class="liRight">{{detailsInfo.start_time}} 至 {{detailsInfo.end_time}}</div>
           </li>
         </ul>
@@ -121,13 +123,17 @@
               margin-right: 12px/2;
             }
           }
+          .liBorder{
+            width: 1px;
+            height: 30px/2;
+            background-color: #e2e2e2;
+          }
           .liRight{
             width: 550px/2;
             height: auto;
             font-size: 26px/2;
             color: #666;
-            padding-left: 18px/2;
-            border-left: 1px solid #e2e2e2;
+            margin-left: 18px/2;
             word-wrap: break-word;
             word-break: normal;
           }

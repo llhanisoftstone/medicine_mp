@@ -22,7 +22,7 @@
           </div>
           <div class="listFooter">
             <div class="footerLeft">
-              <div class="footerTime">时间：{{item.start_time}}-{{item.end_time}}</div>
+              <div class="footerTime">时间：{{item.start_time}}至{{item.end_time}}</div>
               <div class="footerAddress mui-ellipsis">地点：{{item.address}}</div>
             </div>
             <div
@@ -30,12 +30,13 @@
               v-if="item.count == 0"
               class="footerRight">打卡</div>
             <div
+              @click="tonewpage('takephoto','type=2&act_id='+item.id)"
               class="footerRight_new" v-else>上传现场照</div>
           </div>
           <div class="statusText" v-show="photo" v-if="item.count == 0">未培训</div>
           <div class="statusText" v-show="photo" v-else-if="item.count <= item.times">已完成</div>
           <div class="statusText" v-show="photo" v-else="item.count > item.times">已结束</div>
-          <ul class="cardImg" v-show="photo">
+          <ul class="cardImg">
             <li>
               <div class="photo">
                 <image src="/static/img/zhaopian.png"></image>
@@ -242,6 +243,7 @@
             height: 50px/2;
             color: #666;
             border: 1px solid #e2e2e2;
+            border-left: 0;
             line-height: 50px/2;
             text-align: center;
             font-size: 24px/2;
@@ -267,7 +269,6 @@
         width: 100%;
         height: auto;
         background-color: #fff;
-        margin-top: 12px/2;
         position: relative;
         .listImg{
           width: 100%;
@@ -293,13 +294,14 @@
         .listFooter{
           width: 100%;
           height: 130px/2;
-          padding:26px/2;
+          padding: 26px/2 0;
+          padding-left: 20px/2;
           padding-right: 0;
           display: flex;
           align-items: center;
           justify-content: space-between;
           .footerLeft{
-            width: 602px/2;
+            width: 625px/2;
             height: 100%;
             .footerTime{
               width: 100%;
@@ -322,7 +324,7 @@
             text-align: center;
             line-height: 85px/2;
             font-size: 28px/2;
-            margin-right: 26px/2;
+            margin-right: 20px/2;
           }
           .footerRight_new{
             width: 85px/2;
@@ -332,7 +334,7 @@
             color: #fff;
             text-align: center;
             font-size: 22px/2;
-            margin-right: 26px/2;
+            margin-right: 20px/2;
             word-wrap:break-word;
             word-break:normal;
             padding-top:16px/2;
