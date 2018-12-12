@@ -71,14 +71,13 @@
         let res = await that.$post('/rs/face_detect', data);
         console.log(res)
 //        if(res.code==200){
-//        if(res){
           wx.hideLoading()
-          //let score=res.res.result.user_list[0].score;
+//          let score=res.res.result.user_list[0].score;
 //          if(score>=80){
             let singobj={
               member_pic:that.src,
-              //face_result:res.res.error_code,
-              //face_json:res.res,
+//              face_result:res.res.error_code,
+//              face_json:res.res,
             };
 
             that.$store.commit('setSignData',singobj);
