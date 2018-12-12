@@ -74,7 +74,7 @@
         let res = await that.$post('/rs/activity_record', data);
         if(res.code==200){
           wx.showToast({
-            title: '提交成功',
+            title: '签到成功',
             icon: 'success',
             duration: 2000
           });
