@@ -45,7 +45,7 @@
         let that=this;
         let data={
           act_id :that.act_id,
-          scene_pic:that.picPath
+          scene_pic:that.pics
         };
         let res = await that.$post('/rs/activity_scence_pic', data);
         if(res.code==200){
@@ -55,7 +55,7 @@
             duration: 2000
           });
           setTimeout(()=>{
-            that.tonewpage('ticketdetails');
+            that.tonewpage('traininglist');
           },1800)
         }else{
           wx.showToast({
@@ -70,6 +70,7 @@
         let data=that.$store.state.signdata
         data.act_id=that.act_id;
         data.pics=that.pics;
+        //data.u_id=that.$store.state.user.userid
         console.log(data)
         let res = await that.$post('/rs/activity_record', data);
         if(res.code==200){
@@ -79,7 +80,7 @@
             duration: 2000
           });
           setTimeout(()=>{
-            that.tonewpage('ticketdetails');
+            that.tonewpage('traininglist');
           },1800)
         }
       },

@@ -92,7 +92,7 @@
         }else{
           let singobj={
             longitude:that.lng,
-            latitude:that.lng,
+            latitude:that.lat,
             province:that.province,
             city:that.city,
             zone:that.zone,
