@@ -45,7 +45,7 @@
         let that=this;
         let data={
           act_id :that.act_id,
-          scene_pic:that.pics
+          scene_pic:that.picPath
         };
         let res = await that.$post('/rs/activity_scence_pic', data);
         if(res.code==200){
@@ -55,7 +55,9 @@
             duration: 2000
           });
           setTimeout(()=>{
-            that.tonewpage('traininglist');
+            wx.switchTab({
+              url: '/pages/traininglist/main'
+            })
           },1800)
         }else{
           wx.showToast({
@@ -80,7 +82,9 @@
             duration: 2000
           });
           setTimeout(()=>{
-            that.tonewpage('traininglist');
+            wx.switchTab({
+              url: '/pages/traininglist/main'
+            })
           },1800)
         }
       },
