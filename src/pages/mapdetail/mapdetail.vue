@@ -22,18 +22,36 @@
 </template>
 
 <script type="javascript">
+  import QQMapWX from '../../../static/js/qqmap-wx-jssdk.min.js'
   export default {
     data () {
       return {
         markers: [{
           id: 'map',
-          latitude: 34.27,
-          longitude: 108.93,
+          latitude: '',
+          longitude: '',
+
+          callout:{
+            content:'培训地点',
+            display:'ALWAYS',
+            textAlign:'center',
+            padding:'20',
+            bgColor:'#d8d8d8',
+            color:'#333333',
+            fontSize:'28',
+            borderRadius:'10',
+          },
         }],
-        lat: '',
-        lng: '',
-        remark:'',//备注
+        act_id:'',     //活动id
+        lat: '',     //打卡者定位
+        lng: '',     //打卡者定位
+        province:'', //省
+        city:'',     //市
+        zone:'',     //区
+        address:'',  //详细地址
+        remark:'',   //备注
         confirmClick:false, //确认按钮是否被点击了
+        qqmapsdk:null,
       }
     },
     components: {
@@ -71,23 +89,40 @@
           that.confirmClick=false;
           that.getLocation();
           return;
-        }
-        /*let res = await that.$post('',data);
-        if (res.code == 200){
-
         }else{
-         that.confirmClick=false;
-
-        }*/
-        wx.showToast({
-          title: '打卡成功',
-          icon: 'success',
-          duration: 2000
-        });
-        setTimeout(()=>{
-          that.confirmClick=false;
-          that.tonewpage('facecheck');
-        },1800)
+          let singobj={
+            longitude:that.lng,
+            latitude:that.lng,
+            province:that.province,
+            city:that.city,
+            zone:that.zone,
+            address:that.address,
+          };
+          if(that.remark){
+            singobj.remark=that.remark;
+          }
+          that.$store.commit('setSignData',singobj);
+          wx.showToast({
+            title: '打卡成功',
+            icon: 'success',
+            duration: 2000
+          });
+          setTimeout(()=>{
+            that.confirmClick=false;
+            that.tonewpage('facecheck','act_id='+that.act_id);
+          },1800)
+        }
+      },
+      async getActivity(){
+          let that=this;
+          let data={
+              id:that.act_id
+          };
+          let res = await that.$get('/rs/activity', data);
+          if(res.code==200){
+            that.markers.latitude = res.rows[0].latitude;
+            that.markers.longitude= res.rows[0].longitude;
+          }
       },
       getLocation(){
         let that=this;
@@ -95,9 +130,16 @@
           type: 'wgs84',
           success: function(res) {
             that.lat = res.latitude;
-            that.markers.latitude = res.latitude;
             that.lng = res.longitude;
-            that.markers.longitude= res.longitude;
+            //解析地址
+            that.reverseLocation(res.latitude,res.longitude,(location)=>{
+              let address=location.result.address_component
+              console.log(address)
+              that.province=address.province
+              that.city=address.city
+              that.zone=address.district
+              that.address=address.street_number || address.street
+            })
           },
           fail: function (fail) {
             wx.showToast({
@@ -112,12 +154,31 @@
                 }
               })
             },2000)
-
           },
           complete:function(com){
             console.log(com)
           },
         })
+      },
+      reverseLocation(lat,lng,callback){
+        let that=this;
+        that.qqmapsdk.reverseGeocoder({
+          location: {
+            latitude: lat,
+            longitude: lng
+          },
+          success: function(res) {
+            callback(res);
+          },
+          fail: function(res) {
+
+            callback(res);
+          },
+          complete: function(res) {
+
+            callback(res);
+          }
+        });
       },
       tonewpage(urlname,data){
         if(!urlname){return;}
@@ -131,6 +192,19 @@
     },
     onLoad:function (option){
       var that = this;
+      that.act_id=option.act_id;
+      // 实例化腾讯地图API核心类
+      that.qqmapsdk = new QQMapWX({
+        key: 'CVBBZ-XGG6O-VDZWN-SSR3T-U5SDH-LNBGQ'
+      });
+        that.lat=''
+        that.lng= ''
+        that.province=''
+        that.city=''
+        that.zone=''
+        that.address=''
+        that.remark=''
+      that.getActivity();
       that.getLocation();
     }
   }

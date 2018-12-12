@@ -26,7 +26,7 @@
               <div class="footerAddress mui-ellipsis">地点：{{item.address}}</div>
             </div>
             <div
-              @click="tonewpage('mapdetail','')"
+              @click="tonewpage('mapdetail','act_id='+item.id)"
               v-if="item.count == 0"
               class="footerRight">打卡</div>
             <div

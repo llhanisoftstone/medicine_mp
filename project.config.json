@@ -280,10 +280,10 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 39,
 					"name": "定位",
 					"pathName": "pages/mapdetail/main",
-					"query": ""
+					"query": "act_id=dc8f4570"
 				},
 				{
 					"id": -1,
@@ -292,9 +292,10 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 41,
 					"name": "现场拍照",
-					"pathName": "pages/takephoto/main"
+					"pathName": "pages/takephoto/main",
+					"query": "act_id=dc8f4570"
 				}
 			]
 		}

@@ -49,7 +49,8 @@ const store = new Vuex.Store({
     useTime: 0,                        // 答题所用时间
     organizcookie: '',                        // 政策百科机构id临时存储
     phoneModal:'',
-    platform:''
+    platform:'',
+    signdata:{},   //用户打卡签到信息
   },
   mutations: {
     getphoneModal: (state, phone) => {
@@ -192,6 +193,52 @@ const store = new Vuex.Store({
     getorganizid: (state, organizcookie) => {
       const obj = state
       obj.organizcookie = organizcookie
+    },
+    setSignData: (state, signObj) => {
+      const obj = state
+      // pics:[] 现场照
+      // act_id ：活动ID
+      // remark ： 备注
+      // province ：省
+      // city ：市
+      // zone ：区
+      // address ：详细地址
+      // member_pic ：人脸识别上传的照片
+      // face_result ：人脸识别结果
+      // face_msg ：人脸识别信息
+      // longitude ：经纬度
+      // latitude：经纬度
+      if(signObj.longitude){
+        obj.signdata.longitude = signObj.longitude
+      }
+      if(signObj.latitude){
+        obj.signdata.latitude = signObj.latitude
+      }
+      if(signObj.remark){
+        obj.signdata.remark = signObj.remark
+      }
+      if(signObj.member_pic){
+        obj.signdata.member_pic = signObj.member_pic
+      }
+      if(signObj.face_result){
+        obj.signdata.face_result = signObj.face_result
+      }
+      if(signObj.face_json){
+        obj.signdata.face_json = signObj.face_json
+      }
+      if(signObj.province){
+        obj.signdata.province = signObj.province
+      }
+      if(signObj.city){
+        obj.signdata.city = signObj.city
+      }
+      if(signObj.zone){
+        obj.signdata.zone = signObj.zone
+      }
+      if(signObj.address){
+        obj.signdata.address = signObj.address
+      }
+
     }
   }
 })

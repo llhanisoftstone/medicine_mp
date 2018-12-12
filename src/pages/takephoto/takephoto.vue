@@ -13,7 +13,7 @@
     </div>
     <cover-view
       class="confirm-btn"
-      @click="confirm"
+      @click="submitSignData"
     >确认</cover-view>
   </div>
 </template>
@@ -23,21 +23,69 @@
     data () {
       return {
         picPath:'',
+        act_id:'',     //活动id
+        pics:[],    //现场照
+        type:1,     //type=1,第一次上传现场照， type=2  多次上传现场照片
       }
     },
     components: {
 
     },
     methods: {
-      confirm(){
-        wx.showToast({
-          title: '提交成功',
-          icon: 'success',
-          duration: 2000
-        });
+      submitSignData(){
+          let that=this;
+          if(that.type==1){
+             that.confirm();
+          }
+        if(that.type==2){
+            that.submitPicture();
+        }
+      },
+      async submitPicture(){
+        let that=this;
+        let data={
+          act_id :that.act_id,
+          scene_pic:that.picPath
+        };
+        let res = await that.$post('/rs/activity_scence_pic', data);
+        if(res.code==200){
+          wx.showToast({
+            title: '提交成功',
+            icon: 'success',
+            duration: 2000
+          });
+          setTimeout(()=>{
+            that.tonewpage('ticketdetails');
+          },1800)
+        }else{
+          wx.showToast({
+            title: '提交失败',
+            icon: 'none',
+            duration: 2000
+          });
+        }
+      },
+      async confirm(){
+        let that=this;
+        let data=that.$store.state.signdata
+        data.act_id=that.act_id;
+        data.pics=that.pics;
+        console.log(data)
+        let res = await that.$post('/rs/activity_record', data);
+        if(res.code==200){
+          wx.showToast({
+            title: '提交成功',
+            icon: 'success',
+            duration: 2000
+          });
+          setTimeout(()=>{
+            that.tonewpage('ticketdetails');
+          },1800)
+        }
       },
       takePhoto(){
         let that=this;
+        that.pics=[];
         that.$uploadImg({
           count: 1,
           sizeType: ['original', 'compressed'],
@@ -45,6 +93,7 @@
         },function (rs) {
           let obj = JSON.parse(rs);
           that.picPath=obj[0].url;
+          that.pics.push({'scene_pic':obj[0].url});
         })
       },
       tonewpage(urlname,data){
@@ -61,7 +110,11 @@
     },
     onLoad:function (option){
       var that = this;
+      that.act_id=option.act_id;
+      that.type=option.type;
       that.picPath='';
+      that.pics=[];
+      console.log(that.$store.state.signdata)
     }
   }
 </script>
