@@ -27,7 +27,6 @@
             </div>
             <div
               @click="tonewpage('mapdetail','act_id='+item.id)"
-              @click="tonewpage('mapdetail','')"
               v-if="item.count == 0"
               class="footerRight">打卡</div>
             <div
