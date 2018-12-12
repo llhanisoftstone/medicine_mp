@@ -55,7 +55,7 @@
             duration: 2000
           });
           setTimeout(()=>{
-            that.tonewpage('ticketdetails');
+            that.tonewpage('traininglist');
           },1800)
         }else{
           wx.showToast({
@@ -70,16 +70,17 @@
         let data=that.$store.state.signdata
         data.act_id=that.act_id;
         data.pics=that.pics;
+        //data.u_id=that.$store.state.user.userid
         console.log(data)
         let res = await that.$post('/rs/activity_record', data);
         if(res.code==200){
           wx.showToast({
-            title: '提交成功',
+            title: '签到成功',
             icon: 'success',
             duration: 2000
           });
           setTimeout(()=>{
-            that.tonewpage('ticketdetails');
+            that.tonewpage('traininglist');
           },1800)
         }
       },
