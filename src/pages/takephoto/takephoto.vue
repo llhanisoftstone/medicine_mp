@@ -45,7 +45,7 @@
         let that=this;
         let data={
           act_id :that.act_id,
-          scene_pic:that.pics
+          scene_pic:that.picPath
         };
         let res = await that.$post('/rs/activity_scence_pic', data);
         if(res.code==200){
