@@ -1,7 +1,7 @@
 <template>
     <div class="traininglist">
       <div class="trainingTop">
-        <div class="topTitle">藤罗网络的员工，上午好</div>
+        <div class="topTitle" ><span v-text="enterprisename"></span>的员工，<span v-text="timeText"></span></div>
         <div class="topCard">
           <div class="cardText">培训是最大的福利,企业最重要的事就是培训,如果不能把你的员 工培训到你想达到的标准,你就难以达成目标。</div>
           <div class="cardName">—— 牛根生</div>
@@ -70,6 +70,7 @@
         return {
           curTab: 1,
           activity_list:[],
+          activety_phone:[],
           page:1,
           size:3,
           empty:false,
@@ -77,7 +78,8 @@
           dataTime:"",
           scrollIcon:false,
           scrollTop:0,
-
+          timeText:"",
+          enterprisename:""
         }
       },
       onPageScroll:function(res){
@@ -108,6 +110,7 @@
         }
       },
       methods: {
+
         scrolltoTop(){
           if (wx.pageScrollTo) {
             wx.pageScrollTo({
@@ -158,6 +161,15 @@
           if (res.code == 200){
             if(this.page == 1){
               this.activity_list = res.rows;
+              for(var i=0;i<this.activity_list.length;i++){
+                for (var j=0;j<this.activity_list[i].pic_count;j++){
+                  this.activety_phone.push(
+                    {url:"1",imgurl:"2"}
+                  );
+                }
+
+              }
+              console.log(this.activety_phone);
             }else {
               this.activity_list = this.activity_list.concat(res.rows);
             }
@@ -186,11 +198,35 @@
           wx.navigateTo({
             url:`/pages/trainingdetails/main`
           })
+        },
+        timetext(){
+          var now = new Date();
+          var hour = now.getHours();
+          if(hour < 6){this.timeText = "凌晨好！"}
+          else if (hour < 9){this.timeText = "早上好！"}
+          else if (hour < 12){this.timeText = "上午好！"}
+          else if (hour < 14){this.timeText = "中午好！"}
+          else if (hour < 17){this.timeText = "下午好！"}
+          else if (hour < 19){this.timeText = "傍晚好！"}
+          else if (hour < 22){this.timeText = "晚上好！"}
+          else {this.timeText = "夜晚好！"}
+        },
+        enterpriseName(){
+          let comp_id = this.$store.state.user.compid;
+          let data={
+            id:comp_id
+          }
+          this.$get('/rs/company',data).then(res=>{
+            if(res.code == 200){
+              this.enterprisename=res.rows[0].name;
+            }
+          })
         }
       },
-
       onLoad: function() {
-        this.traininglist()//获取数据
+        this.timetext();
+        this.enterpriseName();
+        this.traininglist();//获取数据
       }
     }
 </script>
@@ -212,7 +248,7 @@
       padding: 27px/2 27px/2 30px/2 27px/2;
       background-color: #fff;
       .topTitle{
-        font-size: 40px/2;
+        font-size: 33px/2;
         color: #333;
         margin-bottom: 28px/2;
         padding: 0 4px/2;

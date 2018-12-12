@@ -93,6 +93,9 @@
         this.$put('/rs/enter_staff/1',data).then(res=>{
           if(res.code == 200){
             this.$mptoast("保存成功");
+            wx.switchTab({
+              url: '/pages/traininglist/main'
+            })
           }else {
             this.$mptoast("当前企业下没有对应的用户！");
           }
