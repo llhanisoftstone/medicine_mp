@@ -220,7 +220,7 @@ const store = new Vuex.Store({
       if(signObj.member_pic){
         obj.signdata.member_pic = signObj.member_pic
       }
-      if(signObj.face_result){
+      if(signObj.face_result !== ''){
         obj.signdata.face_result = signObj.face_result
       }
       if(signObj.face_json){

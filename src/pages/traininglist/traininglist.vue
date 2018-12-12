@@ -54,7 +54,7 @@
           </ul>
         </li>
       </ul>
-      <div class="emptyValue" v-show="empty"><image src="/static/img/morentu.png"></image><span>暂无通知</span></div>
+      <div class="emptyValue" v-show="empty"><image src="/static/img/kongyemian_03.png"></image><span>暂无内容</span></div>
       <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
       <mptoast :toasthide="toasthide"/>
     </div>
@@ -188,9 +188,12 @@
           })
         }
       },
-
-      onLoad: function() {
+      onShow(){
+        this.page=1;
         this.traininglist()//获取数据
+      },
+      onLoad: function() {
+
       }
     }
 </script>

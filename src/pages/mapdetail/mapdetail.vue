@@ -27,24 +27,22 @@
     data () {
       return {
         markers: [{
-          id: 'map',
-          latitude: '',
-          longitude: '',
-
+          latitude: 34.264860,
+          longitude: 108.954240,
           callout:{
             content:'培训地点',
             display:'ALWAYS',
             textAlign:'center',
-            padding:'20',
+            padding:'5',
             bgColor:'#d8d8d8',
             color:'#333333',
-            fontSize:'28',
+            fontSize:'14',
             borderRadius:'10',
           },
         }],
         act_id:'',     //活动id
-        lat: '',     //打卡者定位
-        lng: '',     //打卡者定位
+        lat: 34.264860,     //打卡者定位
+        lng: 108.954240,     //打卡者定位
         province:'', //省
         city:'',     //市
         zone:'',     //区
@@ -88,8 +86,8 @@
           });
           that.confirmClick=false;
           that.getLocation();
-          return;
-        }else{
+        }
+        else{
           let singobj={
             longitude:that.lng,
             latitude:that.lat,
@@ -113,16 +111,18 @@
           },1800)
         }
       },
-      async getActivity(){
+      async getActivity(){//获取活动定位信息
           let that=this;
           let data={
               id:that.act_id
           };
           let res = await that.$get('/rs/activity', data);
           if(res.code==200){
-            that.markers.latitude = res.rows[0].latitude;
-            that.markers.longitude= res.rows[0].longitude;
+            that.markers[0].latitude = res.rows[0].latitude;
+            that.markers[0].longitude= res.rows[0].longitude;
+            that.markers[0].callout.content= res.rows[0].address;
           }
+          console.log(that.markers)
       },
       getLocation(){
         let that=this;
@@ -134,7 +134,7 @@
             //解析地址
             that.reverseLocation(res.latitude,res.longitude,(location)=>{
               let address=location.result.address_component
-              console.log(address)
+              console.log(location)
               that.province=address.province
               that.city=address.city
               that.zone=address.district
@@ -160,6 +160,7 @@
           },
         })
       },
+      //解析地址
       reverseLocation(lat,lng,callback){
         let that=this;
         that.qqmapsdk.reverseGeocoder({
@@ -189,6 +190,9 @@
     },
     computed:{
 
+    },
+    onShow(){
+      this.getLocation();
     },
     onLoad:function (option){
       var that = this;
