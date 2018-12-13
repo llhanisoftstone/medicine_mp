@@ -67,6 +67,7 @@
         })
       },
       childrenmitData(){
+        console.log(this.compid+"1111111")
         if(!this.companyName){
           this.$mptoast('请选择公司名称');
           return false;

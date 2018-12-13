@@ -33,7 +33,7 @@
               class="footerRight">打卡</div>
             <div
               @click="tonewpage('takephoto','type=2&act_id='+item.id)"
-              v-show="item.scenc.length <= item.pic_count"
+              v-show="item.scenc.length < item.pic_count"
               class="footerRight_new" v-else>上传现场照</div>
           </div>
           <div class="statusText" v-show="photo" v-if="item.count == 0">未培训</div>
@@ -42,7 +42,8 @@
           <ul class="cardImg">
             <li>
               <div class="photo">
-                <image src="/static/img/zhaopian.png"></image>
+                <image :src="imgUrl+item.member_pic" v-if="item.member_pic"></image>
+                <image src="/static/img/zhaopian.png" v-else></image>
               </div>
               <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
             </li>
@@ -152,7 +153,7 @@
             page:this.page,
             size:this.size,
             order:"count desc",
-//            status:">,1"
+            status:"=,2"
           };
           if(this.curTab == 1){
             data.end_time=">=,"+this.dataTime
