@@ -456,16 +456,20 @@
       width: 400px/2;
       height: 400px/2;
       margin: 0 auto;
+      text-align: center;
+      padding-top: 50px/2;
       image{
-        width: 100%;
-        height: 100%;
+        width: 289px/2;
+        height: 296px/2;
         display: block;
+        margin:0 auto;
       }
       span{
         display: block;
         text-align: center;
         font-size: 26px/2;
         color: #999;
+        margin-top: 50px/2;
       }
     }
 </style>
