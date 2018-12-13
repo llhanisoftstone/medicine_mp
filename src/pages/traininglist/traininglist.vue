@@ -19,7 +19,7 @@
           v-for="(item,index) in activity_list">
           <div class="listImg" @click="tonewpage('trainingdetails','pid='+item.id)">
             <image :src="imgUrl+item.pic_path" v-if="item.pic_path"></image>
-            <image src="/static/img/jiantou.png" v-else></image>
+            <image src="/static/img/pxjg_moren.png" v-else></image>
             <div class="imgTitle mui-ellipsis">{{item.name}}</div>
           </div>
           <div class="listFooter">
@@ -33,6 +33,7 @@
               class="footerRight">打卡</div>
             <div
               @click="tonewpage('takephoto','type=2&act_id='+item.id)"
+              v-show="item.scenc.length <= item.pic_count"
               class="footerRight_new" v-else>上传现场照</div>
           </div>
           <div class="statusText" v-show="photo" v-if="item.count == 0">未培训</div>
@@ -48,8 +49,11 @@
             <li
               :key="idx"
               v-for="(items,idx) in item.pic_count">
-              <div class="photo"><image src="/static/img/zhaopian.png"></image></div>
-              <div class="jiantou"><image src="/static/img/jiantou.png"></image></div>
+              <div class="photo" v-if="item.scenc[idx]"><image :src="imgUrl+item.scenc[idx]"></image></div>
+              <div class="photo" v-if="!item.scenc[idx]"><image src="/static/img/zhaopian.png"></image></div>
+              <div
+                v-if="(idx+1) !== item.pic_count"
+                class="jiantou" ><image src="/static/img/jiantou.png"></image></div>
             </li>
           </ul>
         </li>
@@ -79,7 +83,8 @@
           scrollIcon:false,
           scrollTop:0,
           timeText:"",
-          enterprisename:""
+          enterprisename:"",
+          phoneshow:true
         }
       },
       onPageScroll:function(res){
@@ -110,7 +115,6 @@
         }
       },
       methods: {
-
         scrolltoTop(){
           if (wx.pageScrollTo) {
             wx.pageScrollTo({
@@ -148,28 +152,26 @@
             page:this.page,
             size:this.size,
             order:"count desc",
+//            status:">,1"
           };
           if(this.curTab == 1){
-            console.log(this.curTab)
             data.end_time=">=,"+this.dataTime
           }
           if(this.curTab == 2){
-            console.log(this.curTab)
-            data.end_time="<=,"+this.dataTime
+            data.end_time="<,"+this.dataTime
           }
           let res = await that.$get('/rs/activity_app',data);
           if (res.code == 200){
+            for(let i=0;i<res.rows.length;i++){
+              if(res.rows[i].scene_pics){
+                this.phoneshow = true
+                res.rows[i].scenc = res.rows[i].scene_pics.split(",");
+              }else{
+                res.rows[i].scenc = []
+              }
+            }
             if(this.page == 1){
               this.activity_list = res.rows;
-              for(var i=0;i<this.activity_list.length;i++){
-                for (var j=0;j<this.activity_list[i].pic_count;j++){
-                  this.activety_phone.push(
-                    {url:"1",imgurl:"2"}
-                  );
-                }
-
-              }
-              console.log(this.activety_phone);
             }else {
               this.activity_list = this.activity_list.concat(res.rows);
             }
@@ -405,10 +407,12 @@
             .photo{
               width: 94px/2;
               height: 94px/2;
+              border-radius: 50%;
               image{
                 width: 100%;
                 height: 100%;
                 display: block;
+                border-radius: 50%;
               }
             }
             .jiantou{
