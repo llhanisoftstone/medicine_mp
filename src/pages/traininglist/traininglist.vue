@@ -225,10 +225,13 @@
           })
         }
       },
+      onShow(){
+        this.page=1;
+        this.traininglist()//获取数据
+      },
       onLoad: function() {
         this.timetext();
         this.enterpriseName();
-        this.traininglist();//获取数据
       }
     }
 </script>

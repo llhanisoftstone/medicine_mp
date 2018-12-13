@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 41,
+			"current": 39,
 			"list": [
 				{
 					"id": 0,
@@ -283,7 +283,7 @@
 					"id": 39,
 					"name": "定位",
 					"pathName": "pages/mapdetail/main",
-					"query": "act_id=dc8f4570"
+					"query": "act_id=92a3a430"
 				},
 				{
 					"id": -1,

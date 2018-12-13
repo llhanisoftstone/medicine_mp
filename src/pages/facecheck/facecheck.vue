@@ -70,16 +70,15 @@
         };
         let res = await that.$post('/rs/face_detect', data);
         console.log(res)
-//        if(res.code==200){
+        if(res.code==200){
           wx.hideLoading()
-//          let score=res.res.result.user_list[0].score;
-//          if(score>=80){
+          let score=res.res.result.score;
+          if(score>=80){
             let singobj={
               member_pic:that.src,
-//              face_result:res.res.error_code,
-//              face_json:res.res,
+              face_json:res.res,
+              face_result:res.res.error_code,
             };
-
             that.$store.commit('setSignData',singobj);
             wx.showToast({
               title: '人脸识别成功',
@@ -89,16 +88,22 @@
             setTimeout(()=>{
               that.tonewpage('takephoto','act_id='+that.act_id+'&type=1');
             },1800)
-//          }
-//        }
-//        else{
-//          wx.hideLoading()
-//          wx.showToast({
-//            title: '人脸识别失败',
-//            icon: 'none',
-//            duration: 2000
-//          });
-//        }
+          }else{
+            wx.showToast({
+              title: '人脸识别失败',
+              icon: 'none',
+              duration: 2000
+            });
+          }
+        }
+        else{
+          wx.hideLoading()
+          wx.showToast({
+            title: '人脸识别失败',
+            icon: 'none',
+            duration: 2000
+          });
+        }
       },
       async getUserInfo(){
         let that=this;

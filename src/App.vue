@@ -325,12 +325,12 @@ export default {
       let res = await this.$get('/rs/get_new_hints');
       if(res.count>0){
         wx.showTabBarRedDot({
-            index:2
+            index:3
           }
         )
       }else{
         wx.hideTabBarRedDot({
-          index:2
+          index:3
         })
       }
     }

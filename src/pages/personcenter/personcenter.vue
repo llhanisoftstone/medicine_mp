@@ -63,13 +63,13 @@
         if(res.count>0){
           this.redHot=true;
           wx.showTabBarRedDot({
-              index:2
+              index:3
             }
           )
         }else{
           this.redHot=false;
           wx.hideTabBarRedDot({
-            index:2
+            index:3
           })
         }
       }
