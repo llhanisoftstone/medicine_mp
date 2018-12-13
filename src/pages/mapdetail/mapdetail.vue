@@ -101,7 +101,7 @@
           }
           that.$store.commit('setSignData',singobj);
           wx.showToast({
-            title: '打卡成功',
+            title: '定位成功',
             icon: 'success',
             duration: 2000
           });
