@@ -155,6 +155,7 @@
         text-indent:52px/2;
         margin-top: 28px/2;
         display: inline-block;
+        word-break: break-all;
       }
     }
     .signIn{
