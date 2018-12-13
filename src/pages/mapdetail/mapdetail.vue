@@ -118,11 +118,13 @@
           };
           let res = await that.$get('/rs/activity', data);
           if(res.code==200){
-            that.markers[0].latitude = res.rows[0].latitude;
-            that.markers[0].longitude= res.rows[0].longitude;
+            that.baidu2Tencent(res.rows[0].latitude,res.rows[0].longitude,(location)=>{
+              that.markers[0].latitude = location.result.location.lat;
+              that.markers[0].longitude = location.result.location.lng;
+            });
+
             that.markers[0].callout.content= res.rows[0].address;
           }
-          console.log(that.markers)
       },
       getLocation(){
         let that=this;
@@ -133,8 +135,8 @@
             that.lng = res.longitude;
             //解析地址
             that.reverseLocation(res.latitude,res.longitude,(location)=>{
-              let address=location.result.address_component
               console.log(location)
+              let address=location.result.address_component
               that.province=address.province
               that.city=address.city
               that.zone=address.district
@@ -164,10 +166,30 @@
       reverseLocation(lat,lng,callback){
         let that=this;
         that.qqmapsdk.reverseGeocoder({
+          /*location: {
+            latitude: lat,
+            longitude: lng
+          },*/
+          success: function(res) {
+            callback(res);
+          },
+          fail: function(res) {
+            callback(res);
+          },
+          complete: function(res) {
+            callback(res);
+          }
+        });
+      },
+      //百度经纬度转换腾讯
+      baidu2Tencent(lat,lng,callback){
+        let that=this;
+        that.qqmapsdk.reverseGeocoder({
           location: {
             latitude: lat,
             longitude: lng
           },
+          coord_type:3,  //3 baidu经纬度
           success: function(res) {
             callback(res);
           },

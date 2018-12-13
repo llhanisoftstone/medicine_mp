@@ -34,6 +34,10 @@
     methods: {
       submitSignData(){
           let that=this;
+        wx.showLoading({
+          title: '提交中',
+          mask:true,
+        })
           if(that.type==1){
              that.confirm();
           }
@@ -49,6 +53,7 @@
         };
         let res = await that.$post('/rs/activity_scence_pic', data);
         if(res.code==200){
+          wx.hideLoading()
           wx.showToast({
             title: '提交成功',
             icon: 'success',
@@ -60,6 +65,7 @@
             })
           },1800)
         }else{
+          wx.hideLoading()
           wx.showToast({
             title: '提交失败',
             icon: 'none',
@@ -76,6 +82,7 @@
         console.log(data)
         let res = await that.$post('/rs/activity_record', data);
         if(res.code==200){
+          wx.hideLoading()
           wx.showToast({
             title: '签到成功',
             icon: 'success',

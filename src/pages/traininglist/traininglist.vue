@@ -59,7 +59,7 @@
           </ul>
         </li>
       </ul>
-      <div class="emptyValue" v-show="empty"><image src="/static/img/morentu.png"></image><span>暂无通知</span></div>
+      <div class="emptyValue" v-show="empty"><image src="/static/img/kongyemian_03.png"></image><span>暂无内容</span></div>
       <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
       <mptoast :toasthide="toasthide"/>
     </div>
@@ -457,16 +457,20 @@
       width: 400px/2;
       height: 400px/2;
       margin: 0 auto;
+      text-align: center;
+      padding-top: 50px/2;
       image{
-        width: 100%;
-        height: 100%;
+        width: 289px/2;
+        height: 296px/2;
         display: block;
+        margin:0 auto;
       }
       span{
         display: block;
         text-align: center;
         font-size: 26px/2;
         color: #999;
+        margin-top: 50px/2;
       }
     }
 </style>

@@ -139,7 +139,6 @@
         })
 
       },
-
       tonewpage(urlname,data){
         if(!urlname){return;}
         wx.navigateTo({
@@ -176,8 +175,6 @@
       that.name='';
       that.card_num='';
       that.comp_id='';
-//      console.log(that.$store.state.signdata)
-//      console.log(that.$store.state.user)
     }
   }
 </script>
