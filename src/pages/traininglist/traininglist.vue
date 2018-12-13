@@ -51,7 +51,9 @@
               :key="idx"
               v-for="(items,idx) in item.pic_count">
               <div class="photo" v-if="item.scenc[idx]"><image :src="imgUrl+item.scenc[idx]"></image></div>
-              <div class="photo" v-if="!item.scenc[idx]"><image src="/static/img/zhaopian.png"></image></div>
+              <div
+                class="photo"
+                v-if="!item.scenc[idx]"><image src="/static/img/zhaopian.png"></image></div>
               <div
                 v-if="(idx+1) !== item.pic_count"
                 class="jiantou" ><image src="/static/img/jiantou.png"></image></div>
