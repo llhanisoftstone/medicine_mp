@@ -2,7 +2,7 @@
     <div class="trainingdetails">
       <div class="detailsTop">
         <image :src="imgUrl+detailsInfo.pic_path" v-if="detailsInfo.pic_path"></image>
-        <image src="/static/img/jiantou.png" v-else></image>
+        <image src="/static/img/pxjg_moren.png" v-else></image>
       </div>
       <div class="detailsBody">
         <div class="detailsTitle">{{detailsInfo.name}}</div>
