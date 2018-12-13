@@ -51,6 +51,7 @@ const store = new Vuex.Store({
     phoneModal:'',
     platform:'',
     signdata:{},   //用户打卡签到信息
+    compid:''
   },
   mutations: {
     getphoneModal: (state, phone) => {
@@ -239,6 +240,10 @@ const store = new Vuex.Store({
         obj.signdata.address = signObj.address
       }
 
+    },
+    getcompid: (state, compid) => {
+      const obj = state
+      obj.compid = compid
     }
   }
 })

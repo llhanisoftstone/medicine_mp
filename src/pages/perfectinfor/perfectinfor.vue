@@ -67,7 +67,7 @@
         })
       },
       childrenmitData(){
-        console.log(this.compid+"1111111")
+        let that=this;
         if(!this.companyName){
           this.$mptoast('请选择公司名称');
           return false;
@@ -94,6 +94,7 @@
         this.$put('/rs/enter_staff/1',data).then(res=>{
           if(res.code == 200){
             this.$mptoast("保存成功");
+            that.$store.commit('getcompid',that.compid);
             wx.switchTab({
               url: '/pages/traininglist/main'
             })

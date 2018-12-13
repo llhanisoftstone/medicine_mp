@@ -215,7 +215,7 @@
           else {this.timeText = "夜晚好！"}
         },
         enterpriseName(){
-          let comp_id = this.$store.state.user.compid;
+          let comp_id = this.$store.state.user.compid || this.$store.state.compid;
           let data={
             id:comp_id
           }
