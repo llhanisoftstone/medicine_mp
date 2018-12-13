@@ -395,16 +395,18 @@
           width: 100%;
           height: auto;
           border-top: 1px solid #e2e2e2;
+          border-bottom: 1px solid #e2e2e2;
           padding: 10px/2 26px/2;
           padding-top: 0;
           overflow: auto;
+          border-bottom: 10px/2 solid #e2e2e2;
           li{
             width: 20%;
             height: auto;
             float: left;
             display: flex;
             align-items: center;
-            margin-top: 10px/2;
+            margin-top: 15px/2;
             .photo{
               width: 94px/2;
               height: 94px/2;
