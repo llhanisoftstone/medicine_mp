@@ -450,8 +450,8 @@
     .footcgotop{
       position: fixed;
       z-index: 100;
-      bottom: 100px/2;
-      right: 30px/2;
+      bottom: 55px/2;
+      right: 20px/2;
       width: 82px/2;
       height: 82px/2;
       background:url('../../../static/img/scrollTop.png') center no-repeat;

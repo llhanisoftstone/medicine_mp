@@ -22,7 +22,11 @@
       </div>
       <div class="signIn">
         <div class="signInBtn" @click="tonewpage('mapdetail','')" v-if="detailsInfo.count < 1">签到打卡</div>
-        <div class="signInBtn" @click="tonewpage('takephoto','type=2&act_id='+detailsInfo.id)" v-else>上传现场照</div>
+        <div class="signInBtn"
+             v-show="detailsInfo.scenc.length < detailsInfo.pic_count"
+             @click="tonewpage('takephoto','type=2&act_id='+detailsInfo.id)"
+             v-else
+        >上传现场照</div>
       </div>
     </div>
 </template>
@@ -51,7 +55,11 @@
             this.$get('/rs/activity_app',data).then(res=>{
               if(res.code == 200){
                 this.detailsInfo = res.rows[0];
-                console.log(this.detailsInfo );
+                if(this.detailsInfo.scene_pics){
+                  this.detailsInfo.scenc = res.rows[0].scene_pics.split(",");
+                }else{
+                  this.detailsInfo.scenc = []
+                }
               }
             })
           },
