@@ -173,6 +173,7 @@
                 res.rows[i].scenc = []
               }
             }
+            this.empty = false;
             if(this.page == 1){
               this.activity_list = res.rows;
             }else {
