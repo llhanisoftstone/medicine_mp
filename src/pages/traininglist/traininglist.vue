@@ -138,6 +138,7 @@
             this.photo = false;
           }else if(this.curTab == 2){
             this.photo = true;
+
           }
           this.traininglist();
         },
@@ -155,13 +156,15 @@
             page:this.page,
             size:this.size,
             order:"count desc",
-            status:"=,2"
           };
-          if(this.curTab == 1){
+          if(that.curTab == 1){
+            data.status=2;
             data.end_time=">=,"+this.dataTime
           }
-          if(this.curTab == 2){
-            data.end_time="<,"+this.dataTime
+          if(that.curTab == 2){
+            data.ins=['status','3','10','11','12','13']
+            //data.end_time="<,"+this.dataTime
+
           }
           let res = await that.$get('/rs/activity_app',data);
           if (res.code == 200){
