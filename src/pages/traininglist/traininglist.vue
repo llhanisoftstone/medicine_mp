@@ -30,16 +30,15 @@
             <div
               @click="tonewpage('mapdetail','act_id='+item.id)"
               v-if="item.count < 1"
-              v-show="photo"
               class="footerRight">打卡</div>
             <div
               @click="tonewpage('takephoto','type=2&act_id='+item.id)"
-              v-show="item.scenc.length < item.pic_count || photo"
+              v-show="item.scenc.length < item.pic_count && curTab==1"
               class="footerRight_new" v-else>上传现场照</div>
           </div>
           <div class="statusText" v-show="photo" v-if="item.count == 0">未培训</div>
-          <div class="statusText" v-show="photo" v-else-if="item.count <= item.pic_count">已完成</div>
-          <div class="statusText" v-show="photo" v-else="item.count > item.pic_count">已结束</div>
+          <div class="statusText" v-show="photo" v-else-if="item.scenc.length <= item.pic_count">已完成</div>
+          <div class="statusText" v-show="photo" v-else="item.scenc.length > item.pic_count">已结束</div>
           <ul class="cardImg">
             <li>
               <div class="photo">
@@ -139,7 +138,6 @@
             this.photo = false;
           }else if(this.curTab == 2){
             this.photo = true;
-
           }
           this.traininglist();
         },
@@ -265,7 +263,7 @@
         color: #333;
         margin-bottom: 28px/2;
         padding: 0 4px/2;
-      }
+    }
       .topCard{
         width: 100%;
         height: auto;
