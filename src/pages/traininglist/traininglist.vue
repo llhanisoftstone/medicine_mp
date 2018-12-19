@@ -30,10 +30,11 @@
             <div
               @click="tonewpage('mapdetail','act_id='+item.id)"
               v-if="item.count < 1"
+              v-show="photo"
               class="footerRight">打卡</div>
             <div
               @click="tonewpage('takephoto','type=2&act_id='+item.id)"
-              v-show="item.scenc.length < item.pic_count"
+              v-show="item.scenc.length < item.pic_count || photo"
               class="footerRight_new" v-else>上传现场照</div>
           </div>
           <div class="statusText" v-show="photo" v-if="item.count == 0">未培训</div>
@@ -87,7 +88,7 @@
           scrollTop:0,
           timeText:"",
           enterprisename:"",
-          phoneshow:true
+          phoneshow:true,
         }
       },
       onPageScroll:function(res){
