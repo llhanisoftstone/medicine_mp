@@ -118,11 +118,12 @@
           };
           let res = await that.$get('/rs/activity', data);
           if(res.code==200){
-            that.baidu2Tencent(res.rows[0].latitude,res.rows[0].longitude,(location)=>{
-              that.markers[0].latitude = location.result.location.lat;
-              that.markers[0].longitude = location.result.location.lng;
-            });
-
+            //that.baidu2Tencent(res.rows[0].latitude,res.rows[0].longitude,(location)=>{
+              //that.markers[0].latitude = location.result.location.lat;
+              //that.markers[0].longitude = location.result.location.lng;
+            //});
+            that.markers[0].latitude = res.rows[0].latitude;
+            that.markers[0].longitude = res.rows[0].longitude;
             that.markers[0].callout.content= res.rows[0].address;
           }
       },
@@ -194,11 +195,9 @@
             callback(res);
           },
           fail: function(res) {
-
             callback(res);
           },
           complete: function(res) {
-
             callback(res);
           }
         });

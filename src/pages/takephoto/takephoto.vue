@@ -93,6 +93,13 @@
               url: '/pages/traininglist/main'
             })
           },1800)
+        }else{
+          wx.hideLoading()
+          wx.showToast({
+            title: '提交失败',
+            icon: 'none',
+            duration: 2000
+          });
         }
       },
       takePhoto(){
