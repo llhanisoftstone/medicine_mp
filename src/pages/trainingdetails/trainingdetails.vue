@@ -18,7 +18,7 @@
             <div class="liRight">{{detailsInfo.start_time}} 至 {{detailsInfo.end_time}}</div>
           </li>
         </ul>
-        <div class="detailsNote" v-html="detailsInfo.details"></div>
+        <div class="detailsNote" v-html="details"></div>
       </div>
       <div class="signIn">
         <div class="signInBtn" @click="tonewpage('mapdetail','')" v-if="detailsInfo.count < 1">签到打卡</div>
@@ -38,7 +38,8 @@
         data(){
           return {
             pid:"",
-            detailsInfo:[]
+            detailsInfo:[],
+            details:''
           }
         },
         computed:{
@@ -48,13 +49,17 @@
         },
         methods: {
           activityDetails(){
-            console.log(this.pid);
+            let that=this;
             let data={
               id:this.pid
             }
             this.$get('/rs/activity_app',data).then(res=>{
               if(res.code == 200){
                 this.detailsInfo = res.rows[0];
+                let details=res.rows[0].details;
+                let aimurl = 'src="'+that.$store.state.url+"/upload/";
+                details=details.replace(/src=\"\/upload\//g, aimurl);
+                that.details=details.replace(/\<img(.+?)src\=\"(.+?)\".+?\>/g,"<img style='max-width:100%;width:90%;height:auto' src='$2'>")
                 if(this.detailsInfo.scene_pics){
                   this.detailsInfo.scenc = res.rows[0].scene_pics.split(",");
                 }else{
@@ -158,6 +163,7 @@
       }
       .detailsNote{
         font-size: 26px/2;
+        text-align: justify;
         color: #666;
         line-height: 40px/2;
         text-indent:52px/2;
