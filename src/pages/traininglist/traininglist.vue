@@ -24,7 +24,7 @@
           </div>
           <div class="listFooter">
             <div class="footerLeft">
-              <div class="footerTime">时间：{{item.start_time}}至{{item.end_time}}</div>
+              <div class="footerTime">时间：{{item.start_time}}&nbsp至&nbsp{{item.end_time}}</div>
               <div class="footerAddress mui-ellipsis">地点：{{item.address}}</div>
             </div>
             <div
@@ -175,9 +175,12 @@
           let res = await that.$get('/rs/activity_app',data);
           if (res.code == 200){
             for(let i=0;i<res.rows.length;i++){
+              res.rows[i].start_time = res.rows[i].start_time.slice(0,16);
+              res.rows[i].end_time = res.rows[i].end_time.slice(0,16);
               if(res.rows[i].scene_pics){
                 this.phoneshow = true
                 res.rows[i].scenc = res.rows[i].scene_pics.split(",");
+
               }else{
                 res.rows[i].scenc = []
               }
