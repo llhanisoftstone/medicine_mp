@@ -30,6 +30,7 @@
         name: '',        //姓名
         card_num: '',    //身份证
         comp_id: '',     //企业ID
+        isvideo:false,
       }
     },
     components: {
@@ -86,7 +87,12 @@
               duration: 2000
             });
             setTimeout(()=>{
-              that.tonewpage('takephoto','act_id='+that.act_id+'&type=1');
+                if(that.isvideo){
+                  that.$store.commit('getrlstatus', 1);
+                  wx.navigateBack();
+                }else{
+                  that.tonewpage('takephoto','act_id='+that.act_id+'&type=1');
+                }
             },1800)
           }else{
             wx.showToast({
@@ -171,6 +177,7 @@
       var that = this;
       that.getUserInfo();
       that.act_id=option.act_id;
+      that.isvideo=option.isvideo;
       that.src='';
       that.name='';
       that.card_num='';
