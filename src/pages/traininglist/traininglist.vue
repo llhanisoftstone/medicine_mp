@@ -33,8 +33,11 @@
               class="footerRight">打卡</div>
             <div
               @click="tonewpage('takephoto','type=2&act_id='+item.id)"
-              v-show="item.scenc.length < item.pic_count && curTab==1"
-              class="footerRight_new" v-else>上传现场照</div>
+              v-if="item.scenc.length < item.pic_count && curTab==1"
+              class="footerRight_new" >上传现场照</div>
+            <div
+              v-if="(item.scenc.length == item.pic_count) && curTab==1"
+              class="footerRight" >已完成</div>
           </div>
           <div class="statusText" v-show="photo" v-if="item.count == 0">未培训</div>
           <div class="statusText" v-show="photo" v-else-if="item.scenc.length <= item.pic_count">已完成</div>
