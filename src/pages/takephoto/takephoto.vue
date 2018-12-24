@@ -40,7 +40,7 @@
         })
           if(that.type==1){
              that.confirm();
-          }
+        }
         if(that.type==2){
             that.submitPicture();
         }
