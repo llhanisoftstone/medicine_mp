@@ -51,9 +51,14 @@ const store = new Vuex.Store({
     phoneModal:'',
     platform:'',
     signdata:{},   //用户打卡签到信息
-    compid:''
+    compid:'',
+    rlstatus:0//人脸识别结果
   },
   mutations: {
+    getrlstatus: (state, status) => {
+      const obj = state
+      obj.rlstatus = status
+    },
     getphoneModal: (state, phone) => {
       const obj = state
       obj.phoneModal = phone

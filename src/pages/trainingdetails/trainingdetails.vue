@@ -56,6 +56,8 @@
             this.$get('/rs/activity_app',data).then(res=>{
               if(res.code == 200){
                 this.detailsInfo = res.rows[0];
+                this.detailsInfo.start_time = this.detailsInfo.start_time.slice(0,16);
+                this.detailsInfo.end_time = this.detailsInfo.end_time.slice(0,16);
                 let details=res.rows[0].details;
                 let aimurl = 'src="'+that.$store.state.url+"/upload/";
                 details=details.replace(/src=\"\/upload\//g, aimurl);
