@@ -13,6 +13,7 @@
     </div>
     <cover-view
       class="confirm-btn"
+      :class="{'btnDisabled':btnDisabled}"
       @click="submitSignData"
     >确认</cover-view>
   </div>
@@ -26,6 +27,10 @@
         act_id:'',     //活动id
         pics:[],    //现场照
         type:1,     //type=1,第一次上传现场照， type=2  多次上传现场照片
+        name: '',        //姓名
+        card_num: '',    //身份证
+        comp_id: '',     //企业ID
+        btnDisabled:true  //按钮是否可以点击
       }
     },
     components: {
@@ -34,6 +39,9 @@
     methods: {
       submitSignData(){
           let that=this;
+          if(that.btnDisabled){
+              return;
+          }
         wx.showLoading({
           title: '提交中',
           mask:true,
@@ -112,14 +120,74 @@
         },function (rs) {
           let obj = JSON.parse(rs);
           that.picPath=obj[0].url;
-          that.pics.push({'scene_pic':obj[0].url});
+          that.recordPhoto(obj[0].url,(res)=>{
+              console.log(res)
+              if(res.success){
+                that.pics.push({'scene_pic':obj[0].url});
+                that.btnDisabled=false;
+              }else{
+                that.btnDisabled=true;
+                wx.showToast({
+                  title: '现场照片必须要有您本人哦',
+                  icon: 'none',
+                  duration: 4000
+                });
+              }
+          });
         })
+      },
+      //人脸识别
+      async recordPhoto(src,callback){
+        let that=this;
+        let data={
+          image:that.$store.state.url+src,
+          name: that.name,               //姓名
+          card_num: that.card_num,       //身份证
+          comp_id: that.comp_id,         //企业ID
+        };
+        let res = await that.$post('/rs/face_detect', data);
+        console.log(res)
+        if(res.code==200){
+          wx.hideLoading()
+          let score=res.res.result.score;
+          if(score>=80){
+            callback({
+              success:true
+            })
+          }else{
+            callback({
+              success:false
+            })
+          }
+        }else{
+          wx.hideLoading()
+          callback({
+            success:false
+          })
+//          wx.showToast({
+//            title: '人脸识别失败',
+//            icon: 'none',
+//            duration: 2000
+//          });
+        }
       },
       tonewpage(urlname,data){
         if(!urlname){return;}
         wx.navigateTo({
           url:`/pages/${urlname}/main?${data}`
         })
+      },
+      async getUserInfo(){
+        let that=this;
+        let data={
+          u_id:that.$store.state.user.userid,
+        };
+        let res = await that.$get('/rs/enter_staff', data);
+        if(res.code==200){
+          that.name=res.rows[0].name;
+          that.card_num=res.rows[0].card_num;
+          that.comp_id=res.rows[0].comp_id;
+        }
       },
     },
     computed:{
@@ -129,10 +197,14 @@
     },
     onLoad:function (option){
       var that = this;
+      that.getUserInfo();
       that.act_id=option.act_id;
       that.type=option.type;
       that.picPath='';
       that.pics=[];
+      that.name='';
+      that.card_num='';
+      that.comp_id='';
       console.log(that.$store.state.signdata)
     }
   }
@@ -167,6 +239,9 @@
     background-color: #dd5d44;
     line-height: 70px/2;
     margin:207px/2 auto 132px/2;
+    &.btnDisabled{
+      background-color: @color_e2;
+    }
   }
 
 </style>
