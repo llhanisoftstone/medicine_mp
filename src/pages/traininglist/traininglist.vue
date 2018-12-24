@@ -17,7 +17,7 @@
         <li
           :key="index"
           v-for="(item,index) in activity_list">
-          <div class="listImg" @click="tonewpage('trainingdetails','pid='+item.id)">
+          <div class="listImg" @click="tonewpage_list(item.act_type,'pid='+item.id)">
             <image :src="imgUrl+item.pic_path" v-if="item.pic_path"></image>
             <image src="/static/img/pxjg_moren.png" v-else></image>
             <div class="imgTitle mui-ellipsis">{{item.name}}</div>
@@ -39,7 +39,7 @@
               v-if="(item.scenc.length == item.pic_count) && curTab==1 && item.act_type == 1"
               class="footerRight" >已完成</div>
             <div
-              @click="tonewpage('videodetsil','pid'+item.id)"
+              @click="tonewpage('videodetsil','pid='+item.id)"
               v-if="item.act_type == 2"
               class="footerRight_new_blay">点击播放</div>
           </div>
@@ -170,7 +170,6 @@
           if(that.curTab == 2){
             data.ins=['status','3','10','11','12','13']
             //data.end_time="<,"+this.dataTime
-
           }
           let res = await that.$get('/rs/activity_app',data);
           if (res.code == 200){
@@ -208,6 +207,17 @@
         },
         tonewpage(urlname,data){
           if(!urlname){return;}
+          wx.navigateTo({
+            url:`/pages/${urlname}/main?${data}`
+          })
+        },
+        tonewpage_list(urlname,data){
+          if(!urlname){return;}
+          if(urlname == 1){
+            urlname="trainingdetails"
+          }else if(urlname == 2){
+            urlname="videodetsil"
+          }
           wx.navigateTo({
             url:`/pages/${urlname}/main?${data}`
           })
@@ -412,12 +422,14 @@
             background-color:#df5c3e;
             color:#fff;
             text-align:center;
-            font-size:30px/2;
+            font-size:26px/2;
             margin-right:20px/2;
             word-wrap:break-word;
             word-break:normal;
-            padding-top:11px/2;
             line-height:30px/2;
+            padding:0 10px/2;
+            padding-top:10px/2;
+
           }
         }
         .cardImg{
