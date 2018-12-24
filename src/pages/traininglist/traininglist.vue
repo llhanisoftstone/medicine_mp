@@ -33,7 +33,7 @@
               class="footerRight">打卡</div>
             <div
               @click="tonewpage('takephoto','type=2&act_id='+item.id)"
-              v-if="item.scenc.length < item.pic_count && curTab==1"
+              v-if="item.count >= 1 && (item.scenc.length < item.pic_count) && curTab==1"
               class="footerRight_new" >上传现场照</div>
             <div
               v-if="(item.scenc.length == item.pic_count) && curTab==1"
