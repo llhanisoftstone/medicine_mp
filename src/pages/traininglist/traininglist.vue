@@ -29,20 +29,24 @@
             </div>
             <div
               @click="tonewpage('mapdetail','act_id='+item.id)"
-              v-if="item.count < 1"
+              v-if="item.count < 1 && item.act_type == 1"
               class="footerRight">打卡</div>
             <div
               @click="tonewpage('takephoto','type=2&act_id='+item.id)"
-              v-if="item.count >= 1 && (item.scenc.length < item.pic_count) && curTab==1"
+              v-if="item.count >= 1 && (item.scenc.length < item.pic_count) && curTab==1 && item.act_type == 1"
               class="footerRight_new" >上传现场照</div>
             <div
-              v-if="(item.scenc.length == item.pic_count) && curTab==1"
+              v-if="(item.scenc.length == item.pic_count) && curTab==1 && item.act_type == 1"
               class="footerRight" >已完成</div>
+            <div
+              @click="tonewpage('videodetsil','pid'+item.id)"
+              v-if="item.act_type == 2"
+              class="footerRight_new_blay">点击播放</div>
           </div>
           <div class="statusText" v-show="photo" v-if="item.count == 0">未培训</div>
           <div class="statusText" v-show="photo" v-else-if="item.scenc.length <= item.pic_count">已完成</div>
           <div class="statusText" v-show="photo" v-else="item.scenc.length > item.pic_count">已结束</div>
-          <ul class="cardImg">
+          <ul class="cardImg" v-show="item.act_type == 1">
             <li>
               <div class="photo">
                 <image :src="imgUrl+item.member_pic" v-if="item.member_pic"></image>
@@ -323,11 +327,12 @@
     .trainingList{
       width: 100%;
       height: auto;
-      li{
+      >li{
         width: 100%;
         height: auto;
         background-color: #fff;
         position: relative;
+        border-bottom: 10px/2 solid #e2e2e2;
         .listImg{
           width: 100%;
           height: 374px/2;
@@ -397,7 +402,20 @@
             word-break:normal;
             padding-top:16px/2;
           }
-
+          .footerRight_new_blay{
+            width:85px/2;
+            height:85px/2;
+            border-radius:50%;
+            background-color:#df5c3e;
+            color:#fff;
+            text-align:center;
+            font-size:30px/2;
+            margin-right:20px/2;
+            word-wrap:break-word;
+            word-break:normal;
+            padding-top:11px/2;
+            line-height:30px/2;
+          }
         }
         .cardImg{
           width: 100%;
@@ -407,7 +425,6 @@
           padding: 10px/2 26px/2;
           padding-top: 0;
           overflow: auto;
-          border-bottom: 10px/2 solid #e2e2e2;
           li{
             width: 20%;
             height: auto;
