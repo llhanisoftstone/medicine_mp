@@ -4,6 +4,7 @@
       <video class="video" id="video" :src="src"
              :enable-progress-gesture="false"
              :show-center-play-btn="false"
+             :loop="true"
         :controls="false"
         :show-fullscreen-btn="false"
         @timeupdate="bindtimeupdate($event)" @pause="bindpause()" @play="bindplay()" @ended="bindended()"
@@ -60,6 +61,14 @@
             console.log(that.times)
             that.video=wx.createVideoContext("video");
             that.video.play();
+
+            var data=wx.getStorageSync(this.pid)
+            console.log(data)
+            if(data){
+              this.time=data.time
+              this.video.seek(this.time)
+              this.timei=data.timei
+            }
 //            that.video.pause();
           }
         })
@@ -104,6 +113,7 @@
         }else{
           this.time=t
           this.videoplay=true;
+          wx.setStorageSync(this.pid,{time:t, timei:this.timei})
         }
       },
       clickvideo(){
