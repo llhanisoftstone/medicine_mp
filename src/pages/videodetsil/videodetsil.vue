@@ -48,7 +48,9 @@
           if (res.code == 200) {
             that.isok=true;
             that.timei=0;
-            that.times=res.rows[0].check_time_gap.split(",");
+            that.times=res.rows[0].check_time_gap.split(",").sort(function(v1, v2){
+              return v1 - v2;
+            });
 //            for(var i=0;i< that.times.length;i++){
 //              that.times[i]
 //            }
