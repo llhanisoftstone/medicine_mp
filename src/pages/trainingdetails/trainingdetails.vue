@@ -10,7 +10,7 @@
           <li>
             <div class="liLeft"><image src="/static/img/huodongdizhi.png" class="dizhiImg"></image>培训地址</div>
             <div class="liBorder"></div>
-            <div class="liRight">{{detailsInfo.address}}</div>
+            <div class="liRight">{{detailsInfo.p_name}}{{detailsInfo.c_name}}{{detailsInfo.z_name}}{{detailsInfo.address}}</div>
           </li>
           <li>
             <div class="liLeft"><image src="/static/img/huodongshijian.png" class="shijianImg"></image>培训时间</div>

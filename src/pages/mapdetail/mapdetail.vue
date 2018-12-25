@@ -130,10 +130,11 @@
       getLocation(){
         let that=this;
         wx.getLocation({
-          type: 'wgs84',
+          type: 'gcj02',
           success: function(res) {
             that.lat = res.latitude;
             that.lng = res.longitude;
+            console.log(res)
             //解析地址
             that.reverseLocation(res.latitude,res.longitude,(location)=>{
               console.log(location)
@@ -238,7 +239,7 @@
 <style scoped lang="less">
   @import "../../static/less/common.less";
   #map{
-    width:100vw;
+    width:100%;
     height: calc(100vh - 69px/2);
   }
   .container{
