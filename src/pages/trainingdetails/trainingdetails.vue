@@ -21,7 +21,7 @@
         <div class="detailsNote" v-html="details"></div>
       </div>
       <div class="signIn">
-        <div class="signInBtn" @click="tonewpage('mapdetail','act_id='+pid)" v-if="detailsInfo.count < 1">签到打卡</div>
+        <div class="signInBtn" @click="tonewpage('mapdetail','act_id='+detailsInfo.id)" v-if="detailsInfo.count < 1">签到打卡</div>
         <div class="signInBtn"
              v-show="detailsInfo.scenc.length < detailsInfo.pic_count"
              @click="tonewpage('takephoto','type=2&act_id='+detailsInfo.id)"
