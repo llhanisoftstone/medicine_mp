@@ -8,12 +8,12 @@
         <div class="detailsTitle">{{detailsInfo.name}}</div>
         <ul>
           <li>
-            <div class="liLeft"><image src="/static/img/huodongdizhi.png" class="dizhiImg"></image>地址</div>
+            <div class="liLeft"><image src="/static/img/huodongdizhi.png" class="dizhiImg"></image>培训地址</div>
             <div class="liBorder"></div>
             <div class="liRight">{{detailsInfo.address}}</div>
           </li>
           <li>
-            <div class="liLeft"><image src="/static/img/huodongshijian.png" class="shijianImg"></image>活动时间</div>
+            <div class="liLeft"><image src="/static/img/huodongshijian.png" class="shijianImg"></image>培训时间</div>
             <div class="liBorder"></div>
             <div class="liRight">{{detailsInfo.start_time}} 至 {{detailsInfo.end_time}}</div>
           </li>
@@ -170,6 +170,7 @@
         line-height: 40px/2;
         text-indent:52px/2;
         margin-top: 28px/2;
+        margin-bottom: 135/2px;
         display: inline-block;
         word-break: break-all;
       }
