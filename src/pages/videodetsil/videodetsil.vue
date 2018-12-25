@@ -33,7 +33,7 @@
         time:0,
         vlun:0,
         nlun:0,
-        videoplay:true,
+        videoplay:false,
         timei:0,
         times:[]
       }
