@@ -31,6 +31,7 @@
         card_num: '',    //身份证
         comp_id: '',     //企业ID
         isvideo:false,
+        issign:false
       }
     },
     components: {
@@ -86,13 +87,15 @@
               icon: 'success',
               duration: 2000
             });
+            if(that.isvideo&&that.issign){
 
-            if(that.isvideo){
+            }else if(that.isvideo){
               let data={
                 act_id :that.act_id,
                 scene_pic:that.src,
                 face_result:res.res.error_code,
                 face_json:res.res,
+                is_video:1
               };
               wx.showLoading({
                 title: '提交中',
@@ -208,6 +211,7 @@
       that.getUserInfo();
       that.act_id=option.act_id;
       that.isvideo=option.isvideo;
+      that.issign=option.issign;
       that.src='';
       that.name='';
       that.card_num='';

@@ -2,8 +2,10 @@
   <div class="trainingdetails">
     <div class="detailsTop">
       <video class="video" id="video" :src="src"
-        :controls="true"
-        :show-fullscreen-btn="true"
+             :enable-progress-gesture="false"
+             :show-center-play-btn="false"
+        :controls="false"
+        :show-fullscreen-btn="false"
         @timeupdate="bindtimeupdate($event)" @pause="bindpause()" @play="bindplay()" @ended="bindended()"
       >
       </video>
@@ -52,7 +54,7 @@
               return v1 - v2;
             });
 //            for(var i=0;i< that.times.length;i++){
-//              that.times[i]
+//              that.times[i]/=10
 //            }
             console.log(that.times)
             that.video=wx.createVideoContext("video");

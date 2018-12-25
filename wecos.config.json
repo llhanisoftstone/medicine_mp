@@ -1,6 +1,6 @@
 {
   "appDir": "./dist",
-  "uploadFileBlackList": ["./dist/static/img/answer.png","./dist/static/img/answer_2.png","./dist/static/img/policy.png","./dist/static/img/policy_2.png","./dist/static/img/my.png","./dist/static/img/my_2.png","./dist/static/img/train.png","./dist/static/img/train_active.png","./dist/static/img/facecheck.png"],
+  "uploadFileBlackList": ["./dist/static/img/videosuspend.png","./dist/static/img/answer.png","./dist/static/img/answer_2.png","./dist/static/img/policy.png","./dist/static/img/policy_2.png","./dist/static/img/my.png","./dist/static/img/my_2.png","./dist/static/img/train.png","./dist/static/img/train_active.png","./dist/static/img/facecheck.png"],
   "cos": {
     "appid": "1254151090",
     "bucketname": "policy",
