@@ -2,8 +2,10 @@
   <div class="trainingdetails">
     <div class="detailsTop">
       <video class="video" id="video" :src="src"
-        :controls="true"
-        :show-fullscreen-btn="true"
+             :enable-progress-gesture="false"
+             :show-center-play-btn="false"
+        :controls="false"
+        :show-fullscreen-btn="false"
         @timeupdate="bindtimeupdate($event)" @pause="bindpause()" @play="bindplay()" @ended="bindended()"
       >
       </video>
@@ -31,9 +33,10 @@
         time:0,
         vlun:0,
         nlun:0,
-        videoplay:true,
+        videoplay:false,
         timei:0,
-        times:[]
+        times:[],
+        isto:false
       }
     },
     computed:{
@@ -52,12 +55,12 @@
               return v1 - v2;
             });
 //            for(var i=0;i< that.times.length;i++){
-//              that.times[i]
+//              that.times[i]/=10
 //            }
             console.log(that.times)
             that.video=wx.createVideoContext("video");
             that.video.play();
-            that.video.pause();
+//            that.video.pause();
           }
         })
       },
@@ -83,6 +86,10 @@
       },
       tonewpage(urlname,data){
         if(!urlname){return;}
+        if(this.isto){
+          return;
+        }
+        this.isto=true;
         wx.navigateTo({
           url:`/pages/${urlname}/main?${data}`
         })
@@ -96,6 +103,7 @@
           this.tonewpage("facecheck","act_id="+this.pid+"&isvideo=true")
         }else{
           this.time=t
+          this.videoplay=true;
         }
       },
       clickvideo(){
@@ -127,6 +135,8 @@
     onUnload:function(){
       this.timei=0;
       this.time=0;
+      this.vlun=0;
+      this.nlun=0;
       this.times=[];
       this.detailsInfo=[];
       this.details="";
@@ -135,6 +145,7 @@
       this.videoplay=false;
     },
     onShow:function(){
+      this.isto=false;
       var that=this;
       console.log(this.$store.state.rlstatus+"|"+that.timei)
       if(this.$store.state.rlstatus==1){

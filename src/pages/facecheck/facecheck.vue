@@ -31,6 +31,7 @@
         card_num: '',    //身份证
         comp_id: '',     //企业ID
         isvideo:false,
+        isrun:false
       }
     },
     components: {
@@ -38,6 +39,10 @@
     },
     methods: {
       takePhoto() {
+        if(this.isrun){
+            return;
+        }
+        this.isrun=true;
         let that=this;
         wx.showLoading({
           title: '人脸识别中',
@@ -53,10 +58,13 @@
               if(obj[0].code==200){
                 that.src=obj[0].url;
                 that.recordPhoto(obj[0].url);
+              }else{
+                that.isrun=false;
               }
             })
           },
           fail:(err)=>{
+            that.isrun=false;
               console.log(err)
           },
         })
@@ -86,30 +94,31 @@
               icon: 'success',
               duration: 2000
             });
-
             if(that.isvideo){
               let data={
                 act_id :that.act_id,
                 scene_pic:that.src,
                 face_result:res.res.error_code,
                 face_json:res.res,
+                is_video:1
               };
               wx.showLoading({
                 title: '提交中',
                 mask:true,
               })
               that.$post('/rs/activity_scence_pic', data).then(res=> {
+                that.isrun=false;
                 if(res.code==200){
                   wx.hideLoading()
                   wx.showToast({
                     title: '提交成功',
                     icon: 'success',
-                    duration: 2000
+                    duration: 1000
                   });
                   setTimeout(()=>{
                     that.$store.commit('getrlstatus', 1);
                     wx.navigateBack();
-                  },1800)
+                  },1000)
                 }else{
                   wx.hideLoading()
                   wx.showToast({
@@ -123,6 +132,7 @@
               setTimeout(() => {
                 that.tonewpage('takephoto', 'act_id=' + that.act_id + '&type=1');
               }, 1800)
+              that.isrun=false;
             }
           }else{
             wx.showToast({
@@ -130,6 +140,7 @@
               icon: 'none',
               duration: 2000
             });
+            that.isrun=false;
           }
         }
         else{
@@ -139,6 +150,7 @@
             icon: 'none',
             duration: 2000
           });
+          that.isrun=false;
         }
       },
       async getUserInfo(){
@@ -169,7 +181,6 @@
 
                 }
               })
-
             }
           }
         })
