@@ -35,7 +35,8 @@
         nlun:0,
         videoplay:false,
         timei:0,
-        times:[]
+        times:[],
+        isto:false
       }
     },
     computed:{
@@ -85,6 +86,10 @@
       },
       tonewpage(urlname,data){
         if(!urlname){return;}
+        if(this.isto){
+          return;
+        }
+        this.isto=true;
         wx.navigateTo({
           url:`/pages/${urlname}/main?${data}`
         })
@@ -140,6 +145,7 @@
       this.videoplay=false;
     },
     onShow:function(){
+      this.isto=false;
       var that=this;
       console.log(this.$store.state.rlstatus+"|"+that.timei)
       if(this.$store.state.rlstatus==1){
