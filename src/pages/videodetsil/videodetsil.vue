@@ -59,7 +59,7 @@
             console.log(that.times)
             that.video=wx.createVideoContext("video");
             that.video.play();
-            that.video.pause();
+//            that.video.pause();
           }
         })
       },
@@ -98,6 +98,7 @@
           this.tonewpage("facecheck","act_id="+this.pid+"&isvideo=true")
         }else{
           this.time=t
+          this.videoplay=true;
         }
       },
       clickvideo(){
@@ -129,6 +130,8 @@
     onUnload:function(){
       this.timei=0;
       this.time=0;
+      this.vlun=0;
+      this.nlun=0;
       this.times=[];
       this.detailsInfo=[];
       this.details="";
