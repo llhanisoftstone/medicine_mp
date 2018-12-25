@@ -3,7 +3,7 @@
       <div class="trainingTop">
         <div class="topTitle" ><span v-text="enterprisename"></span>的员工，<span v-text="timeText"></span></div>
         <div class="topCard">
-          <div class="cardText">培训是最大的福利,企业最重要的事就是培训,如果不能把你的员 工培训到你想达到的标准,你就难以达成目标。</div>
+          <div class="cardText">培训是最大的福利，企业最重要的事就是培训，如果不能把你的员工培训到你想达到的标准，你就难以达成目标。</div>
           <div class="cardName">—— 牛根生</div>
         </div>
         <div class="topNav">
