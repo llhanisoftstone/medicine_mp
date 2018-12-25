@@ -94,26 +94,31 @@
                 face_result:res.res.error_code,
                 face_json:res.res,
               };
-              let res = await that.$post('/rs/activity_scence_pic', data);
-              if(res.code==200){
-                wx.hideLoading()
-                wx.showToast({
-                  title: '提交成功',
-                  icon: 'success',
-                  duration: 2000
-                });
-                setTimeout(()=>{
-                  that.$store.commit('getrlstatus', 1);
-                  wx.navigateBack();
-                },1800)
-              }else{
-                wx.hideLoading()
-                wx.showToast({
-                  title: '提交失败',
-                  icon: 'none',
-                  duration: 2000
-                });
-              }
+              wx.showLoading({
+                title: '提交中',
+                mask:true,
+              })
+              that.$post('/rs/activity_scence_pic', data).then(res=> {
+                if(res.code==200){
+                  wx.hideLoading()
+                  wx.showToast({
+                    title: '提交成功',
+                    icon: 'success',
+                    duration: 2000
+                  });
+                  setTimeout(()=>{
+                    that.$store.commit('getrlstatus', 1);
+                    wx.navigateBack();
+                  },1800)
+                }else{
+                  wx.hideLoading()
+                  wx.showToast({
+                    title: '提交失败',
+                    icon: 'none',
+                    duration: 2000
+                  });
+                }
+              });
             }else {
               setTimeout(() => {
                 that.tonewpage('takephoto', 'act_id=' + that.act_id + '&type=1');
