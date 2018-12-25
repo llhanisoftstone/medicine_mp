@@ -17,32 +17,36 @@
         <li
           :key="index"
           v-for="(item,index) in activity_list">
-          <div class="listImg" @click="tonewpage('trainingdetails','pid='+item.id)">
+          <div class="listImg" @click="tonewpage_list(item.act_type,'pid='+item.id)">
             <image :src="imgUrl+item.pic_path" v-if="item.pic_path"></image>
             <image src="/static/img/pxjg_moren.png" v-else></image>
             <div class="imgTitle mui-ellipsis">{{item.name}}</div>
           </div>
           <div class="listFooter">
             <div class="footerLeft">
-              <div class="footerTime">时间：{{item.start_time}}至{{item.end_time}}</div>
+              <div class="footerTime">时间：{{item.start_time}}&nbsp至&nbsp{{item.end_time}}</div>
               <div class="footerAddress mui-ellipsis">地点：{{item.address}}</div>
             </div>
             <div
               @click="tonewpage('mapdetail','act_id='+item.id)"
-              v-if="item.count < 1"
+              v-if="item.count < 1 && item.act_type == 1"
               class="footerRight">打卡</div>
             <div
               @click="tonewpage('takephoto','type=2&act_id='+item.id)"
-              v-if="item.count >= 1 && (item.scenc.length < item.pic_count) && curTab==1"
+              v-if="item.count >= 1 && (item.scenc.length < item.pic_count) && curTab==1 && item.act_type == 1"
               class="footerRight_new" >上传现场照</div>
             <div
-              v-if="(item.scenc.length == item.pic_count) && curTab==1"
+              v-if="(item.scenc.length == item.pic_count) && curTab==1 && item.act_type == 1"
               class="footerRight" >已完成</div>
+            <div
+              @click="tonewpage('videodetsil','pid='+item.id)"
+              v-if="item.act_type == 2"
+              class="footerRight_new_blay">点击播放</div>
           </div>
           <div class="statusText" v-show="photo" v-if="item.count == 0">未培训</div>
           <div class="statusText" v-show="photo" v-else-if="item.scenc.length <= item.pic_count">已完成</div>
           <div class="statusText" v-show="photo" v-else="item.scenc.length > item.pic_count">已结束</div>
-          <ul class="cardImg">
+          <ul class="cardImg" v-show="item.act_type == 1">
             <li>
               <div class="photo">
                 <image :src="imgUrl+item.member_pic" v-if="item.member_pic"></image>
@@ -166,14 +170,16 @@
           if(that.curTab == 2){
             data.ins=['status','3','10','11','12','13']
             //data.end_time="<,"+this.dataTime
-
           }
           let res = await that.$get('/rs/activity_app',data);
           if (res.code == 200){
             for(let i=0;i<res.rows.length;i++){
+              res.rows[i].start_time = res.rows[i].start_time.slice(0,16);
+              res.rows[i].end_time = res.rows[i].end_time.slice(0,16);
               if(res.rows[i].scene_pics){
                 this.phoneshow = true
                 res.rows[i].scenc = res.rows[i].scene_pics.split(",");
+
               }else{
                 res.rows[i].scenc = []
               }
@@ -201,6 +207,17 @@
         },
         tonewpage(urlname,data){
           if(!urlname){return;}
+          wx.navigateTo({
+            url:`/pages/${urlname}/main?${data}`
+          })
+        },
+        tonewpage_list(urlname,data){
+          if(!urlname){return;}
+          if(urlname == 1){
+            urlname="trainingdetails"
+          }else if(urlname == 2){
+            urlname="videodetsil"
+          }
           wx.navigateTo({
             url:`/pages/${urlname}/main?${data}`
           })
@@ -323,11 +340,12 @@
     .trainingList{
       width: 100%;
       height: auto;
-      li{
+      >li{
         width: 100%;
         height: auto;
         background-color: #fff;
         position: relative;
+        border-bottom: 10px/2 solid #e2e2e2;
         .listImg{
           width: 100%;
           height: 374px/2;
@@ -397,7 +415,22 @@
             word-break:normal;
             padding-top:16px/2;
           }
+          .footerRight_new_blay{
+            width:85px/2;
+            height:85px/2;
+            border-radius:50%;
+            background-color:#df5c3e;
+            color:#fff;
+            text-align:center;
+            font-size:26px/2;
+            margin-right:20px/2;
+            word-wrap:break-word;
+            word-break:normal;
+            line-height:30px/2;
+            padding:0 10px/2;
+            padding-top:10px/2;
 
+          }
         }
         .cardImg{
           width: 100%;
@@ -407,7 +440,6 @@
           padding: 10px/2 26px/2;
           padding-top: 0;
           overflow: auto;
-          border-bottom: 10px/2 solid #e2e2e2;
           li{
             width: 20%;
             height: auto;
