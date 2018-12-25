@@ -1,14 +1,14 @@
 <template>
   <div class="trainingdetails">
-    <div class="detailsTop" @click.stop="clickvideo()">
+    <div class="detailsTop">
       <video class="video" id="video" :src="src"
-        :controls="false"
+        :controls="true"
         :show-fullscreen-btn="true"
-        @timeupdate="bindtimeupdate($event)" @pause="bindpause()" @play="bindplay()"
+        @timeupdate="bindtimeupdate($event)" @pause="bindpause()" @play="bindplay()" @ended="bindended()"
       >
       </video>
       <!--<cover-image class="videobtn videoplay" v-if="videoplay" src="/static/img/videoplay.png"></cover-image>-->
-      <cover-image class="videobtn videopuase" v-if="!videoplay" src="/static/img/videosuspend.png"></cover-image>
+      <cover-image @click.stop="clickvideo()" class="videobtn videopuase" v-if="!videoplay" src="/static/img/videosuspend.png"></cover-image>
     </div>
     <div class="detailsBody">
       <div class="detailsTitle">{{detailsInfo.name}}</div>
@@ -20,17 +20,18 @@
 <script type="javascript">
   import mptoast from '../../components/mptoast';
   export default {
-    name: 'trainingdetails',
     data(){
       return {
         pid:"",
-        src:"http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400",
+        src:"http://1254151090.vod2.myqcloud.com/b9ee5786vodtranscq1254151090/2502a3ad5285890783811090662/v.f30.mp4",
         detailsInfo:[],
         details:'',
         isok:false,
         video:null,
         time:0,
-        videoplay:false,
+        vlun:0,
+        nlun:0,
+        videoplay:true,
         timei:0,
         times:[]
       }
@@ -48,9 +49,10 @@
             that.isok=true;
             that.timei=0;
             that.times=res.rows[0].check_time_gap.split(",");
-            for(var key in that.times){
-              that.times[key]*=100
-            }
+//            for(var i=0;i< that.times.length;i++){
+//              that.times[i]
+//            }
+            console.log(that.times)
             that.video=wx.createVideoContext("video");
             that.video.play();
             that.video.pause();
@@ -84,17 +86,21 @@
         })
       },
       bindtimeupdate(e){
-        this.time=e.timeStamp;
-        if(this.time>=this.times[this.timei]){
+//        console.log(e)
+        var t=e.target.currentTime;
+        if((this.vlun==this.nlun)&&t>=this.times[this.timei]){
           this.video.pause()
+          this.video.seek(this.time)
           this.tonewpage("facecheck","act_id="+this.pid+"&isvideo=true")
+        }else{
+          this.time=t
         }
       },
       clickvideo(){
-        if (this.video.action && this.video.action.method == "play") {
+        if (this.videoplay) {
           this.video.pause()
         } else {
-          if(this.isok&&(this.time<this.times[this.timei])){
+          if(this.isok&&((this.vlun!=this.nlun)||this.time<this.times[this.timei])){
             this.video.play()
           }else if(this.isok){
             this.tonewpage("facecheck","act_id="+this.pid+"&isvideo=true")
@@ -106,6 +112,9 @@
       },
       bindplay(){
         this.videoplay=true
+      },
+      bindended(){
+        this.vlun++
       }
     },
     onLoad:function (option) {
@@ -125,11 +134,16 @@
     },
     onShow:function(){
       var that=this;
+      console.log(this.$store.state.rlstatus+"|"+that.timei)
       if(this.$store.state.rlstatus==1){
-          if(that.timei==that.times.length-1){
+          if(that.timei>=that.times.length-1){
             that.timei=0;
+            that.nlun++;
+          }else{
+            that.timei++;
           }
           that.$store.commit('getrlstatus', 0);
+          that.video.play();
       }
     }
   }
@@ -146,6 +160,7 @@
       height: 376px/2;
     }
     .videobtn{
+      z-index: 100;
       width: 104/2px;
       height:104/2px;
       position: absolute;
