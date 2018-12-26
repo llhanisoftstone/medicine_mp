@@ -4,7 +4,7 @@
       <div class="trainingTop">
         <div class="topTitle" ><span v-text="enterprisename"></span>的员工，<span v-text="timeText"></span></div>
         <div class="topCard">
-          <div class="cardText">培训是最大的福利,企业最重要的事就是培训,如果不能把你的员 工培训到你想达到的标准,你就难以达成目标。</div>
+          <div class="cardText">培训是最大的福利，企业最重要的事就是培训，如果不能把你的员工培训到你想达到的标准，你就难以达成目标。</div>
           <div class="cardName">—— 牛根生</div>
         </div>
         <div class="topNav">
@@ -18,7 +18,7 @@
         <li
           :key="index"
           v-for="(item,index) in activity_list">
-          <div class="listImg" @click="tonewpage_list(item.act_type,'pid='+item.id)">
+          <div class="listImg" @click="tonewpage_list(item.act_type,'pid='+item.id,index)">
             <image :src="imgUrl+item.pic_path" v-if="item.pic_path"></image>
             <image src="/static/img/pxjg_moren.png" v-else></image>
             <div class="imgTitle mui-ellipsis">{{item.name}}</div>
@@ -26,21 +26,21 @@
           <div class="listFooter">
             <div class="footerLeft">
               <div class="footerTime">时间：{{item.start_time}}&nbsp至&nbsp{{item.end_time}}</div>
-              <div class="footerAddress mui-ellipsis">地点：{{item.address}}</div>
+              <div class="footerAddress mui-ellipsis">地点：{{item.p_name}}{{item.c_name}}{{item.z_name}}{{item.address}}</div>
             </div>
             <div
-              @click="tonewpage('mapdetail','act_id='+item.id)"
+              @click="tonewpage('mapdetail','act_id='+item.id,index)"
               v-if="item.count < 1 && item.act_type == 1"
               class="footerRight">打卡</div>
             <div
-              @click="tonewpage('takephoto','type=2&act_id='+item.id)"
+              @click="tonewpage('takephoto','type=2&act_id='+item.id,index)"
               v-if="item.count >= 1 && (item.scenc.length < item.pic_count) && curTab==1 && item.act_type == 1"
               class="footerRight_new" >上传现场照</div>
             <div
               v-if="(item.scenc.length == item.pic_count) && curTab==1 && item.act_type == 1"
               class="footerRight" >已完成</div>
             <div
-              @click="tonewpage('videodetsil','pid='+item.id)"
+              @click="tonewpage('videodetsil','pid='+item.id,index)"
               v-if="item.act_type == 2"
               class="footerRight_new_blay">点击播放</div>
           </div>
@@ -123,6 +123,7 @@
           empty:false,
           photo:false,
           dataTime:"",
+          listi:null,
           scrollIcon:false,
           scrollTop:0,
           timeText:"",
@@ -191,7 +192,7 @@
           }
           this.traininglist();
         },
-        async traininglist() {
+        async traininglist(i) {
           var date = new Date();
           var Y = date.getFullYear();
           var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
@@ -204,15 +205,22 @@
           let data = {
             page:this.page,
             size:this.size,
-            order:"count desc",
+//            order:"count desc",
           };
           if(that.curTab == 1){
             data.status=2;
+            data.order="end_time"
             data.end_time=">=,"+this.dataTime
           }
           if(that.curTab == 2){
+            data.order="end_time desc"
             data.ins=['status','3','10','11','12','13']
             //data.end_time="<,"+this.dataTime
+          }
+          if(i){
+              data={
+                  id:this.activity_list[i].id
+              }
           }
           let res = await that.$get('/rs/activity_app',data);
           if (res.code == 200){
@@ -229,7 +237,9 @@
               }
             }
             this.empty = false;
-            if(this.page == 1){
+            if(i){
+              this.activity_list[i]=res.rows[0]
+            }else if(this.page == 1){
               this.activity_list = res.rows;
             }else {
               this.activity_list = this.activity_list.concat(res.rows);
@@ -239,7 +249,7 @@
 //              url: `/pages/perfectinfor/main`
 //            })
               this.pageurltow = true;
-          }else if(res.code == 602 && this.page == 1){
+          }else if(res.code == 602 && this.page == 1 && !i){
             this.empty = true;
             this.pageurlone=true;
           }else {
@@ -253,24 +263,33 @@
         loadmore () {
           this.traininglist();
         },
-        tonewpage(urlname,data){
+        tonewpage(urlname,data,i){
           if(!urlname){return;}
+          if(i){
+            this.listi=i
+          }
           wx.navigateTo({
             url:`/pages/${urlname}/main?${data}`
           })
         },
-        tonewpage_list(urlname,data){
+        tonewpage_list(urlname,data,i){
           if(!urlname){return;}
           if(urlname == 1){
             urlname="trainingdetails"
           }else if(urlname == 2){
             urlname="videodetsil"
           }
+          if(i){
+            this.listi=i
+          }
           wx.navigateTo({
             url:`/pages/${urlname}/main?${data}`
           })
         },
-        activityDetails(){
+        activityDetails(i){
+          if(i){
+            this.listi=i
+          }
           wx.navigateTo({
             url:`/pages/trainingdetails/main`
           })
@@ -358,13 +377,16 @@
         },
       },
       onShow(){
-        this.page=1;
-        this.traininglist()//获取数据
+        if(this.listi!=null){
+          this.traininglist(this.listi)//获取数据
+          this.listi=null
+        }
       },
       onLoad: function() {
         this.timetext();
         this.enterpriseName();  // 获取列表企业名称
         this.cardName()//获取所有企业名称
+        this.traininglist()//获取数据
       }
     }
 </script>
