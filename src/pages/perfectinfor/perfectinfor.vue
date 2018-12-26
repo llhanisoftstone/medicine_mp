@@ -1,6 +1,6 @@
 <template>
   <div class="perfectinfor">
-    <div class="inforTitle">完善信息</div>
+    <!--<div class="inforTitle">完善信息</div>-->
     <form id="informdata">
       <div class="container">
         <div class="item">
@@ -20,7 +20,7 @@
         </div>
         <div class="item">
           <div class="title">身份证号</div>
-          <input type="text" v-model='cardNumtext' maxlength="18" confirm-type="next"  placeholder="证件号" :focus="fcard==''||fcard=='cardNumtext'"/>
+          <input type="idcard" v-model='cardNumtext' maxlength="18" confirm-type="next"  placeholder="证件号" :focus="fcard==''||fcard=='cardNumtext'"/>
         </div>
         <div :class="{btn:true}" @click="childrenmitData">保&nbsp;&nbsp;存</div>
       </div>
