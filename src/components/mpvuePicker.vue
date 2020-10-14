@@ -291,11 +291,12 @@ export default {
 }
 .mpvue-picker__hd {
   display: flex;
-  padding: 9px 15px;
+  line-height: 40px;
+  padding: 4.5px 7.5px;
   background-color: #fff;
   position: relative;
   text-align: center;
-  font-size: 17px;
+  font-size: 15px;
 }
 .mpvue-picker__hd:after {
   content: " ";
@@ -312,7 +313,7 @@ export default {
 .mpvue-picker__action {
   display: block;
   flex: 1;
-  color: #1aad19;
+  color: #2dc9aa;
 }
 .mpvue-picker__action:first-child {
   text-align: left;

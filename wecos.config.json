@@ -1,12 +1,12 @@
 {
   "appDir": "./dist",
-  "uploadFileBlackList": ["./dist/static/img/videosuspend.png","./dist/static/img/answer.png","./dist/static/img/answer_2.png","./dist/static/img/policy.png","./dist/static/img/policy_2.png","./dist/static/img/my.png","./dist/static/img/my_2.png","./dist/static/img/train.png","./dist/static/img/train_active.png","./dist/static/img/facecheck.png"],
+  "uploadFileBlackList": ["./dist/static/img/icon1.png","./dist/static/img/icon2.png","./dist/static/img/icon3.png","./dist/static/img/icon4.png","./dist/static/img/icon5.png","./dist/static/img/icon6.png"],
   "cos": {
     "appid": "1254151090",
-    "bucketname": "policy",
+    "bucketname": "medicine",
     "folder": "/",
     "region": "cd",
-    "secret_key": "DF5jCTcbPwZAh4FF50nQ58KagcNAlDdw",
-    "secret_id":"AKIDwqdHqJbifR3UkpNQxJXbUGtTyIRPanDS"
+    "secret_key": "",
+    "secret_id":""
   }
 }

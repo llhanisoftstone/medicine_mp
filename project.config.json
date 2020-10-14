@@ -3,15 +3,32 @@
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
+		"enhance": true,
 		"postcss": true,
+		"preloadBackgroundData": false,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"coverView": true,
+		"nodeModules": true,
+		"autoAudits": false,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.4.3",
-	"appid": "wx3602e7abe716d1bd",
-	"projectname": "policy_answer",
+	"libVersion": "2.12.0",
+	"appid": "wx496970ab6d9fdb7c",
+	"projectname": "medicine",
 	"miniprogramRoot": "dist/",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -28,286 +45,33 @@
 		"game": {
 			"list": []
 		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
 		"miniprogram": {
 			"current": 43,
 			"list": [
 				{
 					"id": 0,
-					"name": "对战结果",
-					"pathName": "pages/result/main",
-					"query": "from=1",
-					"scene": "1007"
-				},
-				{
-					"id": 1,
-					"name": "单人闯关",
-					"pathName": "pages/alone/main",
+					"name": "pages/information/main",
+					"pathName": "pages/information/main",
 					"query": "",
-					"scene": "1007"
-				},
-				{
-					"id": 2,
-					"name": "多人挑战",
-					"pathName": "pages/team/main",
-					"query": "id=5&&ismy=1",
-					"scene": "1007"
+					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "对战",
-					"pathName": "pages/pkanswer/main",
-					"query": "id=4"
-				},
-				{
-					"id": 4,
-					"name": "闯关",
-					"pathName": "pages/challengemap/main",
+					"name": "pages/adverse_reaction/main",
+					"pathName": "pages/adverse_reaction/main",
 					"query": "",
-					"scene": "1007"
-				},
-				{
-					"id": 5,
-					"name": "排行榜",
-					"pathName": "pages/friendpk/main",
-					"query": "",
-					"scene": "1007"
+					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "道具",
-					"pathName": "pages/itemshop/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "百科",
-					"pathName": "pages/policy/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "了解",
-					"pathName": "pages/questions/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "了解详情",
-					"pathName": "pages/questionsmain/main",
-					"query": ""
-				},
-				{
-					"id": 10,
-					"name": "闯关赛",
-					"pathName": "pages/challengemap/main",
-					"query": "",
-					"scene": "1007"
-				},
-				{
-					"id": 11,
-					"name": "成绩单",
-					"pathName": "pages/report/main",
-					"query": "room_id=75183-714ae1e0&u_id=75183",
-					"scene": "1007"
-				},
-				{
-					"id": 12,
-					"name": "授权",
-					"pathName": "pages/authfight/main",
-					"query": "",
-					"scene": "1007"
-				},
-				{
-					"id": 13,
-					"name": "闯关",
-					"pathName": "pages/alone/main",
-					"query": "",
-					"scene": "1007"
-				},
-				{
-					"id": 14,
-					"name": "授权",
-					"pathName": "pages/authmulti/main",
-					"query": ""
-				},
-				{
-					"id": 15,
-					"name": "对战结果",
-					"pathName": "pages/team/main",
-					"query": "",
-					"scene": "1007"
-				},
-				{
-					"id": -1,
-					"name": "了解详情",
-					"pathName": "pages/questionsmain/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "对战",
-					"pathName": "pages/aloneresult/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "个人资料",
-					"pathName": "pages/userdata/main",
-					"query": "",
-					"scene": "1007"
-				},
-				{
-					"id": 19,
-					"name": "全网",
-					"pathName": "pages/loadpk/main",
-					"query": "",
-					"scene": "1007"
-				},
-				{
-					"id": -1,
-					"name": "设置",
-					"pathName": "pages/setting/main",
-					"query": ""
-				},
-				{
-					"id": 21,
-					"name": "闯关结果",
-					"pathName": "pages/aloneresult/main",
-					"query": "result=0",
-					"scene": "1007"
-				},
-				{
-					"id": -1,
-					"name": "公司主页",
-					"pathName": "pages/shop/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "礼物详情",
-					"pathName": "pages/giftsdetail/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "闯关结果",
-					"pathName": "pages/writeoff/main",
-					"query": "",
-					"scene": "1007"
-				},
-				{
-					"id": -1,
-					"name": "关于我们",
-					"pathName": "pages/aboutus/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "优惠卷",
-					"pathName": "pages/ticket/main",
-					"query": "id=4"
-				},
-				{
-					"id": -1,
-					"name": "签到",
-					"pathName": "pages/signcount/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "政策百科",
-					"pathName": "pages/policy/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "haibao",
-					"pathName": "pages/report/main",
-					"query": ""
-				},
-				{
-					"id": 30,
-					"name": "公司主页",
-					"pathName": "pages/company/main",
-					"query": "pid=60"
-				},
-				{
-					"id": -1,
-					"name": "政策百科",
-					"pathName": "pages/policy/main",
-					"query": "pid=60"
-				},
-				{
-					"id": 32,
-					"name": "聊天",
-					"pathName": "pages/chat/main",
-					"query": "tuid=16"
-				},
-				{
-					"id": -1,
-					"name": "我的咨询",
-					"pathName": "pages/questionlist/main",
-					"query": "tuid=16"
-				},
-				{
-					"id": -1,
-					"name": "政策列表",
-					"pathName": "pages/policylist/main",
-					"query": "pid=zcbl"
-				},
-				{
-					"id": -1,
-					"name": "个人中心",
-					"pathName": "pages/personcenter/main",
-					"query": ""
-				},
-				{
-					"id": 36,
-					"name": "培训列表",
-					"pathName": "pages/traininglist/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "培训详情",
-					"pathName": "pages/trainingdetails/main",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "完善信息",
-					"pathName": "pages/perfectinfor/main",
-					"query": ""
-				},
-				{
-					"id": 39,
-					"name": "定位",
-					"pathName": "pages/mapdetail/main",
-					"query": "act_id=92a3a430"
-				},
-				{
-					"id": -1,
-					"name": "人脸识别",
-					"pathName": "pages/facecheck/main",
-					"query": ""
-				},
-				{
-					"id": 41,
-					"name": "现场拍照",
-					"pathName": "pages/takephoto/main",
-					"query": "act_id=dc8f4570"
-				},
-				{
-					"id": 42,
-					"name": "培训详情",
-					"pathName": "pages/videodetsil/main",
-					"query": "pid=9694b9b0"
-				},
-				{
-					"id": 43,
-					"name": "培训详情",
-					"pathName": "pages/trainingdetails/main",
-					"query": "pid=9694b9b0"
+					"name": "pages/transfer/main",
+					"pathName": "pages/transfer/main",
+					"query": "scene= 26b3eb70",
+					"scene": null
 				}
 			]
 		}

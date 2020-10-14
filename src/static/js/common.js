@@ -1,3 +1,39 @@
+import store from '../../store/index'
+
+function checkLogin (callback, isskip, beforeUrl) {
+  console.log(store.state.user.sid)
+  wx.request({
+    url: store.state.url + '/op/authorization',    // 拼接完整的url
+    data: {},
+    method: 'POST',
+    header: {
+      'content-type': 'application/json',
+      Authorization: `jwt ${store.state.user.sid}`
+    },
+    success (res) {
+      if (isskip) {
+        callback(res)
+        return
+      }
+      if (res.data.code === 200 && res.data.username) {
+        callback()
+      } else {
+        let pagesArr = getCurrentPages ()
+        let currentPage = pagesArr[pagesArr.length - 1]
+        let url = beforeUrl||currentPage.route
+        store.commit('getUrl',url)
+        if( res.data.code != 200) {
+          store.commit('getm_user', {})
+        }
+      }
+      // resolve(res.data)  // 把返回的数据传出去
+    },
+    fail (ret) {
+      reject(ret)   // 把错误信息传出去
+    }
+  })
+}
+
 function formatPrice (price) {
   if (price >= 1000000) {
     return (price / 1000000).toFixed(0) + '万'
@@ -47,16 +83,14 @@ function getDate (v1) {
   var date = parseInt(data.getDate()) < 10 ? '0' + parseInt(data.getDate()) : parseInt(data.getDate())
   return data.getFullYear() + '-' + month + '-' + date
 }
-let commons = {zcount, formatPrice, distance, getDate}
-export default commons
-function num_limit(el,obj){
-  var minus=obj.minus||false;
-  var dec=obj.dec||false;
-  var max=obj.max;
-  var maxval=obj.maxval;
-  if(minus&&dec){//负数和小数
-    el = el.replace(/[^\d.\-]/g,""); //清除"数字"和".""和"-"以外的字符
-  }else if(minus){//负数
+function num_limit (el, obj) {
+  var minus = obj.minus || false
+  var dec = obj.dec || false
+  var max = obj.max
+  var maxval = obj.maxval
+  if (minus && dec) { //负数和小数
+    el = el.replace(/[^\d.\-]/g,"") //清除"数字"和".""和"-"以外的字符
+  } else if (minus) { //负数
     el = el.replace(/[^\d\-]/g,""); //清除"数字"和"-"以外的字符
   }else if(dec){//小数
     el = el.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
@@ -83,3 +117,6 @@ function num_limit(el,obj){
   }
   return el
 }
+let commons = {zcount, formatPrice, distance, getDate, checkLogin, num_limit}
+export default commons
+

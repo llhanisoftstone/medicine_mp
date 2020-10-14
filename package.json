@@ -1,8 +1,8 @@
 {
-  "name": "policy_answer",
+  "name": "medicine_mp",
   "version": "1.0.0",
   "description": "A Mpvue project",
-  "author": "chenxiangdong <1425345959@qq.com>",
+  "author": "llhan <llhan@isoftstone.com>",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",

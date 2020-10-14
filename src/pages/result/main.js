@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './result'
+import App from './result.vue'
 
 const app = new Vue(App)
 app.$mount()
@@ -7,6 +7,7 @@ app.$mount()
 export default {
   // 这个字段走 app.json
   config: {
-    navigationBarTitleText: '对战结果'
+    'enablePullDownRefresh': true,
+    navigationBarTitleText: '提交结果'
   }
 }
