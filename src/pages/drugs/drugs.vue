@@ -327,17 +327,16 @@
       }
     }
     .nogetList{
-      padding-top: 200px/2;
-      width: 450px/2;
-      margin-left: 150px/2;
+      padding-top: 140px/2;
+      text-align: center;
       img{
-        width: 450px/2;
-        height: 320px/2;
+        width: 340px/2;
+        height: 340px/2;
       }
       .nogetText{
         font-family: STZhongsong;
-        color: #1a1a1a;
-        font-size: 36px/2;
+        color: #2DC9AA;
+        font-size: 32px/2;
         text-align: center;
       }
     }

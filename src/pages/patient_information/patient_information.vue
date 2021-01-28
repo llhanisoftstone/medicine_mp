@@ -56,7 +56,7 @@
         <div class="title">既往药品不良反应/事件</div>
         <div class="flex">
           <radio-group class="flex-group" @change="changeRadio">
-            <label v-for="(item, index) in whetherList" v-bind:key="index"><radio value="{{item.value}}" :disabled="isDisabled" checked="{{item.checked}}"/>{{item.text}}</label>
+            <label v-for="(item, index) in whetherList" v-bind:key="index"><radio :value="item.value" :disabled="isDisabled" :checked="item.checked"/>{{item.text}}</label>
           </radio-group>
         </div>
         <input v-if="describeShow" type="text" v-model='describe' :disabled="isDisabled" maxlength="100" confirm-type="next"  placeholder="例如：板蓝根+头晕"/>
@@ -65,7 +65,7 @@
         <div class="title">家族药品不良反应/事件</div>
         <div class="flex">
           <radio-group class="flex-group" @change="change1Radio">
-            <label v-for="(item, index) in family_whetherList" v-bind:key="index"><radio value="{{item.value}}" :disabled="isDisabled" checked="{{item.checked}}"/>{{item.text}}</label>
+            <label v-for="(item, index) in family_whetherList" v-bind:key="index"><radio :value="item.value" :disabled="isDisabled" :checked="item.checked"/>{{item.text}}</label>
           </radio-group>
         </div>
         <input v-if="familyShow" type="text" v-model='family_describe' :disabled="isDisabled" maxlength="100" confirm-type="next"  placeholder="例如：父母+板蓝根+头晕"/>
@@ -75,7 +75,7 @@
         <div class="check-flex">
           <checkbox-group @change="changeCheckBox">
             <div class="check-group"  v-for="item in important_information">
-              <checkbox class="item-group" :disabled="isDisabled" value="{{item.name}}" checked="{{item.checked}}"/>
+              <checkbox class="item-group" :disabled="isDisabled" :value="item.name" :checked="item.checked"/>
               <span>{{item.name}}</span>
             </div>
           </checkbox-group>

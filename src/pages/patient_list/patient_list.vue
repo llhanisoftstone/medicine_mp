@@ -147,6 +147,7 @@
 
     },
     onShow: function() {
+      this.page = 1;
       this.nogetshow = false;
       this.patientList=[];
       this.getpatientList();

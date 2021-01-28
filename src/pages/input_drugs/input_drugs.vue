@@ -35,7 +35,7 @@
       <div class="title">药品类型</div>
       <div class="flex">
         <radio-group class="flex-group" @change="changeRadio">
-          <label v-for="(item, inx) in drugs_type" v-bind:key="inx"><radio value="{{item.value}}" checked="{{item.checked}}"/>{{item.text}}</label>
+          <label v-for="(item, inx) in drugs_type" v-bind:key="inx"><radio :value="item.value" :checked="item.checked"/>{{item.text}}</label>
         </radio-group>
       </div>
     </div>
@@ -51,7 +51,7 @@
       <div class="title">药品图片<span>&emsp;请上传药品说明书或药品包装图片</span></div>
     </div>
     <div class="up">
-      <div class="imgk" v-model="photo" v-for="(limg,index) in picpathlist">
+      <div class="imgk" v-model="photo" v-for="(limg,index) in picpathlist" :key="index">
         <image :src="limg" alt=""></image>
         <i @click="deleteimg(limg)"></i>
       </div>
@@ -125,7 +125,6 @@
         let that = this;
         if(that.g_id){
           let res = await this.$get('/rs/drugs_bads/'+this.g_id);
-          console.log(res);
           if(res.code == 200){
             that.title = res.rows[0].title
             that.type = res.rows[0].type
@@ -216,7 +215,6 @@
         this.show=false;
       },
       openImg(type){
-        console.log(type)
         let that=this;
         this.$uploadImg({
           count: 5,
@@ -404,7 +402,6 @@
               }
               let res = await this.$post('/rs/drugs_bads', data);
               if(res.code == 200){
-                console.log(res);
                 that.$mptoast("保存成功!");
                 setTimeout(function() {
                   that.cleardata();
@@ -432,7 +429,6 @@
 
     },
     onLoad: function (option) {
-      console.log(option)
       this.d_id = option.d_id || ''
       this.b_id = option.b_id || ''
       this.g_id = option.g_id || ''
@@ -458,9 +454,6 @@
     onShow(){
       this.init_end_time = this.formatData(new Date());
       this.isClick = false
-      console.log('g_id======'+this.g_id)
-      console.log('d_id======'+this.d_id)
-      console.log('b_id======'+this.b_id)
       if(this.g_id || this.d_id){
         this.getDrugs()
       }
@@ -639,38 +632,34 @@
     background:#f6f6f6;
     z-index:110;
   }
-  .camera_img_item{
-    display:inline-block;
-    height:100%;
-    width:1.3rem;
-    margin-left:0.3rem;
-    text-align:center;
-    input{
-      display:block;
-      width:90/2px;
-      height:90/2px;
-      margin:0.2rem auto 0;
-      background-size:100% 100%!important;
+  .send_img_content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 20/2px;
+    .camera_img_item{
+      input{
+        display:block;
+        width:90/2px;
+        height:90/2px;
+        margin:0.2rem auto 0;
+        background-size:100% 100%!important;
+      }
+      .cameraupload{
+        background:url("../../../static/img/dakai_08.png") no-repeat center center;
+      }
     }
-    .cameraupload{
-      background:url("../../../static/img/dakai_08.png") no-repeat center center;
-    }
-  }
-  .album_img_item{
-    display:inline-block;
-    height:100%;
-    width:1.3rem;
-    margin-left:0.3rem;
-    text-align:center;
-    input{
-      display:block;
-      width:90/2px;
-      height:90/2px;
-      margin:0.2rem auto 0;
-      background-size:100% 100%!important;
-    }
-    .photoupload{
-      background:url("../../../static/img/dakai_09.png") no-repeat center center;
+    .album_img_item{
+      input{
+        display:block;
+        width:90/2px;
+        height:90/2px;
+        margin:0.2rem auto 0;
+        background-size:100% 100%!important;
+      }
+      .photoupload{
+        background:url("../../../static/img/dakai_09.png") no-repeat center center;
+      }
     }
   }
   .sign_close{

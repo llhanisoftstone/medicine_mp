@@ -16,7 +16,7 @@
         <div class="check-flex">
           <checkbox-group @change="changeCheckBox">
             <div class="check-group"  v-for="item in adverse_list">
-              <checkbox class="item-group" checked="{{item.checked}}" value="{{item.name}}"/>
+              <checkbox class="item-group" :checked="item.checked" :value="item.name"/>
               <span>{{item.name}}</span>
             </div>
           </checkbox-group>
@@ -47,7 +47,7 @@
         <div class="title">不良反应/事件的结果</div>
         <div class="flex">
           <radio-group class="flex-group" @change="changeRadio">
-            <label v-for="(item, index) in resultList" v-bind:key="index"><radio value="{{item.value}}" checked="{{item.checked}}"/>{{item.text}}</label>
+            <label v-for="(item, index) in resultList" v-bind:key="index"><radio :value="item.value" :checked="item.checked"/>{{item.text}}</label>
           </radio-group>
         </div>
       </div>
@@ -55,7 +55,7 @@
         <div class="title">停药或减量后，反应/事件是否消失或减轻</div>
         <div class="flex">
           <radio-group class="flex-group" @change="change1Radio">
-            <label v-for="(item, index) in subseqList" v-bind:key="index"><radio value="{{item.value}}" checked="{{item.checked}}"/>{{item.text}}</label>
+            <label v-for="(item, index) in subseqList" v-bind:key="index"><radio :value="item.value" :checked="item.checked"/>{{item.text}}</label>
           </radio-group>
         </div>
       </div>
@@ -63,7 +63,7 @@
         <div class="title">再次使用后是否再次出现同样反应/事件</div>
         <div class="flex">
           <radio-group class="flex-group" @change="change2Radio">
-            <label v-for="(item, index) in reuseList" v-bind:key="index"><radio value="{{item.value}}" checked="{{item.checked}}"/>{{item.text}}</label>
+            <label v-for="(item, index) in reuseList" v-bind:key="index"><radio :value="item.value" :checked="item.checked"/>{{item.text}}</label>
           </radio-group>
         </div>
       </div>
@@ -71,7 +71,7 @@
         <div class="title">对原患疾病的影响</div>
         <div class="flex">
           <radio-group class="flex-group" @change="change3Radio">
-            <label v-for="(item, index) in affectList" v-bind:key="index"><radio value="{{item.value}}" checked="{{item.checked}}"/>{{item.text}}</label>
+            <label v-for="(item, index) in affectList" v-bind:key="index"><radio :value="item.value" :checked="item.checked"/>{{item.text}}</label>
           </radio-group>
         </div>
       </div>
@@ -223,7 +223,7 @@
           reuse: this.reuse,
           affect: this.affect,
           progress: 3,
-          status: 2
+          status: 1
         }
         if(this.adverse_text.split(',').length >= 3){
           data.alarm = 2

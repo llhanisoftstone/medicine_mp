@@ -30,7 +30,6 @@
     },
     methods:{
       show(obj){
-        console.log('222')
         if(obj){
           this.title=obj.title||"提示";
           this.content=obj.content||"确认执行该操作？";

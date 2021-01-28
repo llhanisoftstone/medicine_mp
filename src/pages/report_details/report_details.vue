@@ -92,7 +92,7 @@
       <div class="title">请选择处理结果</div>
       <div class="flex">
         <radio-group class="flex-group" @change="changeRadio">
-          <label v-for="(item, index) in typeList" v-bind:key="index"><radio value="{{item.value}}" checked="{{item.checked}}"/>{{item.text}}</label>
+          <label v-for="(item, index) in typeList" v-bind:key="index"><radio :value="item.value" :checked="item.checked"/>{{item.text}}</label>
         </radio-group>
       </div>
     </div>

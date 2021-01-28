@@ -2,11 +2,11 @@
   <div class="content">
     <div class="feedList">
       <ul class="ul_list">
-        <li v-for="(item, index) in feedList" v-bind:key="index" @click.stop="tonewpage('report_details','pid='+item.id, item.progress)">
+        <li v-for="(item, index) in feedList" v-bind:key="index" @click.stop="toDetails(item)">
           <div class="top-cont">
             <div class="realname">{{item.realname}}</div>
             <div class="btns">
-              <div class="edit-icon" v-if="item.status == 1" @click.stop="tonewpage('drugs','pid='+item.id)"></div>
+              <div class="edit-icon" v-if="item.progress < 3 && item.category == 1" @click.stop="tonewpage('drugs','pid='+item.id)"></div>
               <div class="del-icon" @click.stop="deleteDrugs(item.id)"></div>
             </div>
           </div>
@@ -16,7 +16,7 @@
           <div class="bottom-cont">
             <div>填报时间</div><div>{{item.update_time}}</div>
           </div>
-          <div class="progress">
+          <div class="progress" v-if="item.category == 1">
             <div>填报进度</div><div>{{item.progressText}}</div>
           </div>
         </li>
@@ -25,7 +25,10 @@
     <div v-if="scrollIcon" @click="scrolltoTop" id="scrollToTop" class="footcgotop"></div>
     <div class="nogetList" v-if="nogetshow"><img src="/static/img/empty-2.png"/><div class="nogetText">暂无不良反应报告</div></div>
     <div class="bottom_sty">
-      <div v-if="isLogin" class="addfeed" @click.stop="tonewpage('drugs')">新增不良反应</div>
+      <div v-if="isLogin" class="addcontainer">
+        <div @click.stop="tonewpage('drugs')">手动新增</div>
+        <div @click.stop="tonewpage('pic_drugs')">拍照新增</div>
+      </div>
       <button v-else="" class="addfeed" plain="true" hover-class="none" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">新增不良反应</button>
     </div>
     <mptoast/>
@@ -178,6 +181,13 @@
             url:`/pages/${urlname}/main`
           })
         }
+      },
+      toDetails(item){
+        if(item.category == 2){
+          this.tonewpage('pic_drugs','id='+item.id)
+        }else {
+          this.tonewpage('report_details','pid='+item.id, item.progress)
+        }
       }
     },
     onLoad: function (option) {
@@ -204,19 +214,17 @@
 
 <style lang="less" scoped>
     @import '../../static/less/common.less';
-    .content{
-
-    }
     .feedList{
       padding: 35px/2 35px/2 130px/2 35px/2;
       ul li{
         /*background-image: linear-gradient(0deg, #648ff9 0%, #8bb1ff 100%), linear-gradient(#d7975e, #d7975e);*/
         /*background-blend-mode: normal, normal;*/
-        box-shadow: 0 0 10px rgba(45, 201, 170, 0.8);
-        color: #666666;
-        border-radius: 30px/2;
+        /*box-shadow: 0 0 10px rgba(45, 201, 170, 0.8);*/
+        color: #ffffff;
+        border-radius: 12px/2;
         margin-bottom: 30px/2;
-        padding: 30px/2;
+        padding: 32px/2;
+        background: linear-gradient(60deg, #2DC9AA, #9EC5F8);
         .top-cont{
           display: flex;
           -webkit-box-pack:justify;
@@ -268,6 +276,25 @@
       height: 120px/2;
       bottom: 0;
       background-color: #ffffff;
+      .addcontainer {
+        display: flex;
+        padding: 0 32px/2;
+        div {
+          flex: 1;
+          height: 80px/2;
+          line-height: 80px/2;
+          text-align: center;
+          color: #ffffff;
+          border-radius: 4px;
+          border: 1px solid #2DC9AA;
+          background-color: #2DC9AA;
+          &:nth-child(1){
+            color: #2DC9AA;
+            background-color: transparent;
+            margin-right: 32px/2;
+          }
+        }
+      }
       .addfeed{
         width: 680px/2;
         height:80px/2;
@@ -285,17 +312,16 @@
       }
     }
     .nogetList{
-      padding-top: 200px/2;
-      width: 450px/2;
-      margin-left: 150px/2;
+      padding-top: 120px/2;
+      text-align: center;
       img{
-        width: 450px/2;
-        height: 320px/2;
+        width: 340px/2;
+        height: 340px/2;
       }
       .nogetText{
         font-family: STZhongsong;
-        color: #1a1a1a;
-        font-size: 36px/2;
+        color: #2DC9AA;
+        font-size: 32px/2;
         text-align: center;
       }
     }

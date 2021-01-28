@@ -8,7 +8,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     url: 'https://www.meihengcdr.com', // 小程序域名
-    // url: 'http://10.61.181.65:5001',
+    // url: 'http://10.61.170.61:5001',
+    // url: 'http://10.61.170.77:5001',
     imgUrl: 'http://www.meihengcdr.com/admin',
     appid: 'wx496970ab6d9fdb7c',
     path: '/pages/index/index',
