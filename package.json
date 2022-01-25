@@ -2,7 +2,7 @@
   "name": "medicine_mp",
   "version": "1.0.0",
   "description": "A Mpvue project",
-  "author": "llhan <llhan@isoftstone.com>",
+  "author": "llhan",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
